@@ -1,0 +1,1 @@
+c:\mysql\bin\mysqldump --opt media > media.sql

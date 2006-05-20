@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<project name="JSP Test" default="build" basedir=".">
+
+	<property name="java.dir" value="c:/java"/>
+	<property name="build.compiler" value="jikes"/>
+	<property name="build.compiler.emacs" value="true"/>
+
+	<!-- Application Directories -->
+
+	<property name="sources" value="${basedir}/src"/>
+	<property name="lib" value="${basedir}/lib"/>
+	<property name="webapp" value="d:/Webpages/local"/>
+	<property name="webapp.classes" value="${webapp}/WEB-INF/classes"/>
+	<property name="webapp.lib" value="${webapp}/WEB-INF/lib"/>
+	<property name="jsp.sources" value="${basedir}/pages"/>
+	<property name="utils.sources" value="d:/Java/utils/src"/>
+	<property name="utils.lib" value="d:/Java/utils/lib"/>
+
+	<path id="classpath">
+		<pathelement location="${classes}"/>
+		<pathelement location="${lib}/xerces.jar"/>
+		<pathelement location="${lib}/struts.jar "/>
+		<pathelement location="${lib}/tiles.jar"/>
+		<pathelement location="${lib}/servlet.jar"/>
+		<pathelement location="${utils.lib}/junit.jar"/>
+	</path>
+
+	<target name="prepare">
+		<delete dir="${webapp.classes}"/>
+		<mkdir dir="${webapp.lib}"/>
+		<mkdir dir="${webapp.classes}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${webapp.classes}"/>
+		<delete dir="${webapp.lib}"/>
+	</target>
+
+	<target name="compile" depends="prepare">
+		<javac srcdir="${utils.sources}" destdir="${webapp.classes}" deprecation="off">
+			<classpath refid="classpath"/>
+		</javac>
+		<javac srcdir="${sources}" destdir="${webapp.classes}" deprecation="off">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="build" depends="compile">
+		<copy todir="${webapp.lib}">
+			<fileset dir="${lib}">
+				<exclude name="servlet.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${webapp}">
+			<fileset dir="${jsp.sources}">
+				<include name="*.jsp"/>
+				<include name="*.xml"/>
+				<include name="*.xp"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="meta">
+		<exec executable="c:\java\jdk\5.0\bin\apt.exe">
+			<arg line="-cp classes -nocompile -factorypath classes -factory com.kiwisoft.utils.db.DBMappingFactory @files"/>
+			<env key="java.home" value="c:\java\jdk\5.0"/>
+		</exec>
+	</target>
+
+</project>

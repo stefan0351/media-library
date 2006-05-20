@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<configuration>
+	<parameter name="proxy.use">false</parameter>
+	<parameter name="proxy.host">192.168.192.111</parameter>
+	<parameter name="proxy.port">3128</parameter>
+	<parameter name="path.downloads">c:\temp</parameter>
+	<parameter name="buffer.download">1024</parameter>
+	<parameter name="file.index">c:\Webpages\local\XML\index.xml</parameter>
+	<parameter name="file.videos">c:\Webpages\local\XML\video.xml</parameter>
+	<parameter name="file.web.dates">c:\Webpages\www.tv-scripte.de\index.html</parameter>
+
+	<parameter name="path.root">c:\Webpages\local</parameter>
+	<parameter name="path.shows">c:\Webpages\local\shows</parameter>
+	<parameter name="path.fanfics">c:\Webpages\local\fanfic\authors</parameter>
+	<parameter name="path.dates.p7">c:\incoming\pro7.xml</parameter>
+	<parameter name="path.dates.pnw">c:\incoming\pnw.xml</parameter>
+	<parameter name="path.import">c:\incoming</parameter>
+	<parameter name="path.episodes">c:\incoming\Episodes</parameter>
+	<parameter name="path.logos.channels.web">c:\Webpages\www.tv-scripte.de\clipart\tv_logos</parameter>
+	<parameter name="url.logos.channels.web">/clipart/tv_logos</parameter>
+
+
+	<parameter name="reminder">false</parameter>
+	<parameter name="download.p7.date">26.04.2003</parameter>
+	<parameter name="download.p7.offset">7</parameter>
+	<parameter name="db.mappings">com/kiwisoft/media/db/mappings.xml</parameter>
+	<parameter name="db.driver">com.mysql.jdbc.Driver</parameter>
+	<parameter name="db.url">jdbc:mysql://localhost:3306/media</parameter>
+	<parameter name="db.user">mysql</parameter>
+	<parameter name="db.password"></parameter>
+
+	<parameter name="table.airdates.channel.width">82</parameter>
+	<parameter name="table.airdates.event.width">414</parameter>
+	<parameter name="table.airdates.time.width">126</parameter>
+	<parameter name="table.episodes.title.width">466</parameter>
+	<parameter name="table.episodes.userkey.width">70</parameter>
+	<parameter name="table.channels.name.width">300</parameter>
+	<parameter name="table.channels.receiving.width">100</parameter>
+	<parameter name="table.channel.names.language.width">75</parameter>
+	<parameter name="table.channel.names.name.width">307</parameter>
+	<parameter name="table.videos.id.width">70</parameter>
+	<parameter name="table.videos.name.width">291</parameter>
+	<parameter name="table.videos.timeLeft.width">75</parameter>
+	<parameter name="table.recordings.event.width">438</parameter>
+	<parameter name="table.recordings.index.width">54</parameter>
+	<parameter name="table.recordings.language.width">75</parameter>
+	<parameter name="table.recordings.length.width">75</parameter>
+	<parameter name="table.show.names.name.width">244</parameter>
+	<parameter name="table.show.names.language.width">141</parameter>
+	<parameter name="table.episode.names.language.width">95</parameter>
+	<parameter name="table.episode.names.name.width">287</parameter>
+	<parameter name="table.movie.names.language.width">95</parameter>
+	<parameter name="table.movie.names.name.width">287</parameter>
+	<parameter name="table.movies.title.width">537</parameter>
+	<parameter name="table.actors.name.width">536</parameter>
+	<parameter name="table.show.cast.main.character.width">175</parameter>
+	<parameter name="table.show.cast.main.actor.width">175</parameter>
+	<parameter name="table.show.cast.main.voice.width">175</parameter>
+	<parameter name="table.show.cast.recurring.character.width">175</parameter>
+	<parameter name="table.show.cast.recurring.actor.width">175</parameter>
+	<parameter name="table.show.cast.recurring.voice.width">175</parameter>
+	<parameter name="table.show.recordings.key.width">75</parameter>
+	<parameter name="table.show.recordings.name.width">319</parameter>
+	<parameter name="table.show.recordings.video.width">75</parameter>
+	<parameter name="table.show.recordings.language.width">75</parameter>
+	<parameter name="table.fanfic.authors.name.width">526</parameter>
+	<parameter name="table.fanfic.domains.name.width">526</parameter>
+	<parameter name="table.fanfic.pairings.name.width">526</parameter>
+	<parameter name="table.fanfic.author.mail.width">380</parameter>
+	<parameter name="table.fanfic.author.web.width">380</parameter>
+	<parameter name="table.fanfics.author.width">100</parameter>
+	<parameter name="table.fanfics.fandom.width">99</parameter>
+	<parameter name="table.fanfics.id.width">41</parameter>
+	<parameter name="table.fanfics.pairing.width">105</parameter>
+	<parameter name="table.fanfics.title.width">185</parameter>
+	<parameter name="table.pairing.characters.character.width">317</parameter>
+	<parameter name="table.fanfic.detail.fandoms.width">160</parameter>
+	<parameter name="table.fanfic.detail.pairings.width">160</parameter>
+</configuration>

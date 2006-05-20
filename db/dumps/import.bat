@@ -1,0 +1,1 @@
+c:\mysql\bin\mysql media < airdates.sql
