@@ -20,20 +20,17 @@
 	if (show!=null) links.put("Serie", show.getLink());
 %>
 
-<script language="JavaScript"><!--
-function navFilm(pos)
-{
-	text="";
+<table class="menutable">
+<tr><td class="menuheader">Filme</td></tr>
+
 <%
 	for (Iterator itLinks=links.keySet().iterator(); itLinks.hasNext();)
 	{
 		String name=(String)itLinks.next();
 		String ref=(String)links.get(name);
 %>
-			text+="<a onClick=\"nd()\" class=link2_nav href=\"<%=ref%>\"><%=name%></a><br>";
+<tr><td class="menuitem"><a class="menulink" href="<%=ref%>"><%=name%></a></td></tr>
 <%
 	}
 %>
-	return overlib(text,STICKY,CAPTION,"Film",FIXX,pos*150-50,FIXY,140,WIDTH,150,CAPCOLOR,"white",BGCOLOR,"black",FGCOLOR,"white");
-}
-//--></script>
+</table>

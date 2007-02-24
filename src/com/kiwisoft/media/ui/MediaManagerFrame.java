@@ -24,7 +24,6 @@ import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.lookup.TableDialogLookupEditor;
-import com.kiwisoft.utils.gui.lookup.TableLookupEditor;
 import com.kiwisoft.utils.gui.table.ComboBoxObjectEditor;
 import com.kiwisoft.utils.gui.table.EditorFactory;
 import com.kiwisoft.utils.gui.table.RendererFactory;
@@ -71,11 +70,11 @@ public class MediaManagerFrame extends ApplicationFrame
 		ComboBoxObjectEditor editor=new ComboBoxObjectEditor(LanguageManager.getInstance().getLanguages().toArray());
 		editor.setRenderer(new LanguageComboBoxRenderer());
 		EditorFactory editorFactory=EditorFactory.getInstance();
-		editorFactory.setEditor(Language.class, EditorFactory.DEFAULT, editor);
-		editorFactory.setEditor(Pairing.class, EditorFactory.DEFAULT, new TableLookupEditor(new PairingLookup()));
-		editorFactory.setEditor(FanDom.class, EditorFactory.DEFAULT, new TableLookupEditor(new FanDomLookup()));
-		editorFactory.setEditor(Author.class, EditorFactory.DEFAULT, new TableLookupEditor(new AuthorLookup()));
-		editorFactory.setEditor(ShowCharacter.class, EditorFactory.DEFAULT, new TableLookupEditor(new CharacterLookup()));
+		editorFactory.setDefaultEditor(Language.class, editor);
+		editorFactory.setDefaultEditor(Pairing.class, new PairingLookup());
+		editorFactory.setDefaultEditor(FanDom.class, new FanDomLookup());
+		editorFactory.setDefaultEditor(Author.class, new AuthorLookup());
+		editorFactory.setDefaultEditor(ShowCharacter.class, new CharacterLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
 	}

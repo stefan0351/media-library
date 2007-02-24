@@ -1,12 +1,5 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.net.URLEncoder,
-                 com.kiwisoft.utils.*,
-				 com.kiwisoft.media.MediaManagerApp,
-				 com.kiwisoft.media.fanfic.*,
-				 com.kiwisoft.media.ContactMedium,
-				 com.kiwisoft.media.show.ShowManager,
-				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.utils.db.Chain,
+<%@ page import="com.kiwisoft.utils.*,
 				 java.util.*,
 				 com.kiwisoft.media.movie.MovieManager,
 				 com.kiwisoft.media.movie.Movie"%>
@@ -24,63 +17,55 @@
 
 <head>
 <title>Filme</title>
-<script language="JavaScript" src="../../clipart/overlib.js"></script>
-<script language="JavaScript" src="../nav.js"></script>
-<script language="JavaScript" src="nav.js"></script>
-<link rel="StyleSheet" type="text/css" href="../../clipart/style.css">
+<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-
 <a name="top"></a>
+<div id="overDiv" class="over_lib"></div>
 
-<div class="logo"><img style="margin-top:13px;" src="/movies/clipart/logo_mini.gif"></div>
 <div class="title">
-	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<span style="margin-top:10px;font-weight:bold;font-size:24pt;">Filme</span>
-	</td></tr></table>
+	<div style="margin-left:10px; margin-top:5px;">Filme</div>
 </div>
 
-<div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'../')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navFilms(2,'')" onMouseOut="nd()">Films</a></div>
-<!--Navigation Ende-->
+<div class="main">
+<table cellspacing="0" cellpadding="5"><tr valign="top">
+<td width="200">
+<!--Navigation Start-->
 
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
+<jsp:include page="/_nav.jsp"/>
 
-<div class="bg_page">
-<!--Body-->
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;Alle Filme</td></tr>
-</table>
-<br>
-<table>
-	<tr><td><small>[
-<%
-	for (Iterator it=movieMap.getCharacters().iterator(); it.hasNext();)
-	{
-        Character character=(Character)it.next();
-%>
-        <a class=link href="#<%=character%>"><%=character%></a>
-<%
-        if (it.hasNext()) out.print("|");
-    }
-%>
-	]</small></td></tr>
-</table>
-<br>
+<!--Navigation End-->
+</td>
+<td width="800">
+<!--Content Start-->
 
-<table>
+<table class="contenttable" width="790">
+<tr><td class="header1">&Uuml;bersicht</td></tr>
+<tr><td class="content">
+	<table width="765">
+	<tr><td class="content2"><small>[
 <%
 	for (Iterator it=movieMap.getCharacters().iterator(); it.hasNext();)
 	{
 		Character character=(Character)it.next();
 %>
-		<tr><td valign=top><b><a name="<%=character%>"><%=character%></a></b></td><td valign=top width=600><ul>
+		<a class=link href="#<%=character%>"><%=character%></a>
+<%
+		if (it.hasNext()) out.print("|");
+	}
+%>
+	]</small></td></tr>
+	</table>
+	<br>
+	<table width="765">
+<%
+	for (Iterator it=movieMap.getCharacters().iterator(); it.hasNext();)
+	{
+		Character character=(Character)it.next();
+%>
+	<tr valign=top><td class="content2" width="20"><b><a name="<%=character%>"><%=character%></a></b></td><td class="content2" width=700><ul>
 <%
 		for (Iterator itMovies=movieMap.getKeys(character).iterator(); itMovies.hasNext();)
 		{
@@ -91,30 +76,29 @@
 			if (StringUtils.isEmpty(link))
 			{
 %>
-				<li><b><%=movie.getName()%></b>
+		<li><b><%=movie.getName()%></b>
 <%
 			}
 			else
 			{
 %>
-				<li><b><a class="link" href="<%=link%>"><%=name%></a></b>
+		<li><b><a class="link" href="<%=link%>"><%=name%></a></b>
 <%
 			}
 			if (!StringUtils.isEmpty(originalName)) out.print("("+originalName+")");
 		}
 %>
-		</ul></td><td align=right valign=bottom><a class=link href="#top">Top</a></td></tr>
+		</ul></td><td class="content2" align=right valign=bottom><a class=link href="#top">Top</a></td></tr>
 <%
 	}
-%>	
-</table>
-
-<!--Body Ende-->
-</div>
-
+%>
+	</table>
 </td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
 </table>
+
+<!--Content End-->
+</td>
+</tr></table>
 </div>
 
 </body>

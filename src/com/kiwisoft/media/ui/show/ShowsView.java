@@ -16,20 +16,17 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.io.File;
 import javax.swing.*;
 
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.EBookExport;
 import com.kiwisoft.media.ui.*;
 import com.kiwisoft.media.ui.movie.MoviesView;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.RegularFileFilter;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.table.DynamicTable;
@@ -126,7 +123,6 @@ public class ShowsView extends ViewPanel
 				popupMenu.add(new ShowCastAction(show));
 				popupMenu.add(new RecordingsAction(show));
 				popupMenu.add(new ShowLinksAction(show));
-				popupMenu.add(new CreateEBookAction(show));
 				popupMenu.add(menuDownload);
 				popupMenu.addSeparator();
 				popupMenu.add(new NewShowAction());
@@ -418,37 +414,6 @@ public class ShowsView extends ViewPanel
 					}
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(ShowsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}
-	}
-
-	private class CreateEBookAction extends AbstractAction
-	{
-		private Show show;
-
-		public CreateEBookAction(Show show)
-		{
-			super("Erzeuge eBook");
-			this.show=show;
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			JFileChooser fileChooser=new JFileChooser();
-			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			fileChooser.setFileFilter(new RegularFileFilter("*.pdb", "eBooks (*.pdb)"));
-			if (JFileChooser.APPROVE_OPTION==fileChooser.showSaveDialog(ShowsView.this))
-			{
-				File file=fileChooser.getSelectedFile();
-				try
-				{
-					new EBookExport(show, file).execute();
-				}
-				catch (Exception e1)
-				{
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(ShowsView.this, e1.getMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

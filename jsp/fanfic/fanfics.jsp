@@ -1,7 +1,5 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.net.URLEncoder,
-                 com.kiwisoft.utils.*,
-				 com.kiwisoft.media.MediaManagerApp,
+<%@ page import="com.kiwisoft.utils.*,
 				 com.kiwisoft.media.fanfic.*,
 				 com.kiwisoft.media.ContactMedium,
 				 com.kiwisoft.media.show.ShowManager,
@@ -68,54 +66,37 @@
 <html>
 
 <head>
-<title>Fanfics - <%=container.getName()%></title>
-<script language="JavaScript" src="../../clipart/overlib.js"></script>
-<script language="JavaScript" src="/nav.js"></script>
-<script language="JavaScript" src="/fanfic/nav.js"></script>
-<%
-	if (show!=null)
-	{
-		%><jsp:include page="/shows/_show_nav.jsp"/><%
-	}
-%>
-<link rel="StyleSheet" type="text/css" href="../../clipart/style.css">
+<title>FanFics - <%=container.getName()%></title>
+<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-
 <a name="top"></a>
-
-<div class="logo">
-	<table width=130 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<jsp:include page="/shows/_show_logo.jsp"/>
-	</td></tr></table>
-</div>
-<div class="title"><span style="font-weight:bold;font-size:24pt;">Fanfics</span></div>
-
 <div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'../')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navFanfics(2)" onMouseOut="nd()">FanFics</a></div>
+
+<div class="title">
+	<div style="margin-left:10px; margin-top:5px;">FanFics</div>
+</div>
+
+<div class="main">
+<table cellspacing="0" cellpadding="5"><tr valign="top">
+	<td width="200">
+		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="_nav.jsp"/>
 <%
 	if (show!=null)
 	{
 %>
-<div class="nav_pos3"><a class=link_nav href="javascript:void(0)" onMouseOver="navShow(3)" onMouseOut="nd()">Serie</a></div>
+		<jsp:include page="/shows/_show_nav.jsp"/>
 <%
 	}
 %>
-<!--Navigation Ende-->
-
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
-
-<div class="bg_page">
-<!--Body-->
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;<%=container.getName()%></td></tr>
-</table>
+	</td>
+	<td width="800">
+		<table class="contenttable" width="790">
+		<tr><td class="header1"><%=container.getName()%></td></tr>
+		<tr><td class="content">
 <%
 	if (container instanceof Author)
 	{
@@ -123,11 +104,9 @@
 		if (!author.getMail().isEmpty() || !author.getWeb().isEmpty())
 		{
 %>
-<br>
-<table cellspacing=0 width="100%">
-<tr><td class=h2>&nbsp;&nbsp;&nbsp;&nbsp;Author</td></tr>
-</table>
-<dl>
+			<table class="contenttable" width="765">
+			<tr><td class=header2>Author</td></tr>
+			<tr><td class="content"><dl>
 <%
 			if (!author.getMail().isEmpty())
 			{
@@ -159,7 +138,8 @@
 			}
 		}
 %>
-</dl>
+			</dl></td></tr>
+			</table>
 <%
 	}
 	else if (container instanceof FanDom)
@@ -167,10 +147,11 @@
 		FanDom fanDom=(FanDom)container;
 		if (fanDom.getLinkCount()>0)
 		{
-			%><br>
-			<table cellspacing=0 width="100%">
-			<tr><td class=h2>&nbsp;&nbsp;&nbsp;&nbsp;Links</td></tr>
-			</table><%
+%>
+			<table class="contenttable" width="765">
+			<tr><td class=header2>Links</td></tr>
+			<tr><td class="content">
+<%
 			SortedSetMap sortedLinks=new SortedSetMap();
 			for (Iterator itLinks=fanDom.getLinks().iterator(); itLinks.hasNext();)
 			{
@@ -180,26 +161,33 @@
 			for (Iterator itLanguages=sortedLinks.keySet().iterator(); itLanguages.hasNext();)
 			{
 				Language language=(Language)itLanguages.next();
-				%><p><b><u><%=language.getName()%>e Webseiten</u></b></p>
-				<ul><%
+%>
+				<p><b><u><%=language.getName()%>e Webseiten</u></b></p>
+				<ul>
+<%
 				for (Iterator itLinks=sortedLinks.get(language).iterator(); itLinks.hasNext();)
 				{
 					Link link=(Link)itLinks.next();
 					%><li><b><%=link.getName()%></b><br>
 					<a class="link" target="_new" href="<%=link.getUrl()%>"><%=link.getUrl()%></a></li><%
 				}
-				%></ul><%
+%>
+				</ul>
+<%
 			}
+%>
+			</td></tr>
+			</table>
+<%
 		}
 	}
 %>
-<br>
-<table cellspacing=0 width="100%">
-<tr><td class=h2>&nbsp;&nbsp;&nbsp;&nbsp;Fanfics</td></tr>
-</table>
-<br>
-<table>
-	<tr><td><small>[
+
+			<table class="contenttable" width="765">
+			<tr><td class=header2>FanFics</td></tr>
+			<tr><td class="content">
+				<table>
+				<tr><td class="content2"><small>[
 <%
     Iterator itChars=letters.iterator();
     while (itChars.hasNext())
@@ -207,11 +195,11 @@
         Character character=(Character) itChars.next();
 		%><a class=link href="fanfics.jsp?<%=container.getHttpParameter()%>&letter=<%=character%>"><%=character%></a> | <%
     }
-	%><a class=link href="fanfics.jsp?<%=container.getHttpParameter()%>&letter=all">All</a> ] (<%=container.getFanFicCount()%> FanFics)</small></td></tr>
-</table>
-<br>
-<table>
-
+	%><a class=link href="fanfics.jsp?<%=container.getHttpParameter()%>&letter=all">All</a> ] (<%=container.getFanFicCount()%> FanFics)
+				</small></td></tr>
+				</table>
+				<br>
+				<table>
 <%
 	for (Iterator itLetters=lettersVisible.iterator(); itLetters.hasNext();)
 	{
@@ -227,48 +215,52 @@
 				return title1.compareToIgnoreCase(title2);
 			}
 		});
-		%><tr><td valign=top><b><a name="<%=letter%>"><%=letter%></a></b></td><td valign=top width=600><ul> <%
+%>
+				<tr valign="top"><td class="content2"><b><a name="<%=letter%>"><%=letter%></a></b></td><td class="content2" width=600><ul>
+<%
     	Iterator itFanfics=fanFics.iterator();
     	while (itFanfics.hasNext())
     	{
 			FanFic fanfic=(FanFic) itFanfics.next();
-			%><li><a class="link" href="authors/<%=fanfic.getSource()%>">"<%=fanfic.getTitle()%>"</a> <%
+%>
+					<li><a class="link" href="authors/<%=fanfic.getSource()%>">"<%=fanfic.getTitle()%>"</a>
+<%
 			if (!fanfic.isFinished()) out.print(" (unfinished)");
-			%> by <%
+						%> by <%
 			Iterator itAuthors=fanfic.getAuthors().iterator();
-		while (itAuthors.hasNext())
-		{
-			Author author=(Author)itAuthors.next();
-%>
-			<a class=link href="fanfics.jsp?author=<%=author.getId()%>"><%=author.getName()%></a>
- <%
-			if (itAuthors.hasNext()) out.print(",");
-		}
-		out.print("<br>");
-		Chain parts=fanfic.getParts();
-		if (parts.size()>1)
-		{
-%>
-			<small>Parts:
-<%
-			int i=1;
-			for (Iterator itParts=parts.iterator(); itParts.hasNext();)
+			while (itAuthors.hasNext())
 			{
-				FanFicPart part=(FanFicPart)itParts.next();
+				Author author=(Author)itAuthors.next();
 %>
-				<a class="link" href="authors/<%=part.getSource()%>"><%=i%></a>
-<%
-				i++;
-				if (itParts.hasNext()) out.print(" | ");
+						<a class=link href="fanfics.jsp?author=<%=author.getId()%>"><%=author.getName()%></a>
+ <%
+				if (itAuthors.hasNext()) out.print(",");
 			}
+			out.print("<br>");
+			Chain parts=fanfic.getParts();
+			if (parts.size()>1)
+			{
 %>
-			</small><br>
+						<small>Parts:
 <%
-		}
-        if (!fanfic.getFanDoms().isEmpty())
-        {
-        	out.print("<small>FanDoms: ");
-            Iterator itFanDoms=fanfic.getFanDoms().iterator();
+				int i=1;
+				for (Iterator itParts=parts.iterator(); itParts.hasNext();)
+				{
+					FanFicPart part=(FanFicPart)itParts.next();
+%>
+							<a class="link" href="authors/<%=part.getSource()%>"><%=i%></a>
+<%
+					i++;
+					if (itParts.hasNext()) out.print(" | ");
+				}
+%>
+						</small><br>
+<%
+			}
+        	if (!fanfic.getFanDoms().isEmpty())
+        	{
+        		out.print("<small>FanDoms: ");
+            	Iterator itFanDoms=fanfic.getFanDoms().iterator();
             while (itFanDoms.hasNext())
             {
 				FanDom fanDom=(FanDom)itFanDoms.next();
@@ -306,7 +298,7 @@
         	<small>Sequel to: <a class="link" href="authors/<%=prequel.getSource()%>">"<%=prequel.getTitle()%>"</a></small><br>
 <%
       	}
-		long size=0;		
+		long size=0;
 		for (Iterator itParts=parts.iterator(); itParts.hasNext() && size>=0;)
 		{
 			FanFicPart part=(FanFicPart)itParts.next();
@@ -315,23 +307,21 @@
 			else size=-1;
 		}
 %>
-       	<small>Size: <%=(size>0 ? String.valueOf(size>>0xa)+"kB" : "Unknown")%></small><br>
+       	<small>Size: <%=(size>0 ? String.valueOf(size>>0xa)+"kB" : "Unknown")%></small></li><br>
 
 <%
 	}
 %>
-	</ul></td><td align=right valign=bottom><a class=link href="#top">Top</a></td></tr>
+				</ul></td><td class="content2" valign="bottom" align="right"><a class=link href="#top">Top</a></td></tr>
 <%
 	}
 %>
-</table>
+				</table>
+		</td></tr>
+		</table>
+	</td>
+</tr></table>
 
-<!--Body Ende-->
-</div>
-
-</td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
-</table>
 </div>
 
 </body>

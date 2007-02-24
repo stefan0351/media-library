@@ -17,7 +17,7 @@
 
 <head>
 <title><%=show.getName()%> - Darsteller</title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
+<script language="JavaScript" src="/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
 <jsp:include page="_shows_nav.jsp"/>
 <jsp:include page="_show_nav.jsp" />

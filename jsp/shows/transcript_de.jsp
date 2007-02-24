@@ -1,8 +1,6 @@
 <%@ page language="java" %>
 <%@ page import = "java.util.Collection,
 				   java.util.Iterator,
-				   com.kiwisoft.utils.WebUtils,
-				   java.io.File,
 				   com.kiwisoft.xp.XPBean,
 				   com.kiwisoft.utils.StringUtils" %>
 
@@ -19,7 +17,6 @@
 <title><%=show.getValue("title")%> - <%=episode.getValue("title")%> - Abschrift</title>
 <script language="JavaScript" src="/clipart/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
-<script language="JavaScript" src="/shows/nav.js"></script>
 <jsp:include page="_show_nav.jsp" />
 <jsp:include page="_episode_nav.jsp" />
 <link rel="StyleSheet" type="text/css" href="/clipart/style.css">

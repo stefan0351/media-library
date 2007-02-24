@@ -1,17 +1,7 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import = "com.kiwisoft.media.MediaManagerApp,
-				   com.kiwisoft.media.show.Show,
+<%@ page import = "com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
-				   java.text.DateFormat,
-				   java.text.SimpleDateFormat,
-				   java.util.SortedSet,
-				   java.util.TreeSet,
-				   com.kiwisoft.media.AirdateComparator,
 				   java.util.Iterator,
-				   com.kiwisoft.media.Airdate,
-				   com.kiwisoft.utils.StringUtils,
-				   com.kiwisoft.media.show.Episode,
-				   com.kiwisoft.media.show.EpisodeInfo,
 				   com.kiwisoft.xp.XPBean,
 				   java.util.Collection" %>
 

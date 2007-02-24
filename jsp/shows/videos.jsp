@@ -3,17 +3,9 @@ $Revision: 1.2 $, $Date: 2004/07/31 13:26:54 $
 --%>
 
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import="java.net.URLEncoder,
-                 com.kiwisoft.utils.AlphabeticalMap,
-                 com.kiwisoft.utils.Configurator,
-                 java.util.*,
+<%@ page import="java.util.*,
 				 com.kiwisoft.utils.gui.table.SortableTableModel,
-				 com.kiwisoft.utils.gui.table.SortableTableRow,
-				 com.kiwisoft.media.ui.video.VideosTableModel,
-				 com.kiwisoft.media.MediaManagerApp,
-				 com.kiwisoft.media.video.Video,
 				 com.kiwisoft.utils.gui.table.TableSortDescription,
-				 com.kiwisoft.media.video.MediumType,
 				 com.kiwisoft.media.ui.MediaManagerFrame,
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowManager,

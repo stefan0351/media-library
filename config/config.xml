@@ -27,8 +27,8 @@
 	<parameter name="db.mappings">com/kiwisoft/media/db/mappings.xml</parameter>
 	<parameter name="db.driver">com.mysql.jdbc.Driver</parameter>
 	<parameter name="db.url">jdbc:mysql://localhost:3306/media</parameter>
-	<parameter name="db.user">mysql</parameter>
-	<parameter name="db.password"></parameter>
+	<parameter name="db.user">stefan</parameter>
+	<parameter name="db.password">bokada</parameter>
 
 	<parameter name="table.airdates.channel.width">82</parameter>
 	<parameter name="table.airdates.event.width">414</parameter>

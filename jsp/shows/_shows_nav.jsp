@@ -1,16 +1,12 @@
 <%@ page language="java" %>
-<%@ page import="com.kiwisoft.xp.XPBean,
-                 java.util.Collection,
-                 java.util.Iterator,
+<%@ page import="java.util.Iterator,
 				 java.util.SortedSet,
 				 java.util.TreeSet,
 				 com.kiwisoft.utils.StringComparator,
 				 com.kiwisoft.media.show.ShowType"%>
 
-<script language="JavaScript"><!--
-function navShows(pos)
-{
-	text="";
+<table class="menutable">
+<tr><td class="menuheader">Serien</td></tr>
 <%
 		SortedSet types=new TreeSet(new StringComparator());
 		types.addAll(ShowType.getAll());
@@ -19,10 +15,8 @@ function navShows(pos)
 		{
 			ShowType type=(ShowType)itTypes.next();
 %>
-			text+="<a onClick=\"nd()\" class=link2_nav href=\"/shows/index.jsp#type<%=type.getId()%>\"><%=type.getName()%></a><br>";
+			<tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp#type<%=type.getId()%>"><%=type.getName()%></a></td></tr>
 <%
 		}
 %>
-	return overlib(text,STICKY,CAPTION,"Serie",FIXX,pos*150-50,FIXY,140,WIDTH,150,CAPCOLOR,"white",BGCOLOR,"black",FGCOLOR,"white");
-}
-//--></script>
+</table>

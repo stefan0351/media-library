@@ -1,0 +1,125 @@
+/* Main Title ------------------------------------------------------------------- */
+
+.title {
+	position:absolute;
+	top:10px;
+	left:10px;
+	width:1000px;
+	height:50px;
+	border:solid 1px black;
+	background:url(clipart/bg_title.png);
+	color:black;
+	font-family:Verdana,serif;
+	font-weight:bold;
+	font-size:20pt;
+}
+
+.main {
+	background:url(clipart/bg_main.png);
+	position:absolute;
+	top:61px;
+	left:10px;
+	width:1000px;
+	min-height:750px;
+	border:solid 1px black;
+	overflow:auto;
+}
+
+/* Menu ------------------------------------------------------------------------- */
+
+.menutable {
+	width:190px; 
+	border:solid 1px black; 
+	background:white;
+	padding:0;
+	border-spacing:0;
+	margin-bottom:5px;
+}
+
+.menuheader {
+	background:url(clipart/header1.png);
+	height:19;
+	color:black;
+	font-family:Verdana,serif;
+	font-weight:bold;
+	font-size:11pt;
+	text-align:center;
+	
+}
+
+.menuitem {
+	background:white;
+	font-family:Verdana,serif;
+	font-size:10pt;
+}
+
+a.menulink {
+	text-decoration:none;
+	color:black;
+}
+
+a.menulink:hover, a.menulink:focus {
+	color:white;
+	background:#005500;
+}
+
+/* Content ---------------------------------------------------------------------- */
+
+.contenttable {
+	border:solid 1px black;
+	border-spacing:0;
+	font-family:Verdana,serif;
+	margin-bottom:5px;
+}
+
+
+.header1 {
+	background:url(clipart/header1.png);
+	height:20;
+	color:black;
+	font-weight:bold;
+}
+
+.header2 {
+	background:url(clipart/header2.png);
+	height:20;
+	color:black;
+	font-weight:bold;
+}
+
+.content {
+	font-size:9pt;
+	padding:10px;
+}
+
+.content2 {
+	font-size:9pt;
+}
+
+/* Links ------------------------------------------------------------------------ */
+
+
+a.link {
+	text-decoration: none;
+	color:#669966;
+}
+
+a.hiddenlink {
+	text-decoration: none;
+	color:black;
+}
+
+a.image {
+	text-decoration: none;
+	color:black;
+}
+
+a.image:hover, a.image:focus {
+	background:#005500;
+	color:white;
+}
+
+ul {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

@@ -1,16 +1,10 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import="java.net.URLEncoder,
-                 com.kiwisoft.utils.AlphabeticalMap,
-                 com.kiwisoft.utils.Configurator,
-                 java.util.*,
+<%@ page import="java.util.*,
 				 com.kiwisoft.utils.gui.table.SortableTableModel,
-				 com.kiwisoft.utils.db.DBLoader,
 				 com.kiwisoft.media.video.Video,
 				 com.kiwisoft.media.ui.video.RecordsTableModel,
-				 com.kiwisoft.media.MediaManagerApp,
 				 com.kiwisoft.media.Language,
 				 com.kiwisoft.utils.gui.table.TableSortDescription,
-				 com.kiwisoft.utils.gui.table.TableConfiguration,
 				 com.kiwisoft.media.ui.MediaManagerFrame,
 				 com.kiwisoft.media.video.Recording,
 				 com.kiwisoft.media.show.Episode,
@@ -41,42 +35,37 @@
 
 <head>
 <title>Video<%=(video!=null ? " - "+video.getUserKey()+": "+video.getName() : "")%></title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
-<script language="JavaScript" src="/nav.js"></script>
-<jsp:include page="_videos_nav.jsp"/>
-<link rel="StyleSheet" type="text/css" href="/clipart/style.css">
+<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-
 <a name="top"></a>
+<div id="overDiv" class="over_lib"></div>
 
-<div class="logo"><%--<img style="margin-top:13px;" src="/clipart/logo_mini.gif">--%></div>
 <div class="title">
-	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<span style="font-weight:bold;font-size:24pt;">Videos</span>
-	</table>
+	<div style="margin-left:10px; margin-top:5px;">Videos</div>
 </div>
 
-<div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'/')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navVideos(2)" onMouseOut="nd()">Videos</a></div>
-<!--Navigation Ende-->
+<div class="main">
+<table cellspacing="0" cellpadding="5"><tr valign="top">
+<td width="200">
+<!--Navigation Start-->
 
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
+<jsp:include page="/_nav.jsp"/>
+<jsp:include page="_videos_nav.jsp"/>
 
-<div class="bg_page">
-<!--Body-->
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;Video<%=(video!=null ? " - "+video.getUserKey()+": "+video.getName() : "")%></td></tr>
-</table>
-<br>
-<table bordercolor=black border=1 cellspacing=0 width="690">
-<tr bgcolor="#eeeeee">
+<!--Navigation End-->
+</td>
+<td width="800">
+<!--Content Start-->
+
+<table class="contenttable" width="790">
+<tr><td class="header1">Video<%=(video!=null ? " - "+video.getUserKey()+": "+video.getName() : "")%></td></tr>
+<tr><td class="content">
+
+<table class="contenttable" width="765">
+<tr>
 <%
 	if (video!=null)
 	{
@@ -86,7 +75,7 @@
 			String sortDir;
 			if (sortDescription!=null && SortableTableModel.ASCEND.equals(sortDescription.getDirection())) sortDir="desc";
 			else sortDir="asc";
-			out.print("<th><a class=link_nav href=\"video.jsp?id="+video.getId()+"&sort="+i+"&dir="+sortDir+"\">");
+			out.print("<td class=\"header2\"><a class=hiddenlink href=\"video.jsp?id="+video.getId()+"&sort="+i+"&dir="+sortDir+"\">");
 			String columnName=model.getColumnName(i);
 			try
 			{
@@ -103,7 +92,7 @@
 				else
 					out.print("<img src=\"/clipart/descend.gif\" border=0 hspace=3>");
 			}
-			out.print("</a></th>");
+			out.print("</a></td>");
 		}
 %>
 </tr>
@@ -115,7 +104,7 @@
 			{
 				Object value=model.getValueAt(row, col);
 				Recording recording=(Recording)model.getObject(row);
-				out.print("<td");
+				out.print("<td class=\"content\"");
 				if (value instanceof Number) out.print(" align=right");
 				else if (value instanceof Language) out.print(" align=center");
 				out.print(">");
@@ -149,11 +138,12 @@
 
 <p align=right><a class=link href="#top">Top</a></p>
 
-<!--Body Ende-->
-</div>
-
 </td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
+</table>
+
+<!--Content End-->
+</td></tr>
+
 </table>
 </div>
 

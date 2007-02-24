@@ -7,6 +7,7 @@
 				 com.kiwisoft.media.show.EpisodeInfo,
 				 com.kiwisoft.media.show.ShowInfo,
 				 java.util.*"%>
+<%@ page import="com.kiwisoft.utils.StringUtils"%>
 
 <%
 	Show show=(Show)request.getAttribute("show");
@@ -27,16 +28,22 @@
 	}
 %>
 
-<script language="JavaScript"><!--
-function navShow(pos)
-{
-	text="";
+<table class="menutable">
+<tr><td class="menuheader">Serie</td></tr>
 <%
+	String logoPath=show.getLogoMini();
+	if (!StringUtils.isEmpty(logoPath))
+	{
+%>
+		<tr><td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=logoPath%>"></td></tr>
+		<tr><td><hr size=1 color=black></td></tr>
+<%
+	}
 	Iterator it=new TreeSet(show.getSeasons()).iterator();
 	if (!it.hasNext())
 	{
 %>
-		text+="<a onClick=\"nd()\" class=link2_nav href=\"/shows/episodes.jsp?show=<%=show.getId()%>\">Episoden</a><br>";
+		<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>">Episoden</a></td></tr>
 <%
 	}
 	else
@@ -45,28 +52,26 @@ function navShow(pos)
 		{
 			Season season=(Season)it.next();
 %>
-			text+="<a onClick=\"nd()\" class=link2_nav href=\"/shows/episodes.jsp?show=<%=show.getId()%>#season<%=season.getNumber()%>\"><%=season%></a><br>";
+			<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#season<%=season.getNumber()%>"><%=season%></a></td></tr>
 <%
 		}
 	}
 	if (!show.getMovies().isEmpty())
 	{
 %>
-	text+="<a onClick=\"nd()\" class=link2_nav href=\"/shows/episodes.jsp?show=<%=show.getId()%>#movies\">Filme</a><br>";
+	<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#movies">Filme</a></td></tr>
 <%
 	}
 %>
-	text+="<hr size=1 color=black>";
+	<tr><td><hr size=1 color=black></td></tr>
 <%
 	for (Iterator itLinks=links.keySet().iterator(); itLinks.hasNext();)
 	{
 		String name=(String)itLinks.next();
 		String ref=(String)links.get(name);
 %>
-			text+="<a onClick=\"nd()\" class=link2_nav href=\"<%=ref%>\"><%=name%></a><br>";
+		<tr><td class="menuitem"><a class="menulink" href="<%=ref%>"><%=name%></a></td></tr>
 <%
 	}
 %>
-	return overlib(text,STICKY,CAPTION,"Serie",FIXX,pos*150-50,FIXY,140,WIDTH,200,CAPCOLOR,"white",BGCOLOR,"black",FGCOLOR,"white");
-}
-//--></script>
+</table>

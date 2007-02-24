@@ -1,1 +1,2 @@
-c:\mysql\bin\mysqldump --opt media > media.sql
+mysqldump --user=stefan --password --opt media > media.sql
+pause

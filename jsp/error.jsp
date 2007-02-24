@@ -1,7 +1,5 @@
 <%@ page language="java" %>
-<%@ page import="com.kiwisoft.xp.XPBean,
-                 java.io.StringWriter,
-                 java.io.PrintWriter"%>
+<%@ page import="java.io.PrintWriter"%>
 
 <%
 	Throwable error=(Throwable)request.getAttribute("error");

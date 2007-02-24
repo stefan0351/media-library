@@ -22,6 +22,13 @@
 		<servlet-class>com.kiwisoft.media.video.PrintVideosServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>add_link</servlet-name>
+		<display-name>Add Link Servlet</display-name>
+		<description>Servlet to add new show links</description>
+		<servlet-class>com.kiwisoft.media.AddLinkServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>xp</servlet-name>
 		<url-pattern>*.xp</url-pattern>
@@ -32,19 +39,13 @@
 		<url-pattern>/videos/print.pdf</url-pattern>
 	</servlet-mapping>
 
-	<taglib>
-		<taglib-uri>http://www.kiwisoft.de/media/xp</taglib-uri>
-    	<taglib-location>/WEB-INF/xp.tld</taglib-location>
-	</taglib>
-
-	<servlet>
-		<servlet-name>add_link</servlet-name>
-		<servlet-class>com.kiwisoft.media.AddLinkServlet</servlet-class>
-		<display-name>Add Link Servlet</display-name>
-		<description>Servlet to add new show links</description>
-	</servlet>
 	<servlet-mapping>
 		<servlet-name>add_link</servlet-name>
 		<url-pattern>/add_link</url-pattern>
 	</servlet-mapping>
+
+	<taglib>
+		<taglib-uri>http://www.kiwisoft.de/media/xp</taglib-uri>
+		<taglib-location>/WEB-INF/xp.tld</taglib-location>
+	</taglib>
 </web-app>

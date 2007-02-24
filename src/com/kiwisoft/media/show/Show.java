@@ -411,7 +411,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
-	public Set getFanFics(char ch)
+	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
 	}

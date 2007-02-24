@@ -5,10 +5,9 @@
 				 com.kiwisoft.media.video.MediumType,
 				 java.util.*"%>
 
-<script language="JavaScript"><!--
-function navVideos(pos)
-{
-	text="<a class=link2_nav href=\"/videos/index.jsp\">Alle</a><br>";
+<table class="menutable">
+<tr><td class="menuheader">Videos</td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/videos/index.jsp">Alle</a></td></tr>
 <%
 	Map types=new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	for (Iterator it=MediumType.getAll().iterator(); it.hasNext();)
@@ -20,12 +19,10 @@ function navVideos(pos)
 	{
 		MediumType type=(MediumType)types.get(it.next());
 %>
-		text+="<a class=link2_nav href=\"/videos/index.jsp?type=<%=type.getId()%>\"><%=type.getPluralName()%></a><br>";
+<tr><td class="menuitem"><a class="menulink" href="/videos/index.jsp?type=<%=type.getId()%>"><%=type.getPluralName()%></a></td></tr>
 <%
 	}
 %>
-	text+="<hr size=1 color=black>";
-	text+="<a target=_new class=link2_nav href=\"/videos/print.pdf?xsl=/videos/print.xsl\">Druckansicht</a><br>";
-	return overlib(text,STICKY,CAPTION,"Videos",FIXX,pos*150-50,FIXY,140,WIDTH,150,CAPCOLOR,"white",BGCOLOR,"black",FGCOLOR,"white");
-}
-//--></script>
+<tr><td><hr size=1 color=black></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/videos/print.pdf?xsl=/videos/print.xsl">Druckansicht</a></td></tr>
+</table>

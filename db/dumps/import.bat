@@ -1,1 +1,1 @@
-c:\mysql\bin\mysql media < airdates.sql
+mysql media < airdates.sql

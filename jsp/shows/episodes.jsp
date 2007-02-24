@@ -1,10 +1,8 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import = "com.kiwisoft.media.MediaManagerApp,
-				   java.util.Collection,
+<%@ page import = "java.util.Collection,
 				   java.util.TreeSet,
 				   java.util.Iterator,
 				   com.kiwisoft.media.show.*,
-				   com.kiwisoft.media.movie.Movie,
 				   com.kiwisoft.utils.StringUtils,
 				   com.kiwisoft.media.movie.Movie" %>
 
@@ -18,42 +16,32 @@
 
 <head>
 <title><%=show.getName()%> - Episoden</title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
-<script language="JavaScript" src="/nav.js"></script>
-<jsp:include page="_shows_nav.jsp"/>
-<jsp:include page="_show_nav.jsp" />
-<link rel="StyleSheet" type="text/css" href="/clipart/style.css">
+<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
 
 <body>
-
 <a name="top"></a>
-
-<div class="logo">
-	<table width=130 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<jsp:include page="/shows/_show_logo.jsp"/>
-	</td></tr></table>
-</div>
-<div class="title">
-	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-		<span style="font-weight:bold;font-size:24pt;"><%=show.getName()%></span>
-	</td></tr></table>
-</div>
-
 <div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'/')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navShows(2)" onMouseOut="nd()">Serien</a></div>
-<div class="nav_pos3"><a class=link_nav href="javascript:void(0)" onMouseOver="navShow(3)" onMouseOut="nd()">Serie</a></div>
-<!--Navigation Ende-->
 
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
+<div class="title">
+	<div style="margin-left:10px; margin-top:5px;"><%=show.getName()%></div>
+</div>
 
-<div class="bg_page">
-<!--Body-->
+<div class="main">
+<table cellspacing="0" cellpadding="5"><tr valign="top">
+<td width="200">
+<!--Navigation Start-->
+
+<jsp:include page="/_nav.jsp"/>
+<jsp:include page="_shows_nav.jsp"/>
+<jsp:include page="_show_nav.jsp"/>
+
+<!--Navigation End-->
+</td>
+<td width="800">
+<!--Content Start-->
+
 <%
 	if (!seasons.isEmpty())
 	{
@@ -63,11 +51,9 @@
 			Season season=(Season)it.next();
 			Iterator itEpisodes=new TreeSet(season.getEpisodes()).iterator();
 %>
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;<a name="season<%=season.getNumber()%>"><%=season%></a></td></tr>
-</table>
-
-<ul>
+<table class="contenttable" width="790">
+<tr><td class="header1"><a name="season<%=season.getNumber()%>"><%=season%></a></td></tr>
+<tr><td class="content"><ul>
 <%
 			while (itEpisodes.hasNext())
 			{
@@ -79,20 +65,18 @@
 			}
 %>
 </ul>
-
 <p align=right><a class=link href="#top">Top</a></p>
-
+</td></tr>
+</table>
 <%
 		}
 	}
 	else
 	{
 %>
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;Episoden</td></tr>
-</table>
-
-<ul>
+<table class="contenttable" width="790">
+<tr><td class="header1">Episoden</td></tr>
+<tr><td class="content"><ul>
 <%
 		Iterator it=show.getEpisodes().iterator();
 		while (it.hasNext())
@@ -105,8 +89,9 @@
 		}
 %>
 </ul>
-
 <p align=right><a class=link href="#top">Top</a></p>
+</td></tr>
+</table>
 <%
 	}
 
@@ -114,11 +99,9 @@
 	if (!movies.isEmpty())
 	{
 %>
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;<a name="movies">Filme</a></td></tr>
-</table>
-
-<ul>
+<table class="contenttable" width="790">
+<tr><td class="header1"><a name="movies">Filme</a></td></tr>
+<tr><td class="content"><ul>
 <%
 		Iterator itMovies=movies.iterator();
 		while (itMovies.hasNext())
@@ -140,18 +123,16 @@
 		}
 %>
 </ul>
-
 <p align=right><a class=link href="#top">Top</a></p>
+</td></tr>
+</table>
 <%
 	}
 %>
 
-<!--Body Ende-->
-</div>
-
-</td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
-</table>
+<!--Content End-->
+</td>
+</tr></table>
 </div>
 
 </body>

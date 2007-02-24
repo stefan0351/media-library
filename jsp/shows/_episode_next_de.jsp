@@ -1,16 +1,5 @@
 <%@ page language="java" %>
-<%@ page import="com.kiwisoft.xp.XPBean,
-                 java.util.Collection,
-                 java.util.Iterator,
-				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.media.show.Season,
-				 java.util.Collections,
-				 java.util.TreeSet,
-				 com.kiwisoft.media.fanfic.FanDom,
-				 java.util.Set,
-				 com.kiwisoft.media.show.Episode,
-				 com.kiwisoft.utils.StringComparator,
-				 com.kiwisoft.media.show.EpisodeInfo"%>
+<%@ page import="com.kiwisoft.media.show.Episode"%>
 
 <%
 	Episode episode=(Episode)request.getAttribute("episode");
