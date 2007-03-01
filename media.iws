@@ -137,7 +137,7 @@
       <file leaf-file-name="DBMappingTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/java/projects/utils/test/com/kiwisoft/utils/db/DBMappingTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.102657005">
+            <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.020531401">
               <folding />
             </state>
           </provider>
@@ -146,7 +146,7 @@
       <file leaf-file-name="MediaManager.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="84" selection-start="498" selection-end="498" vertical-scroll-proportion="0.25120774">
+            <state line="18" column="42" selection-start="450" selection-end="450" vertical-scroll-proportion="0.020531401">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -157,7 +157,7 @@
       <file leaf-file-name="Summary.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Summary.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.3490338">
+            <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.07608695">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -168,7 +168,7 @@
       <file leaf-file-name="ClassMapping.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/db/ClassMapping.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.33333334">
+            <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.020531401">
               <folding />
             </state>
           </provider>
@@ -177,7 +177,7 @@
       <file leaf-file-name="mappings.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.307971">
+            <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.020531401">
               <folding>
                 <element signature="tag#mapping#0;tag#mappings#0" expanded="false" />
                 <element signature="tag#mapping#1;tag#mappings#0" expanded="false" />
@@ -231,7 +231,7 @@
       <file leaf-file-name="ConcurrentAirdateDialog.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ConcurrentAirdateDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="6" selection-start="805" selection-end="805" vertical-scroll-proportion="0.10455105">
+            <state line="45" column="97" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.29274294">
               <folding />
             </state>
           </provider>
@@ -251,9 +251,9 @@
       <file leaf-file-name="ImportEpisodesAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/ImportEpisodesAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.615942">
+            <state line="46" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.615942">
               <folding>
-                <element signature="class#1261:1441" expanded="true" />
+                <element signature="class#1255:1435" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -262,7 +262,7 @@
       <file leaf-file-name="Configurator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/Configurator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.33333334">
+            <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.020531401">
               <folding />
             </state>
           </provider>
@@ -298,6 +298,10 @@
       <PATH_ELEMENT>
         <option name="myItemId" value="Web Modules" />
         <option name="myItemType" value="com.intellij.j2ee.module.view.web.nodes.WebModuleHolderNodeDescriptor" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.j2ee.module.view.web.nodes.WebModuleNodeDescriptor" />
       </PATH_ELEMENT>
     </PATH>
     <PATH>
@@ -439,162 +443,6 @@
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="gui" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media\ui" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\test" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\test\com" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\test\com\kiwisoft" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\test\com\kiwisoft\media" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\test\com\kiwisoft\media\db" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-    </PATH>
-    <PATH>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="media.ipr" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-      <PATH_ELEMENT>
-        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media\db" />
-        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-      </PATH_ELEMENT>
-    </PATH>
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
@@ -621,11 +469,11 @@
     <property name="cvs_file_history_flatWidth2" value="169" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="cvs_file_history_flatWidth1" value="170" />
     <property name="vcs_file_view_flatWidth2" value="218" />
+    <property name="cvs_file_history_flatWidth1" value="170" />
     <property name="vcs_file_view_flatWidth5" value="145" />
-    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="vcs_file_view_flatOrder3" value="3" />
+    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatWidth4" value="169" />
     <property name="vcs_file_view_treeWidth0" value="371" />
@@ -706,6 +554,78 @@
   <component name="RestoreUpdateTree" />
   <component name="RunManager">
     <activeType name="Application" />
+    <configuration selected="false" default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="C:/java/intellij/963/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration selected="false" default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+    </configuration>
+    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+    </configuration>
     <configuration selected="false" default="true" type="JUnit" factoryName="JUnit">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -722,78 +642,6 @@
         <value defaultName="wholeProject" />
       </option>
     </configuration>
-    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
-    <configuration selected="false" default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="C:/java/intellij/963/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration selected="false" default="true" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <module name="" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
     <configuration selected="true" default="false" name="Web Application" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 5.5.4">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -807,13 +655,13 @@
         <option name="MODULE_NAME" value="web" />
         <option name="DEPLOY" value="true" />
       </J2EE_MODULE>
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="3247" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -828,7 +676,7 @@
           <option name="PROGRAM_PARAMETERS" value=" stop" />
         </SHUTDOWN>
       </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -881,14 +729,14 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <module name="gui" />
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="3160" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="false" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
     <configuration selected="false" default="false" name="ProgressDialog" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.kiwisoft.utils.gui.progress.ProgressDialog" />
@@ -909,14 +757,14 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <module name="gui" />
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="1316" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
   </component>
   <component name="SQL">
@@ -995,9 +843,9 @@
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.543554" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.3295063" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.39838058" order="0" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="true" weight="0.39838058" order="0" />
       <window_info id="KiwiScrap" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.47482836" order="8" />
-      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="true" weight="0.49148694" order="1" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.49148694" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.25" order="1" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.32837528" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39930955" order="6" />
@@ -1013,8 +861,8 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39614075" order="4" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3291714" order="8" />
       <window_info id="Character Browser" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.32955465" order="8" />
-      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
+      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.7340425" order="7" />
       <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.53121454" order="8" />
@@ -1105,7 +953,7 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/ui/CharacterDetailsView.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/CharacterDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="29" column="75" selection-start="955" selection-end="955" vertical-scroll-proportion="0.020531401">
           <folding />
@@ -1143,41 +991,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/ImportEpisodesAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1368" selection-end="1368" vertical-scroll-proportion="0.615942">
-          <folding>
-            <element signature="class#1261:1441" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PrintVideosServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="81" selection-start="4431" selection-end="4431" vertical-scroll-proportion="0.38405797">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/Configurator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/java/projects/utils/test/com/kiwisoft/utils/db/DBMappingTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.102657005">
+        <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.020531401">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="84" selection-start="498" selection-end="498" vertical-scroll-proportion="0.25120774">
+        <state line="18" column="42" selection-start="450" selection-end="450" vertical-scroll-proportion="0.020531401">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1186,7 +1009,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Summary.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.3490338">
+        <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.07608695">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1195,14 +1018,14 @@
     </entry>
     <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/db/ClassMapping.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.33333334">
+        <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.020531401">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.307971">
+        <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.020531401">
           <folding>
             <element signature="tag#mapping#0;tag#mappings#0" expanded="false" />
             <element signature="tag#mapping#1;tag#mappings#0" expanded="false" />
@@ -1250,9 +1073,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PrintVideosServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="142" column="81" selection-start="4431" selection-end="4431" vertical-scroll-proportion="0.38405797">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/ImportEpisodesAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.615942">
+          <folding>
+            <element signature="class#1255:1435" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/Configurator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.020531401">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ConcurrentAirdateDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="6" selection-start="805" selection-end="805" vertical-scroll-proportion="0.10455105">
+        <state line="45" column="97" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.29274294">
           <folding />
         </state>
       </provider>

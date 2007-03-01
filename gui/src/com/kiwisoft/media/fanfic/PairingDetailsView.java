@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.ShowCharacter;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.fanfic.Pairing;
-import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Configurator;

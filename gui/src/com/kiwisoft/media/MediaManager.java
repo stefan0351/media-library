@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.Locale;
 import javax.swing.UIManager;
 
-import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.SplashWindow;

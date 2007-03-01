@@ -14,7 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;

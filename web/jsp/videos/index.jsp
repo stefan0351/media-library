@@ -1,11 +1,11 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
 <%@ page import="java.util.*,
 				 com.kiwisoft.utils.gui.table.SortableTableModel,
-				 com.kiwisoft.media.ui.video.VideosTableModel,
+				 com.kiwisoft.media.video.VideosTableModel,
 				 com.kiwisoft.media.video.Video,
 				 com.kiwisoft.utils.gui.table.TableSortDescription,
 				 com.kiwisoft.media.video.MediumType,
-				 com.kiwisoft.media.ui.MediaManagerFrame"%>
+				 com.kiwisoft.media.MediaManagerFrame"%>
 
 <%
 	String typeId=request.getParameter("type");

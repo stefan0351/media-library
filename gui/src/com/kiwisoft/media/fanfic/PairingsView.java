@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 
 import com.kiwisoft.media.fanfic.Pairing;
 import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;

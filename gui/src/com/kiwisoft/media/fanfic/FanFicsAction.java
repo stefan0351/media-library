@@ -12,7 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 
 import com.kiwisoft.media.fanfic.FanFicGroup;
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 
 public class FanFicsAction extends AbstractAction
 {

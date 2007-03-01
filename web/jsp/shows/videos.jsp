@@ -2,10 +2,10 @@
 <%@ page import="java.util.*,
 				 com.kiwisoft.utils.gui.table.SortableTableModel,
 				 com.kiwisoft.utils.gui.table.TableSortDescription,
-				 com.kiwisoft.media.ui.MediaManagerFrame,
+				 com.kiwisoft.media.MediaManagerFrame,
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowManager,
-				 com.kiwisoft.media.ui.show.ShowRecordsTableModel,
+				 com.kiwisoft.media.show.ShowRecordsTableModel,
 				 com.kiwisoft.media.Language,
 				 com.kiwisoft.media.video.Recording,
 				 com.kiwisoft.media.show.Episode"%>

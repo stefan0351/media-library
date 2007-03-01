@@ -22,7 +22,7 @@ import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.movie.MovieDetailsView;
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.ApplicationFrame;

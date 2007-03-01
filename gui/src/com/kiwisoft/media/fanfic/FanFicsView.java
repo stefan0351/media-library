@@ -21,7 +21,7 @@ import javax.swing.*;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
 import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.Bookmark;

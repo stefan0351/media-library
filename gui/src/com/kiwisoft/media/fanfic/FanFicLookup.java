@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.ui.MediaManagerFrame;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.TableLookup;
 import com.kiwisoft.utils.gui.table.TableConfiguration;

@@ -16,7 +16,7 @@ import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.MovieLookup;
-import com.kiwisoft.media.ui.show.ShowLookup;
+import com.kiwisoft.media.show.ShowLookup;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;

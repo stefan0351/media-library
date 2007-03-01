@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import com.kiwisoft.media.dataImport.AirdateImport;
-import com.kiwisoft.media.ui.ImportPathDialog;
+import com.kiwisoft.media.ImportPathDialog;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 

@@ -14,8 +14,8 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.media.ContactMedium;
+import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Configurator;
