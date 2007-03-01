@@ -8,33 +8,21 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.Channel;
-import com.kiwisoft.media.ChannelManager;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.Name;
+import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.ImagePanel;
 import com.kiwisoft.utils.gui.ImageUpdater;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
+import com.kiwisoft.utils.gui.lookup.DialogLookupField;
+import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.utils.gui.table.SortableTable;
 
 public class ChannelDetailsView extends DetailsView
 {
@@ -51,7 +39,7 @@ public class ChannelDetailsView extends DetailsView
 	private JComboBox cbxLanguage;
 	private JCheckBox cbReceiving;
 	private ImagePanel imgLogo;
-	private DynamicTable tblNames;
+	private SortableTable tblNames;
 	private NamesTableModel tmNames;
 
 	private ChannelDetailsView(Channel channel)
@@ -82,44 +70,44 @@ public class ChannelDetailsView extends DetailsView
 		});
 		imgLogo=new ImagePanel(new Dimension(50, 30));
 		tmNames=new NamesTableModel();
-		tblNames=new DynamicTable(tmNames);
-		tblNames.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.channel.names"));
+		tblNames=new SortableTable(tmNames);
+		tblNames.initializeColumns(new MediaTableConfiguration("table.channel.names"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 250));
 		int row=0;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfName, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Sprache:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbxLanguage, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Empfang:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbReceiving, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+												GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Logo:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfLogo, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(imgLogo, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+											GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 3, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+																	 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 
 		row++;
 		add(new JScrollPane(tblNames), new GridBagConstraints(0, row, 3, 1, 1.0, 1.0,
-		        GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 0, 0), 0, 0));
+															  GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 0, 0), 0, 0));
 
 		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
 		new ImageUpdater(tfLogo.getTextField(), imgLogo);

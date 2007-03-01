@@ -9,13 +9,11 @@ package com.kiwisoft.media.fanfic;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.TableLookup;
 import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Configurator;
 
 public class FanFicLookup extends TableLookup<FanFic>
 {
@@ -35,7 +33,7 @@ public class FanFicLookup extends TableLookup<FanFic>
 
 	protected TableConfiguration getTableConfiguration()
 	{
-		return new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.lookup.fanfic");
+		return new MediaTableConfiguration("table.lookup.fanfic");
 	}
 
 	public String[] getColumnNames()

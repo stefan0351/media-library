@@ -11,33 +11,25 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
-import com.kiwisoft.media.show.Season;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class SeasonsView extends ViewPanel
 {
 	// Dates Panel
-	private DynamicTable tblSeasons;
+	private SortableTable tblSeasons;
 	private SeasonsTableModel tmSeasons;
 	private DoubleClickListener doubleClickListener;
 	private Show show;
@@ -59,9 +51,9 @@ public class SeasonsView extends ViewPanel
 		tmSeasons=new SeasonsTableModel();
 		createTableData();
 
-		tblSeasons=new DynamicTable(tmSeasons);
+		tblSeasons=new SortableTable(tmSeasons);
 		tblSeasons.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblSeasons.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.seasons"));
+		tblSeasons.initializeColumns(new MediaTableConfiguration("table.seasons"));
 
 		scrlSeasons=new JScrollPane(tblSeasons);
 		return scrlSeasons;
@@ -173,7 +165,7 @@ public class SeasonsView extends ViewPanel
 		}
 	}
 
-	private class SeasonTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class SeasonTableRow extends SortableTableRow implements PropertyChangeListener
 	{
 		public SeasonTableRow(Season season)
 		{
@@ -270,17 +262,17 @@ public class SeasonsView extends ViewPanel
 				if (season.isUsed())
 				{
 					JOptionPane.showMessageDialog(SeasonsView.this,
-					        "Die Staffel '"+season.getSeasonName()+"' kann nicht gelöscht werden.",
-					        "Meldung",
-					        JOptionPane.INFORMATION_MESSAGE);
+												  "Die Staffel '"+season.getSeasonName()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(SeasonsView.this,
-			        "Staffeln wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Staffeln wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

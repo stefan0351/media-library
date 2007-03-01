@@ -8,20 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.VideoManager;
-import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
@@ -30,15 +28,14 @@ import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class VideoDetailsView extends DetailsView
 {
 	private EpisodesTableModel tmEpisodes;
-	private DynamicTable tblEpisodes;
+	private SortableTable tblEpisodes;
 
 	public static void create(Video video)
 	{
@@ -102,35 +99,35 @@ public class VideoDetailsView extends DetailsView
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 120));
 		add(new JLabel("Schlüssel:"), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+															 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfUserKey, new GridBagConstraints(1, 0, 1, 1, 0.5, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		add(new JLabel("Type:"), new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
+														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
 		add(tfType, new GridBagConstraints(3, 0, 1, 1, 0.5, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		add(new JLabel("Name:"), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfName, new GridBagConstraints(1, 1, 3, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Länge:"), new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfLength, new GridBagConstraints(1, 2, 1, 1, 0.5, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Restzeit:"), new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+															GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(tfRemaining, new GridBagConstraints(3, 2, 1, 1, 0.5, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		if (episodes!=null)
 		{
 			setPreferredSize(new Dimension(600, 300));
 			tmEpisodes=new EpisodesTableModel();
-			tblEpisodes=new DynamicTable(tmEpisodes);
-			tblEpisodes.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.video.episodes"));
+			tblEpisodes=new SortableTable(tmEpisodes);
+			tblEpisodes.initializeColumns(new MediaTableConfiguration("table.video.episodes"));
 			add(new JLabel("Episoden:"), new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-					GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 			add(new JScrollPane(tblEpisodes), new GridBagConstraints(1, 3, 3, 1, 1.0, 1.0,
-					GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																	 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 			tblEpisodes.addMouseListener(new EpisodesMouseListener());
 		}
 

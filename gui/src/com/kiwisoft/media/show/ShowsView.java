@@ -18,23 +18,22 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.movie.MoviesView;
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.actions.DownloadTVTVAction;
+import com.kiwisoft.media.actions.DownloadP7Action;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 
 public class ShowsView extends ViewPanel
 {
-	private DynamicTable tblShows;
+	private SortableTable tblShows;
 	private DoubleClickListener doubleClickListener;
 	private ShowsTableModel tmShows;
 	private ShowListener showListener;
@@ -50,9 +49,9 @@ public class ShowsView extends ViewPanel
 		}
 		tmShows.sort();
 
-		tblShows=new DynamicTable(tmShows);
+		tblShows=new SortableTable(tmShows);
 		tblShows.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblShows.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.shows"));
+		tblShows.initializeColumns(new MediaTableConfiguration("table.shows"));
 		showListener=new ShowListener();
 		ShowManager.getInstance().addCollectionChangeListener(showListener);
 

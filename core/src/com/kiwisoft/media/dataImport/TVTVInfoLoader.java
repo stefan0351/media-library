@@ -64,7 +64,7 @@ public class TVTVInfoLoader implements ObservableRunnable
 		return "Lade TVTV Termine";
 	}
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}

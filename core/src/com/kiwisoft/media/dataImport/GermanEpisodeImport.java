@@ -48,7 +48,7 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		return "Importiere Episoden...";
 	}
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}

@@ -34,7 +34,7 @@ public class EpisodeUpdater implements ObservableRunnable
 		this.airdates=airdates;
 	}
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}

@@ -17,22 +17,19 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.fanfic.Author;
-import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.Disposable;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.Disposable;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -40,7 +37,7 @@ import com.kiwisoft.utils.gui.table.TableConfiguration;
  */
 public class AuthorsView extends ViewPanel implements Disposable
 {
-	private DynamicTable table;
+	private SortableTable table;
 	private AuthorsTableModel tableModel;
 	private DoubleClickListener doubleClickListener;
 	private UpdateListener updateListener;
@@ -63,9 +60,9 @@ public class AuthorsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		table=new DynamicTable(tableModel);
+		table=new SortableTable(tableModel);
 		table.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		table.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.authors"));
+		table.initializeColumns(new MediaTableConfiguration("table.fanfic.authors"));
 
 		scrollPane=new JScrollPane(table);
 		return scrollPane;
@@ -135,12 +132,12 @@ public class AuthorsView extends ViewPanel implements Disposable
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						{
-							Author newAuthor=(Author)event.getElement();
-							int index=tableModel.addRow(new Row(newAuthor));
-							table.getSelectionModel().setSelectionInterval(index, index);
-						}
-						break;
+					{
+						Author newAuthor=(Author)event.getElement();
+						int index=tableModel.addRow(new Row(newAuthor));
+						table.getSelectionModel().setSelectionInterval(index, index);
+					}
+					break;
 					case CollectionChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());
 						if (index>=0) tableModel.removeRowAt(index);
@@ -198,7 +195,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private class NewAction extends AbstractAction
+	private static class NewAction extends AbstractAction
 	{
 		public NewAction()
 		{
@@ -211,7 +208,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private class PropertiesAction extends AbstractAction
+	private static class PropertiesAction extends AbstractAction
 	{
 		private Author author;
 
@@ -243,16 +240,16 @@ public class AuthorsView extends ViewPanel implements Disposable
 			if (author.isUsed())
 			{
 				JOptionPane.showMessageDialog(AuthorsView.this,
-						"Der Autor '"+author.getName()+"' kann nicht gelöscht werden.",
-						"Meldung",
-						JOptionPane.INFORMATION_MESSAGE);
+											  "Der Autor '"+author.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(AuthorsView.this,
-					"Den Autor '"+author.getName()+"' wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Den Autor '"+author.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

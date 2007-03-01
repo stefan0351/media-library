@@ -7,31 +7,33 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
-import java.util.*;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.media.Link;
-import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.utils.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.db.*;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class LinksView extends ViewPanel
 {
 	private Show show;
 
 	// Dates Panel
-	private DynamicTable tblLinks;
+	private SortableTable tblLinks;
 	private LinksTableModel tmLinks;
 	private DoubleClickListener doubleClickListener;
 	private CollectionChangeObserver collectionObserver;
@@ -52,9 +54,9 @@ public class LinksView extends ViewPanel
 		tmLinks=new LinksTableModel();
 		createTableData();
 
-		tblLinks=new DynamicTable(tmLinks);
+		tblLinks=new SortableTable(tmLinks);
 		tblLinks.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblLinks.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.links"));
+		tblLinks.initializeColumns(new MediaTableConfiguration("table.links"));
 		tblLinks.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new link");
 		tblLinks.getActionMap().put("new link", new NewLinkAction());
 
@@ -163,7 +165,7 @@ public class LinksView extends ViewPanel
 		}
 	}
 
-	private class Row extends SortableTableRow<Link> implements PropertyChangeListener
+	private static class Row extends SortableTableRow<Link> implements PropertyChangeListener
 	{
 		public Row(Link link)
 		{
@@ -256,17 +258,17 @@ public class LinksView extends ViewPanel
 				if (link.isUsed())
 				{
 					JOptionPane.showMessageDialog(LinksView.this,
-							"Der Link '"+link.getName()+"' kann nicht gelöscht werden.",
-							"Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  "Der Link '"+link.getName()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(LinksView.this,
-					"Links wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Links wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

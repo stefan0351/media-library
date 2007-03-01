@@ -29,7 +29,7 @@ public class WebDatesExport implements ObservableRunnable
 {
 	private ProgressSupport progressSupport=new ProgressSupport(null);
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}

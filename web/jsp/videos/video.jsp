@@ -1,28 +1,29 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import="java.util.*,
-				 com.kiwisoft.utils.gui.table.SortableTableModel,
-				 com.kiwisoft.media.video.Video,
-				 com.kiwisoft.media.video.RecordsTableModel,
+<%@ page import="java.util.MissingResourceException,
+				 java.util.ResourceBundle,
 				 com.kiwisoft.media.Language,
-				 com.kiwisoft.utils.gui.table.TableSortDescription,
-				 com.kiwisoft.media.MediaManagerFrame,
-				 com.kiwisoft.media.video.Recording,
+				 com.kiwisoft.media.MediaTableConfiguration,
 				 com.kiwisoft.media.show.Episode,
-				 com.kiwisoft.media.video.VideoManager"%>
+				 com.kiwisoft.media.video.Recording,
+				 com.kiwisoft.media.video.RecordsWebTable,
+				 com.kiwisoft.media.video.Video,
+				 com.kiwisoft.media.video.VideoManager,
+				 com.kiwisoft.utils.gui.table.TableConstants"%>
+<%@ page import="com.kiwisoft.utils.gui.table.TableSortDescription"%>
 
 <%
 	String pId=request.getParameter("id");
 	Video video=null;
 	if (pId!=null) video=VideoManager.getInstance().getVideo(new Long(pId));
-	RecordsTableModel model=new RecordsTableModel(video);
-	ResourceBundle tableResources=ResourceBundle.getBundle(MediaManagerFrame.class.getName());
+	RecordsWebTable model=new RecordsWebTable(video);
+	ResourceBundle tableResources=ResourceBundle.getBundle(MediaTableConfiguration.class.getName());
 	try
 	{
 		String pSort=request.getParameter("sort");
 		if (pSort!=null)
 		{
 			int sort=Integer.parseInt(pSort);
-			Integer sortDir="desc".equals(request.getParameter("dir")) ? SortableTableModel.DESCEND : SortableTableModel.ASCEND;
+			Integer sortDir="desc".equals(request.getParameter("dir")) ? TableConstants.DESCEND : TableConstants.ASCEND;
 			model.addSortColumn(new TableSortDescription(sort, sortDir));
 			model.sort();
 		}
@@ -73,7 +74,7 @@
 		{
 			TableSortDescription sortDescription=model.getSortDescription(i);
 			String sortDir;
-			if (sortDescription!=null && SortableTableModel.ASCEND.equals(sortDescription.getDirection())) sortDir="desc";
+			if (sortDescription!=null && TableConstants.ASCEND.equals(sortDescription.getDirection())) sortDir="desc";
 			else sortDir="asc";
 			out.print("<td class=\"header2\"><a class=hiddenlink href=\"video.jsp?id="+video.getId()+"&sort="+i+"&dir="+sortDir+"\">");
 			String columnName=model.getColumnName(i);
@@ -87,7 +88,7 @@
 			out.print(columnName);
 			if (sortDescription!=null)
 			{
-				if (SortableTableModel.ASCEND.equals(sortDescription.getDirection()))
+				if (TableConstants.ASCEND.equals(sortDescription.getDirection()))
 					out.print("<img src=\"/clipart/ascend.gif\" border=0 hspace=3>");
 				else
 					out.print("<img src=\"/clipart/descend.gif\" border=0 hspace=3>");

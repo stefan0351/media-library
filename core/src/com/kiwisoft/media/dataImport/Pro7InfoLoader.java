@@ -39,7 +39,7 @@ public class Pro7InfoLoader implements ObservableRunnable
 		details=new HashMap<String, String>();
 	}
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}

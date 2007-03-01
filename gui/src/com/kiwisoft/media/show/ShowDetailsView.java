@@ -23,8 +23,7 @@ import com.kiwisoft.utils.db.TransactionRunnable;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.*;
 
@@ -49,7 +48,7 @@ public class ShowDetailsView extends DetailsView
 	private JCheckBox cbWeb;
 	private NamesTableModel tmNames;
 	private DialogLookupField tfLogo;
-	private DynamicTable tblInfos;
+	private SortableTable tblInfos;
 	private WebInfosTableModel tmInfos;
 	private ObjectTableModel tmGenres;
 
@@ -76,15 +75,15 @@ public class ShowDetailsView extends DetailsView
 		cbxLanguage.updateUI();
 		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
 		tmNames=new NamesTableModel();
-		DynamicTable tblNames=new DynamicTable(tmNames);
-		tblNames.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show.names"));
+		SortableTable tblNames=new SortableTable(tmNames);
+		tblNames.initializeColumns(new MediaTableConfiguration("table.show.names"));
 		cbWeb=new JCheckBox();
 		tmInfos=new WebInfosTableModel(false);
-		tblInfos=new DynamicTable(tmInfos);
-		tblInfos.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show.infos"));
+		tblInfos=new SortableTable(tmInfos);
+		tblInfos.initializeColumns(new MediaTableConfiguration("table.show.infos"));
 		tmGenres=new ObjectTableModel("genres", Genre.class, null);
-		DynamicTable tblGenres=new DynamicTable(tmGenres);
-		tblGenres.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show"));
+		SortableTable tblGenres=new SortableTable(tmGenres);
+		tblGenres.initializeColumns(new MediaTableConfiguration("table.show"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(700, 550));

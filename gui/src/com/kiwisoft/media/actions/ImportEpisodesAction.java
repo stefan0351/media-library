@@ -14,7 +14,7 @@ import com.kiwisoft.media.dataImport.GermanEpisodeImport;
 import com.kiwisoft.media.dataImport.XMLEpisodeInfo;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.EpisodeImportDialog;
+import com.kiwisoft.media.dataImport.EpisodeImportDialog;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;

@@ -2,36 +2,29 @@ package com.kiwisoft.media.movie;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
-import java.io.IOException;
-import java.io.File;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieInfo;
-import com.kiwisoft.media.movie.MovieManager;
-import com.kiwisoft.media.movie.MovieType;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.WebInfosTableModel;
-import com.kiwisoft.media.NamesTableModel;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.DetailsDialog;
+import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsDialog;
+import com.kiwisoft.utils.gui.table.SortableTable;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -69,9 +62,8 @@ public class MovieDetailsView extends DetailsView
 	private JTextField tfJavaScript;
 	private LookupField<MovieType> tfType;
 	private DialogLookupField tfScriptFile;
-	private DynamicTable tblNames;
 	private NamesTableModel tmNames;
-	private DynamicTable tblInfos;
+	private SortableTable tblInfos;
 	private WebInfosTableModel tmInfos;
 	private JComboBox cbxInfoTypes;
 
@@ -147,7 +139,7 @@ public class MovieDetailsView extends DetailsView
 			return false;
 		}
 		List<WebInfosTableModel.Row> infos=new ArrayList<WebInfosTableModel.Row>();
-		for (int i=0;i<tmInfos.getRowCount(); i++)
+		for (int i=0; i<tmInfos.getRowCount(); i++)
 		{
 			WebInfosTableModel.Row row=tmInfos.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
@@ -257,11 +249,11 @@ public class MovieDetailsView extends DetailsView
 		tfScriptFile=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		tfJavaScript=new JTextField();
 		tmNames=new NamesTableModel();
-		tblNames=new DynamicTable(tmNames);
-		tblNames.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.movie.names"));
+		SortableTable tblNames=new SortableTable(tmNames);
+		tblNames.initializeColumns(new MediaTableConfiguration("table.movie.names"));
 		tmInfos=new WebInfosTableModel(true);
-		tblInfos=new DynamicTable(tmInfos);
-		tblInfos.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.movie.infos"));
+		tblInfos=new SortableTable(tmInfos);
+		tblInfos.initializeColumns(new MediaTableConfiguration("table.movie.infos"));
 		Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 		Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
 		cbxInfoTypes=new JComboBox(new Object[]{
@@ -277,65 +269,65 @@ public class MovieDetailsView extends DetailsView
 		setPreferredSize(new Dimension(800, 500));
 		int row=0;
 		add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfShow, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfName, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Originalname:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+																GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(tfOriginalName, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Typ:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+													   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfType, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Skriptdatei:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfScriptFile, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("JavaScript:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfJavaScript, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+																	 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tblNames), new GridBagConstraints(1, row, 3, 3, 1.0, 0.5,
-		        GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+															  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		add(cbSeen, new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+										   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(cbRecord, new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+											 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
 
 		row++;
 		add(cbGood, new GridBagConstraints(4, row, 1, 1, 0.0, 0.2,
-		        GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+										   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Seiten:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tblInfos), new GridBagConstraints(1, row, 4, 1, 1.0, 0.5,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+															  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(cbxInfoTypes, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
+												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		add(new JButton(new NewInfoAction()), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+																	 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
 
 		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
 	}
@@ -376,7 +368,7 @@ public class MovieDetailsView extends DetailsView
 		public void initRow(WebInfosTableModel.Row row)
 		{
 			row.setName(name);
-			StringBuffer path=new StringBuffer("movies");
+			StringBuilder path=new StringBuilder("movies");
 			path.append(File.separator).append("name");
 			path.append(File.separator).append(fileName);
 			File file=new File(Configurator.getInstance().getString("path.root"), path.toString());

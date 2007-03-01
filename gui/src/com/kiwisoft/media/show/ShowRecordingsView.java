@@ -6,24 +6,20 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.media.video.RecordingDetailsView;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
+import com.kiwisoft.media.video.RecordingDetailsView;
+import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.SortableTableRow;
 
 public class ShowRecordingsView extends ViewPanel
 {
 	private Show show;
 
-	private DynamicTable tblRecords;
+	private SortableTable tblRecords;
 	private ShowRecordsTableModel tmRecords;
 	private DoubleClickListener doubleClickListener;
 	private JScrollPane scrlRecords;
@@ -42,9 +38,9 @@ public class ShowRecordingsView extends ViewPanel
 	{
 		tmRecords=new ShowRecordsTableModel(show);
 
-		tblRecords=new DynamicTable(tmRecords);
+		tblRecords=new SortableTable(tmRecords);
 		tblRecords.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblRecords.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show.recordings"));
+		tblRecords.initializeColumns(new MediaTableConfiguration("table.show.recordings"));
 		tmRecords.sort();
 
 		scrlRecords=new JScrollPane(tblRecords);

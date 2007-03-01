@@ -5,38 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import java.util.*;
+import javax.swing.*;
 
-import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.VideoManager;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.ChainEvent;
-import com.kiwisoft.utils.db.ChainListener;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.db.*;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.Configurator;
 
 public class RecordingsView extends ViewPanel
 {
 	// Dates Panel
-	private DynamicTable tblRecords;
+	private SortableTable tblRecords;
 	private RecordsTableModel tmRecords;
 	private DoubleClickListener doubleClickListener;
 	private Video video;
@@ -59,9 +42,9 @@ public class RecordingsView extends ViewPanel
 		recordingsListener=new RecordingsListener();
 		video.getRecordings().addChainListener(recordingsListener);
 
-		tblRecords=new DynamicTable(tmRecords);
+		tblRecords=new SortableTable(tmRecords);
 		tblRecords.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblRecords.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.recordings"));
+		tblRecords.initializeColumns(new MediaTableConfiguration("table.recordings"));
 
 		scrlRecords=new JScrollPane(tblRecords);
 		return scrlRecords;
@@ -228,17 +211,17 @@ public class RecordingsView extends ViewPanel
 				if (recording.isUsed())
 				{
 					JOptionPane.showMessageDialog(RecordingsView.this,
-							"Die Aufnahme '"+recording.getEvent()+"' kann nicht gelöscht werden.",
-							"Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  "Die Aufnahme '"+recording.getEvent()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(RecordingsView.this,
-					"Aufnahmen wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Aufnahmen wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

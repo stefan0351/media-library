@@ -11,37 +11,31 @@ import java.text.DateFormat;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.EpisodeUpdater;
-import com.kiwisoft.media.AirdateManager;
-import com.kiwisoft.media.AirdateDetailsView;
-import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.show.EpisodeDetailsView;
+import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.ClassObserver;
-import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBObject;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.filter.ObjectFilter;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
 public class AirdatesView extends ViewPanel
 {
 	private Show show;
 
 	// Dates Panel
-	private DynamicTable tblDates;
+	private SortableTable tblDates;
 	private AirdatesTableModel tmDates;
 	private String title;
 	private Collection airdates;
@@ -90,9 +84,9 @@ public class AirdatesView extends ViewPanel
 			DBObject.addClassObserver(airdatesListener, Airdate.class);
 		}
 
-		tblDates=new DynamicTable(tmDates);
+		tblDates=new SortableTable(tmDates);
 		tblDates.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblDates.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.airdates"));
+		tblDates.initializeColumns(new MediaTableConfiguration("table.airdates"));
 
 		return new JScrollPane(tblDates);
 	}
@@ -299,7 +293,7 @@ public class AirdatesView extends ViewPanel
 				try
 				{
 					transaction=DBSession.getInstance().createTransaction();
-					for (int i=1;i<events.length;i++)
+					for (int i=1; i<events.length; i++)
 					{
 						Airdate newAirdate=new Airdate();
 						newAirdate.setShow(airdate.getShow());
@@ -348,17 +342,17 @@ public class AirdatesView extends ViewPanel
 				if (airdate.isUsed())
 				{
 					JOptionPane.showMessageDialog(AirdatesView.this,
-							"Die Sendetermine '"+airdate.getName()+"' kann nicht gelöscht werden.",
-							"Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  "Die Sendetermine '"+airdate.getName()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(AirdatesView.this,
-					"Sendetermine wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Sendetermine wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

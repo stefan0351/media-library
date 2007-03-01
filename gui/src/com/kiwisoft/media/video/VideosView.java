@@ -13,32 +13,24 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.VideoManager;
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.UIUtils;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.UIUtils;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.SortableTableRow;
 
 public class VideosView extends ViewPanel
 {
-	private DynamicTable tblVideos;
+	private SortableTable tblVideos;
 	private VideosTableModel tmVideos;
 	private DoubleClickListener doubleClickListener;
 	private VideoListener videoListener;
@@ -61,10 +53,10 @@ public class VideosView extends ViewPanel
 		videoListener=new VideoListener();
 		VideoManager.getInstance().addCollectionChangeListener(videoListener);
 
-		tblVideos=new DynamicTable(tmVideos);
+		tblVideos=new SortableTable(tmVideos);
 		tblVideos.setAutoCreateColumnsFromModel(true);
 		tblVideos.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblVideos.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.videos"));
+		tblVideos.initializeColumns(new MediaTableConfiguration("table.videos"));
 
 //		scrollVideos=new JScrollPane(tblVideos);
 		scrollVideos=UIUtils.createMutableScrollPane(tblVideos);
@@ -108,24 +100,24 @@ public class VideosView extends ViewPanel
 						}
 						break;
 					case CollectionChangeEvent.REMOVED:
-						{
-							int index=tmVideos.indexOf(event.getElement());
-							if (index>=0) tmVideos.removeRowAt(index);
-						}
-						break;
+					{
+						int index=tmVideos.indexOf(event.getElement());
+						if (index>=0) tmVideos.removeRowAt(index);
+					}
+					break;
 					case CollectionChangeEvent.CHANGED:
 						Video video=(Video)event.getElement();
+					{
+						int index=tmVideos.indexOf(video);
+						if (video.getType()==type)
 						{
-							int index=tmVideos.indexOf(video);
-							if (video.getType()==type)
-							{
-								if (index<0) tmVideos.addRow(new VideosTableModel.Row(video));
-							}
-							else
-							{
-								if (index>=0) tmVideos.removeRowAt(index);
-							}
+							if (index<0) tmVideos.addRow(new VideosTableModel.Row(video));
 						}
+						else
+						{
+							if (index>=0) tmVideos.removeRowAt(index);
+						}
+					}
 				}
 			}
 		}
@@ -163,7 +155,7 @@ public class VideosView extends ViewPanel
 		}
 	}
 
-	private class ShowPropertiesAction extends AbstractAction
+	private static class ShowPropertiesAction extends AbstractAction
 	{
 		private Video video;
 
@@ -193,7 +185,7 @@ public class VideosView extends ViewPanel
 		}
 	}
 
-	public class DeleteVideoAction extends AbstractAction
+	public static class DeleteVideoAction extends AbstractAction
 	{
 		private Video video;
 
@@ -209,16 +201,16 @@ public class VideosView extends ViewPanel
 			if (video.isUsed())
 			{
 				JOptionPane.showMessageDialog(null,
-				        "Das Video '"+video.getName()+"' kann nicht gelöscht werden.",
-				        "Meldung",
-				        JOptionPane.INFORMATION_MESSAGE);
+											  "Das Video '"+video.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(null,
-			        "Das Video '"+video.getName()+"' wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Das Video '"+video.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

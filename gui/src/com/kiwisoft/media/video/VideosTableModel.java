@@ -10,11 +10,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.VideoManager;
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
+import com.kiwisoft.utils.gui.table.SortableTableRow;
 
 public class VideosTableModel extends MutableSortableTableModel
 {

@@ -16,31 +16,22 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
-import com.kiwisoft.media.Channel;
-import com.kiwisoft.media.ChannelManager;
-import com.kiwisoft.media.ChannelDetailsView;
 import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 
 public class ChannelsView extends ViewPanel
 {
-	private DynamicTable tblChannels;
+	private SortableTable tblChannels;
 	private ChannelsTableModel tmChannels;
 	private DoubleClickListener doubleClickListener;
 	private ChannelListener channelListener;
@@ -67,9 +58,9 @@ public class ChannelsView extends ViewPanel
 		channelListener=new ChannelListener();
 		ChannelManager.getInstance().addCollectionChangeListener(channelListener);
 
-		tblChannels=new DynamicTable(tmChannels);
+		tblChannels=new SortableTable(tmChannels);
 		tblChannels.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblChannels.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.channels"));
+		tblChannels.initializeColumns(new MediaTableConfiguration("table.channels"));
 
 		return new JScrollPane(tblChannels);
 	}
@@ -189,7 +180,7 @@ public class ChannelsView extends ViewPanel
 		}
 	}
 
-	private class NewChannelAction extends AbstractAction
+	private static class NewChannelAction extends AbstractAction
 	{
 		public NewChannelAction()
 		{
@@ -218,16 +209,16 @@ public class ChannelsView extends ViewPanel
 			if (channel.isUsed())
 			{
 				JOptionPane.showMessageDialog(ChannelsView.this,
-				        "Der Sender '"+channel.getName()+"' kann nicht gelöscht werden.",
-				        "Meldung",
-				        JOptionPane.INFORMATION_MESSAGE);
+											  "Der Sender '"+channel.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(ChannelsView.this,
-			        "Den Sender '"+channel.getName()+"' wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Den Sender '"+channel.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

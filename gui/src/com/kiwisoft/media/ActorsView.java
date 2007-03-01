@@ -18,24 +18,21 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.Person;
-import com.kiwisoft.media.PersonManager;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.media.actions.DownloadTVTVAction;
 
 public class ActorsView extends ViewPanel
 {
-	private DynamicTable tblActors;
+	private SortableTable tblActors;
 	private ActorsTableModel tmActors;
 	private DoubleClickListener doubleClickListener;
 	private PersonListener personListener;
@@ -62,9 +59,9 @@ public class ActorsView extends ViewPanel
 		personListener=new PersonListener();
 		PersonManager.getInstance().addCollectionChangeListener(personListener);
 
-		tblActors=new DynamicTable(tmActors);
+		tblActors=new SortableTable(tmActors);
 		tblActors.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblActors.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.actors"));
+		tblActors.initializeColumns(new MediaTableConfiguration("table.actors"));
 
 		return new JScrollPane(tblActors);
 	}
@@ -222,16 +219,16 @@ public class ActorsView extends ViewPanel
 			if (actor.isUsed())
 			{
 				JOptionPane.showMessageDialog(ActorsView.this,
-				        "Der Darsteller '"+actor.getName()+"' kann nicht gelöscht werden.",
-				        "Meldung",
-				        JOptionPane.INFORMATION_MESSAGE);
+											  "Der Darsteller '"+actor.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(ActorsView.this,
-			        "Den Darsteller '"+actor.getName()+"' wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Den Darsteller '"+actor.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

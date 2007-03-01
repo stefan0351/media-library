@@ -134,115 +134,78 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DBMappingTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/java/projects/utils/test/com/kiwisoft/utils/db/DBMappingTest.java">
+      <file leaf-file-name="ShowManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/ShowManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.020531401">
+            <state line="41" column="0" selection-start="893" selection-end="893" vertical-scroll-proportion="0.29227054">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MediaManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManager.java">
+      <file leaf-file-name="_videos_nav.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/jsp/videos/_videos_nav.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="42" selection-start="450" selection-end="450" vertical-scroll-proportion="0.020531401">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Summary.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Summary.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.07608695">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClassMapping.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/db/ClassMapping.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.020531401">
+            <state line="27" column="0" selection-start="954" selection-end="954" vertical-scroll-proportion="0.5543478">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mappings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml">
+      <file leaf-file-name="EpisodeUpdater.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/EpisodeUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.020531401">
-              <folding>
-                <element signature="tag#mapping#0;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#1;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#2;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#3;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#4;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#5;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#6;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#7;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#8;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#9;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#10;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#11;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#12;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#13;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#14;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#15;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#16;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#17;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#18;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#19;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#20;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#21;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#22;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#23;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#24;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#25;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#26;tag#mappings#0" expanded="false" />
-                <element signature="tag#mapping#27;tag#mappings#0" expanded="false" />
-                <element signature="tag#association#0;tag#mappings#0" expanded="false" />
-                <element signature="tag#association#1;tag#mappings#0" expanded="false" />
-                <element signature="tag#association#2;tag#mappings#0" expanded="false" />
-                <element signature="tag#association#3;tag#mappings#0" expanded="false" />
-                <element signature="tag#association#4;tag#mappings#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Crew.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Crew.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConcurrentAirdateDialog.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ConcurrentAirdateDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="45" column="97" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.29274294">
+            <state line="25" column="13" selection-start="782" selection-end="782" vertical-scroll-proportion="0.22584541">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PrintVideosServlet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PrintVideosServlet.java">
+      <file leaf-file-name="Linkable.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Linkable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="142" column="81" selection-start="4431" selection-end="4431" vertical-scroll-proportion="0.38405797">
+            <state line="11" column="17" selection-start="226" selection-end="226" vertical-scroll-proportion="0.22584541">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVComDataLoader.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVComDataLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="238" column="48" selection-start="6645" selection-end="6645" vertical-scroll-proportion="0.8768116">
+              <folding>
+                <element signature="class#EpisodeData#0;class#TVComDataLoader#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GermanEpisodeImport.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/GermanEpisodeImport.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="41" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.102657005">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EpisodeImportDialog.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/EpisodeImportDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="14" column="20" selection-start="431" selection-end="431" vertical-scroll-proportion="0.082125604">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TVComDataLoaderDialog.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVComDataLoaderDialog.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="74" column="0" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.42512077">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="class#CancelAction#0;class#TVComDataLoaderDialog#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -251,19 +214,19 @@
       <file leaf-file-name="ImportEpisodesAction.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/ImportEpisodesAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.615942">
-              <folding>
-                <element signature="class#1255:1435" expanded="true" />
-              </folding>
+            <state line="21" column="13" selection-start="636" selection-end="636" vertical-scroll-proportion="0.102657005">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Configurator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/Configurator.java">
+      <file leaf-file-name="TVComDataLoaderAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/TVComDataLoaderAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.020531401">
-              <folding />
+            <state line="36" column="71" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.5543478">
+              <folding>
+                <element signature="class#1058:1243" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -321,8 +284,8 @@
     </scraps>
   </component>
   <component name="ModuleEditorState">
-    <option name="LAST_EDITED_MODULE_NAME" value="gui" />
-    <option name="LAST_EDITED_TAB_NAME" value="Copyright" />
+    <option name="LAST_EDITED_MODULE_NAME" value="core" />
+    <option name="LAST_EDITED_TAB_NAME" value="Libraries (Classpath)" />
   </component>
   <component name="NamedScopeManager" />
   <component name="PackagesPane">
@@ -388,6 +351,212 @@
         <option name="myItemId" value="media.ipr" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
       </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\xp" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\utils" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media\video" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media\tags" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\src\com\kiwisoft\media\show" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
     </PATH>
     <PATH>
       <PATH_ELEMENT>
@@ -440,6 +609,162 @@
       </PATH_ELEMENT>
       <PATH_ELEMENT>
         <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="gui" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media\dataImport" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="gui" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\gui\src\com\kiwisoft\media\actions" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+    </PATH>
+    <PATH>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="media.ipr" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media" />
+        <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+      </PATH_ELEMENT>
+      <PATH_ELEMENT>
+        <option name="myItemId" value="PsiDirectory:C:\java\projects\media\core\src\com\kiwisoft\media\dataImport" />
         <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
       </PATH_ELEMENT>
     </PATH>
@@ -536,24 +861,31 @@
     <option name="SHOW_DIALOG" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.utils.gui.table.TableSortDescription" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.media.actions" />
+      <recent name="com.kiwisoft.media.dataImport" />
+      <recent name="com.kiwisoft.media.show" />
       <recent name="com.kiwisoft.media" />
     </key>
     <key name="IntroduceConstantDialog.RECENTS_KEY">
       <recent name="" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.media.dataImport" />
+      <recent name="com.kiwisoft.media.actions" />
       <recent name="com.kiwisoft.media" />
       <recent name="com.kiwisoft.media.tags" />
       <recent name="com.kiwisoft.media.db" />
-      <recent name="com.kiwisoft.media.web" />
     </key>
   </component>
   <component name="ResourceEditor" />
   <component name="ResourceGroupPanel.TableConfiguration" />
   <component name="RestoreUpdateTree" />
   <component name="RunManager">
-    <activeType name="Application" />
+    <activeType name="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -693,7 +1025,7 @@
       </ConfigurationWrapper>
     </configuration>
     <configuration selected="true" default="false" name="MappingTest" type="JUnit" factoryName="JUnit">
-      <module name="MediaManager" />
+      <module name="core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="PACKAGE_NAME" value="com.kiwisoft.media.db" />
@@ -749,14 +1081,14 @@
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
     </configuration>
-    <configuration selected="false" default="false" name="TVComEpisodeLoader" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataImport.TVComEpisodeLoader" />
+    <configuration selected="false" default="false" name="TVComDataLoader" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataImport.TVComDataLoader" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <module name="gui" />
+      <module name="core" />
       <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="1316" />
@@ -837,13 +1169,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1288" height="1010" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.723042" order="8" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.543554" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.3295063" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="true" weight="0.39838058" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.39838058" order="0" />
       <window_info id="KiwiScrap" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.47482836" order="8" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.49148694" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.25" order="1" />
@@ -953,155 +1285,118 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/CharacterDetailsView.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/video/RecordsTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="75" selection-start="955" selection-end="955" vertical-scroll-proportion="0.020531401">
+        <state line="99" column="0" selection-start="515" selection-end="2037" vertical-scroll-proportion="0.8562802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/video/RecordsWebTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="0" selection-start="62" selection-end="62" vertical-scroll-proportion="0.061594203">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#RecordingRow#0;class#RecordsWebTable#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/videos/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="287" selection-end="287" vertical-scroll-proportion="0.123188406">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/videos/video.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="37" selection-start="3215" selection-end="3215" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/shows/index.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="0" selection-start="1995" selection-end="1995" vertical-scroll-proportion="0.8768116">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/ShowManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="893" selection-end="893" vertical-scroll-proportion="0.29227054">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/videos/_videos_nav.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="954" selection-end="954" vertical-scroll-proportion="0.5543478">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/GermanEpisodeImport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="4" selection-start="1203" selection-end="1203" vertical-scroll-proportion="0.33333334">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#CastInformation#0;class#GermanEpisodeImport#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ImportConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="320" selection-end="320" vertical-scroll-proportion="0.18478261">
+        <state line="34" column="41" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.102657005">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/test/com/kiwisoft/media/db/MappingTest.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/EpisodeImportDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="37" selection-start="270" selection-end="270" vertical-scroll-proportion="0.102657005">
+        <state line="14" column="20" selection-start="431" selection-end="431" vertical-scroll-proportion="0.082125604">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/db/DBLoader.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVComDataLoaderDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="577" selection-end="577" vertical-scroll-proportion="0.102657005">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/java/projects/utils/test/com/kiwisoft/utils/db/DBMappingTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="503" selection-end="503" vertical-scroll-proportion="0.020531401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="42" selection-start="450" selection-end="450" vertical-scroll-proportion="0.020531401">
+        <state line="74" column="0" selection-start="2471" selection-end="2471" vertical-scroll-proportion="0.42512077">
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Summary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="91" selection-start="381" selection-end="381" vertical-scroll-proportion="0.07608695">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/db/ClassMapping.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.020531401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="49" selection-start="400" selection-end="400" vertical-scroll-proportion="0.020531401">
-          <folding>
-            <element signature="tag#mapping#0;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#1;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#2;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#3;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#4;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#5;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#6;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#7;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#8;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#9;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#10;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#11;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#12;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#13;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#14;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#15;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#16;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#17;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#18;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#19;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#20;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#21;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#22;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#23;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#24;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#25;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#26;tag#mappings#0" expanded="false" />
-            <element signature="tag#mapping#27;tag#mappings#0" expanded="false" />
-            <element signature="tag#association#0;tag#mappings#0" expanded="false" />
-            <element signature="tag#association#1;tag#mappings#0" expanded="false" />
-            <element signature="tag#association#2;tag#mappings#0" expanded="false" />
-            <element signature="tag#association#3;tag#mappings#0" expanded="false" />
-            <element signature="tag#association#4;tag#mappings#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Crew.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PrintVideosServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="81" selection-start="4431" selection-end="4431" vertical-scroll-proportion="0.38405797">
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="class#CancelAction#0;class#TVComDataLoaderDialog#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/ImportEpisodesAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.615942">
+        <state line="21" column="13" selection-start="636" selection-end="636" vertical-scroll-proportion="0.102657005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/actions/TVComDataLoaderAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="71" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.5543478">
           <folding>
-            <element signature="class#1255:1435" expanded="true" />
+            <element signature="class#1058:1243" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/Configurator.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/Linkable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="1439" selection-end="1439" vertical-scroll-proportion="0.020531401">
+        <state line="11" column="17" selection-start="226" selection-end="226" vertical-scroll-proportion="0.22584541">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ConcurrentAirdateDialog.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/EpisodeUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="97" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.29274294">
+        <state line="25" column="13" selection-start="782" selection-end="782" vertical-scroll-proportion="0.22584541">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVComDataLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="238" column="48" selection-start="6645" selection-end="6645" vertical-scroll-proportion="0.8768116">
+          <folding>
+            <element signature="class#EpisodeData#0;class#TVComDataLoader#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

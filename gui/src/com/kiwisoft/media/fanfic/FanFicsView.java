@@ -18,28 +18,26 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.fanfic.FanFicGroup;
-import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBObject;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class FanFicsView extends ViewPanel
 {
 	private FanFicGroup group;
 
-	private DynamicTable tblFanFics;
+	private SortableTable tblFanFics;
 	private FanFicsTableModel tmFanFics;
 	private DoubleClickListener doubleClickListener;
 	private FanFicListener fanFicListener;
@@ -59,9 +57,9 @@ public class FanFicsView extends ViewPanel
 	{
 		tmFanFics=new FanFicsTableModel();
 
-		tblFanFics=new DynamicTable(tmFanFics);
+		tblFanFics=new SortableTable(tmFanFics);
 		tblFanFics.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblFanFics.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfics"));
+		tblFanFics.initializeColumns(new MediaTableConfiguration("table.fanfics"));
 
 		scrlFanFics=new JScrollPane(tblFanFics);
 		return scrlFanFics;
@@ -143,11 +141,11 @@ public class FanFicsView extends ViewPanel
 							tmFanFics.addRow(new FanFicTableRow(newFanFic));
 						break;
 					case CollectionChangeEvent.REMOVED:
-						{
-							int index=tmFanFics.indexOf(event.getElement());
-							if (index>=0) tmFanFics.removeRowAt(index);
-						}
-						break;
+					{
+						int index=tmFanFics.indexOf(event.getElement());
+						if (index>=0) tmFanFics.removeRowAt(index);
+					}
+					break;
 					case CollectionChangeEvent.CHANGED:
 						if (group!=null)
 						{
@@ -191,12 +189,12 @@ public class FanFicsView extends ViewPanel
 
 		public void installListener()
 		{
-			((FanFic)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((FanFic)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -209,15 +207,15 @@ public class FanFicsView extends ViewPanel
 			switch (column)
 			{
 				case 0: // id
-					return ((FanFic)getUserObject()).getId();
+					return getUserObject().getId();
 				case 1: // title
-					return ((FanFic)getUserObject()).getTitle();
+					return getUserObject().getTitle();
 				case 2: // author
-					return StringUtils.formatAsEnumeration(((FanFic)getUserObject()).getAuthors());
+					return StringUtils.formatAsEnumeration(getUserObject().getAuthors());
 				case 3: // fandom
-					return StringUtils.formatAsEnumeration(((FanFic)getUserObject()).getFanDoms());
+					return StringUtils.formatAsEnumeration(getUserObject().getFanDoms());
 				case 4: // pairing
-					return StringUtils.formatAsEnumeration(((FanFic)getUserObject()).getPairings());
+					return StringUtils.formatAsEnumeration(getUserObject().getPairings());
 			}
 			return null;
 		}
@@ -252,16 +250,16 @@ public class FanFicsView extends ViewPanel
 			if (fanFic.isUsed())
 			{
 				JOptionPane.showMessageDialog(FanFicsView.this,
-						"Das FanFic '"+fanFic.getTitle()+"' kann nicht gelöscht werden.",
-						"Meldung",
-						JOptionPane.INFORMATION_MESSAGE);
+											  "Das FanFic '"+fanFic.getTitle()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(FanFicsView.this,
-					"Den FanFic '"+fanFic.getTitle()+"' wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Den FanFic '"+fanFic.getTitle()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

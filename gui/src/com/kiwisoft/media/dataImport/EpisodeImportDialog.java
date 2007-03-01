@@ -1,4 +1,4 @@
-package com.kiwisoft.media;
+package com.kiwisoft.media.dataImport;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;

@@ -11,23 +11,17 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.Season;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.video.VideoDetailsView;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.*;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class EpisodesView extends ViewPanel
 {
@@ -35,7 +29,7 @@ public class EpisodesView extends ViewPanel
 	private Season season;
 
 	// Dates Panel
-	private DynamicTable tblEpisodes;
+	private SortableTable tblEpisodes;
 	private EpisodesTableModel tmEpisodes;
 	private DoubleClickListener doubleClickListener;
 	private CollectionChangeObserver collectionObserver;
@@ -65,9 +59,9 @@ public class EpisodesView extends ViewPanel
 		tmEpisodes=new EpisodesTableModel();
 		createTableData();
 
-		tblEpisodes=new DynamicTable(tmEpisodes);
+		tblEpisodes=new SortableTable(tmEpisodes);
 		tblEpisodes.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblEpisodes.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.episodes"));
+		tblEpisodes.initializeColumns(new MediaTableConfiguration("table.episodes"));
 		tblEpisodes.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new episode");
 		tblEpisodes.getActionMap().put("new episode", new NewEpisodeAction());
 
@@ -202,7 +196,7 @@ public class EpisodesView extends ViewPanel
 		}
 	}
 
-	private class EpisodeTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class EpisodeTableRow extends SortableTableRow implements PropertyChangeListener
 	{
 		public EpisodeTableRow(Episode episode)
 		{
@@ -263,7 +257,7 @@ public class EpisodesView extends ViewPanel
 		}
 	}
 
-	private class CreateSeasonAction extends AbstractAction
+	private static class CreateSeasonAction extends AbstractAction
 	{
 		private Episode firstEpisode;
 		private Episode lastEpisode;
@@ -288,7 +282,7 @@ public class EpisodesView extends ViewPanel
 		}
 	}
 
-	private class CreateVideoAction extends AbstractAction
+	private static class CreateVideoAction extends AbstractAction
 	{
 		private Set episodes;
 
@@ -325,17 +319,17 @@ public class EpisodesView extends ViewPanel
 				if (episode.isUsed())
 				{
 					JOptionPane.showMessageDialog(EpisodesView.this,
-							"Die Folge '"+episode.getName()+"' kann nicht gelöscht werden.",
-							"Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  "Die Folge '"+episode.getName()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(EpisodesView.this,
-					"Episoden wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Episoden wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

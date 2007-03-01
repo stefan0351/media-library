@@ -11,35 +11,26 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieManager;
-import com.kiwisoft.media.movie.MovieDetailsView;
-import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class MoviesView extends ViewPanel
 {
 	// Dates Panel
-	private DynamicTable tblMovies;
+	private SortableTable tblMovies;
 	private MoviesTableModel tmMovies;
 	private DoubleClickListener doubleClickListener;
 	private Show show;
@@ -62,9 +53,9 @@ public class MoviesView extends ViewPanel
 		tmMovies=new MoviesTableModel();
 		createTableData();
 
-		tblMovies=new DynamicTable(tmMovies);
+		tblMovies=new SortableTable(tmMovies);
 		tblMovies.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblMovies.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.movies"));
+		tblMovies.initializeColumns(new MediaTableConfiguration("table.movies"));
 
 		scrlMovies=new JScrollPane(tblMovies);
 		return scrlMovies;
@@ -179,7 +170,7 @@ public class MoviesView extends ViewPanel
 		}
 	}
 
-	private class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow implements PropertyChangeListener
 	{
 		public Row(Movie movie)
 		{
@@ -246,17 +237,17 @@ public class MoviesView extends ViewPanel
 				if (movie.isUsed())
 				{
 					JOptionPane.showMessageDialog(MoviesView.this,
-							"Dr Film '"+movie.getName()+"' kann nicht gelöscht werden.",
-							"Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  "Dr Film '"+movie.getName()+"' kann nicht gelöscht werden.",
+												  "Meldung",
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(MoviesView.this,
-					"Filme wirklick löschen?",
-					"Löschen?",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 "Filme wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

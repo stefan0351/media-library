@@ -4,7 +4,7 @@
  * Date: Apr 7, 2003
  * Time: 6:01:43 PM
  */
-package com.kiwisoft.media;
+package com.kiwisoft.media.dataImport;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;

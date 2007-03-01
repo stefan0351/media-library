@@ -13,41 +13,27 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
-import com.kiwisoft.media.Cast;
-import com.kiwisoft.media.Person;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.ShowCharacter;
+import com.kiwisoft.media.*;
 import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.CastDetailsView;
-import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 public class ShowCastView extends ViewPanel
 {
 	// Dates Panel
-	private DynamicTable tblMainCast;
+	private SortableTable tblMainCast;
 	private CastTableModel tmMainCast;
 	private JScrollPane scrlMainCast;
-	private DynamicTable tblRecurringCast;
+	private SortableTable tblRecurringCast;
 	private CastTableModel tmRecurringCast;
 	private JScrollPane scrlRecurringCast;
 	private DoubleClickListener doubleClickListener;
@@ -70,27 +56,28 @@ public class ShowCastView extends ViewPanel
 		tmRecurringCast=new CastTableModel();
 		createTableData();
 
-		tblMainCast=new DynamicTable(tmMainCast);
-		tblMainCast.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show.cast.main"));
+		tblMainCast=new SortableTable(tmMainCast);
+		tblMainCast.initializeColumns(new MediaTableConfiguration("table.show.cast.main"));
 		scrlMainCast=new JScrollPane(tblMainCast);
 
-		tblRecurringCast=new DynamicTable(tmRecurringCast);
-		tblRecurringCast.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.show.cast.recurring"));
+		tblRecurringCast=new SortableTable(tmRecurringCast);
+		tblRecurringCast.initializeColumns(new MediaTableConfiguration("table.show.cast.recurring"));
 		scrlRecurringCast=new JScrollPane(tblRecurringCast);
 
 		JPanel pnlContent=new JPanel(new GridBagLayout());
 		int row=0;
 		pnlContent.add(new JLabel("Hauptdarsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				new Insets(0, 0, 0, 0), 0, 0));
+																			  new Insets(0, 0, 0, 0), 0, 0));
 		row++;
 		pnlContent.add(scrlMainCast, new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH,
-				new Insets(5, 0, 0, 0), 0, 0));
+															new Insets(5, 0, 0, 0), 0, 0));
 		row++;
-		pnlContent.add(new JLabel("Wiederkehrende Darsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				new Insets(10, 0, 0, 0), 0, 0));
+		pnlContent
+			.add(new JLabel("Wiederkehrende Darsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+																				  new Insets(10, 0, 0, 0), 0, 0));
 		row++;
 		pnlContent.add(scrlRecurringCast, new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH,
-				new Insets(5, 0, 0, 0), 0, 0));
+																 new Insets(5, 0, 0, 0), 0, 0));
 
 		return pnlContent;
 	}
@@ -252,7 +239,7 @@ public class ShowCastView extends ViewPanel
 		}
 	}
 
-	private class CastTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class CastTableRow extends SortableTableRow implements PropertyChangeListener
 	{
 		public CastTableRow(Cast cast)
 		{
@@ -330,12 +317,12 @@ public class ShowCastView extends ViewPanel
 				if (cast.isUsed())
 				{
 					JOptionPane.showMessageDialog(ShowCastView.this, "Der Darsteller '"+cast+"' kann nicht gelöscht werden.", "Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
+												  JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
 			int option=JOptionPane.showConfirmDialog(ShowCastView.this, "Darsteller wirklick löschen?", "Löschen?", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

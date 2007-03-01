@@ -4,11 +4,14 @@
  * Date: Oct 26, 2003
  * Time: 12:16:39 PM
  */
-package com.kiwisoft.media;
+package com.kiwisoft.media.actions;
 
 import java.awt.event.ActionEvent;
 import java.util.Set;
 import javax.swing.AbstractAction;
+
+import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.dataImport.DownloadTVTVDialog;
 
 public class DownloadTVTVAction extends AbstractAction
 {

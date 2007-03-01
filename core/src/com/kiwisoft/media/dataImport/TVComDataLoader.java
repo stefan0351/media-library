@@ -10,7 +10,11 @@ import java.util.regex.Matcher;
 
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.gui.progress.ObservableRunnable;
+import com.kiwisoft.utils.gui.progress.ProgressListener;
+import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
+import com.kiwisoft.media.show.Show;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,29 +23,53 @@ import com.kiwisoft.utils.xml.XMLUtils;
  * Time: 21:00:08
  * To change this template use File | Settings | File Templates.
  */
-@SuppressWarnings({"ConstantConditions"})
-public class TVComEpisodeLoader
+public class TVComDataLoader implements ObservableRunnable
 {
-	private final static boolean DEBUG=true;
+	private ProgressSupport progress;
 
-	public static void main(String[] args) throws IOException, InterruptedException
+	private Show show;
+	private String baseUrl;
+	private int startSeason;
+	private int endSeason;
+
+	public TVComDataLoader(Show show, String baseUrl, int startSeason, int endSeason)
 	{
-//		new TVComEpisodeLoader("http://www.tv.com/scrubs/show/3613/episode_listings.html", 2, 2);
-		new TVComEpisodeLoader("http://www.tv.com/h2o-just-add-water/show/68040/episode_listings.html", 1, 1);
+		this.show=show;
+		this.baseUrl=baseUrl;
+		this.startSeason=startSeason;
+		this.endSeason=endSeason;
 	}
 
-	private TVComEpisodeLoader(String baseUrl, int startSeason, int endSeason) throws IOException, InterruptedException
+	public String getName()
 	{
-		for (int season=startSeason;season<=endSeason;season++)
+		return "Lade Daten von TV.com";
+	}
+
+	public void setProgress(ProgressListener progress)
+	{
+		this.progress=new ProgressSupport(progress);
+	}
+
+	public void run()
+	{
+		try
 		{
-			loadSeason(baseUrl, season);
+			for (int season=startSeason;season<=endSeason;season++)
+			{
+				loadSeason(baseUrl, season);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			progress.error(e.getMessage());
 		}
 	}
 
 	private void loadSeason(String baseUrl, int season) throws IOException, InterruptedException
 	{
 		String page=WebUtils.loadURL(baseUrl+"?season="+season);
-		if (DEBUG) FileUtils.saveToFile(page, new File("c:"+File.separator+"Incoming"+File.separator+"season"+season+".html"));
+//		FileUtils.saveToFile(page, new File("c:"+File.separator+"Incoming"+File.separator+"season"+season+".html"));
 
 		// Search title
 		int index1=page.indexOf("<h1>");
@@ -80,7 +108,7 @@ public class TVComEpisodeLoader
 	private void loadEpisode(String episodeUrl, EpisodeData data) throws IOException
 	{
 		String episodePage=WebUtils.loadURL(episodeUrl);
-		if (DEBUG) FileUtils.saveToFile(episodePage, new File("c:"+File.separator+"Incoming"+File.separator+"episode"+data.getEpisodeNumber()+".html"));
+//		FileUtils.saveToFile(episodePage, new File("c:"+File.separator+"Incoming"+File.separator+"episode"+data.getEpisodeNumber()+".html"));
 
 		int index1=episodePage.indexOf("<div id=\"episode-tabs\">");
 		index1=episodePage.indexOf("<div id=\"main-col\">", index1);

@@ -16,32 +16,25 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
-import com.kiwisoft.media.fanfic.Pairing;
-import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Disposable;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.Disposable;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 
 public class PairingsView extends ViewPanel implements Disposable
 {
-	private DynamicTable table;
+	private SortableTable table;
 	private PairingsTableModel tableModel;
 	private DoubleClickListener doubleClickListener;
 	private UpdateListener updateListener;
@@ -69,9 +62,9 @@ public class PairingsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		table=new DynamicTable(tableModel);
+		table=new SortableTable(tableModel);
 		table.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		table.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.pairings"));
+		table.initializeColumns(new MediaTableConfiguration("table.fanfic.pairings"));
 
 		scrollPane=new JScrollPane(table);
 		return scrollPane;
@@ -201,7 +194,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private class NewAction extends AbstractAction
+	private static class NewAction extends AbstractAction
 	{
 		public NewAction()
 		{
@@ -214,7 +207,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private class PropertiesAction extends AbstractAction
+	private static class PropertiesAction extends AbstractAction
 	{
 		private Pairing pairing;
 
@@ -246,16 +239,16 @@ public class PairingsView extends ViewPanel implements Disposable
 			if (pairing.isUsed())
 			{
 				JOptionPane.showMessageDialog(PairingsView.this,
-				        "Die Paarung '"+pairing.getName()+"' kann nicht gelöscht werden.",
-				        "Meldung",
-				        JOptionPane.INFORMATION_MESSAGE);
+											  "Die Paarung '"+pairing.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(PairingsView.this,
-			        "Die Paarung '"+pairing.getName()+"' wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Die Paarung '"+pairing.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;
@@ -296,6 +289,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		return new Bookmark(getName(), PairingsView.class);
 	}
 
+	@SuppressWarnings({"UNUSED_SYMBOL"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PairingsView(), true);

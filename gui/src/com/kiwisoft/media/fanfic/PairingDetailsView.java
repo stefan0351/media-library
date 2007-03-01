@@ -8,27 +8,19 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.ShowCharacter;
-import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.fanfic.Pairing;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.table.ObjectTableModel;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.ObjectTableModel;
 
 public class PairingDetailsView extends DetailsView
 {
@@ -42,7 +34,6 @@ public class PairingDetailsView extends DetailsView
 	// Konfigurations Panel
 	private JTextField tfName;
 	private ObjectTableModel tmCharacters;
-	private DynamicTable tblCharacters;
 
 	private PairingDetailsView(Pairing pairing)
 	{
@@ -115,8 +106,8 @@ public class PairingDetailsView extends DetailsView
 	{
 		tfName=new JTextField();
 		tmCharacters=new ObjectTableModel("character", ShowCharacter.class, null);
-		tblCharacters=new DynamicTable(tmCharacters);
-		tblCharacters.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.pairing.characters"));
+		SortableTable tblCharacters=new SortableTable(tmCharacters);
+		tblCharacters.initializeColumns(new MediaTableConfiguration("table.pairing.characters"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 150));

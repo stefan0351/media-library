@@ -9,25 +9,24 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableModelListener;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.xml.XMLWriter;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.ObjectTableModel;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.ObjectTableModel;
+import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.xml.XMLWriter;
 
 public class FanFicDetailsView extends DetailsView
 {
@@ -59,13 +58,13 @@ public class FanFicDetailsView extends DetailsView
 	private JTextPane tfDescription;
 	private JTextPane tfSpoiler;
 	private LookupField tfPrequel;
-	private DynamicTable tblFanDoms;
+	private SortableTable tblFanDoms;
 	private ObjectTableModel tmFanDoms;
-	private DynamicTable tblPairings;
+	private SortableTable tblPairings;
 	private ObjectTableModel tmPairings;
-	private DynamicTable tblAuthors;
+	private SortableTable tblAuthors;
 	private ObjectTableModel tmAuthors;
-	private DynamicTable tblParts;
+	private SortableTable tblParts;
 	private FanFicPartsTableModel tmParts;
 
 	private FanFicDetailsView(FanFic fanFic)
@@ -145,7 +144,7 @@ public class FanFicDetailsView extends DetailsView
 		String description=tfDescription.getText();
 		FanFic prequel=(FanFic)tfPrequel.getValue();
 		List sources=new ArrayList();
-		for (int i=0;i<tmParts.getRowCount();i++)
+		for (int i=0; i<tmParts.getRowCount(); i++)
 		{
 			String source=(String)tmParts.getObject(i);
 			if (StringUtils.isEmpty(source))
@@ -261,16 +260,16 @@ public class FanFicDetailsView extends DetailsView
 		tfPrequel=new LookupField(new FanFicLookup());
 
 		tmPairings=new ObjectTableModel("pairings", Pairing.class, null);
-		tblPairings=new DynamicTable(tmPairings);
-		tblPairings.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.detail"));
+		tblPairings=new SortableTable(tmPairings);
+		tblPairings.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
 		tmFanDoms=new ObjectTableModel("fandoms", FanDom.class, null);
-		tblFanDoms=new DynamicTable(tmFanDoms);
-		tblFanDoms.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.detail"));
+		tblFanDoms=new SortableTable(tmFanDoms);
+		tblFanDoms.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
 		tmAuthors=new ObjectTableModel("authors", Author.class, null);
-		tblAuthors=new DynamicTable(tmAuthors);
-		tblAuthors.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.detail"));
+		tblAuthors=new SortableTable(tmAuthors);
+		tblAuthors.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
 		createPartsPanel();
 
@@ -278,76 +277,76 @@ public class FanFicDetailsView extends DetailsView
 		setPreferredSize(new Dimension(600, 500));
 		int row=0;
 		add(new JLabel("Id:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+													  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfId, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+										 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfTitle, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Parts:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(createPartsPanel(), new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+													   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Autoren:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tblAuthors), new GridBagConstraints(1, row, 1, 1, 0.5, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Domänen:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JScrollPane(tblFanDoms), new GridBagConstraints(3, row, 1, 1, 0.5, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Paare:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+														 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(new JScrollPane(tblPairings), new GridBagConstraints(5, row, 1, 1, 0.5, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Rating:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfRating, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Fertig:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+														  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(cbFinished, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Beschreibung:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tfDescription), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Spoiler:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tfSpoiler), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+															   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Fortsetzung zu:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+																  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfPrequel, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+													   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfUrl, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+										  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
 	private JPanel createPartsPanel()
 	{
 		tmParts=new FanFicPartsTableModel();
-		tblParts=new DynamicTable(tmParts);
-		tblParts.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.detail"));
+		tblParts=new SortableTable(tmParts);
+		tblParts.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
 		deletePartAction=new DeletePartAction();
 		moveUpAction=new MoveUpAction();
@@ -356,20 +355,20 @@ public class FanFicDetailsView extends DetailsView
 
 		JPanel pnlParts=new JPanel(new GridBagLayout());
 		pnlParts.add(new JScrollPane(tblParts), new GridBagConstraints(0, 0, 1, 5, 1.0, 0.3,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+																	   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		int row=0;
 		pnlParts.add(new JButton(moveUpAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 2, 0, 0), 0, 0));
+																	   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 2, 0, 0), 0, 0));
 		pnlParts.add(new JButton(moveDownAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
+																		 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
 		pnlParts.add(new JButton(new AddAction()), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
+																		  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
 		pnlParts.add(new JButton(filesAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
+																	  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
 		pnlParts.add(new JButton(deletePartAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
+																		   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
 		pnlParts.add(Box.createGlue(), new GridBagConstraints(1, row, 1, 1, 0.0, 1.0,
-				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
+															  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
 
 		return pnlParts;
 	}
@@ -451,8 +450,7 @@ public class FanFicDetailsView extends DetailsView
 		private boolean isValid()
 		{
 			ListSelectionModel selectionModel=tblParts.getSelectionModel();
-			boolean valid=!selectionModel.isSelectionEmpty() && selectionModel.getMinSelectionIndex()>0;
-			return valid;
+			return !selectionModel.isSelectionEmpty() && selectionModel.getMinSelectionIndex()>0;
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -501,8 +499,7 @@ public class FanFicDetailsView extends DetailsView
 		private boolean isValid()
 		{
 			ListSelectionModel selectionModel=tblParts.getSelectionModel();
-			boolean enabled=!selectionModel.isSelectionEmpty() && selectionModel.getMaxSelectionIndex()<tmParts.getRowCount()-1;
-			return enabled;
+			return !selectionModel.isSelectionEmpty() && selectionModel.getMaxSelectionIndex()<tmParts.getRowCount()-1;
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -572,7 +569,7 @@ public class FanFicDetailsView extends DetailsView
 						author=(Author)tmAuthors.getObject(row);
 				}
 				int option=JOptionPane.showOptionDialog(FanFicDetailsView.this, "Erzeuge mehrteiliges FanFic?", "Frage",
-						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+														JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (option==JOptionPane.NO_OPTION)
 				{
 					StringBuffer path=buildFileName(author, tfTitle.getText());
@@ -622,9 +619,9 @@ public class FanFicDetailsView extends DetailsView
 		{
 			try
 			{
-				StringBuffer buffer=new StringBuffer();
+				StringBuilder buffer=new StringBuilder();
 				int errors=0;
-				for (int i=0;i<tmParts.getRowCount();i++)
+				for (int i=0; i<tmParts.getRowCount(); i++)
 				{
 					String fileName=(String)tmParts.getObject(i);
 					if (!StringUtils.isEmpty(fileName))
@@ -653,13 +650,20 @@ public class FanFicDetailsView extends DetailsView
 							int lineNumber=1;
 							while ((line=reader.readLine())!=null)
 							{
-								for (int c=0;c<line.length() && errors<25;c++)
+								for (int c=0; c<line.length() && errors<25; c++)
 								{
 									char ch=line.charAt(c);
 									if (ch>=128)
 									{
 										if (buffer.length()>0) buffer.append("<br>");
-										buffer.append(file+":"+lineNumber+":"+(c+1)+": Invalid Character '"+ch+"'.");
+										buffer.append(file);
+										buffer.append(":");
+										buffer.append(lineNumber);
+										buffer.append(":");
+										buffer.append(c+1);
+										buffer.append(": Invalid Character '");
+										buffer.append(ch);
+										buffer.append("'.");
 										errors++;
 									}
 								}

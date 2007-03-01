@@ -1,9 +1,8 @@
 <%@ page language="java" %>
-<%@ page import="com.kiwisoft.xp.XPBean,
-				 com.kiwisoft.utils.StringComparator,
-				 com.kiwisoft.media.show.ShowType,
-				 com.kiwisoft.media.video.MediumType,
-				 java.util.*"%>
+<%@ page import="java.util.Iterator,
+				 java.util.Map,
+				 java.util.TreeMap,
+				 com.kiwisoft.media.video.MediumType"%>
 
 <table class="menutable">
 <tr><td class="menuheader">Videos</td></tr>

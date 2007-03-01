@@ -39,11 +39,6 @@ public class ShowManager
 		return DBLoader.getInstance().loadSet(Show.class);
 	}
 
-	public Collection getUntypedShows()
-	{
-		return DBLoader.getInstance().loadSet(Show.class, null, "type_id is null");
-	}
-
 	public int getShowCount()
 	{
 		return DBLoader.getInstance().count(Show.class, null, null);

@@ -5,32 +5,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-import java.io.IOException;
-import java.io.File;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataImport.XMLEpisodeInfo;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.EpisodeInfo;
-import com.kiwisoft.media.NamesTableModel;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.DetailsDialog;
+import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.table.DynamicTable;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsDialog;
+import com.kiwisoft.utils.gui.table.SortableTable;
 
 public class EpisodeDetailsView extends DetailsView
 {
@@ -73,7 +67,7 @@ public class EpisodeDetailsView extends DetailsView
 	private JTextField tfJavaScript;
 	private DialogLookupField tfScriptFile;
 	private NamesTableModel tmNames;
-	private DynamicTable tblInfos;
+	private SortableTable tblInfos;
 	private WebInfosTableModel tmInfos;
 	private JComboBox cbxInfoTypes;
 
@@ -162,7 +156,7 @@ public class EpisodeDetailsView extends DetailsView
 		}
 		Map names=tmNames.getNames();
 		List infos=new ArrayList();
-		for (int i=0;i<tmInfos.getRowCount(); i++)
+		for (int i=0; i<tmInfos.getRowCount(); i++)
 		{
 			WebInfosTableModel.Row row=tmInfos.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
@@ -271,11 +265,11 @@ public class EpisodeDetailsView extends DetailsView
 		tfScriptFile=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		tfJavaScript=new JTextField();
 		tmNames=new NamesTableModel();
-		DynamicTable tblNames=new DynamicTable(tmNames);
-		tblNames.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.episode.names"));
+		SortableTable tblNames=new SortableTable(tmNames);
+		tblNames.initializeColumns(new MediaTableConfiguration("table.episode.names"));
 		tmInfos=new WebInfosTableModel(true);
-		tblInfos=new DynamicTable(tmInfos);
-		tblInfos.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.episode.infos"));
+		tblInfos=new SortableTable(tmInfos);
+		tblInfos.initializeColumns(new MediaTableConfiguration("table.episode.infos"));
 		Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 		Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
 		cbxInfoTypes=new JComboBox(new Object[]{
@@ -351,7 +345,8 @@ public class EpisodeDetailsView extends DetailsView
 		add(cbxInfoTypes, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		add(new JButton(new NewInfoAction()), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-																	 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
+																	 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0,
+																	 0));
 
 		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
 	}

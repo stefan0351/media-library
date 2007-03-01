@@ -49,7 +49,7 @@ public class AirdateImport implements ObservableRunnable
 		return "Importiere Sendetermine";
 	}
 
-	public void setProgressListener(ProgressListener progressListener)
+	public void setProgress(ProgressListener progressListener)
 	{
 		progressSupport=new ProgressSupport(progressListener);
 	}
