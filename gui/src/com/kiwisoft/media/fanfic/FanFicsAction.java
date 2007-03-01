@@ -4,7 +4,7 @@
  * Date: Oct 24, 2003
  * Time: 10:42:43 PM
  */
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.util.Set;
 import java.awt.event.ActionEvent;

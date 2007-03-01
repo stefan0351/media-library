@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,7 +14,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.event.TableModelEvent;
 
-import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.StringUtils;

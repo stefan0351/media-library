@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;

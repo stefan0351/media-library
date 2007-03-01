@@ -1,9 +1,9 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.ui.fanfic.AuthorsView;
+import com.kiwisoft.media.fanfic.AuthorsView;
 
 /**
  * Created by IntelliJ IDEA.

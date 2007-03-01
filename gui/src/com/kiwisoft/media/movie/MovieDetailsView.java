@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.movie;
+package com.kiwisoft.media.movie;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

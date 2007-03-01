@@ -21,7 +21,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.dataImport.DataSource;
 import com.kiwisoft.media.ui.show.ShowLookup;
 import com.kiwisoft.media.ui.show.EpisodeLookup;
-import com.kiwisoft.media.ui.movie.MovieLookup;
+import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;

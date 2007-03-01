@@ -21,7 +21,7 @@ import javax.swing.*;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.ui.*;
-import com.kiwisoft.media.ui.movie.MoviesView;
+import com.kiwisoft.media.movie.MoviesView;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.db.DBSession;

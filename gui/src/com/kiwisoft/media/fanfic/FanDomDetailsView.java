@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,7 +15,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.ui.movie.MovieLookup;
+import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.media.ui.show.ShowLookup;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;

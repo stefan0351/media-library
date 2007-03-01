@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

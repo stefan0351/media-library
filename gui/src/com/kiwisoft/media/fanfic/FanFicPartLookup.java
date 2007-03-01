@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import javax.swing.JFileChooser;
 import javax.swing.Icon;

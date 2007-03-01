@@ -4,7 +4,7 @@
  * Date: Apr 5, 2003
  * Time: 12:04:31 PM
  */
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.util.Collection;
 

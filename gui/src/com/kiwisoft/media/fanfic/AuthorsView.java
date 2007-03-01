@@ -4,7 +4,7 @@
  * Date: Apr 1, 2003
  * Time: 7:42:37 PM
  */
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.fanfic.FanDom;
+import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
@@ -36,42 +36,42 @@ import com.kiwisoft.utils.gui.table.TableConfiguration;
 
 /**
  * @author Stefan Stiller
- * @version $Revision: 1.2 $, $Date: 2004/08/28 21:20:14 $
+ * @version $Revision: 1.2 $, $Date: 2004/08/28 21:15:40 $
  */
-public class FanDomsView extends ViewPanel implements Disposable
+public class AuthorsView extends ViewPanel implements Disposable
 {
 	private DynamicTable table;
-	private FanDomainsTableModel tableModel;
+	private AuthorsTableModel tableModel;
 	private DoubleClickListener doubleClickListener;
 	private UpdateListener updateListener;
 	private JScrollPane scrollPane;
 
-	public FanDomsView()
+	public AuthorsView()
 	{
 	}
 
 	public String getName()
 	{
-		return "Fan Fiction - Domänen";
+		return "Fan Fiction - Autoren";
 	}
 
 	public JComponent createContentPanel()
 	{
-		tableModel=new FanDomainsTableModel();
-		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new Row(domain));
+		tableModel=new AuthorsTableModel();
+		for (Author author : FanFicManager.getInstance().getAuthors()) tableModel.addRow(new Row(author));
 		tableModel.sort();
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
 		table=new DynamicTable(tableModel);
 		table.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		table.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.domains"));
+		table.initializeColumns(new TableConfiguration(Configurator.getInstance(), MediaManagerFrame.class, "table.fanfic.authors"));
 
 		scrollPane=new JScrollPane(table);
 		return scrollPane;
 	}
 
-	protected void installComponentListener()
+	public void installComponentListener()
 	{
 		super.installComponentListener();
 		doubleClickListener=new DoubleClickListener();
@@ -79,7 +79,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		scrollPane.addMouseListener(doubleClickListener);
 	}
 
-	protected void removeComponentListeners()
+	public void removeComponentListeners()
 	{
 		super.removeComponentListeners();
 		table.removeMouseListener(doubleClickListener);
@@ -103,23 +103,23 @@ public class FanDomsView extends ViewPanel implements Disposable
 				if (row!=null)
 				{
 					MediaManagerFrame wizard=(MediaManagerFrame)getTopLevelAncestor();
-					wizard.setCurrentView(new FanFicsView((FanDom)row.getUserObject()), true);
+					wizard.setCurrentView(new FanFicsView((Author)row.getUserObject()), true);
 				}
 				e.consume();
 			}
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
 				int[] rows=table.getSelectedRows();
-				FanDom domain=null;
-				if (rows.length==1) domain=(FanDom)tableModel.getObject(rows[0]);
-				Set<FanDom> domains=new HashSet<FanDom>();
-				for (int i=0; i<rows.length; i++) domains.add((FanDom)tableModel.getObject(rows[i]));
+				Author author=null;
+				if (rows.length==1) author=(Author)tableModel.getObject(rows[0]);
+				Set<Author> authors=new HashSet<Author>();
+				for (int i=0; i<rows.length; i++) authors.add((Author)tableModel.getObject(rows[i]));
 				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new FanFicsAction(FanDomsView.this, domains));
-				popupMenu.add(new PropertiesAction(domain));
+				popupMenu.add(new FanFicsAction(AuthorsView.this, authors));
+				popupMenu.add(new PropertiesAction(author));
 				popupMenu.addSeparator();
 				popupMenu.add(new NewAction());
-				popupMenu.add(new DeleteAction(domains));
+				popupMenu.add(new DeleteAction(authors));
 				popupMenu.show(table, e.getX(), e.getY());
 				e.consume();
 			}
@@ -130,13 +130,16 @@ public class FanDomsView extends ViewPanel implements Disposable
 	{
 		public void collectionChanged(CollectionChangeEvent event)
 		{
-			if (FanFicManager.DOMAINS.equals(event.getPropertyName()))
+			if (FanFicManager.AUTHORS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						FanDom newDomain=(FanDom)event.getElement();
-						tableModel.addRow(new Row(newDomain));
+						{
+							Author newAuthor=(Author)event.getElement();
+							int index=tableModel.addRow(new Row(newAuthor));
+							table.getSelectionModel().setSelectionInterval(index, index);
+						}
 						break;
 					case CollectionChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());
@@ -147,7 +150,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class FanDomainsTableModel extends SortableTableModel<Row>
+	private static class AuthorsTableModel extends SortableTableModel<Row>
 	{
 		private static final String[] COLUMNS={"name"};
 
@@ -162,21 +165,21 @@ public class FanDomsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow<Author> implements PropertyChangeListener
 	{
-		public Row(FanDom domain)
+		public Row(Author author)
 		{
-			super(domain);
+			super(author);
 		}
 
 		public void installListener()
 		{
-			((FanDom)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((FanDom)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -189,7 +192,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			switch (column)
 			{
 				case 0:
-					return ((FanDom)getUserObject()).getName();
+					return getUserObject().getName();
 			}
 			return null;
 		}
@@ -204,50 +207,49 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 		public void actionPerformed(ActionEvent e)
 		{
-			FanDomDetailsView.create(null);
+			AuthorDetailsView.create(null);
 		}
 	}
 
 	private class PropertiesAction extends AbstractAction
 	{
-		private FanDom fanDom;
+		private Author author;
 
-		public PropertiesAction(FanDom fanDom)
+		public PropertiesAction(Author author)
 		{
 			super("Eigenschaften");
-			this.fanDom=fanDom;
-			setEnabled(fanDom!=null);
+			this.author=author;
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
-			FanDomDetailsView.create(fanDom);
+			AuthorDetailsView.create(author);
 		}
 	}
 
-	public class DeleteAction extends AbstractAction
+	private class DeleteAction extends AbstractAction
 	{
-		private FanDom domain;
+		private Author author;
 
-		public DeleteAction(Set<FanDom> domains)
+		public DeleteAction(Set authors)
 		{
 			super("Löschen");
-			if (domains.size()==1) domain=domains.iterator().next();
-			setEnabled(domain!=null);
+			if (authors.size()==1) author=(Author)authors.iterator().next();
+			setEnabled(author!=null);
 		}
 
 		public void actionPerformed(ActionEvent event)
 		{
-			if (domain.isUsed())
+			if (author.isUsed())
 			{
-				JOptionPane.showMessageDialog(FanDomsView.this,
-						"Die Fan Domain '"+domain.getName()+"' kann nicht gelöscht werden.",
+				JOptionPane.showMessageDialog(AuthorsView.this,
+						"Der Autor '"+author.getName()+"' kann nicht gelöscht werden.",
 						"Meldung",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
-			int option=JOptionPane.showConfirmDialog(FanDomsView.this,
-					"Die Fan Domain '"+domain.getName()+"' wirklick löschen?",
+			int option=JOptionPane.showConfirmDialog(AuthorsView.this,
+					"Den Autor '"+author.getName()+"' wirklick löschen?",
 					"Löschen?",
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
@@ -257,7 +259,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 				try
 				{
 					transaction=DBSession.getInstance().createTransaction();
-					FanFicManager.getInstance().dropDomain(domain);
+					FanFicManager.getInstance().dropAuthor(author);
 					transaction.close();
 				}
 				catch (Exception e)
@@ -271,11 +273,11 @@ public class FanDomsView extends ViewPanel implements Disposable
 						catch (SQLException e1)
 						{
 							e1.printStackTrace();
-							JOptionPane.showMessageDialog(FanDomsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(AuthorsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(FanDomsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(AuthorsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
@@ -288,11 +290,12 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), FanDomsView.class);
+		return new Bookmark(getName(), AuthorsView.class);
 	}
 
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new FanDomsView(), true);
+		assert bookmark!=null;
+		frame.setCurrentView(new AuthorsView(), true);
 	}
 }

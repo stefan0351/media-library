@@ -1,9 +1,9 @@
-package com.kiwisoft.media.ui.movie;
+package com.kiwisoft.media.movie;
 
 import java.awt.Window;
 
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.ui.movie.MovieDetailsView;
+import com.kiwisoft.media.movie.MovieDetailsView;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupHandler;
 

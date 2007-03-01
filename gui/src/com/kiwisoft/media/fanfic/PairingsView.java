@@ -4,7 +4,7 @@
  * Date: Apr 1, 2003
  * Time: 7:42:37 PM
  */
-package com.kiwisoft.media.ui.fanfic;
+package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -30,7 +30,6 @@ import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.table.DynamicTable;

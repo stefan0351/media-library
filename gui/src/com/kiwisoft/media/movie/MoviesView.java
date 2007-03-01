@@ -1,4 +1,4 @@
-package com.kiwisoft.media.ui.movie;
+package com.kiwisoft.media.movie;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
-import com.kiwisoft.media.ui.movie.MovieDetailsView;
+import com.kiwisoft.media.movie.MovieDetailsView;
 import com.kiwisoft.media.ui.MediaManagerFrame;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ViewPanel;
