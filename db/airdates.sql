@@ -15,7 +15,7 @@ create table airdates
 	language_id         bigint,
 	reminder            bool,
 	source_id			bigint,
-	lastmodified		timestamp,
+	lastmodified		timestamp null,
 
 	primary key (id)
 ) type=innodb;

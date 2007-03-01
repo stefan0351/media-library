@@ -212,7 +212,10 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MediaManager.iml" filepath="$PROJECT_DIR$/MediaManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gui/gui.iml" filepath="$PROJECT_DIR$/gui/gui.iml" />
+      <module fileurl="file://C:/java/projects/utils/utils.iml" filepath="C:/java/projects/utils/utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="J2SE &quot;5.0&quot;" />
