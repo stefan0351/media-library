@@ -14,6 +14,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Configurator;

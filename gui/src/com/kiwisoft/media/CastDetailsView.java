@@ -8,6 +8,10 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.PersonLookup;
+import com.kiwisoft.media.person.PersonDetailsView;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -68,7 +72,7 @@ public class CastDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		tfCharacter=new JTextField(200);
-		tfActor=new LookupField<Person>(new ActorLookup(), new ActorLookupHandler());
+		tfActor=new LookupField<Person>(new PersonLookup(), new ActorLookupHandler());
 		tfVoice=new JTextField();
 		tfImageSmall=new DialogLookupField(new WebFileLookup(false));
 		tfImageLarge=new DialogLookupField(new WebFileLookup(false));

@@ -2,14 +2,11 @@ package com.kiwisoft.media.show;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import java.util.Iterator;
 
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.Language;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.Episode;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +15,7 @@ import com.kiwisoft.media.show.Episode;
  * Time: 21:56:27
  * To change this template use File | Settings | File Templates.
  */
-public class ShowRecordsTableModel extends SortableTableModel
+public class ShowRecordsTableModel extends SortableTableModel<Recording>
 {
 	private static final String[] COLUMNS={"key", "name", "video", "language"};
 
@@ -29,8 +26,7 @@ public class ShowRecordsTableModel extends SortableTableModel
 
 	private void initializeData(Show show)
 	{
-		Iterator it=show.getRecordings().iterator();
-		while (it.hasNext()) addRow(new Row((Recording)it.next()));
+		for (Recording recording : show.getRecordings()) addRow(new Row(recording));
 	}
 
 	public int getColumnCount()
@@ -43,7 +39,7 @@ public class ShowRecordsTableModel extends SortableTableModel
 		return COLUMNS[column];
 	}
 
-	private static class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow<Recording> implements PropertyChangeListener
 	{
 		public Row(Recording recording)
 		{
@@ -52,12 +48,12 @@ public class ShowRecordsTableModel extends SortableTableModel
 
 		public void installListener()
 		{
-			((Recording)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Recording)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -67,13 +63,13 @@ public class ShowRecordsTableModel extends SortableTableModel
 
 		public Comparable getSortValue(int column, String property)
 		{
-			if (column==0) return new Integer(((Recording)getUserObject()).getEpisode().getChainPosition());
+			if (column==0) return new Integer(getUserObject().getEpisode().getChainPosition());
 			return super.getSortValue(column, property);
 		}
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Recording recording=(Recording)getUserObject();
+			Recording recording=getUserObject();
 			Episode episode=recording.getEpisode();
 			switch (column)
 			{

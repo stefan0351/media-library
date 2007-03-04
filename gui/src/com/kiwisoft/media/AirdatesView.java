@@ -14,6 +14,7 @@ import javax.swing.*;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
+import com.kiwisoft.media.show.EpisodeUpdater;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.ClassObserver;
 import com.kiwisoft.utils.DateUtils;
@@ -66,7 +67,7 @@ public class AirdatesView extends ViewPanel
 		return title;
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmDates=new AirdatesTableModel();
 		Iterator it=airdates.iterator();
@@ -225,7 +226,7 @@ public class AirdatesView extends ViewPanel
 		}
 	}
 
-	private class NewAirdateAction extends AbstractAction
+	private static class NewAirdateAction extends AbstractAction
 	{
 		public NewAirdateAction()
 		{
@@ -251,7 +252,7 @@ public class AirdatesView extends ViewPanel
 		}
 	}
 
-	private class NewEpisodeAction extends AbstractAction
+	private static class NewEpisodeAction extends AbstractAction
 	{
 		private Airdate airdate;
 

@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
@@ -53,7 +52,7 @@ public class FanFicsView extends ViewPanel
 		return "Fan Fiction - "+group.getName();
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmFanFics=new FanFicsTableModel();
 
@@ -70,10 +69,8 @@ public class FanFicsView extends ViewPanel
 		fanFicListener=new FanFicListener();
 		if (group!=null)
 		{
-			Iterator it=group.getFanFics().iterator();
-			while (it.hasNext())
+			for (FanFic fanFic : group.getFanFics())
 			{
-				FanFic fanFic=(FanFic)it.next();
 				tmFanFics.addRow(new FanFicTableRow(fanFic));
 			}
 			FanFicManager.getInstance().addCollectionChangeListener(fanFicListener);
@@ -116,8 +113,8 @@ public class FanFicsView extends ViewPanel
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
 				int[] rows=tblFanFics.getSelectedRows();
-				Set fanFics=new HashSet();
-				for (int i=0; i<rows.length; i++) fanFics.add(tmFanFics.getObject(rows[i]));
+				Set<FanFic> fanFics=new HashSet<FanFic>();
+				for (int row : rows) fanFics.add(tmFanFics.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new NewAction());
 				popupMenu.add(new DeleteAction(fanFics));

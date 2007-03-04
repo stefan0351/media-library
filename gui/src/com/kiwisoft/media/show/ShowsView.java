@@ -6,164 +6,119 @@
  */
 package com.kiwisoft.media.show;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 
-import com.kiwisoft.media.AirdatesView;
-import com.kiwisoft.media.LinksView;
-import com.kiwisoft.media.MediaManagerFrame;
-import com.kiwisoft.media.MediaTableConfiguration;
-import com.kiwisoft.media.actions.*;
-import com.kiwisoft.media.movie.MoviesView;
+import com.kiwisoft.media.*;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
+import com.kiwisoft.media.dataImport.SerienJunkiesDeLoaderAction;
+import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
+import com.kiwisoft.media.dataImport.TVComLoaderAction;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
 public class ShowsView extends ViewPanel
 {
-	private SortableTable tblShows;
-	private DoubleClickListener doubleClickListener;
-	private ShowsTableModel tmShows;
-	private ShowListener showListener;
-	private ShowSeasonsAction showSeasonsAction;
-	private ShowEpisodesAction showEpisodesAction;
+	private Genre genre;
 
-	public ShowsView()
+	private ShowListener showListener;
+	private TableController<Show> tableController;
+
+	public ShowsView(Genre genre)
 	{
-		showSeasonsAction=new ShowSeasonsAction(null);
-		showEpisodesAction=new ShowEpisodesAction(null);
+		this.genre=genre;
 	}
 
-	protected JComponent createContentPanel()
+	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tmShows=new ShowsTableModel();
-		Iterator it=ShowManager.getInstance().getShows().iterator();
-		while (it.hasNext())
-		{
-			Show show=(Show)it.next();
-			tmShows.addRow(new ShowTableRow(show));
-		}
+		ShowsTableModel tmShows=new ShowsTableModel();
+		Collection<Show> shows;
+		if (genre!=null) shows=genre.getShows();
+		else shows=ShowManager.getInstance().getShows();
+		for (Show show : shows) tmShows.addRow(new ShowTableRow(show));
 		tmShows.sort();
 
-		tblShows=new SortableTable(tmShows);
-		tblShows.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblShows.initializeColumns(new MediaTableConfiguration("table.shows"));
+		tableController=new TableController<Show>(tmShows, new MediaTableConfiguration("table.shows"))
+		{
+			public List<ContextAction<Show>> getToolBarActions()
+			{
+				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
+				actions.add(new ShowPropertiesAction());
+				actions.add(new NewShowAction());
+				actions.add(new DeleteShowAction(frame));
+				actions.add(new ShowSeasonsAction(frame));
+				actions.add(new ShowEpisodesAction(frame));
+				return actions;
+			}
+
+			public List<ContextAction<Show>> getContextActions()
+			{
+				ComplexAction<Show> downloadAction=new ComplexAction<Show>("Download");
+				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
+				downloadAction.addAction(new TVTVDeLoaderAction<Show>(frame));
+				downloadAction.addSeparator();
+				downloadAction.addAction(new TVComLoaderAction(frame));
+				downloadAction.addAction(new SerienJunkiesDeLoaderAction(frame));
+
+				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
+				actions.add(new ShowEpisodesAction(frame));
+				actions.add(new ShowSeasonsAction(frame));
+				actions.add(new ShowAirdatesAction(frame));
+				actions.add(new ShowMoviesAction(frame));
+				actions.add(new ShowCastAction(frame));
+				actions.add(new ShowRecordingsAction(frame));
+				actions.add(new ShowLinksAction(frame));
+				actions.add(downloadAction);
+				actions.add(null);
+				actions.add(new NewShowAction());
+				actions.add(new DeleteShowAction(frame));
+				return actions;
+			}
+
+			public ContextAction<Show> getDoubleClickAction()
+			{
+				return new ShowEpisodesAction(frame);
+			}
+		};
+
 		showListener=new ShowListener();
 		ShowManager.getInstance().addCollectionChangeListener(showListener);
 
-		return new JScrollPane(tblShows);
+		return tableController.createComponent();
 	}
 
 	public String getName()
 	{
-		return "Serien";
-	}
-
-	@Override
-	protected Action[] getToolBarActions()
-	{
-		return new Action[]{
-			showSeasonsAction,
-			showEpisodesAction
-		};
+		if (genre==null) return "Serien";
+		else return "Serien - "+genre.getName();
 	}
 
 	protected void installComponentListener()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblShows.addMouseListener(doubleClickListener);
-		tblShows.getSelectionModel().addListSelectionListener(new ListSelectionListener()
-		{
-			public void valueChanged(ListSelectionEvent e)
-			{
-				if (!e.getValueIsAdjusting())
-				{
-					showEpisodesAction.validate();
-					showSeasonsAction.validate();
-				}
-			}
-		});
+		tableController.installListeners();
 	}
 
 	protected void removeComponentListeners()
 	{
-		tblShows.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
 	}
 
 	public void dispose()
 	{
 		ShowManager.getInstance().removeCollectionListener(showListener);
-		tmShows.clear();
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblShows.rowAtPoint(e.getPoint());
-				SortableTableRow row=tmShows.getRow(rowIndex);
-				if (row!=null)
-				{
-					MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-					wizard.setCurrentView(new EpisodesView((Show)row.getUserObject()), true);
-				}
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=tblShows.getSelectedRows();
-				Set<Show> shows=new HashSet<Show>();
-				for (int row : rows) shows.add(tmShows.getRow(row).getUserObject());
-				Show show=null;
-				if (rows.length==1) show=tmShows.getObject(rows[0]);
-
-				MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-
-				JMenu menuDownload=new JMenu("Download");
-				menuDownload.add(new DownloadP7Action(wizard, shows));
-				menuDownload.add(new DownloadTVTVAction(wizard, shows));
-				menuDownload.add(new TVComDataLoaderAction(wizard, show));
-
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new ShowEpisodesAction(show));
-				popupMenu.add(new ShowSeasonsAction(show));
-				popupMenu.add(new ShowAirdatesAction(show));
-				popupMenu.add(new ShowPropertiesAction(show));
-				popupMenu.add(new ShowMoviesAction(shows));
-				popupMenu.add(new ShowCastAction(show));
-				popupMenu.add(new RecordingsAction(show));
-				popupMenu.add(new ShowLinksAction(show));
-				popupMenu.add(menuDownload);
-				popupMenu.addSeparator();
-				popupMenu.add(new NewShowAction());
-				popupMenu.add(new DeleteShowAction(show));
-				popupMenu.show(tblShows, e.getX(), e.getY());
-				e.consume();
-			}
-			super.mouseClicked(e);
-		}
+		tableController.dispose();
 	}
 
 	private class ShowListener implements CollectionChangeListener
@@ -177,11 +132,12 @@ public class ShowsView extends ViewPanel
 					case CollectionChangeEvent.ADDED:
 						Show newShow=(Show)event.getElement();
 						ShowTableRow row=new ShowTableRow(newShow);
-						tmShows.addRow(row);
+						tableController.getModel().addRow(row);
 						break;
 					case CollectionChangeEvent.REMOVED:
-						int index=tmShows.indexOf(event.getElement());
-						if (index>=0) tmShows.removeRowAt(index);
+						SortableTableModel<Show> model=tableController.getModel();
+						int index=model.indexOf(event.getElement());
+						if (index>=0) model.removeRowAt(index);
 						break;
 				}
 			}
@@ -247,209 +203,6 @@ public class ShowsView extends ViewPanel
 		}
 	}
 
-	private class ShowAirdatesAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowAirdatesAction(Show show)
-		{
-			super("Sendetermine");
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new AirdatesView(show), true);
-		}
-	}
-
-	private class ShowCastAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowCastAction(Show show)
-		{
-			super("Darsteller");
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new ShowCastView(show), true);
-		}
-	}
-
-	private class ShowSeasonsAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowSeasonsAction(Show show)
-		{
-			super("Staffeln");
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new SeasonsView(show), true);
-		}
-
-		public void validate()
-		{
-			if (tblShows.getSelectedRowCount()==1)
-			{
-				int selectedRow=tblShows.getSelectedRow();
-				show=tmShows.getObject(selectedRow);
-			}
-			else show=null;
-			setEnabled(show!=null);
-		}
-	}
-
-	private class ShowEpisodesAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowEpisodesAction(Show show)
-		{
-			super("Episoden", IconManager.getIcon("com/kiwisoft/media/icons/episode.gif"));
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new EpisodesView(show), true);
-		}
-
-		public void validate()
-		{
-			if (tblShows.getSelectedRowCount()==1)
-			{
-				int selectedRow=tblShows.getSelectedRow();
-				show=tmShows.getObject(selectedRow);
-			}
-			else show=null;
-			setEnabled(show!=null);
-		}
-	}
-
-	private class ShowLinksAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowLinksAction(Show show)
-		{
-			super("Links");
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new LinksView(show), true);
-		}
-	}
-
-	private class RecordingsAction extends AbstractAction
-	{
-		private Show show;
-
-		public RecordingsAction(Show show)
-		{
-			super("Aufnahmen");
-			this.show=show;
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new ShowRecordingsView(show), true);
-		}
-	}
-
-	private class ShowMoviesAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowMoviesAction(Set shows)
-		{
-			super("Filme");
-			if (shows.size()==1) show=(Show)shows.iterator().next();
-			setEnabled(show!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
-			wizard.setCurrentView(new MoviesView(show), true);
-		}
-	}
-
-	private class DeleteShowAction extends AbstractAction
-	{
-		private Show show;
-
-		public DeleteShowAction(Show show)
-		{
-			super("Löschen");
-			this.show=show;
-		}
-
-		public void actionPerformed(ActionEvent event)
-		{
-			if (show.isUsed())
-			{
-				JOptionPane.showMessageDialog(ShowsView.this,
-											  "Die Serie '"+show.getName()+"' kann nicht gelöscht werden.",
-											  "Meldung",
-											  JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			int option=JOptionPane.showConfirmDialog(ShowsView.this,
-													 "Serie '"+show.getName()+"' wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					ShowManager.getInstance().dropShow(show);
-					transaction.close();
-				}
-				catch (Exception e)
-				{
-					if (transaction!=null)
-					{
-						try
-						{
-							transaction.rollback();
-						}
-						catch (SQLException e1)
-						{
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(ShowsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(ShowsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}
-	}
-
 	public boolean isBookmarkable()
 	{
 		return true;
@@ -457,12 +210,16 @@ public class ShowsView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), ShowsView.class);
+		Bookmark bookmark=new Bookmark(getName(), ShowsView.class);
+		if (genre!=null) bookmark.setParameter("genre_id", genre.getId().toString());
+		return bookmark;
 	}
 
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		assert bookmark!=null;
-		frame.setCurrentView(new ShowsView(), true);
+		String genreId=bookmark.getParameter("genre_id");
+		Genre genre=null;
+		if (genreId!=null) genre=DBLoader.getInstance().load(Genre.class, new Long(genreId));
+		frame.setCurrentView(new ShowsView(genre), true);
 	}
 }

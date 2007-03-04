@@ -34,7 +34,7 @@ public class ShowRecordingsView extends ViewPanel
 		return show.getName()+" - Aufnahmen";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmRecords=new ShowRecordsTableModel(show);
 

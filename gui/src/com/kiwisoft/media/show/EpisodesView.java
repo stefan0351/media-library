@@ -1,27 +1,23 @@
 package com.kiwisoft.media.show;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 
 import com.kiwisoft.media.MediaTableConfiguration;
-import com.kiwisoft.media.video.VideoDetailsView;
+import com.kiwisoft.media.video.CreateVideoAction;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.db.*;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.SortableTable;
 
 public class EpisodesView extends ViewPanel
 {
@@ -29,11 +25,8 @@ public class EpisodesView extends ViewPanel
 	private Season season;
 
 	// Dates Panel
-	private SortableTable tblEpisodes;
-	private EpisodesTableModel tmEpisodes;
-	private DoubleClickListener doubleClickListener;
 	private CollectionChangeObserver collectionObserver;
-	private JScrollPane scrlEpisodes;
+	private TableController<Episode> tableController;
 
 	public EpisodesView(Show show)
 	{
@@ -54,22 +47,50 @@ public class EpisodesView extends ViewPanel
 			return show.getName()+" - Episoden";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
-		tmEpisodes=new EpisodesTableModel();
-		createTableData();
+		EpisodesTableModel tmEpisodes=new EpisodesTableModel();
+		createTableData(tmEpisodes);
 
-		tblEpisodes=new SortableTable(tmEpisodes);
-		tblEpisodes.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblEpisodes.initializeColumns(new MediaTableConfiguration("table.episodes"));
-		tblEpisodes.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new episode");
-		tblEpisodes.getActionMap().put("new episode", new NewEpisodeAction());
+		tableController=new TableController<Episode>(tmEpisodes, new MediaTableConfiguration("table.episodes"))
+		{
+			public List<ContextAction<Episode>> getToolBarActions()
+			{
+				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
+				actions.add(new EpisodePropertiesAction());
+				if (season==null)
+				{
+					actions.add(new MoveUpAction(show.getEpisodes()));
+					actions.add(new MoveDownAction(show.getEpisodes()));
+				}
+				return actions;
+			}
 
-		scrlEpisodes=new JScrollPane(tblEpisodes);
-		return scrlEpisodes;
+			public List<ContextAction<Episode>> getContextActions()
+			{
+				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
+				actions.add(new CreateSeasonAction());
+				actions.add(new CreateVideoAction());
+				actions.add(null);
+				actions.add(new NewEpisodeAction(show));
+				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
+				if (season==null)
+				{
+					actions.add(null);
+					actions.add(new MoveUpAction(show.getEpisodes()));
+				}
+				return actions;
+			}
+
+			public ContextAction<Episode> getDoubleClickAction()
+			{
+				return new EpisodePropertiesAction();
+			}
+		};
+		return tableController.createComponent();
 	}
 
-	private void createTableData()
+	private void createTableData(SortableTableModel<Episode> tableModel)
 	{
 		collectionObserver=new CollectionChangeObserver();
 		Iterator it;
@@ -77,31 +98,28 @@ public class EpisodesView extends ViewPanel
 			it=season.getEpisodes().iterator();
 		else
 		{
-			Chain episodes=show.getEpisodes();
+			Chain<Episode> episodes=show.getEpisodes();
 			it=episodes.iterator();
 			episodes.addChainListener(collectionObserver);
 		}
 		while (it.hasNext())
 		{
 			Episode episode=(Episode)it.next();
-			tmEpisodes.addRow(new EpisodeTableRow(episode));
+			tableModel.addRow(new EpisodeTableRow(episode));
 		}
-		tmEpisodes.sort();
+		tableModel.sort();
 		show.addCollectionChangeListener(collectionObserver);
 	}
 
 	protected void installComponentListener()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblEpisodes.addMouseListener(doubleClickListener);
-		scrlEpisodes.addMouseListener(doubleClickListener);
+		tableController.installListeners();
 		super.installComponentListener();
 	}
 
 	protected void removeComponentListeners()
 	{
-		tblEpisodes.removeMouseListener(doubleClickListener);
-		scrlEpisodes.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
@@ -109,7 +127,7 @@ public class EpisodesView extends ViewPanel
 	{
 		if (season==null) show.getEpisodes().removeChainListener(collectionObserver);
 		show.removeCollectionListener(collectionObserver);
-		tmEpisodes.clear();
+		tableController.dispose();
 		super.dispose();
 	}
 
@@ -119,19 +137,21 @@ public class EpisodesView extends ViewPanel
 		{
 			if (Show.EPISODES.equals(event.getPropertyName()))
 			{
+				SortableTableModel<Episode> tableModel=tableController.getModel();
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
+						SortableTable table=tableController.getTable();
 						Episode newEpisode=(Episode)event.getElement();
 						EpisodeTableRow row=new EpisodeTableRow(newEpisode);
-						int newIndex=tmEpisodes.addRow(row);
-						tmEpisodes.sort();
-						tblEpisodes.getSelectionModel().setSelectionInterval(newIndex, newIndex);
-						tblEpisodes.scrollRectToVisible(tblEpisodes.getCellRect(newIndex, 0, false));
+						int newIndex=tableModel.addRow(row);
+						tableModel.sort();
+						table.getSelectionModel().setSelectionInterval(newIndex, newIndex);
+						table.scrollRectToVisible(table.getCellRect(newIndex, 0, false));
 						break;
 					case CollectionChangeEvent.REMOVED:
-						int index=tmEpisodes.indexOf(event.getElement());
-						if (index>=0) tmEpisodes.removeRowAt(index);
+						int index=tableModel.indexOf(event.getElement());
+						if (index>=0) tableModel.removeRowAt(index);
 						break;
 				}
 			}
@@ -142,46 +162,12 @@ public class EpisodesView extends ViewPanel
 			switch (event.getType())
 			{
 				case ChainEvent.CHANGED:
-					tmEpisodes.sort();
+					tableController.getModel().sort();
 			}
 		}
 	}
 
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblEpisodes.rowAtPoint(e.getPoint());
-				if (rowIndex>=0)
-				{
-					SortableTableRow row=tmEpisodes.getRow(rowIndex);
-					if (row!=null) EpisodeDetailsView.create((Episode)row.getUserObject());
-				}
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=tblEpisodes.getSelectedRows();
-				Set episodes=new LinkedHashSet();
-				for (int i=0; i<rows.length; i++) episodes.add(tmEpisodes.getObject(rows[i]));
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new CreateSeasonAction(episodes));
-				popupMenu.add(new CreateVideoAction(episodes));
-				popupMenu.addSeparator();
-				popupMenu.add(new NewEpisodeAction());
-				popupMenu.add(new DeleteEpisodeAction(episodes));
-				popupMenu.addSeparator();
-				popupMenu.add(new MoveUpAction(episodes));
-				popupMenu.show(tblEpisodes, e.getX(), e.getY());
-				e.consume();
-			}
-			super.mouseClicked(e);
-		}
-	}
-
-	private static class EpisodesTableModel extends SortableTableModel
+	private static class EpisodesTableModel extends SortableTableModel<Episode>
 	{
 		private static final String[] COLUMNS={"userkey", "title", "originalTitel"};
 
@@ -196,7 +182,7 @@ public class EpisodesView extends ViewPanel
 		}
 	}
 
-	private static class EpisodeTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class EpisodeTableRow extends SortableTableRow<Episode> implements PropertyChangeListener
 	{
 		public EpisodeTableRow(Episode episode)
 		{
@@ -205,12 +191,12 @@ public class EpisodesView extends ViewPanel
 
 		public void installListener()
 		{
-			((Episode)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Episode)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -222,15 +208,15 @@ public class EpisodesView extends ViewPanel
 		{
 			if (column==0)
 			{
-				Episode episode=(Episode)getUserObject();
-				return new Integer(episode.getChainPosition());
+				Episode episode=getUserObject();
+				return episode.getChainPosition();
 			}
 			return super.getSortValue(column, property);
 		}
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Episode episode=(Episode)getUserObject();
+			Episode episode=getUserObject();
 			switch (column)
 			{
 				case 0:
@@ -241,171 +227,6 @@ public class EpisodesView extends ViewPanel
 					return episode.getOriginalName();
 			}
 			return "";
-		}
-	}
-
-	private class NewEpisodeAction extends AbstractAction
-	{
-		public NewEpisodeAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			EpisodeDetailsView.create(show);
-		}
-	}
-
-	private static class CreateSeasonAction extends AbstractAction
-	{
-		private Episode firstEpisode;
-		private Episode lastEpisode;
-
-		public CreateSeasonAction(Collection episodes)
-		{
-			super("Erzeuge Staffel");
-			if (!episodes.isEmpty())
-			{
-				TreeSet sortedSet=new TreeSet(episodes);
-				firstEpisode=(Episode)sortedSet.first();
-				lastEpisode=(Episode)sortedSet.last();
-				setEnabled(true);
-			}
-			else
-				setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			SeasonDetailsView.create(firstEpisode, lastEpisode);
-		}
-	}
-
-	private static class CreateVideoAction extends AbstractAction
-	{
-		private Set episodes;
-
-		public CreateVideoAction(Set episodes)
-		{
-			super("Erzeuge Video");
-			this.episodes=episodes;
-			setEnabled(!episodes.isEmpty());
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			VideoDetailsView.create(episodes);
-		}
-	}
-
-	private class DeleteEpisodeAction extends AbstractAction
-	{
-		private Collection episodes;
-
-		public DeleteEpisodeAction(Collection episodes)
-		{
-			super("Löschen");
-			this.episodes=episodes;
-			setEnabled(!episodes.isEmpty());
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			Iterator it=episodes.iterator();
-			while (it.hasNext())
-			{
-				Episode episode=(Episode)it.next();
-				if (episode.isUsed())
-				{
-					JOptionPane.showMessageDialog(EpisodesView.this,
-												  "Die Folge '"+episode.getName()+"' kann nicht gelöscht werden.",
-												  "Meldung",
-												  JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-			}
-			int option=JOptionPane.showConfirmDialog(EpisodesView.this,
-													 "Episoden wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					it=episodes.iterator();
-					while (it.hasNext())
-					{
-						Episode episode=(Episode)it.next();
-						show.dropEpisode(episode);
-					}
-					transaction.close();
-				}
-				catch (Exception e1)
-				{
-					try
-					{
-						if (transaction!=null) transaction.rollback();
-					}
-					catch (SQLException e2)
-					{
-						e2.printStackTrace();
-					}
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(EpisodesView.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}
-	}
-
-	private class MoveUpAction extends AbstractAction
-	{
-		private Set episodes;
-
-		public MoveUpAction(Set episodes)
-		{
-			super("Nach oben");
-			this.episodes=new TreeSet(Chain.getComparator());
-			this.episodes.addAll(episodes);
-			setEnabled(season==null && !this.episodes.isEmpty());
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			tblEpisodes.clearSelection();
-
-			Transaction transaction=null;
-			try
-			{
-				transaction=DBSession.getInstance().createTransaction();
-				Iterator it=episodes.iterator();
-				while (it.hasNext()) show.getEpisodes().moveUp((Episode)it.next());
-				transaction.close();
-			}
-			catch (Exception e1)
-			{
-				try
-				{
-					if (transaction!=null) transaction.rollback();
-				}
-				catch (SQLException e2)
-				{
-					e2.printStackTrace();
-				}
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(EpisodesView.this, e1.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
-			}
-
-			Iterator it=episodes.iterator();
-			while (it.hasNext())
-			{
-				Object o=it.next();
-				int rowIndex=tmEpisodes.indexOf(o);
-				if (rowIndex>=0) tblEpisodes.getSelectionModel().addSelectionInterval(rowIndex, rowIndex);
-			}
 		}
 	}
 

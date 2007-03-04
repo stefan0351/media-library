@@ -6,7 +6,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import com.kiwisoft.media.actions.*;
 import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.Pairing;
@@ -15,6 +14,11 @@ import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.video.AllVideosTask;
 import com.kiwisoft.media.movie.MoviesTask;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
+import com.kiwisoft.media.dataImport.ImportEpisodesAction;
+import com.kiwisoft.media.dataImport.ImportAirdatesAction;
+import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
+import com.kiwisoft.media.person.PersonsTask;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
@@ -40,8 +44,8 @@ public class MediaManagerFrame extends ApplicationFrame
 		menuFile.add(new ImportEpisodesAction(MediaManagerFrame.this));
 
 		JMenu menuDownloadDates=new JMenu("Download Termine");
-		menuDownloadDates.add(new DownloadP7Action(this));
-		menuDownloadDates.add(new DownloadTVTVAction(this));
+		menuDownloadDates.add(new ProSiebenDeLoaderAction(this));
+		menuDownloadDates.add(new TVTVDeLoaderAction(this));
 
 		JMenu menuTools=new JMenu("Tools");
 		menuTools.add(menuDownloadDates);
@@ -80,7 +84,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		tasks.add(new AllVideosTask());
 		tasks.add(new ChannelsTask());
 		tasks.add(new AirdatesTask());
-		tasks.add(new ActorsTask());
+		tasks.add(new PersonsTask());
 		if (Configurator.getInstance().getBoolean("fanfics.enabled", false)) tasks.add(new FanFicTask());
 		return tasks;
 

@@ -11,6 +11,8 @@ import java.util.Set;
 import java.util.Date;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;

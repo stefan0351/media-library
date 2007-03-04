@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
@@ -45,14 +44,12 @@ public class ChannelsView extends ViewPanel
 		return "Sender";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmChannels=new ChannelsTableModel();
-		Iterator it=ChannelManager.getInstance().getChannels().iterator();
-		while (it.hasNext())
+		for (Channel channel : ChannelManager.getInstance().getChannels())
 		{
-			Channel video=(Channel)it.next();
-			tmChannels.addRow(new ChannelTableRow(video));
+			tmChannels.addRow(new ChannelTableRow(channel));
 		}
 		tmChannels.sort();
 		channelListener=new ChannelListener();
@@ -97,8 +94,8 @@ public class ChannelsView extends ViewPanel
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
 				int[] rows=tblChannels.getSelectedRows();
-				Set channels=new HashSet();
-				for (int i=0; i<rows.length; i++) channels.add(tmChannels.getObject(rows[i]));
+				Set<Channel> channels=new HashSet<Channel>();
+				for (int row : rows) channels.add(tmChannels.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new NewChannelAction());
 				popupMenu.add(new DeleteChannelAction(channels));
@@ -130,7 +127,7 @@ public class ChannelsView extends ViewPanel
 		}
 	}
 
-	private static class ChannelsTableModel extends SortableTableModel
+	private static class ChannelsTableModel extends SortableTableModel<Channel>
 	{
 		private static final String[] COLUMNS={"name", "receiving"};
 
@@ -145,7 +142,7 @@ public class ChannelsView extends ViewPanel
 		}
 	}
 
-	private static class ChannelTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class ChannelTableRow extends SortableTableRow<Channel> implements PropertyChangeListener
 	{
 		public ChannelTableRow(Channel channel)
 		{
@@ -154,12 +151,12 @@ public class ChannelsView extends ViewPanel
 
 		public void installListener()
 		{
-			((Channel)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Channel)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -172,9 +169,9 @@ public class ChannelsView extends ViewPanel
 			switch (column)
 			{
 				case 0:
-					return ((Channel)getUserObject()).getName();
+					return getUserObject().getName();
 				case 1:
-					return new Boolean(((Channel)getUserObject()).isReceivable());
+					return Boolean.valueOf(getUserObject().isReceivable());
 			}
 			return "";
 		}
@@ -259,6 +256,7 @@ public class ChannelsView extends ViewPanel
 		return new Bookmark(getName(), ChannelsView.class);
 	}
 
+	@SuppressWarnings({"UNUSED_SYMBOL"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ChannelsView(), true);

@@ -31,7 +31,7 @@ public class VideoManager
 	{
 	}
 
-	public Collection getVideos(MediumType type)
+	public Collection<Video> getVideos(MediumType type)
 	{
 		if (type==null) return DBLoader.getInstance().loadSet(Video.class);
 		return DBLoader.getInstance().loadSet(Video.class, null, "type_id=?", type.getId());

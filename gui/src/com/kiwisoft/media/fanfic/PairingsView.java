@@ -14,7 +14,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
@@ -49,13 +48,11 @@ public class PairingsView extends ViewPanel implements Disposable
 		return "Fan Fiction - Paare";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tableModel=new PairingsTableModel();
-		Iterator it=FanFicManager.getInstance().getPairings().iterator();
-		while (it.hasNext())
+		for (Pairing pairing : FanFicManager.getInstance().getPairings())
 		{
-			Pairing pairing=(Pairing)it.next();
 			tableModel.addRow(new Row(pairing));
 		}
 		tableModel.sort();
@@ -110,9 +107,9 @@ public class PairingsView extends ViewPanel implements Disposable
 			{
 				int[] rows=table.getSelectedRows();
 				Pairing pairing=null;
-				if (rows.length==1) pairing=(Pairing)tableModel.getObject(rows[0]);
-				Set pairings=new HashSet();
-				for (int i=0; i<rows.length; i++) pairings.add(tableModel.getObject(rows[i]));
+				if (rows.length==1) pairing=tableModel.getObject(rows[0]);
+				Set<Pairing> pairings=new HashSet<Pairing>();
+				for (int row : rows) pairings.add(tableModel.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new FanFicsAction(PairingsView.this, pairings));
 				popupMenu.add(new PropertiesAction(pairing));
@@ -146,7 +143,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class PairingsTableModel extends SortableTableModel
+	private static class PairingsTableModel extends SortableTableModel<Pairing>
 	{
 		private static final String[] COLUMNS={"name"};
 
@@ -161,7 +158,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow<Pairing> implements PropertyChangeListener
 	{
 		public Row(Pairing pairing)
 		{
@@ -170,12 +167,12 @@ public class PairingsView extends ViewPanel implements Disposable
 
 		public void installListener()
 		{
-			((Pairing)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Pairing)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -188,7 +185,7 @@ public class PairingsView extends ViewPanel implements Disposable
 			switch (column)
 			{
 				case 0:
-					return ((Pairing)getUserObject()).getName();
+					return getUserObject().getName();
 			}
 			return null;
 		}

@@ -9,6 +9,8 @@
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="com.kiwisoft.media.*"%>
+<%@ page import="com.kiwisoft.media.person.CrewMember"%>
+<%@ page import="com.kiwisoft.media.person.CastMember"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%

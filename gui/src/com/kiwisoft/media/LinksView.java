@@ -49,7 +49,7 @@ public class LinksView extends ViewPanel
 		return show.getName()+" - Links";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmLinks=new LinksTableModel();
 		createTableData();

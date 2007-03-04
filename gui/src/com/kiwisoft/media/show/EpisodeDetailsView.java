@@ -1,19 +1,17 @@
 package com.kiwisoft.media.show;
 
+import static java.awt.GridBagConstraints.CENTER;
 import static java.awt.GridBagConstraints.BOTH;
 import static java.awt.GridBagConstraints.NORTHWEST;
 import static java.awt.GridBagConstraints.HORIZONTAL;
 import static java.awt.GridBagConstraints.NONE;
 import static java.awt.GridBagConstraints.WEST;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
@@ -91,6 +89,8 @@ public class EpisodeDetailsView extends DetailsView
 	private JTextField javaScriptField;
 	private DialogLookupField scriptFileField;
 	private NamesTableModel namesModel;
+	private JTextPane germanSummaryField;
+	private JTextPane englishSummaryField;
 
 	private EpisodeDetailsView(Show show, ImportEpisode info)
 	{
@@ -129,12 +129,11 @@ public class EpisodeDetailsView extends DetailsView
 			javaScriptField.setText(episode.getJavaScript());
 			productionCodeField.setText(episode.getProductionCode());
 			firstAiredField.setDate(episode.getAirdate());
-			for (Iterator it=episode.getAltNames().iterator(); it.hasNext();)
-			{
-				Name name=(Name)it.next();
-				namesModel.addName(name.getName(), name.getLanguage());
-			}
+			for (Name name : episode.getAltNames()) namesModel.addName(name.getName(), name.getLanguage());
 			namesModel.sort();
+			LanguageManager languageManager=LanguageManager.getInstance();
+			germanSummaryField.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("de")));
+			englishSummaryField.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("en")));
 		}
 		else if (show!=null)
 		{
@@ -174,7 +173,7 @@ public class EpisodeDetailsView extends DetailsView
 			nameField.requestFocus();
 			return false;
 		}
-		Map names=namesModel.getNames();
+		Map<String, Language> names=namesModel.getNames();
 
 		Transaction transaction=null;
 		try
@@ -191,22 +190,23 @@ public class EpisodeDetailsView extends DetailsView
 			episode.setWebScriptFile(script);
 			episode.setAirdate(firstAiredField.getDate());
 			episode.setProductionCode(productionCodeField.getText());
-			for (Iterator it=new HashSet(episode.getAltNames()).iterator(); it.hasNext();)
+			LanguageManager languageManager=LanguageManager.getInstance();
+			episode.setSummaryText(languageManager.getLanguageBySymbol("de"), germanSummaryField.getText());
+			episode.setSummaryText(languageManager.getLanguageBySymbol("en"), englishSummaryField.getText());
+			for (Name altName : new HashSet<Name>(episode.getAltNames()))
 			{
-				Name altName=(Name)it.next();
 				if (names.containsKey(altName.getName()))
 				{
-					altName.setLanguage((Language)names.get(altName.getName()));
+					altName.setLanguage(names.get(altName.getName()));
 					names.remove(altName.getName());
 				}
 				else episode.dropAltName(altName);
 			}
-			for (Iterator it=names.keySet().iterator(); it.hasNext();)
+			for (String text : names.keySet())
 			{
-				String text=(String)it.next();
 				Name altName=episode.createAltName();
 				altName.setName(text);
-				altName.setLanguage((Language)names.get(text));
+				altName.setLanguage(names.get(text));
 			}
 			if (airdate!=null)
 			{
@@ -234,6 +234,17 @@ public class EpisodeDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
+		JTabbedPane tabs=new JTabbedPane();
+		tabs.addTab("Details", createEpisodesPanel());
+		tabs.addTab("Beschreibung", createSummaryPanel());
+
+		setLayout(new BorderLayout());
+		add(tabs, BorderLayout.CENTER);
+		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+	}
+
+	protected JPanel createEpisodesPanel()
+	{
 		showField=new JTextField();
 		showField.setEditable(false);
 		nameField=new JTextField();
@@ -253,47 +264,73 @@ public class EpisodeDetailsView extends DetailsView
 		JScrollPane namesPanel=new JScrollPane(tblNames);
 		namesPanel.setPreferredSize(new Dimension(300, 100));
 
-		setLayout(new GridBagLayout());
+		JPanel panel=new JPanel(new GridBagLayout());
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		int row=0;
-		add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(showField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		panel.add(showField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Number:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(userKeyField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Produktionsnummer:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(productionCodeField, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Erstausstrahlung:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(firstAiredField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Number:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(userKeyField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Produktionsnummer:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(productionCodeField, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Erstausstrahlung:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(firstAiredField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(nameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(nameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Originalname:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(originalNameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Originalname:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(originalNameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Skriptdatei:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(scriptFileField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Skriptdatei:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(scriptFileField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("JavaScript:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(javaScriptField, new GridBagConstraints(1, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("JavaScript:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(javaScriptField, new GridBagConstraints(1, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(namesPanel, new GridBagConstraints(1, row, 4, 3, 0.0, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		add(seenField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(namesPanel, new GridBagConstraints(1, row, 4, 3, 0.0, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(seenField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(recordField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
+		panel.add(recordField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
 
 		row++;
-		add(goodField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
+		panel.add(goodField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
+		return panel;
+	}
 
-		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+	protected JPanel createSummaryPanel()
+	{
+		germanSummaryField=new JTextPane();
+		englishSummaryField=new JTextPane();
+		JScrollPane germanSummaryPane=new JScrollPane(germanSummaryField);
+		germanSummaryPane.setPreferredSize(new Dimension(400, 150));
+		JScrollPane englishSummaryPane=new JScrollPane(englishSummaryField);
+		englishSummaryPane.setPreferredSize(new Dimension(400, 150));
+
+		JPanel panel=new JPanel(new GridBagLayout());
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		int row=0;
+		panel.add(new JLabel("Deutsch:"),
+				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(germanSummaryPane,
+				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(new JLabel("Englisch:"),
+				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(englishSummaryPane,
+				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+		return panel;
 	}
 
 	public JComponent getDefaultFocusComponent()

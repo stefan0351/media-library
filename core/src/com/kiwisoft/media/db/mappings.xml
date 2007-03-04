@@ -126,7 +126,7 @@
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="show" column="show_id" type="Show"/>
 	</mapping>
-	<mapping name="Summary" class="com.kiwisoft.media.Summary" primaryKey="id" table="summary" lastModified="lastmodified">
+	<mapping name="Summary" class="com.kiwisoft.media.show.Summary" primaryKey="id" table="summary" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="summary" column="summary"/>
 		<field name="lastModified" column="lastmodified"/>
@@ -155,7 +155,7 @@
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="language" column="language_id" type="Language"/>
 	</mapping>
-	<mapping name="SearchPattern" class="com.kiwisoft.media.SearchPattern" table="searchpatterns" primaryKey="id">
+	<mapping name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<reference name="show" column="show_id" type="Show"/>
@@ -163,7 +163,7 @@
 		<reference name="actor" column="actor_id" type="Person"/> 
 		<field name="pattern" column="pattern"/>
 	</mapping>
-	<mapping name="Person" class="com.kiwisoft.media.Person" table="persons" primaryKey="id" lastModified="lastmodified">
+	<mapping name="Person" class="com.kiwisoft.media.person.Person" table="persons" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="firstName" column="firstname"/>
 		<field name="middleName" column="middlename"/>
@@ -173,7 +173,7 @@
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="sex" column="sex_id"/>
 	</mapping>
-	<mapping name="Cast" class="com.kiwisoft.media.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
+	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="voice" column="voice"/>
@@ -254,7 +254,7 @@
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 	</mapping>
-	<mapping class="com.kiwisoft.media.CrewMember" name="Crew" primaryKey="id" table="crew" lastModified="lastmodified">
+	<mapping class="com.kiwisoft.media.person.CrewMember" name="Crew" primaryKey="id" table="crew" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="lastModified" column="lastmodified"/>

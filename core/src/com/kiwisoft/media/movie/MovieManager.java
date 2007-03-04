@@ -14,7 +14,7 @@ import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.SearchPattern;
+import com.kiwisoft.media.dataImport.SearchPattern;
 
 public class MovieManager
 {
@@ -59,7 +59,7 @@ public class MovieManager
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
 		return (dbLoader.count(Movie.class, null, "movie_id=?", movie.getId())>0)
-		        || (dbLoader.count(Airdate.class, null, "movie_id=?", movie.getId())>0);
+			   || (dbLoader.count(Airdate.class, null, "movie_id=?", movie.getId())>0);
 	}
 
 	public Movie createMovie(Show show)

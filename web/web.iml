@@ -72,6 +72,10 @@
     </orderEntry>
     <orderEntryProperties />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ACTIVE_VCS_NAME" value="svn" />
+    <option name="USE_PROJECT_VCS" value="false" />
+  </component>
   <component name="WebModuleBuildComponent">
     <setting name="EXPLODED_URL" value="file://C:/Webpages/local" />
     <setting name="EXPLODED_ENABLED" value="true" />
@@ -82,14 +86,6 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="core">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/core.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils.jar" />
-    </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/commons-lang-2.3.jar" />

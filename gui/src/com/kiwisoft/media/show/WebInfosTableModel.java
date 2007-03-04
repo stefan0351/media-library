@@ -133,7 +133,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 				case 2:
 					return language;
 				case 3:
-					return new Boolean(defaultRow==this);
+					return Boolean.valueOf(defaultRow==this);
 			}
 			return null;
 		}

@@ -8,10 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
@@ -47,7 +44,7 @@ public class VideoDetailsView extends DetailsView
 		new DetailsFrame(new VideoDetailsView(type)).show();
 	}
 
-	public static void create(Set<Episode> episodes)
+	public static void create(List<Episode> episodes)
 	{
 		new DetailsFrame(new VideoDetailsView(episodes)).show();
 	}
@@ -62,7 +59,7 @@ public class VideoDetailsView extends DetailsView
 	private JTextField tfRemaining;
 	private LookupField<MediumType> tfType;
 
-	private VideoDetailsView(Set<Episode> episodes)
+	private VideoDetailsView(List<Episode> episodes)
 	{
 		this.episodes=new Chain<EpisodeTableRow>();
 		for (Episode episode : episodes)
@@ -285,9 +282,9 @@ public class VideoDetailsView extends DetailsView
 			{
 				int[] rowIndexes=tblEpisodes.getSelectedRows();
 				Set<EpisodeTableRow> rows=new LinkedHashSet<EpisodeTableRow>();
-				for (int i=0; i<rowIndexes.length; i++)
+				for (int rowIndex : rowIndexes)
 				{
-					rows.add((EpisodeTableRow)tmEpisodes.getRow(rowIndexes[i]));
+					rows.add((EpisodeTableRow) tmEpisodes.getRow(rowIndex));
 				}
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new MoveUpAction(rows));

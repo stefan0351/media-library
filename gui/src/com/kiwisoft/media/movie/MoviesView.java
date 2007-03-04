@@ -48,7 +48,7 @@ public class MoviesView extends ViewPanel
 		return "Filme";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmMovies=new MoviesTableModel();
 		createTableData();
@@ -63,14 +63,12 @@ public class MoviesView extends ViewPanel
 
 	private void createTableData()
 	{
-		Iterator it;
-		if (show!=null)
-			it=show.getMovies().iterator();
-		else
-			it=MovieManager.getInstance().getMovies().iterator();
+		Iterator<Movie> it;
+		if (show!=null) it=show.getMovies().iterator();
+		else it=MovieManager.getInstance().getMovies().iterator();
 		while (it.hasNext())
 		{
-			Movie movie=(Movie)it.next();
+			Movie movie=it.next();
 			tmMovies.addRow(new Row(movie));
 		}
 		tmMovies.sort();
@@ -143,8 +141,8 @@ public class MoviesView extends ViewPanel
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
 				int[] rows=tblMovies.getSelectedRows();
-				Set movies=new HashSet();
-				for (int i=0; i<rows.length; i++) movies.add(tmMovies.getObject(rows[i]));
+				Set<Movie> movies=new HashSet<Movie>();
+				for (int row : rows) movies.add(tmMovies.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new NewAction());
 				popupMenu.add(new DeleteAction(movies));
@@ -155,7 +153,7 @@ public class MoviesView extends ViewPanel
 		}
 	}
 
-	private static class MoviesTableModel extends SortableTableModel
+	private static class MoviesTableModel extends SortableTableModel<Movie>
 	{
 		private static final String[] COLUMNS={"title"};
 
@@ -170,7 +168,7 @@ public class MoviesView extends ViewPanel
 		}
 	}
 
-	private static class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow<Movie> implements PropertyChangeListener
 	{
 		public Row(Movie movie)
 		{
@@ -179,12 +177,12 @@ public class MoviesView extends ViewPanel
 
 		public void installListener()
 		{
-			((Movie)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Movie)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -194,7 +192,7 @@ public class MoviesView extends ViewPanel
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Movie movie=(Movie)getUserObject();
+			Movie movie=getUserObject();
 			switch (column)
 			{
 				case 0:
@@ -219,9 +217,9 @@ public class MoviesView extends ViewPanel
 
 	private class DeleteAction extends AbstractAction
 	{
-		private Collection movies;
+		private Collection<Movie> movies;
 
-		public DeleteAction(Collection movies)
+		public DeleteAction(Collection<Movie> movies)
 		{
 			super("Löschen");
 			this.movies=movies;
@@ -230,16 +228,14 @@ public class MoviesView extends ViewPanel
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Iterator it=movies.iterator();
-			while (it.hasNext())
+			for (Movie movie : movies)
 			{
-				Movie movie=(Movie)it.next();
 				if (movie.isUsed())
 				{
 					JOptionPane.showMessageDialog(MoviesView.this,
-												  "Dr Film '"+movie.getName()+"' kann nicht gelöscht werden.",
-												  "Meldung",
-												  JOptionPane.INFORMATION_MESSAGE);
+							"Dr Film '"+movie.getName()+"' kann nicht gelöscht werden.",
+							"Meldung",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
@@ -254,10 +250,8 @@ public class MoviesView extends ViewPanel
 				try
 				{
 					transaction=DBSession.getInstance().createTransaction();
-					it=movies.iterator();
-					while (it.hasNext())
+					for (Movie movie : movies)
 					{
-						Movie movie=(Movie)it.next();
 						if (show!=null)
 							show.dropMovie(movie);
 						else

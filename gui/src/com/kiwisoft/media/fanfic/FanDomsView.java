@@ -52,7 +52,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		return "Fan Fiction - Domänen";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tableModel=new FanDomainsTableModel();
 		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new Row(domain));
@@ -110,7 +110,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 				FanDom domain=null;
 				if (rows.length==1) domain=tableModel.getObject(rows[0]);
 				Set<FanDom> domains=new HashSet<FanDom>();
-				for (int i=0; i<rows.length; i++) domains.add((FanDom)tableModel.getObject(rows[i]));
+				for (int row : rows) domains.add((FanDom) tableModel.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new FanFicsAction(FanDomsView.this, domains));
 				popupMenu.add(new PropertiesAction(domain));
@@ -159,7 +159,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class Row extends SortableTableRow implements PropertyChangeListener
+	private static class Row extends SortableTableRow<FanDom> implements PropertyChangeListener
 	{
 		public Row(FanDom domain)
 		{
@@ -168,12 +168,12 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 		public void installListener()
 		{
-			((FanDom)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((FanDom)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -186,7 +186,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			switch (column)
 			{
 				case 0:
-					return ((FanDom)getUserObject()).getName();
+					return getUserObject().getName();
 			}
 			return null;
 		}

@@ -52,7 +52,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		return "Fan Fiction - Autoren";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tableModel=new AuthorsTableModel();
 		for (Author author : FanFicManager.getInstance().getAuthors()) tableModel.addRow(new Row(author));
@@ -110,7 +110,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 				Author author=null;
 				if (rows.length==1) author=tableModel.getObject(rows[0]);
 				Set<Author> authors=new HashSet<Author>();
-				for (int i=0; i<rows.length; i++) authors.add((Author)tableModel.getObject(rows[i]));
+				for (int row : rows) authors.add((Author) tableModel.getObject(row));
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new FanFicsAction(AuthorsView.this, authors));
 				popupMenu.add(new PropertiesAction(author));

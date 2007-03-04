@@ -6,36 +6,25 @@
  */
 package com.kiwisoft.media.video;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.*;
-
-import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.UIUtils;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VideosView extends ViewPanel
 {
-	private SortableTable tblVideos;
-	private VideosTableModel tmVideos;
-	private DoubleClickListener doubleClickListener;
 	private VideoListener videoListener;
 	private MediumType type;
-	private JScrollPane scrollVideos;
+	private TableController<Video> tableController;
 
 	public VideosView(MediumType type)
 	{
@@ -47,39 +36,56 @@ public class VideosView extends ViewPanel
 		return type.getPluralName();
 	}
 
-	protected JComponent createContentPanel()
+	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tmVideos=new VideosTableModel(type);
+		VideosTableModel tableModel=new VideosTableModel(type);
+		tableController=new TableController<Video>(tableModel, new MediaTableConfiguration("table.videos"))
+		{
+			public List<ContextAction<Video>> getToolBarActions()
+			{
+				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
+				actions.add(new VideoPropertiesAction());
+				actions.add(new NewVideoAction(type));
+				actions.add(new DeleteVideoAction(frame));
+				return actions;
+			}
+
+			public List<ContextAction<Video>> getContextActions()
+			{
+				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
+				actions.add(new VideoPropertiesAction());
+				actions.add(null);
+				actions.add(new NewVideoAction(type));
+				actions.add(new DeleteVideoAction(frame));
+				return actions;
+			}
+
+			public ContextAction<Video> getDoubleClickAction()
+			{
+				return new VideoPropertiesAction();
+			}
+		};
+
 		videoListener=new VideoListener();
 		VideoManager.getInstance().addCollectionChangeListener(videoListener);
 
-		tblVideos=new SortableTable(tmVideos);
-		tblVideos.setAutoCreateColumnsFromModel(true);
-		tblVideos.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblVideos.initializeColumns(new MediaTableConfiguration("table.videos"));
-
-//		scrollVideos=new JScrollPane(tblVideos);
-		scrollVideos=UIUtils.createMutableScrollPane(tblVideos);
-		return scrollVideos;
+		return tableController.createComponent();
 	}
 
 	protected void installComponentListener()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblVideos.addMouseListener(doubleClickListener);
-		scrollVideos.addMouseListener(doubleClickListener);
+		tableController.installListeners();
 	}
 
 	protected void removeComponentListeners()
 	{
-		tblVideos.removeMouseListener(doubleClickListener);
-		scrollVideos.addMouseListener(doubleClickListener);
+		tableController.removeListeners();
 	}
 
 	public void dispose()
 	{
 		VideoManager.getInstance().removeCollectionListener(videoListener);
-		tmVideos.clear();
+		tableController.dispose();
 		super.dispose();
 	}
 
@@ -89,153 +95,36 @@ public class VideosView extends ViewPanel
 		{
 			if (VideoManager.VIDEOS.equals(event.getPropertyName()))
 			{
+				SortableTableModel<Video> tableModel=tableController.getModel();
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						Video newVideo=(Video)event.getElement();
+						Video newVideo=(Video) event.getElement();
 						if (newVideo.getType()==type)
 						{
 							VideosTableModel.Row row=new VideosTableModel.Row(newVideo);
-							tmVideos.addRow(row);
+							tableModel.addRow(row);
 						}
 						break;
 					case CollectionChangeEvent.REMOVED:
 					{
-						int index=tmVideos.indexOf(event.getElement());
-						if (index>=0) tmVideos.removeRowAt(index);
+						int index=tableModel.indexOf(event.getElement());
+						if (index>=0) tableModel.removeRowAt(index);
 					}
 					break;
 					case CollectionChangeEvent.CHANGED:
-						Video video=(Video)event.getElement();
 					{
-						int index=tmVideos.indexOf(video);
+						Video video=(Video) event.getElement();
+						int index=tableModel.indexOf(video);
 						if (video.getType()==type)
 						{
-							if (index<0) tmVideos.addRow(new VideosTableModel.Row(video));
+							if (index<0) tableModel.addRow(new VideosTableModel.Row(video));
 						}
 						else
 						{
-							if (index>=0) tmVideos.removeRowAt(index);
+							if (index>=0) tableModel.removeRowAt(index);
 						}
 					}
-				}
-			}
-		}
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblVideos.rowAtPoint(e.getPoint());
-				SortableTableRow row=tmVideos.getRow(rowIndex);
-				if (row!=null)
-				{
-					MediaManagerFrame wizard=(MediaManagerFrame)getTopLevelAncestor();
-					wizard.setCurrentView(new RecordingsView((Video)row.getUserObject()), true);
-				}
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=tblVideos.getSelectedRows();
-				Set videos=new HashSet();
-				for (int i=0; i<rows.length; i++) videos.add(tmVideos.getObject(rows[i]));
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new ShowPropertiesAction(videos));
-				popupMenu.addSeparator();
-				popupMenu.add(new NewVideoAction());
-				popupMenu.add(new DeleteVideoAction(videos));
-				popupMenu.show(tblVideos, e.getX(), e.getY());
-				e.consume();
-			}
-			super.mouseClicked(e);
-		}
-	}
-
-	private static class ShowPropertiesAction extends AbstractAction
-	{
-		private Video video;
-
-		public ShowPropertiesAction(Set videos)
-		{
-			super("Eigenschaften");
-			if (videos.size()==1) video=(Video)videos.iterator().next();
-			setEnabled(video!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			VideoDetailsView.create(video);
-		}
-	}
-
-	private class NewVideoAction extends AbstractAction
-	{
-		public NewVideoAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			VideoDetailsView.create(type);
-		}
-	}
-
-	public static class DeleteVideoAction extends AbstractAction
-	{
-		private Video video;
-
-		public DeleteVideoAction(Set videos)
-		{
-			super("Löschen");
-			if (videos.size()==1) video=(Video)videos.iterator().next();
-			setEnabled(video!=null);
-		}
-
-		public void actionPerformed(ActionEvent event)
-		{
-			if (video.isUsed())
-			{
-				JOptionPane.showMessageDialog(null,
-											  "Das Video '"+video.getName()+"' kann nicht gelöscht werden.",
-											  "Meldung",
-											  JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			int option=JOptionPane.showConfirmDialog(null,
-													 "Das Video '"+video.getName()+"' wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					VideoManager.getInstance().dropVideo(video);
-					transaction.close();
-				}
-				catch (Exception e)
-				{
-					if (transaction!=null)
-					{
-						try
-						{
-							transaction.rollback();
-						}
-						catch (SQLException e1)
-						{
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}

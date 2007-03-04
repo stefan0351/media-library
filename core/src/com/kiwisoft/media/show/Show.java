@@ -9,6 +9,10 @@ package com.kiwisoft.media.show;
 import java.util.*;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.dataImport.SearchPattern;
+import com.kiwisoft.media.dataImport.SearchManager;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
@@ -70,10 +74,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 			if (getLanguage()==language) return getOriginalName();
 			else
 			{
-				for (Iterator it=getAltNames().iterator(); it.hasNext();)
+				for (Name name1 : getAltNames())
 				{
-					Name altName=(Name)it.next();
-					if (altName.getLanguage()==language) return altName.getName();
+					if (name1.getLanguage()==language) return name1.getName();
 				}
 			}
 		}
@@ -175,7 +178,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return episodes;
 	}
 
-	public Collection getRecordings()
+	public Set<Recording> getRecordings()
 	{
 		return DBLoader.getInstance().loadSet(Recording.class, null, "show_id=?", getId());
 	}
@@ -200,16 +203,13 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		fireElementRemoved(MOVIES, movie);
 	}
 
-	public Set getMovies()
+	public Set<Movie> getMovies()
 	{
-		if (movies==null)
-		{
-			movies=DBLoader.getInstance().loadSet(Movie.class, null, "show_id=?", getId());
-		}
+		if (movies==null) movies=DBLoader.getInstance().loadSet(Movie.class, null, "show_id=?", getId());
 		return movies;
 	}
 
-	public Set getSeasons()
+	public Set<Season> getSeasons()
 	{
 		if (seasons==null)
 			seasons=DBLoader.getInstance().loadSet(Season.class, null, "show_id=?", getId());
@@ -287,8 +287,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void delete()
 	{
-		Iterator it=new HashSet<Episode>(getEpisodes().elements()).iterator();
-		while (it.hasNext()) dropEpisode((Episode)it.next());
+		for (Episode episode : new HashSet<Episode>(getEpisodes().elements())) dropEpisode(episode);
 		super.delete();
 	}
 
@@ -329,7 +328,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		}
 	}
 
-	public Set getMainCast()
+	public Set<CastMember> getMainCast()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.MAIN_CAST, getId());
 	}
@@ -343,7 +342,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return cast;
 	}
 
-	public Set getRecurringCast()
+	public Set<CastMember> getRecurringCast()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.RECURRING_CAST, getId());
 	}

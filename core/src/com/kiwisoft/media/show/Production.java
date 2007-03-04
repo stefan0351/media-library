@@ -2,8 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.util.Set;
 
-import com.kiwisoft.media.CastMember;
-import com.kiwisoft.media.CrewMember;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.CrewMember;
 
 /**
  * Created by IntelliJ IDEA.

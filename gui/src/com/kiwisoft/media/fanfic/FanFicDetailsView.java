@@ -57,13 +57,13 @@ public class FanFicDetailsView extends DetailsView
 	private JCheckBox cbFinished;
 	private JTextPane tfDescription;
 	private JTextPane tfSpoiler;
-	private LookupField tfPrequel;
+	private LookupField<FanFic> tfPrequel;
 	private SortableTable tblFanDoms;
-	private ObjectTableModel tmFanDoms;
+	private ObjectTableModel<FanDom> tmFanDoms;
 	private SortableTable tblPairings;
-	private ObjectTableModel tmPairings;
+	private ObjectTableModel<Pairing> tmPairings;
 	private SortableTable tblAuthors;
-	private ObjectTableModel tmAuthors;
+	private ObjectTableModel<Author> tmAuthors;
 	private SortableTable tblParts;
 	private FanFicPartsTableModel tmParts;
 
@@ -113,15 +113,15 @@ public class FanFicDetailsView extends DetailsView
 				String path=new File(Configurator.getInstance().getString("path.fanfics"), source).getAbsolutePath();
 				tmParts.addPart(path);
 			}
-			for (Iterator it=fanFic.getPairings().iterator(); it.hasNext();) tmPairings.addObject(it.next());
-			for (Iterator it=fanFic.getFanDoms().iterator(); it.hasNext();) tmFanDoms.addObject(it.next());
-			for (Iterator it=fanFic.getAuthors().iterator(); it.hasNext();) tmAuthors.addObject(it.next());
+			for (Pairing pairing : fanFic.getPairings()) tmPairings.addObject(pairing);
+			for (FanDom fanDom : fanFic.getFanDoms()) tmFanDoms.addObject(fanDom);
+			for (Author author : fanFic.getAuthors()) tmAuthors.addObject(author);
 		}
 		else
 		{
-			if (group instanceof Pairing) tmPairings.addObject(group);
-			else if (group instanceof FanDom) tmFanDoms.addObject(group);
-			else if (group instanceof Author) tmAuthors.addObject(group);
+			if (group instanceof Pairing) tmPairings.addObject((Pairing) group);
+			else if (group instanceof FanDom) tmFanDoms.addObject((FanDom) group);
+			else if (group instanceof Author) tmAuthors.addObject((Author) group);
 		}
 		tmPairings.addSortColumn(0, false);
 		tmFanDoms.addSortColumn(0, false);
@@ -142,11 +142,11 @@ public class FanFicDetailsView extends DetailsView
 		boolean finished=cbFinished.isSelected();
 		String spoiler=tfSpoiler.getText();
 		String description=tfDescription.getText();
-		FanFic prequel=(FanFic)tfPrequel.getValue();
-		List sources=new ArrayList();
+		FanFic prequel=tfPrequel.getValue();
+		List<String> sources=new ArrayList<String>();
 		for (int i=0; i<tmParts.getRowCount(); i++)
 		{
-			String source=(String)tmParts.getObject(i);
+			String source=tmParts.getObject(i);
 			if (StringUtils.isEmpty(source))
 			{
 				JOptionPane.showMessageDialog(this, "Quelle fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -168,21 +168,21 @@ public class FanFicDetailsView extends DetailsView
 				return false;
 			}
 		}
-		Set authors=new HashSet(tmAuthors.getObjects());
+		Set<Author> authors=new HashSet<Author>(tmAuthors.getObjects());
 		if (authors.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "Kein Autor eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
 			tblAuthors.requestFocus();
 			return false;
 		}
-		Set fanDoms=new HashSet(tmFanDoms.getObjects());
+		Set<FanDom> fanDoms=new HashSet<FanDom>(tmFanDoms.getObjects());
 		if (fanDoms.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "Keine Domäne eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
 			tblFanDoms.requestFocus();
 			return false;
 		}
-		Set pairings=new HashSet(tmPairings.getObjects());
+		Set<Pairing> pairings=new HashSet<Pairing>(tmPairings.getObjects());
 		if (pairings.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "Kein Paar eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -206,12 +206,12 @@ public class FanFicDetailsView extends DetailsView
 			fanFic.setPairings(pairings);
 			fanFic.setFanDoms(fanDoms);
 			fanFic.setAuthors(authors);
-			Iterator itOldParts=new ArrayList(fanFic.getParts().elements()).iterator();
-			Iterator itNewSources=sources.iterator();
+			Iterator<FanFicPart> itOldParts=new ArrayList<FanFicPart>(fanFic.getParts().elements()).iterator();
+			Iterator<String> itNewSources=sources.iterator();
 			while (itOldParts.hasNext() || itNewSources.hasNext())
 			{
-				FanFicPart oldPart=(FanFicPart)(itOldParts.hasNext() ? itOldParts.next() : null);
-				String newSource=(String)(itNewSources.hasNext() ? itNewSources.next() : null);
+				FanFicPart oldPart=itOldParts.hasNext() ? itOldParts.next() : null;
+				String newSource=itNewSources.hasNext() ? itNewSources.next() : null;
 				if (oldPart!=null)
 				{
 					if (newSource!=null) oldPart.setSource(newSource);
@@ -257,17 +257,17 @@ public class FanFicDetailsView extends DetailsView
 		cbFinished=new JCheckBox();
 		tfRating=new JTextField();
 		tfUrl=new JTextField();
-		tfPrequel=new LookupField(new FanFicLookup());
+		tfPrequel=new LookupField<FanFic>(new FanFicLookup());
 
-		tmPairings=new ObjectTableModel("pairings", Pairing.class, null);
+		tmPairings=new ObjectTableModel<Pairing>("pairings", Pairing.class, null);
 		tblPairings=new SortableTable(tmPairings);
 		tblPairings.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
-		tmFanDoms=new ObjectTableModel("fandoms", FanDom.class, null);
+		tmFanDoms=new ObjectTableModel<FanDom>("fandoms", FanDom.class, null);
 		tblFanDoms=new SortableTable(tmFanDoms);
 		tblFanDoms.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
-		tmAuthors=new ObjectTableModel("authors", Author.class, null);
+		tmAuthors=new ObjectTableModel<Author>("authors", Author.class, null);
 		tblAuthors=new SortableTable(tmAuthors);
 		tblAuthors.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
@@ -421,16 +421,9 @@ public class FanFicDetailsView extends DetailsView
 		public void actionPerformed(ActionEvent e)
 		{
 			int[] indices=tblParts.getSelectedRows();
-			Set rows=new HashSet();
-			for (int i=0; i<indices.length; i++)
-			{
-				rows.add(tmParts.getRow(indices[i]));
-			}
-			for (Iterator it=rows.iterator(); it.hasNext();)
-			{
-				SortableTableRow row=(SortableTableRow)it.next();
-				tmParts.removeRow(row);
-			}
+			Set<SortableTableRow<String>> rows=new HashSet<SortableTableRow<String>>();
+			for (int indice : indices) rows.add(tmParts.getRow(indice));
+			for (SortableTableRow<String> row : rows) tmParts.removeRow(row);
 		}
 	}
 
@@ -458,14 +451,10 @@ public class FanFicDetailsView extends DetailsView
 			if (isValid())
 			{
 				int[] indices=tblParts.getSelectedRows();
-				List rows=new ArrayList();
-				for (int i=0; i<indices.length; i++)
+				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
+				for (int indice : indices) rows.add(tmParts.getRow(indice));
+				for (SortableTableRow<String> row : rows)
 				{
-					rows.add(tmParts.getRow(indices[i]));
-				}
-				for (Iterator it=rows.iterator(); it.hasNext();)
-				{
-					SortableTableRow row=(SortableTableRow)it.next();
 					int index=tmParts.indexOfRow(row);
 					if (index>0)
 					{
@@ -473,9 +462,8 @@ public class FanFicDetailsView extends DetailsView
 						tmParts.addRowAt(row, index-1);
 					}
 				}
-				for (Iterator it=rows.iterator(); it.hasNext();)
+				for (SortableTableRow<String> row : rows)
 				{
-					SortableTableRow row=(SortableTableRow)it.next();
 					int index=tmParts.indexOfRow(row);
 					tblParts.getSelectionModel().addSelectionInterval(index, index);
 				}
@@ -507,14 +495,13 @@ public class FanFicDetailsView extends DetailsView
 			if (isValid())
 			{
 				int[] indices=tblParts.getSelectedRows();
-				List rows=new ArrayList();
+				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
 				for (int i=indices.length-1; i>=0; i--)
 				{
 					rows.add(tmParts.getRow(indices[i]));
 				}
-				for (Iterator it=rows.iterator(); it.hasNext();)
+				for (SortableTableRow<String> row : rows)
 				{
-					SortableTableRow row=(SortableTableRow)it.next();
 					int index=tmParts.indexOfRow(row);
 					if (index+1<tmParts.getRowCount())
 					{
@@ -522,9 +509,8 @@ public class FanFicDetailsView extends DetailsView
 						tmParts.addRowAt(row, index+1);
 					}
 				}
-				for (Iterator it=rows.iterator(); it.hasNext();)
+				for (SortableTableRow<String> row : rows)
 				{
-					SortableTableRow row=(SortableTableRow)it.next();
 					int index=tmParts.indexOfRow(row);
 					tblParts.getSelectionModel().addSelectionInterval(index, index);
 				}
@@ -544,7 +530,7 @@ public class FanFicDetailsView extends DetailsView
 			int rows=tmParts.getRowCount();
 			if (rows>0)
 			{
-				String lastPath=(String)tmParts.getObject(rows-1);
+				String lastPath=tmParts.getObject(rows-1);
 				File file=new File(lastPath);
 				tmParts.addPart(StringUtils.increase(file.getPath()));
 			}
@@ -557,7 +543,7 @@ public class FanFicDetailsView extends DetailsView
 						JOptionPane.showMessageDialog(FanFicDetailsView.this, "Autor fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
 						return;
 					case 2:
-						author=(Author)tmAuthors.getObject(0);
+						author=tmAuthors.getObject(0);
 						break;
 					default:
 						int row=tblAuthors.getSelectedRow();
@@ -566,7 +552,7 @@ public class FanFicDetailsView extends DetailsView
 							JOptionPane.showMessageDialog(FanFicDetailsView.this, "Wähle einen Autor!", "Fehler", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						author=(Author)tmAuthors.getObject(row);
+						author=tmAuthors.getObject(row);
 				}
 				int option=JOptionPane.showOptionDialog(FanFicDetailsView.this, "Erzeuge mehrteiliges FanFic?", "Frage",
 														JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -623,7 +609,7 @@ public class FanFicDetailsView extends DetailsView
 				int errors=0;
 				for (int i=0; i<tmParts.getRowCount(); i++)
 				{
-					String fileName=(String)tmParts.getObject(i);
+					String fileName=tmParts.getObject(i);
 					if (!StringUtils.isEmpty(fileName))
 					{
 						File file=new File(fileName);

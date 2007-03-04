@@ -9,7 +9,6 @@ import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
@@ -46,7 +45,7 @@ public class SeasonsView extends ViewPanel
 		return show.getName()+" - Staffeln";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmSeasons=new SeasonsTableModel();
 		createTableData();
@@ -61,12 +60,7 @@ public class SeasonsView extends ViewPanel
 
 	private void createTableData()
 	{
-		Iterator it=show.getSeasons().iterator();
-		while (it.hasNext())
-		{
-			Season season=(Season)it.next();
-			tmSeasons.addRow(new SeasonTableRow(season));
-		}
+		for (Season season : show.getSeasons()) tmSeasons.addRow(new SeasonTableRow(season));
 		tmSeasons.sort();
 		collectionObserver=new CollectionChangeObserver();
 		show.addCollectionChangeListener(collectionObserver);
@@ -134,10 +128,10 @@ public class SeasonsView extends ViewPanel
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
 				int[] rows=tblSeasons.getSelectedRows();
-				Set seasons=new HashSet();
-				for (int i=0; i<rows.length; i++) seasons.add(tmSeasons.getObject(rows[i]));
+				Set<Season> seasons=new HashSet<Season>();
+				for (int row : rows) seasons.add(tmSeasons.getObject(row));
 				Season season=null;
-				if (seasons.size()==1) season=(Season)seasons.iterator().next();
+				if (seasons.size()==1) season=seasons.iterator().next();
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new ShowEpisodesAction(season));
 				popupMenu.addSeparator();
@@ -150,7 +144,7 @@ public class SeasonsView extends ViewPanel
 		}
 	}
 
-	private static class SeasonsTableModel extends SortableTableModel
+	private static class SeasonsTableModel extends SortableTableModel<Season>
 	{
 		private static final String[] COLUMNS={"name", "years"};
 
@@ -165,7 +159,7 @@ public class SeasonsView extends ViewPanel
 		}
 	}
 
-	private static class SeasonTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class SeasonTableRow extends SortableTableRow<Season> implements PropertyChangeListener
 	{
 		public SeasonTableRow(Season season)
 		{
@@ -174,12 +168,12 @@ public class SeasonsView extends ViewPanel
 
 		public void installListener()
 		{
-			((Season)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Season)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -191,7 +185,7 @@ public class SeasonsView extends ViewPanel
 		{
 			if (column==0)
 			{
-				Season season=(Season)getUserObject();
+				Season season=getUserObject();
 				return new Integer(season.getNumber());
 			}
 			return super.getSortValue(column, property);
@@ -199,7 +193,7 @@ public class SeasonsView extends ViewPanel
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Season season=(Season)getUserObject();
+			Season season=getUserObject();
 			switch (column)
 			{
 				case 0:
@@ -244,9 +238,9 @@ public class SeasonsView extends ViewPanel
 
 	private class DeleteSeasonAction extends AbstractAction
 	{
-		private Collection seasons;
+		private Collection<Season> seasons;
 
-		public DeleteSeasonAction(Collection seasons)
+		public DeleteSeasonAction(Collection<Season> seasons)
 		{
 			super("Löschen");
 			this.seasons=seasons;
@@ -255,16 +249,14 @@ public class SeasonsView extends ViewPanel
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Iterator it=seasons.iterator();
-			while (it.hasNext())
+			for (Season season : seasons)
 			{
-				Season season=(Season)it.next();
 				if (season.isUsed())
 				{
 					JOptionPane.showMessageDialog(SeasonsView.this,
-												  "Die Staffel '"+season.getSeasonName()+"' kann nicht gelöscht werden.",
-												  "Meldung",
-												  JOptionPane.INFORMATION_MESSAGE);
+							"Die Staffel '"+season.getSeasonName()+"' kann nicht gelöscht werden.",
+							"Meldung",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
@@ -279,12 +271,7 @@ public class SeasonsView extends ViewPanel
 				try
 				{
 					transaction=DBSession.getInstance().createTransaction();
-					it=seasons.iterator();
-					while (it.hasNext())
-					{
-						Season season=(Season)it.next();
-						show.dropSeason(season);
-					}
+					for (Season season : seasons) show.dropSeason(season);
 					transaction.close();
 				}
 				catch (Exception e1)

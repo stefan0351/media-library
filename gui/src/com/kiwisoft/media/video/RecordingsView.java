@@ -36,7 +36,7 @@ public class RecordingsView extends ViewPanel
 		return "Aufnahmen auf "+video.getName();
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmRecords=new RecordsTableModel(video);
 		recordingsListener=new RecordingsListener();

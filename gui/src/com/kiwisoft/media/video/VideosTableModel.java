@@ -8,12 +8,11 @@ package com.kiwisoft.media.video;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Iterator;
 
 import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
-public class VideosTableModel extends MutableSortableTableModel
+public class VideosTableModel extends MutableSortableTableModel<Video>
 {
 	private static final String ID="id";
 	private static final String NAME="name";
@@ -23,16 +22,11 @@ public class VideosTableModel extends MutableSortableTableModel
 	public VideosTableModel(MediumType type)
 	{
 		super(new String[]{ID, NAME, TIME_LEFT}, new String[]{TYPE});
-		Iterator it=VideoManager.getInstance().getVideos(type).iterator();
-		while (it.hasNext())
-		{
-			Video video=(Video)it.next();
-			addRow(new Row(video));
-		}
+		for (Video video : VideoManager.getInstance().getVideos(type)) addRow(new Row(video));
 		sort();
 	}
 
-	public static class Row extends SortableTableRow implements PropertyChangeListener
+	public static class Row extends SortableTableRow<Video> implements PropertyChangeListener
 	{
 		public Row(Video video)
 		{
@@ -41,12 +35,12 @@ public class VideosTableModel extends MutableSortableTableModel
 
 		public void installListener()
 		{
-			((Video)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Video)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -57,13 +51,13 @@ public class VideosTableModel extends MutableSortableTableModel
 		public Object getDisplayValue(int column, String property)
 		{
 			if (ID.equals(property))
-				return ((Video)getUserObject()).getUserKey();
+				return getUserObject().getUserKey();
 			else if (NAME.equals(property))
-				return ((Video)getUserObject()).getName();
+				return getUserObject().getName();
 			else if (TIME_LEFT.equals(property))
-				return new Integer(((Video)getUserObject()).getRemainingLength());
+				return getUserObject().getRemainingLength();
 			else if (TYPE.equals(property))
-				return ((Video)getUserObject()).getType();
+				return getUserObject().getType();
 			else
 				return "";
 		}

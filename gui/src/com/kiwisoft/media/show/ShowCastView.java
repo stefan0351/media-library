@@ -11,11 +11,12 @@ import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
@@ -50,7 +51,7 @@ public class ShowCastView extends ViewPanel
 		return show.getName()+" - Darsteller";
 	}
 
-	public JComponent createContentPanel()
+	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		tmMainCast=new CastTableModel();
 		tmRecurringCast=new CastTableModel();
@@ -84,19 +85,9 @@ public class ShowCastView extends ViewPanel
 
 	private void createTableData()
 	{
-		Iterator it=show.getMainCast().iterator();
-		while (it.hasNext())
-		{
-			Cast cast=(Cast)it.next();
-			tmMainCast.addRow(new CastTableRow(cast));
-		}
+		for (CastMember castMember : show.getMainCast()) tmMainCast.addRow(new CastTableRow(castMember));
 		tmMainCast.sort();
-		it=show.getRecurringCast().iterator();
-		while (it.hasNext())
-		{
-			Cast cast=(Cast)it.next();
-			tmRecurringCast.addRow(new CastTableRow(cast));
-		}
+		for (CastMember castMember : show.getRecurringCast()) tmRecurringCast.addRow(new CastTableRow(castMember));
 		tmRecurringCast.sort();
 
 		collectionObserver=new CollectionChangeObserver();
@@ -139,7 +130,7 @@ public class ShowCastView extends ViewPanel
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						Cast newCast=(Cast)event.getElement();
+						CastMember newCast=(CastMember)event.getElement();
 						CastTableRow row=new CastTableRow(newCast);
 						tmMainCast.addRow(row);
 						tmMainCast.sort();
@@ -155,7 +146,7 @@ public class ShowCastView extends ViewPanel
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						Cast newCast=(Cast)event.getElement();
+						CastMember newCast=(CastMember)event.getElement();
 						CastTableRow row=new CastTableRow(newCast);
 						tmRecurringCast.addRow(row);
 						tmRecurringCast.sort();
@@ -181,17 +172,17 @@ public class ShowCastView extends ViewPanel
 					if (rowIndex>=0)
 					{
 						SortableTableRow row=tmMainCast.getRow(rowIndex);
-						if (row!=null) CastDetailsView.create((Cast)row.getUserObject());
+						if (row!=null) CastDetailsView.create((CastMember)row.getUserObject());
 					}
 					e.consume();
 				}
 				if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 				{
 					int[] rows=tblMainCast.getSelectedRows();
-					Set casts=new HashSet();
-					for (int i=0; i<rows.length; i++) casts.add(tmMainCast.getObject(rows[i]));
+					Set<CastMember> casts=new HashSet<CastMember>();
+					for (int row : rows) casts.add(tmMainCast.getObject(row));
 					JPopupMenu popupMenu=new JPopupMenu();
-					popupMenu.add(new NewAction(Cast.MAIN_CAST));
+					popupMenu.add(new NewAction(CastMember.MAIN_CAST));
 					popupMenu.add(new DeleteAction(casts));
 					popupMenu.show(tblMainCast, e.getX(), e.getY());
 					e.consume();
@@ -205,17 +196,17 @@ public class ShowCastView extends ViewPanel
 					if (rowIndex>=0)
 					{
 						SortableTableRow row=tmRecurringCast.getRow(rowIndex);
-						if (row!=null) CastDetailsView.create((Cast)row.getUserObject());
+						if (row!=null) CastDetailsView.create((CastMember)row.getUserObject());
 					}
 					e.consume();
 				}
 				if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 				{
 					int[] rows=tblRecurringCast.getSelectedRows();
-					Set casts=new HashSet();
-					for (int i=0; i<rows.length; i++) casts.add(tmRecurringCast.getObject(rows[i]));
+					Set<CastMember> casts=new HashSet<CastMember>();
+					for (int row : rows) casts.add(tmRecurringCast.getObject(row));
 					JPopupMenu popupMenu=new JPopupMenu();
-					popupMenu.add(new NewAction(Cast.RECURRING_CAST));
+					popupMenu.add(new NewAction(CastMember.RECURRING_CAST));
 					popupMenu.add(new DeleteAction(casts));
 					popupMenu.show(tblRecurringCast, e.getX(), e.getY());
 					e.consume();
@@ -224,7 +215,7 @@ public class ShowCastView extends ViewPanel
 		}
 	}
 
-	private static class CastTableModel extends SortableTableModel
+	private static class CastTableModel extends SortableTableModel<CastMember>
 	{
 		private static final String[] COLUMNS={"character", "actor", "voice"};
 
@@ -239,21 +230,21 @@ public class ShowCastView extends ViewPanel
 		}
 	}
 
-	private static class CastTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class CastTableRow extends SortableTableRow<CastMember> implements PropertyChangeListener
 	{
-		public CastTableRow(Cast cast)
+		public CastTableRow(CastMember cast)
 		{
 			super(cast);
 		}
 
 		public void installListener()
 		{
-			((Cast)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Cast)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
@@ -263,13 +254,11 @@ public class ShowCastView extends ViewPanel
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Cast cast=(Cast)getUserObject();
+			CastMember cast=getUserObject();
 			switch (column)
 			{
 				case 0:
-					ShowCharacter character=cast.getCharacter();
-					if (character!=null) return character.getName();
-					return null;
+					return cast.getCharacterName();
 				case 1:
 					Person actor=cast.getActor();
 					if (actor!=null) return actor.getName();
@@ -299,9 +288,9 @@ public class ShowCastView extends ViewPanel
 
 	private class DeleteAction extends AbstractAction
 	{
-		private Collection casts;
+		private Collection<CastMember> casts;
 
-		public DeleteAction(Collection casts)
+		public DeleteAction(Collection<CastMember> casts)
 		{
 			super("Löschen");
 			this.casts=casts;
@@ -310,14 +299,12 @@ public class ShowCastView extends ViewPanel
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Iterator it=casts.iterator();
-			while (it.hasNext())
+			for (CastMember cast : casts)
 			{
-				Cast cast=(Cast)it.next();
 				if (cast.isUsed())
 				{
 					JOptionPane.showMessageDialog(ShowCastView.this, "Der Darsteller '"+cast+"' kann nicht gelöscht werden.", "Meldung",
-												  JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			}
@@ -329,12 +316,7 @@ public class ShowCastView extends ViewPanel
 				try
 				{
 					transaction=DBSession.getInstance().createTransaction();
-					it=casts.iterator();
-					while (it.hasNext())
-					{
-						Cast cast=(Cast)it.next();
-						show.dropCast(cast);
-					}
+					for (CastMember cast : casts) show.dropCast(cast);
 					transaction.close();
 				}
 				catch (Exception e1)

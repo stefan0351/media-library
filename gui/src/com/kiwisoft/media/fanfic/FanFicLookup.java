@@ -44,7 +44,7 @@ public class FanFicLookup extends TableLookup<FanFic>
 	public Object getColumnValue(FanFic fanFic, int column, String property)
 	{
 		if (column==0) return fanFic.getTitle();
-		else if (column==1) return StringUtils.formatAsEnumeration(((FanFic)fanFic).getAuthors());
+		else if (column==1) return StringUtils.formatAsEnumeration(fanFic.getAuthors());
 		return null;
 	}
 }
