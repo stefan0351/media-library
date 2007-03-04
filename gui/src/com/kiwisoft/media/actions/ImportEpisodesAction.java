@@ -11,10 +11,10 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import com.kiwisoft.media.dataImport.GermanEpisodeImport;
-import com.kiwisoft.media.dataImport.XMLEpisodeInfo;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.dataImport.EpisodeImportDialog;
+import com.kiwisoft.media.dataImport.ImportEpisode;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
@@ -42,7 +42,7 @@ public class ImportEpisodesAction extends AbstractAction
 			configurator.saveUserValues();
 			GermanEpisodeImport episodeImport=new GermanEpisodeImport(source)
 			{
-				protected Episode createEpisode(Show show, XMLEpisodeInfo info)
+				protected Episode createEpisode(Show show, ImportEpisode info)
 				{
 					return EpisodeDetailsView.createDialog(null, show, info);
 				}

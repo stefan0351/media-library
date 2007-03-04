@@ -108,7 +108,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			{
 				int[] rows=table.getSelectedRows();
 				FanDom domain=null;
-				if (rows.length==1) domain=(FanDom)tableModel.getObject(rows[0]);
+				if (rows.length==1) domain=tableModel.getObject(rows[0]);
 				Set<FanDom> domains=new HashSet<FanDom>();
 				for (int i=0; i<rows.length; i++) domains.add((FanDom)tableModel.getObject(rows[i]));
 				JPopupMenu popupMenu=new JPopupMenu();
@@ -144,7 +144,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class FanDomainsTableModel extends SortableTableModel<Row>
+	private static class FanDomainsTableModel extends SortableTableModel<FanDom>
 	{
 		private static final String[] COLUMNS={"name"};
 

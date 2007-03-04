@@ -165,7 +165,7 @@ public class FanFicsView extends ViewPanel
 		}
 	}
 
-	private static class FanFicsTableModel extends SortableTableModel<FanFicTableRow>
+	private static class FanFicsTableModel extends SortableTableModel<FanFic>
 	{
 		private static final String[] COLUMNS={"id", "title", "author", "fandom", "pairing"};
 

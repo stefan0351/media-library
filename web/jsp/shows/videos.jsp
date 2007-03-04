@@ -118,9 +118,7 @@
 					Episode episode=recording.getEpisode();
 					if (episode!=null)
 					{
-						String link=episode.getLink();
-						if (link!=null) out.print("<a class=\"link\" href=\""+link+"\">"+value+"</a>");
-						else out.print(value);
+						out.print("<a class=\"link\" href=\"/shows/episode.jsp?episode="+episode.getId()+"\">"+value+"</a>");
 					}
 					else
 					{

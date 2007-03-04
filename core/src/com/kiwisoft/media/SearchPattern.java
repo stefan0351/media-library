@@ -17,7 +17,6 @@ public class SearchPattern extends IDObject
 	public static final String MOVIE="movie";
 	public static final String ACTOR="actor";
 
-	public static final int PRISMA_ONLINE=1;
 	public static final int TVTV=2;
 
 	private String pattern;

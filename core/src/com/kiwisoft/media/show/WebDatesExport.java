@@ -1,22 +1,21 @@
 package com.kiwisoft.media.show;
 
-import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
-
+import java.util.*;
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.utils.gui.progress.ObservableRunnable;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.AirdateComparator;
+import com.kiwisoft.media.Channel;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.gui.progress.Job;
+import com.kiwisoft.utils.gui.progress.ProgressListener;
+import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
-import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.AirdateComparator;
-import com.kiwisoft.media.Channel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,13 +24,12 @@ import com.kiwisoft.media.Channel;
  * Time: 16:43:07
  * To change this template use File | Settings | File Templates.
  */
-public class WebDatesExport implements ObservableRunnable
+public class WebDatesExport implements Job
 {
-	private ProgressSupport progressSupport=new ProgressSupport(null);
+	private ProgressSupport progressSupport;
 
 	public void setProgress(ProgressListener progressListener)
 	{
-		progressSupport=new ProgressSupport(progressListener);
 	}
 
 	public String getName()
@@ -39,32 +37,26 @@ public class WebDatesExport implements ObservableRunnable
 		return "Exportiere Internet-Sendetermine";
 	}
 
-	public void run()
+	public boolean run(ProgressListener progressListener) throws Exception
 	{
-		try
+		progressSupport=new ProgressSupport(this, progressListener);
+		progressSupport.startStep("Lade Serien...");
+		Set shows=ShowManager.getInstance().getInternetShows();
+		progressSupport.startStep("Exportiere Termine...");
+		progressSupport.initialize(true, shows.size(), null);
+		Iterator it=shows.iterator();
+		while (it.hasNext())
 		{
-			progressSupport.step("Lade Serien...");
-			Set shows=ShowManager.getInstance().getInternetShows();
-			progressSupport.step("Exportiere Termine...");
-			progressSupport.initialize(shows.size());
-			Iterator it=shows.iterator();
-			while (it.hasNext())
-			{
-				Show show=(Show)it.next();
-				progressSupport.step("Exportiere Termine für "+show.getName()+"...");
-				if (show.isInternet()) exportCurrentWebDates(show);
-				progressSupport.progress(1, true);
-			}
+			Show show=(Show)it.next();
+			progressSupport.startStep("Exportiere Termine für "+show.getName()+"...");
+			if (show.isInternet()) exportCurrentWebDates(show);
+			progressSupport.progress(1, true);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			progressSupport.error(e.getMessage());
-		}
-		finally
-		{
-			progressSupport.stopped();
-		}
+		return true;
+	}
+
+	public void dispose() throws IOException
+	{
 	}
 
 	// todo reruns
@@ -97,7 +89,7 @@ public class WebDatesExport implements ObservableRunnable
 		int begin=sBuffer.indexOf("<!--Begin Code "+showId+"-->");
 		int end=sBuffer.indexOf("<!--End Code "+showId+"-->");
 		Date now=new Date();
-		Date endDate=DateUtils.addDays(now, 7);
+		Date endDate=DateUtils.add(now, Calendar.DATE, 7);
 		if (begin>=0 && end>=0)
 		{
 			FileWriter fw;
@@ -110,14 +102,14 @@ public class WebDatesExport implements ObservableRunnable
 					Airdate airdate=(Airdate)it.next();
 					if (airdate.getDate().after(now)) currentDates.add(airdate);
 				}
-				Collections.sort(currentDates,new AirdateComparator(AirdateComparator.INV_TIME));
+				Collections.sort(currentDates, new AirdateComparator(AirdateComparator.INV_TIME));
 				String lb=System.getProperty("line.separator");
 				fw=new FileWriter(file);
-				fw.write(sBuffer.substring(0,begin));
+				fw.write(sBuffer.substring(0, begin));
 				fw.write("<!--Begin Code "+showId+"-->"+lb);
 				try
 				{
-					if (currentDates.size()>0)
+					if (!currentDates.isEmpty())
 					{
 						it=currentDates.iterator();
 						int count=0;
@@ -126,7 +118,7 @@ public class WebDatesExport implements ObservableRunnable
 							Airdate airdate=(Airdate)it.next();
 							if (count<7 || airdate.getDate().before(endDate))
 							{
-								fw.write(getCurrentWebHTML(airdate,file.getParent())+lb);
+								fw.write(getCurrentWebHTML(airdate, file.getParent())+lb);
 								count++;
 							}
 
@@ -142,7 +134,7 @@ public class WebDatesExport implements ObservableRunnable
 					e.printStackTrace();
 					fw.write("\t<tr><td><font size=-1 color=red>Ausgabefehler</font></td></tr>"+lb);
 				}
-				fw.write(sBuffer.substring(end,sBuffer.length()));
+				fw.write(sBuffer.substring(end, sBuffer.length()));
 				fw.flush();
 				fw.close();
 			}
@@ -161,27 +153,34 @@ public class WebDatesExport implements ObservableRunnable
 
 	private String getCurrentWebHTML(Airdate date, String path)
 	{
-		StringBuffer buffer=new StringBuffer();
+		StringBuilder buffer=new StringBuilder();
 		buffer.append("\t<tr><td><small>");
 		Channel channel=date.getChannel();
 		if (channel!=null)
 		{
 			String logo=channel.getLogo();
 			String nameText=XMLUtils.toXMLString(channel.getName());
-			if (logo!=null )
+			if (logo!=null)
 			{
 				File logoFile=new File(logo);
 				if (logoFile.exists())
 				{
 					FileUtils.syncFiles(logoFile, new File(Configurator.getInstance().getString("path.logos.channels.web")));
-					buffer.append("<img src=\"/clipart/tv_logos/"+logoFile.getName()+"\" alt=\""+nameText+"\" title=\""+nameText+"\" borderColor=black border=1 align=top>");
+					buffer.append("<img src=\"/clipart/tv_logos/");
+					buffer.append(logoFile.getName());
+					buffer.append("\" alt=\"");
+					buffer.append(nameText);
+					buffer.append("\" title=\"");
+					buffer.append(nameText);
+					buffer.append("\" borderColor=black border=1 align=top>");
 				}
 				else buffer.append(nameText);
 			}
 			else buffer.append(nameText);
 		}
 		else buffer.append(XMLUtils.toXMLString(date.getChannelName()));
-		buffer.append(" "+new SimpleDateFormat("EEE, d.M.yyyy H:mm", Locale.GERMANY).format(date.getDate()));
+		buffer.append(" ");
+		buffer.append(new SimpleDateFormat("EEE, d.M.yyyy H:mm", Locale.GERMANY).format(date.getDate()));
 		String href=null;
 		String title="";
 		String style="nav";
@@ -194,25 +193,26 @@ public class WebDatesExport implements ObservableRunnable
 			{
 				try
 				{
-					href=FileUtils.getRelativePath(path,webScriptFile);
-					href=StringUtils.replaceStrings(href,"\\","/");
+					href=FileUtils.getRelativePath(path, webScriptFile);
+					href=StringUtils.replaceStrings(href, "\\", "/");
 					style="script";
 				}
-				catch (Exception e) {}
+				catch (Exception e)
+				{
+				}
 			}
 			String mouseInfo=episode.getJavaScript();
 			title=episode.toString();
 			if (href==null && mouseInfo!=null) href="javascript:void(0)";
 			if (mouseInfo!=null) link="<a class=\""+style+"\" href=\""+href+"\" onMouseOver=\""+mouseInfo+"\" onMouseOut=\"nd();\">";
-			else
-				if (href!=null) link="<a class=\""+style+"\" href=\""+href+"\">";
+			else if (href!=null) link="<a class=\""+style+"\" href=\""+href+"\">";
 		}
 		else
 		{
 			if (date.getEvent()!=null) title="\""+date.getEvent()+"\"";
 		}
-		if (link!=null) buffer.append(" "+link+XMLUtils.toXMLString(title)+"</a>");
-		else buffer.append(" "+XMLUtils.toXMLString(title));
+		if (link!=null) buffer.append(" ").append(link).append(XMLUtils.toXMLString(title)).append("</a>");
+		else buffer.append(" ").append(XMLUtils.toXMLString(title));
 		buffer.append("</small></td></tr>");
 		return buffer.toString();
 	}

@@ -19,7 +19,7 @@ import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.*;
 
-public class Show extends IDObject implements FanFicGroup, Linkable
+public class Show extends IDObject implements FanFicGroup, Linkable, Production
 {
 	public static final String AIRDATES="airdates";
 	public static final String EPISODES="episodes";
@@ -331,13 +331,13 @@ public class Show extends IDObject implements FanFicGroup, Linkable
 
 	public Set getMainCast()
 	{
-		return DBLoader.getInstance().loadSet(Cast.class, null, "type=? and show_id=?", Cast.MAIN_CAST, getId());
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.MAIN_CAST, getId());
 	}
 
-	public Cast createMainCast()
+	public CastMember createMainCast()
 	{
-		Cast cast=new Cast();
-		cast.setType(Cast.MAIN_CAST);
+		CastMember cast=new CastMember();
+		cast.setType(CastMember.MAIN_CAST);
 		cast.setShow(this);
 		fireElementAdded(MAIN_CAST, cast);
 		return cast;
@@ -345,24 +345,24 @@ public class Show extends IDObject implements FanFicGroup, Linkable
 
 	public Set getRecurringCast()
 	{
-		return DBLoader.getInstance().loadSet(Cast.class, null, "type=? and show_id=?", Cast.RECURRING_CAST, getId());
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.RECURRING_CAST, getId());
 	}
 
-	public Cast createRecurringCast()
+	public CastMember createRecurringCast()
 	{
-		Cast cast=new Cast();
-		cast.setType(Cast.RECURRING_CAST);
+		CastMember cast=new CastMember();
+		cast.setType(CastMember.RECURRING_CAST);
 		cast.setShow(this);
 		fireElementAdded(RECURRING_CAST, cast);
 		return cast;
 	}
 
-	public void dropCast(Cast cast)
+	public void dropCast(CastMember cast)
 	{
 		cast.delete();
-		if (cast.getType()==Cast.MAIN_CAST)
+		if (cast.getType()==CastMember.MAIN_CAST)
 			fireElementRemoved(MAIN_CAST, cast);
-		else if (cast.getType()==Cast.RECURRING_CAST) fireElementRemoved(RECURRING_CAST, cast);
+		else if (cast.getType()==CastMember.RECURRING_CAST) fireElementRemoved(RECURRING_CAST, cast);
 
 	}
 
@@ -471,4 +471,15 @@ public class Show extends IDObject implements FanFicGroup, Linkable
 	{
 		ASSOCIATION_GENRES.setAssociations(this, genres);
 	}
+
+	public Set<CrewMember> getCrewMembers(String type)
+	{
+		return Collections.emptySet();
+	}
+
+	public Set<CastMember> getCastMembers(int type)
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and type=?", getId(), type);
+	}
+
 }

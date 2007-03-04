@@ -287,7 +287,7 @@ public class VideoDetailsView extends DetailsView
 				Set<EpisodeTableRow> rows=new LinkedHashSet<EpisodeTableRow>();
 				for (int i=0; i<rowIndexes.length; i++)
 				{
-					rows.add(tmEpisodes.getRow(rowIndexes[i]));
+					rows.add((EpisodeTableRow)tmEpisodes.getRow(rowIndexes[i]));
 				}
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new MoveUpAction(rows));
@@ -360,7 +360,7 @@ public class VideoDetailsView extends DetailsView
 		}
 	}
 
-	private class EpisodesTableModel extends SortableTableModel<EpisodeTableRow>
+	private class EpisodesTableModel extends SortableTableModel<Episode>
 	{
 		private final String[] COLUMNS={"event", "length", "language"};
 
@@ -386,7 +386,7 @@ public class VideoDetailsView extends DetailsView
 
 		public void sort()
 		{
-			Collections.sort(rows, new Chain.ChainComparator<EpisodeTableRow>());
+			Collections.sort(rows, new Chain.ChainComparator());
 			fireTableDataChanged();
 		}
 	}

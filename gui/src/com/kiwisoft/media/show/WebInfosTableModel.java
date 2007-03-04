@@ -19,7 +19,7 @@ import com.kiwisoft.media.WebInfo;
  * Time: 18:17:46
  * To change this template use File | Settings | File Templates.
  */
-public class WebInfosTableModel extends SortableTableModel<WebInfosTableModel.Row>
+public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 {
 	private static final String[] COLUMNS={"name", "path", "language", "default"};
 
@@ -49,7 +49,7 @@ public class WebInfosTableModel extends SortableTableModel<WebInfosTableModel.Ro
 		return row;
 	}
 
-	public void addInfo(WebInfo info)
+	public void addInfo(T info)
 	{
 		Row row=new Row(info);
 		addRow(row);
@@ -57,13 +57,13 @@ public class WebInfosTableModel extends SortableTableModel<WebInfosTableModel.Ro
 		else if (requiresDefault && getRowCount()==1) defaultRow=row;
 	}
 
-	public class Row extends SortableTableRow<WebInfo>
+	public class Row extends SortableTableRow<T>
 	{
 		private String name;
 		private String path;
 		private Language language;
 
-		public Row(WebInfo info)
+		public Row(T info)
 		{
 			super(info);
 			if (info!=null)

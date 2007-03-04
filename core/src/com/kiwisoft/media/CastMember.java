@@ -11,14 +11,13 @@ import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 
-public class Cast extends IDObject
+public class CastMember extends IDObject
 {
 	public static final int MAIN_CAST=1;
 	public static final int RECURRING_CAST=2;
 	public static final int GUEST_CAST=3;
 
 	public static final String ACTOR="actor";
-	public static final String CHARACTER="character";
 	public static final String SHOW="show";
 	public static final String EPISODE="episode";
 	public static final String TYPE="type";
@@ -32,11 +31,11 @@ public class Cast extends IDObject
 	private String characterName;
 	private String description;
 
-	public Cast()
+	public CastMember()
 	{
 	}
 
-	public Cast(DBDummy dummy)
+	public CastMember(DBDummy dummy)
 	{
 		super(dummy);
 	}
@@ -49,16 +48,6 @@ public class Cast extends IDObject
 	public void setActor(Person value)
 	{
 		setReference(ACTOR, value);
-	}
-
-	public ShowCharacter getCharacter()
-	{
-		return (ShowCharacter)getReference(CHARACTER);
-	}
-
-	public void setCharacter(ShowCharacter value)
-	{
-		setReference(CHARACTER, value);
 	}
 
 	public Show getShow()
@@ -155,6 +144,6 @@ public class Cast extends IDObject
 
 	public String toString()
 	{
-		return getCharacter()+" ("+getActor()+")";
+		return getCharacterName()+" ("+getActor()+")";
 	}
 }

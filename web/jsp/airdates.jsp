@@ -1,16 +1,10 @@
-<%@ page language="java" extends="com.kiwisoft.media.web.MediaJspBase"%>
-<%@ page import = "com.kiwisoft.media.show.Show,
-				   com.kiwisoft.media.show.ShowManager,
-				   java.text.DateFormat,
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase"%>
+<%@ page import = "java.text.DateFormat,
 				   java.text.SimpleDateFormat,
 				   java.util.SortedSet,
 				   java.util.TreeSet,
 				   java.util.Iterator,
-				   java.util.Set,
-				   java.util.Collection,
-				   com.kiwisoft.xp.XPBean,
 				   java.util.Calendar,
-				   com.kiwisoft.media.show.EpisodeInfo,
 				   com.kiwisoft.media.show.Episode,
 				   com.kiwisoft.media.*" %>
 
@@ -44,7 +38,7 @@
 
 <head>
 <title>Sendetermine - <%=title%></title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
+<script language="JavaScript" src="/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
 <script language="JavaScript"><!--
 function navAirdates(pos)
@@ -103,19 +97,19 @@ function navAirdates(pos)
 		Channel channel=airdate.getChannel();
 		if (channel!=null && channel.isReceivable()) style="style=\"background:#eeeeff\"";
 %>
-		<tr <%=style%>><td><%=dateFormat.format(airdate.getDate())%></td><td><%=channel%></td>
+<tr <%=style%>><td><%=dateFormat.format(airdate.getDate())%></td><td><%=channel%></td>
 <%
 		Episode episode=airdate.getEpisode();
 		if (episode!=null)
 		{
-            EpisodeInfo link=episode.getDefaultInfo();
-			out.print("<td>");
-			if (link!=null)
-				out.print("<a class=\"link\" href=\"/"+link.getPath()+"?episode="+episode.getId()+"\">");
-			out.print(airdate.getName());
-			if (link!=null)
-				out.print("</a>");
-			out.println("</td></tr>");
+//            EpisodeInfo link=episode.getDefaultInfo();
+//			out.print("<td>");
+//			if (link!=null)
+//				out.print("<a class=\"link\" href=\"/"+link.getPath()+"?episode="+episode.getId()+"\">");
+//			out.print(airdate.getName());
+//			if (link!=null)
+//				out.print("</a>");
+//			out.println("</td></tr>");
 		}
 		else if (airdate.getMovie()!=null)
 		{

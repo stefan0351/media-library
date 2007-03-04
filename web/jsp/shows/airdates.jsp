@@ -8,7 +8,6 @@
 				   com.kiwisoft.media.AirdateComparator,
 				   com.kiwisoft.media.Channel,
 				   com.kiwisoft.media.show.Episode,
-				   com.kiwisoft.media.show.EpisodeInfo,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager" %>
 
@@ -64,26 +63,26 @@
 			Channel channel=airdate.getChannel();
 			if (channel!=null && channel.isReceivable()) style="style=\"background:#eeeeff\"";
 %>
-			<tr <%=style%>><td><%=dateFormat.format(airdate.getDate())%></td><td><%=airdate.getChannelName()%></td>
+			<tr <%=style%>><td class="content"><%=dateFormat.format(airdate.getDate())%></td>
+				<td class="content"><%=airdate.getChannelName()%></td>
+				<td class="content">
 <%
 			Episode episode=airdate.getEpisode();
 			if (episode!=null)
 			{
-				EpisodeInfo link=episode.getDefaultInfo();
-				out.print("<td class=\"content\">");
-				if (link!=null)
-					out.print("<a class=\"link\" href=\"/"+link.getPath()+"?episode="+episode.getId()+"\">");
-				out.print(airdate.getName());
-				if (link!=null)
-					out.print("</a>");
-				out.println("</td></tr>");
+%>
+				<a class="link" href="/shows/episode.jsp?episode=<%=episode.getId()%>"><%=airdate.getName()%></a>
+<%
 			}
 			else
 			{
 %>
-				<td><%=airdate.getName()%></td></tr>
+				<%=airdate.getName()%>
 <%
 			}
+%>
+			</td></tr>
+<%
 		}
 %>
 	</table>

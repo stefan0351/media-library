@@ -12,10 +12,6 @@ import java.net.URLEncoder;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.Person;
-import com.kiwisoft.media.PersonManager;
-import com.kiwisoft.media.Sex;
-import com.kiwisoft.media.SearchPattern;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
@@ -60,7 +56,6 @@ public class PersonDetailsView extends DetailsView
 	private JTextField tfSurname;
 	private JComboBox cbxSex;
 	private JCheckBox cbActor;
-	private DialogLookupField tfPrismaPattern;
 	private DialogLookupField tfTVTVPattern;
 
 	private PersonDetailsView(Person person, boolean actor)
@@ -84,7 +79,7 @@ public class PersonDetailsView extends DetailsView
 				if (nameCount==2) tfSurname.setText((String)names.get(1));
 				else
 				{
-					StringBuffer middleName=new StringBuffer();
+					StringBuilder middleName=new StringBuilder();
 					for (int i=1;i<nameCount-1;i++)
 					{
 						if (i>1) middleName.append(" ");
@@ -103,7 +98,6 @@ public class PersonDetailsView extends DetailsView
 		tfFirstName=new JTextField();
 		tfMiddleName=new JTextField();
 		tfSurname=new JTextField();
-		tfPrismaPattern=new DialogLookupField(new PrismaPatternLookup());
 		tfTVTVPattern=new DialogLookupField(new TVTVPatternLookup());
 		cbxSex=new JComboBox(new Object[]{Sex.FEMALE, Sex.MALE});
 		cbxSex.updateUI();
@@ -140,17 +134,7 @@ public class PersonDetailsView extends DetailsView
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Suchmuster:"), new GridBagConstraints(0, row, 4, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-
-		row++;
-		add(new JLabel("Prisma-Online:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 0, 0), 0, 0));
-		add(tfPrismaPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
-
-		row++;
-		add(new JLabel("TVTV:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Suchmuster (TVTV.de):"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 0, 0), 0, 0));
 		add(tfTVTVPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
@@ -171,9 +155,7 @@ public class PersonDetailsView extends DetailsView
 			tfSurname.setText(person.getSurname());
 			cbxSex.setSelectedItem(person.getSex());
 			cbActor.setSelected(person.isActor());
-			String pattern=person.getSearchPattern(SearchPattern.PRISMA_ONLINE);
-			if (pattern!=null) tfPrismaPattern.setText(pattern);
-			pattern=person.getSearchPattern(SearchPattern.TVTV);
+			String pattern=person.getSearchPattern(SearchPattern.TVTV);
 			if (pattern!=null) tfTVTVPattern.setText(pattern);
 		}
 		else
@@ -210,7 +192,6 @@ public class PersonDetailsView extends DetailsView
 			cbxSex.requestFocus();
 			return false;
 		}
-		String prismaPattern=tfPrismaPattern.getText();
 		String tvtvPattern=tfTVTVPattern.getText();
 		boolean actor=cbActor.isSelected();
 
@@ -223,7 +204,6 @@ public class PersonDetailsView extends DetailsView
 			person.setMiddleName(middleName);
 			person.setSurname(surname);
 			person.setSex(sex);
-			person.setSearchPattern(SearchPattern.PRISMA_ONLINE, prismaPattern);
 			person.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 			person.setActor(actor);
 			transaction.close();
@@ -251,7 +231,7 @@ public class PersonDetailsView extends DetailsView
 
 	private String buildName()
 	{
-		StringBuffer name=new StringBuffer();
+		StringBuilder name=new StringBuilder();
 		String firstName=tfFirstName.getText().trim();
 		if (!StringUtils.isEmpty(firstName)) name.append(firstName);
 		String middleName=tfMiddleName.getText().trim();
@@ -273,7 +253,7 @@ public class PersonDetailsView extends DetailsView
 	{
 		public void changedUpdate(DocumentEvent e)
 		{
-			StringBuffer name=new StringBuffer();
+			StringBuilder name=new StringBuilder();
 			String surname=tfSurname.getText().trim();
 			if (StringUtils.isEmpty(surname)) surname="<Nachname>";
 			name.append(surname);
@@ -285,27 +265,6 @@ public class PersonDetailsView extends DetailsView
 			if (!StringUtils.isEmpty(middleName)) name.append(" ").append(middleName);
 			String nameString=name.toString();
 			setTitle("Person: "+nameString);
-		}
-	}
-
-	private class PrismaPatternLookup implements DialogLookup
-	{
-		public void open(JTextField field)
-		{
-			try
-			{
-				field.setText("pattern="+URLEncoder.encode(buildName(), "UTF-8"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-            	JOptionPane.showMessageDialog(field, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-		public Icon getIcon()
-		{
-			return IconManager.getIcon("com/kiwisoft/utils/icons/lookup_create.gif");
 		}
 	}
 

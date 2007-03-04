@@ -6,20 +6,20 @@
  */
 package com.kiwisoft.media.show;
 
-import java.util.Set;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.Date;
 
+import com.kiwisoft.media.*;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.media.Name;
-import com.kiwisoft.media.Language;
 
-public class Episode extends IDObject implements Chain.ChainLink, Comparable
+public class Episode extends IDObject implements Chain.ChainLink, Comparable, Production
 {
 	public static final String SHOW="show";
-	public static final String DEFAULT_INFO="defaultInfo";
 
 	private String userKey;
 	private String name;
@@ -29,9 +29,10 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable
 	private boolean record;
 	private boolean good;
 	private Set<Name> altNames;
-	private Set<EpisodeInfo> infos;
 	private String javaScript;
 	private String webScriptFile;
+	private String productionCode;
+	private Date airdate;
 
 	public Episode(Show show)
 	{
@@ -51,6 +52,28 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable
 	public void setUserKey(String userKey)
 	{
 		this.userKey=userKey;
+		setModified();
+	}
+
+	public String getProductionCode()
+	{
+		return productionCode;
+	}
+
+	public void setProductionCode(String productionCode)
+	{
+		this.productionCode=productionCode;
+		setModified();
+	}
+
+	public Date getAirdate()
+	{
+		return airdate;
+	}
+
+	public void setAirdate(Date airdate)
+	{
+		this.airdate=airdate;
 		setModified();
 	}
 
@@ -85,26 +108,6 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable
 		return altNames;
 	}
 
-	public EpisodeInfo createInfo()
-	{
-		EpisodeInfo info=new EpisodeInfo(this);
-		if (infos!=null) infos.add(info);
-		return info;
-	}
-
-	public void dropInfo(EpisodeInfo info)
-	{
-		if (infos!=null) infos.remove(info);
-		info.delete();
-	}
-
-	public Set getInfos()
-	{
-		if (infos==null)
-			infos=DBLoader.getInstance().loadSet(EpisodeInfo.class, null, "episode_id=?", getId());
-		return infos;
-	}
-
 	public Show getShow()
 	{
 		return (Show)getReference(SHOW);
@@ -113,16 +116,6 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable
 	public void setShow(Show show)
 	{
 		setReference(SHOW, show);
-	}
-
-	public EpisodeInfo getDefaultInfo()
-	{
-		return (EpisodeInfo)getReference(DEFAULT_INFO);
-	}
-
-	public void setDefaultInfo(EpisodeInfo episodeInfo)
-	{
-		setReference(DEFAULT_INFO, episodeInfo);
 	}
 
 	public void setChainPosition(int position)
@@ -282,10 +275,43 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable
 		return getShow().getEpisodes().getPrevious(this);
 	}
 
-	public String getLink()
+	public void setSummaryText(Language language, String text)
 	{
-		EpisodeInfo link=getDefaultInfo();
-		if (link!=null) return "/"+link.getPath()+"?episode="+getId();
-		return null;
+		Summary summary=getSummary(language);
+		if (!StringUtils.isEmpty(text))
+		{
+			if (summary==null)
+			{
+				summary=new Summary();
+				summary.setEpisode(this);
+				summary.setLanguage(language);
+			}
+			summary.setSummary(text);
+		}
+		else
+		{
+			if (summary!=null) summary.delete();
+		}
+	}
+
+	public String getSummaryText(Language language)
+	{
+		Summary summary=getSummary(language);
+		return summary!=null ? summary.getSummary() : null;
+	}
+
+	private Summary getSummary(Language language)
+	{
+		return DBLoader.getInstance().load(Summary.class, null, "episode_id=? and language_id=?", getId(), language.getId());
+	}
+
+	public Set<CrewMember> getCrewMembers(String type)
+	{
+		return DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=? and type=?", getId(), type);
+	}
+
+	public Set<CastMember> getCastMembers(int type)
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and type=?", getId(), type);
 	}
 }

@@ -1,14 +1,14 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
 <%@ page import="java.util.Iterator,
-				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.media.show.ShowManager,
-				 java.util.TreeSet,
 				 java.util.SortedSet,
-				 com.kiwisoft.utils.StringComparator,
+				 java.util.TreeSet,
+				 com.kiwisoft.media.Genre,
+				 com.kiwisoft.media.Language,
 				 com.kiwisoft.media.LanguageManager,
-				 com.kiwisoft.media.Language"%>
+				 com.kiwisoft.media.show.Show,
+				 com.kiwisoft.utils.StringComparator"%>
 <%@ page import="com.kiwisoft.utils.db.DBLoader"%>
-<%@ page import="com.kiwisoft.media.Genre"%>
+
 <html>
 
 <head>

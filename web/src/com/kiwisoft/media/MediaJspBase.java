@@ -4,8 +4,6 @@ import javax.servlet.ServletException;
 
 import org.apache.jasper.runtime.HttpJspBase;
 
-import com.kiwisoft.media.MediaManagerApp;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Stefan1

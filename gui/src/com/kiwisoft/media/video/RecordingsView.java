@@ -150,7 +150,7 @@ public class RecordingsView extends ViewPanel
 			int[] rows=tblRecords.getSelectedRows();
 			for (int i=0; i<rows.length; i++)
 			{
-				RecordsTableModel.Row tableRow=tmRecords.getRow(rows[i]);
+				RecordsTableModel.Row tableRow=(RecordsTableModel.Row)tmRecords.getRow(rows[i]);
 				selectedObjects.add(tableRow.getUserObject());
 			}
 			tblRecords.clearSelection();

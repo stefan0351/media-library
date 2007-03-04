@@ -64,7 +64,7 @@ public class PersonManager
 
 	public boolean isPersonUsed(Person person)
 	{
-		return DBLoader.getInstance().count(Cast.class, null, "actor_id=?", person.getId())>0;
+		return DBLoader.getInstance().count(CastMember.class, null, "actor_id=?", person.getId())>0;
 	}
 
 	public Person createPerson()
@@ -72,6 +72,11 @@ public class PersonManager
 		Person person=new Person();
 		fireElementAdded(PERSONS, person);
 		return person;
+	}
+
+	public Person getPersonByName(String name)
+	{
+		return DBLoader.getInstance().load(Person.class, null, "name=?", name);
 	}
 }
 

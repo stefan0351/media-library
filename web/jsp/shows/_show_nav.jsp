@@ -1,12 +1,11 @@
 <%@ page language="java" %>
-<%@ page import="com.kiwisoft.xp.XPBean,
-				 com.kiwisoft.media.show.Show,
+<%@ page import="java.util.Iterator,
+				 java.util.Map,
+				 java.util.TreeMap,
+				 java.util.TreeSet,
 				 com.kiwisoft.media.show.Season,
-				 com.kiwisoft.media.fanfic.FanDom,
-				 com.kiwisoft.utils.StringComparator,
-				 com.kiwisoft.media.show.EpisodeInfo,
-				 com.kiwisoft.media.show.ShowInfo,
-				 java.util.*"%>
+				 com.kiwisoft.media.show.Show,
+				 com.kiwisoft.media.show.ShowInfo"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
 
 <%

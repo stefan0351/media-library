@@ -2,7 +2,7 @@
 <%@ page import = "java.util.Iterator,
 				   java.util.Set,
 				   java.util.TreeSet,
-				   com.kiwisoft.media.Cast,
+				   com.kiwisoft.media.CastMember,
 				   com.kiwisoft.media.CastComparator,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
@@ -55,7 +55,7 @@
 		Set noImageCast=new TreeSet(new CastComparator());
 		for (Iterator it=mainCast.iterator(); it.hasNext();)
 		{
-			Cast cast=(Cast)it.next();
+			CastMember cast=(CastMember)it.next();
 			if (StringUtils.isEmpty(cast.getImageSmall())) noImageCast.add(cast);
 			else imageCast.add(cast);
 		}
@@ -66,12 +66,12 @@
 		boolean row=true;
 		for (Iterator it=imageCast.iterator(); it.hasNext();)
 		{
-			Cast cast=(Cast)it.next();
+			CastMember cast=(CastMember)it.next();
 			String description=cast.getDescription();
 			if (description==null) description="";
 			if (col==0) out.print("<tr class=content valign=top>");
 %>
-				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacter()%></b>
+				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacterName()%></b>
 				<p>
 <%
 				String imageLarge=cast.getImageLarge();
@@ -103,11 +103,11 @@
 			col=0;
 			for (Iterator it=noImageCast.iterator(); it.hasNext();)
 			{
-				Cast cast=(Cast)it.next();
+				CastMember cast=(CastMember)it.next();
 				String description=cast.getDescription();
 				if (col==0) out.print("<tr class=content valign=top>");
 %>
-				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacter()%></b>
+				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacterName()%></b>
 <%
 				if (!StringUtils.isEmpty(description))
 				{
@@ -147,9 +147,9 @@
 		Iterator it=recurringCast.iterator();
 		while (it.hasNext())
 		{
-			Cast cast=(Cast)it.next();
+			CastMember cast=(CastMember)it.next();
 %>
-			<tr><td class="content"><%=cast.getCharacter()!=null ? cast.getCharacter().toString() : "&nbsp;"%></td>
+			<tr><td class="content"><%=cast.getCharacterName()!=null ? cast.getCharacterName() : "&nbsp;"%></td>
 				<td class="content"><%=cast.getActor()!=null ? cast.getActor().toString() : "&nbsp;"%></td>
 				<td class="content"><%=cast.getVoice()!=null ? cast.getVoice() : "&nbsp;"%></td></tr>
 <%

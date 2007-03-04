@@ -9,10 +9,8 @@ package com.kiwisoft.media;
 
 import java.io.File;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.media.video.VideoManager;
 
 public class MediaManagerApp
 {

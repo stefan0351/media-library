@@ -13,22 +13,22 @@ import com.kiwisoft.media.Person;
 import com.kiwisoft.media.SearchManager;
 import com.kiwisoft.media.SearchPattern;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.gui.progress.ObservableRunnable;
+import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
-public class TVTVInfoLoader implements ObservableRunnable
+public class TVTVInfoLoader implements Job
 {
 	public static final String BASE_URL="http://www.tvtv.de";
 	public static final SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("dd. MMM HH.mm", Locale.GERMAN);
 
 	private String path;
 	private Set objects;
-	private ProgressSupport progressSupport=new ProgressSupport(null);
+	private ProgressSupport progressSupport;
 	private Set parsed;
 	private Set loaded;
 
@@ -64,101 +64,89 @@ public class TVTVInfoLoader implements ObservableRunnable
 		return "Lade TVTV Termine";
 	}
 
-	public void setProgress(ProgressListener progressListener)
+	public boolean run(ProgressListener progressListener) throws Exception
 	{
-		progressSupport=new ProgressSupport(progressListener);
+		progressSupport=new ProgressSupport(this, progressListener);
+		progressSupport.startStep("Lade Hauptseite...");
+
+		// Load index page
+		String content=WebUtils.loadURL(BASE_URL);
+		XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
+
+		// Load main frame
+		content=WebUtils.loadURL(url);
+		tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
+
+		// Load nav frame
+		content=WebUtils.loadURL(url);
+		tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
+		url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
+
+		// Load nav bottom
+		content=WebUtils.loadURL(url);
+		tag=XMLUtils.getNextTag(content, 0, "FORM");
+		String searchUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?2.1=";
+
+		// Load dates main frame
+		progressSupport.startStep("Lade Suchmuster...");
+		if (objects==null)
+		{
+			Collection patterns=SearchManager.getInstance().getSearchPatterns(SearchPattern.TVTV, Show.class);
+
+			Iterator it=patterns.iterator();
+			progressSupport.startStep("Lade Termine...");
+			progressSupport.initialize(true, patterns.size(), null);
+			while (it.hasNext() && !progressSupport.isStoppedByUser())
+			{
+				SearchPattern pattern=(SearchPattern)it.next();
+				Show show=pattern.getShow();
+				if (show!=null) loadShowDates(show, searchUrl, pattern.getPattern());
+				progressSupport.progress(1, true);
+			}
+		}
+		else
+		{
+			Iterator it=objects.iterator();
+			progressSupport.initialize(true, objects.size(), null);
+			progressSupport.startStep("Lade Termine...");
+			while (it.hasNext() && !progressSupport.isStoppedByUser())
+			{
+				Object object=it.next();
+				if (object instanceof Show)
+				{
+					Show show=(Show)object;
+					String pattern=show.getSearchPattern(SearchPattern.TVTV);
+					loadShowDates(show, searchUrl, pattern);
+				}
+				else if (object instanceof Person)
+				{
+					Person person=(Person)object;
+					String pattern=person.getSearchPattern(SearchPattern.TVTV);
+					loadPersonDates(person, searchUrl, pattern);
+				}
+				else
+					progressSupport.warning("Unhandled object class "+object.getClass());
+				progressSupport.progress(1, true);
+			}
+		}
+		return true;
 	}
 
-	public void run()
+	public void dispose() throws IOException
 	{
-		try
-		{
-			progressSupport.step("Lade Hauptseite...");
-
-			// Load index page
-			String content=WebUtils.loadURL(BASE_URL);
-			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-			// Load main frame
-			content=WebUtils.loadURL(url);
-			tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-			// Load nav frame
-			content=WebUtils.loadURL(url);
-			tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-			// Load nav bottom
-			content=WebUtils.loadURL(url);
-			tag=XMLUtils.getNextTag(content, 0, "FORM");
-			String searchUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?2.1=";
-
-			// Load dates main frame
-			progressSupport.step("Lade Suchmuster...");
-			if (objects==null)
-			{
-				Collection patterns=SearchManager.getInstance().getSearchPatterns(SearchPattern.TVTV, Show.class);
-
-				Iterator it=patterns.iterator();
-				progressSupport.step("Lade Termine...");
-				progressSupport.initialize(patterns.size());
-				while (it.hasNext() && !progressSupport.isStopped())
-				{
-					SearchPattern pattern=(SearchPattern)it.next();
-					Show show=pattern.getShow();
-					if (show!=null) loadShowDates(show, searchUrl, pattern.getPattern());
-					progressSupport.progress(1, true);
-				}
-			}
-			else
-			{
-				Iterator it=objects.iterator();
-				progressSupport.initialize(objects.size());
-				progressSupport.step("Lade Termine...");
-				while (it.hasNext() && !progressSupport.isStopped())
-				{
-					Object object=it.next();
-					if (object instanceof Show)
-					{
-						Show show=(Show)object;
-						String pattern=show.getSearchPattern(SearchPattern.TVTV);
-						loadShowDates(show, searchUrl, pattern);
-					}
-					else if (object instanceof Person)
-					{
-						Person person=(Person)object;
-						String pattern=person.getSearchPattern(SearchPattern.TVTV);
-						loadPersonDates(person, searchUrl, pattern);
-					}
-					else
-						progressSupport.warning("Unhandled object class "+object.getClass());
-					progressSupport.progress(1, true);
-				}
-			}
-
-		}
-		catch (Throwable t)
-		{
-			t.printStackTrace();
-			progressSupport.error("Exception: "+t.getMessage());
-		}
-		finally
-		{
-			progressSupport.stopped();
-		}
 	}
 
 	private void loadShowDates(Show show, String searchUrl, String patternString)
 	{
-		progressSupport.step("Lade Termine für "+show.getName()+"...");
+		progressSupport.startStep("Lade Termine für "+show.getName()+"...");
 		try
 		{
 			String content=WebUtils.loadURL(searchUrl+patternString);
@@ -170,7 +158,7 @@ public class TVTVInfoLoader implements ObservableRunnable
 			// Load dates list frame
 			content=WebUtils.loadURL(url);
 			parseListing(content);
-			progressSupport.message("Termine für "+show.getName()+" geladen.");
+			progressSupport.info("Termine für "+show.getName()+" geladen.");
 		}
 		catch (IOException e)
 		{
@@ -183,7 +171,7 @@ public class TVTVInfoLoader implements ObservableRunnable
 	{
 		if (!StringUtils.isEmpty(patternString))
 		{
-			progressSupport.step("Lade Termine für "+person.getName()+"...");
+			progressSupport.startStep("Lade Termine für "+person.getName()+"...");
 			String content=WebUtils.loadURL(searchUrl+patternString);
 			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
 			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
@@ -204,7 +192,7 @@ public class TVTVInfoLoader implements ObservableRunnable
 
 			parsePersonListing(content);
 
-			progressSupport.message("Termine für "+person.getName()+" geladen.");
+			progressSupport.info("Termine für "+person.getName()+" geladen.");
 		}
 	}
 

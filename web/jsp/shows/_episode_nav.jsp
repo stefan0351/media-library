@@ -1,25 +1,39 @@
 <%@ page language="java" %>
-<%@ page import="java.util.Iterator,
-				 java.util.TreeSet,
-				 java.util.Set,
-				 com.kiwisoft.media.show.Episode,
-				 com.kiwisoft.utils.StringComparator,
-				 com.kiwisoft.media.show.EpisodeInfo"%>
+<%@ page import="com.kiwisoft.media.Language,
+				 com.kiwisoft.media.show.Episode"%>
 <%
 	Episode episode=(Episode)request.getAttribute("episode");
+	Language language=(Language)request.getAttribute("language");
 %>
 
 <table class="menutable">
 <tr><td class="menuheader">Episode</td></tr>
+<tr><td class="menuitem">
+	<a class="menulink" href="/shows/episode.jsp?episode=<%=episode.getId()%>&language=<%=language.getSymbol()%>">Kurzbeschreibung</a>
+</td></tr>
+<tr><td class="menuitem">
+	<a class="menulink" href="/shows/episode.jsp?episode=<%=episode.getId()%>&language=<%=language.getSymbol()%>#production">Produktion</a>
+</td></tr>
+<tr><td class="menuitem">
+	<a class="menulink" href="/shows/episode.jsp?episode=<%=episode.getId()%>&language=<%=language.getSymbol()%>#castAndCrew">Besetzung und Stab</a>
+</td></tr>
+
+<tr><td><hr size=1 color=black></td></tr>
+
+<tr><td class="menuitem">
 <%
-	Set infos=new TreeSet(new StringComparator());
-	infos.addAll(episode.getInfos());
-	for (Iterator it=infos.iterator(); it.hasNext();)
+	if ("de".equals(language.getSymbol()))
 	{
-		EpisodeInfo info=(EpisodeInfo)it.next();
 %>
-<tr><td class="menuitem"><a class="menulink" href="/<%=info.getPath()%>?episode=<%=episode.getId()%>"><%=info.getName()%></a></td></tr>
+	<a class="menulink" href="/shows/episode.jsp?episode=<%=episode.getId()%>&language=en">English</a>
+<%
+	}
+	else
+	{
+%>
+	<a class="menulink" href="/shows/episode.jsp?episode=<%=episode.getId()%>&language=de">Deutsch</a>
 <%
 	}
 %>
+</td></tr>
 </table>

@@ -140,11 +140,6 @@ public class ShowManager
 		return DBLoader.getInstance().load(Show.class, null, "userkey=?", showKey);
 	}
 
-	public EpisodeInfo getEpisodeInfo(Long id)
-	{
-		return DBLoader.getInstance().load(EpisodeInfo.class, id);
-	}
-
 	public Season getSeason(Long id)
 	{
 		return DBLoader.getInstance().load(Season.class, id);

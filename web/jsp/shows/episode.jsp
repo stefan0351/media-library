@@ -1,26 +1,32 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.util.Collection,
-				 java.util.Iterator,
-				 com.kiwisoft.media.Language,
-				 com.kiwisoft.media.LanguageManager,
+<%@ page import="java.util.Date,
+				 java.util.Locale,
 				 com.kiwisoft.media.show.Episode,
 				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.media.show.ShowManager,
-				 com.kiwisoft.utils.StringUtils,
-				 com.kiwisoft.xp.XPBean" %>
+				 com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="com.kiwisoft.utils.JspUtils"%>
+<%@ page import="com.kiwisoft.utils.StringUtils"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="com.kiwisoft.media.*"%>
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	Episode episode=ShowManager.getInstance().getEpisode(new Long(request.getParameter("episode")));
 	request.setAttribute("episode", episode);
+	String languageSymbol=request.getParameter("language");
+	if (StringUtils.isEmpty(languageSymbol)) languageSymbol="de";
+	Language language=LanguageManager.getInstance().getLanguageBySymbol(languageSymbol);
+	request.setAttribute("language", language);
+	Locale locale=new Locale(languageSymbol);
 	Show show=episode.getShow();
 	request.setAttribute("show", show);
-	XPBean info=(XPBean)request.getAttribute("xp");
-	Language language=LanguageManager.getInstance().getLanguageBySymbol("en");
 %>
+
 <html>
 
 <head>
-<title><%=show.getName()%> - <%=episode.getName()%></title>
+<title><%=show.getName(language)%> - <%=episode.getName(language)%></title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -30,9 +36,7 @@
 
 <div id="overDiv" class="over_lib"></div>
 
-<div class="title">
-<div style="margin-left:10px; margin-top:5px;"><%=show.getName(language)%></div>
-</div>
+<media:title><%=show.getName(language)%></media:title>
 
 <div class="main">
 <table cellspacing="0" cellpadding="5"><tr valign="top">
@@ -55,237 +59,211 @@
 			<jsp:include page="/shows/_episode_next.jsp"/>
 			<br/>
 <%
-	Object content=info.getValue("content");
-	if (content!=null)
+	String summary=episode.getSummaryText(language);
+	if (!StringUtils.isEmpty(summary))
 	{
 %>
 			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="content">Content</a></td></tr>
+			<tr><td class="header2"><a name="content"><%=Resources.getResource("episode.shortSummary", locale)%></a></td></tr>
 			<tr><td class="content">
-				<%=content%>
+				<%=JspUtils.prepareString(summary)%>
 				<p align=right><a class=link href="#top">Top</a></p>
 			</td></tr>
 			</table>
 <%
 	}
-	XPBean credits=(XPBean)info.getValue("credits");
-	if (credits!=null)
+
+	Date airdate=episode.getAirdate();
+	String productionCode=episode.getProductionCode();
+	if (airdate!=null || !StringUtils.isEmpty(productionCode) || show.getLanguage()!=language)
 	{
 %>
 			<table class="contenttable" width="765">
-			<tr><td class=header2><a name="credits">Credits</a></td></tr>
-			<tr><td class="content"><dl>
+			<tr><td class="header2"><a name="production"><%=Resources.getResource("episode.production", locale)%></a></td></tr>
+			<tr><td class="content">
+				<dl>
 <%
-		Collection altTitles=info.getValues("credits.altTitle");
-		if (altTitles!=null)
+		if (show.getLanguage()!=language)
 		{
 %>
-				<dt><b>Alternative Titles:</b>
+				<dt><b><%=Resources.getResource("episode.originalTitle", locale)%>:</b>
+					<dd><%=JspUtils.prepareString(episode.getOriginalName())%></dd> </dt>
 <%
-		   Iterator it=altTitles.iterator();
-		   while (it.hasNext()) out.println("<dd>"+it.next());
 		}
-		Collection writers=info.getValues("credits.writer");
-		if (writers!=null)
+		if (airdate!=null)
 		{
 %>
-				<dt><b>Written by:</b><dd><%=StringUtils.formatAsEnumeration(writers)%>
+				<dt><b><%=Resources.getResource("episode.firstAired", locale)%>:</b>
+					<dd><%=JspUtils.prepareDate(airdate, locale)%></dd> </dt>
 <%
 		}
-		Collection storyWriters=info.getValues("credits.story");
-		if (storyWriters!=null)
+		if (!StringUtils.isEmpty(productionCode))
 		{
 %>
-				<dt><b>Story by:</b><dd><%=StringUtils.formatAsEnumeration(storyWriters)%>
+				<dt><b><%=Resources.getResource("episode.productionCode", locale)%>:</b>
+					<dd><%=productionCode%></dd> </dt>
 <%
 		}
-		Collection directors=info.getValues("credits.director");
-		if (directors!=null)
+%>
+				</dl>
+				<p align=right><a class=link href="#top">Top</a></p>
+			</td></tr>
+			</table>
+<%
+	}
+
+	Set writers=episode.getCrewMembers(CrewMember.WRITER);
+	Set directors=episode.getCrewMembers(CrewMember.DIRECTOR);
+	Set story=episode.getCrewMembers(CrewMember.STORY);
+	Set mainCast=episode.getCastMembers(CastMember.MAIN_CAST);
+	Set recurringCast=episode.getCastMembers(CastMember.RECURRING_CAST);
+	Set guestCast=episode.getCastMembers(CastMember.GUEST_CAST);
+	if (!writers.isEmpty() || !directors.isEmpty() || !story.isEmpty()
+		|| !mainCast.isEmpty() || !recurringCast.isEmpty() || !guestCast.isEmpty())
+	{
+%>
+			<table class="contenttable" width="765">
+			<tr><td class="header2"><a name="castAndCrew"><%=Resources.getResource("episode.castAndCrew", locale)%></a></td></tr>
+			<tr><td class="content">
+				<dl>
+<%
+		if (!writers.isEmpty())
 		{
 %>
-				<dt><b>Directed by:</b><dd><%=StringUtils.formatAsEnumeration(directors)%>
+						<dt><b><%=Resources.getResource("episode.writtenBy", locale)%>:</b><dd>
 <%
-		}
-   		XPBean guestCast=(XPBean)info.getValue("credits.guestCast");
-   		if (guestCast!=null)
-   		{
-%>
-				<dt><b>Guest Cast:</b><dd>
-					<table cellspacing=2 cellpadding=0><%
-			Iterator it=guestCast.getValues("cast").iterator();
-			while (it.hasNext())
+			for (Iterator it=writers.iterator();it.hasNext();)
 			{
-				XPBean cast=(XPBean)it.next();
-				out.print("<tr><td class=content2>"+cast.getValue("actor")+"</td>");
-				Object character=cast.getValue("character");
-				if (character!=null) out.print("<td class=content2>&#151;</td><td class=content2>"+character+"</td>");
-				out.print("</tr>");
+				CrewMember crew=(CrewMember)it.next();
+				out.print(JspUtils.prepareString(crew.getPerson().getName()));
+				if (it.hasNext()) out.println(",");
 			}
 %>
-					</table>
-<%
-   		}
-   		Collection cast=info.getValues("credits.recurringCast");
-   		if (cast!=null)
-   		{
-%>
-				<dt><b>Recurring Cast:</b><dd><%=StringUtils.formatAsEnumeration(cast)%>
+						</dd></dt>
 <%
 		}
-   		Object firstAired=info.getValue("credits.firstAired");
-   		if (firstAired!=null)
-   		{
-%>
-				<dt><b>First Aired:</b><dd><%=firstAired%>
-<%
-		}
-%>
-			</dl>
-			<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
-<%
-	}
-	if (info.getValue("notes")!=null)
-	{
-%>
-			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="notes">Notes</a></td></tr>
-			<tr><td class="content">
-<%
-		Collection facts=info.getValues("notes.fact");
-		if (facts!=null)
+		if (!directors.isEmpty())
 		{
-			out.print("<dl>");
-			Iterator it=facts.iterator();
-			while (it.hasNext())
+%>
+						<dt><b><%=Resources.getResource("episode.directedBy", locale)%>:</b><dd>
+<%
+			for (Iterator it=directors.iterator();it.hasNext();)
 			{
-				XPBean fact=(XPBean)it.next();
-				out.println("<dt><b>"+fact.getValue("name")+":</b><dd>"+fact);
+				CrewMember crew=(CrewMember)it.next();
+				out.print(JspUtils.prepareString(crew.getPerson().getName()));
+				if (it.hasNext()) out.println(",");
 			}
-			out.println("</dl>");
+%>
+						</dd></dt>
+<%
 		}
-		Collection noteList=info.getValues("notes.note");
-		if (noteList!=null)
-		{
-			Iterator it=noteList.iterator();
-			while (it.hasNext()) out.println("<p>"+it.next()+"</p>");
-		}
-%>
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
-<%
-	}
-	if (info.getValue("comments")!=null)
-	{
-%>
-			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="comments">Comments</a></td></tr>
-			<tr><td class="content">
-<%
-		Iterator it=info.getValues("comments.comment").iterator();
-		while (it.hasNext())
-		{
-			XPBean comment=(XPBean)it.next();
-			out.println("<p>"+comment+"</p>");
-		}
-%>
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
-<%
-	}
-	if (info.getValue("media")!=null)
-	{
-%>
-			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="media">Multimedia</a></td></tr>
-			<tr><td class="content">
-<%
-		Collection videos=info.getValues("media.video");
-		if (videos!=null)
+		if (!story.isEmpty())
 		{
 %>
-				<p><u><b>Videos:</b></u></p>
-				<table cellspacing=0 cellpadding=10>
+					<dt><b><%=Resources.getResource("episode.storyBy", locale)%>:</b><dd>
 <%
-			int column=0;
-			Iterator it=videos.iterator();
-			while (it.hasNext())
+			for (Iterator it=story.iterator();it.hasNext();)
 			{
-				XPBean video=(XPBean)it.next();
-				if (column==0) out.print("<tr>");
+				CrewMember crew=(CrewMember)it.next();
+				out.print(JspUtils.prepareString(crew.getPerson().getName()));
+				if (it.hasNext()) out.println(",");
+			}
 %>
-				<td align=center><a href="<%=video.getValue("href")%>"><img src="<%=video.getValue("preview")%>" border=0></a></td>
+					</dd></dt>
 <%
-				if (column==3)
+		}
+		if (!mainCast.isEmpty())
+		{
+%>
+					<dt><b><%=Resources.getResource("episode.mainCast", locale)%>:</b><dd>
+						<table cellspacing=2 cellpadding=0>
+<%
+			for (Iterator it=mainCast.iterator();it.hasNext();)
+			{
+				CastMember castMember=(CastMember)it.next();
+%>
+						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getCharacterName()%></td>
+<%
+				if (!StringUtils.isEmpty(castMember.getVoice()))
 				{
-					out.print("</tr>");
-					column=0;
+%>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getVoice()%></td>
+<%
 				}
-				else column++;
+%>
+						</tr>
+<%
 			}
 %>
-				</table>
+						</table>
+					</dd></dt>
 <%
 		}
-		Collection images=info.getValues("media.image");
-		if (images!=null)
+		if (!recurringCast.isEmpty())
 		{
 %>
-				<p><u><b>Images:</b></u></p>
-				<table cellspacing=0 cellpadding=10>
+					<dt><b><%=Resources.getResource("episode.recurringCast", locale)%>:</b><dd>
+						<table cellspacing=2 cellpadding=0>
 <%
-			int column=0;
-			Iterator it=images.iterator();
-			while (it.hasNext())
+			for (Iterator it=recurringCast.iterator();it.hasNext();)
 			{
-				XPBean image=(XPBean)it.next();
-				if (column==0) out.print("<tr>");
+				CastMember castMember=(CastMember)it.next();
 %>
-				<td align=center><a href="<%=image.getValue("href")%>"><img src="<%=image.getValue("preview")%>" border=0></a></td>
+						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getCharacterName()%></td>
 <%
-				if (column==3)
+				if (!StringUtils.isEmpty(castMember.getVoice()))
 				{
-					out.print("</tr>");
-					column=0;
+%>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getVoice()%></td>
+<%
 				}
-				else column++;
+%>
+						</tr>
+<%
 			}
 %>
-				</table>
+						</table>
+					</dd></dt>
+<%
+		}
+		if (!guestCast.isEmpty())
+		{
+%>
+					<dt><b><%=Resources.getResource("episode.guestCast", locale)%>:</b><dd>
+						<table cellspacing=2 cellpadding=0>
+<%
+			for (Iterator it=guestCast.iterator();it.hasNext();)
+			{
+				CastMember castMember=(CastMember)it.next();
+%>
+						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getCharacterName()%></td>
+<%
+				if (!StringUtils.isEmpty(castMember.getVoice()))
+				{
+%>
+							<td class="content2">&mdash;</td>
+							<td class="content2"><%=castMember.getVoice()%></td>
+<%
+				}
+%>
+						</tr>
+<%
+			}
+%>
+						</table>
+					</dd></dt>
 <%
 		}
 %>
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
-<%
-	}
-	XPBean summary2=(XPBean)info.getValue("summary");
-	if (summary2!=null)
-	{
-%>
-			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="summary">Summary</a></td></tr>
-			<tr><td class="content">
-				<%=summary2%>
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
-<%
-	}
-	if (info.getValue("quotes")!=null)
-	{
-%>
-			<table class="contenttable" width="765">
-			<tr><td class="header2"><a name="quotes">Quotes</a></td></tr>
-			<tr><td class="content">
-<%
-		Iterator it=info.getValues("quotes.quote").iterator();
-		while (it.hasNext()) out.println(it.next());
-%>
+				</dl>
 				<p align=right><a class=link href="#top">Top</a></p>
 			</td></tr>
 			</table>

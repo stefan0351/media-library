@@ -26,8 +26,7 @@ public class LinkTagHandler implements XMLTagHandler
 				Episode episode=ShowManager.getInstance().getEpisode(showKey, episodeKey);
 				if (episode!=null)
 				{
-					EpisodeInfo info=episode.getDefaultInfo();
-					if (info!=null) return "<a class=\"link\" href=\"/"+info.getPath()+"?episode="+episode.getId()+"\">";
+					return "<a class=\"link\" href=\"/shows/episode.jsp?episode="+episode.getId()+"\">";
 				}
 			}
 			else

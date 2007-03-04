@@ -9,7 +9,6 @@ package com.kiwisoft.media.fanfic;
 import java.util.Set;
 import java.util.SortedSet;
 
-import com.kiwisoft.media.ShowCharacter;
 import com.kiwisoft.utils.db.DBAssociation;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
@@ -17,10 +16,8 @@ import com.kiwisoft.utils.db.IDObject;
 public class Pairing extends IDObject implements FanFicGroup, Comparable
 {
 	public static final String FANFICS="fanfics";
-	public static final String CHARACTERS="characters";
 
 	private static final DBAssociation<Pairing, FanFic> ASSOCIATIONS_FANFICS=DBAssociation.getAssociation(FANFICS, Pairing.class, FanFic.class);
-	private static final DBAssociation<Pairing, ShowCharacter> ASSOCIATIONS_CHARACTERS=DBAssociation.getAssociation(CHARACTERS, Pairing.class, ShowCharacter.class);
 
 	private String name;
 
@@ -72,23 +69,6 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 	public String getHttpParameter()
 	{
 		return "pairing="+getId();
-	}
-
-	public Set<ShowCharacter> getCharacters()
-	{
-		return ASSOCIATIONS_CHARACTERS.getAssociations(this);
-	}
-
-	public void addCharacter(ShowCharacter character)
-	{
-		if (!ASSOCIATIONS_CHARACTERS.isExistsAssociation(this, character))
-			ASSOCIATIONS_CHARACTERS.addAssociation(this, character);
-	}
-
-	public void dropCharacter(ShowCharacter character)
-	{
-		if (ASSOCIATIONS_CHARACTERS.isExistsAssociation(this, character))
-			ASSOCIATIONS_CHARACTERS.removeAssociation(this, character);
 	}
 
 	public String toString()

@@ -128,7 +128,7 @@ public class LinksView extends ViewPanel
 				int rowIndex=tblLinks.rowAtPoint(e.getPoint());
 				if (rowIndex>=0)
 				{
-					Row row=tmLinks.getRow(rowIndex);
+					SortableTableRow<Link> row=tmLinks.getRow(rowIndex);
 					if (row!=null) LinkDetailsView.create(row.getUserObject());
 				}
 				e.consume();
@@ -150,7 +150,7 @@ public class LinksView extends ViewPanel
 		}
 	}
 
-	private static class LinksTableModel extends SortableTableModel<Row>
+	private static class LinksTableModel extends SortableTableModel<Link>
 	{
 		private static final String[] COLUMNS={"name", "language", "url"};
 

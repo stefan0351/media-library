@@ -9,13 +9,11 @@ package com.kiwisoft.media;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
-public class NamesTableModel extends SortableTableModel<NamesTableModel.Row>
+public class NamesTableModel extends SortableTableModel<String>
 {
 	private static final String[] COLUMNS={"name", "language"};
 
@@ -27,15 +25,15 @@ public class NamesTableModel extends SortableTableModel<NamesTableModel.Row>
 
 	public void addName(String name, Language language)
 	{
-		addRow(new Row(name,language));
+		addRow(new Row(name, language));
 	}
 
 	public Map<String, Language> getNames()
 	{
 		Map<String, Language> names=new HashMap<String, Language>();
-		for (int i=0;i<getRowCount();i++)
+		for (int i=0; i<getRowCount(); i++)
 		{
-			Row row=getRow(i);
+			Row row=(Row)getRow(i);
 			String name=row.getName();
 			if (!StringUtils.isEmpty(name)) names.put(name, row.getLanguage());
 		}

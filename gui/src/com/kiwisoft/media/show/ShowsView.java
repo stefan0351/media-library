@@ -17,19 +17,27 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.*;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
+import com.kiwisoft.media.AirdatesView;
+import com.kiwisoft.media.LinksView;
+import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.actions.*;
 import com.kiwisoft.media.movie.MoviesView;
-import com.kiwisoft.media.*;
-import com.kiwisoft.media.actions.DownloadTVTVAction;
-import com.kiwisoft.media.actions.DownloadP7Action;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.*;
+import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.utils.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 
 public class ShowsView extends ViewPanel
 {
@@ -37,6 +45,14 @@ public class ShowsView extends ViewPanel
 	private DoubleClickListener doubleClickListener;
 	private ShowsTableModel tmShows;
 	private ShowListener showListener;
+	private ShowSeasonsAction showSeasonsAction;
+	private ShowEpisodesAction showEpisodesAction;
+
+	public ShowsView()
+	{
+		showSeasonsAction=new ShowSeasonsAction(null);
+		showEpisodesAction=new ShowEpisodesAction(null);
+	}
 
 	protected JComponent createContentPanel()
 	{
@@ -63,10 +79,30 @@ public class ShowsView extends ViewPanel
 		return "Serien";
 	}
 
+	@Override
+	protected Action[] getToolBarActions()
+	{
+		return new Action[]{
+			showSeasonsAction,
+			showEpisodesAction
+		};
+	}
+
 	protected void installComponentListener()
 	{
 		doubleClickListener=new DoubleClickListener();
 		tblShows.addMouseListener(doubleClickListener);
+		tblShows.getSelectionModel().addListSelectionListener(new ListSelectionListener()
+		{
+			public void valueChanged(ListSelectionEvent e)
+			{
+				if (!e.getValueIsAdjusting())
+				{
+					showEpisodesAction.validate();
+					showSeasonsAction.validate();
+				}
+			}
+		});
 	}
 
 	protected void removeComponentListeners()
@@ -101,13 +137,14 @@ public class ShowsView extends ViewPanel
 				Set<Show> shows=new HashSet<Show>();
 				for (int row : rows) shows.add(tmShows.getRow(row).getUserObject());
 				Show show=null;
-				if (rows.length==1) show=(Show)tmShows.getObject(rows[0]);
+				if (rows.length==1) show=tmShows.getObject(rows[0]);
 
 				MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
 
 				JMenu menuDownload=new JMenu("Download");
 				menuDownload.add(new DownloadP7Action(wizard, shows));
 				menuDownload.add(new DownloadTVTVAction(wizard, shows));
+				menuDownload.add(new TVComDataLoaderAction(wizard, show));
 
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new ShowEpisodesAction(show));
@@ -151,7 +188,7 @@ public class ShowsView extends ViewPanel
 		}
 	}
 
-	private static class ShowsTableModel extends SortableTableModel<ShowTableRow>
+	private static class ShowsTableModel extends SortableTableModel<Show>
 	{
 		private static final String[] COLUMNS={"name", "originalName", "type"};
 
@@ -210,19 +247,6 @@ public class ShowsView extends ViewPanel
 		}
 	}
 
-	private static class NewShowAction extends AbstractAction
-	{
-		public NewShowAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			ShowDetailsView.create(null);
-		}
-	}
-
 	private class ShowAirdatesAction extends AbstractAction
 	{
 		private Show show;
@@ -275,6 +299,17 @@ public class ShowsView extends ViewPanel
 			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
 			wizard.setCurrentView(new SeasonsView(show), true);
 		}
+
+		public void validate()
+		{
+			if (tblShows.getSelectedRowCount()==1)
+			{
+				int selectedRow=tblShows.getSelectedRow();
+				show=tmShows.getObject(selectedRow);
+			}
+			else show=null;
+			setEnabled(show!=null);
+		}
 	}
 
 	private class ShowEpisodesAction extends AbstractAction
@@ -283,7 +318,7 @@ public class ShowsView extends ViewPanel
 
 		public ShowEpisodesAction(Show show)
 		{
-			super("Episoden");
+			super("Episoden", IconManager.getIcon("com/kiwisoft/media/icons/episode.gif"));
 			this.show=show;
 			setEnabled(show!=null);
 		}
@@ -292,6 +327,17 @@ public class ShowsView extends ViewPanel
 		{
 			MediaManagerFrame wizard=(MediaManagerFrame)ShowsView.this.getTopLevelAncestor();
 			wizard.setCurrentView(new EpisodesView(show), true);
+		}
+
+		public void validate()
+		{
+			if (tblShows.getSelectedRowCount()==1)
+			{
+				int selectedRow=tblShows.getSelectedRow();
+				show=tmShows.getObject(selectedRow);
+			}
+			else show=null;
+			setEnabled(show!=null);
 		}
 	}
 
@@ -349,23 +395,6 @@ public class ShowsView extends ViewPanel
 		}
 	}
 
-	private static class ShowPropertiesAction extends AbstractAction
-	{
-		private Show show;
-
-		public ShowPropertiesAction(Show show)
-		{
-			super("Eigenschaften");
-			this.show=show;
-			if (show==null) setEnabled(false);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			ShowDetailsView.create(show);
-		}
-	}
-
 	private class DeleteShowAction extends AbstractAction
 	{
 		private Show show;
@@ -381,16 +410,16 @@ public class ShowsView extends ViewPanel
 			if (show.isUsed())
 			{
 				JOptionPane.showMessageDialog(ShowsView.this,
-				        "Die Serie '"+show.getName()+"' kann nicht gelöscht werden.",
-				        "Meldung",
-				        JOptionPane.INFORMATION_MESSAGE);
+											  "Die Serie '"+show.getName()+"' kann nicht gelöscht werden.",
+											  "Meldung",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 			int option=JOptionPane.showConfirmDialog(ShowsView.this,
-			        "Serie '"+show.getName()+"' wirklick löschen?",
-			        "Löschen?",
-			        JOptionPane.YES_NO_OPTION,
-			        JOptionPane.QUESTION_MESSAGE);
+													 "Serie '"+show.getName()+"' wirklick löschen?",
+													 "Löschen?",
+													 JOptionPane.YES_NO_OPTION,
+													 JOptionPane.QUESTION_MESSAGE);
 			if (option==JOptionPane.YES_OPTION)
 			{
 				Transaction transaction=null;

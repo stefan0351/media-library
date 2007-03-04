@@ -10,7 +10,7 @@ import com.kiwisoft.utils.gui.table.SortableTableRow;
  * Time: 19:08:47
  * To change this template use File | Settings | File Templates.
  */
-public class FanFicPartsTableModel extends SortableTableModel
+public class FanFicPartsTableModel extends SortableTableModel<String>
 {
 	private static final String[] COLUMNS={"parts"};
 
@@ -34,7 +34,7 @@ public class FanFicPartsTableModel extends SortableTableModel
 		return false;
 	}
 
-	private class Row extends SortableTableRow
+	private static class Row extends SortableTableRow<String>
 	{
 		public Row(String file)
 		{
@@ -48,7 +48,7 @@ public class FanFicPartsTableModel extends SortableTableModel
 
 		public int setValue(Object value, int column, String property)
 		{
-			setUserObject(value);
+			setUserObject((String)value);
 			return CELL_UPDATE;
 		}
 

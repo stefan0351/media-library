@@ -9,6 +9,7 @@ package com.kiwisoft.media;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.Calendar;
 
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.DateUtils;
@@ -35,7 +36,7 @@ public class AirdateManager
 	public Set<Airdate> getAirdates(int unit, int quantity)
 	{
 		Date now=new Date();
-		Date startTime=DateUtils.addMinutes(now, -120);
+		Date startTime=DateUtils.add(now, Calendar.HOUR, -2);
 		System.out.println("startTime = "+startTime);
 		Date endTime=DateUtils.add(now, unit, quantity);
 		System.out.println("endTime = "+endTime);

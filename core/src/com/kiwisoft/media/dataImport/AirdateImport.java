@@ -9,17 +9,15 @@ package com.kiwisoft.media.dataImport;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.utils.RegularFileFilter;
 import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.RegularFileFilter;
 import com.kiwisoft.utils.db.*;
-import com.kiwisoft.utils.gui.progress.ObservableRunnable;
+import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
@@ -27,14 +25,14 @@ import com.kiwisoft.utils.xml.DefaultXMLObject;
 import com.kiwisoft.utils.xml.XMLHandler;
 import com.kiwisoft.utils.xml.XMLObject;
 
-public class AirdateImport implements ObservableRunnable
+public class AirdateImport implements Job
 {
 	private String path;
 	private String filter;
 	private Set<String> ignoredChannels;
 	private Set<String> ignoredShows;
 
-	private ProgressSupport progressSupport=new ProgressSupport(null);
+	private ProgressSupport progressSupport;
 	private ProgressDialog progressDialog;
 	private int created;
 
@@ -49,31 +47,20 @@ public class AirdateImport implements ObservableRunnable
 		return "Importiere Sendetermine";
 	}
 
-	public void setProgress(ProgressListener progressListener)
+	public boolean run(ProgressListener progressListener) throws Exception
 	{
-		progressSupport=new ProgressSupport(progressListener);
+		progressSupport=new ProgressSupport(this, progressListener);
+		progressSupport.startStep("Initialisieren...");
+		File file=new File(path);
+		String[] fileNames=file.list(new RegularFileFilter(filter));
+
+		Set<AirdateData> preAirdates=loadFiles(fileNames);
+		createAirdates(preAirdates);
+		return true;
 	}
 
-	public void run()
+	public void dispose() throws IOException
 	{
-		try
-		{
-			progressSupport.step("Initialisieren...");
-			File file=new File(path);
-			String[] fileNames=file.list(new RegularFileFilter(filter));
-
-			Set<AirdateData> preAirdates=loadFiles(fileNames);
-			createAirdates(preAirdates);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			progressSupport.error(e.getMessage());
-		}
-		finally
-		{
-			progressSupport.stopped();
-		}
 	}
 
 	private void createAirdates(Set<AirdateData> preAirdates)
@@ -81,8 +68,8 @@ public class AirdateImport implements ObservableRunnable
 		Set<String> newIgnoredChannels=new HashSet<String>();
 		Set<String> newIgnoredShows=new HashSet<String>();
 		created=0;
-		progressSupport.step("Sendetermine erzeugen...");
-		progressSupport.initialize(preAirdates.size());
+		progressSupport.startStep("Sendetermine erzeugen...");
+		progressSupport.initialize(true, preAirdates.size(), null);
 		Iterator<AirdateData> it=preAirdates.iterator();
 		while (it.hasNext())
 		{
@@ -96,7 +83,8 @@ public class AirdateImport implements ObservableRunnable
 				catch (DBException e)
 				{
 					if (e.getErrorCode()==DBErrors.MULTIPLE_OBJECTS_FOUND)
-						progressSupport.warning("Serie '"+airdateData.getShow().getName()+"' enthält mehrere Episoden mit Titel '"+airdateData.getEpisodeName()+"'");
+						progressSupport
+							.warning("Serie '"+airdateData.getShow().getName()+"' enthält mehrere Episoden mit Titel '"+airdateData.getEpisodeName()+"'");
 					else
 						throw e;
 				}
@@ -150,14 +138,14 @@ public class AirdateImport implements ObservableRunnable
 			progressSupport.progress(1, true);
 		}
 
-		progressSupport.message(created+" Sendetermine erzeugt");
+		progressSupport.info(created+" Sendetermine erzeugt");
 		if (!newIgnoredChannels.isEmpty())
 		{
 			progressSupport.warning(newIgnoredChannels.size()+" unbekannte Sender");
 			for (String name : newIgnoredChannels)
 			{
 				System.out.println(name);
-				progressSupport.message(name);
+				progressSupport.info(name);
 			}
 		}
 		if (!newIgnoredShows.isEmpty())
@@ -166,7 +154,7 @@ public class AirdateImport implements ObservableRunnable
 			for (String name : newIgnoredShows)
 			{
 				System.out.println(name);
-				progressSupport.message(name);
+				progressSupport.info(name);
 			}
 		}
 	}
@@ -175,8 +163,8 @@ public class AirdateImport implements ObservableRunnable
 	{
 		File file;
 		Set<AirdateData> preAirdates=new HashSet<AirdateData>();
-		progressSupport.step("Lade Dateien...");
-		progressSupport.initialize(fileNames.length);
+		progressSupport.startStep("Lade Dateien...");
+		progressSupport.initialize(true, fileNames.length, null);
 		for (int i=0; i<fileNames.length; i++)
 		{
 			String fileName=fileNames[i];
@@ -310,12 +298,12 @@ public class AirdateImport implements ObservableRunnable
 
 	public Set<Airdate> getConcurrentAirdates(AiringData airing, int range)
 	{
-		Date startTime=DateUtils.addMinutes(airing.getTime(), -range);
-		Date endTime=DateUtils.addMinutes(airing.getTime(), range);
+		Date startTime=DateUtils.add(airing.getTime(), Calendar.MINUTE, -range);
+		Date endTime=DateUtils.add(airing.getTime(), Calendar.MINUTE, range);
 		return DBLoader.getInstance().loadSet(Airdate.class,
-				null,
-				"channel_id=? and viewdate>? and viewdate<?",
-				airing.getChannel().getId(), startTime, endTime);
+											  null,
+											  "channel_id=? and viewdate>? and viewdate<?",
+											  airing.getChannel().getId(), startTime, endTime);
 	}
 
 }

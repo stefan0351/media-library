@@ -1,7 +1,5 @@
 package com.kiwisoft.media.dataImport;
 
-import static com.kiwisoft.utils.StringUtils.*;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,20 +11,22 @@ import java.util.*;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
+import static com.kiwisoft.utils.StringUtils.isEmpty;
+import static com.kiwisoft.utils.StringUtils.replaceStrings;
 import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.gui.progress.ObservableRunnable;
+import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
-public class Pro7InfoLoader implements ObservableRunnable
+public class Pro7InfoLoader implements Job
 {
 	private String path;
 	private Map<String, String> details;
 	private int offset=14;
 	private final static String BASE_URL="http://www.prosieben.de/service/tvprogramm/";
 	private Calendar startDate;
-	private ProgressSupport progressSupport=new ProgressSupport(null);
+	private ProgressSupport progressSupport;
 	private Set<Show> shows;
 
 	public Pro7InfoLoader(String path, Date date, int days, Set<Show> shows)
@@ -39,38 +39,27 @@ public class Pro7InfoLoader implements ObservableRunnable
 		details=new HashMap<String, String>();
 	}
 
-	public void setProgress(ProgressListener progressListener)
-	{
-		progressSupport=new ProgressSupport(progressListener);
-	}
-
 	public String getName()
 	{
 		return "Lade Pro7 Termine";
 	}
 
-	public void run()
+	public boolean run(ProgressListener progressListener) throws Exception
 	{
-		try
-		{
-			loadListings();
-			loadDetails();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			progressSupport.error(e.getMessage());
-		}
-		finally
-		{
-			progressSupport.stopped();
-		}
+		progressSupport=new ProgressSupport(this, progressListener);
+		loadListings();
+		loadDetails();
+		return true;
+	}
+
+	public void dispose() throws IOException
+	{
 	}
 
 	private void loadListings()
 	{
-		progressSupport.step("Lade Listen...");
-		progressSupport.initialize(offset);
+		progressSupport.startStep("Lade Listen...");
+		progressSupport.initialize(true, offset, null);
 		for (int i=0; i<offset; i++)
 		{
 			loadListing(startDate.getTime());
@@ -103,7 +92,7 @@ public class Pro7InfoLoader implements ObservableRunnable
 			{
 				savePage(listing, format.format(date));
 				parseListing(listing);
-				progressSupport.message("Liste für "+DateFormat.getDateInstance().format(startDate.getTime())+" geladen");
+				progressSupport.info("Liste für "+DateFormat.getDateInstance().format(startDate.getTime())+" geladen");
 				return;
 			}
 		}
@@ -157,9 +146,9 @@ public class Pro7InfoLoader implements ObservableRunnable
 			return;
 		}
 		Set<String> keys=details.keySet();
-		progressSupport.initialize(keys.size());
+		progressSupport.initialize(true, keys.size(), null);
 		Iterator<String> it=keys.iterator();
-		progressSupport.step("Lade Informationen...");
+		progressSupport.startStep("Lade Informationen...");
 		while (it.hasNext())
 		{
 			int attempt=0;
@@ -185,9 +174,9 @@ public class Pro7InfoLoader implements ObservableRunnable
 			if (!loaded)
 				progressSupport.error("Information #"+detailsId+"("+name+") konnte nicht geladen");
 			else if (!parsed)
-				progressSupport.message("Information #"+detailsId+"("+name+") konnte geladen, aber nicht geparst werden");
+				progressSupport.info("Information #"+detailsId+"("+name+") konnte geladen, aber nicht geparst werden");
 			else
-				progressSupport.message("Information #"+detailsId+"("+name+") geladen");
+				progressSupport.info("Information #"+detailsId+"("+name+") geladen");
 			progressSupport.progress(1, true);
 		}
 	}
@@ -265,7 +254,7 @@ public class Pro7InfoLoader implements ObservableRunnable
 			}
 			calendar.set(Calendar.YEAR, today.get(Calendar.YEAR));
 			if (calendar.before(today)) calendar.add(Calendar.YEAR, 1);
-			if (calendar.get(Calendar.HOUR_OF_DAY)<5) calendar.add(Calendar.DATE,1);
+			if (calendar.get(Calendar.HOUR_OF_DAY)<5) calendar.add(Calendar.DATE, 1);
 			if (attempt>1) System.out.println("Date: "+dateFormatP7.format(calendar.getTime()));
 			fw.write("<Sendetermin><Sender>Pro Sieben</Sender><Datum>"+ImportConstants.DATE_FORMAT.format(calendar.getTime())+"</Datum></Sendetermin>\n");
 			fw.flush();

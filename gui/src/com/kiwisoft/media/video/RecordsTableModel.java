@@ -10,12 +10,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 
-import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.video.Video;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
-public class RecordsTableModel extends SortableTableModel<RecordsTableModel.Row>
+public class RecordsTableModel extends SortableTableModel<Recording>
 {
 	private static final String[] COLUMNS={"index", "event", "length", "language"};
 

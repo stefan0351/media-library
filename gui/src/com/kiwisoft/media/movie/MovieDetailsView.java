@@ -64,7 +64,7 @@ public class MovieDetailsView extends DetailsView
 	private DialogLookupField tfScriptFile;
 	private NamesTableModel tmNames;
 	private SortableTable tblInfos;
-	private WebInfosTableModel tmInfos;
+	private WebInfosTableModel<MovieInfo> tmInfos;
 	private JComboBox cbxInfoTypes;
 
 	private MovieDetailsView(Show show)
@@ -141,7 +141,7 @@ public class MovieDetailsView extends DetailsView
 		List<WebInfosTableModel.Row> infos=new ArrayList<WebInfosTableModel.Row>();
 		for (int i=0; i<tmInfos.getRowCount(); i++)
 		{
-			WebInfosTableModel.Row row=tmInfos.getRow(i);
+			WebInfosTableModel.Row row=(WebInfosTableModel.Row)tmInfos.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
 			{
 				JOptionPane.showMessageDialog(this, "Name für Info fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);

@@ -159,7 +159,7 @@ public class AirdatesView extends ViewPanel
 		}
 	}
 
-	private static class AirdatesTableModel extends SortableTableModel
+	private static class AirdatesTableModel extends SortableTableModel<Airdate>
 	{
 		private static final String[] COLUMNS={"time", "channel", "event"};
 

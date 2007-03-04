@@ -6,35 +6,28 @@
  */
 package com.kiwisoft.media.dataImport;
 
-import static com.kiwisoft.utils.StringUtils.isEmpty;
-
 import java.io.File;
-import java.io.IOException;
 import java.io.FileOutputStream;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.util.*;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.EpisodeInfo;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.utils.RegularFileFilter;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.gui.progress.ObservableRunnable;
+import com.kiwisoft.utils.RegularFileFilter;
+import com.kiwisoft.utils.StringUtils;
+import static com.kiwisoft.utils.StringUtils.isEmpty;
+import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.*;
 
-public abstract class GermanEpisodeImport implements ObservableRunnable
+public abstract class GermanEpisodeImport implements Job
 {
-	private ProgressSupport progressSupport=new ProgressSupport(null);
+	private ProgressSupport progressSupport;
 
 	private String source;
 
@@ -48,43 +41,32 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		return "Importiere Episoden...";
 	}
 
-	public void setProgress(ProgressListener progressListener)
+	public boolean run(ProgressListener progressListener) throws Exception
 	{
-		progressSupport=new ProgressSupport(progressListener);
+		progressSupport=new ProgressSupport(this, progressListener);
+		progressSupport.startStep("Episoden laden...");
+		File sourceFile=new File(source);
+		if (sourceFile.exists())
+		{
+			Set episodes=new HashSet();
+			if (sourceFile.isFile())
+				episodes=loadFiles(new File[]{sourceFile}, episodes);
+			else
+				episodes=loadFiles(sourceFile.listFiles(new RegularFileFilter("*.xml")), episodes);
+			progressSupport.startStep("Episoden konvertieren...");
+			createEpisodes(episodes);
+		}
+		return true;
 	}
 
-	public void run()
+	public void dispose() throws IOException
 	{
-		try
-		{
-			progressSupport.step("Episoden laden...");
-			File sourceFile=new File(source);
-			if (sourceFile.exists())
-			{
-				Set episodes=new HashSet();
-				if (sourceFile.isFile())
-					episodes=loadFiles(new File[]{sourceFile}, episodes);
-				else
-					episodes=loadFiles(sourceFile.listFiles(new RegularFileFilter("*.xml")), episodes);
-				progressSupport.step("Episoden konvertieren...");
-				createEpisodes(episodes);
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			progressSupport.error(e.getMessage());
-		}
-		finally
-		{
-			progressSupport.stopped();
-		}
 	}
 
 	private void createEpisodes(Set episodes) throws IOException
 	{
-		progressSupport.step("Episoden erzeugen...");
-		progressSupport.initialize(episodes.size());
+		progressSupport.startStep("Episoden erzeugen...");
+		progressSupport.initialize(true, episodes.size(), null);
 		String rootPath=Configurator.getInstance().getString("path.root");
 		Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 		ShowManager showManager=ShowManager.getInstance();
@@ -92,8 +74,8 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		int counter=0;
 		while (it.hasNext())
 		{
-			XMLEpisodeInfo info=(XMLEpisodeInfo)it.next();
-			String originalTitle=info.getOriginalTitle();
+			EpisodeXMLAdapter info=(EpisodeXMLAdapter)it.next();
+			String originalTitle=info.getOriginalEpisodeTitle();
 			if (!isEmpty(info.getEpisode()) && !isEmpty(info.getShow())
 				&& (!isEmpty(info.getContent()) || !isEmpty(originalTitle) || info.isCreditsAvailable()))
 			{
@@ -106,60 +88,60 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 						progressSupport.warning("Keine Episode mit dem Titel '"+info.getEpisode()+"' gefunden. (Datei: "+info.getFile()+")");
 						episode=createEpisode(show, info);
 					}
-					if (episode!=null)
-					{
-						EpisodeInfo episodeInfo=DBLoader.getInstance().load(EpisodeInfo.class, null,
-																	 "episode_id=? and name='Beschreibung (deutsch)'", episode.getId());
-						if (episodeInfo==null)
-						{
-							String path="shows/"+show.getUserKey()+"/episodes/"+episode.getUserKey().replace(".", "/")+"/info_de.xp";
-							File file=new File(rootPath, path);
-							if (!file.exists())
-							{
-								file.getParentFile().mkdirs();
-								createInfoFile(episode, info, file);
-								Transaction transaction=null;
-								try
-								{
-									transaction=DBSession.getInstance().createTransaction();
-									episodeInfo=episode.createInfo();
-									episodeInfo.setLanguage(german);
-									episodeInfo.setName("Beschreibung (deutsch)");
-									episodeInfo.setPath(path);
-									episode.setDefaultInfo(episodeInfo);
-									transaction.close();
-								}
-								catch (Throwable t)
-								{
-									t.printStackTrace();
-									progressSupport.error(t.getMessage());
-									try
-									{
-										if (transaction!=null) transaction.rollback();
-									}
-									catch (SQLException e)
-									{
-										e.printStackTrace();
-									}
-									return;
-								}
-
-								counter++;
-							}
-							else progressSupport.warning("File '"+file.getAbsolutePath()+"' isn't connected.");
-						}
-					}
+//					if (episode!=null)
+//					{
+//						EpisodeInfo episodeInfo=DBLoader.getInstance().load(EpisodeInfo.class, null,
+//																	 "episode_id=? and name='Beschreibung (deutsch)'", episode.getId());
+//						if (episodeInfo==null)
+//						{
+//							String path="shows/"+show.getUserKey()+"/episodes/"+episode.getUserKey().replace(".", "/")+"/info_de.xp";
+//							File file=new File(rootPath, path);
+//							if (!file.exists())
+//							{
+//								file.getParentFile().mkdirs();
+//								createInfoFile(episode, info, file);
+//								Transaction transaction=null;
+//								try
+//								{
+//									transaction=DBSession.getInstance().createTransaction();
+//									episodeInfo=episode.createInfo();
+//									episodeInfo.setLanguage(german);
+//									episodeInfo.setName("Beschreibung (deutsch)");
+//									episodeInfo.setPath(path);
+//									episode.setDefaultInfo(episodeInfo);
+//									transaction.close();
+//								}
+//								catch (Throwable t)
+//								{
+//									t.printStackTrace();
+//									progressSupport.error(t.getMessage());
+//									try
+//									{
+//										if (transaction!=null) transaction.rollback();
+//									}
+//									catch (SQLException e)
+//									{
+//										e.printStackTrace();
+//									}
+//									return;
+//								}
+//
+//								counter++;
+//							}
+//							else progressSupport.warning("File '"+file.getAbsolutePath()+"' isn't connected.");
+//						}
+//					}
 				}
 			}
 			else progressSupport.warning("Keine Serie mit dem Titel '"+info.getShow()+"' gefunden. (Datei: "+info.getFile()+")");
 			progressSupport.progress(1, true);
 		}
-		progressSupport.message(counter+" Episoden erzeugt");
+		progressSupport.info(counter+" Episoden erzeugt");
 	}
 
-	protected abstract Episode createEpisode(Show show, XMLEpisodeInfo info);
+	protected abstract Episode createEpisode(Show show, ImportEpisode info);
 
-	private void createInfoFile(Episode episode, XMLEpisodeInfo info, File file
+	private void createInfoFile(Episode episode, EpisodeXMLAdapter info, File file
 	)
 		throws IOException
 	{
@@ -172,7 +154,7 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		xmlWriter.addComment("Show: "+info.getShow());
 		if (episode!=null) xmlWriter.addComment("Nr.: "+episode.getUserKey());
 		if (info.getEpisode()!=null) xmlWriter.addComment("Episode: "+info.getEpisode());
-		if (info.getOriginalTitle()!=null) xmlWriter.addComment("Original Title: "+info.getOriginalTitle());
+		if (info.getOriginalEpisodeTitle()!=null) xmlWriter.addComment("Original Title: "+info.getOriginalEpisodeTitle());
 		if (info.getContent()!=null)
 		{
 			xmlWriter.startElement("content");
@@ -215,7 +197,7 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 				xmlWriter.startElement("guestCast");
 				for (Iterator itCast=info.getCast().iterator(); itCast.hasNext();)
 				{
-					CastInformation castInfo=(CastInformation)itCast.next();
+					CastXMLAdapter castInfo=(CastXMLAdapter)itCast.next();
 					xmlWriter.startElement("cast");
 					if (castInfo.getActor()!=null)
 					{
@@ -247,8 +229,8 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 
 	private Set loadFiles(File[] files, Set episodes)
 	{
-		progressSupport.step("Lade Dateien...");
-		progressSupport.initialize(files.length);
+		progressSupport.startStep("Lade Dateien...");
+		progressSupport.initialize(true, files.length, null);
 		for (int i=0; i<files.length; i++)
 		{
 			File file=files[i];
@@ -263,8 +245,8 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 	private void loadFile(File file, Set episodes)
 	{
 		XMLHandler xmlHandler=new XMLHandler();
-		xmlHandler.addTagMapping("Details", XMLEpisodeInfo.class);
-		xmlHandler.addTagMapping("Darsteller", CastInformation.class);
+		xmlHandler.addTagMapping("Details", EpisodeXMLAdapter.class);
+		xmlHandler.addTagMapping("Darsteller", CastXMLAdapter.class);
 		try
 		{
 			XMLObject root=xmlHandler.loadFile(file);
@@ -277,7 +259,7 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 					while (it.hasNext())
 					{
 						XMLObject xmlObject=(XMLObject)it.next();
-						if (xmlObject instanceof XMLEpisodeInfo) episodes.add(xmlObject);
+						if (xmlObject instanceof EpisodeXMLAdapter) episodes.add(xmlObject);
 					}
 				}
 			}
@@ -289,20 +271,20 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		}
 	}
 
-	public static class CastInformation extends XMLAdapter
+	public static class CastXMLAdapter extends XMLAdapter
 	{
 		private String character;
 		private String actor;
 		private String voice;
 		private Set cast;
 
-		public CastInformation(String character, String actor)
+		public CastXMLAdapter(String character, String actor)
 		{
 			this.character=character;
 			this.actor=actor;
 		}
 
-		public CastInformation(XMLContext context, String name)
+		public CastXMLAdapter(XMLContext context, String name)
 		{
 			super(context, name);
 		}
@@ -348,11 +330,11 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 								character=item.substring(start+1, end);
 							else
 								character=item.substring(start+1);
-							cast.add(new CastInformation(character, actor));
+							cast.add(new CastXMLAdapter(character, actor));
 						}
 						else
 						{
-							cast.add(new CastInformation((String)null, item));
+							cast.add(new CastXMLAdapter((String)null, item));
 						}
 					}
 					catch (Exception e)
@@ -381,9 +363,9 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 		public boolean equals(Object o)
 		{
 			if (this==o) return true;
-			if (!(o instanceof CastInformation)) return false;
+			if (!(o instanceof CastXMLAdapter)) return false;
 
-			final CastInformation castInformation=(CastInformation)o;
+			final CastXMLAdapter castInformation=(CastXMLAdapter)o;
 
 			if (actor!=null ? !actor.equals(castInformation.actor) : castInformation.actor!=null) return false;
 			if (character!=null ? !character.equals(castInformation.character) : castInformation.character!=null) return false;
@@ -396,6 +378,149 @@ public abstract class GermanEpisodeImport implements ObservableRunnable
 			result=(character!=null ? character.hashCode() : 0);
 			result=29*result+(actor!=null ? actor.hashCode() : 0);
 			result=29*result+(voice!=null ? voice.hashCode() : 0);
+			return result;
+		}
+	}
+
+	public class EpisodeXMLAdapter extends XMLAdapter implements ImportEpisode
+	{
+		private String show;
+		private String episode;
+		private String content;
+		private Set cast=new HashSet();
+		private Set directors=new HashSet();
+		private Set writers=new HashSet();
+		private String originalTitle;
+		private String file;
+		private Set subTitles=new LinkedHashSet();
+
+		public EpisodeXMLAdapter(XMLContext context, String name)
+		{
+			super(context, name);
+			file=context.getFileName();
+		}
+
+		public String getFile()
+		{
+			return file;
+		}
+
+		public String getShow()
+		{
+			return show;
+		}
+
+		public String getEpisode()
+		{
+			if (subTitles.isEmpty()) return episode;
+			else return episode+" ("+StringUtils.formatAsEnumeration(subTitles)+")";
+		}
+
+		public String getEpisodeKey()
+		{
+			return null;
+		}
+
+		public String getEpisodeTitle()
+		{
+			return episode;
+		}
+
+		public String getOriginalEpisodeTitle()
+		{
+			return originalTitle;
+		}
+
+		public Date getFirstAirdate()
+		{
+			return null;
+		}
+
+		public String getProductionCode()
+		{
+			return null;
+		}
+
+		public String getContent()
+		{
+			return content;
+		}
+
+		public Set getCast()
+		{
+			return cast;
+		}
+
+		public Set getDirectors()
+		{
+			return directors;
+		}
+
+		public Set getWriters()
+		{
+			return writers;
+		}
+
+		public boolean isCreditsAvailable()
+		{
+			return !writers.isEmpty() || !directors.isEmpty() || !cast.isEmpty();
+		}
+
+		public void addXMLElement(XMLContext context, XMLObject element)
+		{
+			if (element instanceof GermanEpisodeImport.CastXMLAdapter)
+			{
+				GermanEpisodeImport.CastXMLAdapter castInfo=(GermanEpisodeImport.CastXMLAdapter)element;
+				if (castInfo.getCast()!=null)
+					cast.addAll(castInfo.getCast());
+				else
+					cast.add(element);
+			}
+			else if (element instanceof DefaultXMLObject)
+			{
+				DefaultXMLObject xmlObject=(DefaultXMLObject)element;
+				String name=xmlObject.getName();
+				if ("Show".equalsIgnoreCase(name))
+					show=xmlObject.getContent();
+				else if ("Episode".equalsIgnoreCase(name))
+					episode=xmlObject.getContent();
+				else if ("Originaltitel".equalsIgnoreCase(name))
+					originalTitle=xmlObject.getContent();
+				else if ("Inhalt".equalsIgnoreCase(name))
+					content=xmlObject.getContent();
+				else if ("Drehbuch".equalsIgnoreCase(name))
+					writers.add(xmlObject.getContent());
+				else if ("Regie".equalsIgnoreCase(name))
+					directors.add(xmlObject.getContent());
+				else if ("Untertitel".equalsIgnoreCase(name))
+					subTitles.add(xmlObject.getContent());
+			}
+		}
+
+		public boolean equals(Object o)
+		{
+			if (this==o) return true;
+			if (!(o instanceof EpisodeXMLAdapter)) return false;
+
+			final EpisodeXMLAdapter episodeInformation=(EpisodeXMLAdapter)o;
+
+			if (cast!=null ? !cast.equals(episodeInformation.cast) : episodeInformation.cast!=null) return false;
+			if (content!=null ? !content.equals(episodeInformation.content) : episodeInformation.content!=null) return false;
+			if (directors!=null ? !directors.equals(episodeInformation.directors) : episodeInformation.directors!=null) return false;
+			if (episode!=null ? !episode.equals(episodeInformation.episode) : episodeInformation.episode!=null) return false;
+			if (show!=null ? !show.equals(episodeInformation.show) : episodeInformation.show!=null) return false;
+			return !(writers!=null ? !writers.equals(episodeInformation.writers) : episodeInformation.writers!=null);
+		}
+
+		public int hashCode()
+		{
+			int result;
+			result=(show!=null ? show.hashCode() : 0);
+			result=29*result+(episode!=null ? episode.hashCode() : 0);
+			result=29*result+(content!=null ? content.hashCode() : 0);
+			result=29*result+(cast!=null ? cast.hashCode() : 0);
+			result=29*result+(directors!=null ? directors.hashCode() : 0);
+			result=29*result+(writers!=null ? writers.hashCode() : 0);
 			return result;
 		}
 	}

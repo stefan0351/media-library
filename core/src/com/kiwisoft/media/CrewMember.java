@@ -4,41 +4,45 @@ import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.media.show.Episode;
 
-public class Crew extends IDObject
+public class CrewMember extends IDObject
 {
 	public static final String PERSON="person";
 	public static final String EPISODE="episode";
 	public static final String TYPE="type";
 
+	public static final String WRITER = "Writer";
+	public static final String DIRECTOR = "Director";
+	public static final String STORY = "Story";
+
 	private String type;
 
-	public Crew()
+	public CrewMember()
 	{
 	}
 
-	public Crew(DBDummy dummy)
+	public CrewMember(DBDummy dummy)
 	{
 		super(dummy);
 	}
 
 	public Person getPerson()
 	{
-		return (Person)getReference(Crew.PERSON);
+		return (Person)getReference(CrewMember.PERSON);
 	}
 
 	public void setPerson(Person value)
 	{
-		setReference(Crew.PERSON, value);
+		setReference(CrewMember.PERSON, value);
 	}
 
 	public Episode getEpisode()
 	{
-		return (Episode)getReference(Crew.EPISODE);
+		return (Episode)getReference(CrewMember.EPISODE);
 	}
 
 	public void setEpisode(Episode value)
 	{
-		setReference(Crew.EPISODE, value);
+		setReference(CrewMember.EPISODE, value);
 	}
 
 	public String getType()

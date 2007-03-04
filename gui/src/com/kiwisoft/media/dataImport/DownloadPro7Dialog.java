@@ -113,7 +113,7 @@ public class DownloadPro7Dialog extends JDialog
 				        "Kein Datum eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			if (date.before(DateUtils.getToday()))
+			if (date.before(DateUtils.getToday().getTime()))
 			{
 				JOptionPane.showMessageDialog(DownloadPro7Dialog.this,
 				        "Datum muss in der Zukunft liegen.", "Fehler", JOptionPane.ERROR_MESSAGE);

@@ -68,7 +68,6 @@ public class MediaManagerFrame extends ApplicationFrame
 		editorFactory.setDefaultEditor(FanDom.class, new FanDomLookup());
 		editorFactory.setDefaultEditor(Author.class, new AuthorLookup());
 		editorFactory.setDefaultEditor(Genre.class, new GenreLookup());
-		editorFactory.setDefaultEditor(ShowCharacter.class, new CharacterLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
 	}

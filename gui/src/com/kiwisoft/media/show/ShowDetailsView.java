@@ -19,7 +19,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.TransactionRunnable;
+import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
@@ -43,7 +43,6 @@ public class ShowDetailsView extends DetailsView
 	private DialogLookupField tfDatesFile;
 	private JComboBox cbxLanguage;
 	private JTextField tfEpisodeLength;
-	private DialogLookupField tfPrismaPattern;
 	private DialogLookupField tfTVTVPattern;
 	private JCheckBox cbWeb;
 	private NamesTableModel tmNames;
@@ -69,7 +68,6 @@ public class ShowDetailsView extends DetailsView
 		tfEpisodeLength=new JTextField();
 		tfEpisodeLength.setHorizontalAlignment(JTextField.TRAILING);
 		tfDatesFile=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		tfPrismaPattern=new DialogLookupField(new PrismaPatternLookup());
 		tfTVTVPattern=new DialogLookupField(new TVTVPatternLookup());
 		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
 		cbxLanguage.updateUI();
@@ -110,7 +108,7 @@ public class ShowDetailsView extends DetailsView
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbxLanguage, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(tblGenres), new GridBagConstraints(4, row, 1, 5, 0.1, 0.3,
+		add(new JScrollPane(tblGenres), new GridBagConstraints(4, row, 1, 3, 0.1, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -124,18 +122,8 @@ public class ShowDetailsView extends DetailsView
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Suchmuster:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Suchmuster (TVTV.de):"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-
-		row++;
-		add(new JLabel("Prisma-Online:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 0, 0), 0, 0));
-		add(tfPrismaPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
-
-		row++;
-		add(new JLabel("TVTV:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 0, 0), 0, 0));
 		add(tfTVTVPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 
@@ -186,9 +174,7 @@ public class ShowDetailsView extends DetailsView
 			tfEpisodeLength.setText(String.valueOf(show.getDefaultEpisodeLength()));
 			for (Genre genre : show.getGenres()) tmGenres.addObject(genre);
 			tmGenres.addSortColumn(0, false);
-			String pattern=show.getSearchPattern(SearchPattern.PRISMA_ONLINE);
-			if (pattern!=null) tfPrismaPattern.setText(pattern);
-			pattern=show.getSearchPattern(SearchPattern.TVTV);
+			String pattern=show.getSearchPattern(SearchPattern.TVTV);
 			if (pattern!=null) tfTVTVPattern.setText(pattern);
 			Iterator it=show.getAltNames().iterator();
 			while (it.hasNext())
@@ -259,7 +245,6 @@ public class ShowDetailsView extends DetailsView
 			cbxLanguage.requestFocus();
 			return false;
 		}
-		final String prismaPattern=tfPrismaPattern.getText();
 		final String tvtvPattern=tfTVTVPattern.getText();
 		final Map<String, Language> names=tmNames.getNames();
 		final Collection<Genre> genres=tmGenres.getObjects();
@@ -282,7 +267,7 @@ public class ShowDetailsView extends DetailsView
 		final List<WebInfosTableModel.Row> infos=new ArrayList<WebInfosTableModel.Row>();
 		for (int i=0;i<tmInfos.getRowCount(); i++)
 		{
-			WebInfosTableModel.Row row=tmInfos.getRow(i);
+			WebInfosTableModel.Row row=(WebInfosTableModel.Row)tmInfos.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
 			{
 				JOptionPane.showMessageDialog(this, "Name für Info fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
@@ -308,7 +293,7 @@ public class ShowDetailsView extends DetailsView
 		}
 		final String logoMini1=logoMini;
 
-		return DBSession.execute(new TransactionRunnable()
+		return DBSession.execute(new Transactional()
 		{
 			public void run() throws IOException
 			{
@@ -319,7 +304,6 @@ public class ShowDetailsView extends DetailsView
 				show.setDefaultEpisodeLength(length);
 				show.setInternet(cbWeb.isSelected());
 				show.setWebDatesFile(tfDatesFile.getText());
-				show.setSearchPattern(SearchPattern.PRISMA_ONLINE, prismaPattern);
 				show.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 				show.setLanguage(language);
 				show.setLogoMini(logoMini1);
@@ -353,7 +337,12 @@ public class ShowDetailsView extends DetailsView
 					if (row.isDefault()) show.setDefaultInfo(info);
 				}
 			}
-		}, this);
+
+			public void handleError(Throwable throwable)
+			{
+				JOptionPane.showMessageDialog(ShowDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		});
 	}
 
 	private class FrameTitleUpdater extends DocumentAdapter
@@ -364,27 +353,6 @@ public class ShowDetailsView extends DetailsView
 			if (StringUtils.isEmpty(name)) name=tfOriginalName.getText();
 			if (StringUtils.isEmpty(name)) name="<unbekannt>";
 			setTitle("Serie: "+name);
-		}
-	}
-
-	private class PrismaPatternLookup implements DialogLookup
-	{
-		public void open(JTextField field)
-		{
-			try
-			{
-				field.setText("pattern="+URLEncoder.encode(tfName.getText(), "UTF-8"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-            	JOptionPane.showMessageDialog(field, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-		public Icon getIcon()
-		{
-			return IconManager.getIcon("com/kiwisoft/utils/icons/lookup_create.gif");
 		}
 	}
 

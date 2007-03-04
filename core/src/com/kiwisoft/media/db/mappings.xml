@@ -121,21 +121,14 @@
 		<field name="record" column="record"/>
 		<field name="javaScript" column="javascript"/>
 		<field name="webScriptFile" column="webscriptfile"/>
+		<field name="airdate" column="airdate"/>
+		<field name="productionCode" column="production_code"/>
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="show" column="show_id" type="Show"/>
-		<reference name="defaultInfo" column="defaultinfo_id" type="EpisodeInfo"/>
 	</mapping>
 	<mapping name="Summary" class="com.kiwisoft.media.Summary" primaryKey="id" table="summary" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="summary" column="summary"/>
-		<field name="lastModified" column="lastmodified"/>
-		<reference name="episode" column="episode_id" type="Episode"/>
-		<reference name="language" column="language_id" type="Language"/>
-	</mapping>
-	<mapping name="EpisodeInfo" class="com.kiwisoft.media.show.EpisodeInfo" table="episodeinfos" primaryKey="id" lastModified="lastmodified">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="path" column="path"/>
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="language" column="language_id" type="Language"/>
@@ -175,18 +168,12 @@
 		<field name="firstName" column="firstname"/>
 		<field name="middleName" column="middlename"/>
 		<field name="surname" column="surname"/>
-		<reference name="sex" column="sex_id"/>
+		<field name="name" column="name"/>
 		<field name="actor" column="actor"/>
 		<field name="lastModified" column="lastmodified"/>
-	</mapping>
-	<mapping name="Character" class="com.kiwisoft.media.ShowCharacter" table="characters" primaryKey="id" lastModified="lastmodified">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="nickName" column="nickname"/>
 		<reference name="sex" column="sex_id"/>
-		<field name="lastModified" column="lastmodified"/>
 	</mapping>
-	<mapping name="Cast" class="com.kiwisoft.media.Cast" table="cast" primaryKey="id" lastModified="lastmodified">
+	<mapping name="Cast" class="com.kiwisoft.media.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="voice" column="voice"/>
@@ -196,7 +183,6 @@
 		<field name="description" column="description"/>
 		<field name="characterName" column="character_name"/>
 		<reference name="actor" column="actor_id" type="Person"/>
-		<reference name="character" column="character_id" type="Character"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 	</mapping>
@@ -268,7 +254,7 @@
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 	</mapping>
-	<mapping class="com.kiwisoft.media.Crew" name="Crew" primaryKey="id" table="crew" lastModified="lastmodified">
+	<mapping class="com.kiwisoft.media.CrewMember" name="Crew" primaryKey="id" table="crew" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="lastModified" column="lastmodified"/>
@@ -287,10 +273,6 @@
 	<association table="map_fanfic_fandom">
 		<element type="FanFic" name="fandoms" column="fanfic_id"/>
 		<element type="FanDom" name="fanfics" column="fandom_id"/>
-	</association>
-	<association table="map_pairing">
-		<element type="Pairing" name="characters" column="pairing_id"/>
-		<element type="Character" name="pairings" column="character_id"/>
 	</association>
 	<association table="map_show_genre">
 		<element name="genres" column="show_id" type="Show"/>

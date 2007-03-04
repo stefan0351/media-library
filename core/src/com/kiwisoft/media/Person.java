@@ -16,11 +16,13 @@ public class Person extends IDObject
 	public static final String FIRST_NAME="firstName";
 	public static final String MIDDLE_NAME="middleName";
 	public static final String SURNAME="surname";
+	public static final String NAME="name";
 	public static final String SEX="sex";
 
 	private String firstName;
 	private String middleName;
 	private String surname;
+	private String name;
 	private boolean actor;
 
 	public Person()
@@ -30,6 +32,18 @@ public class Person extends IDObject
 	public Person(DBDummy dummy)
 	{
 		super(dummy);
+	}
+
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name=name;
+		setModified();
 	}
 
 	public String getFirstName()
@@ -84,16 +98,6 @@ public class Person extends IDObject
 	{
 		this.actor=actor;
 		setModified();
-	}
-
-	public String getName()
-	{
-		StringBuffer name=new StringBuffer();
-		name.append(getSurname()).append(", ").append(getFirstName());
-		String middleName=getMiddleName();
-		if (!StringUtils.isEmpty(middleName))
-			name.append(" ").append(getMiddleName());
-		return name.toString();
 	}
 
 	public String toString()

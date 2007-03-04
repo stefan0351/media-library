@@ -7,16 +7,17 @@
 package com.kiwisoft.media.show;
 
 import java.util.Collection;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.utils.gui.lookup.TableLookup;
+import com.kiwisoft.utils.gui.table.TableConfiguration;
+import com.kiwisoft.media.MediaTableConfiguration;
 
-public class EpisodeLookup extends ListLookup<Episode>
+public class EpisodeLookup extends TableLookup<Episode>
 {
 	private Show show;
 
@@ -32,29 +33,36 @@ public class EpisodeLookup extends ListLookup<Episode>
 
 	public Collection<Episode> getValues(String text, Episode currentValue, boolean lookup)
 	{
-		Show show=getShow();
-		if (show!=null)
-		{
-			if (text==null)
-				return show.getEpisodes().elements();
-			else
-			{
-				String title;
-				if (text.indexOf('*')>=0)
-					title=text.replace('*', '%');
-				else
-					title=text+"%";
-				Set<Episode> episodes=new HashSet<Episode>();
-				DBLoader dbLoader=DBLoader.getInstance();
-				episodes.addAll(dbLoader.loadSet(Episode.class, null,
-						"show_id=? and (name like ? or userkey=? or name_original like ?)",
-						show.getId(), title, text, title));
-				episodes.addAll(dbLoader.loadSet(Episode.class, "names",
-						"show_id=? and names.ref_id=episodes.id and names.name like ?",
-						show.getId(), title));
-				return episodes;
-			}
-		}
-		return Collections.emptySet();
+		if (show==null) return Collections.emptySet();
+		if (lookup) return show.getEpisodes().elements();
+		if (StringUtils.isEmpty(text)) return Collections.emptySet();
+		String title;
+		if (text.indexOf('*')>=0) title=text.replace('*', '%');
+		else title=text+"%";
+		Set<Episode> episodes=new HashSet<Episode>();
+		DBLoader dbLoader=DBLoader.getInstance();
+		episodes.addAll(dbLoader.loadSet(Episode.class, null, "show_id=? and (name like ? or userkey=? or name_original like ?)",
+										 show.getId(), title, text, title));
+		episodes.addAll(dbLoader.loadSet(Episode.class, "names", "show_id=? and names.ref_id=episodes.id and names.name like ?",
+										 show.getId(), title));
+		return episodes;
+	}
+
+	protected TableConfiguration getTableConfiguration()
+	{
+		return new MediaTableConfiguration("episodes.lookup");
+	}
+
+	public String[] getColumnNames()
+	{
+		return new String[]{"key", "name", "originalName"};
+	}
+
+	public Object getColumnValue(Episode episode, int column, String property)
+	{
+		if ("key".equals(property)) return episode.getUserKey();
+		if ("name".equals(property)) return episode.getName();
+		if ("originalName".equals(property)) return episode.getOriginalName();
+		return null;
 	}
 }

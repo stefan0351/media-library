@@ -108,7 +108,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 			{
 				int[] rows=table.getSelectedRows();
 				Author author=null;
-				if (rows.length==1) author=(Author)tableModel.getObject(rows[0]);
+				if (rows.length==1) author=tableModel.getObject(rows[0]);
 				Set<Author> authors=new HashSet<Author>();
 				for (int i=0; i<rows.length; i++) authors.add((Author)tableModel.getObject(rows[i]));
 				JPopupMenu popupMenu=new JPopupMenu();
@@ -147,7 +147,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		}
 	}
 
-	private static class AuthorsTableModel extends SortableTableModel<Row>
+	private static class AuthorsTableModel extends SortableTableModel<Author>
 	{
 		private static final String[] COLUMNS={"name"};
 
