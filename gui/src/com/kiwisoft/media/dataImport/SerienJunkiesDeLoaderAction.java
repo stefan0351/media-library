@@ -1,17 +1,13 @@
 package com.kiwisoft.media.dataImport;
 
-import com.kiwisoft.media.dataImport.EpisodeLoaderDialog;
-import com.kiwisoft.media.dataImport.ImportEpisode;
-import com.kiwisoft.media.dataImport.NoEpisodeDialog;
-import com.kiwisoft.media.dataImport.SerienJunkiesDeLoader;
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 public class SerienJunkiesDeLoaderAction extends SimpleContextAction<Show>
 {

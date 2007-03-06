@@ -159,7 +159,7 @@ public class Recording extends IDObject implements Chain.ChainLink
 	public String getName()
 	{
 		Movie movie=getMovie();
-		if (movie!=null) return movie.getName();
+		if (movie!=null) return movie.getTitle();
 		Show show=getShow();
 		Episode episode=getEpisode();
 		String event=getEvent();

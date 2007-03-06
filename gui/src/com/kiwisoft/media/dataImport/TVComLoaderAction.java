@@ -1,15 +1,13 @@
 package com.kiwisoft.media.dataImport;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 import javax.swing.JFrame;
 
-import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.media.dataImport.*;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
 public class TVComLoaderAction extends SimpleContextAction<Show>
 {
@@ -41,6 +39,15 @@ public class TVComLoaderAction extends SimpleContextAction<Show>
 					dialog.setVisible(true);
 					if (dialog.isOk()) return dialog.getEpisode();
 					return null;
+				}
+
+				@Override
+				protected String[] resolveCastString(String cast)
+				{
+					ResolveCastStringDialog dialog=new ResolveCastStringDialog(parent, cast);
+					dialog.setVisible(true);
+					if (dialog.isOk()) return new String[]{dialog.getActor(), dialog.getCharacter()};
+					return super.resolveCastString(cast);
 				}
 			};
 			ProgressDialog progressDialog=new ProgressDialog(parent, process);

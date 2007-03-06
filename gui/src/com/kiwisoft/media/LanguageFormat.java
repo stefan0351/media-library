@@ -28,7 +28,7 @@ public class LanguageFormat extends DefaultObjectFormat
 		if (value instanceof Language)
 		{
 			Language language=(Language)value;
-			return IconManager.getIcon("com/kiwisoft/media/icons/flag_"+language.getSymbol()+".gif");
+			return IconManager.getIcon("com/kiwisoft/media/icons/languages/"+language.getSymbol()+".png");
 		}
 		return super.getIcon(value);
 	}

@@ -10,7 +10,7 @@ import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.movie.Movie;
 
 public class CastMember extends IDObject
 {
@@ -20,6 +20,7 @@ public class CastMember extends IDObject
 
 	public static final String ACTOR="actor";
 	public static final String SHOW="show";
+	public static final String MOVIE="movie";
 	public static final String EPISODE="episode";
 	public static final String TYPE="type";
 	public static final String VOICE="voice";
@@ -31,6 +32,7 @@ public class CastMember extends IDObject
 	private String imageLarge;
 	private String characterName;
 	private String description;
+	private Integer creditOrder;
 
 	public CastMember()
 	{
@@ -71,6 +73,16 @@ public class CastMember extends IDObject
 		setReference(EPISODE, value);
 	}
 
+	public Movie getMovie()
+	{
+		return (Movie)getReference(MOVIE);
+	}
+
+	public void setMovie(Movie value)
+	{
+		setReference(MOVIE, value);
+	}
+
 	public int getType()
 	{
 		return type;
@@ -82,6 +94,18 @@ public class CastMember extends IDObject
 		this.type=type;
 		setModified();
 		firePropertyChange(TYPE, oldType, type);
+	}
+
+
+	public Integer getCreditOrder()
+	{
+		return creditOrder;
+	}
+
+	public void setCreditOrder(Integer creditOrder)
+	{
+		this.creditOrder=creditOrder;
+		setModified();
 	}
 
 	public String getCharacterName()

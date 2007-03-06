@@ -242,19 +242,19 @@ public class TVTVDeLoader implements Job
 		index=content.indexOf(">", index);
 		int index2=content.indexOf("</td>", index);
 		String channel=content.substring(index+1, index2);
-		channel=XMLUtils.resolveEntities(XMLUtils.removeTags(channel)).trim();
+		channel=XMLUtils.unescapeHtml(XMLUtils.removeTags(channel)).trim();
 
 		index=content.indexOf("id=\"detail-box-time\"", index);
 		index=content.indexOf(">", index);
 		index2=content.indexOf("</td>", index);
 		String timeString=content.substring(index+1, index2);
-		timeString=XMLUtils.resolveEntities(XMLUtils.removeTags(timeString)).trim();
+		timeString=XMLUtils.unescapeHtml(XMLUtils.removeTags(timeString)).trim();
 
 		index=content.indexOf("id=\"fb-b10\"", index);
 		index=content.indexOf(">", index);
 		index2=content.indexOf("</td>", index);
 		String dateString=content.substring(index+1, index2);
-		dateString=XMLUtils.resolveEntities(XMLUtils.removeTags(dateString)).trim();
+		dateString=XMLUtils.unescapeHtml(XMLUtils.removeTags(dateString)).trim();
 
 		Date date=null;
 		try
@@ -276,7 +276,7 @@ public class TVTVDeLoader implements Job
 		index=content.indexOf(">", index);
 		index2=content.indexOf("</span>", index);
 		String showName=content.substring(index+1, index2);
-		showName=XMLUtils.resolveEntities(XMLUtils.removeTags(showName)).trim();
+		showName=XMLUtils.unescapeHtml(XMLUtils.removeTags(showName)).trim();
 		int lastIndex=index;
 
 		index=content.indexOf("id=\"fb-b9\"", lastIndex);
@@ -287,7 +287,7 @@ public class TVTVDeLoader implements Job
 			index=content.indexOf(">", index);
 			index2=content.indexOf("</span>", index);
 			title=content.substring(index+1, index2);
-			title=XMLUtils.resolveEntities(XMLUtils.removeTags(title)).trim();
+			title=XMLUtils.unescapeHtml(XMLUtils.removeTags(title)).trim();
 			if (title.endsWith("\""))
 			{
 				title=StringUtils.getTextBetween(title, "\"", "\"");
@@ -307,7 +307,7 @@ public class TVTVDeLoader implements Job
 			index=content.indexOf(">", index);
 			index2=content.indexOf("</span>", index);
 			description=content.substring(index+1, index2);
-			description=XMLUtils.resolveEntities(description).trim();
+			description=XMLUtils.unescapeHtml(description).trim();
 			description=StringUtils.replaceStrings(description, "<br>\n<br>\n", "\n");
 			description=StringUtils.replaceStrings(description, "<br>\n", " ");
 			lastIndex=index;
@@ -321,7 +321,7 @@ public class TVTVDeLoader implements Job
 			index=content.indexOf(">", index);
 			index2=content.indexOf("</span>", index);
 			cast=content.substring(index+1, index2);
-			cast=XMLUtils.resolveEntities(cast).trim();
+			cast=XMLUtils.unescapeHtml(cast).trim();
 			lastIndex=index;
 		}
 
@@ -333,7 +333,7 @@ public class TVTVDeLoader implements Job
 			index=content.indexOf(">", index);
 			index2=content.indexOf("</span>", index);
 			writer=content.substring(index+1, index2);
-			writer=XMLUtils.resolveEntities(writer).trim();
+			writer=XMLUtils.unescapeHtml(writer).trim();
 			lastIndex=index;
 		}
 
@@ -345,7 +345,7 @@ public class TVTVDeLoader implements Job
 			index=content.indexOf(">", index);
 			index2=content.indexOf("</span>", index);
 			director=content.substring(index+1, index2);
-			director=XMLUtils.resolveEntities(director).trim();
+			director=XMLUtils.unescapeHtml(director).trim();
 		}
 
 		String fileName=path+File.separator+URLEncoder.encode(showName, "UTF-8");

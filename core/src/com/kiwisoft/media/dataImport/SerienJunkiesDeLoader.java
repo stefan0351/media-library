@@ -40,38 +40,10 @@ public abstract class SerienJunkiesDeLoader implements Job
 		File configFile=new File(configuration.getApplicationBase(), "config.xml");
 		configuration.loadDefaultsFromFile(configFile);
 
-//		How I Met Your Mother
-//		Hannah Montana
-//		Zoey 101
-//		Instant Star
-//		Two and a half men
-//		Jack & Jill
-//		Wonderfalls
-//		Neds Ultimativer Schulwahnsinn
-//		Drake & Josh
-//		Joey
-//		Creatures Comforts
-//		Malcolm in the Middle
-//		So Little Time
-//		L-Word
-//		Scrubs
-//		South of Nowhere
-//		Unfabulous
-//		8 Simple Rules
-//		Coupling
-//		Alex Mack
-//		Firefly
-//		String url="http://www.serienjunkies.de/MadAboutYou/episoden.html";
-//		String url="http://www.serienjunkies.de/Accordingtojim/episoden.html";
-		String url="http://www.serienjunkies.de/VeronicaMars/episoden.html";
-		Show show=ShowManager.getInstance().getShow("veronica_mars");
-		new SerienJunkiesDeLoader(show, url, 1, 1, true)
-		{
-			protected Episode createEpisode(Show show, ImportEpisode info)
-			{
-				return null;
-			}
-		}.run(null);
+//		Instant Star, Two and a Half Men, Jack & Jill, Neds Ultimativer Schulwahnsinn, Drake & Josh,
+//		Joey, Creatures Comforts, Malcolm in the Middle, L-Word, Scrubs, South of Nowhere,
+//		Unfabulous, 8 Simple Rules, Coupling, Zack & Cody, Still Standing, Sugar Rush
+//		According To Jim
 	}
 
 	private ProgressSupport progress;
@@ -129,7 +101,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 			String htmlRow=page.substring(index1+4, index2);
 			if (!htmlRow.startsWith("<td class=\"ephead\""))
 			{
-				List<String> values=extractCellValues(htmlRow);
+				List<String> values=XMLUtils.extractCellValues(htmlRow);
 				System.out.println(values);
 
 				EpisodeData episodeData=new EpisodeData();
@@ -151,13 +123,13 @@ public abstract class SerienJunkiesDeLoader implements Job
 
 				String origNameAndLink=values.get(2);
 				String origName=XMLUtils.removeTags(origNameAndLink);
-				origName=XMLUtils.resolveEntities(origName);
+				origName=XMLUtils.unescapeHtml(origName);
 				episodeData.origEpisodeName=StringUtils.trimString(origName);
 				System.out.println("origName = "+episodeData.origEpisodeName);
 
 				String nameAndLink=values.get(3);
 				String name=XMLUtils.removeTags(nameAndLink);
-				name=XMLUtils.resolveEntities(name);
+				name=XMLUtils.unescapeHtml(name);
 				episodeData.episodeName=StringUtils.trimString(name);
 				XMLUtils.Tag tag=XMLUtils.getNextTag(nameAndLink, 0, "a");
 				String link=null;
@@ -181,14 +153,14 @@ public abstract class SerienJunkiesDeLoader implements Job
 					if (!isEmpty(link)) loadSummary(episodeData, link);
 					saveEpisode(episode, episodeData);
 				}
-				Thread.sleep(500); // To avoid DOS on the TV.com server
+				Thread.sleep(100); // To avoid DOS on the TV.com server
 			}
 		}
 	}
 
 	private Date convertDate(String text)
 	{
-		if (text!=null) text=XMLUtils.resolveEntities(text);
+		if (text!=null) text=XMLUtils.unescapeHtml(text);
 		if (!StringUtils.isEmpty(text))
 		{
 			try
@@ -244,24 +216,8 @@ public abstract class SerienJunkiesDeLoader implements Job
 		index1=page.indexOf(">", index1)+1;
 		int index2=page.indexOf("</td>", index1);
 		String summary=page.substring(index1, index2).replace("\n", "").replace("<br />", "\n");
-		episodeData.summary=XMLUtils.resolveEntities(summary).trim();
+		episodeData.summary=XMLUtils.unescapeHtml(summary).trim();
 		System.out.println("summary = "+episodeData.summary);
-	}
-
-	private List<String> extractCellValues(String htmlRow)
-	{
-		List<String> values=new ArrayList<String>(6);
-		int index2=0;
-		while (true)
-		{
-			int index1=htmlRow.indexOf("<td", index2);
-			if (index1<0) break;
-			index1=htmlRow.indexOf(">", index1);
-			index2=htmlRow.indexOf("</td>", index1);
-			if (index2<0) break;
-			values.add(htmlRow.substring(index1+1, index2).trim());
-		}
-		return values;
 	}
 
 	public void saveEpisode(final Episode episode, final EpisodeData data)

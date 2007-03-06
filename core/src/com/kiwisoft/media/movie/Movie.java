@@ -8,30 +8,46 @@ package com.kiwisoft.media.movie;
 
 import java.util.Set;
 import java.util.Iterator;
+import java.util.Collection;
 
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.db.DBAssociation;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
+import com.kiwisoft.media.Genre;
+import com.kiwisoft.media.Country;
+import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CastMember;
 
 public class Movie extends IDObject
 {
 	public static final String SHOW="show";
 	public static final String DEFAULT_INFO="defaultInfo";
-	public static final String TYPE="type";
+	public static final String GENRES="genres";
+	public static final String LANGUAGES="languages";
+	public static final String COUNTRIES="countries";
 
-	private String name;
-	private String originalName;
-	private boolean seen;
+	private static final DBAssociation<Movie, Genre> ASSOCIATION_GENRES
+		=DBAssociation.getAssociation(GENRES, Movie.class, Genre.class);
+	private static final DBAssociation<Movie, Language> ASSOCIATION_LANGUAGES
+		=DBAssociation.getAssociation(LANGUAGES, Movie.class, Language.class);
+	private static final DBAssociation<Movie, Country> ASSOCIATION_COUNTRIES
+		=DBAssociation.getAssociation(COUNTRIES, Movie.class, Country.class);
+
+	private String title;
+	private String germanTitle;
 	private boolean record;
-	private boolean good;
 	private Set<Name> altNames;
-	private Set<MovieInfo> infos;
 	private String javaScript;
 	private String webScriptFile;
+	private String posterMini;
+	private Integer year;
+	private Integer runtime;
 
 	public Movie()
 	{
@@ -47,31 +63,31 @@ public class Movie extends IDObject
 		super(dummy);
 	}
 
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 
-	public void setName(String name)
+	public void setTitle(String title)
 	{
-		this.name=name;
+		this.title=title;
 		setModified();
 	}
 
-	public String getOriginalName()
+	public String getGermanTitle()
 	{
-		return originalName;
+		return germanTitle;
 	}
 
-	public void setOriginalName(String originalName)
+	public void setGermanTitle(String germanTitle)
 	{
-		this.originalName=originalName;
+		this.germanTitle=germanTitle;
 		setModified();
 	}
 
 	public String getName(Language language)
 	{
-		if (language!=null && "de".equals(language.getSymbol())) return getName();
+		if (language!=null && "de".equals(language.getSymbol())) return getTitle();
 		else
 		{
 			for (Iterator it=getAltNames().iterator(); it.hasNext();)
@@ -80,7 +96,7 @@ public class Movie extends IDObject
 				if (altName.getLanguage()==language) return altName.getName();
 			}
 		}
-		return getName();
+		return getTitle();
 	}
 
 	public Name createAltName()
@@ -113,18 +129,6 @@ public class Movie extends IDObject
 		setReference(SHOW, show);
 	}
 
-
-	public boolean isSeen()
-	{
-		return seen;
-	}
-
-	public void setSeen(boolean seen)
-	{
-		this.seen=seen;
-		setModified();
-	}
-
 	public boolean isRecord()
 	{
 		return record;
@@ -133,17 +137,6 @@ public class Movie extends IDObject
 	public void setRecord(boolean record)
 	{
 		this.record=record;
-		setModified();
-	}
-
-	public boolean isGood()
-	{
-		return good;
-	}
-
-	public void setGood(boolean good)
-	{
-		this.good=good;
 		setModified();
 	}
 
@@ -169,6 +162,17 @@ public class Movie extends IDObject
 		setModified();
 	}
 
+	public String getPosterMini()
+	{
+		return posterMini;
+	}
+
+	public void setPosterMini(String posterMini)
+	{
+		this.posterMini=posterMini;
+		setModified();
+	}
+
 	public boolean isUsed()
 	{
 		return super.isUsed() || MovieManager.getInstance().isMovieUsed(this);
@@ -176,7 +180,7 @@ public class Movie extends IDObject
 
 	public String toString()
 	{
-		return name;
+		return title;
 	}
 
 	public void afterReload()
@@ -185,57 +189,125 @@ public class Movie extends IDObject
 		super.afterReload();
 	}
 
-	public MovieInfo createInfo()
+	public void setSummaryText(Language language, String text)
 	{
-		MovieInfo info=new MovieInfo(this);
-		if (infos!=null) infos.add(info);
-		return info;
+		Summary summary=getSummary(language);
+		if (!StringUtils.isEmpty(text))
+		{
+			if (summary==null)
+			{
+				summary=new Summary();
+				summary.setMovie(this);
+				summary.setLanguage(language);
+			}
+			summary.setSummary(text);
+		}
+		else
+		{
+			if (summary!=null) summary.delete();
+		}
 	}
 
-	public void dropInfo(MovieInfo info)
+	public String getSummaryText(Language language)
 	{
-		if (infos!=null) infos.remove(info);
-		info.delete();
+		Summary summary=getSummary(language);
+		return summary!=null ? summary.getSummary() : null;
 	}
 
-	public Set getInfos()
+	private Summary getSummary(Language language)
 	{
-		if (infos==null)
-			infos=DBLoader.getInstance().loadSet(MovieInfo.class, null, "movie_id=?", getId());
-		return infos;
+		return DBLoader.getInstance().load(Summary.class, null, "movie_id=? and language_id=?", getId(), language.getId());
 	}
 
-	public MovieInfo getDefaultInfo()
+	public Integer getYear()
 	{
-		return (MovieInfo)getReference(DEFAULT_INFO);
+		return year;
 	}
 
-	public void setDefaultInfo(MovieInfo movieInfo)
+	public void setYear(Integer year)
 	{
-		setReference(DEFAULT_INFO, movieInfo);
+		this.year=year;
+		setModified();
 	}
 
-	public String getLink()
+	public Integer getRuntime()
 	{
-		MovieInfo link=getDefaultInfo();
-		if (link!=null) return "/"+link.getPath()+"?movie="+getId();
-		return null;
+		return runtime;
 	}
 
-	public MovieType getType()
+	public void setRuntime(Integer runtime)
 	{
-		return (MovieType)getReference(TYPE);
+		this.runtime=runtime;
+		setModified();
 	}
 
-	public void setType(MovieType type)
+	public void addGenre(Genre genre)
 	{
-		setReference(TYPE, type);
+		ASSOCIATION_GENRES.addAssociation(this, genre);
 	}
 
-	public Identifyable loadReference(String name, Long referenceId)
+	public void removeGenre(Genre genre)
 	{
-		if (TYPE.equals(name)) return MovieType.get(referenceId);
-		return super.loadReference(name, referenceId);
+		ASSOCIATION_GENRES.removeAssociation(this, genre);
 	}
 
+	public Set<Genre> getGenres()
+	{
+		return ASSOCIATION_GENRES.getAssociations(this);
+	}
+
+	public void setGenres(Collection<Genre> genres)
+	{
+		ASSOCIATION_GENRES.setAssociations(this, genres);
+	}
+
+	public void addLanguage(Language language)
+	{
+		ASSOCIATION_LANGUAGES.addAssociation(this, language);
+	}
+
+	public void removeLanguage(Language language)
+	{
+		ASSOCIATION_LANGUAGES.removeAssociation(this, language);
+	}
+
+	public Set<Language> getLanguages()
+	{
+		return ASSOCIATION_LANGUAGES.getAssociations(this);
+	}
+
+	public void setLanguages(Collection<Language> languages)
+	{
+		ASSOCIATION_LANGUAGES.setAssociations(this, languages);
+	}
+
+	public void addCountry(Country country)
+	{
+		ASSOCIATION_COUNTRIES.addAssociation(this, country);
+	}
+
+	public void removeCountry(Country country)
+	{
+		ASSOCIATION_COUNTRIES.removeAssociation(this, country);
+	}
+
+	public Set<Country> getCountries()
+	{
+		return ASSOCIATION_COUNTRIES.getAssociations(this);
+	}
+
+	public void setCountries(Collection<Country> countries)
+	{
+		ASSOCIATION_COUNTRIES.setAssociations(this, countries);
+	}
+
+	public Set<CastMember> getCastMembers()
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=?", getId());
+	}
+
+	public Set<CrewMember> getCrewMembers()
+	{
+		return DBLoader.getInstance().loadSet(CrewMember.class, null, "movie_id=?", getId());
+	}
 }

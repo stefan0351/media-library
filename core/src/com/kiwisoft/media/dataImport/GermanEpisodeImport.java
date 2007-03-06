@@ -106,7 +106,7 @@ public abstract class GermanEpisodeImport implements Job
 //									transaction=DBSession.getInstance().createTransaction();
 //									episodeInfo=episode.createInfo();
 //									episodeInfo.setLanguage(german);
-//									episodeInfo.setName("Beschreibung (deutsch)");
+//									episodeInfo.setTitle("Beschreibung (deutsch)");
 //									episodeInfo.setPath(path);
 //									episode.setDefaultInfo(episodeInfo);
 //									transaction.close();

@@ -4,7 +4,7 @@ import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.StringComparator;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.Genre;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class ShowsTask extends MenuSidebarItem.Task
 	{
 		super("Serien", IconManager.getIcon("com/kiwisoft/media/icons/show32.gif"));
 		List<Genre> genres=new ArrayList<Genre>(DBLoader.getInstance().loadSet(Genre.class));
-		Collections.sort(genres, new StringComparator());
+		Collections.sort(genres, StringUtils.getComparator());
 		for (Genre genre : genres)
 		{
 			add(new ShowGenreTask(genre));

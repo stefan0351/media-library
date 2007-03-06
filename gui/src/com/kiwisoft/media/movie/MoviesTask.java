@@ -15,7 +15,7 @@ public class MoviesTask extends MenuSidebarItem.Task
 {
 	public MoviesTask()
 	{
-		super("Filme", IconManager.getIcon("com/kiwisoft/media/icons/movies32.gif"));
+		super("Movies", IconManager.getIcon("com/kiwisoft/media/icons/movies32.gif"));
 	}
 
 	public void perform(ApplicationFrame frame)

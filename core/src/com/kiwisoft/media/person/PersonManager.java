@@ -12,6 +12,7 @@ import java.util.Set;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.media.movie.Movie;
 
 public class PersonManager
 {
@@ -82,6 +83,11 @@ public class PersonManager
 	public Person getPersonByName(String name)
 	{
 		return DBLoader.getInstance().load(Person.class, null, "name=?", name);
+	}
+
+	public Person getPerson(Long id)
+	{
+		return DBLoader.getInstance().load(Person.class, id);
 	}
 }
 

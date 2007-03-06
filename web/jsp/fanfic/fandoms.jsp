@@ -6,7 +6,7 @@
 <html>
 
 <head>
-<title>Fanfics - FanDoms</title>
+<title>Fan Fiction - Domains</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -15,7 +15,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;">FanFics</div>
+	<div style="margin-left:10px; margin-top:5px;">Fan Fiction</div>
 </div>
 
 <div class="main">
@@ -30,7 +30,7 @@
 		<tr><td class="header1">Domains</td></tr>
 		<tr><td class="content">
 			<table class="contenttable" width="765">
-			<tr><td class="header2">Serien</td></tr>
+			<tr><td class="header2">Shows</td></tr>
 			<tr><td class="content">
 			<ul>
 <%
@@ -48,7 +48,7 @@
 			</table>
 
 			<table class="contenttable" width="765">
-			<tr><td class="header2">Filme</td></tr>
+			<tr><td class="header2">Movies</td></tr>
 			<tr><td class="content">
 			<ul>
 <%
@@ -66,7 +66,7 @@
 			</table>
 
 			<table class="contenttable" width="765">
-			<tr><td class="header2">Sonstige</td></tr>
+			<tr><td class="header2">Others</td></tr>
 			<tr><td class="content">
 			<ul>
 <%

@@ -44,13 +44,13 @@ public class MovieManager
 		return DBLoader.getInstance().load(Movie.class, id);
 	}
 
-	public Movie getMovieByName(String name)
+	public Movie getMovieByTitle(String title)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
-		Movie movie=dbLoader.load(Movie.class, null, "name=?", name);
+		Movie movie=dbLoader.load(Movie.class, null, "title=? or german_title=?", title, title);
 		if (movie==null)
 		{
-			movie=dbLoader.load(Movie.class, "names", "names.type=? and names.ref_id=shows.id and names.name=?", Name.MOVIE, name);
+			movie=dbLoader.load(Movie.class, "names", "names.type=? and names.ref_id=movies.id and names.name=?", Name.MOVIE, title);
 		}
 		return movie;
 	}

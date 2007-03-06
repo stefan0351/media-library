@@ -1,6 +1,5 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import = "com.kiwisoft.media.show.*,
-				   com.kiwisoft.utils.StringUtils,
 				   com.kiwisoft.media.movie.Movie" %>
 <%@ page import="java.util.*"%>
 
@@ -108,19 +107,9 @@
 		while (itMovies.hasNext())
 		{
 			Movie movie=(Movie)itMovies.next();
-			String link=movie.getLink();
-			if (!StringUtils.isEmpty(link))
-			{
 %>
-				<li><b><a class="link" href="<%=link%>"><%=movie.getName()%></a></b>
+	<li><b><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><%=movie.getTitle()%></a></b>
 <%
-			}
-			else
-			{
-%>
-				<li><b><%=movie.getName()%></b>
-<%
-			}
 		}
 %>
 </ul>

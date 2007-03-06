@@ -6,8 +6,9 @@
 				 com.kiwisoft.media.Language,
 				 com.kiwisoft.media.LanguageManager,
 				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.utils.StringComparator"%>
+				 com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.utils.db.DBLoader"%>
+
 
 <html>
 
@@ -34,14 +35,14 @@
 	<td width="800">
 
 <%
-	SortedSet genres=new TreeSet(new StringComparator());
+	SortedSet genres=new TreeSet(StringUtils.getComparator());
 	genres.addAll(DBLoader.getInstance().loadSet(Genre.class));
 	Iterator itGenres=genres.iterator();
 	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 	while (itGenres.hasNext())
 	{
 		Genre genre=(Genre)itGenres.next();
-		SortedSet shows=new TreeSet(new StringComparator());
+		SortedSet shows=new TreeSet(StringUtils.getComparator());
 		shows.addAll(genre.getShows());
 		if (!shows.isEmpty())
 		{

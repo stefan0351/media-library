@@ -64,14 +64,15 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected void initializeTableComponents()
 	{
 		RendererFactory.getInstance().setRenderer(Language.class, new LanguageFormat());
-		ComboBoxObjectEditor editor=new ComboBoxObjectEditor(LanguageManager.getInstance().getLanguages().toArray());
-		editor.setRenderer(new LanguageComboBoxRenderer());
+		RendererFactory.getInstance().setRenderer(Country.class, new CountryFormat());
+
 		EditorFactory editorFactory=EditorFactory.getInstance();
-		editorFactory.setDefaultEditor(Language.class, editor);
+		editorFactory.setDefaultEditor(Language.class, new LanguageLookup());
 		editorFactory.setDefaultEditor(Pairing.class, new PairingLookup());
 		editorFactory.setDefaultEditor(FanDom.class, new FanDomLookup());
 		editorFactory.setDefaultEditor(Author.class, new AuthorLookup());
 		editorFactory.setDefaultEditor(Genre.class, new GenreLookup());
+		editorFactory.setDefaultEditor(Country.class, new CountryLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
 	}

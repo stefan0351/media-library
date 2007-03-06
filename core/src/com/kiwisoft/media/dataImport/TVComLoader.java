@@ -44,7 +44,8 @@ public abstract class TVComLoader implements Job
 	private int endSeason;
 	private boolean autoCreate;
 	private Language language;
-	public SimpleDateFormat airdateFormat;
+	private SimpleDateFormat airdateFormat;
+	private Map<String, CastData> castCache=new HashMap<String, CastData>();
 
 	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
@@ -98,7 +99,7 @@ public abstract class TVComLoader implements Job
 			index2=page.indexOf("</tr>", index1);
 			if (index2<0) break;
 			String htmlRow=page.substring(index1+1, index2);
-			List<String> values=extractCellValues(htmlRow);
+			List<String> values=XMLUtils.extractCellValues(htmlRow);
 			if (values.size()<4) break;
 
 			String episodeKey=values.get(0);
@@ -124,12 +125,11 @@ public abstract class TVComLoader implements Job
 
 			Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getOriginalEpisodeTitle());
 			if (episode==null) episode=createEpisode(data);
-			if (episode!=null && airdate!=null)
+			if (episode!=null)
 			{
 				progress.startStep("Lade Episode "+episode.getUserKey()+": "+data.getOriginalEpisodeTitle()+"...");
 				loadEpisode(episode, data, episodeUrl);
-//				saveEpisode(episode, data);
-				Thread.sleep(500); // To avoid DOS on the TV.com server
+				Thread.sleep(100); // To avoid DOS on the TV.com server
 			}
 			progress.progress();
 		}
@@ -191,7 +191,7 @@ public abstract class TVComLoader implements Job
 		int index2=episodePage.indexOf("<div", index1+5);
 		String content=episodePage.substring(index1+5, index2).trim();
 		content=content.replaceAll("<br */>", "\n");
-		content=XMLUtils.resolveEntities(content);
+		content=XMLUtils.unescapeHtml(content);
 		episodeData.setSummary(content);
 
 		index1=episodePage.indexOf("<h1>Cast and Crew</h1>", index2);
@@ -202,15 +202,16 @@ public abstract class TVComLoader implements Job
 			index2=episodePage.indexOf("<tr", index1+3);
 			if (index2>index3) index2=index3;
 			String htmlRow=episodePage.substring(index1, index2);
-			List<String> values=extractCellValues(htmlRow);
+			List<String> values=XMLUtils.extractCellValues(htmlRow);
 			if (values.size()==2)
 			{
 				String creditName=values.get(0);
 				String creditValue=values.get(1);
+				// todo handle pattern errors
 				if ("Writer:".equals(creditName) || "Director:".equals(creditName) || "Story:".equals(creditName))
 				{
 					creditValue=XMLUtils.removeTags(creditValue).trim();
-					creditValue=XMLUtils.resolveEntities(creditValue);
+					creditValue=XMLUtils.unescapeHtml(creditValue);
 					if ("Writer:".equals(creditName)) episodeData.setWrittenBy(creditValue.split(","));
 					else if ("Director:".equals(creditName)) episodeData.setDirectedBy(creditValue.split(","));
 					else if ("Story:".equals(creditName)) episodeData.setStoryBy(creditValue.split(","));
@@ -239,28 +240,63 @@ public abstract class TVComLoader implements Job
 		for (int i=0; i<castStrings.length; i++)
 		{
 			String cast=castStrings[i];
-			Matcher matcher=pattern1.matcher(cast);
-			if (!matcher.matches()) matcher=pattern2.matcher(cast);
-			if (matcher.matches()) castList.add(new CastData(matcher.group(1), matcher.group(2)));
-			else progress.warning("Invalid cast pattern: "+cast);
+			CastData castData=castCache.get(cast);
+			if (castData==null)
+			{
+				String actorName=null;
+				String characterName=null;
+				Matcher matcher=pattern1.matcher(cast);
+				if (!matcher.matches()) matcher=pattern2.matcher(cast);
+				if (matcher.matches())
+				{
+					actorName=matcher.group(1);
+					characterName=matcher.group(2);
+				}
+				if (actorName==null || !isValidName(actorName) || (characterName!=null && !isValidName(characterName)))
+				{
+					String[] data=resolveCastString(cast);
+					if (data==null) continue;
+					actorName=data[0];
+					characterName=data[1];
+				}
+				castData=new CastData(actorName, characterName);
+				castCache.put(cast, castData);
+			}
+			castList.add(castData);
 		}
 		return castList;
 	}
 
-	private List<String> extractCellValues(String htmlRow)
+	protected String[] resolveCastString(String cast)
 	{
-		List<String> values=new ArrayList<String>(6);
-		int index2=0;
-		while (true)
+		progress.warning("Invalid cast pattern: "+cast);
+		return null;
+	}
+
+	private static boolean isValidName(String text)
+	{
+		Stack<Character> stack=new Stack<Character>();
+		Character lastOpened;
+		for (int i=0;i<text.length();i++)
 		{
-			int index1=htmlRow.indexOf("<td", index2);
-			if (index1<0) break;
-			index1=htmlRow.indexOf(">", index1);
-			index2=htmlRow.indexOf("</td>", index1);
-			if (index2<0) break;
-			values.add(htmlRow.substring(index1+1, index2).trim());
+			char ch=text.charAt(i);
+			switch (ch)
+			{
+				case '(':
+				case '[':
+					stack.push(ch);
+					break;
+				case ')':
+					lastOpened=stack.pop();
+					if (lastOpened==null || lastOpened.charValue()!='(') return false;
+					break;
+				case ']':
+					lastOpened=stack.pop();
+					if (lastOpened==null || lastOpened.charValue()!='[') return false;
+					break;
+			}
 		}
-		return values;
+		return stack.isEmpty();
 	}
 
 	public void saveEpisode(final Episode episode, final EpisodeData data)

@@ -124,7 +124,7 @@ public class ProSiebenDeLoader implements Job
 			if (nameIndex>0)
 			{
 				String name=s.substring(nameIndex);
-				name=XMLUtils.resolveEntities(XMLUtils.removeTags(name)).trim();
+				name=XMLUtils.unescapeHtml(XMLUtils.removeTags(name)).trim();
 				Show show=ShowManager.getInstance().getShowByName(name);
 				if (show!=null && (shows==null || shows.contains(show)))
 				{
@@ -212,7 +212,7 @@ public class ProSiebenDeLoader implements Job
 			int pos=buffer.indexOf("Uhr</strong>");
 			pos=buffer.lastIndexOf("<strong", pos);
 			int end=buffer.indexOf("Uhr</strong>", pos);
-			String dateString=XMLUtils.resolveEntities(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
+			String dateString=XMLUtils.unescapeHtml(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
 			Date date=null;
 			int attempt=0;
 			DateFormat dateFormat=dateFormatP7;
@@ -261,19 +261,19 @@ public class ProSiebenDeLoader implements Job
 
 			pos=buffer.indexOf("<div style=\"padding: 0px 0px 4px 15px;\"><strong>", end);
 			end=buffer.indexOf("</strong>", pos);
-			String showString=XMLUtils.resolveEntities(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
+			String showString=XMLUtils.unescapeHtml(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
 			fw.write("<Show>"+XMLUtils.toXMLString(showString)+"</Show>\n");
 			fw.flush();
 
 			pos=buffer.indexOf("<div style=\"padding: 0px 10px 4px 15px;\"><strong>", end);
 			end=buffer.indexOf("</strong>", pos);
-			String episodeString=XMLUtils.resolveEntities(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
+			String episodeString=XMLUtils.unescapeHtml(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
 			fw.write("<Episode>"+XMLUtils.toXMLString(episodeString)+"</Episode>\n");
 			fw.flush();
 
 			pos=buffer.indexOf("<div style=\"padding: 0px 20px 25px 15px; line-height:14px;\">", end);
 			end=buffer.indexOf("</div>", pos);
-			String contentString=XMLUtils.resolveEntities(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
+			String contentString=XMLUtils.unescapeHtml(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
 			fw.write("<Inhalt>"+XMLUtils.toXMLString(contentString)+"</Inhalt>\n");
 
 			pos=buffer.indexOf("<table width=\"540\"", pos);
@@ -283,14 +283,14 @@ public class ProSiebenDeLoader implements Job
 				pos=endIndexOf(buffer, "style=\"padding: 2px 0px 2px 15px; line-height:14px;\">", pos);
 				end=buffer.indexOf("</td>", pos);
 				if (pos<0 || end<0) break;
-				String itemName=XMLUtils.resolveEntities(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
+				String itemName=XMLUtils.unescapeHtml(XMLUtils.removeTags(buffer.substring(pos, end))).trim();
 				if (isEmpty(itemName) || "&nbsp".equals(itemName)) itemName=lastItemName;
 				lastItemName=itemName;
 
 				pos=endIndexOf(buffer, "style=\"line-height:14px; padding: 2px 0px 2px 0px;\">", pos);
 				end=buffer.indexOf("</td>", pos);
 				if (pos<0 || end<0) break;
-				String itemValue=XMLUtils.resolveEntities(buffer.substring(pos, end)).trim();
+				String itemValue=XMLUtils.unescapeHtml(buffer.substring(pos, end)).trim();
 				itemValue=replaceStrings(itemValue, "  ", " ");
 				itemValue=replaceStrings(itemValue, "<br />", "|");
 

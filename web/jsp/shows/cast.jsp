@@ -2,13 +2,11 @@
 <%@ page import = "java.util.Iterator,
 				   java.util.Set,
 				   java.util.TreeSet,
-				   com.kiwisoft.media.CastMember,
-				   com.kiwisoft.media.CastComparator,
+				   com.kiwisoft.media.person.CastComparator,
+				   com.kiwisoft.media.person.CastMember,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
 				   com.kiwisoft.utils.StringUtils" %>
-<%@ page import="com.kiwisoft.media.person.CastMember"%>
-<%@ page import="com.kiwisoft.media.person.CastComparator"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%

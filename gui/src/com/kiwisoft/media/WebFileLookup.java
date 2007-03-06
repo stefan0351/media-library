@@ -1,11 +1,11 @@
 package com.kiwisoft.media;
 
-import javax.swing.JFileChooser;
 import javax.swing.Icon;
+import javax.swing.JFileChooser;
 
-import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.lookup.FileLookup;
 
 /**
  * Created by IntelliJ IDEA.

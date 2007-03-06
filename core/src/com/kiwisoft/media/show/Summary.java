@@ -4,9 +4,11 @@ import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.Language;
+import com.kiwisoft.media.movie.Movie;
 
 public class Summary extends IDObject
 {
+	public static final String MOVIE="movie";
 	public static final String EPISODE="episode";
 	public static final String LANGUAGE="language";
 	public static final String SUMMARY="summary";
@@ -30,6 +32,16 @@ public class Summary extends IDObject
 	public void setEpisode(Episode value)
 	{
 		setReference(EPISODE, value);
+	}
+
+	public Movie getMovie()
+	{
+		return (Movie)getReference(MOVIE);
+	}
+
+	public void setMovie(Movie value)
+	{
+		setReference(MOVIE, value);
 	}
 
 	public Language getLanguage()

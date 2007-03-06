@@ -7,7 +7,7 @@
 <html>
 
 <head>
-<title>Fanfics - Paare</title>
+<title>Fan Fiction - Pairings</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -17,7 +17,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;">FanFics</div>
+	<div style="margin-left:10px; margin-top:5px;">Fan Fiction</div>
 </div>
 
 <div class="main">
@@ -28,7 +28,7 @@
 	</td>
 	<td width="800">
 		<table class="contenttable" width="790">
-		<tr><td class="header1">Paare</td></tr>
+		<tr><td class="header1">Pairings</td></tr>
 		<tr><td class="content">
 			<ul>
 <%

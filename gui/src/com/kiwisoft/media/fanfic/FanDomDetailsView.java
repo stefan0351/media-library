@@ -163,7 +163,7 @@ public class FanDomDetailsView extends DetailsView
 				if (movie!=null)
 				{
 					tfMovie.setValue(null);
-					if (StringUtils.isEmpty(tfName.getText())) tfName.setText(movie.getName());
+					if (StringUtils.isEmpty(tfName.getText())) tfName.setText(movie.getTitle());
 				}
 			}
 		}

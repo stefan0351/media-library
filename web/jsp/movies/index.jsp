@@ -10,13 +10,13 @@
 	for (Iterator it=movies.iterator(); it.hasNext();)
 	{
 		Movie movie=(Movie)it.next();
-		movieMap.put(movie.getName(), movie);
+		movieMap.put(movie.getTitle(), movie);
 	}
 %>
 <html>
 
 <head>
-<title>Filme</title>
+<title>Movies</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -26,7 +26,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;">Filme</div>
+	<div style="margin-left:10px; margin-top:5px;">Movies</div>
 </div>
 
 <div class="main">
@@ -42,7 +42,7 @@
 <!--Content Start-->
 
 <table class="contenttable" width="790">
-<tr><td class="header1">&Uuml;bersicht</td></tr>
+<tr><td class="header1">List</td></tr>
 <tr><td class="content">
 	<table width="765">
 	<tr><td class="content2"><small>[
@@ -71,21 +71,11 @@
 		{
 			String name=(String)itMovies.next();
 			Movie movie=(Movie)movieMap.get(name);
-			String originalName=movie.getOriginalName();
-			String link=movie.getLink();
-			if (StringUtils.isEmpty(link))
-			{
 %>
-		<li><b><%=movie.getName()%></b>
+			<li><b><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><%=name%></a></b>
 <%
-			}
-			else
-			{
-%>
-		<li><b><a class="link" href="<%=link%>"><%=name%></a></b>
-<%
-			}
-			if (!StringUtils.isEmpty(originalName)) out.print("("+originalName+")");
+			String germanTitle=movie.getGermanTitle();
+			if (!StringUtils.isEmpty(germanTitle)) out.print("("+germanTitle+")");
 		}
 %>
 		</ul></td><td class="content2" align=right valign=bottom><a class=link href="#top">Top</a></td></tr>

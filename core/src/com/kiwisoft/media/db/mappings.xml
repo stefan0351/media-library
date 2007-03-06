@@ -80,6 +80,11 @@
 		<field name="symbol" column="symbol"/>
 		<field name="name" column="name"/>
 	</mapping>
+	<mapping name="Country" class="com.kiwisoft.media.Country" table="countries" primaryKey="id">
+		<field name="id" column="id"/>
+		<field name="symbol" column="symbol"/>
+		<field name="name" column="name"/>
+	</mapping>
 	<mapping name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
@@ -131,29 +136,21 @@
 		<field name="summary" column="summary"/>
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
+		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="language" column="language_id" type="Language"/>
 	</mapping>
 	<mapping name="Movie" class="com.kiwisoft.media.movie.Movie" table="movies" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="originalName" column="name_original"/>
-		<field name="seen" column="seen"/>
-		<field name="good" column="good"/>
+		<field name="title" column="title"/>
+		<field name="germanTitle" column="german_title"/>
 		<field name="record" column="record"/>
 		<field name="javaScript" column="javascript"/>
 		<field name="webScriptFile" column="webscriptfile"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="posterMini" column="poster_mini"/>
+		<field name="year" column="year"/> 
+		<field name="runtime" column="runtime"/>
 		<reference name="show" column="show_id" type="Show"/>
-		<reference name="defaultInfo" column="defaultinfo_id" type="MovieInfo"/>
-		<reference name="type" column="type_id"/>
-	</mapping>
-	<mapping name="MovieInfo" class="com.kiwisoft.media.movie.MovieInfo" table="movieinfos" primaryKey="id" lastModified="lastmodified">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="path" column="path"/>
-		<field name="lastModified" column="lastmodified"/>
-		<reference name="movie" column="movie_id" type="Movie"/>
-		<reference name="language" column="language_id" type="Language"/>
 	</mapping>
 	<mapping name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id">
 		<field name="id" column="id"/>
@@ -182,8 +179,10 @@
 		<field name="imageLarge" column="image_large"/>
 		<field name="description" column="description"/>
 		<field name="characterName" column="character_name"/>
+		<field name="creditOrder" column="credit_order"/>
 		<reference name="actor" column="actor_id" type="Person"/>
 		<reference name="show" column="show_id" type="Show"/>
+		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 	</mapping>
 	<mapping name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified">
@@ -258,8 +257,10 @@
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="subType" column="sub_type"/>
 		<reference name="person" column="person_id" type="Person"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
+		<reference name="movie" column="movie_id" type="Movie"/>
 	</mapping>
 
 	<association table="map_fanfic_pairing">
@@ -277,5 +278,17 @@
 	<association table="map_show_genre">
 		<element name="genres" column="show_id" type="Show"/>
 		<element name="shows" column="genre_id" type="Genre"/>
+	</association>
+	<association table="map_movie_genre">
+		<element type="Movie" name="genres" column="movie_id"/>
+		<element type="Genre" name="movies" column="genre_id"/>
+	</association>
+	<association table="map_movie_language">
+		<element type="Movie" name="languages" column="movie_id"/>
+		<element type="Language" name="movies" column="language_id"/>
+	</association>
+	<association table="map_movie_country">
+		<element type="Movie" name="countries" column="movie_id"/>
+		<element type="Country" name="movies" column="country_id"/>
 	</association>
 </mappings>

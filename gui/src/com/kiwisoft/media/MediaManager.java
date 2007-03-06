@@ -16,7 +16,7 @@ public class MediaManager
 
 	public static void main(String[] args)
 	{
-		Locale.setDefault(Locale.GERMANY);
+		Locale.setDefault(Locale.UK);
 		final Configurator configuration=Configurator.getInstance();
 		configuration.determineBaseDirectory(Show.class);
 		File configFile=new File(configuration.getApplicationBase(), "config.xml");

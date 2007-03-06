@@ -1,12 +1,12 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase"%>
 <%@ page import = "java.util.Set,
 				   java.util.TreeSet,
-				   com.kiwisoft.utils.StringComparator,
 				   com.kiwisoft.media.show.ShowManager,
 				   java.util.Iterator,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.fanfic.FanFicManager,
 				   com.kiwisoft.media.fanfic.FanDom" %>
+<%@ page import="com.kiwisoft.utils.StringUtils"%>
 
 <%
 	String name=request.getParameter("name");
@@ -50,7 +50,7 @@
 	<select name="show">
 		<option value="empty">Wähle Serie</option>
 <%
-		Set shows=new TreeSet(new StringComparator());
+		Set shows=new TreeSet(StringUtils.getComparator());
 		shows.addAll(ShowManager.getInstance().getShows());
 		 for (Iterator it=shows.iterator();it.hasNext();)
 		 {
@@ -64,7 +64,7 @@
 	<select name="fanDom">
 		<option value="empty">Wähle FanDom</option>
 <%
-		Set fanDoms=new TreeSet(new StringComparator());
+		Set fanDoms=new TreeSet(StringUtils.getComparator());
 		fanDoms.addAll(FanFicManager.getInstance().getDomains());
 		 for (Iterator it=fanDoms.iterator();it.hasNext();)
 		 {

@@ -2,6 +2,8 @@ package com.kiwisoft.utils;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 import java.text.DateFormat;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -28,7 +30,13 @@ public class JspUtils
 			for (int i=0; i<lines.length; i++)
 			{
 				if (i>0) output.append("<br/>");
-				output.append(StringEscapeUtils.escapeHtml(lines[i]));
+				String line=lines[i];
+				line=StringEscapeUtils.escapeHtml(line);
+				line=line.replace("[i]", "<i>");
+				line=line.replace("[/i]", "</i>");
+				line=line.replace("[b]", "<b>");
+				line=line.replace("[/b]", "</b>");
+				output.append(line);
 			}
 		}
 		return output.toString();
@@ -37,5 +45,24 @@ public class JspUtils
 	public static String prepareDate(Date date, Locale locale)
 	{
 		return DateFormat.getDateInstance(DateFormat.DEFAULT, locale).format(date);
+	}
+
+	public static String prepare(Object value)
+	{
+		if (value!=null) return prepareString(value.toString());
+		return "";
+	}
+
+	public static String prepareSet(Set set)
+	{
+		StringBuilder output=new StringBuilder();
+		Set sortedSet=new TreeSet(StringUtils.getComparator());
+		sortedSet.addAll(set);
+		for (Object o : sortedSet)
+		{
+			if (output.length()>0) output.append(", ");
+			output.append(prepare(o));
+		}
+		return output.toString();
 	}
 }

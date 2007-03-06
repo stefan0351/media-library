@@ -20,6 +20,7 @@ import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.*;
 
 /**
+ * URL: javascript:window.location=%22http://localhost:8080/add_link.jsp?name=%22+document.title+%22&url=%22+encodeURI(document.URL)
  * @author Stefan Stiller
  * @version $Revision: 1.2 $, $Date: 2004/07/16 23:29:18 $
  */

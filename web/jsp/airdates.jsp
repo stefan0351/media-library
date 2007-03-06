@@ -106,7 +106,7 @@ function navAirdates(pos)
 //			out.print("<td>");
 //			if (link!=null)
 //				out.print("<a class=\"link\" href=\"/"+link.getPath()+"?episode="+episode.getId()+"\">");
-//			out.print(airdate.getName());
+//			out.print(airdate.getTitle());
 //			if (link!=null)
 //				out.print("</a>");
 //			out.println("</td></tr>");

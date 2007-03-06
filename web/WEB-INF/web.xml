@@ -29,6 +29,13 @@
 		<servlet-class>com.kiwisoft.media.AddLinkServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>import_imdb</servlet-name>
+		<display-name>Import IMDb</display-name>
+		<description>Servlet import movie data</description>
+		<servlet-class>com.kiwisoft.media.IMDbServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>xp</servlet-name>
 		<url-pattern>*.xp</url-pattern>
@@ -42,6 +49,11 @@
 	<servlet-mapping>
 		<servlet-name>add_link</servlet-name>
 		<url-pattern>/add_link</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>import_imdb</servlet-name>
+		<url-pattern>/import_imdb</url-pattern>
 	</servlet-mapping>
 
 	<taglib>

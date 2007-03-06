@@ -1,33 +1,36 @@
 package com.kiwisoft.media.movie;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import static java.awt.GridBagConstraints.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Collection;
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.WebInfosTableModel;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
+import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsDialog;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.ObjectTableModel;
 
 public class MovieDetailsView extends DetailsView
 {
+	public static final String PATH_ROOT="path.root";
+
 	public static void create(Show show)
 	{
 		new DetailsFrame(new MovieDetailsView(show)).show();
@@ -55,17 +58,17 @@ public class MovieDetailsView extends DetailsView
 	// Konfigurations Panel
 	private JTextField tfShow;
 	private JTextField tfName;
-	private JTextField tfOriginalName;
-	private JCheckBox cbSeen;
+	private JTextField tfGermanName;
 	private JCheckBox cbRecord;
-	private JCheckBox cbGood;
 	private JTextField tfJavaScript;
-	private LookupField<MovieType> tfType;
 	private DialogLookupField tfScriptFile;
 	private NamesTableModel tmNames;
-	private SortableTable tblInfos;
-	private WebInfosTableModel<MovieInfo> tmInfos;
-	private JComboBox cbxInfoTypes;
+	private DialogLookupField posterField;
+	private JFormattedTextField yearField;
+	private JFormattedTextField runtimeField;
+	private ObjectTableModel<Genre> genresModel;
+	private ObjectTableModel<Language> languagesModel;
+	private ObjectTableModel<Country> countriesModel;
 
 	private MovieDetailsView(Show show)
 	{
@@ -92,28 +95,30 @@ public class MovieDetailsView extends DetailsView
 	{
 		if (movie!=null)
 		{
-			tfName.setText(movie.getName());
-			tfOriginalName.setText(movie.getOriginalName());
+			tfName.setText(movie.getTitle());
+			tfGermanName.setText(movie.getGermanTitle());
 			if (movie.getShow()!=null) tfShow.setText(movie.getShow().getName());
-			cbSeen.setSelected(movie.isSeen());
 			cbRecord.setSelected(movie.isRecord());
-			cbGood.setSelected(movie.isGood());
 			tfScriptFile.setText(movie.getWebScriptFile());
 			tfJavaScript.setText(movie.getJavaScript());
-			tfType.setValue(movie.getType());
+			yearField.setValue(movie.getYear());
+			runtimeField.setValue(movie.getRuntime());
 			Iterator<Name> it=movie.getAltNames().iterator();
 			while (it.hasNext())
 			{
 				Name name=it.next();
 				tmNames.addName(name.getName(), name.getLanguage());
 			}
+			genresModel.setObjects(movie.getGenres());
+			languagesModel.setObjects(movie.getLanguages());
+			countriesModel.setObjects(movie.getCountries());
 			tmNames.sort();
-			for (Iterator it2=movie.getInfos().iterator(); it2.hasNext();)
+			String posterMini=movie.getPosterMini();
+			if (!StringUtils.isEmpty(posterMini))
 			{
-				MovieInfo info=(MovieInfo)it2.next();
-				tmInfos.addInfo(info);
+				posterMini=new File(Configurator.getInstance().getString(PATH_ROOT), posterMini).getAbsolutePath();
+				posterField.setText(posterMini);
 			}
-			tmInfos.sort();
 		}
 		else if (show!=null)
 		{
@@ -124,49 +129,38 @@ public class MovieDetailsView extends DetailsView
 	public boolean apply()
 	{
 		String name=tfName.getText();
-		String originalName=tfOriginalName.getText();
+		String germanName=tfGermanName.getText();
 		boolean record=cbRecord.isSelected();
-		boolean seen=cbSeen.isSelected();
-		boolean good=cbGood.isSelected();
 		String script=tfScriptFile.getText();
 		if (StringUtils.isEmpty(script)) script=null;
 		String javascript=tfJavaScript.getText();
 		if (StringUtils.isEmpty(javascript)) javascript=null;
-		if (StringUtils.isEmpty(name) && StringUtils.isEmpty(originalName))
+		if (StringUtils.isEmpty(name) && StringUtils.isEmpty(germanName))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfName.requestFocus();
 			return false;
 		}
-		List<WebInfosTableModel.Row> infos=new ArrayList<WebInfosTableModel.Row>();
-		for (int i=0; i<tmInfos.getRowCount(); i++)
+		Map<String, Language> names=tmNames.getNames();
+		Collection<Language> languages=languagesModel.getObjects();
+		Collection<Country> countries=countriesModel.getObjects();
+		Collection<Genre> genres=genresModel.getObjects();
+		String posterMini=posterField.getText();
+		if (!StringUtils.isEmpty(posterMini))
 		{
-			WebInfosTableModel.Row row=(WebInfosTableModel.Row)tmInfos.getRow(i);
-			if (StringUtils.isEmpty(row.getName()))
-			{
-				JOptionPane.showMessageDialog(this, "Name für Info fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-				tblInfos.requestFocus();
-				return false;
-			}
 			try
 			{
-				if (StringUtils.isEmpty(row.getPath()))
-				{
-					JOptionPane.showMessageDialog(this, "Pfad für Info fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-					tblInfos.requestFocus();
-					return false;
-				}
+				posterMini=FileUtils.getRelativePath(Configurator.getInstance().getString(PATH_ROOT), posterMini);
+				posterMini=StringUtils.replaceStrings(posterMini, "\\", "/");
 			}
 			catch (IOException e)
 			{
-				JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
-				tblInfos.requestFocus();
+				JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				posterField.requestFocus();
 				return false;
 			}
-			infos.add(row);
 		}
-		Map<String, Language> names=tmNames.getNames();
-		MovieType type=tfType.getValue();
+		else posterMini=null;
 
 		Transaction transaction=null;
 		try
@@ -177,14 +171,17 @@ public class MovieDetailsView extends DetailsView
 				if (show!=null) movie=show.createMovie();
 				else movie=MovieManager.getInstance().createMovie(null);
 			}
-			movie.setName(name);
-			movie.setOriginalName(originalName);
-			movie.setType(type);
+			movie.setTitle(name);
+			movie.setGermanTitle(germanName);
 			movie.setRecord(record);
-			movie.setSeen(seen);
-			movie.setGood(good);
 			movie.setJavaScript(javascript);
+			movie.setPosterMini(posterMini);
 			movie.setWebScriptFile(script);
+			movie.setYear((Integer)yearField.getValue());
+			movie.setRuntime((Integer)runtimeField.getValue());
+			movie.setGenres(genres);
+			movie.setLanguages(languages);
+			movie.setCountries(countries);
 			Iterator<Name> it=new HashSet<Name>(movie.getAltNames()).iterator();
 			while (it.hasNext())
 			{
@@ -203,20 +200,6 @@ public class MovieDetailsView extends DetailsView
 				Name altName=movie.createAltName();
 				altName.setName(text);
 				altName.setLanguage(names.get(text));
-			}
-			for (Iterator<WebInfosTableModel.Row> it2=infos.iterator(); it2.hasNext();)
-			{
-				WebInfosTableModel.Row row=it2.next();
-				MovieInfo info=(MovieInfo)row.getUserObject();
-				if (info==null)
-				{
-					info=movie.createInfo();
-					row.setUserObject(info);
-				}
-				info.setName(row.getName());
-				info.setPath(row.getPath());
-				info.setLanguage(row.getLanguage());
-				if (row.isDefault()) movie.setDefaultInfo(info);
 			}
 			transaction.close();
 			return true;
@@ -239,97 +222,99 @@ public class MovieDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
+		posterField=new DialogLookupField(new WebFileLookup(false));
+		ImagePanel posterPreview=new ImagePanel(new Dimension(150, 200));
+		posterPreview.setBorder(new EtchedBorder());
 		tfShow=new JTextField();
 		tfShow.setEditable(false);
 		tfName=new JTextField();
-		tfOriginalName=new JTextField();
-		cbGood=new JCheckBox("Sehr Gut");
-		cbSeen=new JCheckBox("Gesehen");
-		cbRecord=new JCheckBox("Aufnehmen");
+		tfGermanName=new JTextField();
+		cbRecord=new JCheckBox("Record");
 		tfScriptFile=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		tfJavaScript=new JTextField();
+		tfJavaScript=new JTextField(20);
 		tmNames=new NamesTableModel();
+		yearField=UIUtils.createNumberField(Integer.class, 5, 1900, 2100);
+		runtimeField=UIUtils.createNumberField(Integer.class, 5, 0, 500);
 		SortableTable tblNames=new SortableTable(tmNames);
+		tblNames.setPreferredScrollableViewportSize(new Dimension(300, 100));
 		tblNames.initializeColumns(new MediaTableConfiguration("table.movie.names"));
-		tmInfos=new WebInfosTableModel(true);
-		tblInfos=new SortableTable(tmInfos);
-		tblInfos.initializeColumns(new MediaTableConfiguration("table.movie.infos"));
-		Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
-		Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
-		cbxInfoTypes=new JComboBox(new Object[]{
-			"<Leer>",
-			new InfoType("Beschreibung", "index.xp", german),
-			new InfoType("Bilder", "gallery.xp", english),
-			new InfoType("Transkript", "transcript.xp", english)
-		});
-		cbxInfoTypes.setEditable(false);
-		tfType=new LookupField<MovieType>(new MovieTypeLookup());
+		genresModel=new ObjectTableModel<Genre>("genres", Genre.class, null);
+		SortableTable genresTable=new SortableTable(genresModel);
+		genresTable.initializeColumns(new MediaTableConfiguration("table.movie"));
+		languagesModel=new ObjectTableModel<Language>("languages", Language.class, null);
+		SortableTable languagesTable=new SortableTable(languagesModel);
+		languagesTable.initializeColumns(new MediaTableConfiguration("table.movie"));
+		countriesModel=new ObjectTableModel<Country>("countries", Country.class, null);
+		SortableTable countriesTable=new SortableTable(countriesModel);
+		countriesTable.initializeColumns(new MediaTableConfiguration("table.movie"));
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(800, 500));
+		setPreferredSize(new Dimension(800, 340));
 		int row=0;
-		add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfShow, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(posterPreview,
+			new GridBagConstraints(0, row, 1, 6, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(new JLabel("Serie:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
+		add(tfShow,
+			new GridBagConstraints(2, row, 5, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfName, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Originalname:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-																GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfOriginalName, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-												   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Title:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(tfName,
+			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JScrollPane(genresTable),
+			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Typ:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-													   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfType, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("German Title:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(tfGermanName,
+			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Skriptdatei:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfScriptFile, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0,
-												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Year:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(yearField,
+			new GridBagConstraints(2, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Runtime:"),
+			new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(runtimeField,
+			new GridBagConstraints(4, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("JavaScript:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfJavaScript, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0,
-												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Other Titles:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(new JScrollPane(tblNames),
+			new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JScrollPane(languagesTable),
+			new GridBagConstraints(5, row, 1, 1, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																	 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tblNames), new GridBagConstraints(1, row, 3, 3, 1.0, 0.5,
-															  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		add(cbSeen, new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("JS Call:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(tfJavaScript,
+			new GridBagConstraints(2, row, 1, 1, 0.2, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(cbRecord,
+			new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JScrollPane(countriesTable),
+			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(cbRecord, new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-											 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+		add(new JLabel("Script File:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(tfScriptFile,
+			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(cbGood, new GridBagConstraints(4, row, 1, 1, 0.0, 0.2,
-										   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
+		add(new JLabel("Poster (mini):"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(posterField,
+			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
-		row++;
-		add(new JLabel("Seiten:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														  GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tblInfos), new GridBagConstraints(1, row, 4, 1, 1.0, 0.5,
-															  GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
-		add(cbxInfoTypes, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
-		add(new JButton(new NewInfoAction()), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-																	 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
 
 		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
+		new ImageUpdater(posterField.getTextField(), posterPreview);
 	}
 
 	public JComponent getDefaultFocusComponent()
@@ -342,58 +327,8 @@ public class MovieDetailsView extends DetailsView
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
-			setTitle("Film: "+name);
+			if (StringUtils.isEmpty(name)) name="<unknown>";
+			setTitle("Movie: "+name);
 		}
 	}
-
-	private class InfoType
-	{
-		private String name;
-		private String fileName;
-		private Language language;
-
-		public InfoType(String name, String fileName, Language language)
-		{
-			this.name=name;
-			this.fileName=fileName;
-			this.language=language;
-		}
-
-		public String toString()
-		{
-			return name;
-		}
-
-		public void initRow(WebInfosTableModel.Row row)
-		{
-			row.setName(name);
-			StringBuilder path=new StringBuilder("movies");
-			path.append(File.separator).append("name");
-			path.append(File.separator).append(fileName);
-			File file=new File(Configurator.getInstance().getString("path.root"), path.toString());
-			row.setPath(file.getAbsolutePath());
-			row.setLanguage(language);
-		}
-	}
-
-	private class NewInfoAction extends AbstractAction
-	{
-		public NewInfoAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			WebInfosTableModel.Row row=tmInfos.createRow();
-			Object type=cbxInfoTypes.getSelectedItem();
-			if (type instanceof InfoType)
-			{
-				InfoType infoType=(InfoType)type;
-				infoType.initRow(row);
-			}
-		}
-	}
-
 }

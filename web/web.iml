@@ -86,6 +86,14 @@
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">
+    <containerElement type="module" name="core">
+      <attribute name="method" value="5" />
+      <attribute name="URI" value="/WEB-INF/lib/core.jar" />
+    </containerElement>
+    <containerElement type="module" name="utils">
+      <attribute name="method" value="5" />
+      <attribute name="URI" value="/WEB-INF/lib/utils.jar" />
+    </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/commons-lang-2.3.jar" />

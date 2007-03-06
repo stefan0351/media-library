@@ -196,7 +196,7 @@ public class MoviesView extends ViewPanel
 			switch (column)
 			{
 				case 0:
-					return movie.getName();
+					return movie.getTitle();
 			}
 			return null;
 		}
@@ -233,7 +233,7 @@ public class MoviesView extends ViewPanel
 				if (movie.isUsed())
 				{
 					JOptionPane.showMessageDialog(MoviesView.this,
-							"Dr Film '"+movie.getName()+"' kann nicht gelöscht werden.",
+							"Dr Film '"+movie.getTitle()+"' kann nicht gelöscht werden.",
 							"Meldung",
 							JOptionPane.INFORMATION_MESSAGE);
 					return;

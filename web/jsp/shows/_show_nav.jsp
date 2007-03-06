@@ -28,7 +28,7 @@
 %>
 
 <table class="menutable">
-<tr><td class="menuheader">Serie</td></tr>
+<tr><td class="menuheader">Show</td></tr>
 <%
 	String logoPath=show.getLogoMini();
 	if (!StringUtils.isEmpty(logoPath))
@@ -42,7 +42,7 @@
 	if (!it.hasNext())
 	{
 %>
-		<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>">Episoden</a></td></tr>
+		<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>">Episodes</a></td></tr>
 <%
 	}
 	else
@@ -58,7 +58,7 @@
 	if (!show.getMovies().isEmpty())
 	{
 %>
-	<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#movies">Filme</a></td></tr>
+	<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#movies">Movies</a></td></tr>
 <%
 	}
 %>
