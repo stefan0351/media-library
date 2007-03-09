@@ -27,7 +27,7 @@ public class CountryFormat extends DefaultObjectFormat
 		if (value instanceof Country)
 		{
 			Country country=(Country)value;
-			return IconManager.getIcon("com/kiwisoft/media/icons/countries/"+country.getSymbol()+".png");
+			return IconManager.getIcon("com/kiwisoft/media/icons/countries/"+country.getSymbol().toLowerCase()+".png");
 		}
 		return super.getIcon(value);
 	}

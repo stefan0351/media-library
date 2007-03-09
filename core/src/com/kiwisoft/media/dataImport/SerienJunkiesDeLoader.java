@@ -43,7 +43,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 //		Instant Star, Two and a Half Men, Jack & Jill, Neds Ultimativer Schulwahnsinn, Drake & Josh,
 //		Joey, Creatures Comforts, Malcolm in the Middle, L-Word, Scrubs, South of Nowhere,
 //		Unfabulous, 8 Simple Rules, Coupling, Zack & Cody, Still Standing, Sugar Rush
-//		According To Jim
+//		According To Jim, Phil of the Future
 	}
 
 	private ProgressSupport progress;

@@ -53,6 +53,7 @@
 	if (movie.getMovie()==null) out.print("<b>New Movie</b>");
 	else out.print("<b>Update Movie:</b> "+movie.getMovie().getTitle());
 %>
+					; <input type="checkbox" name="force_new" value="true"/> Force New
 				</td></tr>
 				<tr class="content" valign="top"><td><b>Title:</b></td><td><%=movie.getTitle()%></td></tr>
 				<tr class="content" valign="top"><td><b>German Titel:</b></td><td><%=movie.getGermanTitle()%></td></tr>

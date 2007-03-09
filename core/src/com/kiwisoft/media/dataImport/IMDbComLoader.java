@@ -89,7 +89,7 @@ public class IMDbComLoader
 
 		// Titel + Year
 		pattern=Pattern.compile("<div id=\"tn15title\">\n"+
-								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}\">(\\d{4})</a>\\)( \\(TV\\))?</span></h1>\n"+
+								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}\">(\\d{4})</a>(/\\w+)?\\)( \\(TV\\)| \\(V\\))?</span></h1>\n"+
 								"</div>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
@@ -216,7 +216,6 @@ public class IMDbComLoader
 
 	private void parseReleaseInfoPage(String page, MovieData movieData)
 	{
-
 		int index1=page.indexOf("<a name=\"akas\">");
 		int tableEnd=page.indexOf("</table>", index1);
 		while (true)
@@ -226,11 +225,13 @@ public class IMDbComLoader
 			int index2=page.indexOf("</tr>", index1);
 			String htmlRow=page.substring(index1, index2);
 			List<String> row=XMLUtils.extractCellValues(htmlRow);
-			String country=row.get(1);
-			if (country.contains("Germany")) movieData.setGermanTitle(XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(0))).trim());
+			if (row.size()>1)
+			{
+				String country=row.get(1);
+				if (country.contains("Germany")) movieData.setGermanTitle(XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(0))).trim());
+			}
 			index1=index2;
 		}
-
 	}
 
 	private Language getLanguage(String name)
