@@ -1,6 +1,8 @@
 package com.kiwisoft.media;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +27,11 @@ import com.kiwisoft.utils.StringUtils;
  */
 public class IMDbServlet extends HttpServlet
 {
+	private Pattern urlPattern;
+
 	public IMDbServlet()
 	{
+		urlPattern=Pattern.compile("http://(german|www).imdb.com/title/(\\w+)/.*");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -65,23 +70,25 @@ public class IMDbServlet extends HttpServlet
 					if (success) forward(request, response, "/movies/movie.jsp?movie="+createMovieTx.getMovie().getId());
 					else forward(request, response, "/error.jsp");
 				}
-				else
-				{
-					RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/movies/import.jsp");
-					requestDispatcher.forward(request, response);
-				}
+				else forward(request, response, "/movies/import.jsp");
 			}
 			else
 			{
 				String url=request.getParameter("url");
-				MovieData movieData=new IMDbComLoader(url).load();
-				MovieManager movieManager=MovieManager.getInstance();
-				Movie movie=movieManager.getMovieByTitle(movieData.getTitle());
-				if (movie==null && !StringUtils.isEmpty(movieData.getGermanTitle())) movie=movieManager.getMovieByTitle(movieData.getGermanTitle());
-				movieData.setMovie(movie);
-				session.setAttribute("movie", movieData);
-				RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/movies/import.jsp");
-				requestDispatcher.forward(request, response);
+				Matcher matcher=urlPattern.matcher(url);
+				if (matcher.matches())
+				{
+					url="http://www.imdb.com/title/"+matcher.group(2)+"/";
+					MovieData movieData=new IMDbComLoader(url).load();
+					MovieManager movieManager=MovieManager.getInstance();
+					Movie movie=movieManager.getMovieByTitle(movieData.getTitle());
+					if (movie==null && !StringUtils.isEmpty(movieData.getGermanTitle())) movie=movieManager.getMovieByTitle(movieData.getGermanTitle());
+					movieData.setMovie(movie);
+					session.setAttribute("movie", movieData);
+					RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/movies/import.jsp");
+					requestDispatcher.forward(request, response);
+				}
+				else throw new IllegalArgumentException("Invalid url.");
 			}
 		}
 		catch (Throwable e)

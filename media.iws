@@ -136,28 +136,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="airdates.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/db/tables/airdates.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="40" selection-start="321" selection-end="321" vertical-scroll-proportion="0.16425121">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IMDbComLoader.properties" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="IMDbComLoader.properties" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="0" selection-start="1402" selection-end="1402" vertical-scroll-proportion="0.897343">
+            <state line="5" column="69" selection-start="102" selection-end="102" vertical-scroll-proportion="0.102657005">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="import.jsp" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="import.jsp" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/jsp/movies/import.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="73" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.020531401">
+            <state line="55" column="73" selection-start="1676" selection-end="1676" vertical-scroll-proportion="1.129227">
               <folding />
             </state>
           </provider>
@@ -166,9 +157,20 @@
       <file leaf-file-name="IMDbServlet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/IMDbServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="82" selection-start="1890" selection-end="1890" vertical-scroll-proportion="0.020531401">
+            <state line="27" column="13" selection-start="939" selection-end="939" vertical-scroll-proportion="0.20531401">
               <folding>
-                <element signature="class#1808:1962" expanded="true" />
+                <element signature="class#1980:2134" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IMDbComLoader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="49" selection-start="167" selection-end="167" vertical-scroll-proportion="0.123188406">
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -195,7 +197,7 @@
       <file leaf-file-name="AlphabeticalMap.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/AlphabeticalMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="53" selection-start="652" selection-end="652" vertical-scroll-proportion="0.20531401">
+            <state line="24" column="71" selection-start="480" selection-end="480" vertical-scroll-proportion="0.32850242">
               <folding />
             </state>
           </provider>
@@ -296,6 +298,9 @@
     <scraps>
       <scrap name="Scrap 1" imports="sun.text.resources.*" module="core">
         <text>new+Locale%28%22no%22%29.getDisplayName%28Locale.ENGLISH%29</text>
+      </scrap>
+      <scrap name="Scrap 2" imports="">
+        <text>Pattern+pattern%3DPattern.compile%28%22http%3A%2F%2F%28german%7Cwww%29.imdb.com%2Ftitle%2F%28%5C%5Cw%2B%29%2F.*%22%29%3B%0D%0AMatcher+matcher%3Dpattern.matcher%28%22http%3A%2F%2Fwww.imdb.com%2Ftitle%2Ftt0109723%2F%22%29%3B%0D%0Aout.println%28matcher.matches%28%29%29%3B%0D%0Aout.println%28matcher.group%282%29%29%3B</text>
       </scrap>
     </scraps>
   </component>
@@ -658,11 +663,11 @@
     <property name="cvs_file_history_flatWidth2" value="169" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="vcs_file_view_flatWidth2" value="218" />
     <property name="cvs_file_history_flatWidth1" value="170" />
+    <property name="vcs_file_view_flatWidth2" value="218" />
     <property name="vcs_file_view_flatWidth5" value="145" />
-    <property name="vcs_file_view_flatOrder3" value="3" />
     <property name="cvs_file_history_flatOrder2" value="2" />
+    <property name="vcs_file_view_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatWidth4" value="169" />
     <property name="vcs_file_view_treeWidth0" value="371" />
@@ -759,15 +764,57 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <module name="core" />
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="1281" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </tempConfiguration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+    </configuration>
     <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -785,41 +832,6 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <module name="" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-    </configuration>
-    <configuration selected="false" default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
     </configuration>
     <configuration selected="false" default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -849,13 +861,6 @@
         <value defaultName="wholeProject" />
       </option>
     </configuration>
-    <configuration selected="false" default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
-    </configuration>
     <configuration selected="true" default="false" name="Web Application" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 5.5.4">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -869,13 +874,13 @@
         <option name="MODULE_NAME" value="web" />
         <option name="DEPLOY" value="true" />
       </J2EE_MODULE>
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="3247" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -890,7 +895,7 @@
           <option name="PROGRAM_PARAMETERS" value=" stop" />
         </SHUTDOWN>
       </ConfigurationWrapper>
-      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -934,14 +939,14 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <module name="gui" />
+      <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="3160" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="false" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
     </configuration>
   </component>
   <component name="SQL">
@@ -963,19 +968,22 @@
   <component name="SQLPlugin.ProjectConfiguration">
     <queries>
       <query name="actors by movie" changed="true">
-        <statement>select+name%2C+count%28*%29%0D%0Afrom+persons%0D%0A%09join+cast+on+cast.actor_id%3Dpersons.id%0D%0Awhere+cast.movie_id+is+not+null%0D%0Agroup+by+cast.actor_id%0D%0Ahaving+count%28*%29%3E2</statement>
+        <statement>select+name%2C+count%28*%29%0D%0Afrom+persons%0D%0A%09join+cast+on+cast.actor_id%3Dpersons.id%0D%0Awhere+cast.movie_id+is+not+null%0D%0Agroup+by+cast.actor_id%0D%0Ahaving+count%28*%29%3E3</statement>
       </query>
       <query name="movies" changed="true">
         <statement>select+count%28*%29+from+movies</statement>
       </query>
       <query name="languages" changed="true">
-        <statement>insert+into+languages+values+%2841%2C+%27aus%27%2C+%27Aboriginal%27%29%3Bcommit%3B%0Aselect+*+from+languages</statement>
+        <statement>insert+into+languages+values+%2852%2C+%27none%27%2C+%27None%27%29%3Bcommit%3B%0Aselect+*+from+languages</statement>
       </query>
       <query name="countries" changed="true">
-        <statement>insert+into+countries+values+%2826%2C+%27CH%27%2C+%27Switzerland%27%29%3Bcommit%3B%0Aselect+*+from+countries</statement>
+        <statement>insert+into+countries+values+%2832%2C+%27ZA%27%2C+%27South+Africa%27%29%3Bcommit%3B%0Aselect+*+from+countries</statement>
       </query>
       <query name="crew by movie" changed="true">
-        <statement>select+persons.id%2C+name%2C+count%28distinct+movie_id%29%0D%0Afrom+persons%0D%0A%09join+crew+on+crew.person_id%3Dpersons.id%0D%0Awhere+crew.movie_id+is+not+null%0D%0Agroup+by+crew.person_id%0D%0Ahaving+count%28*%29%3E1</statement>
+        <statement>select+persons.id%2C+name%2C+count%28distinct+movie_id%29%0D%0Afrom+persons%0D%0A%09join+crew+on+crew.person_id%3Dpersons.id%0D%0Awhere+crew.movie_id+is+not+null%0D%0Agroup+by+crew.person_id%0D%0Ahaving+count%28*%29%3E2</statement>
+      </query>
+      <query name="Query 2" changed="true">
+        <statement>alter+table+cast+modify+character_name+varchar%28400%29%3B%0D%0Adescribe+cast</statement>
       </query>
     </queries>
   </component>
@@ -1030,9 +1038,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1288" height="1010" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="SQL" active="true" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="true" weight="0.723042" order="8" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.723042" order="8" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.543554" order="8" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.3295063" order="7" />
@@ -1054,8 +1062,8 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.39614075" order="4" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.3291714" order="8" />
       <window_info id="Character Browser" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.32955465" order="8" />
-      <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="8" />
+      <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="3" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="docked" type="docked" visible="false" weight="0.33" order="0" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.7340425" order="7" />
       <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="sliding" type="sliding" visible="false" weight="0.53121454" order="8" />
@@ -1168,33 +1176,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="56" selection-start="1847" selection-end="1847" vertical-scroll-proportion="0.020531401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/tables/airdates.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="40" selection-start="321" selection-end="321" vertical-scroll-proportion="0.16425121">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/movies/import.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="73" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.020531401">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/IMDbServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="82" selection-start="1890" selection-end="1890" vertical-scroll-proportion="0.020531401">
-          <folding>
-            <element signature="class#1808:1962" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1235,14 +1220,39 @@
     </entry>
     <entry file="file://C:/java/projects/utils/src/com/kiwisoft/utils/AlphabeticalMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="53" selection-start="652" selection-end="652" vertical-scroll-proportion="0.20531401">
+        <state line="24" column="71" selection-start="480" selection-end="480" vertical-scroll-proportion="0.32850242">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/IMDbServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="13" selection-start="939" selection-end="939" vertical-scroll-proportion="0.20531401">
+          <folding>
+            <element signature="class#1980:2134" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="49" selection-start="167" selection-end="167" vertical-scroll-proportion="0.123188406">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="0" selection-start="1402" selection-end="1402" vertical-scroll-proportion="0.897343">
+        <state line="5" column="69" selection-start="102" selection-end="102" vertical-scroll-proportion="0.102657005">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/movies/import.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="73" selection-start="1676" selection-end="1676" vertical-scroll-proportion="1.129227">
           <folding />
         </state>
       </provider>

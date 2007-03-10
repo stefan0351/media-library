@@ -1,7 +1,5 @@
 package com.kiwisoft.media.dataImport;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,12 +87,14 @@ public class IMDbComLoader
 
 		// Titel + Year
 		pattern=Pattern.compile("<div id=\"tn15title\">\n"+
-								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}\">(\\d{4})</a>(/\\w+)?\\)( \\(TV\\)| \\(V\\))?</span></h1>\n"+
+								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}\">(\\d{4})</a>(/\\w+)?\\)( \\(TV\\)| \\(mini\\)| \\(V\\))?</span></h1>\n"+
 								"</div>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
 		{
-			movieData.setTitle(XMLUtils.unescapeHtml(matcher.group(1)).trim());
+			String title=XMLUtils.unescapeHtml(matcher.group(1)).trim();
+			if (title.startsWith("\"") && title.endsWith("\"")) title=title.substring(1, title.length()-1);
+			movieData.setTitle(title);
 			movieData.setYear(Integer.parseInt(matcher.group(2)));
 		}
 
