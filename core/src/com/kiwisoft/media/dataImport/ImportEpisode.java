@@ -13,9 +13,9 @@ public interface ImportEpisode
 {
 	String getEpisodeKey();
 
-	String getEpisodeTitle();
+	String getGermanEpisodeTitle();
 
-	String getOriginalEpisodeTitle();
+	String getEpisodeTitle();
 
 	Date getFirstAirdate();
 

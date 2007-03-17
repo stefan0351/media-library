@@ -9,7 +9,18 @@ package com.kiwisoft.media.dataImport;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public interface ImportConstants
+import com.kiwisoft.utils.DateUtils;
+
+public class ImportConstants
 {
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
+
+	static
+	{
+		DATE_FORMAT.setTimeZone(DateUtils.GMT);
+	}
+
+	private ImportConstants()
+	{
+	}
 }

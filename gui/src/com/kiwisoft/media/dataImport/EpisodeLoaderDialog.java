@@ -1,20 +1,18 @@
 package com.kiwisoft.media.dataImport;
 
-import static java.awt.GridBagConstraints.HORIZONTAL;
-import static java.awt.GridBagConstraints.WEST;
-import static java.awt.GridBagConstraints.NONE;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import com.kiwisoft.utils.gui.WindowManager;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.UIUtils;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.UIUtils;
+import com.kiwisoft.utils.gui.WindowManager;
 
 public class EpisodeLoaderDialog extends JDialog
 {
@@ -31,7 +29,7 @@ public class EpisodeLoaderDialog extends JDialog
 
 	public EpisodeLoaderDialog(JFrame frame, Show show, String url)
 	{
-		super(frame, "Lade Daten von TV.com", true);
+		super(frame, "Load Episode from TV.com", true);
 		createContentPanel();
 		initializeData(show, url);
 		pack();
@@ -40,7 +38,7 @@ public class EpisodeLoaderDialog extends JDialog
 
 	private void initializeData(Show show, String url)
 	{
-		showField.setText(show.getName());
+		showField.setText(show.getTitle());
 		urlField.setText(url);
 	}
 
@@ -53,11 +51,11 @@ public class EpisodeLoaderDialog extends JDialog
 		firstSeasonField.setValue(1);
 		lastSeasonField=UIUtils.createNumberField(Integer.class, 5, 1, null);
 		lastSeasonField.setValue(1);
-		autoCreateField=new JCheckBox("Erzeuge Episode automatisch");
+		autoCreateField=new JCheckBox("Create Episodes automatically");
 
 		JPanel pnlContent=new JPanel(new GridBagLayout());
 		int row=0;
-		pnlContent.add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
+		pnlContent.add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(showField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
 		row++;
@@ -65,9 +63,9 @@ public class EpisodeLoaderDialog extends JDialog
 		pnlContent.add(urlField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
 		row++;
-		pnlContent.add(new JLabel("Staffel von:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
+		pnlContent.add(new JLabel("Season from:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(firstSeasonField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 5), 0, 0));
-		pnlContent.add(new JLabel("Staffel bis:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 15, 5, 0), 0, 0));
+		pnlContent.add(new JLabel("Season to:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 15, 5, 0), 0, 0));
 		pnlContent.add(lastSeasonField, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 5), 0, 0));
 
 		row++;
@@ -126,7 +124,7 @@ public class EpisodeLoaderDialog extends JDialog
 	{
 		public OkAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -143,7 +141,7 @@ public class EpisodeLoaderDialog extends JDialog
 	{
 		public CancelAction()
 		{
-			super("Abbrechen", IconManager.getIcon("com/kiwisoft/utils/icons/cancel.gif"));
+			super("Cancel", Icons.getIcon("cancel"));
 		}
 
 		public void actionPerformed(ActionEvent e)

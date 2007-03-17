@@ -11,13 +11,14 @@
 <%@ page import="com.kiwisoft.media.*"%>
 <%@ page import="com.kiwisoft.media.person.CrewMember"%>
 <%@ page import="com.kiwisoft.media.person.CastMember"%>
+<%@ page import="com.kiwisoft.media.person.Person"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	Episode episode=ShowManager.getInstance().getEpisode(new Long(request.getParameter("episode")));
 	request.setAttribute("episode", episode);
 	String languageSymbol=request.getParameter("language");
-	if (StringUtils.isEmpty(languageSymbol)) languageSymbol="de";
+	if (StringUtils.isEmpty(languageSymbol)) languageSymbol="en";
 	Language language=LanguageManager.getInstance().getLanguageBySymbol(languageSymbol);
 	request.setAttribute("language", language);
 	Locale locale=new Locale(languageSymbol);
@@ -28,7 +29,7 @@
 <html>
 
 <head>
-<title><%=show.getName(language)%> - <%=episode.getName(language)%></title>
+<title><%=show.getTitle(language)%> - <%=episode.getTitle(language)%></title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -38,7 +39,7 @@
 
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=show.getName(language)%></media:title>
+<media:title><%=show.getTitle(language)%></media:title>
 
 <div class="main">
 <table cellspacing="0" cellpadding="5"><tr valign="top">
@@ -56,7 +57,7 @@
 		<!--Content Start-->
 
 		<table class="contenttable" width="790">
-		<tr><td class="header1">Episode <%=episode.getNameWithKey(language)%></td></tr>
+		<tr><td class="header1">Episode <%=episode.getTitleWithKey(language)%></td></tr>
 		<tr><td class="content">
 			<jsp:include page="/shows/_episode_next.jsp"/>
 			<br/>
@@ -89,7 +90,7 @@
 		{
 %>
 				<dt><b><%=Resources.getResource("episode.originalTitle", locale)%>:</b>
-					<dd><%=JspUtils.prepareString(episode.getOriginalName())%></dd> </dt>
+					<dd><%=JspUtils.prepareString(episode.getTitle())%></dd> </dt>
 <%
 		}
 		if (airdate!=null)
@@ -183,15 +184,16 @@
 			for (Iterator it=mainCast.iterator();it.hasNext();)
 			{
 				CastMember castMember=(CastMember)it.next();
+				Person actor=castMember.getActor();
 %>
-						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
-							<td class="content2">&mdash;</td>
+						<tr><td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepareString(actor.getName())%></a></td>
+							<td class="content2">...</td>
 							<td class="content2"><%=castMember.getCharacterName()%></td>
 <%
 				if (!StringUtils.isEmpty(castMember.getVoice()))
 				{
 %>
-							<td class="content2">&mdash;</td>
+							<td class="content2">voice:</td>
 							<td class="content2"><%=castMember.getVoice()%></td>
 <%
 				}
@@ -213,15 +215,16 @@
 			for (Iterator it=recurringCast.iterator();it.hasNext();)
 			{
 				CastMember castMember=(CastMember)it.next();
+				Person actor=castMember.getActor();
 %>
-						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
-							<td class="content2">&mdash;</td>
+						<tr><td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepareString(actor.getName())%></a></td>
+							<td class="content2">...</td>
 							<td class="content2"><%=castMember.getCharacterName()%></td>
 <%
 				if (!StringUtils.isEmpty(castMember.getVoice()))
 				{
 %>
-							<td class="content2">&mdash;</td>
+							<td class="content2">voice:</td>
 							<td class="content2"><%=castMember.getVoice()%></td>
 <%
 				}
@@ -243,15 +246,16 @@
 			for (Iterator it=guestCast.iterator();it.hasNext();)
 			{
 				CastMember castMember=(CastMember)it.next();
+				Person actor=castMember.getActor();
 %>
-						<tr><td class="content2"><%=JspUtils.prepareString(castMember.getActor().getName())%></td>
-							<td class="content2">&mdash;</td>
+						<tr><td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepareString(actor.getName())%></a></td>
+							<td class="content2">...</td>
 							<td class="content2"><%=castMember.getCharacterName()%></td>
 <%
 				if (!StringUtils.isEmpty(castMember.getVoice()))
 				{
 %>
-							<td class="content2">&mdash;</td>
+							<td class="content2">voice:</td>
 							<td class="content2"><%=castMember.getVoice()%></td>
 <%
 				}

@@ -1,9 +1,6 @@
 package com.kiwisoft.media.video;
 
-import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.media.video.VideosTask;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +13,7 @@ public class AllVideosTask extends MenuSidebarItem.Task
 {
 	public AllVideosTask()
 	{
-		super("Videos, DVD's", IconManager.getIcon("com/kiwisoft/media/icons/video32.gif"));
+		super("Videos, DVD's");
 		add(new VideosTask(MediumType.VHS));
 		add(new VideosTask(MediumType.VHS_ORIGINAL));
 		add(new VideosTask(MediumType.DVD));

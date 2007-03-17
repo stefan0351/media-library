@@ -2,6 +2,8 @@ package com.kiwisoft.media.fanfic;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.BOTH;
+import static java.awt.GridBagConstraints.WEST;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -9,12 +11,9 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -22,9 +21,13 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
+import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.xml.XMLWriter;
 
@@ -43,12 +46,6 @@ public class FanFicDetailsView extends DetailsView
 	private FanFic fanFic;
 	private FanFicGroup group;
 
-	private DeletePartAction deletePartAction;
-	private PartTableListener partTableListener;
-	private MoveUpAction moveUpAction;
-	private MoveDownAction moveDownAction;
-	private FilesAction filesAction;
-
 	// Configurations Panel
 	private JTextField tfId;
 	private JTextField tfTitle;
@@ -64,8 +61,7 @@ public class FanFicDetailsView extends DetailsView
 	private ObjectTableModel<Pairing> tmPairings;
 	private SortableTable tblAuthors;
 	private ObjectTableModel<Author> tmAuthors;
-	private SortableTable tblParts;
-	private FanFicPartsTableModel tmParts;
+	private TableController<String> partsController;
 
 	private FanFicDetailsView(FanFic fanFic)
 	{
@@ -75,7 +71,7 @@ public class FanFicDetailsView extends DetailsView
 		if (fanFic!=null)
 			setTitle("FanFic - "+fanFic.getId());
 		else
-			setTitle("Neues FanFic");
+			setTitle("New FanFic");
 		installListener();
 	}
 
@@ -84,15 +80,13 @@ public class FanFicDetailsView extends DetailsView
 		this.group=group;
 		createContentPanel();
 		initializeData();
-		setTitle("Neues FanFic");
+		setTitle("New FanFic");
 		installListener();
 	}
 
 	private void installListener()
 	{
-		partTableListener=new PartTableListener();
-		tblParts.getSelectionModel().addListSelectionListener(partTableListener);
-		tmParts.addTableModelListener(partTableListener);
+		partsController.installListeners();
 	}
 
 	private void initializeData()
@@ -111,7 +105,7 @@ public class FanFicDetailsView extends DetailsView
 			{
 				String source=((FanFicPart)it.next()).getSource();
 				String path=new File(Configurator.getInstance().getString("path.fanfics"), source).getAbsolutePath();
-				tmParts.addPart(path);
+				partsController.getModel().addRow(new FanFicPartsTableModel.Row(path));
 			}
 			for (Pairing pairing : fanFic.getPairings()) tmPairings.addObject(pairing);
 			for (FanDom fanDom : fanFic.getFanDoms()) tmFanDoms.addObject(fanDom);
@@ -119,9 +113,9 @@ public class FanFicDetailsView extends DetailsView
 		}
 		else
 		{
-			if (group instanceof Pairing) tmPairings.addObject((Pairing) group);
-			else if (group instanceof FanDom) tmFanDoms.addObject((FanDom) group);
-			else if (group instanceof Author) tmAuthors.addObject((Author) group);
+			if (group instanceof Pairing) tmPairings.addObject((Pairing)group);
+			else if (group instanceof FanDom) tmFanDoms.addObject((FanDom)group);
+			else if (group instanceof Author) tmAuthors.addObject((Author)group);
 		}
 		tmPairings.addSortColumn(0, false);
 		tmFanDoms.addSortColumn(0, false);
@@ -133,7 +127,7 @@ public class FanFicDetailsView extends DetailsView
 		String title=tfTitle.getText();
 		if (StringUtils.isEmpty(title))
 		{
-			JOptionPane.showMessageDialog(this, "Titel fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Title is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfTitle.requestFocus();
 			return false;
 		}
@@ -144,12 +138,14 @@ public class FanFicDetailsView extends DetailsView
 		String description=tfDescription.getText();
 		FanFic prequel=tfPrequel.getValue();
 		List<String> sources=new ArrayList<String>();
+		SortableTableModel<String> tmParts=partsController.getModel();
+		SortableTable tblParts=partsController.getTable();
 		for (int i=0; i<tmParts.getRowCount(); i++)
 		{
 			String source=tmParts.getObject(i);
 			if (StringUtils.isEmpty(source))
 			{
-				JOptionPane.showMessageDialog(this, "Quelle fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Source is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 				tblParts.getSelectionModel().setSelectionInterval(i, i);
 				tblParts.requestFocus();
 				return false;
@@ -171,21 +167,21 @@ public class FanFicDetailsView extends DetailsView
 		Set<Author> authors=new HashSet<Author>(tmAuthors.getObjects());
 		if (authors.isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "Kein Autor eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No author selected.", "Error", JOptionPane.ERROR_MESSAGE);
 			tblAuthors.requestFocus();
 			return false;
 		}
 		Set<FanDom> fanDoms=new HashSet<FanDom>(tmFanDoms.getObjects());
 		if (fanDoms.isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "Keine Domäne eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No domain selected.", "Error", JOptionPane.ERROR_MESSAGE);
 			tblFanDoms.requestFocus();
 			return false;
 		}
 		Set<Pairing> pairings=new HashSet<Pairing>(tmPairings.getObjects());
 		if (pairings.isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "Kein Paar eingegeben.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "No pairing selected.", "Error", JOptionPane.ERROR_MESSAGE);
 			tblPairings.requestFocus();
 			return false;
 		}
@@ -226,7 +222,7 @@ public class FanFicDetailsView extends DetailsView
 			transaction.close();
 			transaction=null;
 			fanFic.notifyChanged();
-			filesAction.validate();
+			partsController.updateToolBarActions();
 			tfId.setText(fanFic.getId().toString());
 			return true;
 		}
@@ -271,106 +267,98 @@ public class FanFicDetailsView extends DetailsView
 		tblAuthors=new SortableTable(tmAuthors);
 		tblAuthors.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
-		createPartsPanel();
+		FanFicPartsTableModel tmParts=new FanFicPartsTableModel();
+		partsController=new TableController<String>(tmParts, new MediaTableConfiguration("table.fanfic.detail"))
+		{
+			@Override
+			public List<ContextAction<String>> getToolBarActions()
+			{
+				List<ContextAction<String>> actions=new ArrayList<ContextAction<String>>();
+				actions.add(new AddPartAction());
+				actions.add(new DeletePartAction());
+				actions.add(new MovePartUpAction());
+				actions.add(new MovePartDownAction());
+				actions.add(new FilesAction());
+				return actions;
+			}
+
+			@Override
+			public List<ContextAction<String>> getContextActions()
+			{
+				List<ContextAction<String>> actions=new ArrayList<ContextAction<String>>();
+				actions.add(new AddPartAction());
+				actions.add(new DeletePartAction());
+				return actions;
+			}
+		};
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(600, 500));
 		int row=0;
 		add(new JLabel("Id:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-													  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+													  WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfId, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
-										 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+										 WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JLabel("Title:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+														 WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfTitle, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Parts:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(createPartsPanel(), new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-													   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(partsController.createComponent(), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
+													   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Autoren:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Authors:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tblAuthors), new GridBagConstraints(1, row, 1, 1, 0.5, 0.3,
-																GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Domänen:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+																WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Domains:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JScrollPane(tblFanDoms), new GridBagConstraints(3, row, 1, 1, 0.5, 0.3,
-																GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Paare:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
-														 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+																WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Pairings:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
+															GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(new JScrollPane(tblPairings), new GridBagConstraints(5, row, 1, 1, 0.5, 0.3,
-																 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																 WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Rating:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+														  WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfRating, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-											 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Fertig:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-														  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+											 WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Finished:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+															WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(cbFinished, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-											   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											   WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Beschreibung:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JLabel("Summary:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tfDescription), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
-																   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+																   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Spoiler:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tfSpoiler), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
-															   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+															   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Fortsetzung zu:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JLabel("Sequel to:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+															 WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfPrequel, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+											  WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-													   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+													   WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfUrl, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
-										  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-	}
-
-	private JPanel createPartsPanel()
-	{
-		tmParts=new FanFicPartsTableModel();
-		tblParts=new SortableTable(tmParts);
-		tblParts.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
-
-		deletePartAction=new DeletePartAction();
-		moveUpAction=new MoveUpAction();
-		moveDownAction=new MoveDownAction();
-		filesAction=new FilesAction();
-
-		JPanel pnlParts=new JPanel(new GridBagLayout());
-		pnlParts.add(new JScrollPane(tblParts), new GridBagConstraints(0, 0, 1, 5, 1.0, 0.3,
-																	   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		int row=0;
-		pnlParts.add(new JButton(moveUpAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-																	   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 2, 0, 0), 0, 0));
-		pnlParts.add(new JButton(moveDownAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-																		 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
-		pnlParts.add(new JButton(new AddAction()), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-																		  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
-		pnlParts.add(new JButton(filesAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-																	  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
-		pnlParts.add(new JButton(deletePartAction), new GridBagConstraints(1, row++, 1, 1, 0.0, 0.0,
-																		   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
-		pnlParts.add(Box.createGlue(), new GridBagConstraints(1, row, 1, 1, 0.0, 1.0,
-															  GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(2, 2, 0, 0), 0, 0));
-
-		return pnlParts;
+										  WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
 	public JComponent getDefaultFocusComponent()
@@ -381,67 +369,43 @@ public class FanFicDetailsView extends DetailsView
 	public void dispose()
 	{
 		super.dispose();
-		tblParts.getSelectionModel().addListSelectionListener(partTableListener);
-		tmParts.removeTableModelListener(partTableListener);
+		partsController.removeListeners();
+		partsController.dispose();
 	}
 
-	private class PartTableListener implements ListSelectionListener, TableModelListener
-	{
-		public void valueChanged(ListSelectionEvent e)
-		{
-			if (!e.getValueIsAdjusting()) validateActions();
-		}
-
-		public void tableChanged(TableModelEvent e)
-		{
-			if (e.getType()==TableModelEvent.DELETE || e.getType()==TableModelEvent.INSERT) validateActions();
-		}
-	}
-
-	private void validateActions()
-	{
-		deletePartAction.validate();
-		moveUpAction.validate();
-		moveDownAction.validate();
-	}
-
-	private class DeletePartAction extends AbstractAction
+	private class DeletePartAction extends SimpleContextAction<String>
 	{
 		public DeletePartAction()
 		{
-			super("Löschen");
-			setEnabled(false);
-		}
-
-		public void validate()
-		{
-			setEnabled(!tblParts.getSelectionModel().isSelectionEmpty());
+			super("Delete", Icons.getIcon("delete"));
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
-			int[] indices=tblParts.getSelectedRows();
+			int[] indices=partsController.getTable().getSelectedRows();
 			Set<SortableTableRow<String>> rows=new HashSet<SortableTableRow<String>>();
-			for (int indice : indices) rows.add(tmParts.getRow(indice));
-			for (SortableTableRow<String> row : rows) tmParts.removeRow(row);
+			SortableTableModel<String> model=partsController.getModel();
+			for (int indice : indices) rows.add(model.getRow(indice));
+			for (SortableTableRow<String> row : rows) model.removeRow(row);
 		}
 	}
 
-	private class MoveUpAction extends AbstractAction
+	private class MovePartUpAction extends ContextAction<String>
 	{
-		public MoveUpAction()
+		public MovePartUpAction()
 		{
-			super("Nach Open");
-			setEnabled(false);
+			super("Move Up", Icons.getIcon("move.up"));
 		}
 
-		public void validate()
+		@Override
+		public void update(List<String> objects)
 		{
 			setEnabled(isValid());
 		}
 
 		private boolean isValid()
 		{
+			SortableTable tblParts=partsController.getTable();
 			ListSelectionModel selectionModel=tblParts.getSelectionModel();
 			return !selectionModel.isSelectionEmpty() && selectionModel.getMinSelectionIndex()>0;
 		}
@@ -450,6 +414,8 @@ public class FanFicDetailsView extends DetailsView
 		{
 			if (isValid())
 			{
+				SortableTable tblParts=partsController.getTable();
+				SortableTableModel<String> tmParts=partsController.getModel();
 				int[] indices=tblParts.getSelectedRows();
 				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
 				for (int indice : indices) rows.add(tmParts.getRow(indice));
@@ -471,29 +437,32 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class MoveDownAction extends AbstractAction
+	private class MovePartDownAction extends ContextAction<String>
 	{
-		public MoveDownAction()
+		public MovePartDownAction()
 		{
-			super("Nach Unten");
+			super("Move Down", Icons.getIcon("move.down"));
 			setEnabled(false);
 		}
 
-		public void validate()
+		@Override
+		public void update(List<String> objects)
 		{
 			setEnabled(isValid());
 		}
 
 		private boolean isValid()
 		{
-			ListSelectionModel selectionModel=tblParts.getSelectionModel();
-			return !selectionModel.isSelectionEmpty() && selectionModel.getMaxSelectionIndex()<tmParts.getRowCount()-1;
+			ListSelectionModel selectionModel=partsController.getTable().getSelectionModel();
+			return !selectionModel.isSelectionEmpty() && selectionModel.getMaxSelectionIndex()<partsController.getModel().getRowCount()-1;
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
 			if (isValid())
 			{
+				SortableTable tblParts=partsController.getTable();
+				SortableTableModel<String> tmParts=partsController.getModel();
 				int[] indices=tblParts.getSelectedRows();
 				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
 				for (int i=indices.length-1; i>=0; i--)
@@ -518,21 +487,22 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class AddAction extends AbstractAction
+	private class AddPartAction extends ContextAction<String>
 	{
-		public AddAction()
+		public AddPartAction()
 		{
-			super("Hinzufügen");
+			super("Add", Icons.getIcon("add"));
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
+			SortableTableModel<String> tmParts=partsController.getModel();
 			int rows=tmParts.getRowCount();
 			if (rows>0)
 			{
 				String lastPath=tmParts.getObject(rows-1);
 				File file=new File(lastPath);
-				tmParts.addPart(StringUtils.increase(file.getPath()));
+				tmParts.addRow(new FanFicPartsTableModel.Row(StringUtils.increase(file.getPath())));
 			}
 			else
 			{
@@ -540,7 +510,7 @@ public class FanFicDetailsView extends DetailsView
 				switch (tmAuthors.getRowCount())
 				{
 					case 1:
-						JOptionPane.showMessageDialog(FanFicDetailsView.this, "Autor fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(FanFicDetailsView.this, "Author fehlt!", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					case 2:
 						author=tmAuthors.getObject(0);
@@ -549,33 +519,33 @@ public class FanFicDetailsView extends DetailsView
 						int row=tblAuthors.getSelectedRow();
 						if (row<0)
 						{
-							JOptionPane.showMessageDialog(FanFicDetailsView.this, "Wähle einen Autor!", "Fehler", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(FanFicDetailsView.this, "Choose an author!", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 						author=tmAuthors.getObject(row);
 				}
-				int option=JOptionPane.showOptionDialog(FanFicDetailsView.this, "Erzeuge mehrteiliges FanFic?", "Frage",
+				int option=JOptionPane.showOptionDialog(FanFicDetailsView.this, "Create multi-part fanfic?", "Question",
 														JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (option==JOptionPane.NO_OPTION)
 				{
-					StringBuffer path=buildFileName(author, tfTitle.getText());
+					StringBuilder path=buildFileName(author, tfTitle.getText());
 					path.append(".xp");
-					tmParts.addPart(path.toString());
+					tmParts.addRow(new FanFicPartsTableModel.Row(path.toString()));
 				}
 				else if (option==JOptionPane.YES_OPTION)
 				{
-					StringBuffer path=buildFileName(author, tfTitle.getText());
+					StringBuilder path=buildFileName(author, tfTitle.getText());
 					path.append(File.separator);
 					path.append("01.xp");
-					tmParts.addPart(path.toString());
+					tmParts.addRow(new FanFicPartsTableModel.Row(path.toString()));
 				}
 			}
 		}
 
-		private StringBuffer buildFileName(Author author, String title)
+		private StringBuilder buildFileName(Author author, String title)
 		{
 			title=title.toLowerCase();
-			StringBuffer path=new StringBuffer(Configurator.getInstance().getString("path.fanfics"));
+			StringBuilder path=new StringBuilder(Configurator.getInstance().getString("path.fanfics"));
 			path.append(File.separator);
 			path.append(author.getPath());
 			path.append(File.separator);
@@ -588,15 +558,16 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class FilesAction extends AbstractAction
+	private class FilesAction extends ContextAction<String>
 	{
 		public FilesAction()
 		{
-			super("Dateien");
+			super("Check/Create Files");
 			setEnabled(fanFic!=null);
 		}
 
-		public void validate()
+		@Override
+		public void update(List<String> objects)
 		{
 			setEnabled(fanFic!=null);
 		}
@@ -605,6 +576,7 @@ public class FanFicDetailsView extends DetailsView
 		{
 			try
 			{
+				SortableTableModel<String> tmParts=partsController.getModel();
 				StringBuilder buffer=new StringBuilder();
 				int errors=0;
 				for (int i=0; i<tmParts.getRowCount(); i++)

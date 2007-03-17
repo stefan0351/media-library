@@ -4,7 +4,7 @@ import javax.swing.Icon;
 import javax.swing.JFileChooser;
 
 import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 
 /**
@@ -38,7 +38,7 @@ public class WebFileLookup extends FileLookup
 
 	public Icon getIcon()
 	{
-		if (table) return IconManager.getIcon("com/kiwisoft/utils/icons/tlookup.gif");
-		return IconManager.getIcon("com/kiwisoft/utils/icons/open.gif");
+		if (table) return Icons.getIcon("lookup.table");
+		return Icons.getIcon("lookup.file");
 	}
 }

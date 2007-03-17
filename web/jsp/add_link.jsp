@@ -46,23 +46,23 @@
 	<form action="/add_link">
 
 	<table border=0>
-	<tr class="content"><td><b>Serie:</b></td><td>
+	<tr class="content"><td><b>Show:</b></td><td>
 	<select name="show">
-		<option value="empty">Wähle Serie</option>
+		<option value="empty">Select Show</option>
 <%
 		Set shows=new TreeSet(StringUtils.getComparator());
 		shows.addAll(ShowManager.getInstance().getShows());
 		 for (Iterator it=shows.iterator();it.hasNext();)
 		 {
 			Show show=(Show)it.next();
-		%><option value="<%=show.getId()%>"><%=show.getName()%></option><%
+		%><option value="<%=show.getId()%>"><%=show.getTitle()%></option><%
 		}
 %>
 	</select>
 	</td></tr>
 	<tr class="content"><td><b>FanDom:</b></td><td>
 	<select name="fanDom">
-		<option value="empty">Wähle FanDom</option>
+		<option value="empty">Select FanDom</option>
 <%
 		Set fanDoms=new TreeSet(StringUtils.getComparator());
 		fanDoms.addAll(FanFicManager.getInstance().getDomains());
@@ -76,10 +76,10 @@
 	</td></tr>
 	<tr class="content"><td><b>Name:</b></td><td><input type="text" size="50" name="name" value="<%=name%>"></td></tr>
 	<tr class="content"><td><b>URL:</b></td><td><input type="text" size="50" name="url" value="<%=url%>"></td></tr>
-	<tr class="content"><td><b>Sprache:</b></td><td>
+	<tr class="content"><td><b>Language:</b></td><td>
 	<select name="language">
-	<option value="de">Deutsch</option>
-	<option value="en">Englisch</option>
+	<option value="de">German</option>
+	<option value="en">English</option>
 	</select>
 	</td></tr>
 	<tr class="content"><td colspan="2" align="right"><input type="submit" value="Add"></td></tr>

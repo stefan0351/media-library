@@ -6,30 +6,18 @@
  */
 package com.kiwisoft.media.dataImport;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
 public class TVTVDeLoaderDialog<T> extends JDialog
@@ -39,7 +27,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 
 	public TVTVDeLoaderDialog(JFrame owner, List<T> objects) throws HeadlessException
 	{
-		super(owner, "Lade TVTV Termine", true);
+		super(owner, "Load Schedule from TVTV.de", true);
 		this.objects=objects;
 		setContentPane(createContentPanel());
 		initialize();
@@ -58,14 +46,14 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setPreferredSize(new Dimension(400, 100));
 		int row=0;
-		panel.add(new JLabel("Pfad:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(new JLabel("Path:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(tfPath, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
 
 		row++;
 		panel.add(pnlButtons, new GridBagConstraints(0, row, 2, 1, 1.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(10, 10, 10, 10), 0, 0));
+													 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(10, 10, 10, 10), 0, 0));
 		return panel;
 	}
 
@@ -78,7 +66,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 	{
 		public ApplyAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -87,16 +75,16 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 			if (StringUtils.isEmpty(pathName))
 			{
 				JOptionPane.showMessageDialog(TVTVDeLoaderDialog.this,
-						"Kein Pfad eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+											  "No path selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			File path=new File(pathName);
 			if (!path.exists())
 			{
 				int option=JOptionPane.showConfirmDialog(TVTVDeLoaderDialog.this,
-						"Das Verzeichnis '"+path+"' existiert nicht.\nSoll es angelegt werden?",
-						"Verzeichnis anlegen?",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+														 "Directory '"+path+"' doesn't exist.\nCreate?",
+														 "Confirmation",
+														 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option!=JOptionPane.YES_OPTION) return;
 			}
 			try
@@ -107,7 +95,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 			{
 				e1.printStackTrace();
 				JOptionPane.showMessageDialog(TVTVDeLoaderDialog.this,
-						e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+											  e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			if (objects==null)
@@ -124,7 +112,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 	{
 		public CancelAction()
 		{
-			super("Abbrechen", IconManager.getIcon("com/kiwisoft/utils/icons/cancel.gif"));
+			super("Cancel", Icons.getIcon("cancel"));
 		}
 
 		public void actionPerformed(ActionEvent e)

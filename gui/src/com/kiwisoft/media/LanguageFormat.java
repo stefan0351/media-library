@@ -2,9 +2,8 @@ package com.kiwisoft.media;
 
 import javax.swing.Icon;
 
-import com.kiwisoft.utils.gui.format.DefaultObjectFormat;
 import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.media.Language;
+import com.kiwisoft.utils.format.DefaultObjectFormat;
 
 public class LanguageFormat extends DefaultObjectFormat
 {

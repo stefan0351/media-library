@@ -81,18 +81,18 @@ public class LinkDetailsView extends DetailsView
 		add(tfUrl, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Sprache:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbxLanguage, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
 	private void initialize()
 	{
-		if (show!=null) tfShow.setText(show.getName());
+		if (show!=null) tfShow.setText(show.getTitle());
 		if (link!=null)
 		{
 			tfName.setText(link.getName());
 			tfUrl.setText(link.getUrl());
-			cbxLanguage.setSelectedItem(show.getLanguage());
+			cbxLanguage.setSelectedItem(link.getLanguage());
 		}
 	}
 
@@ -101,11 +101,11 @@ public class LinkDetailsView extends DetailsView
 		try
 		{
 			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name fehlt!", tfName);
+			if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name is mssing!", tfName);
 			String url=tfUrl.getText();
-			if (StringUtils.isEmpty(url)) throw new InvalidDataException("URL fehlt!", tfUrl);
+			if (StringUtils.isEmpty(url)) throw new InvalidDataException("URL is missing!", tfUrl);
 			Language language=(Language)cbxLanguage.getSelectedItem();
-			if (language==null) throw new InvalidDataException("Sprache fehlt!", cbxLanguage);
+			if (language==null) throw new InvalidDataException("Language is missing!", cbxLanguage);
 
 			Transaction transaction=null;
 			try
@@ -139,14 +139,14 @@ public class LinkDetailsView extends DetailsView
 		}
 		catch (InvalidDataException e)
 		{
-			JOptionPane.showMessageDialog(this, "URL fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			e.getComponent().requestFocus();
 			return false;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 

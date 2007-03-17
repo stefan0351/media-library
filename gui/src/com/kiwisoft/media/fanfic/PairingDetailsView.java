@@ -50,7 +50,7 @@ public class PairingDetailsView extends DetailsView
 		String name=tfName.getText();
 		if (StringUtils.isEmpty(name))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfName.requestFocus();
 			return false;
 		}
@@ -85,7 +85,7 @@ public class PairingDetailsView extends DetailsView
 		tfName=new JTextField();
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 150));
+		setPreferredSize(new Dimension(400, 80));
 		int row=0;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -110,8 +110,8 @@ public class PairingDetailsView extends DetailsView
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
-			setTitle("Paarung: "+name);
+			if (StringUtils.isEmpty(name)) name="<unkown>";
+			setTitle("Pairing: "+name);
 		}
 	}
 }

@@ -21,7 +21,7 @@ public class ImportAirdatesAction extends AbstractAction
 
 	public ImportAirdatesAction(JFrame frame)
 	{
-		super("Importiere Termine");
+		super("Import Schedule");
 		parent=frame;
 	}
 

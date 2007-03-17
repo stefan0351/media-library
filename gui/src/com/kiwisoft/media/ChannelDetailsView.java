@@ -38,8 +38,6 @@ public class ChannelDetailsView extends DetailsView
 	private DialogLookupField tfLogo;
 	private JComboBox cbxLanguage;
 	private JCheckBox cbReceiving;
-	private ImagePanel imgLogo;
-	private SortableTable tblNames;
 	private NamesTableModel tmNames;
 
 	private ChannelDetailsView(Channel channel)
@@ -68,9 +66,9 @@ public class ChannelDetailsView extends DetailsView
 				Configurator.getInstance().saveUserValues();
 			}
 		});
-		imgLogo=new ImagePanel(new Dimension(50, 30));
+		ImagePanel imgLogo=new ImagePanel(new Dimension(50, 30));
 		tmNames=new NamesTableModel();
-		tblNames=new SortableTable(tmNames);
+		SortableTable tblNames=new SortableTable(tmNames);
 		tblNames.initializeColumns(new MediaTableConfiguration("table.channel.names"));
 
 		setLayout(new GridBagLayout());
@@ -82,13 +80,13 @@ public class ChannelDetailsView extends DetailsView
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Sprache:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbxLanguage, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
 												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Empfang:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Available:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbReceiving, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 												GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
@@ -102,7 +100,7 @@ public class ChannelDetailsView extends DetailsView
 											GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 3, 1, 0.0, 0.0,
+		add(new JLabel("Other Names:"), new GridBagConstraints(0, row, 3, 1, 0.0, 0.0,
 																	 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 
 		row++;
@@ -142,14 +140,14 @@ public class ChannelDetailsView extends DetailsView
 		String name=tfName.getText();
 		if (StringUtils.isEmpty(name))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfName.requestFocus();
 			return false;
 		}
 		Language language=(Language)cbxLanguage.getSelectedItem();
 		if (language==null)
 		{
-			JOptionPane.showMessageDialog(this, "Keine Sprache gewählt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Language is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			cbxLanguage.requestFocus();
 			return false;
 		}
@@ -214,8 +212,8 @@ public class ChannelDetailsView extends DetailsView
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
-			setTitle("Sender: "+name);
+			if (StringUtils.isEmpty(name)) name="<unknown>";
+			setTitle("Channel: "+name);
 		}
 	}
 }

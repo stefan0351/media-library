@@ -80,9 +80,9 @@ public class PersonManager
 		return person;
 	}
 
-	public Person getPersonByName(String name)
+	public Person getPersonByName(String name, boolean binary)
 	{
-		return DBLoader.getInstance().load(Person.class, null, "name=?", name);
+		return DBLoader.getInstance().load(Person.class, null, (binary ? "binary " : "")+"name=?", name);
 	}
 
 	public Person getPerson(Long id)

@@ -6,28 +6,21 @@
  */
 package com.kiwisoft.media.fanfic;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComponent;
 
-import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Disposable;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
@@ -37,11 +30,8 @@ import com.kiwisoft.utils.gui.table.SortableTableRow;
  */
 public class AuthorsView extends ViewPanel implements Disposable
 {
-	private SortableTable table;
-	private AuthorsTableModel tableModel;
-	private DoubleClickListener doubleClickListener;
 	private UpdateListener updateListener;
-	private JScrollPane scrollPane;
+	private TableController<Author> tableController;
 
 	public AuthorsView()
 	{
@@ -49,78 +39,68 @@ public class AuthorsView extends ViewPanel implements Disposable
 
 	public String getName()
 	{
-		return "Fan Fiction - Autoren";
+		return "Fan Fiction - Authors";
 	}
 
-	public JComponent createContentPanel(ApplicationFrame frame)
+	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tableModel=new AuthorsTableModel();
+		AuthorsTableModel tableModel=new AuthorsTableModel();
 		for (Author author : FanFicManager.getInstance().getAuthors()) tableModel.addRow(new Row(author));
 		tableModel.sort();
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		table=new SortableTable(tableModel);
-		table.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		table.initializeColumns(new MediaTableConfiguration("table.fanfic.authors"));
+		tableController=new TableController<Author>(tableModel, new MediaTableConfiguration("table.fanfic.authors"))
+		{
+			@Override
+			public List<ContextAction<Author>> getToolBarActions()
+			{
+				List<ContextAction<Author>> actions=new ArrayList<ContextAction<Author>>();
+				actions.add(new AuthorDetailsAction());
+				actions.add(new NewAuthorAction());
+				actions.add(new DeleteAuthorAction(frame));
+				actions.add(new FanFicsAction(frame));
+				return actions;
+			}
 
-		scrollPane=new JScrollPane(table);
-		return scrollPane;
+			@Override
+			public List<ContextAction<Author>> getContextActions()
+			{
+				List<ContextAction<Author>> actions=new ArrayList<ContextAction<Author>>();
+				actions.add(new AuthorDetailsAction());
+				actions.add(null);
+				actions.add(new NewAuthorAction());
+				actions.add(new DeleteAuthorAction(frame));
+				actions.add(null);
+				actions.add(new FanFicsAction(frame));
+				return actions;
+			}
+
+			@Override
+			public ContextAction<Author> getDoubleClickAction()
+			{
+				return new FanFicsAction<Author>(frame);
+			}
+		};
+		return tableController.createComponent();
 	}
 
-	public void installComponentListener()
+	public void installComponentListeners()
 	{
-		super.installComponentListener();
-		doubleClickListener=new DoubleClickListener();
-		table.addMouseListener(doubleClickListener);
-		scrollPane.addMouseListener(doubleClickListener);
+		super.installComponentListeners();
+		tableController.installListeners();
 	}
 
 	public void removeComponentListeners()
 	{
 		super.removeComponentListeners();
-		table.removeMouseListener(doubleClickListener);
-		scrollPane.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
 	}
 
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(updateListener);
-		tableModel.clear();
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=table.rowAtPoint(e.getPoint());
-				SortableTableRow row=tableModel.getRow(rowIndex);
-				if (row!=null)
-				{
-					MediaManagerFrame wizard=(MediaManagerFrame)getTopLevelAncestor();
-					wizard.setCurrentView(new FanFicsView((Author)row.getUserObject()), true);
-				}
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=table.getSelectedRows();
-				Author author=null;
-				if (rows.length==1) author=tableModel.getObject(rows[0]);
-				Set<Author> authors=new HashSet<Author>();
-				for (int row : rows) authors.add((Author) tableModel.getObject(row));
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new FanFicsAction(AuthorsView.this, authors));
-				popupMenu.add(new PropertiesAction(author));
-				popupMenu.addSeparator();
-				popupMenu.add(new NewAction());
-				popupMenu.add(new DeleteAction(authors));
-				popupMenu.show(table, e.getX(), e.getY());
-				e.consume();
-			}
-		}
+		tableController.dispose();
 	}
 
 	private class UpdateListener implements CollectionChangeListener
@@ -134,13 +114,13 @@ public class AuthorsView extends ViewPanel implements Disposable
 					case CollectionChangeEvent.ADDED:
 					{
 						Author newAuthor=(Author)event.getElement();
-						int index=tableModel.addRow(new Row(newAuthor));
-						table.getSelectionModel().setSelectionInterval(index, index);
+						int index=tableController.getModel().addRow(new Row(newAuthor));
+						tableController.getTable().getSelectionModel().setSelectionInterval(index, index);
 					}
 					break;
 					case CollectionChangeEvent.REMOVED:
-						int index=tableModel.indexOf(event.getElement());
-						if (index>=0) tableModel.removeRowAt(index);
+						int index=tableController.getModel().indexOf(event.getElement());
+						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;
 				}
 			}
@@ -192,91 +172,6 @@ public class AuthorsView extends ViewPanel implements Disposable
 					return getUserObject().getName();
 			}
 			return null;
-		}
-	}
-
-	private static class NewAction extends AbstractAction
-	{
-		public NewAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			AuthorDetailsView.create(null);
-		}
-	}
-
-	private static class PropertiesAction extends AbstractAction
-	{
-		private Author author;
-
-		public PropertiesAction(Author author)
-		{
-			super("Eigenschaften");
-			this.author=author;
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			AuthorDetailsView.create(author);
-		}
-	}
-
-	private class DeleteAction extends AbstractAction
-	{
-		private Author author;
-
-		public DeleteAction(Set authors)
-		{
-			super("Löschen");
-			if (authors.size()==1) author=(Author)authors.iterator().next();
-			setEnabled(author!=null);
-		}
-
-		public void actionPerformed(ActionEvent event)
-		{
-			if (author.isUsed())
-			{
-				JOptionPane.showMessageDialog(AuthorsView.this,
-											  "Der Autor '"+author.getName()+"' kann nicht gelöscht werden.",
-											  "Meldung",
-											  JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			int option=JOptionPane.showConfirmDialog(AuthorsView.this,
-													 "Den Autor '"+author.getName()+"' wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					FanFicManager.getInstance().dropAuthor(author);
-					transaction.close();
-				}
-				catch (Exception e)
-				{
-					if (transaction!=null)
-					{
-						try
-						{
-							transaction.rollback();
-						}
-						catch (SQLException e1)
-						{
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(AuthorsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(AuthorsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
 		}
 	}
 

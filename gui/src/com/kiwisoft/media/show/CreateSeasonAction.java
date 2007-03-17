@@ -1,6 +1,7 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.SeasonDetailsView;
 
@@ -18,7 +19,7 @@ public class CreateSeasonAction extends MultiContextAction<Episode>
 {
 	public CreateSeasonAction()
 	{
-		super("Erzeuge Staffel");
+		super("Create Season");
 	}
 
 	public void actionPerformed(ActionEvent e)

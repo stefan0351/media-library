@@ -10,6 +10,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.kiwisoft.media.person.CastMember"%>
 <%@ page import="com.kiwisoft.media.person.Person"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -138,7 +139,7 @@
 			Person actor=castMember.getActor();
 %>
 			<tr valign="top">
-				<td class="content2"><a class="link" href="/persons/person.jsp?id=<%=actor.getId()%>"><%=JspUtils.prepare(actor)%></a></td>
+				<td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepare(actor)%></a></td>
 				<td class="content2">...</td>
 				<td class="content2"><%=JspUtils.prepareString(castMember.getCharacterName())%></td>
 			</tr>

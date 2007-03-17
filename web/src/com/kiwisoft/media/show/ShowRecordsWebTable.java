@@ -49,7 +49,7 @@ public class ShowRecordsWebTable extends SortableWebTable<Recording>
 					if (episode!=null) return episode.getUserKey();
 					else return null;
 				case 1: // name
-					if (episode!=null) return episode.getName(recording.getLanguage());
+					if (episode!=null) return episode.getTitle(recording.getLanguage());
 					return recording.getEvent();
 				case 2: // video
 					try

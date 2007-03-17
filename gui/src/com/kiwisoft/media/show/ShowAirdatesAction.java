@@ -2,7 +2,8 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.AirdatesView;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.media.schedule.ScheduleView;
 import com.kiwisoft.media.show.Show;
 
 import java.awt.event.ActionEvent;
@@ -20,12 +21,12 @@ public class ShowAirdatesAction extends SimpleContextAction<Show>
 
 	public ShowAirdatesAction(ApplicationFrame frame)
 	{
-		super("Sendetermine");
+		super("Schedule", Icons.getIcon("schedule"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new AirdatesView(getObject()), true);
+		frame.setCurrentView(new ScheduleView(getObject()), true);
 	}
 }

@@ -1,14 +1,11 @@
 package com.kiwisoft.xp.tags;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
-import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 
 import com.kiwisoft.xp.XPBean;
-import com.kiwisoft.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.

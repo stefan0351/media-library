@@ -14,18 +14,17 @@ import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.video.AllVideosTask;
 import com.kiwisoft.media.movie.MoviesTask;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
-import com.kiwisoft.media.dataImport.ImportEpisodesAction;
-import com.kiwisoft.media.dataImport.ImportAirdatesAction;
-import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
+import com.kiwisoft.media.dataImport.*;
 import com.kiwisoft.media.person.PersonsTask;
+import com.kiwisoft.media.person.Gender;
+import com.kiwisoft.media.person.GenderFormat;
+import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.lookup.TableDialogLookupEditor;
-import com.kiwisoft.utils.gui.table.ComboBoxObjectEditor;
-import com.kiwisoft.utils.gui.table.EditorFactory;
-import com.kiwisoft.utils.gui.table.RendererFactory;
+import com.kiwisoft.utils.gui.table.TableEditorFactory;
 
 public class MediaManagerFrame extends ApplicationFrame
 {
@@ -37,22 +36,15 @@ public class MediaManagerFrame extends ApplicationFrame
 
 	protected JMenuBar createMenu()
 	{
-		JMenu menuFile=new JMenu("Datei");
+		JMenu menuFile=new JMenu("Import/Export");
 		menuFile.add(new ImportAirdatesAction(MediaManagerFrame.this));
 		menuFile.add(new ExportWebDatesAction());
 		menuFile.addSeparator();
-		menuFile.add(new ImportEpisodesAction(MediaManagerFrame.this));
-
-		JMenu menuDownloadDates=new JMenu("Download Termine");
-		menuDownloadDates.add(new ProSiebenDeLoaderAction(this));
-		menuDownloadDates.add(new TVTVDeLoaderAction(this));
-
-		JMenu menuTools=new JMenu("Tools");
-		menuTools.add(menuDownloadDates);
+		menuFile.add(new ProSiebenDeLoaderAction(this));
+		menuFile.add(new TVTVDeLoaderAction(this));
 
 		JMenuBar menuBar=new JMenuBar();
 		menuBar.add(menuFile);
-		menuBar.add(menuTools);
 		return menuBar;
 	}
 
@@ -63,16 +55,18 @@ public class MediaManagerFrame extends ApplicationFrame
 
 	protected void initializeTableComponents()
 	{
-		RendererFactory.getInstance().setRenderer(Language.class, new LanguageFormat());
-		RendererFactory.getInstance().setRenderer(Country.class, new CountryFormat());
+		FormatManager formatManager=FormatManager.getInstance();
+		formatManager.setFormat(Language.class, new LanguageFormat());
+		formatManager.setFormat(Country.class, new CountryFormat());
+		formatManager.setFormat(Gender.class, new GenderFormat());
 
-		EditorFactory editorFactory=EditorFactory.getInstance();
-		editorFactory.setDefaultEditor(Language.class, new LanguageLookup());
-		editorFactory.setDefaultEditor(Pairing.class, new PairingLookup());
-		editorFactory.setDefaultEditor(FanDom.class, new FanDomLookup());
-		editorFactory.setDefaultEditor(Author.class, new AuthorLookup());
-		editorFactory.setDefaultEditor(Genre.class, new GenreLookup());
-		editorFactory.setDefaultEditor(Country.class, new CountryLookup());
+		TableEditorFactory editorFactory=TableEditorFactory.getInstance();
+		editorFactory.setEditor(Language.class, new LanguageLookup());
+		editorFactory.setEditor(Pairing.class, new PairingLookup());
+		editorFactory.setEditor(FanDom.class, new FanDomLookup());
+		editorFactory.setEditor(Author.class, new AuthorLookup());
+		editorFactory.setEditor(Genre.class, new GenreLookup());
+		editorFactory.setEditor(Country.class, new CountryLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
 	}
@@ -84,7 +78,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		tasks.add(new MoviesTask());
 		tasks.add(new AllVideosTask());
 		tasks.add(new ChannelsTask());
-		tasks.add(new AirdatesTask());
+		tasks.add(new ScheduleTask());
 		tasks.add(new PersonsTask());
 		if (Configurator.getInstance().getBoolean("fanfics.enabled", false)) tasks.add(new FanFicTask());
 		return tasks;

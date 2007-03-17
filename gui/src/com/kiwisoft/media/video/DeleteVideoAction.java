@@ -1,20 +1,14 @@
 package com.kiwisoft.media.video;
 
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
-import static javax.swing.JOptionPane.YES_NO_OPTION;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.*;
 
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.VideoManager;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,7 +23,7 @@ public class DeleteVideoAction extends SimpleContextAction<Video>
 
 	public DeleteVideoAction(ApplicationFrame frame)
 	{
-		super("Löschen");
+		super("Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
@@ -38,10 +32,10 @@ public class DeleteVideoAction extends SimpleContextAction<Video>
 		final Video video=getObject();
 		if (video.isUsed())
 		{
-			showMessageDialog(frame, "Das Video '"+video.getName()+"' kann nicht gelöscht werden.", "Meldung", INFORMATION_MESSAGE);
+			showMessageDialog(frame, "The video '"+video.getName()+"' can't be deleted.", "Message", INFORMATION_MESSAGE);
 			return;
 		}
-		int option=showConfirmDialog(frame, "Das Video '"+video.getName()+"' wirklick löschen?", "Löschen?", YES_NO_OPTION, QUESTION_MESSAGE);
+		int option=showConfirmDialog(frame, "Delete video '"+video.getName()+"'?", "Confirmation", YES_NO_OPTION, QUESTION_MESSAGE);
 		if (option==JOptionPane.YES_OPTION)
 		{
 			DBSession.execute(new Transactional()

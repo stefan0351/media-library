@@ -4,6 +4,7 @@ import com.kiwisoft.utils.gui.table.*;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.ToolBar;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Chain;
@@ -51,6 +52,7 @@ public class TableController<T>
 		toolBarActions=getToolBarActions();
 
 		table=new SortableTable(model);
+		table.putClientProperty(TableConstants.ALTERNATE_ROW_BACKGROUND, new Color(240, 240, 255));
 		if (configuration!=null) table.initializeColumns(configuration);
 		tablePane=new JScrollPane(table);
 
@@ -119,6 +121,12 @@ public class TableController<T>
 		return table;
 	}
 
+	public void updateToolBarActions()
+	{
+		List<T> objects=TableUtils.getSelectedObjects(table);
+		for (ContextAction<T> action : toolBarActions) action.update(objects);
+	}
+
 	private class MyMouseListener extends MouseAdapter
 	{
 		public void mouseClicked(MouseEvent e)
@@ -163,8 +171,7 @@ public class TableController<T>
 		{
 			if (!e.getValueIsAdjusting())
 			{
-				List<T> objects=TableUtils.getSelectedObjects(table);
-				for (ContextAction<T> action : toolBarActions) action.update(objects);
+				updateToolBarActions();
 			}
 		}
 	}
@@ -175,8 +182,18 @@ public class TableController<T>
 
 		public MoveUpAction(Chain chain)
 		{
-			super("Nach oben");
+			super("Move Up", Icons.getIcon("move.up"));
 			this.chain=chain;
+		}
+
+		@Override
+		public void update(List<T> objects)
+		{
+			super.update(objects);
+			if (!objects.isEmpty())
+			{
+				if (objects.contains(chain.getFirst())) setEnabled(false);
+			}
 		}
 
 		@SuppressWarnings({"unchecked"})
@@ -203,7 +220,7 @@ public class TableController<T>
 					e2.printStackTrace();
 				}
 				e1.printStackTrace();
-				JOptionPane.showMessageDialog(table, e1.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(table, e1.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
 			for (T object : objects)
@@ -220,8 +237,18 @@ public class TableController<T>
 
 		public MoveDownAction(Chain chain)
 		{
-			super("Nach unten");
+			super("Move Down", Icons.getIcon("move.down"));
 			this.chain=chain;
+		}
+
+		@Override
+		public void update(List<T> objects)
+		{
+			super.update(objects);
+			if (!objects.isEmpty())
+			{
+				if (objects.contains(chain.getLast())) setEnabled(false);
+			}
 		}
 
 		@SuppressWarnings({"unchecked"})

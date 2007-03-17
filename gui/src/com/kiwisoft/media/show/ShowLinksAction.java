@@ -2,8 +2,8 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.LinksView;
-import com.kiwisoft.media.show.Show;
 
 import java.awt.event.ActionEvent;
 
@@ -20,7 +20,7 @@ public class ShowLinksAction extends SimpleContextAction<Show>
 
 	public ShowLinksAction(ApplicationFrame frame)
 	{
-		super("Links");
+		super("Links", Icons.getIcon("links"));
 		this.frame=frame;
 	}
 

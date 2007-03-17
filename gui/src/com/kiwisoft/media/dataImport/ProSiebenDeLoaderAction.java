@@ -19,7 +19,7 @@ public class ProSiebenDeLoaderAction extends MultiContextAction<Show>
 
 	public ProSiebenDeLoaderAction(ApplicationFrame frame)
 	{
-		super("Lade Termine von ProSieben.de");
+		super("Load Schedule from ProSieben.de");
 		this.frame=frame;
 	}
 

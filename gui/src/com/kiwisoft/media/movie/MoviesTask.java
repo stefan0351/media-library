@@ -1,8 +1,7 @@
 package com.kiwisoft.media.movie;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +14,7 @@ public class MoviesTask extends MenuSidebarItem.Task
 {
 	public MoviesTask()
 	{
-		super("Movies", IconManager.getIcon("com/kiwisoft/media/icons/movies32.gif"));
+		super("Movies");
 	}
 
 	public void perform(ApplicationFrame frame)

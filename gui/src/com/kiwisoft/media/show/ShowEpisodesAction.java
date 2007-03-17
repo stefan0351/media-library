@@ -1,12 +1,9 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.EpisodesView;
-
 import java.awt.event.ActionEvent;
+
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +18,7 @@ public class ShowEpisodesAction extends SimpleContextAction<Show>
 
 	public ShowEpisodesAction(ApplicationFrame frame)
 	{
-		super("Episoden", IconManager.getIcon("com/kiwisoft/media/icons/episode.gif"));
+		super("Episodes");
 		this.frame=frame;
 	}
 

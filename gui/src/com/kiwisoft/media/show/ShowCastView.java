@@ -1,43 +1,33 @@
 package com.kiwisoft.media.show;
 
+import static java.awt.GridBagConstraints.NONE;
+import static java.awt.GridBagConstraints.WEST;
+import static java.awt.GridBagConstraints.BOTH;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import javax.swing.*;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.media.person.*;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
 public class ShowCastView extends ViewPanel
 {
 	// Dates Panel
-	private SortableTable tblMainCast;
-	private CastTableModel tmMainCast;
-	private JScrollPane scrlMainCast;
-	private SortableTable tblRecurringCast;
-	private CastTableModel tmRecurringCast;
-	private JScrollPane scrlRecurringCast;
-	private DoubleClickListener doubleClickListener;
+	private TableController<CastMember> mainCastController;
+	private TableController<CastMember> recurringCastController;
 	private Show show;
 	private CollectionChangeObserver collectionObserver;
 
@@ -48,76 +38,121 @@ public class ShowCastView extends ViewPanel
 
 	public String getName()
 	{
-		return show.getName()+" - Darsteller";
+		return show.getTitle()+" - Cast";
 	}
 
-	public JComponent createContentPanel(ApplicationFrame frame)
+	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tmMainCast=new CastTableModel();
-		tmRecurringCast=new CastTableModel();
-		createTableData();
+		CastTableModel mainCastModel=new CastTableModel();
+		CastTableModel recurringCastModel=new CastTableModel();
+		createTableData(mainCastModel, recurringCastModel);
 
-		tblMainCast=new SortableTable(tmMainCast);
-		tblMainCast.initializeColumns(new MediaTableConfiguration("table.show.cast.main"));
-		scrlMainCast=new JScrollPane(tblMainCast);
+		mainCastController=new TableController<CastMember>(mainCastModel, new MediaTableConfiguration("table.show.cast.main"))
+		{
+			@Override
+			public List<ContextAction<CastMember>> getToolBarActions()
+			{
+				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				actions.add(new CastDetailsAction());
+				actions.add(new NewCastAction(show, CastMember.MAIN_CAST));
+				actions.add(new DeleteCastAction(show, frame));
+				return actions;
+			}
 
-		tblRecurringCast=new SortableTable(tmRecurringCast);
-		tblRecurringCast.initializeColumns(new MediaTableConfiguration("table.show.cast.recurring"));
-		scrlRecurringCast=new JScrollPane(tblRecurringCast);
+			@Override
+			public List<ContextAction<CastMember>> getContextActions()
+			{
+				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				actions.add(new CastDetailsAction());
+				actions.add(null);
+				actions.add(new NewCastAction(show, CastMember.MAIN_CAST));
+				actions.add(new DeleteCastAction(show, frame));
+				return actions;
+			}
+
+			@Override
+			public ContextAction<CastMember> getDoubleClickAction()
+			{
+				return new CastDetailsAction();
+			}
+		};
+		recurringCastController=new TableController<CastMember>(recurringCastModel, new MediaTableConfiguration("table.show.cast.recurring"))
+		{
+			@Override
+			public List<ContextAction<CastMember>> getToolBarActions()
+			{
+				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				actions.add(new CastDetailsAction());
+				actions.add(new NewCastAction(show, CastMember.RECURRING_CAST));
+				actions.add(new DeleteCastAction(show, frame));
+				return actions;
+			}
+
+			@Override
+			public List<ContextAction<CastMember>> getContextActions()
+			{
+				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				actions.add(new CastDetailsAction());
+				actions.add(null);
+				actions.add(new NewCastAction(show, CastMember.RECURRING_CAST));
+				actions.add(new DeleteCastAction(show, frame));
+				return actions;
+			}
+
+			@Override
+			public ContextAction<CastMember> getDoubleClickAction()
+			{
+				return new CastDetailsAction();
+			}
+		};
 
 		JPanel pnlContent=new JPanel(new GridBagLayout());
 		int row=0;
-		pnlContent.add(new JLabel("Hauptdarsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-																			  new Insets(0, 0, 0, 0), 0, 0));
+		pnlContent.add(new JLabel("Main Cast:"),
+					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		row++;
-		pnlContent.add(scrlMainCast, new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH,
-															new Insets(5, 0, 0, 0), 0, 0));
+		pnlContent.add(mainCastController.createComponent(),
+					   new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, WEST, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
-		pnlContent
-			.add(new JLabel("Wiederkehrende Darsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-																				  new Insets(10, 0, 0, 0), 0, 0));
+		pnlContent.add(new JLabel("Recurring Cast:"),
+				 new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		row++;
-		pnlContent.add(scrlRecurringCast, new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH,
-																 new Insets(5, 0, 0, 0), 0, 0));
+		pnlContent.add(recurringCastController.createComponent(),
+					   new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, WEST, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 
 		return pnlContent;
 	}
 
-	private void createTableData()
+	private void createTableData(CastTableModel mainCastModel, CastTableModel recurringCastModel)
 	{
-		for (CastMember castMember : show.getMainCast()) tmMainCast.addRow(new CastTableRow(castMember));
-		tmMainCast.sort();
-		for (CastMember castMember : show.getRecurringCast()) tmRecurringCast.addRow(new CastTableRow(castMember));
-		tmRecurringCast.sort();
+		for (CastMember castMember : show.getMainCast()) mainCastModel.addRow(new CastTableRow(castMember));
+		mainCastModel.sort();
+		for (CastMember castMember : show.getRecurringCast()) recurringCastModel.addRow(new CastTableRow(castMember));
+		recurringCastModel.sort();
 
 		collectionObserver=new CollectionChangeObserver();
 		show.addCollectionChangeListener(collectionObserver);
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblMainCast.addMouseListener(doubleClickListener);
-		scrlMainCast.addMouseListener(doubleClickListener);
-		tblRecurringCast.addMouseListener(doubleClickListener);
-		scrlRecurringCast.addMouseListener(doubleClickListener);
-		super.installComponentListener();
+		mainCastController.installListeners();
+		recurringCastController.installListeners();
+		super.installComponentListeners();
 	}
 
 	protected void removeComponentListeners()
 	{
-		tblMainCast.removeMouseListener(doubleClickListener);
-		scrlMainCast.removeMouseListener(doubleClickListener);
-		tblRecurringCast.removeMouseListener(doubleClickListener);
-		scrlRecurringCast.removeMouseListener(doubleClickListener);
+		mainCastController.removeListeners();
+		recurringCastController.removeListeners();
 		super.removeComponentListeners();
 	}
 
 	public void dispose()
 	{
 		show.removeCollectionListener(collectionObserver);
-		tmMainCast.clear();
-		tmRecurringCast.clear();
+		mainCastController.dispose();
+		recurringCastController.dispose();
 		super.dispose();
 	}
 
@@ -127,90 +162,30 @@ public class ShowCastView extends ViewPanel
 		{
 			if (Show.MAIN_CAST.equals(event.getPropertyName()))
 			{
-				switch (event.getType())
-				{
-					case CollectionChangeEvent.ADDED:
-						CastMember newCast=(CastMember)event.getElement();
-						CastTableRow row=new CastTableRow(newCast);
-						tmMainCast.addRow(row);
-						tmMainCast.sort();
-						break;
-					case CollectionChangeEvent.REMOVED:
-						int index=tmMainCast.indexOf(event.getElement());
-						if (index>=0) tmMainCast.removeRowAt(index);
-						break;
-				}
+				SortableTableModel<CastMember> tableModel=mainCastController.getModel();
+				handleEvent(event, tableModel);
 			}
 			else if (Show.RECURRING_CAST.equals(event.getPropertyName()))
 			{
-				switch (event.getType())
-				{
-					case CollectionChangeEvent.ADDED:
-						CastMember newCast=(CastMember)event.getElement();
-						CastTableRow row=new CastTableRow(newCast);
-						tmRecurringCast.addRow(row);
-						tmRecurringCast.sort();
-						break;
-					case CollectionChangeEvent.REMOVED:
-						int index=tmRecurringCast.indexOf(event.getElement());
-						if (index>=0) tmRecurringCast.removeRowAt(index);
-						break;
-				}
+				SortableTableModel<CastMember> tableModel=recurringCastController.getModel();
+				handleEvent(event, tableModel);
 			}
 		}
-	}
 
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
+		private void handleEvent(CollectionChangeEvent event, SortableTableModel<CastMember> tableModel)
 		{
-			if (e.getSource()==tblMainCast || e.getSource()==scrlMainCast)
+			switch (event.getType())
 			{
-				if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-				{
-					int rowIndex=tblMainCast.rowAtPoint(e.getPoint());
-					if (rowIndex>=0)
-					{
-						SortableTableRow row=tmMainCast.getRow(rowIndex);
-						if (row!=null) CastDetailsView.create((CastMember)row.getUserObject());
-					}
-					e.consume();
-				}
-				if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-				{
-					int[] rows=tblMainCast.getSelectedRows();
-					Set<CastMember> casts=new HashSet<CastMember>();
-					for (int row : rows) casts.add(tmMainCast.getObject(row));
-					JPopupMenu popupMenu=new JPopupMenu();
-					popupMenu.add(new NewAction(CastMember.MAIN_CAST));
-					popupMenu.add(new DeleteAction(casts));
-					popupMenu.show(tblMainCast, e.getX(), e.getY());
-					e.consume();
-				}
-			}
-			else if (e.getSource()==tblRecurringCast || e.getSource()==scrlRecurringCast)
-			{
-				if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-				{
-					int rowIndex=tblRecurringCast.rowAtPoint(e.getPoint());
-					if (rowIndex>=0)
-					{
-						SortableTableRow row=tmRecurringCast.getRow(rowIndex);
-						if (row!=null) CastDetailsView.create((CastMember)row.getUserObject());
-					}
-					e.consume();
-				}
-				if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-				{
-					int[] rows=tblRecurringCast.getSelectedRows();
-					Set<CastMember> casts=new HashSet<CastMember>();
-					for (int row : rows) casts.add(tmRecurringCast.getObject(row));
-					JPopupMenu popupMenu=new JPopupMenu();
-					popupMenu.add(new NewAction(CastMember.RECURRING_CAST));
-					popupMenu.add(new DeleteAction(casts));
-					popupMenu.show(tblRecurringCast, e.getX(), e.getY());
-					e.consume();
-				}
+				case CollectionChangeEvent.ADDED:
+					CastMember newCast=(CastMember)event.getElement();
+					CastTableRow row=new CastTableRow(newCast);
+					tableModel.addRow(row);
+					tableModel.sort();
+					break;
+				case CollectionChangeEvent.REMOVED:
+					int index=tableModel.indexOf(event.getElement());
+					if (index>=0) tableModel.removeRowAt(index);
+					break;
 			}
 		}
 	}
@@ -267,72 +242,6 @@ public class ShowCastView extends ViewPanel
 					return cast.getVoice();
 			}
 			return null;
-		}
-	}
-
-	private class NewAction extends AbstractAction
-	{
-		private int castType;
-
-		public NewAction(int castType)
-		{
-			super("Neu");
-			this.castType=castType;
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			CastDetailsView.create(show, castType);
-		}
-	}
-
-	private class DeleteAction extends AbstractAction
-	{
-		private Collection<CastMember> casts;
-
-		public DeleteAction(Collection<CastMember> casts)
-		{
-			super("Löschen");
-			this.casts=casts;
-			setEnabled(!casts.isEmpty());
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			for (CastMember cast : casts)
-			{
-				if (cast.isUsed())
-				{
-					JOptionPane.showMessageDialog(ShowCastView.this, "Der Darsteller '"+cast+"' kann nicht gelöscht werden.", "Meldung",
-							JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-			}
-			int option=JOptionPane.showConfirmDialog(ShowCastView.this, "Darsteller wirklick löschen?", "Löschen?", JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					for (CastMember cast : casts) show.dropCast(cast);
-					transaction.close();
-				}
-				catch (Exception e1)
-				{
-					try
-					{
-						if (transaction!=null) transaction.rollback();
-					}
-					catch (SQLException e2)
-					{
-						e2.printStackTrace();
-					}
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(ShowCastView.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
 		}
 	}
 

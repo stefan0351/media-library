@@ -1,10 +1,6 @@
 package com.kiwisoft.media.fanfic;
 
-import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.media.fanfic.FanDomsTask;
-import com.kiwisoft.media.fanfic.FanFicAuthorsTask;
-import com.kiwisoft.media.fanfic.FanFicPairingsTask;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +13,7 @@ public class FanFicTask extends MenuSidebarItem.Task
 {
 	public FanFicTask()
 	{
-		super("Fan Fiction", IconManager.getIcon("com/kiwisoft/media/icons/fanfic32.gif"));
+		super("Fan Fiction");
 		add(new FanFicAuthorsTask());
 		add(new FanFicPairingsTask());
 		add(new FanDomsTask());

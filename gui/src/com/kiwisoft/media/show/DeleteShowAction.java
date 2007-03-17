@@ -2,10 +2,9 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +22,7 @@ public class DeleteShowAction extends SimpleContextAction<Show>
 
 	public DeleteShowAction(ApplicationFrame frame)
 	{
-		super("Löschen");
+		super("Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
@@ -33,14 +32,14 @@ public class DeleteShowAction extends SimpleContextAction<Show>
 		if (show.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame,
-										  "Die Serie '"+show.getName()+"' kann nicht gelöscht werden.",
-										  "Meldung",
+										  "The show '"+show.getTitle()+"' can't be deleted.",
+										  "Message",
 										  JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		int option=JOptionPane.showConfirmDialog(frame,
-												 "Serie '"+show.getName()+"' wirklick löschen?",
-												 "Löschen?",
+												 "Should show '"+show.getTitle()+"' really be deleted?",
+												 "Delete?",
 												 JOptionPane.YES_NO_OPTION,
 												 JOptionPane.QUESTION_MESSAGE);
 		if (option==JOptionPane.YES_OPTION)

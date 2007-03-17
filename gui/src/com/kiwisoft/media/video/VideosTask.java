@@ -1,10 +1,7 @@
 package com.kiwisoft.media.video;
 
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.media.video.VideosView;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +16,7 @@ public class VideosTask extends MenuSidebarItem.Task
 
 	public VideosTask(MediumType type)
 	{
-		super(type.getPluralName(), IconManager.getIcon("com/kiwisoft/media/icons/video16.gif"));
+		super(type.getPluralName());
 		this.type=type;
 	}
 

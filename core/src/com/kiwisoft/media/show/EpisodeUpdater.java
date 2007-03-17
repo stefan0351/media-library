@@ -24,22 +24,22 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
  */
 public class EpisodeUpdater implements Job
 {
-	private Collection airdates;
+	private Collection<Airdate> airdates;
 
-	public EpisodeUpdater(Collection airdates)
+	public EpisodeUpdater(Collection<Airdate> airdates)
 	{
 		this.airdates=airdates;
 	}
 
 	public String getName()
 	{
-		return "Überprüfe Episodenreferenzen";
+		return "Check Episode References";
 	}
 
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		ProgressSupport progressSupport=new ProgressSupport(this, progressListener);
-		progressSupport.startStep("Überprüfe Sendetermine...");
+		progressSupport.startStep("Check Airdates...");
 		progressSupport.initialize(true, airdates.size(), null);
 		for (Iterator it=airdates.iterator(); it.hasNext() && !progressSupport.isStoppedByUser();)
 		{
@@ -49,10 +49,10 @@ public class EpisodeUpdater implements Job
 			Episode episode=airdate.getEpisode();
 			String episodeName=airdate.getEvent();
 			boolean change=false;
-			if (show!=null && event!=null && event.startsWith(show.getName()+" - \"") && event.endsWith("\""))
+			if (show!=null && event!=null && event.startsWith(show.getTitle()+" - \"") && event.endsWith("\""))
 			{
 				change=true;
-				event=event.substring((show.getName()+" - \"").length(), event.length()-1);
+				event=event.substring((show.getTitle()+" - \"").length(), event.length()-1);
 			}
 			if (episode==null && !StringUtils.isEmpty(episodeName))
 			{
@@ -65,7 +65,7 @@ public class EpisodeUpdater implements Job
 					catch (DBException e)
 					{
 						if (e.getErrorCode()==DBErrors.MULTIPLE_OBJECTS_FOUND)
-							progressSupport.warning("Mehrere Episoden mit Titel '"+event+"' gefunden.");
+							progressSupport.warning("Multiple episodes with title '"+event+"' found.");
 						else throw e;
 					}
 					if (episode!=null)

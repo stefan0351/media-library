@@ -6,29 +6,23 @@
  */
 package com.kiwisoft.media.fanfic;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComponent;
 
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBObject;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 
@@ -36,11 +30,8 @@ public class FanFicsView extends ViewPanel
 {
 	private FanFicGroup group;
 
-	private SortableTable tblFanFics;
-	private FanFicsTableModel tmFanFics;
-	private DoubleClickListener doubleClickListener;
 	private FanFicListener fanFicListener;
-	private JScrollPane scrlFanFics;
+	private TableController<FanFic> tableController;
 
 	public FanFicsView(FanFicGroup group)
 	{
@@ -49,79 +40,78 @@ public class FanFicsView extends ViewPanel
 
 	public String getName()
 	{
-		return "Fan Fiction - "+group.getName();
+		return "Fan Fiction - "+group.getFanFicGroupName();
 	}
 
-	public JComponent createContentPanel(ApplicationFrame frame)
+	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tmFanFics=new FanFicsTableModel();
+		FanFicsTableModel tmFanFics=new FanFicsTableModel();
 
-		tblFanFics=new SortableTable(tmFanFics);
-		tblFanFics.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblFanFics.initializeColumns(new MediaTableConfiguration("table.fanfics"));
+		tableController=new TableController<FanFic>(tmFanFics, new MediaTableConfiguration("table.fanfics"))
+		{
+			@Override
+			public List<ContextAction<FanFic>> getToolBarActions()
+			{
+				List<ContextAction<FanFic>> actions=new ArrayList<ContextAction<FanFic>>();
+				actions.add(new FanFicDetailsAction());
+				actions.add(new NewFanFicAction(group));
+				actions.add(new DeleteFanFicAction(frame));
+				return actions;
+			}
 
-		scrlFanFics=new JScrollPane(tblFanFics);
-		return scrlFanFics;
+			@Override
+			public List<ContextAction<FanFic>> getContextActions()
+			{
+				List<ContextAction<FanFic>> actions=new ArrayList<ContextAction<FanFic>>();
+				actions.add(new FanFicDetailsAction());
+				actions.add(null);
+				actions.add(new NewFanFicAction(group));
+				actions.add(new DeleteFanFicAction(frame));
+				return actions;
+			}
+
+			@Override
+			public ContextAction<FanFic> getDoubleClickAction()
+			{
+				return new FanFicDetailsAction();
+			}
+		};
+		return tableController.createComponent();
 	}
 
 	public void initializeData()
 	{
+		SortableTableModel<FanFic> tableModel=tableController.getModel();
 		fanFicListener=new FanFicListener();
 		if (group!=null)
 		{
 			for (FanFic fanFic : group.getFanFics())
 			{
-				tmFanFics.addRow(new FanFicTableRow(fanFic));
+				tableModel.addRow(new FanFicTableRow(fanFic));
 			}
 			FanFicManager.getInstance().addCollectionChangeListener(fanFicListener);
 		}
-		tmFanFics.sort();
+		tableModel.sort();
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblFanFics.addMouseListener(doubleClickListener);
-		scrlFanFics.addMouseListener(doubleClickListener);
+		tableController.installListeners();
+		super.installComponentListeners();
 
 	}
 
 	protected void removeComponentListeners()
 	{
-		scrlFanFics.removeMouseListener(doubleClickListener);
-		tblFanFics.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
+		super.removeComponentListeners();
 	}
 
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(fanFicListener);
-		tmFanFics.clear();
+		tableController.dispose();
 		super.dispose();
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblFanFics.rowAtPoint(e.getPoint());
-				SortableTableRow row=tmFanFics.getRow(rowIndex);
-				if (row!=null) FanFicDetailsView.create((FanFic)row.getUserObject());
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=tblFanFics.getSelectedRows();
-				Set<FanFic> fanFics=new HashSet<FanFic>();
-				for (int row : rows) fanFics.add(tmFanFics.getObject(row));
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new NewAction());
-				popupMenu.add(new DeleteAction(fanFics));
-				popupMenu.show(tblFanFics, e.getX(), e.getY());
-				e.consume();
-			}
-		}
 	}
 
 	private class FanFicListener implements CollectionChangeListener
@@ -130,6 +120,7 @@ public class FanFicsView extends ViewPanel
 		{
 			if (FanFicManager.FANFICS.equals(event.getPropertyName()))
 			{
+				SortableTableModel<FanFic> tmFanFics=tableController.getModel();
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
@@ -215,75 +206,6 @@ public class FanFicsView extends ViewPanel
 					return StringUtils.formatAsEnumeration(getUserObject().getPairings());
 			}
 			return null;
-		}
-	}
-
-	private class NewAction extends AbstractAction
-	{
-		public NewAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			FanFicDetailsView.create(group);
-		}
-	}
-
-	public class DeleteAction extends AbstractAction
-	{
-		private FanFic fanFic;
-
-		public DeleteAction(Set fanFics)
-		{
-			super("Löschen");
-			if (fanFics.size()==1) fanFic=(FanFic)fanFics.iterator().next();
-			setEnabled(fanFic!=null);
-		}
-
-		public void actionPerformed(ActionEvent event)
-		{
-			if (fanFic.isUsed())
-			{
-				JOptionPane.showMessageDialog(FanFicsView.this,
-											  "Das FanFic '"+fanFic.getTitle()+"' kann nicht gelöscht werden.",
-											  "Meldung",
-											  JOptionPane.INFORMATION_MESSAGE);
-				return;
-			}
-			int option=JOptionPane.showConfirmDialog(FanFicsView.this,
-													 "Den FanFic '"+fanFic.getTitle()+"' wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					FanFicManager.getInstance().dropFanFic(fanFic);
-					transaction.close();
-				}
-				catch (Exception e)
-				{
-					if (transaction!=null)
-					{
-						try
-						{
-							transaction.rollback();
-						}
-						catch (SQLException e1)
-						{
-							e1.printStackTrace();
-							JOptionPane.showMessageDialog(FanFicsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-						}
-					}
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(FanFicsView.this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
 		}
 	}
 

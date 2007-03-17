@@ -2,6 +2,7 @@
 <%@ page import="com.kiwisoft.media.movie.Movie,
 				 com.kiwisoft.media.show.Show" %>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Movie movie=(Movie)request.getAttribute("movie");
@@ -20,15 +21,15 @@
 <%
 	}
 %>
-<tr><td class="menuitem"><a class="menulink" href="/movies/movie.jsp?movie=<%=movie.getId()%>#summary">Summary</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/movies/movie.jsp?movie=<%=movie.getId()%>#details">Details</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/movies/movie.jsp?movie=<%=movie.getId()%>#cast">Cast</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/movies/movie.jsp?movie=<%=movie.getId()%>#crew">Crew</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#summary">Summary</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#details">Details</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#cast">Cast</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#crew">Crew</a></td></tr>
 <%
 	if (show!=null)
 	{
 %>
-<tr><td class="menuitem"><a class="menulink" href="<%=show.getLink()%>">TV Show</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(show)%>">TV Show</a></td></tr>
 <%
 	}
 %>

@@ -1,20 +1,14 @@
 package com.kiwisoft.media.person;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
-import static javax.swing.JOptionPane.YES_NO_OPTION;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.*;
 
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,7 +23,7 @@ public class DeletePersonAction extends SimpleContextAction<Person>
 
 	public DeletePersonAction(ApplicationFrame frame)
 	{
-		super("Löschen");
+		super("Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
@@ -41,7 +35,7 @@ public class DeletePersonAction extends SimpleContextAction<Person>
 			showMessageDialog(frame, "Person '"+person.getName()+"' kann nicht gelöscht werden.", "Meldung", INFORMATION_MESSAGE);
 			return;
 		}
-		int option=showConfirmDialog(frame, "Person '"+person.getName()+"' wirklick löschen?", "Löschen?", YES_NO_OPTION,QUESTION_MESSAGE);
+		int option=showConfirmDialog(frame, "Person '"+person.getName()+"' wirklick löschen?", "Löschen?", YES_NO_OPTION, QUESTION_MESSAGE);
 		if (option==JOptionPane.YES_OPTION)
 		{
 			DBSession.execute(new Transactional()

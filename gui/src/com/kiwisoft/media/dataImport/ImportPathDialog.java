@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
@@ -35,7 +35,7 @@ public class ImportPathDialog extends JComponent
 
 	private JDialog createDialog(Frame aParent)
 	{
-		dialog=new JDialog(aParent, "Pfad+Filter", true);
+		dialog=new JDialog(aParent, "Path+Filter", true);
 
 		tfPath=new DialogLookupField(new FileLookup(JFileChooser.DIRECTORIES_ONLY, true));
 		tfPath.setPreferredSize(new Dimension(300, tfPath.getPreferredSize().height));
@@ -48,16 +48,16 @@ public class ImportPathDialog extends JComponent
 
 		JPanel pnlContent=new JPanel();
 		pnlContent.setLayout(new GridBagLayout());
-		pnlContent.add(new JLabel("Verzeichnis:"), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				new Insets(3, 3, 3, 0), 0, 0));
+		pnlContent.add(new JLabel("Directory:"), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
+																		new Insets(3, 3, 3, 0), 0, 0));
 		pnlContent.add(tfPath, new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-				new Insets(3, 3, 3, 3), 0, 0));
+													  new Insets(3, 3, 3, 3), 0, 0));
 		pnlContent.add(new JLabel("Filter:"), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				new Insets(3, 3, 3, 0), 0, 0));
+																	 new Insets(3, 3, 3, 0), 0, 0));
 		pnlContent.add(tfFilter, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE,
-				new Insets(3, 3, 3, 3), 0, 0));
+														new Insets(3, 3, 3, 3), 0, 0));
 		pnlContent.add(btnOK, new GridBagConstraints(0, 2, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE,
-				new Insets(3, 3, 3, 3), 0, 0));
+													 new Insets(3, 3, 3, 3), 0, 0));
 
 		dialog.getRootPane().setDefaultButton(btnOK);
 		dialog.getContentPane().add(pnlContent);
@@ -70,7 +70,7 @@ public class ImportPathDialog extends JComponent
 	{
 		public ApplyAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 			putValue(Action.MNEMONIC_KEY, new Integer('o'));
 		}
 

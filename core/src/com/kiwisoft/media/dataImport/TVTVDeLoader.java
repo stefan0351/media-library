@@ -1,7 +1,6 @@
 package com.kiwisoft.media.dataImport;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -14,6 +13,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
@@ -22,8 +22,8 @@ import com.kiwisoft.utils.xml.XMLUtils;
 public class TVTVDeLoader implements Job
 {
 	public static final String BASE_URL="http://www.tvtv.de";
-	public static final SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("dd. MMM HH.mm", Locale.GERMAN);
 
+	public final SimpleDateFormat dateFormat;
 	private String path;
 	private List objects;
 	private ProgressSupport progressSupport;
@@ -36,36 +36,19 @@ public class TVTVDeLoader implements Job
 		this.objects=objects;
 		parsed=new HashSet();
 		loaded=new HashSet();
-	}
-
-	public static void main(String[] args)
-	{
-		TVTVDeLoader loader=new TVTVDeLoader("c:\\incoming\\dates\\tvtv", null);
-		try
-		{
-//			File[] files=new File("c:\\Incoming\\tvtv").listFiles();
-			File[] files=new File[]{new File("14015084.html")};
-			for (int i=0; i<files.length; i++)
-			{
-				File file=files[i];
-				loader.parseDetails(loader.loadFile(file.getName()), file.getName());
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		dateFormat=new SimpleDateFormat("dd. MMM HH.mm", Locale.GERMAN);
+		dateFormat.setTimeZone(DateUtils.GMT);
 	}
 
 	public String getName()
 	{
-		return "Lade TVTV Termine";
+		return "Load Schedule from TVTV.de";
 	}
 
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
-		progressSupport.startStep("Lade Hauptseite...");
+		progressSupport.startStep("Load main page...");
 
 		// Load index page
 		String content=WebUtils.loadURL(BASE_URL);
@@ -94,13 +77,13 @@ public class TVTVDeLoader implements Job
 		String searchUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?2.1=";
 
 		// Load dates main frame
-		progressSupport.startStep("Lade Suchmuster...");
+		progressSupport.startStep("Load search patterns...");
 		if (objects==null)
 		{
 			Collection patterns=SearchManager.getInstance().getSearchPatterns(SearchPattern.TVTV, Show.class);
 
 			Iterator it=patterns.iterator();
-			progressSupport.startStep("Lade Termine...");
+			progressSupport.startStep("Load schedule...");
 			progressSupport.initialize(true, patterns.size(), null);
 			while (it.hasNext() && !progressSupport.isStoppedByUser())
 			{
@@ -114,7 +97,7 @@ public class TVTVDeLoader implements Job
 		{
 			Iterator it=objects.iterator();
 			progressSupport.initialize(true, objects.size(), null);
-			progressSupport.startStep("Lade Termine...");
+			progressSupport.startStep("Load schedule...");
 			while (it.hasNext() && !progressSupport.isStoppedByUser())
 			{
 				Object object=it.next();
@@ -144,7 +127,7 @@ public class TVTVDeLoader implements Job
 
 	private void loadShowDates(Show show, String searchUrl, String patternString)
 	{
-		progressSupport.startStep("Lade Termine für "+show.getName()+"...");
+		progressSupport.startStep("Load schedule for "+show.getTitle()+"...");
 		try
 		{
 			String content=WebUtils.loadURL(searchUrl+patternString);
@@ -156,12 +139,12 @@ public class TVTVDeLoader implements Job
 			// Load dates list frame
 			content=WebUtils.loadURL(url);
 			parseListing(content);
-			progressSupport.info("Termine für "+show.getName()+" geladen.");
+			progressSupport.info("Loaded schedule for "+show.getTitle()+".");
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
-			progressSupport.error("Termine für "+show.getName()+" konnten nicht geladen werden.");
+			progressSupport.error("Loading of schedule for "+show.getTitle()+" failed.");
 		}
 	}
 
@@ -169,7 +152,7 @@ public class TVTVDeLoader implements Job
 	{
 		if (!StringUtils.isEmpty(patternString))
 		{
-			progressSupport.startStep("Lade Termine für "+person.getName()+"...");
+			progressSupport.startStep("Load schedule for "+person.getName()+"...");
 			String content=WebUtils.loadURL(searchUrl+patternString);
 			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
 			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
@@ -190,7 +173,7 @@ public class TVTVDeLoader implements Job
 
 			parsePersonListing(content);
 
-			progressSupport.info("Termine für "+person.getName()+" geladen.");
+			progressSupport.info("Loaded schedule for "+person.getName()+".");
 		}
 	}
 
@@ -260,9 +243,11 @@ public class TVTVDeLoader implements Job
 		try
 		{
 			Calendar now=Calendar.getInstance();
+			now.setTimeZone(DateUtils.GMT);
 
 			Calendar calendar=Calendar.getInstance();
-			calendar.setTime(DATE_FORMAT.parse(dateString+" "+timeString));
+			calendar.setTimeZone(DateUtils.GMT);
+			calendar.setTime(dateFormat.parse(dateString+" "+timeString));
 			calendar.set(Calendar.YEAR, now.get(Calendar.YEAR));
 			if (now.after(calendar)) calendar.add(Calendar.YEAR, 1);
 			date=calendar.getTime();
@@ -406,17 +391,5 @@ public class TVTVDeLoader implements Job
 				loaded.add(id);
 			}
 		}
-	}
-
-	private String loadFile(String fileName) throws IOException
-	{
-		File file=new File(path, fileName);
-		FileReader reader=new FileReader(file);
-		StringBuilder buffer=new StringBuilder();
-		char[] bytes=new char[1024];
-		int bytesRead;
-		while ((bytesRead=reader.read(bytes))!=-1) buffer.append(bytes, 0, bytesRead);
-		reader.close();
-		return buffer.toString();
 	}
 }

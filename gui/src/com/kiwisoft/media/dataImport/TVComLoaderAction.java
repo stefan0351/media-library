@@ -15,7 +15,7 @@ public class TVComLoaderAction extends SimpleContextAction<Show>
 
 	public TVComLoaderAction(JFrame frame)
 	{
-		super("Lade Episoden von TV.com");
+		super("Load Episodes from TV.com");
 		parent=frame;
 	}
 

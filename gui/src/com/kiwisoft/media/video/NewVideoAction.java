@@ -1,12 +1,9 @@
 package com.kiwisoft.media.video;
 
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.media.video.VideoDetailsView;
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
+
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +18,7 @@ public class NewVideoAction extends ContextAction<Video>
 
 	public NewVideoAction(MediumType type)
 	{
-		super("Neu");
+		super("New", Icons.getIcon("add"));
 		this.type=type;
 	}
 

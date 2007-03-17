@@ -1,8 +1,7 @@
 package com.kiwisoft.media.person;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +14,7 @@ public class PersonsTask extends MenuSidebarItem.Task
 {
 	public PersonsTask()
 	{
-		super("Personen", IconManager.getIcon("com/kiwisoft/media/icons/actors32.jpg"));
+		super("Persons");
 	}
 
 	public void perform(ApplicationFrame frame)

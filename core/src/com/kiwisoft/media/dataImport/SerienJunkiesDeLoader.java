@@ -40,10 +40,10 @@ public abstract class SerienJunkiesDeLoader implements Job
 		File configFile=new File(configuration.getApplicationBase(), "config.xml");
 		configuration.loadDefaultsFromFile(configFile);
 
-//		Instant Star, Two and a Half Men, Jack & Jill, Neds Ultimativer Schulwahnsinn, Drake & Josh,
-//		Joey, Creatures Comforts, Malcolm in the Middle, L-Word, Scrubs, South of Nowhere,
-//		Unfabulous, 8 Simple Rules, Coupling, Zack & Cody, Still Standing, Sugar Rush
-//		According To Jim, Phil of the Future
+//		Instant Star, Jack & Jill,  Drake & Josh, Hex
+//		Joey, Creatures Comforts, Malcolm in the Middle, Kate Fox & die Liebe
+//		Grosse Point (Starlets), Dead Like Me, oc, the girl of tommorrow, rosas leben
+// 		futurama
 	}
 
 	private ProgressSupport progress;
@@ -70,7 +70,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 
 	public String getName()
 	{
-		return "Lade Daten von TV.com";
+		return "Load Episodes from SerienJunkies.de";
 	}
 
 	public boolean run(ProgressListener progressListener) throws Exception
@@ -86,7 +86,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 
 	private void loadMain(String baseUrl) throws IOException, InterruptedException
 	{
-		progress.startStep("Lade Übersicht...");
+		progress.startStep("Load episode list...");
 		progress.initialize(false, 1, null);
 		String page=WebUtils.loadURL(baseUrl);
 //		FileUtils.saveToFile(page, new File("g:"+File.separator+"Stefan"+File.separator+"sj_episoden.html"));
@@ -102,12 +102,10 @@ public abstract class SerienJunkiesDeLoader implements Job
 			if (!htmlRow.startsWith("<td class=\"ephead\""))
 			{
 				List<String> values=XMLUtils.extractCellValues(htmlRow);
-				System.out.println(values);
 
 				EpisodeData episodeData=new EpisodeData();
 
 				episodeData.airdate=convertDate(values.get(0));
-				System.out.println("firstAired = "+episodeData.airdate);
 
 				String text=values.get(1);
 				Matcher matcher=NUMBER_PATTERN.matcher(text);
@@ -119,13 +117,11 @@ public abstract class SerienJunkiesDeLoader implements Job
 					text=season+"."+Integer.parseInt(matcher.group(2));
 				}
 				episodeData.episodeKey=text;
-				System.out.println("episodeNumber = "+episodeData.episodeKey);
 
 				String origNameAndLink=values.get(2);
 				String origName=XMLUtils.removeTags(origNameAndLink);
 				origName=XMLUtils.unescapeHtml(origName);
 				episodeData.origEpisodeName=StringUtils.trimString(origName);
-				System.out.println("origName = "+episodeData.origEpisodeName);
 
 				String nameAndLink=values.get(3);
 				String name=XMLUtils.removeTags(nameAndLink);
@@ -134,11 +130,8 @@ public abstract class SerienJunkiesDeLoader implements Job
 				XMLUtils.Tag tag=XMLUtils.getNextTag(nameAndLink, 0, "a");
 				String link=null;
 				if (tag!=null) link=XMLUtils.getAttribute(tag.text, "href");
-				System.out.println("name = "+episodeData.episodeName);
-				System.out.println("link = "+link);
 
-				Date germanFirstAired=convertDate(values.get(4));
-				System.out.println("germanFirstAired = "+germanFirstAired);
+//				Date germanFirstAired=convertDate(values.get(4));
 
 				ShowManager showManager=ShowManager.getInstance();
 				Episode episode=null;
@@ -185,20 +178,20 @@ public abstract class SerienJunkiesDeLoader implements Job
 				{
 					value=show.createEpisode();
 					value.setUserKey(data.getEpisodeKey());
-					value.setName(data.getEpisodeTitle());
-					value.setOriginalName(data.getOriginalEpisodeTitle());
+					value.setGermanTitle(data.getGermanEpisodeTitle());
+					value.setTitle(data.getEpisodeTitle());
 					value.setAirdate(data.getFirstAirdate());
 					value.setProductionCode(data.getProductionCode());
 				}
 			};
 			if (DBSession.execute(transactional))
 			{
-				progress.info("Neue Episode "+transactional.value+" angelegt.");
+				progress.info("Episode "+transactional.value+" created.");
 				return transactional.value;
 			}
 			else
 			{
-				progress.error("Anlegen der Episode "+data.getOriginalEpisodeTitle()+" fehlgeschlagen.");
+				progress.error("Creation of episode "+data.getEpisodeTitle()+" failed.");
 				return null;
 			}
 		}
@@ -217,30 +210,29 @@ public abstract class SerienJunkiesDeLoader implements Job
 		int index2=page.indexOf("</td>", index1);
 		String summary=page.substring(index1, index2).replace("\n", "").replace("<br />", "\n");
 		episodeData.summary=XMLUtils.unescapeHtml(summary).trim();
-		System.out.println("summary = "+episodeData.summary);
 	}
 
 	public void saveEpisode(final Episode episode, final EpisodeData data)
 	{
-		DBSession.execute(new MyTransactional()
+		boolean success=DBSession.execute(new MyTransactional()
 		{
 			public void run()
 			{
-				String oldName=episode.getName();
-				String newName=data.getEpisodeTitle();
-				if (isEmpty(oldName) && !isEmpty(newName)) episode.setName(newName);
+				String oldName=episode.getGermanTitle();
+				String newName=data.getGermanEpisodeTitle();
+				if (isEmpty(oldName) && !isEmpty(newName)) episode.setGermanTitle(newName);
 
-				String oldOrigName=episode.getOriginalName();
-				String newOrigName=data.getOriginalEpisodeTitle();
-				if (isEmpty(oldOrigName) && !isEmpty(newOrigName)) episode.setName(newOrigName);
+				String oldOrigName=episode.getTitle();
+				String newOrigName=data.getEpisodeTitle();
+				if (isEmpty(oldOrigName) && !isEmpty(newOrigName)) episode.setTitle(newOrigName);
 
 				Date oldDate=episode.getAirdate();
 				Date newDate=data.getFirstAirdate();
 				if (oldDate==null && newDate!=null)
 					episode.setAirdate(newDate);
 				else if (oldDate!=null && newDate!=null && !oldDate.equals(newDate))
-					progress.warning("Abweichenden Wert für 'Erstausstahlung' gefunden."+
-							"\n\tDatenbank: "+airdateFormat.format(oldDate)+
+					progress.warning("Different valules for 'First Aired' found."+
+							"\n\tDatabase: "+airdateFormat.format(oldDate)+
 							"\n\tSerienJunkies.de: "+airdateFormat.format(newDate));
 
 				String oldSummary=episode.getSummaryText(german);
@@ -248,6 +240,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 				if (isEmpty(oldSummary) && !isEmpty(newSummary)) episode.setSummaryText(german, newSummary);
 			}
 		});
+		if (success) progress.info("Episode "+episode+" updated.");
 	}
 
 	private static class EpisodeData implements ImportEpisode
@@ -267,12 +260,12 @@ public abstract class SerienJunkiesDeLoader implements Job
 			return episodeKey;
 		}
 
-		public String getEpisodeTitle()
+		public String getGermanEpisodeTitle()
 		{
 			return episodeName;
 		}
 
-		public String getOriginalEpisodeTitle()
+		public String getEpisodeTitle()
 		{
 			return origEpisodeName;
 		}

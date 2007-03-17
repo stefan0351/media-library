@@ -1,29 +1,22 @@
 package com.kiwisoft.media;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
@@ -32,12 +25,8 @@ public class LinksView extends ViewPanel
 {
 	private Show show;
 
-	// Dates Panel
-	private SortableTable tblLinks;
-	private LinksTableModel tmLinks;
-	private DoubleClickListener doubleClickListener;
+	private TableController<Link> tableController;
 	private CollectionChangeObserver collectionObserver;
-	private JScrollPane scrlLinks;
 
 	public LinksView(Show show)
 	{
@@ -46,51 +35,76 @@ public class LinksView extends ViewPanel
 
 	public String getName()
 	{
-		return show.getName()+" - Links";
+		return show.getTitle()+" - Links";
 	}
 
-	public JComponent createContentPanel(ApplicationFrame frame)
+	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		tmLinks=new LinksTableModel();
-		createTableData();
+		LinksTableModel tableModel=new LinksTableModel();
+		createTableData(tableModel);
 
-		tblLinks=new SortableTable(tmLinks);
-		tblLinks.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblLinks.initializeColumns(new MediaTableConfiguration("table.links"));
-		tblLinks.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new link");
-		tblLinks.getActionMap().put("new link", new NewLinkAction());
+		tableController=new TableController<Link>(tableModel, new MediaTableConfiguration("table.links"))
+		{
+			@Override
+			public List<ContextAction<Link>> getToolBarActions()
+			{
+				List<ContextAction<Link>> actions=new ArrayList<ContextAction<Link>>();
+				actions.add(new LinkDetailsAction());
+				actions.add(new NewLinkAction(show));
+				actions.add(new DeleteLinkAction(frame, show));
+				actions.add(new OpenLinkAction(frame));
+				return actions;
+			}
 
-		scrlLinks=new JScrollPane(tblLinks);
-		return scrlLinks;
+			@Override
+			public List<ContextAction<Link>> getContextActions()
+			{
+				List<ContextAction<Link>> actions=new ArrayList<ContextAction<Link>>();
+				actions.add(new LinkDetailsAction());
+				actions.add(null);
+				actions.add(new NewLinkAction(show));
+				actions.add(new DeleteLinkAction(frame, show));
+				actions.add(null);
+				actions.add(new OpenLinkAction(frame));
+				return actions;
+			}
+
+			@Override
+			public ContextAction<Link> getDoubleClickAction()
+			{
+				return new LinkDetailsAction();
+			}
+		};
+		JComponent component=tableController.createComponent();
+		tableController.getTable().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new link");
+		tableController.getTable().getActionMap().put("new link", new NewLinkAction(show));
+		return component;
 	}
 
-	private void createTableData()
+	private void createTableData(LinksTableModel tableModel)
 	{
 		collectionObserver=new CollectionChangeObserver();
-		for (Link link : show.getLinks()) tmLinks.addRow(new Row(link));
-		tmLinks.sort();
+		for (Link link : show.getLinks()) tableModel.addRow(new Row(link));
+		tableModel.sort();
 		show.addCollectionChangeListener(collectionObserver);
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
-		doubleClickListener=new DoubleClickListener();
-		tblLinks.addMouseListener(doubleClickListener);
-		scrlLinks.addMouseListener(doubleClickListener);
-		super.installComponentListener();
+		tableController.installListeners();
+		super.installComponentListeners();
 	}
 
 	protected void removeComponentListeners()
 	{
-		tblLinks.removeMouseListener(doubleClickListener);
-		scrlLinks.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
 	public void dispose()
 	{
 		show.removeCollectionListener(collectionObserver);
-		tmLinks.clear();
+		tableController.dispose();
 		super.dispose();
 	}
 
@@ -105,48 +119,18 @@ public class LinksView extends ViewPanel
 					case CollectionChangeEvent.ADDED:
 						Link newLink=(Link)event.getElement();
 						Row row=new Row(newLink);
-						int newIndex=tmLinks.addRow(row);
-						tmLinks.sort();
-						tblLinks.getSelectionModel().setSelectionInterval(newIndex, newIndex);
-						tblLinks.scrollRectToVisible(tblLinks.getCellRect(newIndex, 0, false));
+						int newIndex=tableController.getModel().addRow(row);
+						tableController.getModel().sort();
+						SortableTable table=tableController.getTable();
+						table.getSelectionModel().setSelectionInterval(newIndex, newIndex);
+						table.scrollRectToVisible(table.getCellRect(newIndex, 0, false));
 						break;
 					case CollectionChangeEvent.REMOVED:
-						int index=tmLinks.indexOf(event.getElement());
-						if (index>=0) tmLinks.removeRowAt(index);
+						int index=tableController.getModel().indexOf(event.getElement());
+						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;
 				}
 			}
-		}
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblLinks.rowAtPoint(e.getPoint());
-				if (rowIndex>=0)
-				{
-					SortableTableRow<Link> row=tmLinks.getRow(rowIndex);
-					if (row!=null) LinkDetailsView.create(row.getUserObject());
-				}
-				e.consume();
-			}
-			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
-			{
-				int[] rows=tblLinks.getSelectedRows();
-				Set<Link> links=new LinkedHashSet<Link>();
-				for (int row : rows) links.add(tmLinks.getRow(row).getUserObject());
-				JPopupMenu popupMenu=new JPopupMenu();
-				popupMenu.add(new OpenLinkAction(links));
-				popupMenu.addSeparator();
-				popupMenu.add(new NewLinkAction());
-				popupMenu.add(new DeleteLinkAction(links));
-				popupMenu.show(tblLinks, e.getX(), e.getY());
-				e.consume();
-			}
-			super.mouseClicked(e);
 		}
 	}
 
@@ -197,101 +181,6 @@ public class LinksView extends ViewPanel
 				return getUserObject().getLanguage();
 			else
 				return "";
-		}
-	}
-
-	private class NewLinkAction extends AbstractAction
-	{
-		public NewLinkAction()
-		{
-			super("Neu");
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			LinkDetailsView.create(show);
-		}
-	}
-
-	private class OpenLinkAction extends AbstractAction
-	{
-		private Link link;
-
-		public OpenLinkAction(Collection<Link> links)
-		{
-			super("Öffnen");
-			if (links.size()==1) link=links.iterator().next();
-			setEnabled(link!=null);
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			if (link!=null)
-			{
-				try
-				{
-					WebUtils.openURL(new URL(link.getUrl()));
-				}
-				catch (Exception e1)
-				{
-					JOptionPane.showMessageDialog(LinksView.this, e1.getMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		}
-	}
-
-	private class DeleteLinkAction extends AbstractAction
-	{
-		private Collection<Link> links;
-
-		public DeleteLinkAction(Collection<Link> links)
-		{
-			super("Löschen");
-			this.links=links;
-			setEnabled(!links.isEmpty());
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			for (Link link : links)
-			{
-				if (link.isUsed())
-				{
-					JOptionPane.showMessageDialog(LinksView.this,
-												  "Der Link '"+link.getName()+"' kann nicht gelöscht werden.",
-												  "Meldung",
-												  JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-			}
-			int option=JOptionPane.showConfirmDialog(LinksView.this,
-													 "Links wirklick löschen?",
-													 "Löschen?",
-													 JOptionPane.YES_NO_OPTION,
-													 JOptionPane.QUESTION_MESSAGE);
-			if (option==JOptionPane.YES_OPTION)
-			{
-				Transaction transaction=null;
-				try
-				{
-					transaction=DBSession.getInstance().createTransaction();
-					for (Link link : links) show.dropLink(link);
-					transaction.close();
-				}
-				catch (Exception e1)
-				{
-					try
-					{
-						if (transaction!=null) transaction.rollback();
-					}
-					catch (SQLException e2)
-					{
-						e2.printStackTrace();
-					}
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(LinksView.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
 		}
 	}
 

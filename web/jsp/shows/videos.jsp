@@ -10,6 +10,7 @@
 <%@ page import="com.kiwisoft.media.video.Recording"%>
 <%@ page import="com.kiwisoft.utils.gui.table.TableConstants"%>
 <%@ page import="com.kiwisoft.utils.gui.table.TableSortDescription"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Show show=ShowManager.getInstance().getShow(new Long(request.getParameter("show")));
@@ -44,7 +45,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getName()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
 </div>
 
 <div class="main">
@@ -64,8 +65,8 @@
 <table class="contenttable" width="790">
 <tr><td class="header1">Aufnahmen</td></tr>
 <tr><td class="content">
-	<table class="contenttable" width="765">
-	<tr class="header2">
+	<table class="table1" width="765">
+	<tr class="thead">
 <%
 	for (int i=0;i<model.getColumnCount();i++)
 	{
@@ -73,7 +74,7 @@
 		String sortDir;
 		if (sortDescription!=null && TableConstants.ASCEND.equals(sortDescription.getDirection())) sortDir="desc";
 		else sortDir="asc";
-		out.print("<td><a class=hiddenlink href=\"videos.jsp?show="+show.getId()+"&sort="+i+"&dir="+sortDir+"\">");
+		out.print("<td class=\"tcell\"><a class=hiddenlink href=\"videos.jsp?show="+show.getId()+"&sort="+i+"&dir="+sortDir+"\">");
 		String columnName=model.getColumnName(i);
 		try
 		{
@@ -97,14 +98,16 @@
 <%
 	for (int row=0;row<model.getRowCount();row++)
 	{
-		out.print("<tr>");
+		out.print("<tr class=\"");
+		if (row%2==1) out.print("trow1");
+		else out.print("trow2");
+		out.print("\">");
 		for (int col=0;col<model.getColumnCount();col++)
 		{
 			Recording recording=(Recording)model.getObject(row);
 			Object value=model.getValueAt(row, col);
-			out.print("<td class=\"content\"");
+			out.print("<td class=\"tcell\"");
 			if (value instanceof Number) out.print(" align=right");
-			else if (value instanceof Language) out.print(" align=center");
 			out.print(">");
 			if (value instanceof Language)
 			{
@@ -118,14 +121,14 @@
 					Episode episode=recording.getEpisode();
 					if (episode!=null)
 					{
-						out.print("<a class=\"link\" href=\"/shows/episode.jsp?episode="+episode.getId()+"\">"+value+"</a>");
+						out.print("<a class=\"link\" href=\""+Navigation.getLink(episode)+"\">"+value+"</a>");
 					}
 					else
 					{
 						out.print(value);
 					}
 				}
-				else if (col==2) out.print("<a class=\"link\" href=\"/videos/video.jsp?id="+recording.getVideo().getId()+"\">"+value+"</a>");
+				else if (col==2) out.print("<a class=\"link\" href=\""+Navigation.getLink(recording.getVideo())+"\">"+value+"</a>");
 				else out.print(value);
 			}
 			out.print("</td>");

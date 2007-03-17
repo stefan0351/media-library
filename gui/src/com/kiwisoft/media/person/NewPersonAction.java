@@ -2,6 +2,7 @@ package com.kiwisoft.media.person;
 
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.Icons;
 
 import java.awt.event.ActionEvent;
 
@@ -16,7 +17,7 @@ public class NewPersonAction extends ContextAction<Person>
 {
 	public NewPersonAction()
 	{
-		super("Neu");
+		super("New", Icons.getIcon("add"));
 	}
 
 	public void actionPerformed(ActionEvent e)

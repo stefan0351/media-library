@@ -33,6 +33,7 @@ public class EpisodeLookup extends TableLookup<Episode>
 
 	public Collection<Episode> getValues(String text, Episode currentValue, boolean lookup)
 	{
+		Show show=getShow();
 		if (show==null) return Collections.emptySet();
 		if (lookup) return show.getEpisodes().elements();
 		if (StringUtils.isEmpty(text)) return Collections.emptySet();
@@ -41,7 +42,7 @@ public class EpisodeLookup extends TableLookup<Episode>
 		else title=text+"%";
 		Set<Episode> episodes=new HashSet<Episode>();
 		DBLoader dbLoader=DBLoader.getInstance();
-		episodes.addAll(dbLoader.loadSet(Episode.class, null, "show_id=? and (name like ? or userkey=? or name_original like ?)",
+		episodes.addAll(dbLoader.loadSet(Episode.class, null, "show_id=? and (title like ? or userkey=? or german_title like ?)",
 										 show.getId(), title, text, title));
 		episodes.addAll(dbLoader.loadSet(Episode.class, "names", "show_id=? and names.ref_id=episodes.id and names.name like ?",
 										 show.getId(), title));
@@ -55,14 +56,14 @@ public class EpisodeLookup extends TableLookup<Episode>
 
 	public String[] getColumnNames()
 	{
-		return new String[]{"key", "name", "originalName"};
+		return new String[]{"key", "title", "germanTitle"};
 	}
 
 	public Object getColumnValue(Episode episode, int column, String property)
 	{
 		if ("key".equals(property)) return episode.getUserKey();
-		if ("name".equals(property)) return episode.getName();
-		if ("originalName".equals(property)) return episode.getOriginalName();
+		if ("title".equals(property)) return episode.getTitle();
+		if ("germanTitle".equals(property)) return episode.getGermanTitle();
 		return null;
 	}
 }

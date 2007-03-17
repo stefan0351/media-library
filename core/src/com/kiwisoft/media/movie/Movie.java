@@ -21,10 +21,12 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Genre;
 import com.kiwisoft.media.Country;
+import com.kiwisoft.media.video.Recordable;
+import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
 
-public class Movie extends IDObject
+public class Movie extends IDObject implements Recordable
 {
 	public static final String SHOW="show";
 	public static final String DEFAULT_INFO="defaultInfo";
@@ -85,15 +87,19 @@ public class Movie extends IDObject
 		setModified();
 	}
 
-	public String getName(Language language)
+	public String getTitle(Language language)
 	{
-		if (language!=null && "de".equals(language.getSymbol())) return getTitle();
-		else
+		if (language!=null)
 		{
-			for (Iterator it=getAltNames().iterator(); it.hasNext();)
+			if ("de".equals(language.getSymbol()) && !StringUtils.isEmpty(getGermanTitle())) return getGermanTitle();
+			if (getLanguages().contains(language)) return getTitle();
+			else
 			{
-				Name altName=(Name)it.next();
-				if (altName.getLanguage()==language) return altName.getName();
+				for (Iterator it=getAltNames().iterator(); it.hasNext();)
+				{
+					Name altName=(Name)it.next();
+					if (altName.getLanguage()==language) return altName.getName();
+				}
 			}
 		}
 		return getTitle();
@@ -309,5 +315,20 @@ public class Movie extends IDObject
 	public Set<CrewMember> getCrewMembers()
 	{
 		return DBLoader.getInstance().loadSet(CrewMember.class, null, "movie_id=?", getId());
+	}
+
+	public int getRecordableLength()
+	{
+		return runtime!=null ? runtime : 0;
+	}
+
+	public String getRecordableName(Language language)
+	{
+		return getTitle(language);
+	}
+
+	public void initRecord(Recording recording)
+	{
+		recording.setMovie(this);
 	}
 }

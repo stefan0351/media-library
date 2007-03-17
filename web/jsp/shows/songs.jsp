@@ -13,7 +13,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Titelsong</title>
+<title><%=show.getTitle()%> - Title Song</title>
 <script language="JavaScript" src="/clipart/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
 <jsp:include page="_shows_nav.jsp"/>
@@ -32,7 +32,7 @@
 </div>
 <div class="title">
 	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-<span style="font-weight:bold;font-size:24pt;"><%=show.getName()%></span>
+<span style="font-weight:bold;font-size:24pt;"><%=show.getTitle()%></span>
 	</td></tr></table>
 </div>
 
@@ -92,7 +92,7 @@
 		if (theme.getValue("source")!=null)
 		{
 %>
-			<tr><td width="100">Datei:</td><td><a href="<%=theme.getValue("source")%>"><img src="/clipart/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td></tr>
+			<tr><td width="100">Datei:</td><td><a href="<%=theme.getValue("source")%>"><img src="/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td></tr>
 <%
 		}
 		if (theme.getValue("lyrics")!=null)

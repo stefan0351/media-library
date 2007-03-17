@@ -1,11 +1,11 @@
 package com.kiwisoft.media.fanfic;
 
-import javax.swing.JFileChooser;
 import javax.swing.Icon;
+import javax.swing.JFileChooser;
 
-import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.lookup.FileLookup;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,6 +35,6 @@ public class FanFicPartLookup extends FileLookup
 
 	public Icon getIcon()
 	{
-		return IconManager.getIcon("com/kiwisoft/utils/icons/tlookup.gif");
+		return Icons.getIcon("lookup.table");
 	}
 }

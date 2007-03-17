@@ -3,6 +3,7 @@
 				 java.util.*,
 				 com.kiwisoft.media.movie.MovieManager,
 				 com.kiwisoft.media.movie.Movie"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Collection movies=MovieManager.getInstance().getMovies();
@@ -10,7 +11,7 @@
 	for (Iterator it=movies.iterator(); it.hasNext();)
 	{
 		Movie movie=(Movie)it.next();
-		movieMap.put(movie.getTitle(), movie);
+		movieMap.put(movie.getTitle()+movie.getYear()+movie.getId(), movie);
 	}
 %>
 <html>
@@ -69,13 +70,15 @@
 <%
 		for (Iterator itMovies=movieMap.getKeys(character).iterator(); itMovies.hasNext();)
 		{
-			String name=(String)itMovies.next();
-			Movie movie=(Movie)movieMap.get(name);
+			String key=(String)itMovies.next();
+			Movie movie=(Movie)movieMap.get(key);
 %>
-			<li><b><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><%=name%></a></b>
+			<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%></a></b>
 <%
+			Integer year=movie.getYear();
+			if (year!=null) out.print(" ("+year+")");
 			String germanTitle=movie.getGermanTitle();
-			if (!StringUtils.isEmpty(germanTitle)) out.print("("+germanTitle+")");
+			if (!StringUtils.isEmpty(germanTitle)) out.print("<br>a.k.a. <i>&quot;"+germanTitle+"&quot;</i>");
 		}
 %>
 		</ul></td><td class="content2" align=right valign=bottom><a class=link href="#top">Top</a></td></tr>

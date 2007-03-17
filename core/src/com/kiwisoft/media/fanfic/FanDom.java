@@ -39,6 +39,11 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		super(dummy);
 	}
 
+	public String getFanFicGroupName()
+	{
+		return getName();
+	}
+
 	public String getName()
 	{
 		return name;

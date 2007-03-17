@@ -1,9 +1,7 @@
 package com.kiwisoft.media.fanfic;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.fanfic.PairingsView;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +14,7 @@ public class FanFicPairingsTask extends MenuSidebarItem.Task
 {
 	public FanFicPairingsTask()
 	{
-		super("Paare", IconManager.getIcon("com/kiwisoft/media/icons/fanfic16.gif"));
+		super("Pairings");
 	}
 
 	public void perform(ApplicationFrame frame)

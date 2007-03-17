@@ -1,10 +1,8 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.show.ShowsView;
 import com.kiwisoft.media.Genre;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +17,7 @@ public class ShowGenreTask extends MenuSidebarItem.Task
 
 	public ShowGenreTask(Genre genre)
 	{
-		super(genre.getName(), IconManager.getIcon("com/kiwisoft/media/icons/show32.gif"));
+		super(genre.getName());
 		this.genre=genre;
 	}
 

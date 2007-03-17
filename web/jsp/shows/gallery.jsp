@@ -1,10 +1,6 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import = "com.kiwisoft.media.MediaManagerApp,
-				   java.util.Collection,
-				   java.util.TreeSet,
-				   java.util.Iterator,
-				   com.kiwisoft.media.show.*,
-				   com.kiwisoft.media.movie.Movie" %>
+<%@ page import = "com.kiwisoft.media.show.Show,
+				   com.kiwisoft.media.show.ShowManager" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -14,7 +10,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Episoden</title>
+<title><%=show.getTitle()%> - Episodes</title>
 <script language="JavaScript" src="/clipart/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
 <jsp:include page="_shows_nav.jsp"/>
@@ -33,7 +29,7 @@
 </div>
 <div class="title">
 	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<span style="font-weight:bold;font-size:24pt;"><%=show.getName()%></span>
+	<span style="font-weight:bold;font-size:24pt;"><%=show.getTitle()%></span>
 	</td></tr></table>
 </div>
 

@@ -6,10 +6,10 @@
 				   java.util.TreeSet,
 				   com.kiwisoft.media.Airdate,
 				   com.kiwisoft.media.AirdateComparator,
-				   com.kiwisoft.media.Channel,
 				   com.kiwisoft.media.show.Episode,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -19,7 +19,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Sendetermine</title>
+<title><%=show.getTitle()%> - Schedule</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -29,7 +29,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getName()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
 </div>
 
 <div class="main">
@@ -49,29 +49,27 @@
 <table class="contenttable" width="790">
 <tr><td class="header1">Sendetermine</td></tr>
 <tr><td class="content">
-	<table class="contenttable" width="765">
-	<tr class="header2"><td>Datum/Zeit</td><td>Sender</td><td>Ereignis</td></tr>
+	<table class="table1" width="765">
+	<tr class="thead"><td class="tcell">Datum/Zeit</td><td class="tcell">Sender</td><td class="tcell">Ereignis</td></tr>
 <%
 		DateFormat dateFormat=new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
 		SortedSet airdates=new TreeSet(new AirdateComparator(AirdateComparator.TIME));
 		airdates.addAll(show.getAirdates());
 		Iterator itAirdates=airdates.iterator();
+		boolean row=false;
 		while (itAirdates.hasNext())
 		{
 			Airdate airdate=(Airdate)itAirdates.next();
-			String style="";
-			Channel channel=airdate.getChannel();
-			if (channel!=null && channel.isReceivable()) style="style=\"background:#eeeeff\"";
 %>
-			<tr <%=style%>><td class="content"><%=dateFormat.format(airdate.getDate())%></td>
-				<td class="content"><%=airdate.getChannelName()%></td>
-				<td class="content">
+			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell"><%=dateFormat.format(airdate.getDate())%></td>
+				<td class="tcell"><%=airdate.getChannelName()%></td>
+				<td class="tcell">
 <%
 			Episode episode=airdate.getEpisode();
 			if (episode!=null)
 			{
 %>
-				<a class="link" href="/shows/episode.jsp?episode=<%=episode.getId()%>"><%=airdate.getName()%></a>
+				<a class="link" href="<%=Navigation.getLink(episode)%>"><%=airdate.getName()%></a>
 <%
 			}
 			else
@@ -83,6 +81,7 @@
 %>
 			</td></tr>
 <%
+			row=!row;
 		}
 %>
 	</table>

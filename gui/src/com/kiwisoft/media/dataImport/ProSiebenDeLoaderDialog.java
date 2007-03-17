@@ -6,35 +6,22 @@
  */
 package com.kiwisoft.media.dataImport;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.lookup.DateField;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
 public class ProSiebenDeLoaderDialog extends JDialog
@@ -46,7 +33,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 
 	public ProSiebenDeLoaderDialog(JFrame owner, List<Show> shows) throws HeadlessException
 	{
-		super(owner, "Lade Pro7 Termine", true);
+		super(owner, "Load Pro7 Schedule", true);
 		this.shows=shows;
 		setContentPane(createContentPanel());
 		initialize();
@@ -68,24 +55,24 @@ public class ProSiebenDeLoaderDialog extends JDialog
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setPreferredSize(new Dimension(400, 150));
 		int row=0;
-		panel.add(new JLabel("Pfad:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(new JLabel("Path:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(tfPath, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Datum:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(tfDate, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		panel.add(new JLabel("Tage:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Days:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(tfDays, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
+												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
 
 		row++;
 		panel.add(pnlButtons, new GridBagConstraints(0, row, 4, 1, 1.0, 0.0,
-		        GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(10, 10, 10, 10), 0, 0));
+													 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(10, 10, 10, 10), 0, 0));
 		return panel;
 	}
 
@@ -100,7 +87,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 	{
 		public ApplyAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -109,13 +96,13 @@ public class ProSiebenDeLoaderDialog extends JDialog
 			if (date==null)
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-				        "Kein Datum eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+											  "Date is missing.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			if (date.before(DateUtils.getToday().getTime()))
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-				        "Datum muss in der Zukunft liegen.", "Fehler", JOptionPane.ERROR_MESSAGE);
+											  "Date must lie in the future.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			int days=0;
@@ -129,23 +116,23 @@ public class ProSiebenDeLoaderDialog extends JDialog
 			if (days<=0 || days>=50)
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-				        "Tage muss zwischen 0 und 50 liegen.", "Fehler", JOptionPane.ERROR_MESSAGE);
+											  "Days must lie between 0 and 50.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			String pathName=tfPath.getText();
 			if (StringUtils.isEmpty(pathName))
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-				        "Kein Pfad eingegeben.", "Fehler", JOptionPane.ERROR_MESSAGE);
+											  "Path is missing.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			File path=new File(pathName);
 			if (!path.exists())
 			{
 				int option=JOptionPane.showConfirmDialog(ProSiebenDeLoaderDialog.this,
-				        "Das Verzeichnis '"+path+"' existiert nicht.\nSoll es angelegt werden?",
-				        "Verzeichnis anlegen?",
-				        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+														 "Directory '"+path+"' doesn't exists. Create?",
+														 "Verzeichnis anlegen?",
+														 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (option!=JOptionPane.YES_OPTION) return;
 			}
 			try
@@ -156,7 +143,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 			{
 				e1.printStackTrace();
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-				        e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+											  e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			if (shows==null)
@@ -175,7 +162,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 	{
 		public CancelAction()
 		{
-			super("Abbrechen", IconManager.getIcon("com/kiwisoft/utils/icons/cancel.gif"));
+			super("Cancel", Icons.getIcon("cancel"));
 		}
 
 		public void actionPerformed(ActionEvent e)

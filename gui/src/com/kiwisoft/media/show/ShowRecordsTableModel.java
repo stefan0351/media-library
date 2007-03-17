@@ -63,7 +63,12 @@ public class ShowRecordsTableModel extends SortableTableModel<Recording>
 
 		public Comparable getSortValue(int column, String property)
 		{
-			if (column==0) return new Integer(getUserObject().getEpisode().getChainPosition());
+			if (column==0)
+			{
+				Episode episode=getUserObject().getEpisode();
+				if (episode!=null) return new Integer(episode.getChainPosition());
+				else return Integer.MAX_VALUE;
+			}
 			return super.getSortValue(column, property);
 		}
 
@@ -77,7 +82,7 @@ public class ShowRecordsTableModel extends SortableTableModel<Recording>
 					if (episode!=null) return episode.getUserKey();
 					else return null;
 				case 1: // name
-					if (episode!=null) return episode.getName(recording.getLanguage());
+					if (episode!=null) return episode.getTitle(recording.getLanguage());
 					return recording.getEvent();
 				case 2: // video
 					try

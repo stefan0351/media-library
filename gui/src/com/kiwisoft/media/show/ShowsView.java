@@ -12,7 +12,7 @@ import java.util.*;
 import javax.swing.*;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.dataImport.SerienJunkiesDeLoaderAction;
 import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
 import com.kiwisoft.media.dataImport.TVComLoaderAction;
@@ -55,7 +55,7 @@ public class ShowsView extends ViewPanel
 			public List<ContextAction<Show>> getToolBarActions()
 			{
 				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
-				actions.add(new ShowPropertiesAction());
+				actions.add(new ShowDetailsAction());
 				actions.add(new NewShowAction());
 				actions.add(new DeleteShowAction(frame));
 				actions.add(new ShowSeasonsAction(frame));
@@ -67,12 +67,17 @@ public class ShowsView extends ViewPanel
 			{
 				ComplexAction<Show> downloadAction=new ComplexAction<Show>("Download");
 				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
-				downloadAction.addAction(new TVTVDeLoaderAction<Show>(frame));
+				downloadAction.addAction(new TVTVDeLoaderContextAction<Show>(frame));
 				downloadAction.addSeparator();
 				downloadAction.addAction(new TVComLoaderAction(frame));
 				downloadAction.addAction(new SerienJunkiesDeLoaderAction(frame));
 
 				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
+				actions.add(new ShowDetailsAction());
+				actions.add(null);
+				actions.add(new NewShowAction());
+				actions.add(new DeleteShowAction(frame));
+				actions.add(null);
 				actions.add(new ShowEpisodesAction(frame));
 				actions.add(new ShowSeasonsAction(frame));
 				actions.add(new ShowAirdatesAction(frame));
@@ -81,9 +86,6 @@ public class ShowsView extends ViewPanel
 				actions.add(new ShowRecordingsAction(frame));
 				actions.add(new ShowLinksAction(frame));
 				actions.add(downloadAction);
-				actions.add(null);
-				actions.add(new NewShowAction());
-				actions.add(new DeleteShowAction(frame));
 				return actions;
 			}
 
@@ -101,11 +103,11 @@ public class ShowsView extends ViewPanel
 
 	public String getName()
 	{
-		if (genre==null) return "Serien";
-		else return "Serien - "+genre.getName();
+		if (genre==null) return "Shows";
+		else return "Shows - "+genre.getName();
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}
@@ -146,7 +148,7 @@ public class ShowsView extends ViewPanel
 
 	private static class ShowsTableModel extends SortableTableModel<Show>
 	{
-		private static final String[] COLUMNS={"name", "originalName", "type"};
+		private static final String[] COLUMNS={"title", "germanTitle", "type"};
 
 		public int getColumnCount()
 		{
@@ -183,9 +185,9 @@ public class ShowsView extends ViewPanel
 			switch (column)
 			{
 				case 0:
-					return getUserObject().getName();
+					return getUserObject().getTitle();
 				case 1:
-					return getUserObject().getOriginalName();
+					return getUserObject().getGermanTitle();
 				case 2:
 					return StringUtils.formatAsEnumeration(getUserObject().getGenres(), ", ");
 			}

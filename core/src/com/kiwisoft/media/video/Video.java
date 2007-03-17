@@ -20,9 +20,11 @@ public class Video extends IDObject
 	private int length;
 	private int remainingLength;
 	private Chain<Recording> recordings;
+	private String storage;
 
 	public Video()
 	{
+		setUserKey("D"+SequenceManager.getSequence("video").next());
 	}
 
 	public Video(DBDummy dummy)
@@ -38,6 +40,17 @@ public class Video extends IDObject
 	public void setUserKey(String userKey)
 	{
 		this.userKey=userKey;
+		setModified();
+	}
+
+	public String getStorage()
+	{
+		return storage;
+	}
+
+	public void setStorage(String storage)
+	{
+		this.storage=storage;
 		setModified();
 	}
 

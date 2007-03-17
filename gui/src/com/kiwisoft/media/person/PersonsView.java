@@ -26,8 +26,7 @@ import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
-import com.kiwisoft.media.person.DeletePersonAction;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.media.MediaTableConfiguration;
 
@@ -35,6 +34,7 @@ public class PersonsView extends ViewPanel
 {
 	private PersonListener personListener;
 	private TableController<Person> tableController;
+	private JLabel resultLabel;
 
 	public PersonsView()
 	{
@@ -42,7 +42,7 @@ public class PersonsView extends ViewPanel
 
 	public String getName()
 	{
-		return "Personen";
+		return "Persons";
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
@@ -57,7 +57,7 @@ public class PersonsView extends ViewPanel
 			public List<ContextAction<Person>> getToolBarActions()
 			{
 				List<ContextAction<Person>> actions=new ArrayList<ContextAction<Person>>();
-				actions.add(new PersonPropertiesAction());
+				actions.add(new PersonDetailsAction());
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
 				return actions;
@@ -68,9 +68,9 @@ public class PersonsView extends ViewPanel
 				List<ContextAction<Person>> actions=new ArrayList<ContextAction<Person>>();
 
 				ComplexAction<Person> downloadAction=new ComplexAction<Person>("Download");
-				downloadAction.addAction(new TVTVDeLoaderAction<Person>(frame));
+				downloadAction.addAction(new TVTVDeLoaderContextAction<Person>(frame));
 
-				actions.add(new PersonPropertiesAction());
+				actions.add(new PersonDetailsAction());
 				actions.add(null);
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
@@ -81,41 +81,24 @@ public class PersonsView extends ViewPanel
 
 			public ContextAction<Person> getDoubleClickAction()
 			{
-				return new PersonPropertiesAction();
+				return new PersonDetailsAction();
 			}
 		};
 
-		final JTextField searchField=new JTextField();
-		searchField.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				String searchText=searchField.getText();
+		JTextField searchField=new JTextField();
+		searchField.addActionListener(new SearchActionListener(searchField));
 
-				Set<Person> persons;
-				if (StringUtils.isEmpty(searchText)) persons=PersonManager.getInstance().getPersons();
-				else
-				{
-					if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-					else searchText="%"+searchText+"%";
-					persons=DBLoader.getInstance().loadSet(Person.class, null, "name like ?", searchText);
-				}
-				SortableTableModel<Person> tableModel=tableController.getModel();
-				tableModel.clear();
-				for (Person person : persons) tableModel.addRow(new Row(person));
-				tableModel.sort();
-			}
-		});
-
+		resultLabel=new JLabel("No search executed.");
 
 		JPanel panel=new JPanel(new BorderLayout(0, 10));
 		panel.add(searchField, BorderLayout.NORTH);
 		panel.add(tableController.createComponent(), BorderLayout.CENTER);
+		panel.add(resultLabel, BorderLayout.SOUTH);
 
 		return panel;
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}
@@ -220,5 +203,40 @@ public class PersonsView extends ViewPanel
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PersonsView(), true);
+	}
+
+	private class SearchActionListener implements ActionListener
+	{
+		private final JTextField searchField;
+
+		public SearchActionListener(JTextField searchField)
+		{
+			this.searchField=searchField;
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			String searchText=searchField.getText();
+
+			Set<Person> persons;
+			if (StringUtils.isEmpty(searchText)) persons=PersonManager.getInstance().getPersons();
+			else
+			{
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				persons=DBLoader.getInstance().loadSet(Person.class, null, "name like ? limit 1001", searchText);
+			}
+			SortableTableModel<Person> tableModel=tableController.getModel();
+			tableModel.clear();
+			List<Row> rows=new ArrayList<Row>(persons.size());
+			for (Person person : persons) rows.add(new Row(person));
+			tableModel.addRows(rows);
+			tableModel.sort();
+			int rowCount=rows.size();
+			if (rows.isEmpty()) resultLabel.setText("No rows found.");
+			else if (rowCount==1) resultLabel.setText("1 row found.");
+			else if (rowCount>1000) resultLabel.setText("More than 1000 Row(s) found.");
+			else resultLabel.setText(rowCount+" rows found.");
+		}
 	}
 }

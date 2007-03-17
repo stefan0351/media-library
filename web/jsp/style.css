@@ -96,8 +96,47 @@ a.menulink:hover, a.menulink:focus {
 	font-size:9pt;
 }
 
-/* Links ------------------------------------------------------------------------ */
+/* Tables ---------------------------------------------------------------------- */
 
+td.tcell {
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-right:12px;
+	padding-left:2px;
+	border-right:solid 1px black;
+}
+
+td.tcell2 {
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-right:12px;
+	padding-left:2px;
+}
+
+tr.thead {
+	background:url(clipart/trans30.png);
+	font-weight:bold;
+	font-size:9pt;
+}
+
+tr.trow1 {
+	background:url(clipart/trans10.png);
+	font-size:9pt;
+}
+
+tr.trow2 {
+	font-size:9pt;
+}
+
+table.table1 {
+	border: solid 1px black;
+	border-spacing:0;
+	border-collapse:collapse;
+}
+
+
+
+/* Links ------------------------------------------------------------------------ */
 
 a.link {
 	text-decoration: none;

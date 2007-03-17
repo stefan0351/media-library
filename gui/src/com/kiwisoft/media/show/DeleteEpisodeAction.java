@@ -2,10 +2,9 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.Show;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +25,7 @@ public class DeleteEpisodeAction extends MultiContextAction<Episode>
 
 	public DeleteEpisodeAction(Show show, ViewPanel viewPanel)
 	{
-		super("Löschen");
+		super("Delete", Icons.getIcon("delete"));
 		this.show=show;
 		this.viewPanel=viewPanel;
 	}
@@ -39,15 +38,15 @@ public class DeleteEpisodeAction extends MultiContextAction<Episode>
 			if (episode.isUsed())
 			{
 				JOptionPane.showMessageDialog(viewPanel,
-						"Die Folge '"+episode.getName()+"' kann nicht gelöscht werden.",
-						"Meldung",
+						"The episode '"+episode.getTitle()+"' can't be deleted.",
+						"Message",
 						JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 		}
 		int option=JOptionPane.showConfirmDialog(viewPanel,
-												 "Episoden wirklick löschen?",
-												 "Löschen?",
+												 "Should episodes really be deleted?",
+												 "Delete?",
 												 JOptionPane.YES_NO_OPTION,
 												 JOptionPane.QUESTION_MESSAGE);
 		if (option==JOptionPane.YES_OPTION)

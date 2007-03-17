@@ -1,13 +1,10 @@
 package com.kiwisoft.media.video;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowRecordingsView;
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.RecordingsView;
-
 import java.awt.event.ActionEvent;
+
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +19,7 @@ public class VideoRecordingsAction extends SimpleContextAction<Video>
 
 	public VideoRecordingsAction(ApplicationFrame frame)
 	{
-		super("Aufnahmen");
+		super("Records", Icons.getIcon("records"));
 		this.frame=frame;
 	}
 

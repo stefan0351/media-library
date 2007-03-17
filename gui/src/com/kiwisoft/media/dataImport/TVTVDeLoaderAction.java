@@ -1,29 +1,21 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Oct 26, 2003
- * Time: 12:16:39 PM
- */
 package com.kiwisoft.media.dataImport;
 
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 
-import com.kiwisoft.media.dataImport.TVTVDeLoaderDialog;
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-
-public class TVTVDeLoaderAction<T> extends MultiContextAction<T>
+public class TVTVDeLoaderAction extends AbstractAction
 {
-	private ApplicationFrame frame;
+	private JFrame frame;
 
-	public TVTVDeLoaderAction(ApplicationFrame frame)
+	public TVTVDeLoaderAction(JFrame frame)
 	{
-		super("Lade Termine von TVTV.de");
+		super("Load Schedule from TVTV.de");
 		this.frame=frame;
 	}
 
 	public void actionPerformed(final ActionEvent anEvent)
 	{
-		new TVTVDeLoaderDialog<T>(frame, getObjects()).setVisible(true);
+		new TVTVDeLoaderDialog(frame, null).setVisible(true);
 	}
 }

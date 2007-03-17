@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.ListLookup;
 
@@ -26,7 +27,7 @@ public class MovieLookup extends ListLookup<Movie>
 			else text=text+"%";
 			Set<Movie> movies=new HashSet<Movie>();
 			DBLoader dbLoader=DBLoader.getInstance();
-			movies.addAll(dbLoader.loadSet(Movie.class, null, "name like ?", text));
+			movies.addAll(dbLoader.loadSet(Movie.class, null, "title like ? or german_title like ?", text, text));
 			movies.addAll(dbLoader.loadSet(Movie.class, "names", "names.ref_id=movies.id and names.name like ?", text));
 			return movies;
 		}

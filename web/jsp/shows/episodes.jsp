@@ -2,6 +2,7 @@
 <%@ page import = "com.kiwisoft.media.show.*,
 				   com.kiwisoft.media.movie.Movie" %>
 <%@ page import="java.util.*"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -12,7 +13,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Episoden</title>
+<title><%=show.getTitle()%> - Episodes</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -22,7 +23,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getName()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
 </div>
 
 <div class="main">
@@ -108,7 +109,7 @@
 		{
 			Movie movie=(Movie)itMovies.next();
 %>
-	<li><b><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><%=movie.getTitle()%></a></b>
+	<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%></a></b>
 <%
 		}
 %>

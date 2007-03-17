@@ -114,7 +114,7 @@ function navAirdates(pos)
 		else if (airdate.getMovie()!=null)
 		{
 %>
-			<td><a class=link href="/movies/movie.jsp?movie=<%=airdate.getMovie().getId()%>"><%=airdate.getName()%></a></td></tr>
+			<td><a class=link href="<%=Navigation.getLink(airdate.getMovie())%>"><%=airdate.getName()%></a></td></tr>
 <%
 		}
 		else

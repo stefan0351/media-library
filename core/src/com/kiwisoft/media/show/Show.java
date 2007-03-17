@@ -39,8 +39,8 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private static final DBAssociation<Show, Genre> ASSOCIATION_GENRES=DBAssociation.getAssociation(GENRES, Show.class, Genre.class);
 
 	private String userKey;
-	private String name;
-	private String originalName;
+	private String title;
+	private String germanTitle;
 	private Set<Name> altNames;
 	private boolean internet;
 	private int defaultEpisodeLength;
@@ -61,17 +61,28 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		super(dummy);
 	}
 
-	public String getName()
+	public String getFanFicGroupName()
 	{
-		return name;
+		return getTitle();
 	}
 
-	public String getName(Language language)
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title=title;
+		setModified();
+	}
+
+	public String getTitle(Language language)
 	{
 		if (language!=null)
 		{
-			if ("de".equals(language.getSymbol())) return getName();
-			if (getLanguage()==language) return getOriginalName();
+			if ("de".equals(language.getSymbol())) return getGermanTitle();
+			if (getLanguage()==language) return getTitle();
 			else
 			{
 				for (Name name1 : getAltNames())
@@ -80,13 +91,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 				}
 			}
 		}
-		return getName();
-	}
-
-	public void setName(String name)
-	{
-		this.name=name;
-		setModified();
+		return getTitle();
 	}
 
 	public Name createAltName()
@@ -293,7 +298,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public String toString()
 	{
-		return getName();
+		return getTitle();
 	}
 
 	public void afterReload()
@@ -412,14 +417,14 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setReference(LANGUAGE, value);
 	}
 
-	public String getOriginalName()
+	public String getGermanTitle()
 	{
-		return originalName;
+		return germanTitle;
 	}
 
-	public void setOriginalName(String originalName)
+	public void setGermanTitle(String title)
 	{
-		this.originalName=originalName;
+		this.germanTitle=title;
 		setModified();
 	}
 
@@ -442,13 +447,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public void setDefaultInfo(ShowInfo info)
 	{
 		setReference(DEFAULT_INFO, info);
-	}
-
-	public String getLink()
-	{
-		ShowInfo link=getDefaultInfo();
-		if (link!=null) return "/"+link.getPath()+"?show="+getId();
-		return "/shows/episodes.jsp?show="+getId();
 	}
 
 	public void addGenre(Genre genre)

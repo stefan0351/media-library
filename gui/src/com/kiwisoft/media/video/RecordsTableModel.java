@@ -35,11 +35,6 @@ public class RecordsTableModel extends SortableTableModel<Recording>
 		return video;
 	}
 
-	public boolean isResortable()
-	{
-		return false;
-	}
-
 	public int getColumnCount()
 	{
 		return COLUMNS.length;

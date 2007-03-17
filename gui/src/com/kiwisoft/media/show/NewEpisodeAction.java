@@ -1,6 +1,7 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.EpisodeDetailsView;
@@ -20,7 +21,7 @@ public class NewEpisodeAction extends ContextAction<Episode>
 
 	public NewEpisodeAction(Show show)
 	{
-		super("Neu");
+		super("New", Icons.getIcon("add"));
 		this.show=show;
 	}
 

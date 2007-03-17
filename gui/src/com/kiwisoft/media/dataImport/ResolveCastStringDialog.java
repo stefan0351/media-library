@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.WindowManager;
 
 public class ResolveCastStringDialog extends JDialog
@@ -22,7 +22,7 @@ public class ResolveCastStringDialog extends JDialog
 
 	public ResolveCastStringDialog(JFrame frame, String fullCast)
 	{
-		super(frame, "Komplexe Darstellerdefinition gefunden", true);
+		super(frame, "Complex Cast Description found", true);
 		this.fullCast=fullCast;
 		createContentPanel();
 		initializeData();
@@ -49,12 +49,12 @@ public class ResolveCastStringDialog extends JDialog
 		pnlContent.add(fullCastField,
 					   new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		row++;
-		pnlContent.add(new JLabel("Darsteller:"),
+		pnlContent.add(new JLabel("Actor:"),
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(actorField,
 					   new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		row++;
-		pnlContent.add(new JLabel("Rolle:"),
+		pnlContent.add(new JLabel("Role:"),
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(characterField,
 					   new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
@@ -99,7 +99,7 @@ public class ResolveCastStringDialog extends JDialog
 	{
 		public OkAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -116,7 +116,7 @@ public class ResolveCastStringDialog extends JDialog
 	{
 		public CancelAction()
 		{
-			super("Abbrechen", IconManager.getIcon("com/kiwisoft/utils/icons/cancel.gif"));
+			super("Cancel", Icons.getIcon("cancel"));
 		}
 
 		public void actionPerformed(ActionEvent e)

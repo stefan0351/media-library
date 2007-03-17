@@ -48,7 +48,7 @@ public class WebDatesExport implements Job
 		while (it.hasNext())
 		{
 			Show show=(Show)it.next();
-			progressSupport.startStep("Exportiere Termine für "+show.getName()+"...");
+			progressSupport.startStep("Exportiere Termine für "+show.getTitle()+"...");
 			if (show.isInternet()) exportCurrentWebDates(show);
 			progressSupport.progress(1, true);
 		}

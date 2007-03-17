@@ -4,6 +4,7 @@
 <%@ page import="com.kiwisoft.media.Language"%>
 <%@ page import="com.kiwisoft.media.Resources"%>
 <%@ page import="java.util.Locale"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	Episode episode=(Episode)request.getAttribute("episode");
@@ -18,9 +19,7 @@
 	if (prev!=null)
 	{
 %>
-		<a class=link href="/shows/episode.jsp?episode=<%=prev.getId()%>&language=<%=language.getSymbol()%>">
-			&laquo; <%=Resources.getResource("episode.previous", locale)%> &laquo;
-		</a>
+		<a class=link href="<%=Navigation.getLink(prev)%>">&laquo; <%=Resources.getResource("episode.previous", locale)%> &laquo;</a>
 <%
 	}
 %>
@@ -31,9 +30,7 @@
 	if (next!=null)
 	{
 %>
-		<a class=link href="/shows/episode.jsp?episode=<%=next.getId()%>&language=<%=language.getSymbol()%>">
-			&raquo; <%=Resources.getResource("episode.next", locale)%> &raquo;
-		</a>
+		<a class=link href="<%=Navigation.getLink(next)%>">&raquo; <%=Resources.getResource("episode.next", locale)%> &raquo;</a>
 <%
 	}
 %>

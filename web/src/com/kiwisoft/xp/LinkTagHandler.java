@@ -3,6 +3,7 @@ package com.kiwisoft.xp;
 import org.xml.sax.Attributes;
 
 import com.kiwisoft.media.show.*;
+import com.kiwisoft.media.Navigation;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLTagHandler;
 
@@ -26,7 +27,7 @@ public class LinkTagHandler implements XMLTagHandler
 				Episode episode=ShowManager.getInstance().getEpisode(showKey, episodeKey);
 				if (episode!=null)
 				{
-					return "<a class=\"link\" href=\"/shows/episode.jsp?episode="+episode.getId()+"\">";
+					return "<a class=\"link\" href=\""+Navigation.getLink(episode)+"\">";
 				}
 			}
 			else
@@ -34,7 +35,7 @@ public class LinkTagHandler implements XMLTagHandler
 				Show show=ShowManager.getInstance().getShow(showKey);
 				if (show!=null)
 				{
-					return "<a class=\"link\" href=\""+show.getLink()+"\">";
+					return "<a class=\"link\" href=\""+Navigation.getLink(show)+"\">";
 				}
 			}
 		}

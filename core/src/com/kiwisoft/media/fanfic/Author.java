@@ -37,6 +37,11 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		super(dummy);
 	}
 
+	public String getFanFicGroupName()
+	{
+		return getName();
+	}
+
 	public String getName()
 	{
 		return name;

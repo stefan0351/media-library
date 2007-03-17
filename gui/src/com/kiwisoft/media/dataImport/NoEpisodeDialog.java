@@ -8,11 +8,11 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.WindowManager;
+import com.kiwisoft.utils.gui.lookup.DateField;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupHandler;
-import com.kiwisoft.utils.gui.lookup.DateField;
 
 public class NoEpisodeDialog extends JDialog
 {
@@ -23,14 +23,14 @@ public class NoEpisodeDialog extends JDialog
 	private boolean returnValue;
 
 	private LookupField<Episode> episodeField;
-	private JTextField nameField;
+	private JTextField titleField;
 	private JTextField productionCodeField;
 	private DateField firstAiredField;
-	private JTextField originalNameField;
+	private JTextField germanTitleField;
 
 	public NoEpisodeDialog(JFrame frame, Show show, ImportEpisode episodeData)
 	{
-		super(frame, "Keine Episode gefunden", true);
+		super(frame, "No Episode found", true);
 		this.show=show;
 		this.episodeData=episodeData;
 		createContentPanel();
@@ -41,18 +41,18 @@ public class NoEpisodeDialog extends JDialog
 
 	private void initializeData()
 	{
-		nameField.setText(episodeData.getEpisodeTitle());
-		originalNameField.setText(episodeData.getOriginalEpisodeTitle());
+		titleField.setText(episodeData.getEpisodeTitle());
+		germanTitleField.setText(episodeData.getGermanEpisodeTitle());
 		firstAiredField.setDate(episodeData.getFirstAirdate());
 		productionCodeField.setText(episodeData.getProductionCode());
 	}
 
 	private void createContentPanel()
 	{
-		nameField=new JTextField(100);
-		nameField.setEditable(false);
-		originalNameField=new JTextField(100);
-		originalNameField.setEditable(false);
+		titleField=new JTextField(100);
+		titleField.setEditable(false);
+		germanTitleField=new JTextField(100);
+		germanTitleField.setEditable(false);
 		productionCodeField=new JTextField(10);
 		productionCodeField.setEditable(false);
 		firstAiredField=new DateField();
@@ -61,21 +61,21 @@ public class NoEpisodeDialog extends JDialog
 
 		JPanel pnlContent=new JPanel(new GridBagLayout());
 		int row=0;
-		pnlContent.add(new JLabel("Name:"),
+		pnlContent.add(new JLabel("Title:"),
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
-		pnlContent.add(nameField,
+		pnlContent.add(titleField,
 					   new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		row++;
-		pnlContent.add(new JLabel("Originalname:"),
+		pnlContent.add(new JLabel("German Title:"),
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
-		pnlContent.add(originalNameField,
+		pnlContent.add(germanTitleField,
 					   new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		row++;
-		pnlContent.add(new JLabel("Produktionsnummer:"),
+		pnlContent.add(new JLabel("Production Code:"),
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(productionCodeField,
 					   new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		pnlContent.add(new JLabel("Erstausstrahlung:"),
+		pnlContent.add(new JLabel("First Aired:"),
 					   new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 5, 0), 0, 0));
 		pnlContent.add(firstAiredField,
 					   new GridBagConstraints(3, row, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
@@ -128,7 +128,7 @@ public class NoEpisodeDialog extends JDialog
 	{
 		public OkAction()
 		{
-			super("Ok", IconManager.getIcon("com/kiwisoft/utils/icons/ok.gif"));
+			super("Ok", Icons.getIcon("ok"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -145,7 +145,7 @@ public class NoEpisodeDialog extends JDialog
 	{
 		public CancelAction()
 		{
-			super("Abbrechen", IconManager.getIcon("com/kiwisoft/utils/icons/cancel.gif"));
+			super("Cancel", Icons.getIcon("cancel"));
 		}
 
 		public void actionPerformed(ActionEvent e)

@@ -14,7 +14,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Links</title>
+<title><%=show.getTitle()%> - Links</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -24,7 +24,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getName()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
 </div>
 
 <div class="main">

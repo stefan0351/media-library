@@ -97,7 +97,7 @@ public class MovieDetailsView extends DetailsView
 		{
 			tfName.setText(movie.getTitle());
 			tfGermanName.setText(movie.getGermanTitle());
-			if (movie.getShow()!=null) tfShow.setText(movie.getShow().getName());
+			if (movie.getShow()!=null) tfShow.setText(movie.getShow().getTitle());
 			cbRecord.setSelected(movie.isRecord());
 			tfScriptFile.setText(movie.getWebScriptFile());
 			tfJavaScript.setText(movie.getJavaScript());
@@ -122,7 +122,7 @@ public class MovieDetailsView extends DetailsView
 		}
 		else if (show!=null)
 		{
-			tfShow.setText(show.getName());
+			tfShow.setText(show.getTitle());
 		}
 	}
 

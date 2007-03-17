@@ -12,8 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.media.show.ShowLookup;
@@ -67,7 +65,7 @@ public class FanDomDetailsView extends DetailsView
 		String name=tfName.getText();
 		if (StringUtils.isEmpty(name))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfName.requestFocus();
 			return false;
 		}
@@ -75,7 +73,7 @@ public class FanDomDetailsView extends DetailsView
 		Movie movie=tfMovie.getValue();
 		if (show!=null && movie!=null)
 		{
-			JOptionPane.showMessageDialog(this, "Nur entweder Serie oder Film erlaubt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Only one of Show or Movie must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfShow.requestFocus();
 			return false;
 		}
@@ -122,13 +120,13 @@ public class FanDomDetailsView extends DetailsView
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfShow, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Film:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Movie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfMovie, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -154,7 +152,7 @@ public class FanDomDetailsView extends DetailsView
 				if (show!=null)
 				{
 					tfMovie.setValue(null);
-					if (StringUtils.isEmpty(tfName.getText())) tfName.setText(show.getName());
+					if (StringUtils.isEmpty(tfName.getText())) tfName.setText(show.getTitle());
 				}
 			}
 			else if (event.getSource()==tfMovie)
@@ -179,8 +177,8 @@ public class FanDomDetailsView extends DetailsView
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
-			setTitle("FanDom: "+name);
+			if (StringUtils.isEmpty(name)) name="<unknown>";
+			setTitle("Domain: "+name);
 		}
 	}
 }

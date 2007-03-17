@@ -61,7 +61,7 @@ public abstract class TVComLoader implements Job
 
 	public String getName()
 	{
-		return "Lade Daten von TV.com";
+		return "Load Episodes from TV.com";
 	}
 
 	public boolean run(ProgressListener progressListener) throws Exception
@@ -80,7 +80,7 @@ public abstract class TVComLoader implements Job
 
 	private void loadSeason(String baseUrl, int season) throws IOException, InterruptedException
 	{
-		progress.startStep("Lade Staffel "+season+"...");
+		progress.startStep("Load season "+season+"...");
 		progress.initialize(false, 1, null);
 		String page=WebUtils.loadURL(baseUrl+"?season="+season);
 //		FileUtils.saveToFile(page, new File("c:"+File.separator+"Incoming"+File.separator+"season"+season+".html"));
@@ -123,11 +123,11 @@ public abstract class TVComLoader implements Job
 											 airdate, values.get(3));
 			String episodeUrl=XMLUtils.getAttribute(startTag.text, "href");
 
-			Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getOriginalEpisodeTitle());
+			Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getEpisodeTitle());
 			if (episode==null) episode=createEpisode(data);
 			if (episode!=null)
 			{
-				progress.startStep("Lade Episode "+episode.getUserKey()+": "+data.getOriginalEpisodeTitle()+"...");
+				progress.startStep("Load episode "+episode.getUserKey()+": "+data.getEpisodeTitle()+"...");
 				loadEpisode(episode, data, episodeUrl);
 				Thread.sleep(100); // To avoid DOS on the TV.com server
 			}
@@ -145,20 +145,20 @@ public abstract class TVComLoader implements Job
 				{
 					value=show.createEpisode();
 					value.setUserKey(data.getEpisodeKey());
-					value.setName(data.getEpisodeTitle());
-					value.setOriginalName(data.getOriginalEpisodeTitle());
+					value.setGermanTitle(data.getGermanEpisodeTitle());
+					value.setTitle(data.getEpisodeTitle());
 					value.setAirdate(data.getFirstAirdate());
 					value.setProductionCode(data.getProductionCode());
 				}
 			};
 			if (DBSession.execute(transactional))
 			{
-				progress.info("Neue Episode "+transactional.value+" angelegt.");
+				progress.info("New episode "+transactional.value+" created.");
 				return transactional.value;
 			}
 			else
 			{
-				progress.error("Anlegen der Episode "+data.getOriginalEpisodeTitle()+" fehlgeschlagen.");
+				progress.error("Create of new episode "+data.getEpisodeTitle()+" failed.");
 				return null;
 			}
 		}
@@ -287,10 +287,12 @@ public abstract class TVComLoader implements Job
 					stack.push(ch);
 					break;
 				case ')':
+					if (stack.isEmpty()) return false;
 					lastOpened=stack.pop();
 					if (lastOpened==null || lastOpened.charValue()!='(') return false;
 					break;
 				case ']':
+					if (stack.isEmpty()) return false;
 					lastOpened=stack.pop();
 					if (lastOpened==null || lastOpened.charValue()!='[') return false;
 					break;
@@ -325,8 +327,9 @@ public abstract class TVComLoader implements Job
 		saveCast(episode, CastMember.MAIN_CAST, data.getMainCast());
 		saveCast(show, CastMember.MAIN_CAST, data.getMainCast());
 		saveCast(episode, CastMember.RECURRING_CAST, data.getRecurringCast());
-		saveCast(show, CastMember.RECURRING_CAST, data.getMainCast());
+		saveCast(show, CastMember.RECURRING_CAST, data.getRecurringCast());
 		saveCast(episode, CastMember.GUEST_CAST, data.getGuestCast());
+		progress.info(episode.getUserKey()+" "+episode.getTitle()+" updated.");
 	}
 
 	private void saveCast(final Production production, final int type, final List<CastData> castList)
@@ -356,7 +359,7 @@ public abstract class TVComLoader implements Job
 						if (!castNames.contains(actorName))
 						{
 							String character=StringUtils.trimString(castData.character);
-							Person person=PersonManager.getInstance().getPersonByName(actorName);
+							Person person=PersonManager.getInstance().getPersonByName(actorName, true);
 							if (person==null) person=cache.get(actorName);
 							if (person==null)
 							{
@@ -398,7 +401,7 @@ public abstract class TVComLoader implements Job
 						String name=StringUtils.trimString(crewList[i]);
 						if (!crewNames.contains(name))
 						{
-							Person person=PersonManager.getInstance().getPersonByName(name);
+							Person person=PersonManager.getInstance().getPersonByName(name, true);
 							if (person==null) person=cache.get(name);
 							if (person==null)
 							{
@@ -444,12 +447,12 @@ public abstract class TVComLoader implements Job
 			return episodeKey;
 		}
 
-		public String getEpisodeTitle()
+		public String getGermanEpisodeTitle()
 		{
 			return null;
 		}
 
-		public String getOriginalEpisodeTitle()
+		public String getEpisodeTitle()
 		{
 			return episodeName;
 		}

@@ -1,15 +1,19 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import="java.util.Iterator,
 				 java.util.Set,
-				 com.kiwisoft.media.person.CastMember,
-				 com.kiwisoft.media.person.Person,
-				 com.kiwisoft.media.person.PersonManager" %>
-<%@ page import="com.kiwisoft.utils.SortedSetMap"%>
+				 java.util.TreeSet" %>
+<%@ page import="com.kiwisoft.media.movie.Movie" %>
+<%@ page import="com.kiwisoft.media.person.CastMember" %>
+<%@ page import="com.kiwisoft.media.person.Person" %>
+<%@ page import="com.kiwisoft.media.person.PersonManager" %>
+<%@ page import="com.kiwisoft.media.show.Episode" %>
+<%@ page import="com.kiwisoft.media.show.Show" %>
+<%@ page import="com.kiwisoft.utils.JspUtils"%>
+<%@ page import="com.kiwisoft.utils.SetMap"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.utils.db.DBLoader"%>
-<%@ page import="com.kiwisoft.media.movie.Movie"%>
-<%@ page import="com.kiwisoft.utils.JspUtils"%>
-<%@ page import="com.kiwisoft.media.show.Show"%>
+<%@ page import="com.kiwisoft.utils.db.Chain"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -18,19 +22,53 @@
 	Person actor=PersonManager.getInstance().getPerson(actorId);
 	request.setAttribute("person", actor);
 
-	SortedSetMap sortedCast=new SortedSetMap(StringUtils.getComparator(), StringUtils.getComparator());
-
-	Set cast=DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=? and movie_id is not null", new Object[]{actorId});
-	for (Iterator it=cast.iterator();it.hasNext();)
+	Set productions=new TreeSet(StringUtils.getComparator());
+	SetMap castMap=new SetMap();
+	SetMap episodeMap=new SetMap();
+	//noinspection RedundantArrayCreation
+	Set cast=DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=?", new Object[]{actorId});
+	for (Iterator it=cast.iterator(); it.hasNext();)
 	{
 		CastMember castMember=(CastMember)it.next();
-		if (castMember.getMovie()!=null) sortedCast.add(castMember.getMovie(), castMember.getCharacterName());
+		Movie movie=castMember.getMovie();
+		if (movie!=null)
+		{
+			productions.add(movie);
+			castMap.add(movie, castMember);
+		}
 	}
+	//noinspection RedundantArrayCreation
 	cast=DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=? and show_id is not null", new Object[]{actorId});
+	for (Iterator it=cast.iterator(); it.hasNext();)
+	{
+		CastMember castMember=(CastMember)it.next();
+		Show show=castMember.getShow();
+		if (show!=null)
+		{
+			productions.add(show);
+			castMap.add(show, castMember);
+		}
+	}
+	//noinspection RedundantArrayCreation
+	cast=DBLoader.getInstance().loadSet(CastMember.class, "episodes",
+										"episodes.id=cast.episode_id and actor_id=? and episode_id is not null"+
+										" and episodes.show_id not in (select show_id from cast where actor_id=? and show_id is not null)"+
+										"limit 5",
+										new Object[]{actorId, actorId});
 	for (Iterator it=cast.iterator();it.hasNext();)
 	{
 		CastMember castMember=(CastMember)it.next();
-		if (castMember.getShow()!=null) sortedCast.add(castMember.getShow(), castMember.getCharacterName());
+		Episode episode=castMember.getEpisode();
+		if (episode!=null)
+		{
+			Show show=episode.getShow();
+			productions.add(show);
+			if (!castMap.containsKey(show))
+			{
+				castMap.add(episode, castMember);
+				episodeMap.add(show, episode);
+			}
+		}
 	}
 %>
 <html>
@@ -67,7 +105,7 @@
 		<tr><td class="content">
 
 <%
-	if (!sortedCast.isEmpty())
+	if (!productions.isEmpty())
 	{
 %>
 
@@ -76,47 +114,84 @@
 			<tr><td class="content">
 				<ol>
 <%
-		for (Iterator it=sortedCast.keySet().iterator();it.hasNext();)
+		for (Iterator it=productions.iterator(); it.hasNext();)
 		{
-			Object prod=it.next();
-			if (prod instanceof Movie)
+			Object production=it.next();
+			if (production instanceof Movie)
 			{
-				Movie movie=(Movie)prod;
+				Movie movie=(Movie)production;
 %>
 				<li><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><b><%=movie.getTitle()%></b></a>
 <%
-				if (movie.getYear()!=null)
+				Integer year=movie.getYear();
+				if (year!=null) out.println("("+year+")");
+				out.print(" ... ");
+				boolean first=true;
+				Set movieCast=castMap.get(movie);
+				for (Iterator itRoles=movieCast.iterator(); itRoles.hasNext();)
 				{
-%>
-					(<%=movie.getYear()%>)
-<%
+					CastMember castMember=(CastMember)itRoles.next();
+					if (!StringUtils.isEmpty(castMember.getCharacterName()))
+					{
+						if (!first) out.print(" / ");
+						out.print(JspUtils.prepareString(castMember.getCharacterName()));
+						first=false;
+					}
 				}
 			}
 			else
 			{
-				Show show=(Show)prod;
+				Show show=(Show)production;
 %>
-				<li><a class="link" href="<%=show.getLink()%>"><b><%=show.getName()%></b></a>
+				<li><a class="link" href="<%=Navigation.getLink(show)%>"><b><%=show.getTitle()%></b></a>
 <%
-			}
-			out.print(" ... ");
-			boolean first=true;
-			for (Iterator itRoles=sortedCast.get(prod).iterator();itRoles.hasNext();)
-			{
-				String role=(String)itRoles.next();
-				if (!StringUtils.isEmpty(role))
+				Set showCast=castMap.get(show);
+				if (!showCast.isEmpty())
 				{
-					if (!first) out.print(" / ");
-					out.print(JspUtils.prepareString(role));
-					first=false;
+					out.print(" ... ");
+					boolean first=true;
+					for (Iterator itRoles=showCast.iterator(); itRoles.hasNext();)
+					{
+						CastMember castMember=(CastMember)itRoles.next();
+						if (!StringUtils.isEmpty(castMember.getCharacterName()))
+						{
+							if (!first) out.print(" / ");
+							out.print(JspUtils.prepareString(castMember.getCharacterName()));
+							first=false;
+						}
+					}
 				}
-			}
+				else
+				{
+					Chain episodes=new Chain(episodeMap.get(show));
+					for (Iterator itEpisodes=episodes.iterator(); itEpisodes.hasNext();)
+					{
+						Episode episode=(Episode)itEpisodes.next();
+%>
+					<br>- <a class="link" href="<%=Navigation.getLink(episode)%>"><%=JspUtils.prepare(episode)%></a> ...
+<%
+						Set episodeCast=castMap.get(episode);
+						boolean first=true;
+						for (Iterator itRoles=episodeCast.iterator(); itRoles.hasNext();)
+						{
+							CastMember castMember=(CastMember)itRoles.next();
+							if (!StringUtils.isEmpty(castMember.getCharacterName()))
+							{
+								if (!first) out.print(" / ");
+								out.print(JspUtils.prepareString(castMember.getCharacterName()));
+								first=false;
+							}
+						}
+					}
+				}
 %>
 				</li>
-<%
+				<%
+			}
 		}
 %>
 				</ol>
+
 				<p align=right><a class=link href="#top">Top</a></p>
 			</td></tr>
 			</table>

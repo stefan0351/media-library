@@ -1,8 +1,7 @@
 package com.kiwisoft.media.video;
 
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.media.video.VideoDetailsView;
-import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.utils.gui.Icons;
 
 import java.awt.event.ActionEvent;
 
@@ -13,11 +12,11 @@ import java.awt.event.ActionEvent;
  * Time: 18:36:30
  * To change this template use File | Settings | File Templates.
  */
-public class CreateVideoAction extends MultiContextAction<Episode>
+public class CreateVideoAction<T extends Recordable> extends MultiContextAction<T>
 {
 	public CreateVideoAction()
 	{
-		super("Erzeuge Video");
+		super("Create Video", Icons.getIcon("video.add"));
 	}
 
 	public void actionPerformed(ActionEvent e)

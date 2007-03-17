@@ -17,7 +17,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Multimedia</title>
+<title><%=show.getTitle()%> - Multimedia</title>
 <script language="JavaScript" src="/clipart/overlib.js"></script>
 <script language="JavaScript" src="/nav.js"></script>
 <jsp:include page="_shows_nav.jsp"/>
@@ -31,12 +31,11 @@
 
 <div class="logo">
 	<table width=130 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<jsp:include page="/shows/_show_logo.jsp"/>
 	</td></tr></table>
 </div>
 <div class="title">
 	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<span style="font-weight:bold;font-size:24pt;"><%=show.getName(language)%></span>
+	<span style="font-weight:bold;font-size:24pt;"><%=show.getTitle(language)%></span>
 	</td></tr></table>
 </div>
 
@@ -61,7 +60,7 @@
 	{
 %>
 		<table cellspacing=0 width="100%">
-		<tr><td class=h2>&nbsp;&nbsp;&nbsp;&nbsp;<a name="media">Videos</a></td></tr>
+		<tr><td class=h2>&nbsp;&nbsp;&nbsp;&nbsp;<a name="">Videos</a></td></tr>
 		</table>
 		<br>
 		<table cellspacing=5 cellpadding=5>

@@ -11,9 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.Season;
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
@@ -98,13 +95,13 @@ public class SeasonDetailsView extends DetailsView
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 200));
 		int row=0;
-		add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfShow, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Nummer:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Number:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfNumber, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -118,23 +115,23 @@ public class SeasonDetailsView extends DetailsView
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Anfangsjahr:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Start Year:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfStartYear, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Endjahr:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("End Year:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(tfEndYear, new GridBagConstraints(3, row, 1, 1, 0.3, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Erste Folge:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("First Episode:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfFirstEpisode, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Letzte Folge:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Last Episode"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfLastEpisode, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -148,7 +145,7 @@ public class SeasonDetailsView extends DetailsView
 		{
 			tfName.setText(season.getSeasonName());
 			tfSeasonName.setText(season.getName());
-			if (season.getShow()!=null) tfShow.setText(season.getShow().getName());
+			if (season.getShow()!=null) tfShow.setText(season.getShow().getTitle());
 			tfNumber.setText(String.valueOf(season.getNumber()));
 			tfFirstEpisode.setValue(season.getFirstEpisode());
 			tfLastEpisode.setValue(season.getLastEpisode());
@@ -159,7 +156,7 @@ public class SeasonDetailsView extends DetailsView
 		}
 		else if (show!=null)
 		{
-			tfShow.setText(show.getName());
+			tfShow.setText(show.getTitle());
 			tfFirstEpisode.setValue(firstEpisode);
 			tfLastEpisode.setValue(lastEpisode);
 			if (firstEpisode!=null)
@@ -176,7 +173,7 @@ public class SeasonDetailsView extends DetailsView
 		try
 		{
 			String numberString=tfNumber.getText();
-			if (StringUtils.isEmpty(numberString)) throw new InvalidDataException("Nummer fehlt!", tfNumber);
+			if (StringUtils.isEmpty(numberString)) throw new InvalidDataException("Number is missing!", tfNumber);
 			int number;
 			try
 			{
@@ -184,9 +181,9 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Keine Nummer!", tfNumber);
+				throw new InvalidDataException("Invalid number!", tfNumber);
 			}
-			if (number<0) throw new InvalidDataException("Nummer<0!", tfNumber);
+			if (number<0) throw new InvalidDataException("Number<0!", tfNumber);
 
 			String startYearString=tfStartYear.getText();
 			int startYear=0;
@@ -196,9 +193,9 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Keine Jahreszahl!", tfStartYear);
+				throw new InvalidDataException("Invalid year!", tfStartYear);
 			}
-			if (startYear<0) throw new InvalidDataException("Jahreszahl<0!", tfStartYear);
+			if (startYear<0) throw new InvalidDataException("Year<0!", tfStartYear);
 			String endYearString=tfEndYear.getText();
 			int endYear=0;
 			try
@@ -207,18 +204,18 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Keine Jahreszahl!", tfEndYear);
+				throw new InvalidDataException("Invalid year!", tfEndYear);
 			}
-			if (endYear<0) throw new InvalidDataException("Jahreszahl<0!", tfEndYear);
-			if (startYear==0 && endYear!=0) throw new InvalidDataException("Anfangsjahr fehlt!", tfStartYear);
-			if (endYear!=0 && (endYear<startYear)) throw new InvalidDataException("Endjahr<Anfangsjahr", tfStartYear);
+			if (endYear<0) throw new InvalidDataException("Year<0!", tfEndYear);
+			if (startYear==0 && endYear!=0) throw new InvalidDataException("Start year is missing !", tfStartYear);
+			if (endYear!=0 && (endYear<startYear)) throw new InvalidDataException("End year<Start year", tfStartYear);
 
 			Episode firstEpisode=(Episode)tfFirstEpisode.getValue();
 			Episode lastEpisode=(Episode)tfLastEpisode.getValue();
 			if (firstEpisode==null && lastEpisode!=null)
-				throw new InvalidDataException("Erste Folge fehlt!", tfFirstEpisode);
+				throw new InvalidDataException("First episode is missing!", tfFirstEpisode);
 			if (firstEpisode!=null && lastEpisode!=null && lastEpisode.getChainPosition()<firstEpisode.getChainPosition())
-				throw new InvalidDataException("Endfolge<Anfangsfolge", tfFirstEpisode);
+				throw new InvalidDataException("Last episode<First episode", tfFirstEpisode);
 			String name=tfSeasonName.getText();
 
 			Transaction transaction=null;
@@ -252,7 +249,7 @@ public class SeasonDetailsView extends DetailsView
 		}
 		catch (InvalidDataException e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			e.getComponent().requestFocus();
 			return false;
 		}

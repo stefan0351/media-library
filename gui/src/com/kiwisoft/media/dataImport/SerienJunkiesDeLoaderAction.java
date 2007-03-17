@@ -15,7 +15,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction<Show>
 
 	public SerienJunkiesDeLoaderAction(JFrame frame)
 	{
-		super("Lade Episoden von SerienJunkies.de");
+		super("Load Episodes from SerienJunkies.de");
 		parent=frame;
 	}
 

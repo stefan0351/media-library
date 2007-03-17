@@ -47,7 +47,7 @@ public class ShowManager
 	public Show getShowByName(String name)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
-		Show show=dbLoader.load(Show.class, null, "name=? or name_original=?", name, name);
+		Show show=dbLoader.load(Show.class, null, "title=? or german_title=?", name, name);
 		if (show==null)
 		{
 			show=dbLoader.load(Show.class, "names", "names.type=? and names.ref_id=shows.id and names.name=?", Name.SHOW, name);
@@ -58,7 +58,7 @@ public class ShowManager
 	public Episode getEpisodeByName(Show show, String name)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
-		Episode episode=dbLoader.load(Episode.class, null, "show_id=? and (name=? or name_original=?)", show.getId(), name, name);
+		Episode episode=dbLoader.load(Episode.class, null, "show_id=? and (title=? or german_title=?)", show.getId(), name, name);
 		if (episode==null)
 		{
 			episode=dbLoader.load(Episode.class, "names",

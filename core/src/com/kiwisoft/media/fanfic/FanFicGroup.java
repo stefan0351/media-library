@@ -13,7 +13,7 @@ public interface FanFicGroup
 {
 	public Long getId();
 
-	public String getName();
+	public String getFanFicGroupName();
 
 	public Set<FanFic> getFanFics();
 

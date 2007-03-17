@@ -66,7 +66,7 @@
 <html>
 
 <head>
-<title>Fan Fiction - <%=container.getName()%></title>
+<title>Fan Fiction - <%=container.getFanFicGroupName()%></title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -95,7 +95,7 @@
 	</td>
 	<td width="800">
 		<table class="contenttable" width="790">
-		<tr><td class="header1"><%=container.getName()%></td></tr>
+		<tr><td class="header1"><%=container.getFanFicGroupName()%></td></tr>
 		<tr><td class="content">
 <%
 	if (container instanceof Author)

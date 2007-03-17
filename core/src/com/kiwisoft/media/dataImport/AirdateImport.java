@@ -44,13 +44,13 @@ public class AirdateImport implements Job
 
 	public String getName()
 	{
-		return "Importiere Sendetermine";
+		return "Import Schedule";
 	}
 
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
-		progressSupport.startStep("Initialisieren...");
+		progressSupport.startStep("Initializing...");
 		File file=new File(path);
 		String[] fileNames=file.list(new RegularFileFilter(filter));
 
@@ -68,7 +68,7 @@ public class AirdateImport implements Job
 		Set<String> newIgnoredChannels=new HashSet<String>();
 		Set<String> newIgnoredShows=new HashSet<String>();
 		created=0;
-		progressSupport.startStep("Sendetermine erzeugen...");
+		progressSupport.startStep("Create airdates...");
 		progressSupport.initialize(true, preAirdates.size(), null);
 		Iterator<AirdateData> it=preAirdates.iterator();
 		while (it.hasNext())
@@ -84,7 +84,7 @@ public class AirdateImport implements Job
 				{
 					if (e.getErrorCode()==DBErrors.MULTIPLE_OBJECTS_FOUND)
 						progressSupport
-							.warning("Serie '"+airdateData.getShow().getName()+"' enthält mehrere Episoden mit Titel '"+airdateData.getEpisodeName()+"'");
+							.warning("Show '"+airdateData.getShow().getTitle()+"' contains multiple episodes with title '"+airdateData.getEpisodeName()+"'");
 					else
 						throw e;
 				}
@@ -128,7 +128,7 @@ public class AirdateImport implements Job
 						}
 					}
 					else
-						progressSupport.warning("Termin für '"+airdateData.getShowName()+"; "+airdateData.getEpisodeName()+" ist fehlerhaft.");
+						progressSupport.warning("Date for '"+airdateData.getShowName()+"; "+airdateData.getEpisodeName()+" is faulty.");
 				}
 			}
 			else
@@ -138,10 +138,10 @@ public class AirdateImport implements Job
 			progressSupport.progress(1, true);
 		}
 
-		progressSupport.info(created+" Sendetermine erzeugt");
+		progressSupport.info(created+" airdates created");
 		if (!newIgnoredChannels.isEmpty())
 		{
-			progressSupport.warning(newIgnoredChannels.size()+" unbekannte Sender");
+			progressSupport.warning(newIgnoredChannels.size()+" unknown channel");
 			for (String name : newIgnoredChannels)
 			{
 				System.out.println(name);
@@ -150,7 +150,7 @@ public class AirdateImport implements Job
 		}
 		if (!newIgnoredShows.isEmpty())
 		{
-			progressSupport.warning(newIgnoredShows.size()+" unbekannte Serien");
+			progressSupport.warning(newIgnoredShows.size()+" unknown shows");
 			for (String name : newIgnoredShows)
 			{
 				System.out.println(name);
@@ -163,7 +163,7 @@ public class AirdateImport implements Job
 	{
 		File file;
 		Set<AirdateData> preAirdates=new HashSet<AirdateData>();
-		progressSupport.startStep("Lade Dateien...");
+		progressSupport.startStep("Load files...");
 		progressSupport.initialize(true, fileNames.length, null);
 		for (int i=0; i<fileNames.length; i++)
 		{

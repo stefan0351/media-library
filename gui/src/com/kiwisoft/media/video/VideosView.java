@@ -44,25 +44,28 @@ public class VideosView extends ViewPanel
 			public List<ContextAction<Video>> getToolBarActions()
 			{
 				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
-				actions.add(new VideoPropertiesAction());
+				actions.add(new VideoDetailsAction());
 				actions.add(new NewVideoAction(type));
 				actions.add(new DeleteVideoAction(frame));
+				actions.add(new VideoRecordingsAction(frame));
 				return actions;
 			}
 
 			public List<ContextAction<Video>> getContextActions()
 			{
 				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
-				actions.add(new VideoPropertiesAction());
+				actions.add(new VideoDetailsAction());
 				actions.add(null);
 				actions.add(new NewVideoAction(type));
 				actions.add(new DeleteVideoAction(frame));
+				actions.add(null);
+				actions.add(new VideoRecordingsAction(frame));
 				return actions;
 			}
 
 			public ContextAction<Video> getDoubleClickAction()
 			{
-				return new VideoPropertiesAction();
+				return new VideoDetailsAction();
 			}
 		};
 
@@ -72,7 +75,7 @@ public class VideosView extends ViewPanel
 		return tableController.createComponent();
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}

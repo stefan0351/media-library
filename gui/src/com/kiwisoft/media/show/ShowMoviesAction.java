@@ -2,6 +2,7 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.movie.MoviesView;
 import com.kiwisoft.media.show.Show;
 
@@ -20,7 +21,7 @@ public class ShowMoviesAction extends SimpleContextAction<Show>
 
 	public ShowMoviesAction(ApplicationFrame frame)
 	{
-		super("Filme");
+		super("Movies", Icons.getIcon("movie"));
 		this.frame=frame;
 	}
 

@@ -20,7 +20,7 @@ public class ShowSeasonsAction extends SimpleContextAction<Show>
 
 	public ShowSeasonsAction(ApplicationFrame frame)
 	{
-		super("Staffeln");
+		super("Seasons");
 		this.frame=frame;
 	}
 

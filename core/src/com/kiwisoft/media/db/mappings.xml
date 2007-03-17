@@ -36,8 +36,8 @@
 	<mapping name="Show" class="com.kiwisoft.media.show.Show" table="shows" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
-		<field name="name" column="name"/>
-		<field name="originalName" column="name_original"/>
+		<field name="title" column="title"/>
+		<field name="germanTitle" column="german_title"/>
 		<field name="internet" column="internet"/>
 		<field name="defaultEpisodeLength" column="episode_length"/>
 		<field name="webDatesFile" column="webdatesfile"/>
@@ -113,14 +113,15 @@
 		<field name="length" column="length"/>
 		<field name="remainingLength" column="remaininglength"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="storage" column="storage"/>
 		<reference name="type" column="type_id"/>
 	</mapping>
 	<mapping name="Episode" class="com.kiwisoft.media.show.Episode" table="episodes" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
 		<field name="sequence" column="sequence"/>
-		<field name="name" column="name"/>
-		<field name="originalName" column="name_original"/>
+		<field name="title" column="title"/>
+		<field name="germanTitle" column="german_title"/>
 		<field name="seen" column="seen"/>
 		<field name="good" column="good"/>
 		<field name="record" column="record"/>
@@ -168,7 +169,7 @@
 		<field name="name" column="name"/>
 		<field name="actor" column="actor"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="sex" column="sex_id"/>
+		<reference name="gender" column="sex_id"/>
 	</mapping>
 	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>

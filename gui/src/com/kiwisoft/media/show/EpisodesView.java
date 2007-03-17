@@ -42,9 +42,9 @@ public class EpisodesView extends ViewPanel
 	public String getName()
 	{
 		if (season!=null)
-			return show.getName()+" - "+season.getSeasonName()+" - Episoden";
+			return show.getTitle()+" - "+season.getSeasonName()+" - Episodes";
 		else
-			return show.getName()+" - Episoden";
+			return show.getTitle()+" - Episodes";
 	}
 
 	public JComponent createContentPanel(ApplicationFrame frame)
@@ -57,7 +57,9 @@ public class EpisodesView extends ViewPanel
 			public List<ContextAction<Episode>> getToolBarActions()
 			{
 				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
-				actions.add(new EpisodePropertiesAction());
+				actions.add(new EpisodeDetailsAction());
+				actions.add(new NewEpisodeAction(show));
+				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				if (season==null)
 				{
 					actions.add(new MoveUpAction(show.getEpisodes()));
@@ -69,22 +71,19 @@ public class EpisodesView extends ViewPanel
 			public List<ContextAction<Episode>> getContextActions()
 			{
 				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
-				actions.add(new CreateSeasonAction());
-				actions.add(new CreateVideoAction());
+				actions.add(new EpisodeDetailsAction());
 				actions.add(null);
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
-				if (season==null)
-				{
-					actions.add(null);
-					actions.add(new MoveUpAction(show.getEpisodes()));
-				}
+				actions.add(null);
+				actions.add(new CreateSeasonAction());
+				actions.add(new CreateVideoAction());
 				return actions;
 			}
 
 			public ContextAction<Episode> getDoubleClickAction()
 			{
-				return new EpisodePropertiesAction();
+				return new EpisodeDetailsAction();
 			}
 		};
 		return tableController.createComponent();
@@ -111,10 +110,10 @@ public class EpisodesView extends ViewPanel
 		show.addCollectionChangeListener(collectionObserver);
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
 		tableController.installListeners();
-		super.installComponentListener();
+		super.installComponentListeners();
 	}
 
 	protected void removeComponentListeners()
@@ -169,7 +168,7 @@ public class EpisodesView extends ViewPanel
 
 	private static class EpisodesTableModel extends SortableTableModel<Episode>
 	{
-		private static final String[] COLUMNS={"userkey", "title", "originalTitel"};
+		private static final String[] COLUMNS={"userkey", "title", "germanTitle"};
 
 		public int getColumnCount()
 		{
@@ -222,9 +221,9 @@ public class EpisodesView extends ViewPanel
 				case 0:
 					return episode.getUserKey();
 				case 1:
-					return episode.getName();
+					return episode.getTitle();
 				case 2:
-					return episode.getOriginalName();
+					return episode.getGermanTitle();
 			}
 			return "";
 		}

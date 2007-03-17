@@ -1,8 +1,7 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +14,7 @@ public class ChannelsTask extends MenuSidebarItem.Task
 {
 	public ChannelsTask()
 	{
-		super("Sender", IconManager.getIcon("com/kiwisoft/media/icons/channel32.gif"));
+		super("Channels");
 	}
 
 	public void perform(ApplicationFrame frame)

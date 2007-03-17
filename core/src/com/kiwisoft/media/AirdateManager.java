@@ -37,9 +37,7 @@ public class AirdateManager
 	{
 		Date now=new Date();
 		Date startTime=DateUtils.add(now, Calendar.HOUR, -2);
-		System.out.println("startTime = "+startTime);
 		Date endTime=DateUtils.add(now, unit, quantity);
-		System.out.println("endTime = "+endTime);
 		return DBLoader.getInstance().loadSet(Airdate.class, null, "viewdate>=? and viewdate<?", startTime, endTime);
 	}
 

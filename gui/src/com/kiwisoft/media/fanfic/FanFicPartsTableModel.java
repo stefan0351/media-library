@@ -24,21 +24,16 @@ public class FanFicPartsTableModel extends SortableTableModel<String>
 		return COLUMNS[column];
 	}
 
-	public void addPart(String part)
-	{
-		addRow(new Row(part));
-	}
-
 	public boolean isResortable()
 	{
 		return false;
 	}
 
-	private static class Row extends SortableTableRow<String>
+	public static class Row extends SortableTableRow<String>
 	{
-		public Row(String file)
+		public Row(String path)
 		{
-			super(file);
+			super(path);
 		}
 
 		public String getCellFormat(int column, String property)

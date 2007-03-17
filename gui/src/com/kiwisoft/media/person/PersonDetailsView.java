@@ -4,28 +4,22 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.SQLException;
-import java.util.StringTokenizer;
-import java.util.List;
-import java.util.ArrayList;
 import java.net.URLEncoder;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
+import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.DialogLookup;
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsDialog;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.media.dataImport.SearchPattern;
-import com.kiwisoft.media.person.PersonManager;
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.person.Sex;
+import com.kiwisoft.utils.gui.*;
+import com.kiwisoft.utils.gui.lookup.DialogLookup;
+import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 
 public class PersonDetailsView extends DetailsView
 {
@@ -84,7 +78,7 @@ public class PersonDetailsView extends DetailsView
 				else
 				{
 					StringBuilder middleName=new StringBuilder();
-					for (int i=1;i<nameCount-1;i++)
+					for (int i=1; i<nameCount-1; i++)
 					{
 						if (i>1) middleName.append(" ");
 						middleName.append(names.get(i));
@@ -103,45 +97,45 @@ public class PersonDetailsView extends DetailsView
 		tfMiddleName=new JTextField();
 		tfSurname=new JTextField();
 		tfTVTVPattern=new DialogLookupField(new TVTVPatternLookup());
-		cbxSex=new JComboBox(new Object[]{Sex.FEMALE, Sex.MALE});
-		cbxSex.updateUI();
+		cbxSex=new JComboBox(new Object[]{Gender.FEMALE, Gender.MALE, Gender.UNKNOWN});
+		cbxSex.setRenderer(new FormatBasedListRenderer());
 		cbActor=new JCheckBox();
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 220));
 		int row=0;
-		add(new JLabel("Vorname:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("First Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfFirstName, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
 												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-		add(new JLabel("Mittelname:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Middle Name:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
 		add(tfMiddleName, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Nachname:"), new GridBagConstraints(0, row, 2, 1, 0.0, 0.0,
+		add(new JLabel("Surname:"), new GridBagConstraints(0, row, 2, 1, 0.0, 0.0,
 															GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfSurname, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Geschlecht:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Gender:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbxSex, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Darsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Actor/Actress:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(cbActor, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
 											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Suchmuster (TVTV.de):"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																		GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 15, 0, 0), 0, 0));
+		add(new JLabel("Search Pattern:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+																		GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfTVTVPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-												  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
+												  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		FrameTitleUpdater titleUpdater=new FrameTitleUpdater();
 		tfFirstName.getDocument().addDocumentListener(titleUpdater);
@@ -165,7 +159,7 @@ public class PersonDetailsView extends DetailsView
 		else
 		{
 			cbActor.setSelected(actor);
-			cbxSex.setSelectedItem(Sex.FEMALE);
+			cbxSex.setSelectedItem(Gender.FEMALE);
 		}
 	}
 
@@ -174,7 +168,7 @@ public class PersonDetailsView extends DetailsView
 		String firstName=tfFirstName.getText();
 		if (StringUtils.isEmpty(firstName))
 		{
-			JOptionPane.showMessageDialog(this, "Vorname fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "First Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfFirstName.requestFocus();
 			return false;
 		}
@@ -182,20 +176,14 @@ public class PersonDetailsView extends DetailsView
 		String surname=tfSurname.getText();
 		if (StringUtils.isEmpty(firstName))
 		{
-			JOptionPane.showMessageDialog(this, "Nachname fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Surname is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfSurname.requestFocus();
 			return false;
 		}
 		else surname=surname.trim();
 		String middleName=tfMiddleName.getText();
 		if (StringUtils.isEmpty(middleName)) middleName=null;
-		Sex sex=(Sex)cbxSex.getSelectedItem();
-		if (sex==null)
-		{
-			JOptionPane.showMessageDialog(this, "Kein Geschlecht gewählt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			cbxSex.requestFocus();
-			return false;
-		}
+		Gender gender=(Gender)cbxSex.getSelectedItem();
 		String tvtvPattern=tfTVTVPattern.getText();
 		boolean actor=cbActor.isSelected();
 
@@ -207,7 +195,7 @@ public class PersonDetailsView extends DetailsView
 			person.setFirstName(firstName);
 			person.setMiddleName(middleName);
 			person.setSurname(surname);
-			person.setSex(sex);
+			person.setSex(gender);
 			person.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 			person.setActor(actor);
 			transaction.close();
@@ -259,11 +247,11 @@ public class PersonDetailsView extends DetailsView
 		{
 			StringBuilder name=new StringBuilder();
 			String surname=tfSurname.getText().trim();
-			if (StringUtils.isEmpty(surname)) surname="<Nachname>";
+			if (StringUtils.isEmpty(surname)) surname="<Surnane>";
 			name.append(surname);
 			name.append(", ");
 			String firstName=tfFirstName.getText().trim();
-			if (StringUtils.isEmpty(firstName)) firstName="<Vorname>";
+			if (StringUtils.isEmpty(firstName)) firstName="<Firstname>";
 			name.append(firstName);
 			String middleName=tfMiddleName.getText().trim();
 			if (!StringUtils.isEmpty(middleName)) name.append(" ").append(middleName);
@@ -289,7 +277,7 @@ public class PersonDetailsView extends DetailsView
 
 		public Icon getIcon()
 		{
-			return IconManager.getIcon("com/kiwisoft/utils/icons/lookup_create.gif");
+			return Icons.getIcon("lookup.create");
 		}
 	}
 

@@ -18,10 +18,11 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 	private static final String NAME="name";
 	private static final String TIME_LEFT="timeLeft";
 	private static final String TYPE="type";
+	private static final String STORAGE="storage";
 
 	public VideosTableModel(MediumType type)
 	{
-		super(new String[]{ID, NAME, TIME_LEFT}, new String[]{TYPE});
+		super(new String[]{ID, NAME, TIME_LEFT, STORAGE}, new String[]{TYPE});
 		for (Video video : VideoManager.getInstance().getVideos(type)) addRow(new Row(video));
 		sort();
 	}
@@ -58,6 +59,8 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 				return getUserObject().getRemainingLength();
 			else if (TYPE.equals(property))
 				return getUserObject().getType();
+			else if (STORAGE.equals(property))
+				return getUserObject().getStorage();
 			else
 				return "";
 		}

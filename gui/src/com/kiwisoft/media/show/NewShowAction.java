@@ -3,9 +3,8 @@ package com.kiwisoft.media.show;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import com.kiwisoft.media.show.ShowDetailsView;
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.Icons;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +17,7 @@ public class NewShowAction extends ContextAction<Show>
 {
 	public NewShowAction()
 	{
-		super("Neu");
+		super("New", Icons.getIcon("add"));
 	}
 
 	public void update(List<Show> objects)

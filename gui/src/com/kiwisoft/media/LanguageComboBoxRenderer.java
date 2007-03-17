@@ -7,11 +7,10 @@
 package com.kiwisoft.media;
 
 import java.awt.Component;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.DefaultListCellRenderer;
 
-import com.kiwisoft.media.Language;
 import com.kiwisoft.utils.gui.IconManager;
 
 public class LanguageComboBoxRenderer extends DefaultListCellRenderer
@@ -25,7 +24,7 @@ public class LanguageComboBoxRenderer extends DefaultListCellRenderer
 			if (component instanceof JLabel)
 			{
 				JLabel label=(JLabel)component;
-				label.setIcon(IconManager.getIcon("com/kiwisoft/media/icons/flag_"+language.getSymbol()+".gif"));
+				label.setIcon(IconManager.getIcon("com/kiwisoft/media/icons/languages/"+language.getSymbol()+".png"));
 			}
 			return component;
 		}

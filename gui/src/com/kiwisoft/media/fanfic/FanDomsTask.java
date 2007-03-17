@@ -1,9 +1,7 @@
 package com.kiwisoft.media.fanfic;
 
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.fanfic.FanDomsView;
+import com.kiwisoft.utils.gui.MenuSidebarItem;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +14,7 @@ public class FanDomsTask extends MenuSidebarItem.Task
 {
 	public FanDomsTask()
 	{
-		super("Domänen", IconManager.getIcon("com/kiwisoft/media/icons/fanfic16.gif"));
+		super("Domains");
 	}
 
 	public void perform(ApplicationFrame frame)

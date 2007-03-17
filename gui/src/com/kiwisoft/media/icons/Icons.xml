@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+
+<!-- Copyright (c) 2002-2006, Stefan Stiller. -->
+<icons>
+	<include resource="/com/kiwisoft/utils/icons/Icons.xml"/>
+	<icon key="splash">
+		<resource url="/com/kiwisoft/media/icons/splash.jpg"/>
+	</icon>
+	<icon key="details">
+		<resource url="/com/kiwisoft/media/icons/page_edit.png"/>
+	</icon>
+	<icon key="add">
+		<resource url="/com/kiwisoft/media/icons/add.png"/>
+	</icon>
+	<icon key="delete">
+		<resource url="/com/kiwisoft/media/icons/delete.png"/>
+	</icon>
+	<icon key="movie">
+		<resource url="/com/kiwisoft/media/icons/film.png"/>
+	</icon>
+	<icon key="show">
+		<resource url="/com/kiwisoft/media/icons/film.png"/>
+	</icon>
+	<icon key="schedule">
+		<resource url="/com/kiwisoft/media/icons/calendar.png"/>
+	</icon>
+	<icon key="records">
+		<resource url="/com/kiwisoft/media/icons/cd.png"/>
+	</icon>
+	<icon key="video">
+		<resource url="/com/kiwisoft/media/icons/cd.png"/>
+	</icon>
+	<icon key="video.add">
+		<resource url="/com/kiwisoft/media/icons/cd_add.png"/>
+	</icon>
+	<icon key="links">
+		<resource url="/com/kiwisoft/media/icons/world_link.png"/>
+	</icon>
+	<icon key="lookup.calendar">
+		<resource url="/com/kiwisoft/media/icons/calendar.png"/>
+	</icon>
+	<icon key="lookup.edit">
+		<resource url="/com/kiwisoft/media/icons/page_edit.png"/>
+	</icon>
+	<icon key="lookup.file">
+		<resource url="/com/kiwisoft/media/icons/folder_explore.png"/>
+	</icon>
+	<icon key="lookup.base">
+		<resource url="/com/kiwisoft/media/icons/bullet_arrow_down.png"/>
+	</icon>
+	<icon key="lookup.table.zoom">
+		<resource url="/com/kiwisoft/media/icons/zoom.png"/>
+	</icon>
+	<icon key="ok">
+		<resource url="/com/kiwisoft/media/icons/accept.png"/>
+	</icon>
+	<icon key="cancel">
+		<resource url="/com/kiwisoft/media/icons/cancel.png"/>
+	</icon>
+	<icon key="view.previous">
+		<resource url="/com/kiwisoft/media/icons/page_left.gif"/>
+	</icon>
+	<icon key="view.next">
+		<resource url="/com/kiwisoft/media/icons/page_right.gif"/>
+	</icon>
+	<icon key="cast">
+		<resource url="/com/kiwisoft/media/icons/group.png"/>
+	</icon>
+	<icon key="move.up">
+		<resource url="/com/kiwisoft/media/icons/arrow_up.png"/>
+	</icon>
+	<icon key="move.down">
+		<resource url="/com/kiwisoft/media/icons/arrow_down.png"/>
+	</icon>
+	<icon key="link.open">
+		<resource url="/com/kiwisoft/media/icons/link_go.png"/>
+	</icon>
+	<icon key="female">
+		<resource url="/com/kiwisoft/media/icons/female.png"/>
+	</icon>
+	<icon key="male">
+		<resource url="/com/kiwisoft/media/icons/male.png"/>
+	</icon>
+</icons>

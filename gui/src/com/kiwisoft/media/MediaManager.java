@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.SplashWindow;
+import com.kiwisoft.utils.gui.Icons;
 
 public class MediaManager
 {
@@ -17,6 +18,7 @@ public class MediaManager
 	public static void main(String[] args)
 	{
 		Locale.setDefault(Locale.UK);
+		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 		final Configurator configuration=Configurator.getInstance();
 		configuration.determineBaseDirectory(Show.class);
 		File configFile=new File(configuration.getApplicationBase(), "config.xml");
@@ -43,7 +45,7 @@ public class MediaManager
 		{
 			e.printStackTrace();
 		}
-		splashWindow=new SplashWindow("com/kiwisoft/media/icons/splash.jpg");
+		splashWindow=new SplashWindow(Icons.getIcon("splash"));
 		splashWindow.setStatus("MediaManager Version 2.0");
 		splashWindow.setVisible(true);
 

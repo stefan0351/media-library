@@ -6,30 +6,23 @@
  */
 package com.kiwisoft.media.fanfic;
 
-import java.util.Set;
 import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JComponent;
 
-import com.kiwisoft.media.fanfic.FanFicGroup;
-import com.kiwisoft.media.MediaManagerFrame;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
-public class FanFicsAction extends AbstractAction
+public class FanFicsAction<T extends FanFicGroup> extends SimpleContextAction<T>
 {
-	private FanFicGroup group;
-	private JComponent component;
+	private ApplicationFrame frame;
 
-	public FanFicsAction(JComponent component, Set<? extends FanFicGroup> groups)
+	public FanFicsAction(ApplicationFrame frame)
 	{
 		super("Fan Fiction");
-		this.component=component;
-		if (groups.size()==1) group=groups.iterator().next();
-		setEnabled(group!=null);
+		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		MediaManagerFrame wizard=(MediaManagerFrame)component.getTopLevelAncestor();
-		wizard.setCurrentView(new FanFicsView(group), true);
+		frame.setCurrentView(new FanFicsView(getObject()), true);
 	}
 }

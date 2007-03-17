@@ -26,7 +26,7 @@ public class ShowLookup extends ListLookup<Show>
 			else text=text+"%";
 			Set<Show> shows=new HashSet<Show>();
 			DBLoader dbLoader=DBLoader.getInstance();
-			shows.addAll(dbLoader.loadSet(Show.class, null, "name like ? or name_original like ?", text, text));
+			shows.addAll(dbLoader.loadSet(Show.class, null, "title like ? or german_title like ?", text, text));
 			shows.addAll(dbLoader.loadSet(Show.class, "names", "names.ref_id=shows.id and names.name like ?", text));
 			return shows;
 		}

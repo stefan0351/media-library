@@ -7,6 +7,7 @@
 				 com.kiwisoft.media.video.VideosWebTable"%>
 <%@ page import="com.kiwisoft.utils.gui.table.TableConstants"%>
 <%@ page import="com.kiwisoft.utils.gui.table.TableSortDescription"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 <%
 	String typeId=request.getParameter("type");
@@ -62,8 +63,8 @@
 <table class="contenttable" width="790">
 <tr><td class="header1">&Uuml;bersicht</td></tr>
 <tr><td class="content">
-	<table class="contenttable" width="765">
-	<tr>
+	<table class="table1" width="765">
+	<tr class="thead">
 <%
 		for (int i=0;i<model.getColumnCount();i++)
 		{
@@ -71,7 +72,7 @@
 			String sortDir;
 			if (sortDescription!=null && TableConstants.ASCEND.equals(sortDescription.getDirection())) sortDir="desc";
 			else sortDir="asc";
-			out.print("<td class=\"header2\"><a class=\"hiddenlink\" href=\"index.jsp?sort="+i+"&dir="+sortDir);
+			out.print("<td class=\"tcell\"><a class=\"hiddenlink\" href=\"index.jsp?sort="+i+"&dir="+sortDir);
 			if (type!=null) out.print("&type="+type.getId());
 			out.print("\">");
 			String columnName=model.getColumnName(i);
@@ -97,14 +98,17 @@
 <%
 		for (int row=0;row<model.getRowCount();row++)
 		{
-			out.print("<tr>");
+			out.print("<tr class=\"");
+			if (row%2==1) out.print("trow1");
+			else out.print("trow2");
+			out.print("\">");
 			for (int col=0;col<model.getColumnCount();col++)
 			{
-				out.print("<td class=\"content\"");
+				out.print("<td class=\"tcell\"");
 				Object value=model.getValueAt(row, col);
 				if (value instanceof Number) out.print(" align=right");
 				Video video=(Video)model.getRow(row).getUserObject();
-				out.print("><a class=link href=\"video.jsp?id="+video.getId()+"\">");
+				out.print("><a class=link href=\""+Navigation.getLink(video)+"\">");
 				if (value!=null) out.print(value);
 				out.print("</a></td>");
 			}

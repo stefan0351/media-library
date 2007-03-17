@@ -97,11 +97,11 @@ public class Airdate extends IDObject
 			Language language=getLanguage();
 			if (episode!=null)
 			{
-				if (event!=null) return show.getName(language)+" - "+episode.getNameWithKey(language)+" "+event;
-				else  return show.getName(language)+" - "+episode.getNameWithKey(getLanguage());
+				if (event!=null) return show.getTitle(language)+" - "+episode.getTitleWithKey(language)+" "+event;
+				else  return show.getTitle(language)+" - "+episode.getTitleWithKey(getLanguage());
 			}
-			else if (event!=null) return show.getName(language)+" - "+event;
-			else return show.getName(language);
+			else if (event!=null) return show.getTitle(language)+" - "+event;
+			else return show.getTitle(language);
 		}
 		return event;
 	}

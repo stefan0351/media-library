@@ -79,8 +79,8 @@ public class EpisodeDetailsView extends DetailsView
 	// Konfigurations Panel
 	private JTextField userKeyField;
 	private JTextField showField;
-	private JTextField nameField;
-	private JTextField originalNameField;
+	private JTextField titleField;
+	private JTextField germanTitleField;
 	private JCheckBox seenField;
 	private JCheckBox recordField;
 	private JCheckBox goodField;
@@ -118,9 +118,9 @@ public class EpisodeDetailsView extends DetailsView
 	{
 		if (episode!=null)
 		{
-			nameField.setText(episode.getName());
-			originalNameField.setText(episode.getOriginalName());
-			if (episode.getShow()!=null) showField.setText(episode.getShow().getName());
+			titleField.setText(episode.getTitle());
+			germanTitleField.setText(episode.getGermanTitle());
+			if (episode.getShow()!=null) showField.setText(episode.getShow().getTitle());
 			userKeyField.setText(episode.getUserKey());
 			seenField.setSelected(episode.isSeen());
 			recordField.setSelected(episode.isRecord());
@@ -137,20 +137,20 @@ public class EpisodeDetailsView extends DetailsView
 		}
 		else if (show!=null)
 		{
-			showField.setText(show.getName());
+			showField.setText(show.getTitle());
 			if (importEpisode!=null)
 			{
 				userKeyField.setText(importEpisode.getEpisodeKey());
-				nameField.setText(importEpisode.getEpisodeTitle());
-				originalNameField.setText(importEpisode.getOriginalEpisodeTitle());
+				titleField.setText(importEpisode.getEpisodeTitle());
+				germanTitleField.setText(importEpisode.getGermanEpisodeTitle());
 				firstAiredField.setDate(importEpisode.getFirstAirdate());
 				productionCodeField.setText(importEpisode.getProductionCode());
 			}
 		}
 		else if (airdate!=null)
 		{
-			showField.setText(airdate.getShow().getName());
-			nameField.setText(airdate.getEvent());
+			showField.setText(airdate.getShow().getTitle());
+			titleField.setText(airdate.getEvent());
 			show=airdate.getShow();
 		}
 	}
@@ -158,8 +158,8 @@ public class EpisodeDetailsView extends DetailsView
 	public boolean apply()
 	{
 		String number=userKeyField.getText();
-		String name=nameField.getText();
-		String originalName=originalNameField.getText();
+		String title=titleField.getText();
+		String germanTitle=germanTitleField.getText();
 		boolean record=recordField.isSelected();
 		boolean seen=seenField.isSelected();
 		boolean good=goodField.isSelected();
@@ -167,10 +167,10 @@ public class EpisodeDetailsView extends DetailsView
 		if (StringUtils.isEmpty(script)) script=null;
 		String javascript=javaScriptField.getText();
 		if (StringUtils.isEmpty(javascript)) javascript=null;
-		if (StringUtils.isEmpty(name) && StringUtils.isEmpty(originalName))
+		if (StringUtils.isEmpty(title) && StringUtils.isEmpty(germanTitle))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			nameField.requestFocus();
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
+			titleField.requestFocus();
 			return false;
 		}
 		Map<String, Language> names=namesModel.getNames();
@@ -181,8 +181,8 @@ public class EpisodeDetailsView extends DetailsView
 			transaction=DBSession.getInstance().createTransaction();
 			if (episode==null) episode=show.createEpisode();
 			episode.setUserKey(number);
-			episode.setName(name);
-			episode.setOriginalName(originalName);
+			episode.setTitle(title);
+			episode.setGermanTitle(germanTitle);
 			episode.setRecord(record);
 			episode.setSeen(seen);
 			episode.setGood(good);
@@ -236,24 +236,24 @@ public class EpisodeDetailsView extends DetailsView
 	{
 		JTabbedPane tabs=new JTabbedPane();
 		tabs.addTab("Details", createEpisodesPanel());
-		tabs.addTab("Beschreibung", createSummaryPanel());
+		tabs.addTab("Summary", createSummaryPanel());
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
-		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+		titleField.getDocument().addDocumentListener(new FrameTitleUpdater());
 	}
 
 	protected JPanel createEpisodesPanel()
 	{
 		showField=new JTextField();
 		showField.setEditable(false);
-		nameField=new JTextField();
-		originalNameField=new JTextField();
+		titleField=new JTextField();
+		germanTitleField=new JTextField();
 		userKeyField=new JTextField(5);
 		userKeyField.setMinimumSize(new Dimension(100, userKeyField.getPreferredSize().height));
-		goodField=new JCheckBox("Sehr Gut");
-		seenField=new JCheckBox("Gesehen");
-		recordField=new JCheckBox("Aufnehmen");
+		goodField=new JCheckBox("Good");
+		seenField=new JCheckBox("Seen");
+		recordField=new JCheckBox("Record");
 		scriptFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		javaScriptField=new JTextField();
 		firstAiredField=new DateField();
@@ -267,27 +267,27 @@ public class EpisodeDetailsView extends DetailsView
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		int row=0;
-		panel.add(new JLabel("Serie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		panel.add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		panel.add(showField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Number:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		panel.add(userKeyField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
-		panel.add(new JLabel("Produktionsnummer:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(new JLabel("Production Code:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(productionCodeField, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		panel.add(new JLabel("Erstausstrahlung:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		panel.add(new JLabel("First Aired:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(firstAiredField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		panel.add(nameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("Title:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(titleField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Originalname:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		panel.add(originalNameField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(new JLabel("German Title:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(germanTitleField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Skriptdatei:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(new JLabel("Script File:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		panel.add(scriptFileField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -295,7 +295,7 @@ public class EpisodeDetailsView extends DetailsView
 		panel.add(javaScriptField, new GridBagConstraints(1, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Alternative Titel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		panel.add(new JLabel("Alternative Titles:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		panel.add(namesPanel, new GridBagConstraints(1, row, 4, 3, 0.0, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(seenField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 
@@ -319,16 +319,16 @@ public class EpisodeDetailsView extends DetailsView
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		int row=0;
-		panel.add(new JLabel("Deutsch:"),
+		panel.add(new JLabel("English:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(germanSummaryPane,
+		panel.add(englishSummaryPane,
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(new JLabel("Englisch:"),
+		panel.add(new JLabel("German:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(englishSummaryPane,
+		panel.add(germanSummaryPane,
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		return panel;
 	}
@@ -342,8 +342,8 @@ public class EpisodeDetailsView extends DetailsView
 	{
 		public void changedUpdate(DocumentEvent e)
 		{
-			String name=nameField.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
+			String name=titleField.getText();
+			if (StringUtils.isEmpty(name)) name="<unknown>";
 			setTitle("Episode: "+name);
 		}
 	}

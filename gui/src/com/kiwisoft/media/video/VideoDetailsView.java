@@ -2,6 +2,7 @@ package com.kiwisoft.media.video;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -18,21 +19,25 @@ import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.DocumentAdapter;
+import com.kiwisoft.utils.DoubleKeyMap;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.db.SequenceManager;
 import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.TableConstants;
 
 public class VideoDetailsView extends DetailsView
 {
-	private EpisodesTableModel tmEpisodes;
-	private SortableTable tblEpisodes;
+	private RecordablesTableModel recordablesModel;
+	private SortableTable recordablesTable;
 
 	public static void create(Video video)
 	{
@@ -44,36 +49,86 @@ public class VideoDetailsView extends DetailsView
 		new DetailsFrame(new VideoDetailsView(type)).show();
 	}
 
-	public static void create(List<Episode> episodes)
+	public static void create(List<? extends Recordable> recordables)
 	{
-		new DetailsFrame(new VideoDetailsView(episodes)).show();
+		new DetailsFrame(new VideoDetailsView(recordables)).show();
 	}
 
-	private Chain<EpisodeTableRow> episodes;
+	private Chain<RecordableTableRow> recordables;
 	private Video video;
 	private MediumType type;
 
-	private JTextField tfUserKey;
-	private JTextField tfName;
-	private JTextField tfLength;
-	private JTextField tfRemaining;
-	private LookupField<MediumType> tfType;
+	private JTextField keyField;
+	private JTextField nameField;
+	private JTextField lengthField;
+	private JTextField remainingField;
+	private JTextField storageField;
+	private LookupField<MediumType> typeField;
+	private boolean manualName;
 
-	private VideoDetailsView(List<Episode> episodes)
+	private VideoDetailsView(List<? extends Recordable> recordables)
 	{
-		this.episodes=new Chain<EpisodeTableRow>();
-		for (Episode episode : episodes)
-		{
-			this.episodes.addNew(new EpisodeTableRow(episode));
-		}
+		this.recordables=new Chain<RecordableTableRow>();
+		for (Recordable recordable : recordables) this.recordables.addNew(new RecordableTableRow(recordable));
 		createContentPanel();
 		setVideo(null);
+		updateName();
+	}
+
+	private void updateName()
+	{
+		if (!manualName && recordables!=null)
+		{
+			DoubleKeyMap<Object, Language, List<Episode>> map=new DoubleKeyMap<Object, Language, List<Episode>>(
+				new LinkedHashMap<Object, Map<Language, List<Episode>>>());
+			for (RecordableTableRow row : recordables.elements())
+			{
+				Recordable recordable=row.getUserObject();
+				if (recordable instanceof Episode)
+				{
+					Episode episode=(Episode)recordable;
+					List<Episode> episodes=map.get(episode.getShow(), row.getLanguage());
+					if (episodes==null) map.put(episode.getShow(), row.getLanguage(), episodes=new ArrayList<Episode>(1));
+					episodes.add(episode);
+				}
+				else map.put(recordable, row.getLanguage(), null);
+			}
+			List<String> names=new ArrayList<String>(map.keySet().size());
+			for (Object recordable : map.keySet())
+			{
+				for (Language language : map.getKeys(recordable))
+				{
+					if (recordable instanceof Show)
+					{
+						Show show=(Show)recordable;
+						List<Episode> episodes=map.get(show, language);
+						Collections.sort(episodes);
+						List<String> episodeNames=new ArrayList<String>();
+						while (!episodes.isEmpty())
+						{
+							Episode firstEpisode=episodes.remove(0);
+							Episode lastEpisode=firstEpisode;
+							while (!episodes.isEmpty() && lastEpisode.getChainPosition()+1==episodes.get(0).getChainPosition())
+							{
+								lastEpisode=episodes.remove(0);
+							}
+							if (firstEpisode==lastEpisode) episodeNames.add(firstEpisode.getUserKey());
+							else episodeNames.add(firstEpisode.getUserKey()+"-"+lastEpisode.getUserKey());
+						}
+						names.add(show.getTitle(language)+" "+StringUtils.formatAsEnumeration(episodeNames, ","));
+					}
+					else names.add(((Recordable)recordable).getRecordableName(language));
+				}
+			}
+			nameField.setText(StringUtils.formatAsEnumeration(names, " / "));
+		}
 	}
 
 	private VideoDetailsView(Video video)
 	{
 		createContentPanel();
 		setVideo(video);
+		if (video!=null) manualName=true;
 	}
 
 	private VideoDetailsView(MediumType type)
@@ -85,51 +140,48 @@ public class VideoDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfUserKey=new JTextField();
-		tfName=new JTextField();
-		tfLength=new JTextField();
-		tfLength.setHorizontalAlignment(JTextField.TRAILING);
-		tfRemaining=new JTextField();
-		tfRemaining.setHorizontalAlignment(JTextField.TRAILING);
-		tfType=new LookupField<MediumType>(new MediumTypeLookup());
+		keyField=new JTextField();
+		keyField.setEditable(false);
+		nameField=new JTextField();
+		lengthField=new JTextField();
+		lengthField.setHorizontalAlignment(JTextField.TRAILING);
+		remainingField=new JTextField();
+		remainingField.setHorizontalAlignment(JTextField.TRAILING);
+		typeField=new LookupField<MediumType>(new MediumTypeLookup());
+		storageField=new JTextField();
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 120));
-		add(new JLabel("Schlüssel:"), new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-															 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfUserKey, new GridBagConstraints(1, 0, 1, 1, 0.5, 0.0,
-											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-		add(new JLabel("Type:"), new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0,
-														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(tfType, new GridBagConstraints(3, 0, 1, 1, 0.5, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-		add(new JLabel("Name:"), new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfName, new GridBagConstraints(1, 1, 3, 1, 1.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Länge:"), new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-														 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfLength, new GridBagConstraints(1, 2, 1, 1, 0.5, 0.0,
-											 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Restzeit:"), new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0,
-															GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfRemaining, new GridBagConstraints(3, 2, 1, 1, 0.5, 0.0,
-												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		if (episodes!=null)
+		int row=0;
+		add(new JLabel("Type:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(typeField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(new JLabel("Key:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
+		add(keyField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		row++;
+		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		row++;
+		add(new JLabel("Storage:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(storageField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		row++;
+		add(new JLabel("Length:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(lengthField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Remaining:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(remainingField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		if (recordables!=null)
 		{
 			setPreferredSize(new Dimension(600, 300));
-			tmEpisodes=new EpisodesTableModel();
-			tblEpisodes=new SortableTable(tmEpisodes);
-			tblEpisodes.initializeColumns(new MediaTableConfiguration("table.video.episodes"));
-			add(new JLabel("Episoden:"), new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-			add(new JScrollPane(tblEpisodes), new GridBagConstraints(1, 3, 3, 1, 1.0, 1.0,
-																	 GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
-			tblEpisodes.addMouseListener(new EpisodesMouseListener());
+			recordablesModel=new RecordablesTableModel();
+			recordablesTable=new SortableTable(recordablesModel);
+			recordablesTable.initializeColumns(new MediaTableConfiguration("table.video.recordables"));
+			row++;
+			add(new JLabel("Records:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+			add(new JScrollPane(recordablesTable), new GridBagConstraints(1, row, 3, 1, 1.0, 1.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+			recordablesTable.addMouseListener(new EpisodesMouseListener());
 		}
 
-		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
-		tfLength.addMouseListener(new LengthFieldListener());
+		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+		lengthField.addMouseListener(new LengthFieldListener());
 	}
 
 	private void setVideo(Video video)
@@ -137,44 +189,38 @@ public class VideoDetailsView extends DetailsView
 		this.video=video;
 		if (video!=null)
 		{
-			tfUserKey.setText(video.getUserKey());
-			tfName.setText(video.getName());
-			tfLength.setText(String.valueOf(video.getLength()));
-			tfLength.setEditable(false);
-			tfRemaining.setText(String.valueOf(video.getRemainingLength()));
-			tfType.setValue(video.getType());
+			keyField.setText(video.getUserKey());
+			nameField.setText(video.getName());
+			lengthField.setText(String.valueOf(video.getLength()));
+			lengthField.setEditable(false);
+			remainingField.setText(String.valueOf(video.getRemainingLength()));
+			typeField.setValue(video.getType());
+			storageField.setText(video.getStorage());
 		}
 		else
 		{
-			tfType.setValue(type);
-			tfLength.setEditable(true);
-			tfRemaining.setEditable(false);
-			tfLength.getDocument().addDocumentListener(new RemainingUpdater());
-			tfLength.setText("300");
+			typeField.setValue(type);
+			lengthField.setEditable(true);
+			remainingField.setEditable(false);
+			lengthField.getDocument().addDocumentListener(new RemainingUpdater());
+			lengthField.setText("300");
 		}
 	}
 
 	public boolean apply()
 	{
-		String key=tfUserKey.getText();
-		if (StringUtils.isEmpty(key))
-		{
-			JOptionPane.showMessageDialog(this, "Schlüssel fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			tfUserKey.requestFocus();
-			return false;
-		}
-		String name=tfName.getText();
+		String name=nameField.getText();
 		if (StringUtils.isEmpty(name))
 		{
 			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			tfName.requestFocus();
+			nameField.requestFocus();
 			return false;
 		}
-		MediumType type=tfType.getValue();
+		MediumType type=typeField.getValue();
 		if (type==null)
 		{
 			JOptionPane.showMessageDialog(this, "Typ fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			tfType.requestFocus();
+			typeField.requestFocus();
 			return false;
 		}
 		int length=0;
@@ -183,24 +229,24 @@ public class VideoDetailsView extends DetailsView
 		{
 			try
 			{
-				length=Integer.parseInt(tfLength.getText());
+				length=Integer.parseInt(lengthField.getText());
 				if (length<=0 || length>500) throw new NumberFormatException();
 			}
 			catch (NumberFormatException e)
 			{
 				JOptionPane.showMessageDialog(this, "Fehlerhafte Längenangabe!", "Fehler", JOptionPane.ERROR_MESSAGE);
-				tfLength.requestFocus();
+				lengthField.requestFocus();
 				return false;
 			}
 			try
 			{
-				remain=Integer.parseInt(tfRemaining.getText());
+				remain=Integer.parseInt(remainingField.getText());
 				if (remain<0 || remain>length) throw new NumberFormatException();
 			}
 			catch (NumberFormatException e)
 			{
 				JOptionPane.showMessageDialog(this, "Fehlerhafte Restlängenangabe!", "Fehler", JOptionPane.ERROR_MESSAGE);
-				tfRemaining.requestFocus();
+				remainingField.requestFocus();
 				return false;
 			}
 		}
@@ -210,25 +256,28 @@ public class VideoDetailsView extends DetailsView
 		{
 			transaction=DBSession.getInstance().createTransaction();
 			if (video==null) video=VideoManager.getInstance().createVideo();
+			// todo remove if all videos have a key
+			else if (StringUtils.isEmpty(video.getUserKey())) video.setUserKey("D"+SequenceManager.getSequence("video").next());
 			video.setLength(length);
 			video.setRemainingLength(remain);
 			video.setName(name);
-			video.setUserKey(key);
 			video.setType(type);
-			if (episodes!=null)
+			video.setStorage(storageField.getText());
+			if (recordables!=null)
 			{
-				for (Iterator it=episodes.iterator(); it.hasNext();)
+				for (Iterator it=recordables.iterator(); it.hasNext();)
 				{
-					EpisodeTableRow row=(EpisodeTableRow)it.next();
+					RecordableTableRow row=(RecordableTableRow)it.next();
 					Recording recording=video.createRecording();
-					recording.setShow(row.getUserObject().getShow());
-					recording.setEpisode(row.getUserObject());
+					row.getUserObject().initRecord(recording);
 					recording.setLength(row.getLength());
 					recording.setLanguage(row.getLanguage());
 				}
+				recordables=null;
 			}
 			transaction.close();
 			VideoManager.getInstance().fireElementChanged(video);
+			keyField.setText(video.getUserKey());
 			return true;
 		}
 		catch (Exception e)
@@ -255,7 +304,7 @@ public class VideoDetailsView extends DetailsView
 	{
 		public void mouseClicked(MouseEvent e)
 		{
-			if (e.getClickCount()>1) tfLength.setEditable(true);
+			if (e.getClickCount()>1) lengthField.setEditable(true);
 		}
 	}
 
@@ -265,8 +314,8 @@ public class VideoDetailsView extends DetailsView
 		{
 			try
 			{
-				int length=Integer.parseInt(tfLength.getText());
-				tfRemaining.setText(Integer.toString(length));
+				int length=Integer.parseInt(lengthField.getText());
+				remainingField.setText(Integer.toString(length));
 			}
 			catch (NumberFormatException e1)
 			{
@@ -280,64 +329,64 @@ public class VideoDetailsView extends DetailsView
 		{
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
-				int[] rowIndexes=tblEpisodes.getSelectedRows();
-				Set<EpisodeTableRow> rows=new LinkedHashSet<EpisodeTableRow>();
+				int[] rowIndexes=recordablesTable.getSelectedRows();
+				Set<RecordableTableRow> rows=new LinkedHashSet<RecordableTableRow>();
 				for (int rowIndex : rowIndexes)
 				{
-					rows.add((EpisodeTableRow) tmEpisodes.getRow(rowIndex));
+					rows.add((RecordableTableRow)recordablesModel.getRow(rowIndex));
 				}
 				JPopupMenu popupMenu=new JPopupMenu();
 				popupMenu.add(new MoveUpAction(rows));
 				popupMenu.add(new MoveDownAction(rows));
-				popupMenu.show(tblEpisodes, e.getX(), e.getY());
+				popupMenu.show(recordablesTable, e.getX(), e.getY());
 				e.consume();
 			}
 			super.mouseClicked(e);
 		}
 	}
 
-	private void restoreSelection(Set<EpisodeTableRow> rows)
+	private void restoreSelection(Set<RecordableTableRow> rows)
 	{
-		tblEpisodes.clearSelection();
-		for (EpisodeTableRow row : rows)
+		recordablesTable.clearSelection();
+		for (RecordableTableRow row : rows)
 		{
-			int index=tmEpisodes.indexOfRow(row);
-			tblEpisodes.getSelectionModel().addSelectionInterval(index, index);
+			int index=recordablesModel.indexOfRow(row);
+			recordablesTable.getSelectionModel().addSelectionInterval(index, index);
 		}
 	}
 
 	private class MoveUpAction extends AbstractAction
 	{
-		private Set<EpisodeTableRow> rows;
+		private Set<RecordableTableRow> rows;
 
-		public MoveUpAction(Set<EpisodeTableRow> rows)
+		public MoveUpAction(Set<RecordableTableRow> rows)
 		{
-			super("Nach oben");
+			super("Move Up", Icons.getIcon("move.up"));
 			this.rows=rows;
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
-			for (EpisodeTableRow row : rows) episodes.moveUp(row);
-			tmEpisodes.sort();
+			for (RecordableTableRow row : rows) recordables.moveUp(row);
+			recordablesModel.sort();
 			restoreSelection(rows);
 		}
 	}
 
 	private class MoveDownAction extends AbstractAction
 	{
-		private Set<EpisodeTableRow> rows;
+		private Set<RecordableTableRow> rows;
 
-		public MoveDownAction(Set<EpisodeTableRow> rows)
+		public MoveDownAction(Set<RecordableTableRow> rows)
 		{
-			super("Nach unten");
+			super("Move Down", Icons.getIcon("move.down"));
 			this.rows=rows;
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
-			for (EpisodeTableRow row : rows) episodes.moveDown(row);
-			tmEpisodes.sort();
+			for (RecordableTableRow row : rows) recordables.moveDown(row);
+			recordablesModel.sort();
 			restoreSelection(rows);
 		}
 	}
@@ -351,19 +400,20 @@ public class VideoDetailsView extends DetailsView
 
 		public void changedUpdate(DocumentEvent e)
 		{
-			String name=tfName.getText();
-			if (StringUtils.isEmpty(name)) name="<unbekannt>";
+			if (nameField.hasFocus()) manualName=true;
+			String name=nameField.getText();
+			if (StringUtils.isEmpty(name)) name="<unknown>";
 			setTitle("Video: "+name);
 		}
 	}
 
-	private class EpisodesTableModel extends SortableTableModel<Episode>
+	private class RecordablesTableModel extends SortableTableModel<Recordable>
 	{
 		private final String[] COLUMNS={"event", "length", "language"};
 
-		public EpisodesTableModel()
+		public RecordablesTableModel()
 		{
-			for (Iterator it=episodes.iterator(); it.hasNext();) addRow((EpisodeTableRow)it.next());
+			for (Iterator it=recordables.iterator(); it.hasNext();) addRow((RecordableTableRow)it.next());
 		}
 
 		public int getColumnCount()
@@ -388,33 +438,52 @@ public class VideoDetailsView extends DetailsView
 		}
 	}
 
-	private static class EpisodeTableRow extends SortableTableRow<Episode> implements Chain.ChainLink
+	private class RecordableTableRow extends SortableTableRow<Recordable> implements Chain.ChainLink
 	{
 		private int length;
 		private int index;
 		private Language language;
 
-		public EpisodeTableRow(Episode episode)
+		public RecordableTableRow(Recordable recordable)
 		{
-			super(episode);
-			length=episode.getShow().getDefaultEpisodeLength();
+			super(recordable);
+			length=recordable.getRecordableLength();
 			language=LanguageManager.getInstance().getLanguageBySymbol("de");
 		}
 
 		public Object getDisplayValue(int column, String property)
 		{
-			switch (column)
-			{
-				case 0:
-					Episode episode=getUserObject();
-					Show show=episode.getShow();
-					return show.getName(language)+" - "+episode.getNameWithKey(language);
-				case 1:
-					return new Integer(length);
-				case 2:
-					return language;
-			}
+			if ("event".equals(property))
+				return getUserObject().getRecordableName(language);
+			if ("length".equals(property))
+				return new Integer(length);
+			if ("language".equals(property))
+				return language;
 			return "";
+		}
+
+		@Override
+		public int setValue(Object value, int column, String property)
+		{
+			if ("length".equals(property))
+			{
+				if (value instanceof Number) length=((Number)value).intValue();
+				return TableConstants.CELL_UPDATE;
+			}
+			if ("language".equals(property))
+			{
+				language=(Language)value;
+				updateName();
+				return TableConstants.ROW_UPDATE;
+			}
+			return super.setValue(value, column, property);
+		}
+
+		@Override
+		public boolean isEditable(int column, String property)
+		{
+			if ("language".equals(property)) return true;
+			return "length".equals(property);
 		}
 
 		public void setChainPosition(int position)

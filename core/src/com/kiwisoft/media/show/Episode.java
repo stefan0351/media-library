@@ -9,8 +9,11 @@ package com.kiwisoft.media.show;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.video.Recordable;
+import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.utils.StringUtils;
@@ -19,13 +22,13 @@ import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
 
-public class Episode extends IDObject implements Chain.ChainLink, Comparable, Production
+public class Episode extends IDObject implements Chain.ChainLink, Comparable, Production, Recordable
 {
 	public static final String SHOW="show";
 
 	private String userKey;
-	private String name;
-	private String originalName;
+	private String title;
+	private String germanTitle;
 	private int sequence;
 	private boolean seen;
 	private boolean record;
@@ -79,14 +82,14 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 		setModified();
 	}
 
-	public String getName()
+	public String getTitle()
 	{
-		return name;
+		return title;
 	}
 
-	public void setName(String name)
+	public void setTitle(String title)
 	{
-		this.name=name;
+		this.title=title;
 		setModified();
 	}
 
@@ -193,18 +196,18 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 
 	public String toString()
 	{
-		if (userKey!=null && name!=null) return userKey+": \""+name+"\"";
-		else if (name!=null) return "\""+name+"\"";
+		if (userKey!=null && title!=null) return userKey+": \""+title+"\"";
+		else if (title!=null) return "\""+title+"\"";
 		else return userKey;
 	}
 
-	public String getNameWithKey(Language language)
+	public String getTitleWithKey(Language language)
 	{
 		String name=null;
 		if (language!=null)
 		{
-			if ("de".equals(language.getSymbol())) name=getName();
-			if (getShow().getLanguage()==language) name=getOriginalName();
+			if ("de".equals(language.getSymbol())) name=getGermanTitle();
+			if (getShow().getLanguage()==language) name=getTitle();
 			else
 			{
 				for (Iterator it=getAltNames().iterator(); it.hasNext();)
@@ -218,18 +221,18 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 				}
 			}
 		}
-		else name=getName();
+		else name=getTitle();
 		if (userKey!=null && name!=null) return userKey+": \""+name+"\"";
 		else if (name!=null) return "\""+name+"\"";
 		else return userKey;
 	}
 
-	public String getName(Language language)
+	public String getTitle(Language language)
 	{
 		if (language!=null)
 		{
-			if ("de".equals(language.getSymbol())) return getName();
-			if (getShow().getLanguage()==language) return getOriginalName();
+			if ("de".equals(language.getSymbol())) return getGermanTitle();
+			if (getShow().getLanguage()==language) return getTitle();
 			else
 			{
 				for (Iterator it=getAltNames().iterator(); it.hasNext();)
@@ -239,7 +242,7 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 				}
 			}
 		}
-		return getName();
+		return getTitle();
 	}
 
 	public void afterReload()
@@ -256,14 +259,14 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 		return 0;
 	}
 
-	public String getOriginalName()
+	public String getGermanTitle()
 	{
-		return originalName;
+		return germanTitle;
 	}
 
-	public void setOriginalName(String originalName)
+	public void setGermanTitle(String germanTitle)
 	{
-		this.originalName=originalName;
+		this.germanTitle=germanTitle;
 		setModified();
 	}
 
@@ -316,4 +319,31 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and type=?", getId(), type);
 	}
+
+	public int getRecordableLength()
+	{
+		return getShow().getDefaultEpisodeLength();
+	}
+
+	public String getRecordableName(Language language)
+	{
+		Show show=getShow();
+		return show.getTitle(language)+" - "+getTitleWithKey(language);
+	}
+
+	public void initRecord(Recording recording)
+	{
+		recording.setShow(getShow());
+		recording.setEpisode(this);
+	}
+
+	public void delete()
+	{
+		for (Name name : new HashSet<Name>(getAltNames())) dropAltName(name);
+		for (Summary summary : DBLoader.getInstance().loadSet(Summary.class, null, "episode_id=?", getId())) summary.delete();
+		for (CastMember castMember : DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=?", getId())) castMember.delete();
+		for (CrewMember crewMember : DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=?", getId())) crewMember.delete();
+		super.delete();
+	}
+
 }

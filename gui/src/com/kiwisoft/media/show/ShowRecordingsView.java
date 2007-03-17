@@ -1,28 +1,23 @@
 package com.kiwisoft.media.show;
 
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
 
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.video.RecordingDetailsView;
+import com.kiwisoft.media.video.RecordingDetailsAction;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 
 public class ShowRecordingsView extends ViewPanel
 {
 	private Show show;
 
-	private SortableTable tblRecords;
-	private ShowRecordsTableModel tmRecords;
-	private DoubleClickListener doubleClickListener;
-	private JScrollPane scrlRecords;
+	private TableController<Recording> tableController;
 
 	public ShowRecordingsView(Show show)
 	{
@@ -31,53 +26,49 @@ public class ShowRecordingsView extends ViewPanel
 
 	public String getName()
 	{
-		return show.getName()+" - Aufnahmen";
+		return show.getTitle()+" - Records";
 	}
 
 	public JComponent createContentPanel(ApplicationFrame frame)
 	{
-		tmRecords=new ShowRecordsTableModel(show);
+		ShowRecordsTableModel tableModel=new ShowRecordsTableModel(show);
+		tableModel.sort();
 
-		tblRecords=new SortableTable(tmRecords);
-		tblRecords.setPreferredScrollableViewportSize(new Dimension(200, 200));
-		tblRecords.initializeColumns(new MediaTableConfiguration("table.show.recordings"));
-		tmRecords.sort();
+		tableController=new TableController<Recording>(tableModel, new MediaTableConfiguration("table.show.recordings"))
+		{
+			@Override
+			public List<ContextAction<Recording>> getToolBarActions()
+			{
+				List<ContextAction<Recording>> actions=new ArrayList<ContextAction<Recording>>(1);
+				actions.add(new RecordingDetailsAction());
+				return actions;
+			}
 
-		scrlRecords=new JScrollPane(tblRecords);
-		return scrlRecords;
+			@Override
+			public ContextAction<Recording> getDoubleClickAction()
+			{
+				return new RecordingDetailsAction();
+			}
+		};
+		return tableController.createComponent();
 	}
 
-	protected void installComponentListener()
+	protected void installComponentListeners()
 	{
-		doubleClickListener=new DoubleClickListener();
-		scrlRecords.addMouseListener(doubleClickListener);
-		tblRecords.addMouseListener(doubleClickListener);
+		tableController.installListeners();
+		super.installComponentListeners();
 	}
 
 	protected void removeComponentListeners()
 	{
-		scrlRecords.removeMouseListener(doubleClickListener);
-		tblRecords.removeMouseListener(doubleClickListener);
+		tableController.removeListeners();
+		super.removeComponentListeners();
 	}
 
 	public void dispose()
 	{
-		tmRecords.clear();
+		tableController.dispose();
 		super.dispose();
-	}
-
-	private class DoubleClickListener extends MouseAdapter
-	{
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				int rowIndex=tblRecords.rowAtPoint(e.getPoint());
-				SortableTableRow row=tmRecords.getRow(rowIndex);
-				if (row!=null) RecordingDetailsView.create((Recording)row.getUserObject());
-				e.consume();
-			}
-		}
 	}
 
 	public boolean isBookmarkable()

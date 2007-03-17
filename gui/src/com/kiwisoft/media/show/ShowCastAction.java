@@ -2,6 +2,7 @@ package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowCastView;
 
@@ -20,7 +21,7 @@ public class ShowCastAction extends SimpleContextAction<Show>
 
 	public ShowCastAction(ApplicationFrame frame)
 	{
-		super("Darsteller");
+		super("Cast", Icons.getIcon("cast"));
 		this.frame=frame;
 	}
 

@@ -12,7 +12,6 @@ import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Identifyable;
 import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.dataImport.SearchManager;
-import com.kiwisoft.media.person.PersonManager;
 
 public class Person extends IDObject
 {
@@ -82,14 +81,14 @@ public class Person extends IDObject
 		setModified();
 	}
 
-	public Sex getSex()
+	public Gender getSex()
 	{
-		return (Sex)getReference(SEX);
+		return (Gender)getReference(SEX);
 	}
 
-	public void setSex(Sex sex)
+	public void setSex(Gender gender)
 	{
-		setReference(SEX, sex);
+		setReference(SEX, gender);
 	}
 
 	public boolean isActor()
@@ -110,7 +109,7 @@ public class Person extends IDObject
 
 	public Identifyable loadReference(String name, Long referenceId)
 	{
-		if (SEX.equals(name)) return Sex.get(referenceId);
+		if (SEX.equals(name)) return Gender.get(referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

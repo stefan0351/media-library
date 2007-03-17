@@ -54,7 +54,7 @@ public abstract class CreateMovieTx implements Transactional
 		{
 			if (!crew.contains(crewData))
 			{
-				Person person=PersonManager.getInstance().getPersonByName(crewData.getName());
+				Person person=PersonManager.getInstance().getPersonByName(crewData.getName(), false);
 				if (person==null) person=persons.get(crewData.getName());
 				if (person==null)
 				{
@@ -77,7 +77,7 @@ public abstract class CreateMovieTx implements Transactional
 		{
 			if (!cast.contains(castData))
 			{
-				Person person=PersonManager.getInstance().getPersonByName(castData.getActor());
+				Person person=PersonManager.getInstance().getPersonByName(castData.getActor(), false);
 				if (person==null) person=persons.get(castData.getActor());
 				if (person==null)
 				{

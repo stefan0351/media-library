@@ -8,6 +8,7 @@
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.utils.db.DBLoader"%>
+<%@ page import="com.kiwisoft.media.Navigation"%>
 
 
 <html>
@@ -57,12 +58,12 @@
 					{
 						Show show=(Show)itShows.next();
 %>
-						<li><b><a class=link href="<%=show.getLink()%>"><%=show.getName()%></a></b>
+						<li><b><a class=link href="<%=Navigation.getLink(show)%>"><%=show.getTitle()%></a></b>
 <%
 						if (show.getLanguage()!=german)
 						{
 %>
-							(<a class=link href="<%=show.getLink()%>"><%=show.getOriginalName()%></a>)
+							(<a class=link href="<%=Navigation.getLink(show)%>"><%=show.getGermanTitle()%></a>)
 <%
 						}
 					}

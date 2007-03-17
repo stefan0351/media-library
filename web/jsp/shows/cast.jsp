@@ -1,11 +1,11 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import = "java.util.Iterator,
 				   java.util.Set,
-				   java.util.TreeSet,
-				   com.kiwisoft.media.person.CastComparator,
+				   com.kiwisoft.media.Navigation,
 				   com.kiwisoft.media.person.CastMember,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
+				   com.kiwisoft.utils.JspUtils,
 				   com.kiwisoft.utils.StringUtils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -17,7 +17,7 @@
 <html>
 
 <head>
-<title><%=show.getName()%> - Darsteller</title>
+<title><%=show.getTitle()%> - Cast</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -26,7 +26,7 @@
 <a name="top"></a>
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=show.getName()%></media:title>
+<media:title><%=show.getTitle()%></media:title>
 
 <div class="main">
 <table cellspacing="0" cellpadding="5"><tr valign="top">
@@ -48,83 +48,33 @@
 	{
 %>
 <table class="contenttable" width="790">
-<tr><td class="header1" colspan="2">Hauptdarsteller</td></tr>
+<tr><td class="header1" colspan="2">Main Cast</td></tr>
 <tr><td class="content">
+	<table class="table1">
+	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td tclass="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
-		Set imageCast=new TreeSet(new CastComparator());
-		Set noImageCast=new TreeSet(new CastComparator());
+		boolean row=false;
 		for (Iterator it=mainCast.iterator(); it.hasNext();)
 		{
 			CastMember cast=(CastMember)it.next();
-			if (StringUtils.isEmpty(cast.getImageSmall())) noImageCast.add(cast);
-			else imageCast.add(cast);
-		}
 %>
-	<table cellspacing=5 cellpadding=5 width="100%">
+	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-		int col=0;
-		boolean row=true;
-		for (Iterator it=imageCast.iterator(); it.hasNext();)
-		{
-			CastMember cast=(CastMember)it.next();
-			String description=cast.getDescription();
-			if (description==null) description="";
-			if (col==0) out.print("<tr class=content valign=top>");
-%>
-				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacterName()%></b>
-				<p>
-<%
-				String imageLarge=cast.getImageLarge();
-				if (!StringUtils.isEmpty(imageLarge)) out.print("<a href=\"/"+imageLarge+"\">");
-%>
-				<img src="/<%=cast.getImageSmall()%>" align=<%=((row && col==1) || (!row && col==0)) ? "right" : "left"%> hspace="5" vspace="5" border="0">
-<%
-				if (!StringUtils.isEmpty(imageLarge)) out.print("</a>");
-%>
-			<%=description%><br clear=all></p>
-<%
-				if (!StringUtils.isEmpty(cast.getVoice()))
-				{
-%>
-					 <i>Synchronstimme: <%=cast.getVoice()%></i>
-<%
-				}
-%>
-				</td>
-<%
-				col++;
-				if (col==2)
-				{
-					out.print("</tr>");
-					col=0;
-					row=!row;
-				}
-			}
-			col=0;
-			for (Iterator it=noImageCast.iterator(); it.hasNext();)
+			if (!StringUtils.isEmpty(cast.getImageSmall()))
 			{
-				CastMember cast=(CastMember)it.next();
-				String description=cast.getDescription();
-				if (col==0) out.print("<tr class=content valign=top>");
 %>
-				<td width="50%" style="border:solid 1px lightgray"><b><%=cast.getActor()%></b> als <b><%=cast.getCharacterName()%></b>
+			<img src="/<%=cast.getImageSmall()%>" border="0" vspace="5" hspace="5">
 <%
-				if (!StringUtils.isEmpty(description))
-				{
-				%><p><%=description%><br clear=all></p><%
-				}
-				if (!StringUtils.isEmpty(cast.getVoice()))
-				{
-				%><br><i>Synchronstimme: <%=cast.getVoice()%></i><%
-				}
-			%></td><%
-				col++;
-				if (col==2)
-				{
-					out.print("</tr>");
-					col=0;
-				}
 			}
+			row=!row;
+%>
+		</td>
+		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(cast.getActor())%>"><%=JspUtils.prepareString(cast.getActor().getName())%></a></td>
+		<td class="tcell2">... <%=JspUtils.prepareString(cast.getCharacterName())%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.prepareString(cast.getVoice())%></td>
+	</tr>
+<%
+		}
 %>
 	</table>
 
@@ -139,19 +89,31 @@
 	{
 %>
 <table class="contenttable" width="790">
-<tr><td class="header1">Wiederkehrende Darsteller</td></tr>
+<tr><td class="header1" colspan="2">Recurring Cast</td></tr>
 <tr><td class="content">
-	<table class="contenttable" width="765">
-	<tr class="header2"><td>Charakter</td><td>Schauspieler(in)</td><td>Synchronstimme</td></tr>
+	<table class="table1">
+	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td tclass="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
-		Iterator it=recurringCast.iterator();
-		while (it.hasNext())
+		boolean row=false;
+		for (Iterator it=recurringCast.iterator(); it.hasNext();)
 		{
 			CastMember cast=(CastMember)it.next();
 %>
-			<tr><td class="content"><%=cast.getCharacterName()!=null ? cast.getCharacterName() : "&nbsp;"%></td>
-				<td class="content"><%=cast.getActor()!=null ? cast.getActor().toString() : "&nbsp;"%></td>
-				<td class="content"><%=cast.getVoice()!=null ? cast.getVoice() : "&nbsp;"%></td></tr>
+	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
+<%
+			if (!StringUtils.isEmpty(cast.getImageSmall()))
+			{
+%>
+			<img src="/<%=cast.getImageSmall()%>" border="0" vspace="5" hspace="5">
+<%
+			}
+			row=!row;
+%>
+		</td>
+		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(cast.getActor())%>"><%=JspUtils.prepareString(cast.getActor().getName())%></a></td>
+		<td class="tcell2">... <%=JspUtils.prepareString(cast.getCharacterName())%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.prepareString(cast.getVoice())%></td>
+	</tr>
 <%
 		}
 %>
@@ -160,7 +122,6 @@
 	<p align=right><a class=link href="#top">Top</a></p>
 </td></tr>
 </table>
-
 <%
 	}
 %>

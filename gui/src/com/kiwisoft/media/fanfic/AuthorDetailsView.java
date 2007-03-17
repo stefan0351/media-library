@@ -20,7 +20,7 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.IconManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
@@ -76,7 +76,7 @@ public class AuthorDetailsView extends DetailsView
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Verzeichnis:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Directory:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfPath, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -136,7 +136,7 @@ public class AuthorDetailsView extends DetailsView
 		String name=tfName.getText();
 		if (StringUtils.isEmpty(name))
 		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfName.requestFocus();
 			return false;
 		}
@@ -207,7 +207,7 @@ public class AuthorDetailsView extends DetailsView
 			String name=tfName.getText();
 			if (StringUtils.isEmpty(name)) name="<Name>";
 			else name=name.trim();
-			setTitle("Autor: "+name);
+			setTitle("Author: "+name);
 		}
 	}
 
@@ -222,13 +222,13 @@ public class AuthorDetailsView extends DetailsView
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(field, e.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(field, e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 		public Icon getIcon()
 		{
-			return IconManager.getIcon("com/kiwisoft/utils/icons/lookup_create.gif");
+			return Icons.getIcon("lookup.create");
 		}
 	}
 
