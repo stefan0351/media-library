@@ -11,7 +11,7 @@
     </buildFile>
   </component>
   <component name="CharacterBrowser">
-    <option name="fontName" value="Monospaced" />
+    <option name="fontName" value="Arial Unicode MS" />
   </component>
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS" />

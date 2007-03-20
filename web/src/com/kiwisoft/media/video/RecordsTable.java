@@ -1,8 +1,9 @@
 package com.kiwisoft.media.video;
 
 import java.util.Iterator;
+import java.util.ResourceBundle;
 
-import com.kiwisoft.utils.SortableWebTable;
+import com.kiwisoft.web.SortableWebTable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,13 +12,18 @@ import com.kiwisoft.utils.SortableWebTable;
  * Time: 11:43:17
  * To change this template use File | Settings | File Templates.
  */
-public class RecordsWebTable extends SortableWebTable<Recording>
+public class RecordsTable extends SortableWebTable<Recording>
 {
+	public static final String INDEX="index";
+	public static final String EVENT="event";
+	public static final String LENGTH="length";
+	public static final String LANGUAGE="language";
+
 	private Video video;
 
-	public RecordsWebTable(Video video)
+	public RecordsTable(Video video)
 	{
-		super("index", "event", "length", "language");
+		super(INDEX, EVENT, LENGTH, LANGUAGE);
 		this.video=video;
 		Iterator<Recording> it=video.getRecordings().iterator();
 		while (it.hasNext())
@@ -27,9 +33,9 @@ public class RecordsWebTable extends SortableWebTable<Recording>
 		sort();
 	}
 
-	public Video getVideo()
+	public ResourceBundle getBundle()
 	{
-		return video;
+		return ResourceBundle.getBundle(RecordsTable.class.getName());
 	}
 
 	public boolean isResortable()
@@ -53,17 +59,10 @@ public class RecordsWebTable extends SortableWebTable<Recording>
 		public Object getDisplayValue(int column, String property)
 		{
 			Recording record=getUserObject();
-			switch (column)
-			{
-				case 0:
-					return new Integer(video.getRecordingIndex(record)+1);
-				case 1:
-					return record.getName();
-				case 2:
-					return new Integer(record.getLength());
-				case 3:
-					return record.getLanguage();
-			}
+			if (INDEX.equals(property)) return video.getRecordingIndex(record)+1;
+			if (EVENT.equals(property)) return record;
+			if (LENGTH.equals(property)) return record.getLength();
+			if (LANGUAGE.equals(property)) return record.getLanguage();
 			return "";
 		}
 	}

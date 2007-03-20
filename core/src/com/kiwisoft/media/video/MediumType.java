@@ -39,6 +39,7 @@ public class MediumType implements Identifyable
 		{
 			MediumType type=it.next();
 			if (StringUtils.matchExpression(type.getName(), pattern)) result.add(type);
+			else if ((type.getId().toString()+"*").equals(pattern)) result.add(type);
 		}
 		return result;
 	}

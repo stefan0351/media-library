@@ -1,4 +1,4 @@
-package com.kiwisoft.media;
+package com.kiwisoft.media.movie;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -16,6 +16,8 @@ import com.kiwisoft.media.dataImport.MovieData;
 import com.kiwisoft.media.dataImport.CreateMovieTx;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
+import com.kiwisoft.media.MediaManagerApp;
+import com.kiwisoft.media.Navigation;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.StringUtils;
 

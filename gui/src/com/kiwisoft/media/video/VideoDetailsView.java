@@ -199,7 +199,8 @@ public class VideoDetailsView extends DetailsView
 		}
 		else
 		{
-			typeField.setValue(type);
+			if (type!=null) typeField.setValue(type);
+			else typeField.setValue(MediumType.DVD);
 			lengthField.setEditable(true);
 			remainingField.setEditable(false);
 			lengthField.getDocument().addDocumentListener(new RemainingUpdater());

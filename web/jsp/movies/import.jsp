@@ -6,7 +6,7 @@
 <%@ page import="com.kiwisoft.media.dataImport.CastData" %>
 <%@ page import="com.kiwisoft.media.dataImport.CrewData" %>
 <%@ page import="com.kiwisoft.media.dataImport.MovieData" %>
-<%@ page import="com.kiwisoft.utils.JspUtils" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 
 <%

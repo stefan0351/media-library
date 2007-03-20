@@ -5,6 +5,7 @@
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
 				   com.kiwisoft.utils.SortedSetMap" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -14,7 +15,7 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Links</title>
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Links</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -24,7 +25,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
 </div>
 
 <div class="main">
@@ -55,7 +56,7 @@
 	{
 		Language language=(Language)itLanguages.next();
 %>
-	<p><b><u><%=language.getName()%>e Webseiten</u></b></p>
+	<p><b><u><%=language.getName()%> Websites</u></b></p>
 	<ul>
 <%
 		for (Iterator itLinks=sortedLinks.get(language).iterator(); itLinks.hasNext();)

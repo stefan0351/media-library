@@ -8,7 +8,7 @@
 
 
 <table class="menutable">
-<tr><td class="menuheader">Serien</td></tr>
+<tr><td class="menuheader">Shows</td></tr>
 <%
 		SortedSet genres=new TreeSet(StringUtils.getComparator());
 		genres.addAll(DBLoader.getInstance().loadSet(Genre.class));

@@ -5,8 +5,9 @@
 				   com.kiwisoft.media.person.CastMember,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
-				   com.kiwisoft.utils.JspUtils,
 				   com.kiwisoft.utils.StringUtils" %>
+<%@ page import="com.kiwisoft.web.JspUtils"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -17,7 +18,7 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Cast</title>
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Cast</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -26,7 +27,7 @@
 <a name="top"></a>
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=show.getTitle()%></media:title>
+<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%></media:title>
 
 <div class="main">
 <table cellspacing="0" cellpadding="5"><tr valign="top">

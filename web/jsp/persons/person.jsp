@@ -8,12 +8,13 @@
 <%@ page import="com.kiwisoft.media.person.PersonManager" %>
 <%@ page import="com.kiwisoft.media.show.Episode" %>
 <%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.utils.JspUtils"%>
 <%@ page import="com.kiwisoft.utils.SetMap"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.utils.db.DBLoader"%>
 <%@ page import="com.kiwisoft.utils.db.Chain"%>
 <%@ page import="com.kiwisoft.media.Navigation"%>
+<%@ page import="com.kiwisoft.web.JspUtils"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -36,38 +37,19 @@
 			productions.add(movie);
 			castMap.add(movie, castMember);
 		}
-	}
-	//noinspection RedundantArrayCreation
-	cast=DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=? and show_id is not null", new Object[]{actorId});
-	for (Iterator it=cast.iterator(); it.hasNext();)
-	{
-		CastMember castMember=(CastMember)it.next();
 		Show show=castMember.getShow();
 		if (show!=null)
 		{
 			productions.add(show);
 			castMap.add(show, castMember);
 		}
-	}
-	//noinspection RedundantArrayCreation
-	cast=DBLoader.getInstance().loadSet(CastMember.class, "episodes",
-										"episodes.id=cast.episode_id and actor_id=? and episode_id is not null"+
-										" and episodes.show_id not in (select show_id from cast where actor_id=? and show_id is not null)"+
-										"limit 5",
-										new Object[]{actorId, actorId});
-	for (Iterator it=cast.iterator();it.hasNext();)
-	{
-		CastMember castMember=(CastMember)it.next();
 		Episode episode=castMember.getEpisode();
 		if (episode!=null)
 		{
-			Show show=episode.getShow();
+			show=episode.getShow();
 			productions.add(show);
-			if (!castMap.containsKey(show))
-			{
-				castMap.add(episode, castMember);
-				episodeMap.add(show, episode);
-			}
+			castMap.add(episode, castMember);
+			episodeMap.add(show, episode);
 		}
 	}
 %>
@@ -121,7 +103,7 @@
 			{
 				Movie movie=(Movie)production;
 %>
-				<li><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><b><%=movie.getTitle()%></b></a>
+				<li><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><b><%=StringEscapeUtils.escapeHtml(movie.getTitle())%></b></a>
 <%
 				Integer year=movie.getYear();
 				if (year!=null) out.println("("+year+")");
@@ -143,7 +125,7 @@
 			{
 				Show show=(Show)production;
 %>
-				<li><a class="link" href="<%=Navigation.getLink(show)%>"><b><%=show.getTitle()%></b></a>
+				<li><a class="link" href="<%=Navigation.getLink(show)%>"><b><%=StringEscapeUtils.escapeHtml(show.getTitle())%></b></a>
 <%
 				Set showCast=castMap.get(show);
 				if (!showCast.isEmpty())

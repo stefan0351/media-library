@@ -10,6 +10,7 @@
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager" %>
 <%@ page import="com.kiwisoft.media.Navigation"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -19,7 +20,7 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Schedule</title>
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Schedule</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -29,7 +30,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
 </div>
 
 <div class="main">
@@ -47,10 +48,10 @@
 <!--Content Start-->
 
 <table class="contenttable" width="790">
-<tr><td class="header1">Sendetermine</td></tr>
+<tr><td class="header1">Schedule</td></tr>
 <tr><td class="content">
 	<table class="table1" width="765">
-	<tr class="thead"><td class="tcell">Datum/Zeit</td><td class="tcell">Sender</td><td class="tcell">Ereignis</td></tr>
+	<tr class="thead"><td class="tcell" align="right">Date</td><td class="tcell">Channel</td><td class="tcell">Event</td></tr>
 <%
 		DateFormat dateFormat=new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
 		SortedSet airdates=new TreeSet(new AirdateComparator(AirdateComparator.TIME));
@@ -61,7 +62,7 @@
 		{
 			Airdate airdate=(Airdate)itAirdates.next();
 %>
-			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell"><%=dateFormat.format(airdate.getDate())%></td>
+			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell" align="right"><%=dateFormat.format(airdate.getDate())%></td>
 				<td class="tcell"><%=airdate.getChannelName()%></td>
 				<td class="tcell">
 <%
@@ -69,7 +70,7 @@
 			if (episode!=null)
 			{
 %>
-				<a class="link" href="<%=Navigation.getLink(episode)%>"><%=airdate.getName()%></a>
+				<a class="link" href="<%=Navigation.getLink(episode)%>"><%=episode.getTitleWithKey(airdate.getLanguage())%></a>
 <%
 			}
 			else

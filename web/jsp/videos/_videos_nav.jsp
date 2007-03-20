@@ -6,7 +6,7 @@
 
 <table class="menutable">
 <tr><td class="menuheader">Videos</td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/videos/index.jsp">Alle</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/videos/index.jsp">All</a></td></tr>
 <%
 	Map types=new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	for (Iterator it=MediumType.getAll().iterator(); it.hasNext();)
@@ -23,5 +23,5 @@
 	}
 %>
 <tr><td><hr size=1 color=black></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/videos/print.pdf?xsl=/videos/print.xsl">Druckansicht</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/videos/print.pdf?xsl=/videos/print.xsl">Printable Version</a></td></tr>
 </table>

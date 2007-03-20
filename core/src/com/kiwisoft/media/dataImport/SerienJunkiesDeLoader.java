@@ -40,9 +40,9 @@ public abstract class SerienJunkiesDeLoader implements Job
 		File configFile=new File(configuration.getApplicationBase(), "config.xml");
 		configuration.loadDefaultsFromFile(configFile);
 
-//		Instant Star, Jack & Jill,  Drake & Josh, Hex
-//		Joey, Creatures Comforts, Malcolm in the Middle, Kate Fox & die Liebe
-//		Grosse Point (Starlets), Dead Like Me, oc, the girl of tommorrow, rosas leben
+//		Jack & Jill,  Drake & Josh, Even Stevens
+//		Malcolm in the Middle, Summerland       , "Raising Dad"
+//		Grosse Point (Starlets), Dead Like Me, oc, the girl of tommorrow
 // 		futurama
 	}
 

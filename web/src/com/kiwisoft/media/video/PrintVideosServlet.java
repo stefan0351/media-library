@@ -1,4 +1,4 @@
-package com.kiwisoft.media;
+package com.kiwisoft.media.video;
 
 import java.io.*;
 import java.util.Comparator;
@@ -25,6 +25,7 @@ import com.kiwisoft.media.video.MediumType;
 import com.kiwisoft.media.video.VideoManager;
 import com.kiwisoft.media.video.Video;
 import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.MediaManagerApp;
 import com.kiwisoft.utils.xml.XMLWriter;
 
 /**
@@ -99,7 +100,7 @@ public class PrintVideosServlet extends HttpServlet
 				{
 					Video video=(Video)it.next();
 					xmlWriter.startElement("video");
-					xmlWriter.setAttribute("key", video.getUserKey());
+					if (video.getUserKey()!=null) xmlWriter.setAttribute("key", video.getUserKey());
 					xmlWriter.setAttribute("name", video.getName());
 					xmlWriter.setAttribute("length", video.getLength());
 					xmlWriter.setAttribute("remaining", video.getRemainingLength());
@@ -164,7 +165,13 @@ public class PrintVideosServlet extends HttpServlet
 		{
 			Video v1=(Video)o1;
 			Video v2=(Video)o2;
-			return v1.getUserKey().compareToIgnoreCase(v2.getUserKey());
+			String key1=v1.getUserKey();
+			String key2=v2.getUserKey();
+			if (key1==null) key1="";
+			if (key2==null) key2="";
+			int result=key1.compareToIgnoreCase(key2);
+			if (result==0) return v1.getName().compareToIgnoreCase(v2.getName());
+			return result;
 		}
 	}
 

@@ -81,14 +81,15 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	{
 		if (language!=null)
 		{
-			if ("de".equals(language.getSymbol())) return getGermanTitle();
 			if (getLanguage()==language) return getTitle();
-			else
+			if ("de".equals(language.getSymbol()))
 			{
-				for (Name name1 : getAltNames())
-				{
-					if (name1.getLanguage()==language) return name1.getName();
-				}
+				String title=getGermanTitle();
+				return StringUtils.isEmpty(title) ? getTitle() : title;
+			}
+			for (Name name1 : getAltNames())
+			{
+				if (name1.getLanguage()==language) return name1.getName();
 			}
 		}
 		return getTitle();

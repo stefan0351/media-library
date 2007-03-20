@@ -1,6 +1,7 @@
 package com.kiwisoft.media.person;
 
 import java.awt.*;
+import static java.awt.GridBagConstraints.*;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -59,9 +60,9 @@ public class CastDetailsView extends DetailsView
 	{
 		this.show=show;
 		this.type=type;
-		if (type==CastMember.MAIN_CAST) setTitle("Neuer Hauptdarsteller");
-		else if (type==CastMember.RECURRING_CAST) setTitle("Neuer Wiederkehrender Darsteller");
-		else setTitle("Neuer Darsteller");
+		if (type==CastMember.MAIN_CAST) setTitle("New Main Cast");
+		else if (type==CastMember.RECURRING_CAST) setTitle("New Recurring Cast");
+		else setTitle("New Cast");
 		createContentPanel();
 		initializeData();
 	}
@@ -83,44 +84,44 @@ public class CastDetailsView extends DetailsView
 		setPreferredSize(new Dimension(600, 450));
 		int row=0;
 		row++;
-		add(new JLabel("Character:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfCharacter, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Role:"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(tfCharacter,
+			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Darsteller:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfActor, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Actor/Actress:"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfActor,
+			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Synchronstimme:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfVoice, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("German Voice:"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfVoice,
+			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Bild (klein):"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfImageSmall, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(ipImageSmall, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Photo (small):"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfImageSmall,
+			new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(ipImageSmall,
+			new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Bild (gross):"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfImageLarge, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(ipImageLarge, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-												 GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Photo (large):"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfImageLarge,
+			new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(ipImageLarge,
+			new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Beschreibung:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tfDescription), new GridBagConstraints(1, row, 2, 1, 1.0, 0.5,
-																   GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Summary:"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JScrollPane(tfDescription),
+			new GridBagConstraints(1, row, 2, 1, 1.0, 0.5, WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		new ImageUpdater(tfImageSmall.getTextField(), ipImageSmall);
 		new ImageUpdater(tfImageLarge.getTextField(), ipImageLarge);

@@ -6,16 +6,17 @@
  */
 package com.kiwisoft.media.show;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-import com.kiwisoft.media.*;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.Name;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.video.Recordable;
 import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.person.CrewMember;
-import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
@@ -203,27 +204,9 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 
 	public String getTitleWithKey(Language language)
 	{
-		String name=null;
-		if (language!=null)
-		{
-			if ("de".equals(language.getSymbol())) name=getGermanTitle();
-			if (getShow().getLanguage()==language) name=getTitle();
-			else
-			{
-				for (Iterator it=getAltNames().iterator(); it.hasNext();)
-				{
-					Name altName=(Name)it.next();
-					if (altName.getLanguage()==language)
-					{
-						name=altName.getName();
-						break;
-					}
-				}
-			}
-		}
-		else name=getTitle();
-		if (userKey!=null && name!=null) return userKey+": \""+name+"\"";
-		else if (name!=null) return "\""+name+"\"";
+		String title=getTitle(language);
+		if (userKey!=null && title!=null) return userKey+": \""+title+"\"";
+		else if (title!=null) return "\""+title+"\"";
 		else return userKey;
 	}
 
@@ -231,15 +214,16 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 	{
 		if (language!=null)
 		{
-			if ("de".equals(language.getSymbol())) return getGermanTitle();
 			if (getShow().getLanguage()==language) return getTitle();
-			else
+			if ("de".equals(language.getSymbol()))
 			{
-				for (Iterator it=getAltNames().iterator(); it.hasNext();)
-				{
-					Name altName=(Name)it.next();
-					if (altName.getLanguage()==language) return altName.getName();
-				}
+				if (StringUtils.isEmpty(getGermanTitle())) return getTitle();
+				return getGermanTitle();
+			}
+			for (Iterator it=getAltNames().iterator(); it.hasNext();)
+			{
+				Name altName=(Name)it.next();
+				if (altName.getLanguage()==language) return altName.getName();
 			}
 		}
 		return getTitle();

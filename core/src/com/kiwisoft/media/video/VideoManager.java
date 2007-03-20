@@ -8,6 +8,7 @@
 package com.kiwisoft.media.video;
 
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
@@ -18,6 +19,7 @@ public class VideoManager
 	public static final String VIDEOS="videos";
 
 	private static VideoManager instance;
+	private static Pattern keyPattern;
 
 	public synchronized static VideoManager getInstance()
 	{
@@ -84,5 +86,10 @@ public class VideoManager
 	{
 		collectionChangeSupport.fireElementChanged(VIDEOS, video);
 	}
-}
 
+	public Pattern getKeyPattern()
+	{
+		if (keyPattern==null) keyPattern=Pattern.compile("([A-Z])(\\d+)");
+		return keyPattern;
+	}
+}

@@ -20,7 +20,7 @@ public class MediumTypeLookup extends ListLookup<MediumType>
 		if (StringUtils.isEmpty(text)) return MediumType.getAll();
 		else
 		{
-			if (text.indexOf("*")<0) text=text+"*";
+			if (!text.contains("*")) text=text+"*";
 			return MediumType.getAll(text);
 		}
 	}

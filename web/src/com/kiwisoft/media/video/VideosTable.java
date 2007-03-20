@@ -1,22 +1,24 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Aug 19, 2003
- * Time: 8:31:34 PM
- */
 package com.kiwisoft.media.video;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.Iterator;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.ComplexComparable;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.gui.table.TableSortDescription;
+import com.kiwisoft.utils.gui.table.TableConstants;
+import com.kiwisoft.web.SortableWebTable;
 
-public class VideosTableModel extends MutableSortableTableModel<Video>
+/**
+ * Created by IntelliJ IDEA.
+ * User: Stefan1
+ * Date: 01.03.2007
+ * Time: 11:37:23
+ * To change this template use File | Settings | File Templates.
+ */
+public class VideosTable extends SortableWebTable<Video>
 {
 	private static final String ID="id";
 	private static final String NAME="name";
@@ -26,34 +28,36 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 
 	private static final Pattern STORAGE_PATTERN=Pattern.compile("(\\d+)/(\\d+)");
 
-	public VideosTableModel(MediumType type)
+	public VideosTable(MediumType type)
 	{
-		super(new String[]{ID, NAME, TIME_LEFT, STORAGE}, new String[]{TYPE});
-		for (Video video : VideoManager.getInstance().getVideos(type)) addRow(new Row(video));
+		super(ID, NAME, STORAGE, TIME_LEFT, TYPE);
+		Iterator it=VideoManager.getInstance().getVideos(type).iterator();
+		while (it.hasNext())
+		{
+			Video video=(Video)it.next();
+			addRow(new VideoRow(video));
+		}
+		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
 		sort();
 	}
 
-	public static class Row extends SortableTableRow<Video> implements PropertyChangeListener
+	public ResourceBundle getBundle()
 	{
+		return ResourceBundle.getBundle(VideosTable.class.getName());
+	}
 
-		public Row(Video video)
+	@Override
+	public String getRendererVariant(int rowIndex, int columnIndex)
+	{
+		if (NAME.equals(getColumnId(columnIndex))) return "Name";
+		return super.getRendererVariant(rowIndex, columnIndex);
+	}
+
+	public static class VideoRow extends Row<Video>
+	{
+		public VideoRow(Video video)
 		{
 			super(video);
-		}
-
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
 		}
 
 		@Override
@@ -87,9 +91,9 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 			if (ID.equals(property))
 				return getUserObject().getUserKey();
 			else if (NAME.equals(property))
-				return getUserObject().getName();
+				return getUserObject();
 			else if (TIME_LEFT.equals(property))
-				return getUserObject().getRemainingLength();
+				return new Integer(getUserObject().getRemainingLength());
 			else if (TYPE.equals(property))
 				return getUserObject().getType();
 			else if (STORAGE.equals(property))
@@ -99,4 +103,5 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 		}
 
 	}
+
 }

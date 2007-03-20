@@ -11,11 +11,11 @@
 <%
 	Show show=(Show)request.getAttribute("show");
 	Map links=new TreeMap(String.CASE_INSENSITIVE_ORDER);
-	links.put("Sendetermine", "/shows/airdates.jsp?show="+show.getId());
+	links.put("Schedule", "/shows/schedule.jsp?show="+show.getId());
 	if (show.getRecordingCount()>0)
-		links.put("Aufnahmen", "/shows/videos.jsp?show="+show.getId());
+		links.put("Records", "/shows/videos.jsp?show="+show.getId());
 	if (!show.getMainCast().isEmpty() || !show.getRecurringCast().isEmpty())
-		links.put("Darsteller", "/shows/cast.jsp?show="+show.getId());
+		links.put("Cast and Crew", "/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkCount()>0)
 		links.put("Links", "/shows/links.jsp?show="+show.getId());
 	if (show.getFanFicCount()>0)

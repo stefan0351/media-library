@@ -4,7 +4,6 @@
 				 com.kiwisoft.media.show.Episode,
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowManager" %>
-<%@ page import="com.kiwisoft.utils.JspUtils"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
 <%@ page import="java.util.Set"%>
 <%@ page import="java.util.Iterator"%>
@@ -12,6 +11,8 @@
 <%@ page import="com.kiwisoft.media.person.CrewMember"%>
 <%@ page import="com.kiwisoft.media.person.CastMember"%>
 <%@ page import="com.kiwisoft.media.person.Person"%>
+<%@ page import="com.kiwisoft.web.JspUtils"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -29,7 +30,7 @@
 <html>
 
 <head>
-<title><%=show.getTitle(language)%> - <%=episode.getTitle(language)%></title>
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle(language))%> - <%=episode.getTitle(language)%></title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -39,7 +40,7 @@
 
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=show.getTitle(language)%></media:title>
+<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle(language))%></media:title>
 
 <div class="main">
 <table cellspacing="0" cellpadding="5"><tr valign="top">

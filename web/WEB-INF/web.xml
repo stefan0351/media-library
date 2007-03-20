@@ -19,7 +19,7 @@
 		<servlet-name>print.videos</servlet-name>
 		<display-name>PrintVideosServlet</display-name>
 		<description>Servlet for creating PDF for videos</description>
-		<servlet-class>com.kiwisoft.media.PrintVideosServlet</servlet-class>
+		<servlet-class>com.kiwisoft.media.video.PrintVideosServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -33,7 +33,7 @@
 		<servlet-name>import_imdb</servlet-name>
 		<display-name>Import IMDb</display-name>
 		<description>Servlet import movie data</description>
-		<servlet-class>com.kiwisoft.media.IMDbServlet</servlet-class>
+		<servlet-class>com.kiwisoft.media.movie.IMDbServlet</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

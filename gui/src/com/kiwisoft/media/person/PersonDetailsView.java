@@ -2,6 +2,7 @@ package com.kiwisoft.media.person;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.net.URLEncoder;
@@ -49,6 +50,7 @@ public class PersonDetailsView extends DetailsView
 	private Person person;
 
 	// Konfigurations Panel
+	private JTextField nameField;
 	private JTextField tfFirstName;
 	private JTextField tfMiddleName;
 	private JTextField tfSurname;
@@ -67,6 +69,7 @@ public class PersonDetailsView extends DetailsView
 		createContentPanel();
 		setPerson(null, actor);
 		List names=new ArrayList();
+		nameField.setText(text);
 		for (StringTokenizer tokens=new StringTokenizer(text, " "); tokens.hasMoreTokens();) names.add(tokens.nextToken());
 		int nameCount=names.size();
 		if (nameCount>0)
@@ -87,12 +90,12 @@ public class PersonDetailsView extends DetailsView
 					tfSurname.setText((String)names.get(nameCount-1));
 				}
 			}
-
 		}
 	}
 
 	protected void createContentPanel()
 	{
+		nameField=new JTextField();
 		tfFirstName=new JTextField();
 		tfMiddleName=new JTextField();
 		tfSurname=new JTextField();
@@ -104,38 +107,30 @@ public class PersonDetailsView extends DetailsView
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 220));
 		int row=0;
-		add(new JLabel("First Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfFirstName, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
-												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-		add(new JLabel("Middle Name:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(tfMiddleName, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
-												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(new JLabel("Name:"), new GridBagConstraints(0, row, 2, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Surname:"), new GridBagConstraints(0, row, 2, 1, 0.0, 0.0,
-															GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfSurname, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("First Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfFirstName, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Middle Name:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(tfMiddleName, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Gender:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxSex, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Surname:"), new GridBagConstraints(0, row, 2, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfSurname, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Actor/Actress:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbActor, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
-											GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Gender:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(cbxSex, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Search Pattern:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-																		GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfTVTVPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-												  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Actor/Actress:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(cbActor, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
+		row++;
+		add(new JLabel("Search Pattern:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(tfTVTVPattern, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		FrameTitleUpdater titleUpdater=new FrameTitleUpdater();
 		tfFirstName.getDocument().addDocumentListener(titleUpdater);
@@ -148,6 +143,7 @@ public class PersonDetailsView extends DetailsView
 		this.person=person;
 		if (person!=null)
 		{
+			nameField.setText(person.getName());
 			tfFirstName.setText(person.getFirstName());
 			tfMiddleName.setText(person.getMiddleName());
 			tfSurname.setText(person.getSurname());
@@ -165,24 +161,27 @@ public class PersonDetailsView extends DetailsView
 
 	public boolean apply()
 	{
-		String firstName=tfFirstName.getText();
-		if (StringUtils.isEmpty(firstName))
+		String name=nameField.getText();
+		if (StringUtils.isEmpty(name))
 		{
-			JOptionPane.showMessageDialog(this, "First Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfFirstName.requestFocus();
 			return false;
 		}
-		else firstName=firstName.trim();
+		else name=name.trim();
+
+		String firstName=tfFirstName.getText();
+		if (!StringUtils.isEmpty(firstName)) firstName=firstName.trim();
+		else firstName=null;
+
 		String surname=tfSurname.getText();
-		if (StringUtils.isEmpty(firstName))
-		{
-			JOptionPane.showMessageDialog(this, "Surname is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfSurname.requestFocus();
-			return false;
-		}
-		else surname=surname.trim();
+		if (!StringUtils.isEmpty(firstName)) surname=surname.trim();
+		else surname=null;
+
 		String middleName=tfMiddleName.getText();
-		if (StringUtils.isEmpty(middleName)) middleName=null;
+		if (!StringUtils.isEmpty(middleName)) middleName=middleName.trim();
+		else middleName=null;
+
 		Gender gender=(Gender)cbxSex.getSelectedItem();
 		String tvtvPattern=tfTVTVPattern.getText();
 		boolean actor=cbActor.isSelected();
@@ -192,6 +191,7 @@ public class PersonDetailsView extends DetailsView
 		{
 			transaction=DBSession.getInstance().createTransaction();
 			if (person==null) person=PersonManager.getInstance().createPerson();
+			person.setName(name);
 			person.setFirstName(firstName);
 			person.setMiddleName(middleName);
 			person.setSurname(surname);

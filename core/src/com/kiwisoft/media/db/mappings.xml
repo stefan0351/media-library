@@ -169,7 +169,7 @@
 		<field name="name" column="name"/>
 		<field name="actor" column="actor"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="gender" column="sex_id"/>
+		<reference name="sex" column="sex_id"/>
 	</mapping>
 	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>

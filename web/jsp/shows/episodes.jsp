@@ -3,6 +3,7 @@
 				   com.kiwisoft.media.movie.Movie" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.kiwisoft.media.Navigation"%>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -13,7 +14,7 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Episodes</title>
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Episodes</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -23,7 +24,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=show.getTitle()%></div>
+	<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
 </div>
 
 <div class="main">
