@@ -26,7 +26,7 @@ public class MovieHTMLRenderer extends DefaultHTMLRenderer
 			Movie movie=(Movie)value;
 			Language language=(Language)context.get(Language.class.getName());
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class\"link\" href\"").append(Navigation.getLink(movie)).append("\"");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(movie)).append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(movie.getTitle(language)));
 			buffer.append("</a>");
 			return buffer.toString();

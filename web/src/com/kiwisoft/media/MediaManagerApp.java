@@ -20,6 +20,8 @@ import com.kiwisoft.media.show.*;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieHTMLRenderer;
 import com.kiwisoft.media.schedule.AirdateHTMLRenderer;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.PersonHTMLRenderer;
 
 public class MediaManagerApp
 {
@@ -45,6 +47,7 @@ public class MediaManagerApp
 		rendererManager.setRenderer(Airdate.class, new AirdateHTMLRenderer());
 		rendererManager.setRenderer(Episode.class, new EpisodeHTMLRenderer());
 		rendererManager.setRenderer(Movie.class, new MovieHTMLRenderer());
+		rendererManager.setRenderer(Person.class, new PersonHTMLRenderer());
 		rendererManager.setRenderer(Show.class, new ShowHTMLRenderer());
 	}
 }

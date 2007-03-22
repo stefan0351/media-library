@@ -34,6 +34,7 @@ public class NoEpisodeDialog extends JDialog
 		this.show=show;
 		this.episodeData=episodeData;
 		createContentPanel();
+		episodeField.requestFocus();
 		initializeData();
 		setSize(new Dimension(500, 250));
 		WindowManager.arrange(frame, this);

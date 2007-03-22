@@ -66,4 +66,11 @@ public class EpisodeLookup extends TableLookup<Episode>
 		if ("germanTitle".equals(property)) return episode.getGermanTitle();
 		return null;
 	}
+
+	@Override
+	public Comparable getColumnSortValue(Episode episode, int column, String property)
+	{
+		if ("key".equals(property)) return episode.getChainPosition();
+		return super.getColumnSortValue(episode, column, property);
+	}
 }

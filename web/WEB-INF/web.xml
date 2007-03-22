@@ -30,6 +30,13 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>search</servlet-name>
+		<display-name>Search Servlet</display-name>
+		<description>Search for all type of objects</description>
+		<servlet-class>com.kiwisoft.media.SearchServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>import_imdb</servlet-name>
 		<display-name>Import IMDb</display-name>
 		<description>Servlet import movie data</description>
@@ -49,6 +56,11 @@
 	<servlet-mapping>
 		<servlet-name>add_link</servlet-name>
 		<url-pattern>/add_link</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>search</servlet-name>
+		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

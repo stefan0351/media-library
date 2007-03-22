@@ -115,7 +115,7 @@ public class NamesTableModel extends SortableTableModel<String>
 					}
 					else name=null;
 					if (oldName==null && name!=null) addRow(new Row(null, LanguageManager.getInstance().getLanguageBySymbol("de")));
-					if (name==null) removeRow(this);
+					else if (oldName!=null && name==null) removeRow(this);
 					return ROW_UPDATE;
 				case 1:
 					if (value instanceof Language) language=(Language)value;
