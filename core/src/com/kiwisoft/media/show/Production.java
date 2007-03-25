@@ -4,17 +4,14 @@ import java.util.Set;
 
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CreditType;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 02.03.2007
- * Time: 13:18:25
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public interface Production
 {
-	Set<CastMember> getCastMembers(int type);
+	Set<CastMember> getCastMembers(CreditType type);
 
-	Set<CrewMember> getCrewMembers(String type);
+	Set<CrewMember> getCrewMembers(CreditType type);
 }

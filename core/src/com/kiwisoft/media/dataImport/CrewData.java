@@ -1,32 +1,37 @@
 package com.kiwisoft.media.dataImport;
 
 import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CreditType;
+import com.kiwisoft.media.person.Person;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 05.03.2007
- * Time: 16:52:40
- * To change this template use File | Settings | File Templates.
- */
 public class CrewData
 {
 	private String name;
-	private String type;
+	private CreditType type;
 	private String subType;
+	private String imdbKey;
 
 	public CrewData(CrewMember crewMember)
 	{
-		name=crewMember.getPerson().getName();
-		type=crewMember.getType();
+		Person person=crewMember.getPerson();
+		name=person.getName();
+		imdbKey=person.getImdbKey();
+		type=crewMember.getCreditType();
 		subType=crewMember.getSubType();
 	}
 
-	public CrewData(String name, String type, String subType)
+	public CrewData(String name, CreditType type, String subType, String imdbKey)
 	{
 		this.name=name;
 		this.type=type;
 		this.subType=subType;
+		this.imdbKey=imdbKey;
+	}
+
+
+	public String getImdbKey()
+	{
+		return imdbKey;
 	}
 
 	public String getName()
@@ -34,7 +39,7 @@ public class CrewData
 		return name;
 	}
 
-	public String getType()
+	public CreditType getType()
 	{
 		return type;
 	}
@@ -51,9 +56,9 @@ public class CrewData
 
 		final CrewData crewData=(CrewData)o;
 
-		if (name!=null ? !name.equals(crewData.name) : crewData.name!=null) return false;
-		if (subType!=null ? !subType.equals(crewData.subType) : crewData.subType!=null) return false;
-		return !(type!=null ? !type.equals(crewData.type) : crewData.type!=null);
+		return !(name!=null ? !name.equals(crewData.name) : crewData.name!=null) &&
+			   !(subType!=null ? !subType.equals(crewData.subType) : crewData.subType!=null) &&
+			   !(type!=null ? !type.equals(crewData.type) : crewData.type!=null);
 	}
 
 	public int hashCode()

@@ -5,22 +5,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.kiwisoft.media.IndexByUtils;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.person.CrewMember;
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.person.PersonManager;
-import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.*;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Transactional;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 06.03.2007
- * Time: 15:37:37
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public abstract class CreateMovieTx implements Transactional
 {
@@ -40,7 +34,9 @@ public abstract class CreateMovieTx implements Transactional
 		movie=movieData.getMovie();
 		if (movie==null) movie=new Movie();
 
+		if (StringUtils.isEmpty(movie.getImdbKey())) movie.setImdbKey(movieData.getImdbKey());
 		if (StringUtils.isEmpty(movie.getTitle())) movie.setTitle(movieData.getTitle());
+		if (StringUtils.isEmpty(movie.getIndexBy())) movie.setIndexBy(IndexByUtils.createIndexBy(movie.getTitle()));
 		if (StringUtils.isEmpty(movie.getGermanTitle())) movie.setGermanTitle(movieData.getGermanTitle());
 		if (StringUtils.isEmpty(movie.getSummaryText(english))) movie.setSummaryText(english, movieData.getSummary());
 		if (movie.getYear()==null) movie.setYear(movieData.getYear());
@@ -54,18 +50,11 @@ public abstract class CreateMovieTx implements Transactional
 		{
 			if (!crew.contains(crewData))
 			{
-				Person person=PersonManager.getInstance().getPersonByName(crewData.getName(), false);
-				if (person==null) person=persons.get(crewData.getName());
-				if (person==null)
-				{
-					person=new Person();
-					person.setName(crewData.getName());
-					persons.put(crewData.getName(), person);
-				}
+				Person person=getPerson(persons, crewData.getImdbKey(), crewData.getName());
 				CrewMember crewMember=new CrewMember();
 				crewMember.setMovie(movie);
 				crewMember.setPerson(person);
-				crewMember.setType(crewData.getType());
+				crewMember.setCreditType(crewData.getType());
 				crewMember.setSubType(crewData.getSubType());
 				crew.add(crewData);
 			}
@@ -77,23 +66,39 @@ public abstract class CreateMovieTx implements Transactional
 		{
 			if (!cast.contains(castData))
 			{
-				Person person=PersonManager.getInstance().getPersonByName(castData.getActor(), false);
-				if (person==null) person=persons.get(castData.getActor());
-				if (person==null)
-				{
-					person=new Person();
-					person.setName(castData.getActor());
-					persons.put(castData.getActor(), person);
-				}
+				Person person=getPerson(persons, castData.getImdbKey(), castData.getActor());
 				CastMember castMember=new CastMember();
 				castMember.setMovie(movie);
 				castMember.setActor(person);
-				castMember.setType(CastMember.MAIN_CAST);
+				castMember.setCreditType(CreditType.MAIN_CAST);
 				castMember.setCharacterName(castData.getRole());
 				castMember.setCreditOrder(castData.getCreditOrder());
 				cast.add(castData);
 			}
 		}
+	}
+
+	private static Person getPerson(Map<String, Person> persons, String imdbKey, String name)
+	{
+		Person person=null;
+		if (imdbKey!=null)
+		{
+			person=persons.get(imdbKey);
+			if (person==null) person=PersonManager.getInstance().getPersonByIMDbKey(imdbKey);
+		}
+		if (person==null) person=persons.get(name);
+		if (person==null) person=PersonManager.getInstance().getPersonByName(name, true);
+		//noinspection ConstantConditions
+		if (person==null ||
+			(!StringUtils.isEmpty(imdbKey) && !StringUtils.isEmpty(person.getImdbKey()) && !imdbKey.equals(person.getImdbKey())))
+		{
+			person=new Person();
+			person.setName(name);
+			persons.put(name, person);
+		}
+		if (StringUtils.isEmpty(person.getImdbKey())) person.setImdbKey(imdbKey);
+		if (!StringUtils.isEmpty(imdbKey)) persons.put(imdbKey, person);
+		return person;
 	}
 
 	public Movie getMovie()

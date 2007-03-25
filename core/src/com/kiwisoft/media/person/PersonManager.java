@@ -89,5 +89,15 @@ public class PersonManager
 	{
 		return DBLoader.getInstance().load(Person.class, id);
 	}
+
+	public Person getPersonByIMDbKey(String imdbKey)
+	{
+		return DBLoader.getInstance().load(Person.class, null, "binary imdb_key=?", imdbKey);
+	}
+
+	public Person getPersonByTVcomKey(String key)
+	{
+		return DBLoader.getInstance().load(Person.class, null, "binary tvcom_key=?", key);
+	}
 }
 

@@ -15,7 +15,7 @@
 <html>
 
 <head>
-<title>Movies - Import from IMDb.com</title>
+<title>Media Manager - Import from IMDb.com</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -26,7 +26,7 @@
 <div id="overDiv" class="over_lib"></div>
 
 <div class="title">
-<div style="margin-left:10px; margin-top:5px;">Movies</div>
+<div style="margin-left:10px; margin-top:5px;">Media Manager</div>
 </div>
 
 <div class="main">
@@ -42,7 +42,7 @@
 		<!--Content Start-->
 
 		<table class="contenttable" width="790">
-		<tr><td class="header1">Update or Insert Movie</td></tr>
+		<tr><td class="header1">Import from IMDb.com</td></tr>
 		<tr><td class="content">
 			<form action="/import_imdb">
 				<input type="hidden" name="action" value="add"/>
@@ -56,7 +56,7 @@
 					; <input type="checkbox" name="force_new" value="true"/> Force New
 				</td></tr>
 				<tr class="content" valign="top"><td><b>Title:</b></td><td><%=movie.getTitle()%></td></tr>
-				<tr class="content" valign="top"><td><b>German Titel:</b></td><td><%=movie.getGermanTitle()%></td></tr>
+				<tr class="content" valign="top"><td><b>German Titel:</b></td><td><%=JspUtils.prepareString(movie.getGermanTitle())%></td></tr>
 				<tr class="content" valign="top"><td><b>Summary:</b></td><td><%=JspUtils.prepareString(movie.getSummary())%></td></tr>
 				<tr class="content" valign="top"><td><b>Runtime:</b></td><td><%=movie.getRuntime()%> min</td></tr>
 				<tr class="content" valign="top"><td><b>Year:</b></td><td><%=movie.getYear()%></td></tr>
@@ -65,7 +65,7 @@
 						for (Iterator it=movie.getLanguages().iterator(); it.hasNext();)
 						{
 							Language language=(Language)it.next();
-							out.print(language.getName());
+							out.print(JspUtils.render(language));
 							if (it.hasNext()) out.print(", ");
 						}
 					%>
@@ -75,7 +75,7 @@
 						for (Iterator it=movie.getCountries().iterator(); it.hasNext();)
 						{
 							Country country=(Country)it.next();
-							out.print(country.getName());
+							out.print(JspUtils.render(country));
 							if (it.hasNext()) out.print(", ");
 						}
 					%>
@@ -86,6 +86,7 @@
 						{
 							CastData castMember=(CastData)it.next();
 							out.print(castMember.getActor());
+							if (castMember.getImdbKey()!=null) out.print(" <small>("+castMember.getImdbKey()+")</small>");
 							out.print(" ... ");
 							out.print(castMember.getRole());
 							if (it.hasNext()) out.print("<br>");
@@ -99,8 +100,9 @@
 						{
 							CrewData crewMember=(CrewData)it.next();
 							out.print(crewMember.getName());
+							if (crewMember.getImdbKey()!=null) out.print(" <small>("+crewMember.getImdbKey()+")</small>");
 							out.print(" ... ");
-							out.print(crewMember.getType());
+							out.print(crewMember.getType().getAsName());
 							if (!StringUtils.isEmpty(crewMember.getSubType()))
 							{
 								out.print(" (");

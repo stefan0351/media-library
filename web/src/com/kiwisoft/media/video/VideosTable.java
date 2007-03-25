@@ -1,22 +1,18 @@
 package com.kiwisoft.media.video;
 
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.kiwisoft.utils.ComplexComparable;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.utils.gui.table.TableConstants;
+import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.web.SortableWebTable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 01.03.2007
- * Time: 11:37:23
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class VideosTable extends SortableWebTable<Video>
 {
@@ -28,15 +24,13 @@ public class VideosTable extends SortableWebTable<Video>
 
 	private static final Pattern STORAGE_PATTERN=Pattern.compile("(\\d+)/(\\d+)");
 
-	public VideosTable(MediumType type)
+	public VideosTable(int group)
 	{
 		super(ID, NAME, STORAGE, TIME_LEFT, TYPE);
-		Iterator it=VideoManager.getInstance().getVideos(type).iterator();
-		while (it.hasNext())
-		{
-			Video video=(Video)it.next();
-			addRow(new VideoRow(video));
-		}
+		Collection<Video> videos;
+		if (group==-1) videos=VideoManager.getInstance().getVideos(null);
+		else videos=VideoManager.getInstance().getGroupVideos(group);
+		for (Video video : videos) addRow(new VideoRow(video));
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
 		sort();
 	}

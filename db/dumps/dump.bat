@@ -1,2 +1,2 @@
-mysqldump --user=stefan --password --skip-extended-insert media > media.sql
+mysqldump --user=stefan --password --skip-extended-insert --verbose --routines media > media.sql
 pause

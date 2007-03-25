@@ -40,6 +40,7 @@ public class MediaManagerApp
 
 		HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
+		rendererManager.setRenderer(Country.class, new CountryHTMLRenderer());
 		rendererManager.setRenderer(Video.class, new VideoHTMLRenderer(false));
 		rendererManager.setRenderer(Video.class, "Name", new VideoHTMLRenderer(true));
 		rendererManager.setRenderer(Recording.class, "Show", new ShowRecordingHTMLRenderer());
@@ -49,6 +50,9 @@ public class MediaManagerApp
 		rendererManager.setRenderer(Movie.class, new MovieHTMLRenderer());
 		rendererManager.setRenderer(Person.class, new PersonHTMLRenderer());
 		rendererManager.setRenderer(Show.class, new ShowHTMLRenderer());
+		rendererManager.setRenderer(Genre.class, new GenreHTMLRenderer());
+		rendererManager.setRenderer(Season.class, new SeasonHTMLRenderer());
+		rendererManager.setRenderer(Season.class, "Menu", new SeasonHTMLRenderer("menulink"));
 	}
 }
 

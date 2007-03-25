@@ -1,62 +1,26 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import="java.util.Iterator,
-				 java.util.Set,
-				 java.util.TreeSet" %>
+				 java.util.Map,
+				 java.util.Set" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="com.kiwisoft.media.movie.Movie" %>
-<%@ page import="com.kiwisoft.media.person.CastMember" %>
-<%@ page import="com.kiwisoft.media.person.Person" %>
-<%@ page import="com.kiwisoft.media.person.PersonManager" %>
-<%@ page import="com.kiwisoft.media.show.Episode" %>
-<%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.utils.SetMap"%>
-<%@ page import="com.kiwisoft.utils.StringUtils"%>
-<%@ page import="com.kiwisoft.utils.db.DBLoader"%>
-<%@ page import="com.kiwisoft.utils.db.Chain"%>
-<%@ page import="com.kiwisoft.media.Navigation"%>
-<%@ page import="com.kiwisoft.web.JspUtils"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="com.kiwisoft.media.person.*" %>
+<%@ page import="com.kiwisoft.media.show.Production" %>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
-	Long actorId=new Long(request.getParameter("id"));
-	Person actor=PersonManager.getInstance().getPerson(actorId);
-	request.setAttribute("person", actor);
-
-	Set productions=new TreeSet(StringUtils.getComparator());
-	SetMap castMap=new SetMap();
-	SetMap episodeMap=new SetMap();
-	//noinspection RedundantArrayCreation
-	Set cast=DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=?", new Object[]{actorId});
-	for (Iterator it=cast.iterator(); it.hasNext();)
-	{
-		CastMember castMember=(CastMember)it.next();
-		Movie movie=castMember.getMovie();
-		if (movie!=null)
-		{
-			productions.add(movie);
-			castMap.add(movie, castMember);
-		}
-		Show show=castMember.getShow();
-		if (show!=null)
-		{
-			productions.add(show);
-			castMap.add(show, castMember);
-		}
-		Episode episode=castMember.getEpisode();
-		if (episode!=null)
-		{
-			show=episode.getShow();
-			productions.add(show);
-			castMap.add(episode, castMember);
-			episodeMap.add(show, episode);
-		}
-	}
+	Long personId=new Long(request.getParameter("id"));
+	Person person=PersonManager.getInstance().getPerson(personId);
+	request.setAttribute("person", person);
 %>
 <html>
 
 <head>
-<title><%=actor.getName()%></title>
+<title><%=person.getName()%>
+</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <script language="JavaScript" src="/window.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
@@ -67,72 +31,62 @@
 
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=actor.getName()%></media:title>
+<media:title><%=person.getName()%>
+</media:title>
 
 <div class="main">
-<table cellspacing="0" cellpadding="5"><tr valign="top">
-	<td width="200">
-		<!--Navigation Start-->
+<table cellspacing="0" cellpadding="5">
+<tr valign="top">
+<td width="200">
+	<!--Navigation Start-->
 
-		<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="/_nav.jsp"/>
 
-		<!--Navigation End-->
-	</td>
-	<td width="800">
-		<!--Content Start-->
+	<!--Navigation End-->
+</td>
+<td width="800">
+<!--Content Start-->
 
-		<a name="movies"></a>
-		<table class="contenttable" width="790">
-		<tr><td class="header1">Filmography</td></tr>
-		<tr><td class="content">
+<a name="movies"></a>
+<table class="contenttable" width="790">
+<tr>
+	<td class="header1">Filmography</td>
+</tr>
+<tr>
+<td class="content">
 
 <%
-	if (!productions.isEmpty())
+	Credits actingCredits=person.getActingCredits();
+	if (!actingCredits.isEmpty())
 	{
 %>
 
-			<table class="contenttable" width="765">
-			<tr><td class="header2">Actor/Actress</td></tr>
-			<tr><td class="content">
-				<ol>
-<%
-		for (Iterator it=productions.iterator(); it.hasNext();)
-		{
-			Object production=it.next();
-			if (production instanceof Movie)
+<table class="contenttable" width="765">
+<tr>
+	<td class="header2">Actor/Actress</td>
+</tr>
+<tr>
+	<td class="content">
+		<ol>
+		<%
+			for (Iterator it=actingCredits.getProductions().iterator(); it.hasNext();)
 			{
-				Movie movie=(Movie)production;
-%>
-				<li><a class="link" href="/movies/movie.jsp?movie=<%=movie.getId()%>"><b><%=StringEscapeUtils.escapeHtml(movie.getTitle())%></b></a>
-<%
-				Integer year=movie.getYear();
-				if (year!=null) out.println("("+year+")");
-				out.print(" ... ");
-				boolean first=true;
-				Set movieCast=castMap.get(movie);
-				for (Iterator itRoles=movieCast.iterator(); itRoles.hasNext();)
+				Production production=(Production)it.next();
+				Set mainCredits=actingCredits.getCredits(production);
+				out.print("<li><b>");
+				out.print(JspUtils.render(production));
+				out.print("</b>");
+				if (production instanceof Movie)
 				{
-					CastMember castMember=(CastMember)itRoles.next();
-					if (!StringUtils.isEmpty(castMember.getCharacterName()))
-					{
-						if (!first) out.print(" / ");
-						out.print(JspUtils.prepareString(castMember.getCharacterName()));
-						first=false;
-					}
+					Movie movie=(Movie)production;
+					Integer year=movie.getYear();
+					if (year!=null) out.println(" ("+year+")");
 				}
-			}
-			else
-			{
-				Show show=(Show)production;
-%>
-				<li><a class="link" href="<%=Navigation.getLink(show)%>"><b><%=StringEscapeUtils.escapeHtml(show.getTitle())%></b></a>
-<%
-				Set showCast=castMap.get(show);
-				if (!showCast.isEmpty())
+				if (!mainCredits.isEmpty())
 				{
 					out.print(" ... ");
 					boolean first=true;
-					for (Iterator itRoles=showCast.iterator(); itRoles.hasNext();)
+					for (Iterator itRoles=mainCredits.iterator(); itRoles.hasNext();)
 					{
 						CastMember castMember=(CastMember)itRoles.next();
 						if (!StringUtils.isEmpty(castMember.getCharacterName()))
@@ -145,49 +99,148 @@
 				}
 				else
 				{
-					Chain episodes=new Chain(episodeMap.get(show));
-					for (Iterator itEpisodes=episodes.iterator(); itEpisodes.hasNext();)
+					Set subProductions=actingCredits.getSubProductions(production);
+					int i=0;
+					for (Iterator itEpisodes=subProductions.iterator(); itEpisodes.hasNext();)
 					{
-						Episode episode=(Episode)itEpisodes.next();
-%>
-					<br>- <a class="link" href="<%=Navigation.getLink(episode)%>"><%=JspUtils.prepare(episode)%></a> ...
-<%
-						Set episodeCast=castMap.get(episode);
-						boolean first=true;
-						for (Iterator itRoles=episodeCast.iterator(); itRoles.hasNext();)
+						Production subProduction=(Production)itEpisodes.next();
+						if (i>=5)
 						{
-							CastMember castMember=(CastMember)itRoles.next();
-							if (!StringUtils.isEmpty(castMember.getCharacterName()))
+							out.print("<br>and "+(subProductions.size()-5)+" more");
+							break;
+						}
+						else
+						{
+							out.print("<br>- ");
+							out.print(JspUtils.render(subProduction, "Show"));
+							out.print(" ... ");
+							Set subCredits=actingCredits.getCredits(subProduction);
+							boolean first=true;
+							for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
 							{
-								if (!first) out.print(" / ");
-								out.print(JspUtils.prepareString(castMember.getCharacterName()));
-								first=false;
+								CastMember castMember=(CastMember)itRoles.next();
+								if (!StringUtils.isEmpty(castMember.getCharacterName()))
+								{
+									if (!first) out.print(" / ");
+									out.print(JspUtils.prepareString(castMember.getCharacterName()));
+									first=false;
+								}
 							}
 						}
+						i++;
 					}
 				}
-%>
-				</li>
-				<%
 			}
-		}
-%>
-				</ol>
+		%>
+		</ol>
 
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td></tr>
-			</table>
+		<p align=right><a class=link href="#top">Top</a></p>
+	</td>
+</tr>
+</table>
+
+<%
+	}
+
+	Map creditMap=person.getCrewCredits();
+	for (Iterator itTypes=creditMap.keySet().iterator(); itTypes.hasNext();)
+	{
+		CreditType type=(CreditType)itTypes.next();
+		Credits crewCredits=(Credits)creditMap.get(type);
+%>
+
+<table class="contenttable" width="765">
+<tr>
+	<td class="header2"><%=StringEscapeUtils.escapeHtml(type.getAsName())%>
+	</td>
+</tr>
+<tr>
+	<td class="content">
+		<ol>
+		<%
+			for (Iterator it=crewCredits.getProductions().iterator(); it.hasNext();)
+			{
+				Production production=(Production)it.next();
+				Set mainCredits=crewCredits.getCredits(production);
+				out.print("<li><b>");
+				out.print(JspUtils.render(production));
+				out.print("</b>");
+				if (production instanceof Movie)
+				{
+					Movie movie=(Movie)production;
+					Integer year=movie.getYear();
+					if (year!=null) out.println(" ("+year+")");
+				}
+				if (!mainCredits.isEmpty())
+				{
+					boolean first=true;
+					for (Iterator itRoles=mainCredits.iterator(); itRoles.hasNext();)
+					{
+						CrewMember crewMember=(CrewMember)itRoles.next();
+						if (!StringUtils.isEmpty(crewMember.getSubType()))
+						{
+							if (first) out.print(" (");
+							else out.print(", ");
+							out.print(JspUtils.prepareString(crewMember.getSubType()));
+							first=false;
+						}
+					}
+					if (!first) out.print(")");
+				}
+				else
+				{
+					Set subProductions=crewCredits.getSubProductions(production);
+					int i=0;
+					for (Iterator itEpisodes=subProductions.iterator(); itEpisodes.hasNext();)
+					{
+						Production subProduction=(Production)itEpisodes.next();
+						if (i>=5)
+						{
+							out.print("<br>and "+(subProductions.size()-5)+" more");
+							break;
+						}
+						else
+						{
+							out.print("<br>- ");
+							out.print(JspUtils.render(subProduction, "Show"));
+							Set subCredits=crewCredits.getCredits(subProduction);
+							boolean first=true;
+							for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
+							{
+								CrewMember crewMember=(CrewMember)itRoles.next();
+								if (!StringUtils.isEmpty(crewMember.getSubType()))
+								{
+									if (first) out.print(" (");
+									else out.print(", ");
+									out.print(JspUtils.render(crewMember.getSubType()));
+									first=false;
+								}
+							}
+							if (!first) out.print(")");
+						}
+						i++;
+					}
+				}
+			}
+		%>
+		</ol>
+
+		<p align=right><a class=link href="#top">Top</a></p>
+	</td>
+</tr>
+</table>
+
 <%
 	}
 %>
+</td>
+</tr>
+</table>
 
-
-		</td></tr>
-		</table>
-
-		<!--Content End-->
-	</td>
-</tr></table>
+<!--Content End-->
+</td>
+</tr>
+</table>
 </div>
 
 </body>

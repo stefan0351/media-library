@@ -1,31 +1,32 @@
 package com.kiwisoft.media.dataImport;
 
 import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.Person;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 05.03.2007
- * Time: 16:53:05
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class CastData
 {
 	private String actor;
 	private String role;
 	private Integer creditOrder;
+	private String imdbKey;
 
 	public CastData(CastMember castMember)
 	{
-		actor=castMember.getActor().getName();
+		Person person=castMember.getActor();
+		actor=person.getName();
+		imdbKey=person.getImdbKey();
 		role=castMember.getCharacterName();
 	}
 
-	public CastData(String actor, String role, Integer creditOrder)
+	public CastData(String actor, String role, Integer creditOrder, String imdbKey)
 	{
 		this.actor=actor;
 		this.role=role;
 		this.creditOrder=creditOrder;
+		this.imdbKey=imdbKey;
 	}
 
 	public Integer getCreditOrder()
@@ -43,6 +44,12 @@ public class CastData
 		return role;
 	}
 
+
+	public String getImdbKey()
+	{
+		return imdbKey;
+	}
+
 	public boolean equals(Object o)
 	{
 		if (this==o) return true;
@@ -50,8 +57,8 @@ public class CastData
 
 		final CastData castData=(CastData)o;
 
-		if (actor!=null ? !actor.equals(castData.actor) : castData.actor!=null) return false;
-		return !(role!=null ? !role.equals(castData.role) : castData.role!=null);
+		return !(actor!=null ? !actor.equals(castData.actor) : castData.actor!=null)
+			   && !(role!=null ? !role.equals(castData.role) : castData.role!=null);
 	}
 
 	public int hashCode()

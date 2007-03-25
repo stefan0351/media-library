@@ -143,6 +143,7 @@
 	<mapping name="Movie" class="com.kiwisoft.media.movie.Movie" table="movies" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
+		<field name="indexBy" column="index_by"/>
 		<field name="germanTitle" column="german_title"/>
 		<field name="record" column="record"/>
 		<field name="javaScript" column="javascript"/>
@@ -151,6 +152,7 @@
 		<field name="posterMini" column="poster_mini"/>
 		<field name="year" column="year"/> 
 		<field name="runtime" column="runtime"/>
+		<field name="imdbKey" column="imdb_key"/>
 		<reference name="show" column="show_id" type="Show"/>
 	</mapping>
 	<mapping name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id">
@@ -169,11 +171,12 @@
 		<field name="name" column="name"/>
 		<field name="actor" column="actor"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="sex" column="sex_id"/>
+		<field name="imdbKey" column="imdb_key"/>
+		<field name="tvcomKey" column="tvcom_key"/>
+		<reference name="gender" column="gender_id"/>
 	</mapping>
 	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
-		<field name="type" column="type"/>
 		<field name="voice" column="voice"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="imageSmall" column="image_small"/>
@@ -185,6 +188,7 @@
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
+		<reference name="creditType" column="credit_type_id"/>
 	</mapping>
 	<mapping name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
@@ -256,12 +260,12 @@
 	</mapping>
 	<mapping class="com.kiwisoft.media.person.CrewMember" name="Crew" primaryKey="id" table="crew" lastModified="lastmodified">
 		<field name="id" column="id"/>
-		<field name="type" column="type"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="subType" column="sub_type"/>
 		<reference name="person" column="person_id" type="Person"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
+		<reference name="creditType" column="credit_type_id"/>
 	</mapping>
 
 	<association table="map_fanfic_pairing">

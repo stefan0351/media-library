@@ -6,11 +6,7 @@ import com.kiwisoft.utils.format.DefaultObjectFormat;
 import com.kiwisoft.utils.gui.Icons;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 13:58:31
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class GenderFormat extends DefaultObjectFormat
 {

@@ -10,11 +10,7 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.movie.Movie;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 05.03.2007
- * Time: 15:49:13
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class MovieData
 {
@@ -32,6 +28,7 @@ public class MovieData
 	private Set<Country> countries=new HashSet<Country>();
 	private Set<Language> languages=new HashSet<Language>();
 	private Movie movie;
+	private String imdbKey;
 
 	public void addCrew(CrewData crewData)
 	{
@@ -161,5 +158,15 @@ public class MovieData
 	public Movie getMovie()
 	{
 		return movie;
+	}
+
+	public void setImdbKey(String imdbKey)
+	{
+		this.imdbKey=imdbKey;
+	}
+
+	public String getImdbKey()
+	{
+		return imdbKey;
 	}
 }

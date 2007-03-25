@@ -81,10 +81,13 @@ public class IMDbServlet extends HttpServlet
 				if (matcher.matches())
 				{
 					url="http://www.imdb.com/title/"+matcher.group(2)+"/";
-					MovieData movieData=new IMDbComLoader(url).load();
+					MovieData movieData=new IMDbComLoader(url, matcher.group(2)).load();
 					MovieManager movieManager=MovieManager.getInstance();
-					Movie movie=movieManager.getMovieByTitle(movieData.getTitle());
-					if (movie==null && !StringUtils.isEmpty(movieData.getGermanTitle())) movie=movieManager.getMovieByTitle(movieData.getGermanTitle());
+					Movie movie=movieManager.getMovieByIMDbKey(movieData.getImdbKey());
+					if (movie==null)
+						movie=movieManager.getMovieByTitle(movieData.getTitle());
+					if (movie==null && !StringUtils.isEmpty(movieData.getGermanTitle()))
+						movie=movieManager.getMovieByTitle(movieData.getGermanTitle());
 					movieData.setMovie(movie);
 					session.setAttribute("movie", movieData);
 					RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/movies/import.jsp");

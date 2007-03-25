@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -164,6 +166,13 @@ public class SeasonDetailsView extends DetailsView
 				String userKey=firstEpisode.getUserKey();
 				int pos=userKey.indexOf(".");
 				if (pos>0) tfNumber.setText(userKey.substring(0, pos));
+				Date firstAired=firstEpisode.getAirdate();
+				if (firstAired!=null) tfStartYear.setText(new SimpleDateFormat("yyyy").format(firstAired));
+			}
+			if (lastEpisode!=null)
+			{
+				Date firstAired=lastEpisode.getAirdate();
+				if (firstAired!=null) tfEndYear.setText(new SimpleDateFormat("yyyy").format(firstAired));
 			}
 		}
 	}

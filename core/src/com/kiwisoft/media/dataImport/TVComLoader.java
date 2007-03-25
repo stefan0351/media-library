@@ -1,5 +1,9 @@
 package com.kiwisoft.media.dataImport;
 
+import static com.kiwisoft.utils.xml.XMLUtils.removeTags;
+import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
+import static com.kiwisoft.utils.StringUtils.trimString;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,19 +11,17 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.media.*;
-import com.kiwisoft.media.person.PersonManager;
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.person.CrewMember;
-import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.person.*;
 import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Production;
-import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.DateUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.progress.Job;
@@ -28,11 +30,7 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 28.02.2007
- * Time: 21:00:08
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public abstract class TVComLoader implements Job
 {
@@ -45,7 +43,8 @@ public abstract class TVComLoader implements Job
 	private boolean autoCreate;
 	private Language language;
 	private SimpleDateFormat airdateFormat;
-	private Map<String, CastData> castCache=new HashMap<String, CastData>();
+	private Pattern nameLinkPattern;
+	private Map<String, Person> personCache;
 
 	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
@@ -57,6 +56,8 @@ public abstract class TVComLoader implements Job
 		this.language=LanguageManager.getInstance().getLanguageBySymbol("en");
 		airdateFormat=new SimpleDateFormat("M/d/yyyy");
 		airdateFormat.setTimeZone(DateUtils.GMT);
+		nameLinkPattern=Pattern.compile("http://www.tv.com/.*/person/([0-9]+)/summary.html");
+		personCache=new HashMap<String, Person>();
 	}
 
 	public String getName()
@@ -191,7 +192,7 @@ public abstract class TVComLoader implements Job
 		int index2=episodePage.indexOf("<div", index1+5);
 		String content=episodePage.substring(index1+5, index2).trim();
 		content=content.replaceAll("<br */>", "\n");
-		content=XMLUtils.unescapeHtml(content);
+		content=unescapeHtml(content);
 		episodeData.setSummary(content);
 
 		index1=episodePage.indexOf("<h1>Cast and Crew</h1>", index2);
@@ -207,22 +208,40 @@ public abstract class TVComLoader implements Job
 			{
 				String creditName=values.get(0);
 				String creditValue=values.get(1);
-				// todo handle pattern errors
 				if ("Writer:".equals(creditName) || "Director:".equals(creditName) || "Story:".equals(creditName))
 				{
-					creditValue=XMLUtils.removeTags(creditValue).trim();
-					creditValue=XMLUtils.unescapeHtml(creditValue);
-					if ("Writer:".equals(creditName)) episodeData.setWrittenBy(creditValue.split(","));
-					else if ("Director:".equals(creditName)) episodeData.setDirectedBy(creditValue.split(","));
-					else if ("Story:".equals(creditName)) episodeData.setStoryBy(creditValue.split(","));
+					for (String html : creditValue.split("</a>,"))
+					{
+						String key=getNameLink(html);
+						String name=convertHTML(html);
+						PersonData person=new PersonData(key, name);
+						if ("Writer:".equals(creditName)) episodeData.addWrittenBy(person);
+						else if ("Director:".equals(creditName)) episodeData.addDirectedBy(person);
+						else if ("Story:".equals(creditName)) episodeData.addStoryBy(person);
+					}
 				}
 				else if ("Star:".equals(creditName) || "Recurring Role:".equals(creditName) || "Guest Star:".equals(creditName))
 				{
-					creditValue=XMLUtils.removeTags(creditValue).trim();
-					List<CastData> cast=extractCast(creditValue);
-					if ("Star:".equals(creditName)) episodeData.setMainCast(cast);
-					else if ("Recurring Role:".equals(creditName)) episodeData.setRecurringCast(cast);
-					else if ("Guest Star:".equals(creditName)) episodeData.setGuestCast(cast);
+					for (String html : creditValue.split(",&nbsp;"))
+					{
+						String key=getNameLink(html);
+						int index=html.indexOf("</a>");
+						String role=convertHTML(html.substring(index));
+						if (role.startsWith("(") && role.endsWith(")")) role=role.substring(1, role.length()-1);
+						String name=convertHTML(html.substring(0, index));
+						if (!isValidName(name) || !isValidName(role))
+						{
+							String[] data=resolveCastString(convertHTML(html));
+							if (data==null) continue;
+							name=data[0];
+							role=data[1];
+						}
+						PersonData person=new PersonData(key, name);
+						CastData cast=new CastData(person, role);
+						if ("Star:".equals(creditName)) episodeData.addMainCast(cast);
+						else if ("Recurring Role:".equals(creditName)) episodeData.addRecurringCast(cast);
+						else if ("Guest Star:".equals(creditName)) episodeData.addGuestCast(cast);
+					}
 				}
 				else progress.warning("Unknown credit: "+creditName+"="+creditValue);
 			}
@@ -231,67 +250,36 @@ public abstract class TVComLoader implements Job
 		saveEpisode(episode, episodeData);
 	}
 
-	private List<CastData> extractCast(String value)
-	{
-		List<CastData> castList=new ArrayList<CastData>();
-		String[] castStrings=value.split(",&nbsp;");
-		Pattern pattern1=Pattern.compile("(.+) \\((.*\\(.+\\))\\).*");
-		Pattern pattern2=Pattern.compile("(.+) \\((.*)\\).*");
-		for (int i=0; i<castStrings.length; i++)
-		{
-			String cast=castStrings[i];
-			CastData castData=castCache.get(cast);
-			if (castData==null)
-			{
-				String actorName=null;
-				String characterName=null;
-				Matcher matcher=pattern1.matcher(cast);
-				if (!matcher.matches()) matcher=pattern2.matcher(cast);
-				if (matcher.matches())
-				{
-					actorName=matcher.group(1);
-					characterName=matcher.group(2);
-				}
-				if (actorName==null || !isValidName(actorName) || (characterName!=null && !isValidName(characterName)))
-				{
-					String[] data=resolveCastString(cast);
-					if (data==null) continue;
-					actorName=data[0];
-					characterName=data[1];
-				}
-				castData=new CastData(actorName, characterName);
-				castCache.put(cast, castData);
-			}
-			castList.add(castData);
-		}
-		return castList;
-	}
-
 	protected String[] resolveCastString(String cast)
 	{
 		progress.warning("Invalid cast pattern: "+cast);
 		return null;
 	}
 
+	private static String convertHTML(String html)
+	{
+		return trimString(unescapeHtml(removeTags(html)));
+	}
+
 	private static boolean isValidName(String text)
 	{
 		Stack<Character> stack=new Stack<Character>();
 		Character lastOpened;
-		for (int i=0;i<text.length();i++)
+		for (int i=0; i<text.length(); i++)
 		{
 			char ch=text.charAt(i);
 			switch (ch)
 			{
-				case '(':
-				case '[':
+				case'(':
+				case'[':
 					stack.push(ch);
 					break;
-				case ')':
+				case')':
 					if (stack.isEmpty()) return false;
 					lastOpened=stack.pop();
 					if (lastOpened==null || lastOpened.charValue()!='(') return false;
 					break;
-				case ']':
+				case']':
 					if (stack.isEmpty()) return false;
 					lastOpened=stack.pop();
 					if (lastOpened==null || lastOpened.charValue()!='[') return false;
@@ -320,19 +308,25 @@ public abstract class TVComLoader implements Job
 				if (oldAirdate==null && newAirdate!=null) episode.setAirdate(newAirdate);
 			}
 		});
-		saveCrew(episode, CrewMember.WRITER, data.getWrittenBy());
-		saveCrew(episode, CrewMember.DIRECTOR, data.getDirectedBy());
-		saveCrew(episode, CrewMember.STORY, data.getStoryBy());
+//		System.out.println("TVComLoader.saveEpisode: data.getDirectedBy() = "+data.getDirectedBy());
+//		System.out.println("TVComLoader.saveEpisode: data.getWrittenBy() = "+data.getWrittenBy());
+//		System.out.println("TVComLoader.saveEpisode: data.getStoryBy() = "+data.getStoryBy());
+//		System.out.println("TVComLoader.saveEpisode: data.getMainCast() = "+data.getMainCast());
+//		System.out.println("TVComLoader.saveEpisode: data.getRecurringCast() = "+data.getRecurringCast());
+//		System.out.println("TVComLoader.saveEpisode: data.getGuestCast() = "+data.getGuestCast());
+		saveCrew(episode, CreditType.WRITER, null, data.getWrittenBy());
+		saveCrew(episode, CreditType.DIRECTOR, null, data.getDirectedBy());
+		saveCrew(episode, CreditType.WRITER, "Story", data.getStoryBy());
 
-		saveCast(episode, CastMember.MAIN_CAST, data.getMainCast());
-		saveCast(show, CastMember.MAIN_CAST, data.getMainCast());
-		saveCast(episode, CastMember.RECURRING_CAST, data.getRecurringCast());
-		saveCast(show, CastMember.RECURRING_CAST, data.getRecurringCast());
-		saveCast(episode, CastMember.GUEST_CAST, data.getGuestCast());
+		saveCast(episode, CreditType.MAIN_CAST, data.getMainCast());
+		saveCast(show, CreditType.MAIN_CAST, data.getMainCast());
+		saveCast(episode, CreditType.RECURRING_CAST, data.getRecurringCast());
+		saveCast(show, CreditType.RECURRING_CAST, data.getRecurringCast());
+		saveCast(episode, CreditType.GUEST_CAST, data.getGuestCast());
 		progress.info(episode.getUserKey()+" "+episode.getTitle()+" updated.");
 	}
 
-	private void saveCast(final Production production, final int type, final List<CastData> castList)
+	private void saveCast(final Production production, final CreditType type, final List<CastData> castList)
 	{
 		if (castList!=null)
 		{
@@ -341,9 +335,9 @@ public abstract class TVComLoader implements Job
 			{
 				castNames.add(castMember.getActor().getName());
 			}
-			if (type==CastMember.RECURRING_CAST)
+			if (type==CreditType.RECURRING_CAST)
 			{
-				for (CastMember castMember : production.getCastMembers(CastMember.MAIN_CAST))
+				for (CastMember castMember : production.getCastMembers(CreditType.MAIN_CAST))
 				{
 					castNames.add(castMember.getActor().getName());
 				}
@@ -352,24 +346,15 @@ public abstract class TVComLoader implements Job
 			{
 				public void run() throws Exception
 				{
-					Map<String, Person> cache=new HashMap<String, Person>();
 					for (CastData castData : castList)
 					{
-						String actorName=StringUtils.trimString(castData.actor);
+						String actorName=castData.person.name;
 						if (!castNames.contains(actorName))
 						{
-							String character=StringUtils.trimString(castData.character);
-							Person person=PersonManager.getInstance().getPersonByName(actorName, true);
-							if (person==null) person=cache.get(actorName);
-							if (person==null)
-							{
-								person=new Person();
-								person.setName(actorName);
-								person.setActor(true);
-								cache.put(actorName, person);
-							}
+							String character=trimString(castData.character);
+							Person person=getPerson(personCache, castData.person.key, castData.person.name);
 							CastMember castMember=new CastMember();
-							castMember.setType(type);
+							castMember.setCreditType(type);
 							if (production instanceof Episode) castMember.setEpisode((Episode)production);
 							else castMember.setShow((Show)production);
 							castMember.setActor(person);
@@ -381,7 +366,29 @@ public abstract class TVComLoader implements Job
 		}
 	}
 
-	private void saveCrew(final Episode episode, final String type, final String[] crewList)
+	private static Person getPerson(Map<String, Person> persons, String key, String name)
+	{
+		Person person=null;
+		if (key!=null)
+		{
+			person=persons.get(key);
+			if (person==null) person=PersonManager.getInstance().getPersonByTVcomKey(key);
+		}
+		if (person==null) person=persons.get(name);
+		if (person==null) person=PersonManager.getInstance().getPersonByName(name, true);
+		//noinspection ConstantConditions
+		if (person==null || (!StringUtils.isEmpty(key) && !StringUtils.isEmpty(person.getTvcomKey()) && !key.equals(person.getTvcomKey())))
+		{
+			person=new Person();
+			person.setName(name);
+			persons.put(name, person);
+		}
+		if (StringUtils.isEmpty(person.getTvcomKey())) person.setTvcomKey(key);
+		if (!StringUtils.isEmpty(key)) persons.put(key, person);
+		return person;
+	}
+
+	private void saveCrew(final Episode episode, final CreditType type, final String subType, final List<PersonData> crewList)
 	{
 		if (crewList!=null)
 		{
@@ -395,29 +402,28 @@ public abstract class TVComLoader implements Job
 			{
 				public void run() throws Exception
 				{
-					Map<String, Person> cache=new HashMap<String, Person>();
-					for (int i=0; i<crewList.length; i++)
+					for (PersonData personData : crewList)
 					{
-						String name=StringUtils.trimString(crewList[i]);
-						if (!crewNames.contains(name))
+						if (!crewNames.contains(personData.name))
 						{
-							Person person=PersonManager.getInstance().getPersonByName(name, true);
-							if (person==null) person=cache.get(name);
-							if (person==null)
-							{
-								person=new Person();
-								person.setName(name);
-								cache.put(name, person);
-							}
+							Person person=getPerson(personCache, personData.key, personData.name);
 							CrewMember crewMember=new CrewMember();
 							crewMember.setEpisode(episode);
-							crewMember.setType(type);
+							crewMember.setCreditType(type);
+							crewMember.setSubType(subType);
 							crewMember.setPerson(person);
 						}
 					}
 				}
 			});
 		}
+	}
+
+	private String getNameLink(String html)
+	{
+		Matcher keyMatcher=nameLinkPattern.matcher(XMLUtils.getAttribute(html, "href"));
+		if (keyMatcher.matches()) return keyMatcher.group(1);
+		return null;
 	}
 
 	private static class EpisodeData implements ImportEpisode
@@ -430,9 +436,9 @@ public abstract class TVComLoader implements Job
 		private List<CastData> mainCast;
 		private List<CastData> recurringCast;
 		private List<CastData> guestCast;
-		private String[] writtenBy;
-		private String[] directedBy;
-		private String[] storyBy;
+		private List<PersonData> writtenBy;
+		private List<PersonData> directedBy;
+		private List<PersonData> storyBy;
 
 		public EpisodeData(String episodeKey, String episodeName, Date airdate, String productionCode)
 		{
@@ -440,6 +446,12 @@ public abstract class TVComLoader implements Job
 			this.episodeName=episodeName;
 			this.airdate=airdate;
 			this.productionCode=productionCode;
+			writtenBy=new ArrayList<PersonData>();
+			directedBy=new ArrayList<PersonData>();
+			storyBy=new ArrayList<PersonData>();
+			mainCast=new ArrayList<CastData>();
+			recurringCast=new ArrayList<CastData>();
+			guestCast=new ArrayList<CastData>();
 		}
 
 		public String getEpisodeKey()
@@ -467,36 +479,6 @@ public abstract class TVComLoader implements Job
 			return summary;
 		}
 
-		public void setMainCast(List<CastData> mainCast)
-		{
-			this.mainCast=mainCast;
-		}
-
-		public void setRecurringCast(List<CastData> recurringCast)
-		{
-			this.recurringCast=recurringCast;
-		}
-
-		public void setGuestCast(List<CastData> guestCast)
-		{
-			this.guestCast=guestCast;
-		}
-
-		public void setWrittenBy(String[] writers)
-		{
-			this.writtenBy=writers;
-		}
-
-		public void setDirectedBy(String[] directors)
-		{
-			this.directedBy=directors;
-		}
-
-		public void setStoryBy(String[] storyBy)
-		{
-			this.storyBy=storyBy;
-		}
-
 		public Date getFirstAirdate()
 		{
 			return airdate;
@@ -522,37 +504,85 @@ public abstract class TVComLoader implements Job
 			return guestCast;
 		}
 
-		public String[] getWrittenBy()
+		public List<PersonData> getWrittenBy()
 		{
 			return writtenBy;
 		}
 
-		public String[] getDirectedBy()
+		public List<PersonData> getDirectedBy()
 		{
 			return directedBy;
 		}
 
-		public String[] getStoryBy()
+		public List<PersonData> getStoryBy()
 		{
 			return storyBy;
+		}
+
+		public void addWrittenBy(PersonData personData)
+		{
+			writtenBy.add(personData);
+		}
+
+		public void addDirectedBy(PersonData person)
+		{
+			directedBy.add(person);
+		}
+
+		public void addStoryBy(PersonData person)
+		{
+			storyBy.add(person);
+		}
+
+		public void addMainCast(CastData cast)
+		{
+			mainCast.add(cast);
+		}
+
+		public void addRecurringCast(CastData cast)
+		{
+			recurringCast.add(cast);
+		}
+
+		public void addGuestCast(CastData cast)
+		{
+			guestCast.add(cast);
+		}
+	}
+
+	private static class PersonData
+	{
+		private String name;
+		private String key;
+
+		public PersonData(String key, String actor)
+		{
+			this.key=key;
+			this.name=actor;
+		}
+
+		@Override
+		public String toString()
+		{
+			return name+"["+key+"]";
 		}
 	}
 
 	private static class CastData
 	{
-		private String actor;
+		private PersonData person;
 		private String character;
 
-		public CastData(String actor, String character)
+		public CastData(PersonData person, String character)
 		{
-			this.actor=actor;
+			this.person=person;
 			this.character=character;
 		}
 
 		@Override
 		public String toString()
 		{
-			return actor+" as "+character;
+			return person+" as "+character;
 		}
 	}
 

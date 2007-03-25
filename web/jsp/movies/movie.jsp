@@ -1,16 +1,16 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import="java.util.*,
-				 com.kiwisoft.media.Language,
-				 com.kiwisoft.media.LanguageManager,
-				 com.kiwisoft.media.Navigation,
-				 com.kiwisoft.media.movie.Movie" %>
-<%@ page import="com.kiwisoft.media.movie.MovieManager"%>
-<%@ page import="com.kiwisoft.media.person.CastMember"%>
-<%@ page import="com.kiwisoft.media.person.CrewMember"%>
-<%@ page import="com.kiwisoft.media.person.Person"%>
-<%@ page import="com.kiwisoft.utils.SortedSetMap"%>
-<%@ page import="com.kiwisoft.utils.StringUtils"%>
-<%@ page import="com.kiwisoft.web.JspUtils"%>
+				 org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="com.kiwisoft.media.*" %>
+<%@ page import="com.kiwisoft.media.movie.Movie" %>
+<%@ page import="com.kiwisoft.media.movie.MovieManager" %>
+<%@ page import="com.kiwisoft.media.person.CastMember" %>
+<%@ page import="com.kiwisoft.media.person.CrewMember" %>
+<%@ page import="com.kiwisoft.media.person.Person" %>
+<%@ page import="com.kiwisoft.utils.SortedSetMap" %>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.person.CreditType" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -21,7 +21,8 @@
 <html>
 
 <head>
-<title>Movies - <%=movie.getTitle()%></title>
+<title>Movies - <%=movie.getTitle()%>
+</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <script language="JavaScript" src="/window.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
@@ -32,81 +33,129 @@
 
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=movie.getTitle()%></media:title>
+<media:title><%=movie.getTitle()%>
+</media:title>
 
 <div class="main">
-<table cellspacing="0" cellpadding="5"><tr valign="top">
-	<td width="200">
-		<!--Navigation Start-->
+<table cellspacing="0" cellpadding="5">
+<tr valign="top">
+<td width="200">
+	<!--Navigation Start-->
 
-		<jsp:include page="_movie_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="_movie_nav.jsp"/>
+	<jsp:include page="/_nav.jsp"/>
 
-		<!--Navigation End-->
+	<!--Navigation End-->
+</td>
+<td width="800">
+<!--Content Start-->
+
+<a name="summary"></a>
+<table class="contenttable" width="790">
+<tr>
+	<td class="header1">Summary</td>
+</tr>
+<tr>
+	<td class="content">
+		<%=JspUtils.prepareString(movie.getSummaryText(english))%>
+		<br clear=all>
+
+		<p align=right><a class=link href="#top">Top</a></p>
 	</td>
-	<td width="800">
-		<!--Content Start-->
+</tr>
+</table>
 
-		<a name="summary"></a>
-		<table class="contenttable" width="790">
-		<tr><td class="header1">Summary</td></tr>
-		<tr><td class="content">
-			<%=JspUtils.prepareString(movie.getSummaryText(english))%>
-			<br clear=all>
-			<p align=right><a class=link href="#top">Top</a></p>
-		</td></tr>
+<a name="details"></a>
+<table class="contenttable" width="790">
+<tr>
+	<td class="header1">Details</td>
+</tr>
+<tr>
+	<td class="content">
+		<table>
+		<%
+			Set names=movie.getAltNames();
+			if (!StringUtils.isEmpty(movie.getGermanTitle()) || !names.isEmpty())
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Also Known As:</b></td>
+			<td class="content2">
+				<%
+					if (!StringUtils.isEmpty(movie.getGermanTitle()))
+					{
+						out.print(StringEscapeUtils.escapeHtml(movie.getGermanTitle()));
+						out.println(" ("+JspUtils.render(CountryManager.getInstance().getCountryBySymbol("DE"))+")<br>");
+					}
+					for (Iterator it=names.iterator(); it.hasNext();)
+					{
+						Name name=(Name)it.next();
+						out.print(StringEscapeUtils.escapeHtml(name.getName()));
+						out.println(" ("+JspUtils.render(name.getLanguage())+")<br>");
+					}
+				%>
+			</td>
+		</tr>
+		<%
+			}
+			Set genres=movie.getGenres();
+			if (!genres.isEmpty())
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Genre:</b></td>
+			<td class="content2"><%=JspUtils.prepareSet(genres)%>
+			</td>
+		</tr>
+		<%
+			}
+			Set languages=movie.getLanguages();
+			if (!languages.isEmpty())
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Language:</b></td>
+			<td class="content2"><%=JspUtils.sortAndRenderSet(languages)%>
+			</td>
+		</tr>
+		<%
+			}
+			Set countries=movie.getCountries();
+			if (!countries.isEmpty())
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Country:</b></td>
+			<td class="content2"><%=JspUtils.sortAndRenderSet(countries)%>
+			</td>
+		</tr>
+		<%
+			}
+			if (movie.getYear()!=null)
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Year:</b></td>
+			<td class="content2"><%=movie.getYear()%>
+			</td>
+		</tr>
+		<%
+			}
+			if (movie.getRuntime()!=null)
+			{
+		%>
+		<tr valign="top">
+			<td class="content2"><b>Runtime:</b></td>
+			<td class="content2"><%=movie.getRuntime()%> min</td>
+		</tr>
+		<%
+			}
+		%>
 		</table>
-
-		<a name="details"></a>
-		<table class="contenttable" width="790">
-		<tr><td class="header1">Details</td></tr>
-		<tr><td class="content">
-			<table>
-<%
-	if (!StringUtils.isEmpty(movie.getGermanTitle()))
-	{
-%>
-			<tr><td class="content2"><b>Also Known As:</b></td><td class="content2"><%=movie.getGermanTitle()%> (Germany)</td></tr>
-<%
-	}
-	Set genres=movie.getGenres();
-	if (!genres.isEmpty())
-	{
-%>
-			<tr><td class="content2"><b>Genre:</b></td><td class="content2"><%=JspUtils.prepareSet(genres)%></td></tr>
-<%
-	}
-	Set languages=movie.getLanguages();
-	if (!languages.isEmpty())
-	{
-%>
-			<tr><td class="content2"><b>Language:</b></td><td class="content2"><%=JspUtils.prepareSet(languages)%></td></tr>
-<%
-	}
-	Set countries=movie.getCountries();
-	if (!countries.isEmpty())
-	{
-%>
-			<tr><td class="content2"><b>Country:</b></td><td class="content2"><%=JspUtils.prepareSet(countries)%></td></tr>
-<%
-	}
-	if (movie.getYear()!=null)
-	{
-%>
-			<tr><td class="content2"><b>Year:</b></td><td class="content2"><%=movie.getYear()%></td></tr>
-<%
-	}
-	if (movie.getRuntime()!=null)
-	{
-%>
-			<tr><td class="content2"><b>Runtime:</b></td><td class="content2"><%=movie.getRuntime()%> min</td></tr>
-<%
-	}
-%>
-			</table>
-			<p align=right><a class=link href="#top">Top</a></p>
-		</td></tr>
-		</table>
+		<p align=right><a class=link href="#top">Top</a></p>
+	</td>
+</tr>
+</table>
 
 <%
 	List cast=new ArrayList(movie.getCastMembers());
@@ -127,29 +176,35 @@
 			}
 		});
 %>
-		<a name="cast"></a>
-		<table class="contenttable" width="790">
-		<tr><td class="header1">Cast</td></tr>
-		<tr><td class="content">
-			<table>
-<%
-		for (Iterator it=cast.iterator();it.hasNext();)
-		{
-			CastMember castMember=(CastMember)it.next();
-			Person actor=castMember.getActor();
-%>
-			<tr valign="top">
-				<td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepare(actor)%></a></td>
-				<td class="content2">...</td>
-				<td class="content2"><%=JspUtils.prepareString(castMember.getCharacterName())%></td>
-			</tr>
-<%
-		}
-%>
-			</table>
-			<p align=right><a class=link href="#top">Top</a></p>
-		</td></tr>
+<a name="cast"></a>
+<table class="contenttable" width="790">
+<tr>
+	<td class="header1">Cast</td>
+</tr>
+<tr>
+	<td class="content">
+		<table>
+		<%
+			for (Iterator it=cast.iterator(); it.hasNext();)
+			{
+				CastMember castMember=(CastMember)it.next();
+				Person actor=castMember.getActor();
+		%>
+		<tr valign="top">
+			<td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepare(actor)%>
+			</a></td>
+			<td class="content2">...</td>
+			<td class="content2"><%=JspUtils.prepareString(castMember.getCharacterName())%>
+			</td>
+		</tr>
+		<%
+			}
+		%>
 		</table>
+		<p align=right><a class=link href="#top">Top</a></p>
+	</td>
+</tr>
+</table>
 <%
 	}
 
@@ -165,51 +220,59 @@
 				return crewMember1.getPerson().getName().compareToIgnoreCase(crewMember2.getPerson().getName());
 			}
 		});
-		for (Iterator it=crew.iterator();it.hasNext();)
+		for (Iterator it=crew.iterator(); it.hasNext();)
 		{
 			CrewMember crewMember=(CrewMember)it.next();
-			sortedCrew.add(crewMember.getType(), crewMember);
+			sortedCrew.add(crewMember.getCreditType(), crewMember);
 		}
 %>
-		<a name="crew"></a>
-		<table class="contenttable" width="790">
-		<tr><td class="header1">Crew</td></tr>
-		<tr><td class="content">
-			<table>
-<%
-		for (Iterator it=sortedCrew.keySet().iterator();it.hasNext();)
-		{
-			String type=(String)it.next();
-%>
-			<tr valign="top"><td class="content2"><b><%=type%>:</b></td><td class="content2">
-<%
-			for (Iterator it2=sortedCrew.get(type).iterator();it2.hasNext();)
+<a name="crew"></a>
+<table class="contenttable" width="790">
+<tr>
+	<td class="header1">Crew</td>
+</tr>
+<tr>
+	<td class="content">
+		<table>
+		<%
+			for (Iterator it=sortedCrew.keySet().iterator(); it.hasNext();)
 			{
-				CrewMember crewMember=(CrewMember)it2.next();
-				out.print(crewMember.getPerson());
-				if (!StringUtils.isEmpty(crewMember.getSubType()))
-				{
-					out.print(" (");
-					out.print(crewMember.getSubType());
-					out.print(" )");
-				}
-				out.println("<br>");
+				CreditType type=(CreditType)it.next();
+		%>
+		<tr valign="top">
+			<td class="content2"><b><%=StringEscapeUtils.escapeHtml(type.getByName())%>:</b></td>
+			<td class="content2">
+				<%
+					for (Iterator it2=sortedCrew.get(type).iterator(); it2.hasNext();)
+					{
+						CrewMember crewMember=(CrewMember)it2.next();
+						out.print(JspUtils.render(crewMember.getPerson()));
+						if (!StringUtils.isEmpty(crewMember.getSubType()))
+						{
+							out.print(" (");
+							out.print(JspUtils.render(crewMember.getSubType()));
+							out.print(" )");
+						}
+						out.println("<br>");
+					}
+				%>
+			</td>
+		</tr>
+		<%
 			}
-%>
-			</td></tr>
-<%
-		}
-%>
-			</table>
-			<p align=right><a class=link href="#top">Top</a></p>
-		</td></tr>
+		%>
 		</table>
+		<p align=right><a class=link href="#top">Top</a></p>
+	</td>
+</tr>
+</table>
 <%
 	}
 %>
-		<!--Content End-->
-	</td>
-</tr></table>
+<!--Content End-->
+</td>
+</tr>
+</table>
 </div>
 
 </body>

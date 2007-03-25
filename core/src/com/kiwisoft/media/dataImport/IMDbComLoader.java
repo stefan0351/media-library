@@ -13,28 +13,30 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Country;
 import com.kiwisoft.media.CountryManager;
+import com.kiwisoft.media.person.CreditType;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 28.02.2007
- * Time: 21:00:08
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class IMDbComLoader
 {
 	private String url;
+	private Pattern nameLinkPattern;
+	private String key;
 
-	public IMDbComLoader(String url)
+	public IMDbComLoader(String url, String key)
 	{
+		this.key=key;
 		if (!url.endsWith("/")) url=url+"/";
 		this.url=url;
+		nameLinkPattern=Pattern.compile("/name/(nm[0-9]+)/");
 	}
 
 	public MovieData load() throws Exception
 	{
 		String page=WebUtils.loadURL(url);
 		MovieData movieData=parseMainPage(page);
+		movieData.setImdbKey(key);
 		if (movieData.getCreditsLink()!=null)
 		{
 			page=WebUtils.loadURL(url+movieData.getCreditsLink());
@@ -145,10 +147,16 @@ public class IMDbComLoader
 		Matcher matcher=pattern.matcher(page);
 		while (matcher.find(index))
 		{
-			String type=matcher.group(2);
-			if ("Directed by".equals(type) || "Writing credits".equals(type) || "Produced by".equals(type)
-				|| "Original Music by".equals(type) || "Cinematography by".equals(type) || "Film Editing by".equals(type)
-				|| "Art Direction by".equals(type))
+			String typeName=matcher.group(2);
+			CreditType type=null;
+			if ("Directed by".equals(typeName)) type=CreditType.DIRECTOR;
+			else if ("Writing credits".equals(typeName)) type=CreditType.WRITER;
+			else if ("Produced by".equals(typeName)) type=CreditType.PRODUCER;
+			else if ("Original Music by".equals(typeName)) type=CreditType.COMPOSER;
+			else if ("Cinematography by".equals(typeName)) type=CreditType.CINEMATOGRAPHER;
+			else if ("Film Editing by".equals(typeName)) type=CreditType.EDITOR;
+			else if ("Art Direction by".equals(typeName)) type=CreditType.ART_DIRECTOR;
+			if (type!=null)
 			{
 				index=matcher.end();
 				int tableEnd=page.indexOf("</table>", index);
@@ -162,6 +170,7 @@ public class IMDbComLoader
 					String name=XMLUtils.unescapeHtml(row.get(0));
 					if (!StringUtils.isEmpty(name))
 					{
+						String imdbKey=getNameLink(name);
 						name=XMLUtils.removeTags(name).trim();
 						String subType=null;
 						if (row.size()>2)
@@ -172,7 +181,7 @@ public class IMDbComLoader
 							if (subType.startsWith("(") && subType.endsWith(")")) subType=subType.substring(1, subType.length()-1);
 							subType=WordUtils.capitalize(subType);
 						}
-						movieData.addCrew(new CrewData(name, type, subType));
+						movieData.addCrew(new CrewData(name, type, subType, imdbKey));
 					}
 					index=index2;
 				}
@@ -191,20 +200,28 @@ public class IMDbComLoader
 			String htmlRow=page.substring(index, index2);
 			List<String> row=XMLUtils.extractCellValues(htmlRow);
 			if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) break;
-			String actor=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(1))).trim();
+			String actor=XMLUtils.unescapeHtml(row.get(1));
+			String imdbKey=getNameLink(actor);
+			actor=XMLUtils.removeTags(actor).trim();
 			String role=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(3))).trim();
 			if (!"Extra".equals(role) && !role.startsWith("Extra (as"))
 			{
-				movieData.addCast(new CastData(actor, role, creditOrder++));
+				movieData.addCast(new CastData(actor, role, creditOrder++, imdbKey));
 			}
 			index=index2;
 		}
 
 	}
 
+	private String getNameLink(String html)
+	{
+		Matcher keyMatcher=nameLinkPattern.matcher(XMLUtils.getAttribute(html, "href"));
+		if (keyMatcher.matches()) return keyMatcher.group(1);
+		return null;
+	}
+
 	private void parseSummaryPage(String page, MovieData movieData)
 	{
-
 		int index1=page.indexOf("<p class=\"plotpar\">");
 		index1=page.indexOf(">", index1)+1;
 		int index2=page.indexOf("</p>");

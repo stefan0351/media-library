@@ -7,13 +7,23 @@
 package com.kiwisoft.media.movie;
 
 import java.util.Collection;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Set;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.fanfic.FanFic;
+import com.kiwisoft.media.fanfic.Pairing;
 import com.kiwisoft.media.dataImport.SearchPattern;
 
 public class MovieManager
@@ -53,6 +63,11 @@ public class MovieManager
 			movie=dbLoader.load(Movie.class, "names", "names.type=? and names.ref_id=movies.id and names.name=?", Name.MOVIE, title);
 		}
 		return movie;
+	}
+
+	public Movie getMovieByIMDbKey(String key)
+	{
+		return DBLoader.getInstance().load(Movie.class, null, "imdb_key=?", key);
 	}
 
 	public boolean isMovieUsed(Movie movie)
@@ -98,6 +113,40 @@ public class MovieManager
 	protected void fireElementRemoved(String propertyName, Object element)
 	{
 		collectionChangeSupport.fireElementRemoved(propertyName, element);
+	}
+
+	public SortedSet<Character> getLetters()
+	{
+		try
+		{
+			SortedSet<Character> set=new TreeSet<Character>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(index_by) from movies");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next())
+				{
+					String string=resultSet.getString(1);
+					if (string!=null && string.length()>0)
+						set.add(new Character(string.charAt(0)));
+				}
+			}
+			finally
+			{
+				statement.close();
+			}
+			return set;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Set<Movie> getMoviesByLetter(char ch)
+	{
+		return DBLoader.getInstance().loadSet(Movie.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
 
 }

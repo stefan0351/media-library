@@ -9,11 +9,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 18:36:02
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class CreateSeasonAction extends MultiContextAction<Episode>
 {

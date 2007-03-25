@@ -147,7 +147,7 @@ public class PersonDetailsView extends DetailsView
 			tfFirstName.setText(person.getFirstName());
 			tfMiddleName.setText(person.getMiddleName());
 			tfSurname.setText(person.getSurname());
-			cbxSex.setSelectedItem(person.getSex());
+			cbxSex.setSelectedItem(person.getGender());
 			cbActor.setSelected(person.isActor());
 			String pattern=person.getSearchPattern(SearchPattern.TVTV);
 			if (pattern!=null) tfTVTVPattern.setText(pattern);

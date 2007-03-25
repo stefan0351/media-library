@@ -54,7 +54,7 @@ public class ShowCastView extends ViewPanel
 			{
 				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
 				actions.add(new CastDetailsAction());
-				actions.add(new NewCastAction(show, CastMember.MAIN_CAST));
+				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
 				actions.add(new DeleteCastAction(show, frame));
 				return actions;
 			}
@@ -65,7 +65,7 @@ public class ShowCastView extends ViewPanel
 				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
-				actions.add(new NewCastAction(show, CastMember.MAIN_CAST));
+				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
 				actions.add(new DeleteCastAction(show, frame));
 				return actions;
 			}
@@ -83,7 +83,7 @@ public class ShowCastView extends ViewPanel
 			{
 				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
 				actions.add(new CastDetailsAction());
-				actions.add(new NewCastAction(show, CastMember.RECURRING_CAST));
+				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
 				actions.add(new DeleteCastAction(show, frame));
 				return actions;
 			}
@@ -94,7 +94,7 @@ public class ShowCastView extends ViewPanel
 				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
-				actions.add(new NewCastAction(show, CastMember.RECURRING_CAST));
+				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
 				actions.add(new DeleteCastAction(show, frame));
 				return actions;
 			}

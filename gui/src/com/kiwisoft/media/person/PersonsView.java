@@ -47,12 +47,12 @@ public class PersonsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Person> tableModel=new ActorsTableModel();
+		SortableTableModel<Person> tableModel=new PersonsTableModel();
 
 		personListener=new PersonListener();
 		PersonManager.getInstance().addCollectionChangeListener(personListener);
 
-		tableController=new TableController<Person>(tableModel, new MediaTableConfiguration("table.actors"))
+		tableController=new TableController<Person>(tableModel, new MediaTableConfiguration("table.persons"))
 		{
 			public List<ContextAction<Person>> getToolBarActions()
 			{
@@ -141,9 +141,9 @@ public class PersonsView extends ViewPanel
 		}
 	}
 
-	private static class ActorsTableModel extends SortableTableModel<Person>
+	private static class PersonsTableModel extends SortableTableModel<Person>
 	{
-		private static final String[] COLUMNS={"name"};
+		private static final String[] COLUMNS={"gender", "name"};
 
 		public int getColumnCount()
 		{
@@ -183,6 +183,8 @@ public class PersonsView extends ViewPanel
 			switch (column)
 			{
 				case 0:
+					return getUserObject().getGender();
+				case 1:
 					return getUserObject().getName();
 			}
 			return null;
@@ -199,7 +201,7 @@ public class PersonsView extends ViewPanel
 		return new Bookmark(getName(), PersonsView.class);
 	}
 
-	@SuppressWarnings({"UNUSED_SYMBOL"})
+	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PersonsView(), true);

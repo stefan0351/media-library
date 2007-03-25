@@ -52,7 +52,7 @@
 <tr><td class="header1" colspan="2">Main Cast</td></tr>
 <tr><td class="content">
 	<table class="table1">
-	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td tclass="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
+	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td class="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
 		boolean row=false;
 		for (Iterator it=mainCast.iterator(); it.hasNext();)
@@ -93,7 +93,7 @@
 <tr><td class="header1" colspan="2">Recurring Cast</td></tr>
 <tr><td class="content">
 	<table class="table1">
-	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td tclass="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
+	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td class="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
 		boolean row=false;
 		for (Iterator it=recurringCast.iterator(); it.hasNext();)

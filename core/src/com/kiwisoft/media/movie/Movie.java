@@ -17,6 +17,7 @@ import com.kiwisoft.utils.db.DBAssociation;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Genre;
@@ -25,14 +26,16 @@ import com.kiwisoft.media.video.Recordable;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.CreditType;
 
-public class Movie extends IDObject implements Recordable
+public class Movie extends IDObject implements Recordable, Production
 {
 	public static final String SHOW="show";
 	public static final String DEFAULT_INFO="defaultInfo";
 	public static final String GENRES="genres";
 	public static final String LANGUAGES="languages";
 	public static final String COUNTRIES="countries";
+	public static final String INDEX_BY="indexBy";
 
 	private static final DBAssociation<Movie, Genre> ASSOCIATION_GENRES
 		=DBAssociation.getAssociation(GENRES, Movie.class, Genre.class);
@@ -50,6 +53,8 @@ public class Movie extends IDObject implements Recordable
 	private String posterMini;
 	private Integer year;
 	private Integer runtime;
+	private String indexBy;
+	private String imdbKey;
 
 	public Movie()
 	{
@@ -63,6 +68,18 @@ public class Movie extends IDObject implements Recordable
 	public Movie(DBDummy dummy)
 	{
 		super(dummy);
+	}
+
+
+	public String getImdbKey()
+	{
+		return imdbKey;
+	}
+
+	public void setImdbKey(String imdbKey)
+	{
+		this.imdbKey=imdbKey;
+		setModified();
 	}
 
 	public String getTitle()
@@ -123,6 +140,16 @@ public class Movie extends IDObject implements Recordable
 		if (altNames==null)
 			altNames=DBLoader.getInstance().loadSet(Name.class, null, "type=? and ref_id=?", Name.MOVIE, getId());
 		return altNames;
+	}
+
+	public String getIndexBy()
+	{
+		return indexBy;
+	}
+
+	public void setIndexBy(String indexBy)
+	{
+		this.indexBy=indexBy;
 	}
 
 	public Show getShow()
@@ -331,4 +358,15 @@ public class Movie extends IDObject implements Recordable
 	{
 		recording.setMovie(this);
 	}
+
+	public Set<CrewMember> getCrewMembers(CreditType type)
+	{
+		return DBLoader.getInstance().loadSet(CrewMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public Set<CastMember> getCastMembers(CreditType type)
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
 }

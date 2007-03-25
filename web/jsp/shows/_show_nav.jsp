@@ -7,6 +7,7 @@
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowInfo"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 
 <%
 	Show show=(Show)request.getAttribute("show");
@@ -51,7 +52,7 @@
 		{
 			Season season=(Season)it.next();
 %>
-			<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#season<%=season.getNumber()%>"><%=season%></a></td></tr>
+			<tr><td class="menuitem"><%=JspUtils.render(season, "Menu")%></td></tr>
 <%
 		}
 	}

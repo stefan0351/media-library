@@ -10,11 +10,7 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Navigation;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 18.03.2007
- * Time: 19:08:39
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ShowHTMLRenderer extends DefaultHTMLRenderer
 {

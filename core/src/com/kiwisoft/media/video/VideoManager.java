@@ -8,14 +8,22 @@
 package com.kiwisoft.media.video;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.utils.db.DBSession;
 
 public class VideoManager
 {
+	public static final int GROUP_SIZE=50;
+
 	public static final String VIDEOS="videos";
 
 	private static VideoManager instance;
@@ -92,4 +100,39 @@ public class VideoManager
 		if (keyPattern==null) keyPattern=Pattern.compile("([A-Z])(\\d+)");
 		return keyPattern;
 	}
+
+	public int getGroupCount()
+	{
+		try
+		{
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select max((cast(substr(userkey, 2) as signed)-1) div ?) from videos ");
+			try
+			{
+				statement.setInt(1, GROUP_SIZE);
+				ResultSet resultSet=statement.executeQuery();
+				if (resultSet.next()) return resultSet.getInt(1)+1;
+				return 1;
+			}
+			finally
+			{
+				statement.close();
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Set<Video> getGroupVideos(int group)
+	{
+		return DBLoader.getInstance().loadSet(Video.class, null, "(cast(substr(userkey, 2) as signed)-1) div ?=?", GROUP_SIZE, group);
+	}
+
+	public static String getGroupName(int group)
+	{
+		return "D"+(group*50+1)+"-D"+(group*50+50);
+	}
+
 }

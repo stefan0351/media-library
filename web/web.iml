@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="4" relativePaths="true" type="J2EE_WEB_MODULE" j2ee-integration="Tomcat Server">
+  <component name="AppServerSpecificValidatorsManager" />
   <component name="ModuleRootManager" />
-  <component name="NewModuleRootManager">
-    <output url="file://C:/Webpages/local/WEB-INF/classes" />
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../../../Webpages/local/WEB-INF/classes" />
     <exclude-output />
-    <exploded url="file://C:/Webpages/local" />
+    <exploded url="file://$MODULE_DIR$/../../../../Webpages/local" />
     <exclude-exploded />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
@@ -77,12 +78,13 @@
     <option name="USE_PROJECT_VCS" value="false" />
   </component>
   <component name="WebModuleBuildComponent">
-    <setting name="EXPLODED_URL" value="file://C:/Webpages/local" />
+    <setting name="EXPLODED_URL" value="file://$MODULE_DIR$/../../../../Webpages/local" />
     <setting name="EXPLODED_ENABLED" value="true" />
     <setting name="JAR_URL" value="file://" />
     <setting name="JAR_ENABLED" value="false" />
     <setting name="SYNC_EXPLODED_DIR" value="false" />
-    <setting name="BUILD_ON_FRAME_DEACTIVATION" value="false" />
+    <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
+    <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
     <setting name="RUN_JASPER_VALIDATION" value="false" />
   </component>
   <component name="WebModuleProperties">

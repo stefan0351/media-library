@@ -31,14 +31,14 @@ public class CastDetailsView extends DetailsView
 		new DetailsFrame(new CastDetailsView(cast)).show();
 	}
 
-	public static void create(Show show, int type)
+	public static void create(Show show, CreditType type)
 	{
 		new DetailsFrame(new CastDetailsView(show, type)).show();
 	}
 
 	private CastMember cast;
 	private Show show;
-	private int type;
+	private CreditType type;
 
 	// Konfigurations Panel
 	private JTextField tfCharacter;
@@ -56,12 +56,12 @@ public class CastDetailsView extends DetailsView
 		initializeData();
 	}
 
-	private CastDetailsView(Show show, int type)
+	private CastDetailsView(Show show, CreditType type)
 	{
 		this.show=show;
 		this.type=type;
-		if (type==CastMember.MAIN_CAST) setTitle("New Main Cast");
-		else if (type==CastMember.RECURRING_CAST) setTitle("New Recurring Cast");
+		if (type==CreditType.MAIN_CAST) setTitle("New Main Cast");
+		else if (type==CreditType.RECURRING_CAST) setTitle("New Recurring Cast");
 		else setTitle("New Cast");
 		createContentPanel();
 		initializeData();
@@ -181,7 +181,7 @@ public class CastDetailsView extends DetailsView
 			transaction=DBSession.getInstance().createTransaction();
 			if (cast==null)
 			{
-				if (type==CastMember.MAIN_CAST) cast=show.createMainCast();
+				if (type==CreditType.MAIN_CAST) cast=show.createMainCast();
 				else cast=show.createRecurringCast();
 			}
 			cast.setActor(actor);

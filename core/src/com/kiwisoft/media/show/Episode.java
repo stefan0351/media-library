@@ -15,6 +15,7 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.video.Recordable;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.utils.StringUtils;
@@ -294,14 +295,14 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 		return DBLoader.getInstance().load(Summary.class, null, "episode_id=? and language_id=?", getId(), language.getId());
 	}
 
-	public Set<CrewMember> getCrewMembers(String type)
+	public Set<CrewMember> getCrewMembers(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=? and type=?", getId(), type);
+		return DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
-	public Set<CastMember> getCastMembers(int type)
+	public Set<CastMember> getCastMembers(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and type=?", getId(), type);
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
 	public int getRecordableLength()

@@ -1,19 +1,20 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import="com.kiwisoft.media.video.MediumType,
-				 com.kiwisoft.media.video.VideosTable,
-				 com.kiwisoft.web.JspUtils"%>
+<%@ page import="com.kiwisoft.media.video.VideoManager,
+				 com.kiwisoft.media.video.VideosTable"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
-	String typeId=request.getParameter("type");
-	MediumType type=null;
-	if (typeId!=null) type=MediumType.get(new Long(typeId));
-	request.setAttribute("videosTable", new VideosTable(type));
+	String groupParameter=request.getParameter("group");
+	int group=0;
+	if ("all".equals(groupParameter)) group=-1;
+	else if (groupParameter!=null) group=Integer.parseInt(groupParameter);
+	int groupCount=VideoManager.getInstance().getGroupCount();
+	request.setAttribute("videosTable", new VideosTable(group));
 %>
 <html>
 
 <head>
-<title>Videos - <%=type!=null ? JspUtils.prepareString(type.getPluralName()) : "All"%></title>
+<title>Videos</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -30,7 +31,19 @@
 		<jsp:include page="/_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="<%=type!=null ? JspUtils.prepareString(type.getPluralName()) : "All"%>">
+		<media:panel title="Videos">
+			<table width="765"><tr><td class="content2"><small>[
+<%
+				for (int i=0;i<groupCount;i++)
+				{
+					if (i>0) out.print("|");
+%>
+					<a class=link href="/videos/index.jsp?group=<%=i%>"><%=VideoManager.getGroupName(i)%></a>
+<%
+				}
+%>
+			]</small></td></tr></table>
+			<br>
 			<media:table model="videosTable" alternateRows="true"/>
 		</media:panel>
 	</media:content>

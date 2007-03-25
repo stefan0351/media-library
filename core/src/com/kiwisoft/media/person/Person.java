@@ -6,12 +6,19 @@
  */
 package com.kiwisoft.media.person;
 
+import java.util.Map;
+import java.util.HashMap;
+
+import com.kiwisoft.media.dataImport.SearchManager;
+import com.kiwisoft.media.dataImport.SearchPattern;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Identifyable;
-import com.kiwisoft.media.dataImport.SearchPattern;
-import com.kiwisoft.media.dataImport.SearchManager;
 
 public class Person extends IDObject
 {
@@ -19,12 +26,14 @@ public class Person extends IDObject
 	public static final String MIDDLE_NAME="middleName";
 	public static final String SURNAME="surname";
 	public static final String NAME="name";
-	public static final String SEX="sex";
+	public static final String GENDER="gender";
 
 	private String firstName;
 	private String middleName;
 	private String surname;
 	private String name;
+	private String imdbKey;
+	private String tvcomKey;
 	private boolean actor;
 
 	public Person()
@@ -81,14 +90,14 @@ public class Person extends IDObject
 		setModified();
 	}
 
-	public Gender getSex()
+	public Gender getGender()
 	{
-		return (Gender)getReference(SEX);
+		return (Gender)getReference(GENDER);
 	}
 
 	public void setSex(Gender gender)
 	{
-		setReference(SEX, gender);
+		setReference(GENDER, gender);
 	}
 
 	public boolean isActor()
@@ -102,6 +111,29 @@ public class Person extends IDObject
 		setModified();
 	}
 
+
+	public String getImdbKey()
+	{
+		return imdbKey;
+	}
+
+	public void setImdbKey(String imdbKey)
+	{
+		this.imdbKey=imdbKey;
+		setModified();
+	}
+
+	public String getTvcomKey()
+	{
+		return tvcomKey;
+	}
+
+	public void setTvcomKey(String tvcomKey)
+	{
+		this.tvcomKey=tvcomKey;
+		setModified();
+	}
+
 	public String toString()
 	{
 		return getName();
@@ -109,7 +141,7 @@ public class Person extends IDObject
 
 	public Identifyable loadReference(String name, Long referenceId)
 	{
-		if (SEX.equals(name)) return Gender.get(referenceId);
+		if (GENDER.equals(name)) return Gender.get(referenceId);
 		return super.loadReference(name, referenceId);
 	}
 
@@ -138,4 +170,62 @@ public class Person extends IDObject
 	{
 		return super.isUsed() || PersonManager.getInstance().isPersonUsed(this);
 	}
+
+	public Credits<CastMember> getActingCredits()
+	{
+		Credits<CastMember> credits=new Credits<CastMember>();
+		for (CastMember castMember : DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=?", getId()))
+		{
+			Movie movie=castMember.getMovie();
+			if (movie!=null)
+			{
+				credits.addProduction(movie);
+				credits.addCredit(movie, castMember);
+			}
+			Show show=castMember.getShow();
+			if (show!=null)
+			{
+				credits.addProduction(show);
+				credits.addCredit(show, castMember);
+			}
+			Episode episode=castMember.getEpisode();
+			if (episode!=null)
+			{
+				credits.addProduction(episode.getShow(), episode);
+				credits.addCredit(episode, castMember);
+			}
+
+		}
+		return credits;
+	}
+
+	public Map<CreditType, Credits<CrewMember>> getCrewCredits()
+	{
+		Map<CreditType, Credits<CrewMember>> creditMap=new HashMap<CreditType, Credits<CrewMember>>();
+		for (CrewMember crewMember : DBLoader.getInstance().loadSet(CrewMember.class, null, "person_id=?", getId()))
+		{
+			Credits<CrewMember> credits=creditMap.get(crewMember.getCreditType());
+			if (credits==null) creditMap.put(crewMember.getCreditType(), credits=new Credits<CrewMember>());
+			Movie movie=crewMember.getMovie();
+			if (movie!=null)
+			{
+				credits.addProduction(movie);
+				credits.addCredit(movie, crewMember);
+			}
+//			Show show=crewMember.getShow();
+//			if (show!=null)
+//			{
+//				creditMap.addProduction(show);
+//				creditMap.addCredit(show, crewMember);
+//			}
+			Episode episode=crewMember.getEpisode();
+			if (episode!=null)
+			{
+				credits.addProduction(episode.getShow(), episode);
+				credits.addCredit(episode, crewMember);
+			}
+		}
+		return creditMap;
+	}
+
 }

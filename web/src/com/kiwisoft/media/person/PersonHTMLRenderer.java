@@ -8,11 +8,7 @@ import com.kiwisoft.media.Navigation;
 import com.kiwisoft.web.DefaultHTMLRenderer;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 22.03.2007
- * Time: 21:44:19
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class PersonHTMLRenderer extends DefaultHTMLRenderer
 {

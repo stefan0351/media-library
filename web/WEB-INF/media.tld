@@ -7,7 +7,7 @@
 <taglib>
 	<tlib-version>1.0</tlib-version>
 	<jsp-version>1.2</jsp-version>
-	<uri>http://www.kiwisoft.de/media/xp</uri>
+	<uri>http://www.kiwisoft.de/media</uri>
 	<tag>
 		<name>title</name>
 		<tag-class>com.kiwisoft.media.tags.TitleTag</tag-class>

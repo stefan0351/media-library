@@ -8,25 +8,21 @@ package com.kiwisoft.media.person;
 
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.utils.db.Identifyable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 
 public class CastMember extends IDObject
 {
-	public static final int MAIN_CAST=1;
-	public static final int RECURRING_CAST=2;
-	public static final int GUEST_CAST=3;
-
 	public static final String ACTOR="actor";
 	public static final String SHOW="show";
 	public static final String MOVIE="movie";
 	public static final String EPISODE="episode";
-	public static final String TYPE="type";
 	public static final String VOICE="voice";
 	public static final String CHARACTER_NAME="characterName";
+	public static final String CREDIT_TYPE="creditType";
 
-	private int type;
 	private String voice;
 	private String imageSmall;
 	private String imageLarge;
@@ -83,19 +79,15 @@ public class CastMember extends IDObject
 		setReference(MOVIE, value);
 	}
 
-	public int getType()
+	public CreditType getCreditType()
 	{
-		return type;
+		return (CreditType)getReference(CREDIT_TYPE);
 	}
 
-	public void setType(int type)
+	public void setCreditType(CreditType creditType)
 	{
-		int oldType=getType();
-		this.type=type;
-		setModified();
-		firePropertyChange(TYPE, oldType, type);
+		setReference(CREDIT_TYPE, creditType);
 	}
-
 
 	public Integer getCreditOrder()
 	{
@@ -171,4 +163,11 @@ public class CastMember extends IDObject
 	{
 		return getCharacterName()+" ("+getActor()+")";
 	}
+
+	public Identifyable loadReference(String name, Long referenceId)
+	{
+		if (CREDIT_TYPE.equals(name)) return CreditType.get(referenceId);
+		return super.loadReference(name, referenceId);
+	}
+
 }

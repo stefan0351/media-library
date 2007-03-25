@@ -9,16 +9,6 @@
 
 <table class="menutable">
 <tr><td class="menuheader">Shows</td></tr>
-<%
-		SortedSet genres=new TreeSet(StringUtils.getComparator());
-		genres.addAll(DBLoader.getInstance().loadSet(Genre.class));
-		Iterator itGenres=genres.iterator();
-		while (itGenres.hasNext())
-		{
-			Genre genre=(Genre)itGenres.next();
-%>
-			<tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp#type<%=genre.getId()%>"><%=genre.getName()%></a></td></tr>
-<%
-		}
-%>
+<tr><td class="menuitem"><a class="menulink" href="/shows/genres.jsp">Genres</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp">Index</a></td></tr>
 </table>

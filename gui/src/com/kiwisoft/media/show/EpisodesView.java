@@ -168,7 +168,7 @@ public class EpisodesView extends ViewPanel
 
 	private static class EpisodesTableModel extends SortableTableModel<Episode>
 	{
-		private static final String[] COLUMNS={"userkey", "title", "germanTitle"};
+		private static final String[] COLUMNS={"userkey", "title", "germanTitle", "firstAired"};
 
 		public int getColumnCount()
 		{
@@ -213,6 +213,14 @@ public class EpisodesView extends ViewPanel
 			return super.getSortValue(column, property);
 		}
 
+
+		@Override
+		public String getCellFormat(int column, String property)
+		{
+			if ("firstAired".equals(property)) return "Date only"; 
+			return super.getCellFormat(column, property);
+		}
+
 		public Object getDisplayValue(int column, String property)
 		{
 			Episode episode=getUserObject();
@@ -224,6 +232,8 @@ public class EpisodesView extends ViewPanel
 					return episode.getTitle();
 				case 2:
 					return episode.getGermanTitle();
+				case 3:
+					return episode.getAirdate();
 			}
 			return "";
 		}

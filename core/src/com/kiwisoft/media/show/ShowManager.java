@@ -8,13 +8,21 @@ package com.kiwisoft.media.show;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.movie.Movie;
 
 public class ShowManager
 {
@@ -145,4 +153,37 @@ public class ShowManager
 		return DBLoader.getInstance().load(Season.class, id);
 	}
 
+	public SortedSet<Character> getLetters()
+	{
+		try
+		{
+			SortedSet<Character> set=new TreeSet<Character>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(title) from shows");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next())
+				{
+					String string=resultSet.getString(1);
+					if (string!=null && string.length()>0)
+						set.add(new Character(string.charAt(0)));
+				}
+			}
+			finally
+			{
+				statement.close();
+			}
+			return set;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Set<Show> getShowsByLetter(char ch)
+	{
+		return DBLoader.getInstance().loadSet(Show.class, null, "sort_letter(title)=?", String.valueOf(ch));
+	}
 }

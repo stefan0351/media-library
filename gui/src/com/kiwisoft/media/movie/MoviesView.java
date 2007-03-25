@@ -139,7 +139,7 @@ public class MoviesView extends ViewPanel
 
 	private static class MoviesTableModel extends SortableTableModel<Movie>
 	{
-		private static final String[] COLUMNS={"title", "germanTitle", "year"};
+		private static final String[] COLUMNS={"title", "germanTitle", "year", "poster"};
 
 		public int getColumnCount()
 		{
@@ -185,6 +185,8 @@ public class MoviesView extends ViewPanel
 					return movie.getGermanTitle();
 				case 2:
 					return movie.getYear();
+				case 3:
+					return movie.getPosterMini();
 			}
 			return null;
 		}

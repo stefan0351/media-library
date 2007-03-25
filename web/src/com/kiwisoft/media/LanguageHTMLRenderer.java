@@ -1,15 +1,15 @@
 package com.kiwisoft.media;
 
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.MissingResourceException;
+
+import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 18.03.2007
- * Time: 18:22:12
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 {
@@ -18,8 +18,24 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 		if (value instanceof Language)
 		{
 			Language language=(Language)value;
-			return "<img src=\"/clipart/flag_"+language.getSymbol()+".gif\"> "+language.getName();
+			String icon=getIcon(language.getSymbol());
+			StringBuilder output=new StringBuilder();
+			if (icon!=null) output.append("<img src=\"").append(icon).append("\"> ");
+			output.append(StringEscapeUtils.escapeHtml(language.getName()));
+			return output.toString();
 		}
 		return super.getContent(value, context, rowIndex, columnIndex);
+	}
+
+	public static String getIcon(String isoCode)
+	{
+		try
+		{
+			return ResourceBundle.getBundle(LanguageHTMLRenderer.class.getName()).getString("language."+isoCode);
+		}
+		catch (MissingResourceException e)
+		{
+			return null;
+		}
 	}
 }

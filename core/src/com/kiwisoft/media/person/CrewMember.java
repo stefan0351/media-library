@@ -2,6 +2,7 @@ package com.kiwisoft.media.person;
 
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.utils.db.Identifyable;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 
@@ -10,13 +11,8 @@ public class CrewMember extends IDObject
 	public static final String PERSON="person";
 	public static final String MOVIE="movie";
 	public static final String EPISODE="episode";
-	public static final String TYPE="type";
+	public static final String CREDIT_TYPE="creditType";
 
-	public static final String WRITER = "Writer";
-	public static final String DIRECTOR = "Director";
-	public static final String STORY = "Story";
-
-	private String type;
 	private String subType;
 
 	public CrewMember()
@@ -30,45 +26,42 @@ public class CrewMember extends IDObject
 
 	public Person getPerson()
 	{
-		return (Person)getReference(CrewMember.PERSON);
+		return (Person)getReference(PERSON);
 	}
 
 	public void setPerson(Person value)
 	{
-		setReference(CrewMember.PERSON, value);
+		setReference(PERSON, value);
 	}
 
 	public Episode getEpisode()
 	{
-		return (Episode)getReference(CrewMember.EPISODE);
+		return (Episode)getReference(EPISODE);
 	}
 
 	public void setEpisode(Episode value)
 	{
-		setReference(CrewMember.EPISODE, value);
+		setReference(EPISODE, value);
 	}
 
 	public Movie getMovie()
 	{
-		return (Movie)getReference(CrewMember.MOVIE);
+		return (Movie)getReference(MOVIE);
 	}
 
 	public void setMovie(Movie value)
 	{
-		setReference(CrewMember.MOVIE, value);
+		setReference(MOVIE, value);
 	}
 
-	public String getType()
+	public CreditType getCreditType()
 	{
-		return type;
+		return (CreditType)getReference(CREDIT_TYPE);
 	}
 
-	public void setType(String type)
+	public void setCreditType(CreditType creditType)
 	{
-		String oldType=getType();
-		this.type=type;
-		setModified();
-		firePropertyChange(TYPE, oldType, type);
+		setReference(CREDIT_TYPE, creditType);
 	}
 
 	public String getSubType()
@@ -80,5 +73,11 @@ public class CrewMember extends IDObject
 	{
 		this.subType=subType;
 		setModified();
+	}
+
+	public Identifyable loadReference(String name, Long referenceId)
+	{
+		if (CREDIT_TYPE.equals(name)) return CreditType.get(referenceId);
+		return super.loadReference(name, referenceId);
 	}
 }

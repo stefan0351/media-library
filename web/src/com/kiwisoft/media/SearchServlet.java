@@ -1,19 +1,21 @@
 package com.kiwisoft.media;
 
 import java.io.IOException;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.ServletException;
-import javax.servlet.ServletContext;
-import javax.servlet.RequestDispatcher;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.SetMap;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 
@@ -62,12 +64,27 @@ public class SearchServlet extends HttpServlet
 																Name.SHOW, searchText));
 					request.setAttribute("shows", shows);
 				}
+				if ("episodes".equals(type) || "all".equals(type))
+				{
+					SetMap<Show, Episode> episodes=new SetMap<Show, Episode>();
+					for (Episode episode : DBLoader.getInstance().loadSet(Episode.class, null, "title like ? or german_title like ?", searchText, searchText))
+					{
+						episodes.add(episode.getShow(), episode);
+					}
+					for (Episode episode : DBLoader.getInstance().loadSet(Episode.class, "names",
+																		  "names.type=? and names.ref_id=episodes.id and names.name like ?",
+																		  Name.EPISODE, searchText))
+					{
+						episodes.add(episode.getShow(), episode);
+					}
+					request.setAttribute("episodes", episodes);
+				}
 				if ("movies".equals(type) || "all".equals(type))
 				{
 					Set<Movie> movies=new HashSet<Movie>();
 					movies.addAll(DBLoader.getInstance().loadSet(Movie.class, null, "title like ? or german_title like ?", searchText, searchText));
 					movies.addAll(DBLoader.getInstance().loadSet(Movie.class, "names", "names.type=? and names.ref_id=movies.id and names.name like ?",
-																Name.MOVIE, searchText));
+																 Name.MOVIE, searchText));
 					request.setAttribute("movies", movies);
 				}
 				if ("persons".equals(type) || "all".equals(type))

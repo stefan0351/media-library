@@ -11,6 +11,7 @@ import java.util.*;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.dataImport.SearchManager;
 import com.kiwisoft.media.fanfic.FanDom;
@@ -336,13 +337,13 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public Set<CastMember> getMainCast()
 	{
-		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.MAIN_CAST, getId());
+		return getCastMembers(CreditType.MAIN_CAST);
 	}
 
 	public CastMember createMainCast()
 	{
 		CastMember cast=new CastMember();
-		cast.setType(CastMember.MAIN_CAST);
+		cast.setCreditType(CreditType.MAIN_CAST);
 		cast.setShow(this);
 		fireElementAdded(MAIN_CAST, cast);
 		return cast;
@@ -350,13 +351,13 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public Set<CastMember> getRecurringCast()
 	{
-		return DBLoader.getInstance().loadSet(CastMember.class, null, "type=? and show_id=?", CastMember.RECURRING_CAST, getId());
+		return getCastMembers(CreditType.RECURRING_CAST);
 	}
 
 	public CastMember createRecurringCast()
 	{
 		CastMember cast=new CastMember();
-		cast.setType(CastMember.RECURRING_CAST);
+		cast.setCreditType(CreditType.RECURRING_CAST);
 		cast.setShow(this);
 		fireElementAdded(RECURRING_CAST, cast);
 		return cast;
@@ -365,9 +366,10 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public void dropCast(CastMember cast)
 	{
 		cast.delete();
-		if (cast.getType()==CastMember.MAIN_CAST)
+		if (cast.getCreditType()==CreditType.MAIN_CAST)
 			fireElementRemoved(MAIN_CAST, cast);
-		else if (cast.getType()==CastMember.RECURRING_CAST) fireElementRemoved(RECURRING_CAST, cast);
+		else if (cast.getCreditType()==CreditType.RECURRING_CAST)
+			fireElementRemoved(RECURRING_CAST, cast);
 
 	}
 
@@ -470,14 +472,14 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		ASSOCIATION_GENRES.setAssociations(this, genres);
 	}
 
-	public Set<CrewMember> getCrewMembers(String type)
+	public Set<CrewMember> getCrewMembers(CreditType type)
 	{
-		return Collections.emptySet();
+		return DBLoader.getInstance().loadSet(CrewMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
-	public Set<CastMember> getCastMembers(int type)
+	public Set<CastMember> getCastMembers(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and type=?", getId(), type);
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
 }
