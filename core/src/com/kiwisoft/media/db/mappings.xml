@@ -1,34 +1,6 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
-<!DOCTYPE mappings [
-<!ELEMENT element (#PCDATA)>
-<!ATTLIST element
-    name CDATA #REQUIRED
-    column CDATA #REQUIRED
-    type CDATA #REQUIRED>
-<!ELEMENT mapping (field|reference)*>
-<!ATTLIST mapping
-    class CDATA #REQUIRED
-    lastModified CDATA #IMPLIED
-    name CDATA #REQUIRED
-    primaryKey CDATA #REQUIRED
-    table CDATA #REQUIRED>
-<!ELEMENT association (element)*>
-<!ATTLIST association
-    table CDATA #REQUIRED>
-<!ELEMENT field (#PCDATA)>
-<!ATTLIST field
-    name CDATA #REQUIRED
-    column CDATA #REQUIRED>
-<!ELEMENT mappings (mapping|association)*>
-<!ELEMENT reference (#PCDATA)>
-<!ATTLIST reference
-    name CDATA #REQUIRED
-    column CDATA #REQUIRED
-    type CDATA #IMPLIED>
-]>
-
-<mappings>
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\java\projects\utils\src\com\kiwisoft\utils\db\mappings.xsd">
 	<mapping name="Sequence" class="com.kiwisoft.utils.db.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>
 		<field name="value" column="value"/>
@@ -42,7 +14,9 @@
 		<field name="defaultEpisodeLength" column="episode_length"/>
 		<field name="webDatesFile" column="webdatesfile"/>
 		<field name="lastModified" column="lastmodified"/>
-		<field name="logoMini" column="logo_mini"/> 
+		<field name="logoMini" column="logo_mini"/>
+		<field name="startYear" column="start_year"/>
+		<field name="endYear" column="end_year"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="defaultInfo" column="defaultinfo_id" type="ShowInfo"/>
 	</mapping>
@@ -150,7 +124,7 @@
 		<field name="webScriptFile" column="webscriptfile"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="posterMini" column="poster_mini"/>
-		<field name="year" column="year"/> 
+		<field name="year" column="year"/>
 		<field name="runtime" column="runtime"/>
 		<field name="imdbKey" column="imdb_key"/>
 		<reference name="show" column="show_id" type="Show"/>
@@ -160,7 +134,7 @@
 		<field name="type" column="type"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
-		<reference name="actor" column="actor_id" type="Person"/> 
+		<reference name="actor" column="actor_id" type="Person"/>
 		<field name="pattern" column="pattern"/>
 	</mapping>
 	<mapping name="Person" class="com.kiwisoft.media.person.Person" table="persons" primaryKey="id" lastModified="lastmodified">
@@ -267,7 +241,6 @@
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="creditType" column="credit_type_id"/>
 	</mapping>
-
 	<association table="map_fanfic_pairing">
 		<element type="FanFic" name="pairings" column="fanfic_id"/>
 		<element type="Pairing" name="fanfics" column="pairing_id"/>

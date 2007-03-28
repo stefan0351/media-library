@@ -3,16 +3,15 @@
 				 org.apache.commons.lang.StringEscapeUtils,
 				 com.kiwisoft.media.Language,
 				 com.kiwisoft.media.LanguageManager,
-				 com.kiwisoft.media.Navigation"%>
-<%@ page import="com.kiwisoft.media.show.Show"%>
+				 com.kiwisoft.media.show.Show"%>
 <%@ page import="com.kiwisoft.media.show.ShowManager"%>
 <%@ page import="com.kiwisoft.utils.Utils"%>
+<%@ page import="com.kiwisoft.web.JspUtils"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	String letterString=request.getParameter("letter");
 	SortedSet letters=ShowManager.getInstance().getLetters();
-	char selectedLetter=letterString!=null && letterString.length()==1 ? letterString.charAt(0) : ((Character)letters.first()).charValue();
 	Set shows=new TreeSet(new Comparator()
 	{
 		public int compare(Object o1, Object o2)
@@ -24,7 +23,17 @@
 			return result;
 		}
 	});
-	shows.addAll(ShowManager.getInstance().getShowsByLetter(selectedLetter));
+	if ("all".equalsIgnoreCase(letterString))
+	{
+		shows.addAll(ShowManager.getInstance().getShows());
+		letterString="All";
+	}
+	else
+	{
+		char selectedLetter=letterString!=null && letterString.length()==1 ? letterString.charAt(0) : ((Character)letters.first()).charValue();
+		shows.addAll(ShowManager.getInstance().getShowsByLetter(selectedLetter));
+		letterString=String.valueOf(selectedLetter);
+	}
 	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 %>
 
@@ -55,16 +64,16 @@
 				{
 					Character letter=(Character)it.next();
 %>
-					<a class=link href="/shows/index.jsp?letter=<%=letter%>"><%=letter%></a>
+					<a class=link href="/shows/index.jsp?letter=<%=letter%>"><%=letter%></a> |
 <%
-					if (it.hasNext()) out.print("|");
 				}
 %>
+				<a class="link" href="/shows/index.jsp?letter=all">All</a>
 			]</small></td></tr></table>
 			<br>
 			<table width="765">
 			<tr valign=top>
-				<td class="content2" width="20"><b><a name="<%=selectedLetter%>"><%=selectedLetter%></a></b></td>
+				<td class="content2" width="20"><b><a name="<%=letterString%>"><%=letterString%></a></b></td>
 				<td class="content2" width=700>
 					<ul>
 <%
@@ -72,13 +81,20 @@
 					{
 						Show show=(Show)itShows.next();
 %>
-						<li><b><a class=link href="<%=Navigation.getLink(show)%>"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></a></b>
+						<li><b><%=JspUtils.render(show)%></b>
 <%
+						String yearString=show.getYearString();
+						if (yearString!=null)
+						{
+							out.print(" (");
+							out.print(yearString);
+							out.println(")");
+						}
 						if (show.getLanguage()!=german)
 						{
-%>
-							(<a class=link href="<%=Navigation.getLink(show)%>"><%=StringEscapeUtils.escapeHtml(show.getGermanTitle())%></a>)
-<%
+							out.print("<br>a.k.a. <i>");
+							out.print(StringEscapeUtils.escapeHtml(show.getGermanTitle()));
+							out.println("</i>");
                         }
 					}
 %>

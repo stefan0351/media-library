@@ -5,7 +5,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Navigation;
 
@@ -14,6 +13,10 @@ import com.kiwisoft.media.Navigation;
  */
 public class ShowHTMLRenderer extends DefaultHTMLRenderer
 {
+	public ShowHTMLRenderer()
+	{
+	}
+
 	@Override
 	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
 	{

@@ -52,6 +52,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private String logoMini;
 	private Set<ShowInfo> infos;
 	private Set<Link> links;
+	private Integer startYear, endYear;
 
 	public Show()
 	{
@@ -482,4 +483,33 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	public Integer getStartYear()
+	{
+		return startYear;
+	}
+
+	public void setStartYear(Integer startYear)
+	{
+		this.startYear=startYear;
+		setModified();
+	}
+
+	public Integer getEndYear()
+	{
+		return endYear;
+	}
+
+	public void setEndYear(Integer endYear)
+	{
+		this.endYear=endYear;
+		setModified();
+	}
+
+	public String getYearString()
+	{
+		if (startYear==null) return null;
+		else if (endYear==null) return startYear+"-";
+		else if (endYear==startYear) return String.valueOf(startYear);
+		else return startYear+"-"+endYear;
+	}
 }

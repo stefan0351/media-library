@@ -6,6 +6,7 @@
 <%@ page import="com.kiwisoft.media.*"%>
 <%@ page import="com.kiwisoft.media.show.Show"%>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -37,18 +38,24 @@
 		<media:panel title="<%=StringEscapeUtils.escapeHtml(genre.getName())%>">
 			<ul>
 <%
-				Iterator itShows=shows.iterator();
-				while (itShows.hasNext())
+				for (Iterator itShows=shows.iterator(); itShows.hasNext();)
 				{
 					Show show=(Show)itShows.next();
 %>
-					<li><b><a class=link href="<%=Navigation.getLink(show)%>"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></a></b>
+					<li><b><%=JspUtils.render(show)%></b>
 <%
+					String yearString=show.getYearString();
+					if (yearString!=null)
+					{
+						out.print(" (");
+						out.print(yearString);
+						out.println(")");
+					}
 					if (show.getLanguage()!=german)
 					{
-%>
-						(<a class=link href="<%=Navigation.getLink(show)%>"><%=StringEscapeUtils.escapeHtml(show.getGermanTitle())%></a>)
-<%
+						out.print("<br>a.k.a. <i>");
+						out.print(StringEscapeUtils.escapeHtml(show.getGermanTitle()));
+						out.println("</i>");
 					}
 				}
 %>

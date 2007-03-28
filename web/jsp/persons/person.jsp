@@ -8,6 +8,7 @@
 <%@ page import="com.kiwisoft.media.show.Production" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.show.Show" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -78,9 +79,18 @@
 				out.print("</b>");
 				if (production instanceof Movie)
 				{
-					Movie movie=(Movie)production;
-					Integer year=movie.getYear();
+					Integer year=((Movie)production).getYear();
 					if (year!=null) out.println(" ("+year+")");
+				}
+				else if (production instanceof Show)
+				{
+					String yearString=((Show)production).getYearString();
+					if (yearString!=null)
+					{
+						out.print(" (");
+						out.print(yearString);
+						out.println(")");
+					}
 				}
 				if (!mainCredits.isEmpty())
 				{
