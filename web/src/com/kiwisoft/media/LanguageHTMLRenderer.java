@@ -13,6 +13,18 @@ import com.kiwisoft.web.DefaultHTMLRenderer;
  */
 public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 {
+	private boolean withText;
+
+	public LanguageHTMLRenderer()
+	{
+		this(true);
+	}
+
+	public LanguageHTMLRenderer(boolean withText)
+	{
+		this.withText=withText;
+	}
+
 	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Language)
@@ -21,7 +33,7 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 			String icon=getIcon(language.getSymbol());
 			StringBuilder output=new StringBuilder();
 			if (icon!=null) output.append("<img src=\"").append(icon).append("\"> ");
-			output.append(StringEscapeUtils.escapeHtml(language.getName()));
+			if (withText || icon==null) output.append(StringEscapeUtils.escapeHtml(language.getName()));
 			return output.toString();
 		}
 		return super.getContent(value, context, rowIndex, columnIndex);

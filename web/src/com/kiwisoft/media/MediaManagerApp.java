@@ -40,6 +40,7 @@ public class MediaManagerApp
 
 		HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
+		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));
 		rendererManager.setRenderer(Country.class, new CountryHTMLRenderer());
 		rendererManager.setRenderer(Video.class, new VideoHTMLRenderer(false));
 		rendererManager.setRenderer(Video.class, "Name", new VideoHTMLRenderer(true));

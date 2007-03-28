@@ -91,7 +91,7 @@
 			{
 				if (hr) out.println("<hr size=\"1\" color=\"black\">");
 				out.print("<p>");
-				out.print(JspUtils.render(german));
+				out.print(JspUtils.render(german, "icon only"));
 				out.print(" ");
 				out.print(JspUtils.prepareString(germanSummary));
 				out.println("</p>");
