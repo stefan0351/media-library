@@ -490,6 +490,7 @@ CREATE TABLE `shows` (
   `id` bigint(20) NOT NULL default '0',
   `userkey` varchar(20) NOT NULL default '',
   `german_title` varchar(100) default NULL,
+  `index_by` varchar(100) NOT NULL,
   `internet` tinyint(1) default NULL,
   `episode_length` int(11) default NULL,
   `webdatesfile` varchar(200) default NULL,
@@ -498,6 +499,8 @@ CREATE TABLE `shows` (
   `logo_mini` varchar(200) default NULL,
   `defaultinfo_id` bigint(20) default NULL,
   `title` varchar(100) NOT NULL,
+  `start_year` int(11) default NULL,
+  `end_year` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -561,4 +564,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-03-24 22:55:37
+-- Dump completed on 2007-03-31 17:38:56
