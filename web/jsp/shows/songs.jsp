@@ -1,10 +1,14 @@
-<%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import = "com.kiwisoft.media.show.Show,
-				   com.kiwisoft.media.show.ShowManager,
-				   java.util.Iterator,
-				   com.kiwisoft.xp.XPBean,
-				   java.util.Collection" %>
-
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+<%@ page import="java.util.Collection,
+				 java.util.Iterator,
+				 org.apache.commons.lang.StringEscapeUtils,
+				 com.kiwisoft.media.show.Show,
+				 com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="com.kiwisoft.utils.Utils" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.xp.XPBean" %>
+<%@ page import="com.kiwisoft.media.show.Episode" %>
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <%
 	Show show=ShowManager.getInstance().getShow(new Long(request.getParameter("show")));
 	request.setAttribute("show", show);
@@ -13,161 +17,171 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Title Song</title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
-<script language="JavaScript" src="/nav.js"></script>
-<jsp:include page="_shows_nav.jsp"/>
-<jsp:include page="_show_nav.jsp" />
-<link rel="StyleSheet" type="text/css" href="/clipart/style.css">
+<title><%=show.getTitle()%> - Theme</title>
+<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="/overlib.js"></script>
 </head>
 
 <body>
-
 <a name="top"></a>
 
-<div class="logo">
-	<table width=130 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<jsp:include page="/shows/_show_logo.jsp"/>
-	</td></tr></table>
-</div>
-<div class="title">
-	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-<span style="font-weight:bold;font-size:24pt;"><%=show.getTitle()%></span>
-	</td></tr></table>
-</div>
-
 <div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'/')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navShows(2,'/shows/')" onMouseOut="nd()">Serien</a></div>
-<div class="nav_pos3"><a class=link_nav href="javascript:void(0)" onMouseOver="navShow(3)" onMouseOut="nd()">Serie</a></div>
-<!--Navigation Ende-->
 
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
+<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%>
+</media:title>
 
-<div class="bg_page">
-<!--Body-->
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;<%="themes".equals(xp.getName()) ? "Titelmusik" : "Musik"%></td></tr>
-</table>
+<media:body>
+<media:sidebar>
+	<jsp:include page="_show_nav.jsp"/>
+	<jsp:include page="_shows_nav.jsp"/>
+	<jsp:include page="/_nav.jsp"/>
+</media:sidebar>
+<media:content>
+<media:panel title="<%="themes".equals(xp.getName()) ? "Theme" : "Music"%>">
 <%
 	Collection values=xp.getValues("theme");
 	if (values!=null)
 	{
-	for (Iterator it=values.iterator(); it.hasNext();)
-	{
-		XPBean theme=(XPBean)it.next();
-
-%>
-		<br>
-		<table style="border: solid 1px lightgray" width="100%">
-<%
-		if (theme.getValue("description")!=null)
+		for (Iterator it=values.iterator(); it.hasNext();)
 		{
-%>		
-			<tr><td colspan=2 bgcolor="#eeeeee"><b><%=theme.getValue("description")%></b></td></tr>
-<%
-		}
-		if (theme.getValue("title")!=null)
-		{
+			XPBean theme=(XPBean)it.next();
+			String description=(String)theme.getValue("description");
+			if (description==null) description="Theme";
 %>
-			<tr><td width="100">Titel:</td><td><%=theme.getValue("title")%></td></tr>
-<%
-		}
-		if (theme.getValue("composer")!=null)
-		{
-%>
-			<tr><td width="100">Komponist:</td><td><%=theme.getValue("composer")%></td></tr>
-<%
-		}
-		if (theme.getValue("interpret")!=null)
-		{
-%>
-			<tr><td width="100">Interpret:</td><td><%=theme.getValue("interpret")%></td></tr>
-<%
-		}
-		if (theme.getValue("source")!=null)
-		{
-%>
-			<tr><td width="100">Datei:</td><td><a href="<%=theme.getValue("source")%>"><img src="/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td></tr>
-<%
-		}
-		if (theme.getValue("lyrics")!=null)
-		{
-%>
-			<tr valign=top><td width="100">Text:</td><td><%=theme.getValue("lyrics")%></td></tr>
-<%
-		}
-%>
+<table class="contenttable" width="765">
+<tr>
+	<td class="header2"><%=description%>
+	</td>
+</tr>
+<tr>
+	<td class="content">
+		<table>
+		<%
+			Object title=theme.getValue("title");
+			if (!Utils.isEmpty(title))
+			{
+		%>
+		<tr>
+			<td class="content2"><b>Title</b>:</td>
+			<td class="content2"><%=JspUtils.render(title)%>
+			</td>
+		</tr>
+		<%
+			}
+			Object composer=theme.getValue("composer");
+			if (!Utils.isEmpty(composer))
+			{
+		%>
+		<tr>
+			<td class="content2"><b>Composer:</b></td>
+			<td class="content2"><%=JspUtils.render(composer)%>
+			</td>
+		</tr>
+		<%
+			}
+			Object interpret=theme.getValue("interpret");
+			if (!Utils.isEmpty(interpret))
+			{
+		%>
+		<tr>
+			<td class="content2"><b>Interpret:</b></td>
+			<td class="content2"><%=JspUtils.render(interpret)%>
+			</td>
+		</tr>
+		<%
+			}
+			Object source=theme.getValue("source");
+			if (source!=null)
+			{
+		%>
+		<tr>
+			<td class="content2"><b>File:</b></td>
+			<td class="content2"><a href="<%=source%>"><img src="/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td>
+		</tr>
+		<%
+			}
+			Object lyrics=theme.getValue("lyrics");
+			if (lyrics!=null)
+			{
+		%>
+		<tr valign=top>
+			<td class="content2"><b>Lyrics:</b></td>
+			<td class="content2"><%=JspUtils.render(lyrics.toString(), "preformatted")%>
+			</td>
+		</tr>
+		<%
+			}
+		%>
 		</table>
+	</td>
+</tr>
+</table>
+<br>
 <%
-	}
+		}
 	}
 	values=xp.getValues("song");
 	if (values!=null)
 	{
-	for (Iterator it=values.iterator(); it.hasNext();)
-	{
-		XPBean theme=(XPBean)it.next();
+		for (Iterator it=values.iterator(); it.hasNext();)
+		{
+			XPBean song=(XPBean)it.next();
 
 %>
-		<br>
-		<table style="border: solid 1px lightgray" width="100%">
-<%
-		Object title=theme.getValue("title");
-		if (title!=null)
+<table class="contenttable" width="765">
+<tr>
+	<td class="header2"><%=JspUtils.render(song.getValue("title"))%>
+	</td>
+</tr>
+<tr>
+	<td class="content">
+	<table>
+	<%
+		Object episodeKey=song.getValue("episode");
+		if (episodeKey!=null)
 		{
-			%><tr><td colspan=2 bgcolor="#eeeeee"><b><%=title%></b></td></tr><%
+			Episode episode=ShowManager.getInstance().getEpisode(show.getUserKey(), episodeKey.toString());
+	%>
+	<tr><td class="content2"><b>Episode:</b></td><td class="content2"><%=JspUtils.render(episode)%></td></tr>
+	<%
 		}
-		Object episode=theme.getValue("episode");
-		if (episode!=null)
+		if (song.getValue("composer")!=null)
 		{
-			request.setAttribute("_episode", ShowManager.getInstance().getEpisode(show.getUserKey(), episode.toString()));
-			%><tr><td width="100">Episode:</td><td><jsp:include page="_episode.jsp"/></td></tr><%
+	%>
+	<tr><td class="content2"><b>Composer:</b></td><td class="content2"><%=JspUtils.render(song.getValue("composer"))%></td></tr>
+	<%
 		}
-		if (theme.getValue("composer")!=null)
+		if (song.getValue("interpret")!=null)
 		{
-%>
-			<tr><td width="100">Komponist:</td><td><%=theme.getValue("composer")%></td></tr>
-<%
+	%>
+	<tr><td class="content2"><b>Interpret:</b></td><td class="content2"><%=JspUtils.render(song.getValue("interpret"))%></td></tr>
+	<%
 		}
-		if (theme.getValue("interpret")!=null)
+		if (song.getValue("source")!=null)
 		{
-%>
-			<tr><td width="100">Interpret:</td><td><%=theme.getValue("interpret")%></td></tr>
-<%
+	%>
+	<tr><td class="content2"><b>File:</b></td><td class="content2"><a href="<%=song.getValue("source")%>"><img src="/icons/sound.gif" border="0"></a> (<%=song.getValue("length")%>)</td></tr>
+	<%
 		}
-		if (theme.getValue("source")!=null)
+		if (song.getValue("lyrics")!=null)
 		{
-%>
-			<tr><td width="100">Datei:</td><td><a href="<%=theme.getValue("source")%>"><img src="/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td></tr>
-<%
+	%>
+	<tr valign=top><td class="content2"><b>Lyrics:</b></td><td class="content2"><%=JspUtils.render(song.getValue("lyrics").toString(), "preformatted")%></td></tr>
+	<%
 		}
-		if (theme.getValue("lyrics")!=null)
-		{
-%>
-			<tr valign=top><td width="100">Text:</td><td><%=theme.getValue("lyrics")%></td></tr>
-<%
-		}
-%>
-		</table>
-<%
-	}
-	}
-%>
-
-<p align=right><a class=link href="#top">Top</a></p>
-
-<!--Body Ende-->
-</div>
-
-</td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
+	%>
+	</table>
+	</td>
+</tr>
 </table>
-</div>
+		<%
+				}
+			}
+
+		%>
+	</media:panel>
+	</media:content>
+	</media:body>
 
 </body>
 </html>
