@@ -6,20 +6,23 @@
  */
 package com.kiwisoft.media.show;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.person.CrewMember;
-import com.kiwisoft.media.person.CastMember;
-import com.kiwisoft.media.person.CreditType;
-import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.dataImport.SearchManager;
+import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.CreditType;
+import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.*;
@@ -53,6 +56,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private Set<ShowInfo> infos;
 	private Set<Link> links;
 	private Integer startYear, endYear;
+	private String indexBy;
 
 	public Show()
 	{
@@ -511,5 +515,17 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		else if (endYear==null) return startYear+"-";
 		else if (endYear==startYear) return String.valueOf(startYear);
 		else return startYear+"-"+endYear;
+	}
+
+
+	public String getIndexBy()
+	{
+		return indexBy;
+	}
+
+	public void setIndexBy(String indexBy)
+	{
+		this.indexBy=indexBy;
+		setModified();
 	}
 }

@@ -22,7 +22,6 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.movie.Movie;
 
 public class ShowManager
 {
@@ -159,7 +158,7 @@ public class ShowManager
 		{
 			SortedSet<Character> set=new TreeSet<Character>();
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(title) from shows");
+			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(index_by) from shows");
 			try
 			{
 				ResultSet resultSet=statement.executeQuery();
@@ -184,6 +183,6 @@ public class ShowManager
 
 	public Set<Show> getShowsByLetter(char ch)
 	{
-		return DBLoader.getInstance().loadSet(Show.class, null, "sort_letter(title)=?", String.valueOf(ch));
+		return DBLoader.getInstance().loadSet(Show.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
 }

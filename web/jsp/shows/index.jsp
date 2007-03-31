@@ -18,7 +18,7 @@
 		{
 			Show show1=(Show)o1;
 			Show show2=(Show)o2;
-			int result=Utils.compareNullSafe(show1.getTitle(), show2.getTitle(), false);
+			int result=Utils.compareNullSafe(show1.getIndexBy(), show2.getIndexBy(), false);
 			if (result==0) result=show1.getId().compareTo(show2.getId());
 			return result;
 		}

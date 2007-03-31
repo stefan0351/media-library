@@ -26,6 +26,7 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
@@ -43,18 +44,19 @@ public class ShowDetailsView extends DetailsView
 	private Show show;
 
 	// Konfigurations Panel
-	private JTextField tfUserKey;
+	private JTextField keyField;
 	private JTextField titleField;
 	private JTextField germanTitleField;
-	private DialogLookupField tfDatesFile;
+	private DialogLookupField scheduleFileField;
+	private DialogLookupField indexByField;
 	private JComboBox cbxLanguage;
-	private JTextField tfEpisodeLength;
-	private DialogLookupField tfTVTVPattern;
-	private JCheckBox cbWeb;
+	private JTextField episodeLengthField;
+	private DialogLookupField patternField;
+	private JCheckBox webShowField;
 	private NamesTableModel tmNames;
 	private DialogLookupField tfLogo;
 	private TableController<ShowInfo> infosController;
-	private ObjectTableModel tmGenres;
+	private ObjectTableModel genresModel;
 
 	private ShowDetailsView(Show show)
 	{
@@ -64,23 +66,24 @@ public class ShowDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfUserKey=new JTextField();
+		indexByField=new DialogLookupField(new IndexByLookup());
+		keyField=new JTextField();
 		tfLogo=new DialogLookupField(new WebFileLookup(false));
 		ImagePanel imgLogo=new ImagePanel(new Dimension(150, 150));
 		imgLogo.setBorder(new EtchedBorder());
 		titleField=new JTextField();
 		germanTitleField=new JTextField();
-		tfEpisodeLength=new JTextField();
-		tfEpisodeLength.setHorizontalAlignment(JTextField.TRAILING);
-		tfDatesFile=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		tfTVTVPattern=new DialogLookupField(new TVTVPatternLookup());
+		episodeLengthField=new JTextField();
+		episodeLengthField.setHorizontalAlignment(JTextField.TRAILING);
+		scheduleFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
+		patternField=new DialogLookupField(new TVTVPatternLookup());
 		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
 		cbxLanguage.updateUI();
 		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
 		tmNames=new NamesTableModel();
 		SortableTable tblNames=new SortableTable(tmNames);
 		tblNames.initializeColumns(new MediaTableConfiguration("table.show.names"));
-		cbWeb=new JCheckBox();
+		webShowField=new JCheckBox();
 
 		WebInfosTableModel<ShowInfo> tmInfos=new WebInfosTableModel<ShowInfo>(false);
 		infosController=new TableController<ShowInfo>(tmInfos, new MediaTableConfiguration("table.show.infos"))
@@ -88,13 +91,14 @@ public class ShowDetailsView extends DetailsView
 			@Override
 			public List<ContextAction<ShowInfo>> getToolBarActions()
 			{
-				List<ContextAction<ShowInfo>> actions=new ArrayList<ContextAction<ShowInfo>>(1);
+				List<ContextAction<ShowInfo>> actions=new ArrayList<ContextAction<ShowInfo>>(2);
 				actions.add(new NewInfoAction());
+				actions.add(new DeleteInfoAction());
 				return actions;
 			}
 		};
-		tmGenres=new ObjectTableModel("genres", Genre.class, null);
-		SortableTable tblGenres=new SortableTable(tmGenres);
+		genresModel=new ObjectTableModel("genres", Genre.class, null);
+		SortableTable tblGenres=new SortableTable(genresModel);
 		tblGenres.initializeColumns(new MediaTableConfiguration("table.show"));
 
 		setLayout(new GridBagLayout());
@@ -102,7 +106,7 @@ public class ShowDetailsView extends DetailsView
 		int row=0;
 		add(imgLogo, new GridBagConstraints(0, row, 1, 8, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(new JLabel("Key:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(tfUserKey, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(keyField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Title:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(titleField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -110,20 +114,23 @@ public class ShowDetailsView extends DetailsView
 		add(new JLabel("German Title:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(germanTitleField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
+		add(new JLabel("Index By:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(indexByField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JScrollPane(tblGenres), new GridBagConstraints(5, row, 1, 4, 0.5, 0.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(cbxLanguage, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(tblGenres), new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Episode Runtime:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfEpisodeLength, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(episodeLengthField, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Internet:"), new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(cbWeb, new GridBagConstraints(4, row, 1, 1, 0.3, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(webShowField, new GridBagConstraints(4, row, 1, 1, 0.3, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Search Parameter:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfTVTVPattern, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0,WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
+		add(patternField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0,WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Schedule File:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfDatesFile, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(scheduleFileField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Alternative Titel:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(new JScrollPane(tblNames), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5,NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
@@ -138,6 +145,16 @@ public class ShowDetailsView extends DetailsView
 		titleField.getDocument().addDocumentListener(frameTitleUpdater);
 		germanTitleField.getDocument().addDocumentListener(frameTitleUpdater);
 		new ImageUpdater(tfLogo.getTextField(), imgLogo);
+		infosController.installListeners();
+	}
+
+
+	@Override
+	public void dispose()
+	{
+		infosController.removeListeners();
+		infosController.dispose();
+		super.dispose();
 	}
 
 	private void setShow(Show show)
@@ -145,16 +162,17 @@ public class ShowDetailsView extends DetailsView
 		this.show=show;
 		if (show!=null)
 		{
-			tfUserKey.setText(show.getUserKey());
+			keyField.setText(show.getUserKey());
 			titleField.setText(show.getTitle());
 			germanTitleField.setText(show.getGermanTitle());
-			cbWeb.setSelected(show.isInternet());
-			tfDatesFile.setText(show.getWebDatesFile());
-			tfEpisodeLength.setText(String.valueOf(show.getDefaultEpisodeLength()));
-			for (Genre genre : show.getGenres()) tmGenres.addObject(genre);
-			tmGenres.addSortColumn(0, false);
+			indexByField.setText(show.getIndexBy());
+			webShowField.setSelected(show.isInternet());
+			scheduleFileField.setText(show.getWebDatesFile());
+			episodeLengthField.setText(String.valueOf(show.getDefaultEpisodeLength()));
+			for (Genre genre : show.getGenres()) genresModel.addObject(genre);
+			genresModel.addSortColumn(0, false);
 			String pattern=show.getSearchPattern(SearchPattern.TVTV);
-			if (pattern!=null) tfTVTVPattern.setText(pattern);
+			if (pattern!=null) patternField.setText(pattern);
 			Iterator it=show.getAltNames().iterator();
 			while (it.hasNext())
 			{
@@ -179,7 +197,7 @@ public class ShowDetailsView extends DetailsView
 		}
 		else
 		{
-			tfEpisodeLength.setText("22");
+			episodeLengthField.setText("22");
 		}
 	}
 
@@ -187,24 +205,31 @@ public class ShowDetailsView extends DetailsView
 	{
 		final String title=titleField.getText();
 		final String germanTitle=germanTitleField.getText();
-		if (StringUtils.isEmpty(title) && StringUtils.isEmpty(germanTitle))
+		if (StringUtils.isEmpty(title))
 		{
-			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Title is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			titleField.requestFocus();
 			return false;
 		}
-		final String userKey=tfUserKey.getText();
+		final String indexBy=indexByField.getText();
+		if (StringUtils.isEmpty(indexBy))
+		{
+			JOptionPane.showMessageDialog(this, "Index By is missing!", "Error", JOptionPane.ERROR_MESSAGE);
+			indexByField.requestFocus();
+			return false;
+		}
+		final String userKey=keyField.getText();
 		if (StringUtils.isEmpty(userKey))
 		{
 			JOptionPane.showMessageDialog(this, "Key is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfUserKey.requestFocus();
+			keyField.requestFocus();
 			return false;
 		}
-		String episodeLength=tfEpisodeLength.getText();
+		String episodeLength=episodeLengthField.getText();
 		if (StringUtils.isEmpty(episodeLength))
 		{
 			JOptionPane.showMessageDialog(this, "Episode runtime is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfEpisodeLength.requestFocus();
+			episodeLengthField.requestFocus();
 			return false;
 		}
 		final int length;
@@ -215,7 +240,7 @@ public class ShowDetailsView extends DetailsView
 		catch (NumberFormatException e)
 		{
 			JOptionPane.showMessageDialog(this, "Invalid episode runtime!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfEpisodeLength.requestFocus();
+			episodeLengthField.requestFocus();
 			return false;
 		}
 		final Language language=(Language)cbxLanguage.getSelectedItem();
@@ -225,9 +250,9 @@ public class ShowDetailsView extends DetailsView
 			cbxLanguage.requestFocus();
 			return false;
 		}
-		final String tvtvPattern=tfTVTVPattern.getText();
+		final String tvtvPattern=patternField.getText();
 		final Map<String, Language> names=tmNames.getNames();
-		final Collection<Genre> genres=tmGenres.getObjects();
+		final Collection<Genre> genres=genresModel.getObjects();
 		String logoMini=tfLogo.getText();
 		if (!StringUtils.isEmpty(logoMini))
 		{
@@ -244,7 +269,7 @@ public class ShowDetailsView extends DetailsView
 			}
 		}
 		else logoMini=null;
-		final List<WebInfosTableModel.Row> infos=new ArrayList<WebInfosTableModel.Row>();
+		final List<WebInfosTableModel.Row> infoRows=new ArrayList<WebInfosTableModel.Row>();
 		SortableTableModel<ShowInfo> infosModel=infosController.getModel();
 		for (int i=0; i<infosModel.getRowCount(); i++)
 		{
@@ -270,7 +295,7 @@ public class ShowDetailsView extends DetailsView
 				infosController.getTable().requestFocus();
 				return false;
 			}
-			infos.add(row);
+			infoRows.add(row);
 		}
 		final String logoMini1=logoMini;
 
@@ -280,11 +305,12 @@ public class ShowDetailsView extends DetailsView
 			{
 				if (show==null) show=ShowManager.getInstance().createShow();
 				show.setTitle(title);
+				show.setIndexBy(indexBy);
 				show.setGermanTitle(germanTitle);
 				show.setUserKey(userKey);
 				show.setDefaultEpisodeLength(length);
-				show.setInternet(cbWeb.isSelected());
-				show.setWebDatesFile(tfDatesFile.getText());
+				show.setInternet(webShowField.isSelected());
+				show.setWebDatesFile(scheduleFileField.getText());
 				show.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 				show.setLanguage(language);
 				show.setLogoMini(logoMini1);
@@ -304,7 +330,8 @@ public class ShowDetailsView extends DetailsView
 					altName.setName(text);
 					altName.setLanguage(names.get(text));
 				}
-				for (WebInfosTableModel.Row row : infos)
+				Set<ShowInfo> removedInfos=new HashSet<ShowInfo>(show.getInfos());
+				for (WebInfosTableModel.Row row : infoRows)
 				{
 					ShowInfo info=(ShowInfo)row.getUserObject();
 					if (info==null)
@@ -315,7 +342,12 @@ public class ShowDetailsView extends DetailsView
 					info.setName(row.getName());
 					info.setPath(row.getPath());
 					info.setLanguage(row.getLanguage());
+					removedInfos.remove(info);
 					if (row.isDefault()) show.setDefaultInfo(info);
+				}
+				for (ShowInfo info : removedInfos)
+				{
+					show.dropInfo(info);
 				}
 			}
 
@@ -362,12 +394,38 @@ public class ShowDetailsView extends DetailsView
 	{
 		public NewInfoAction()
 		{
-			super("New");
+			super("New", Icons.getIcon("add"));
 		}
 
 		public void actionPerformed(ActionEvent e)
 		{
 			((WebInfosTableModel<ShowInfo>)infosController.getModel()).createRow();
+		}
+	}
+
+	private class DeleteInfoAction extends MultiContextAction<ShowInfo>
+	{
+		public DeleteInfoAction()
+		{
+			super("Delete", Icons.getIcon("delete"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			for (Object object : getObjects()) infosController.getModel().removeObject(object);
+		}
+	}
+
+	private class IndexByLookup implements DialogLookup
+	{
+		public void open(JTextField field)
+		{
+			field.setText(IndexByUtils.createIndexBy(titleField.getText()));
+		}
+
+		public Icon getIcon()
+		{
+			return Icons.getIcon("lookup.create");
 		}
 	}
 }

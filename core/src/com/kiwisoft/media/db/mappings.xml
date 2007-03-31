@@ -17,6 +17,7 @@
 		<field name="logoMini" column="logo_mini"/>
 		<field name="startYear" column="start_year"/>
 		<field name="endYear" column="end_year"/>
+		<field name="indexBy" column="index_by"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="defaultInfo" column="defaultinfo_id" type="ShowInfo"/>
 	</mapping>
