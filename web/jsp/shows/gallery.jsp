@@ -1,6 +1,8 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import = "com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -10,56 +12,29 @@
 <html>
 
 <head>
-<title><%=show.getTitle()%> - Episodes</title>
-<script language="JavaScript" src="/clipart/overlib.js"></script>
-<script language="JavaScript" src="/nav.js"></script>
-<jsp:include page="_shows_nav.jsp"/>
-<jsp:include page="_show_nav.jsp" />
-<link rel="StyleSheet" type="text/css" href="/clipart/style.css">
+<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Images</title>
+<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="/overlib.js"></script>
 </head>
 
 <body>
-
 <a name="top"></a>
-
-<div class="logo">
-	<table width=130 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<jsp:include page="/shows/_show_logo.jsp"/>
-	</td></tr></table>
-</div>
-<div class="title">
-	<table width=590 height=70 cellspacing=0 cellpadding=0><tr><td align=center>
-	<span style="font-weight:bold;font-size:24pt;"><%=show.getTitle()%></span>
-	</td></tr></table>
-</div>
-
 <div id="overDiv" class="over_lib"></div>
-<!--Navigation-->
-<div class="nav_pos1"><a class=link_nav href="javascript:void(0)" onMouseOver="navMain(1,'/')" onMouseOut="nd()">Main</a></div>
-<div class="nav_pos2"><a class=link_nav href="javascript:void(0)" onMouseOver="navShows(2)" onMouseOut="nd()">Serien</a></div>
-<div class="nav_pos3"><a class=link_nav href="javascript:void(0)" onMouseOver="navShow(3)" onMouseOut="nd()">Serie</a></div>
-<!--Navigation Ende-->
 
-<div class="bg">
-<table border=0 cellspacing=0 cellpadding=0>
-<tr><td class="bg_top">&nbsp;</td></tr>
-<tr><td class=bg_middle valign=top>
+<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%></media:title>
 
-<div class="bg_page">
-<%--Body--%>
-<table cellspacing=0 width="100%">
-<tr><td class=h1>&nbsp;&nbsp;&nbsp;&nbsp;Bilder</td></tr>
-</table>
-<br>
-<jsp:include page="_gallery.jsp"/>
-
-<!--Body Ende-->
-</div>
-
-</td></tr>
-<tr><td class="bg_bottom">&nbsp;</td></tr>
-</table>
-</div>
+<media:body>
+	<media:sidebar>
+		<jsp:include page="_show_nav.jsp" />
+		<jsp:include page="_shows_nav.jsp"/>
+		<jsp:include page="/_nav.jsp" />
+	</media:sidebar>
+	<media:content>
+		<media:panel title="Images">
+			<jsp:include page="_gallery.jsp"/>
+		</media:panel>
+	</media:content>
+</media:body>
 
 </body>
 </html>
