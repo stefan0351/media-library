@@ -11,6 +11,8 @@
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
+<%@ page import="com.kiwisoft.media.video.Video" %>
+<%@ page import="com.kiwisoft.media.video.VideoManager" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -149,6 +151,22 @@
 			<td class="content2"><%=movie.getRuntime()%> min</td>
 		</tr>
 		<%
+			}
+			Set videos=VideoManager.getInstance().getVideos(movie);
+			if (!videos.isEmpty())
+			{
+		%>
+				<tr valign="top"><td class="content2"><b>DVD/Video:</b></td><td class="content2">
+<%
+				for (Iterator it=videos.iterator(); it.hasNext();)
+				{
+					Video video=(Video)it.next();
+					out.print(JspUtils.render(video, "Full"));
+					out.print("<br>");
+				}
+%>
+				</td></tr>
+<%
 			}
 		%>
 		</table>

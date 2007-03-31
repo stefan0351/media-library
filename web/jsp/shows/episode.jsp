@@ -13,6 +13,8 @@
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
+<%@ page import="com.kiwisoft.media.video.VideoManager" %>
+<%@ page import="com.kiwisoft.media.video.Video" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -154,6 +156,22 @@
 			</dd>
 		</dt>
 		<%
+			}
+			Set videos=VideoManager.getInstance().getVideos(episode);
+			if (!videos.isEmpty())
+			{
+		%>
+				<dt><b>DVD/Video:</b><dd>
+<%
+				for (Iterator it=videos.iterator(); it.hasNext();)
+				{
+					Video video=(Video)it.next();
+					out.print(JspUtils.render(video, "Full"));
+					out.print("<br>");
+				}
+%>
+				</dd></dt>
+<%
 			}
 		%>
 		</dl>

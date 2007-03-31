@@ -5,23 +5,22 @@ import java.util.Map;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
-import com.kiwisoft.media.video.Video;
 import com.kiwisoft.media.Navigation;
+import com.kiwisoft.utils.StringUtils;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 18.03.2007
- * Time: 18:52:16
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class VideoHTMLRenderer extends DefaultHTMLRenderer
 {
-	private boolean showName;
+	public static final String NAME="Name";
+	public static final String FULL="Full";
 
-	public VideoHTMLRenderer(boolean showName)
+	private String variant;
+
+	public VideoHTMLRenderer(String variant)
 	{
-		this.showName=showName;
+		this.variant=variant;
 	}
 
 	@Override
@@ -32,9 +31,30 @@ public class VideoHTMLRenderer extends DefaultHTMLRenderer
 			Video video=(Video)value;
 			StringBuilder buffer=new StringBuilder();
 			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(video)).append("\">");
-			if (showName || video.getUserKey()==null) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
-			else buffer.append(StringEscapeUtils.escapeHtml(video.getUserKey()));
+			if (FULL.equals(variant))
+			{
+				if (!StringUtils.isEmpty(video.getName())) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
+				if (!StringUtils.isEmpty(video.getUserKey()))
+				{
+					buffer.append(" (");
+					buffer.append(StringEscapeUtils.escapeHtml(video.getUserKey()));
+					buffer.append(")");
+				}
+			}
+			else
+			{
+				if (NAME.equals(variant) || video.getUserKey()==null) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
+				else buffer.append(StringEscapeUtils.escapeHtml(video.getUserKey()));
+			}
 			buffer.append("</a>");
+			if (FULL.equals(variant))
+			{
+				if (!StringUtils.isEmpty(video.getStorage()))
+				{
+					buffer.append(" @ ");
+					buffer.append(video.getStorage());
+				}
+			}
 			return buffer.toString();
 		}
 		return super.getContent(value, context, rowIndex, columnIndex);

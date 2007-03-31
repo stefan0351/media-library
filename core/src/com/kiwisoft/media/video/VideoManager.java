@@ -19,6 +19,8 @@ import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
 
 public class VideoManager
 {
@@ -41,9 +43,13 @@ public class VideoManager
 	{
 	}
 
+	public Collection<Video> getAllVideos()
+	{
+		return DBLoader.getInstance().loadSet(Video.class);
+	}
+
 	public Collection<Video> getVideos(MediumType type)
 	{
-		if (type==null) return DBLoader.getInstance().loadSet(Video.class);
 		return DBLoader.getInstance().loadSet(Video.class, null, "type_id=?", type.getId());
 	}
 
@@ -135,4 +141,15 @@ public class VideoManager
 		return "D"+(group*50+1)+"-D"+(group*50+50);
 	}
 
+	public Set<Video> getVideos(Movie movie)
+	{
+		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id" +
+																		 " and recordings.movie_id=?", movie.getId());
+	}
+
+	public Set<Video> getVideos(Episode episode)
+	{
+		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id" +
+																		 " and recordings.episode_id=?", episode.getId());
+	}
 }

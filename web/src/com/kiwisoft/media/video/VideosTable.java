@@ -28,7 +28,7 @@ public class VideosTable extends SortableWebTable<Video>
 	{
 		super(ID, NAME, STORAGE, TIME_LEFT, TYPE);
 		Collection<Video> videos;
-		if (group==-1) videos=VideoManager.getInstance().getVideos(null);
+		if (group==-1) videos=VideoManager.getInstance().getAllVideos();
 		else videos=VideoManager.getInstance().getGroupVideos(group);
 		for (Video video : videos) addRow(new VideoRow(video));
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));

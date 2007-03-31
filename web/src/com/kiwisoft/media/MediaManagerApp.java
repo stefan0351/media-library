@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.web.HTMLRendererManager;
+import com.kiwisoft.web.PreformattedHTMLRenderer;
 import com.kiwisoft.media.video.Video;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.video.RecordingHTMLRenderer;
@@ -39,11 +40,13 @@ public class MediaManagerApp
 		Configurator.getInstance().loadDefaultsFromFile(new File(path));
 
 		HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
+		rendererManager.setRenderer(String.class, "preformatted", new PreformattedHTMLRenderer());
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
 		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));
 		rendererManager.setRenderer(Country.class, new CountryHTMLRenderer());
-		rendererManager.setRenderer(Video.class, new VideoHTMLRenderer(false));
-		rendererManager.setRenderer(Video.class, "Name", new VideoHTMLRenderer(true));
+		rendererManager.setRenderer(Video.class, new VideoHTMLRenderer(null));
+		rendererManager.setRenderer(Video.class, VideoHTMLRenderer.NAME, new VideoHTMLRenderer(VideoHTMLRenderer.NAME));
+		rendererManager.setRenderer(Video.class, VideoHTMLRenderer.FULL, new VideoHTMLRenderer(VideoHTMLRenderer.FULL));
 		rendererManager.setRenderer(Recording.class, "Show", new ShowRecordingHTMLRenderer());
 		rendererManager.setRenderer(Recording.class, new RecordingHTMLRenderer());
 		rendererManager.setRenderer(Airdate.class, new AirdateHTMLRenderer());
