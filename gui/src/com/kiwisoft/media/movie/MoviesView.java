@@ -139,7 +139,7 @@ public class MoviesView extends ViewPanel
 
 	private static class MoviesTableModel extends SortableTableModel<Movie>
 	{
-		private static final String[] COLUMNS={"title", "germanTitle", "year", "poster"};
+		private static final String[] COLUMNS={"title", "germanTitle", "year"};
 
 		public int getColumnCount()
 		{
@@ -176,18 +176,10 @@ public class MoviesView extends ViewPanel
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Movie movie=getUserObject();
-			switch (column)
-			{
-				case 0:
-					return movie.getTitle();
-				case 1:
-					return movie.getGermanTitle();
-				case 2:
-					return movie.getYear();
-				case 3:
-					return movie.getPosterMini();
-			}
+			if ("title".equals(property)) return getUserObject().getTitle();
+			else if ("germanTitle".equals(property)) return getUserObject().getGermanTitle();
+			else if ("year".equals(property)) return getUserObject().getYear();
+			else if ("poster".equals(property)) return getUserObject().getPosterMini();
 			return null;
 		}
 	}
