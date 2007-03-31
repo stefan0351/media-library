@@ -22,11 +22,7 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 15:28:03
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class TableController<T>
 {

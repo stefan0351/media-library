@@ -19,11 +19,7 @@ import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.utils.gui.table.TableConstants;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 28.02.2007
- * Time: 18:15:07
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class TableTag extends TagSupport
 {

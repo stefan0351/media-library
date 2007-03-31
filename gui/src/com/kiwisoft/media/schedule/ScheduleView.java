@@ -145,7 +145,7 @@ public class ScheduleView extends ViewPanel
 			SortableTableModel<Airdate> model=tableController.getModel();
 			if (model.containsObject(airdate))
 			{
-				if (!filter.filter(airdate)) model.removeRow(airdate);
+				if (!filter.filter(airdate)) model.removeObject(airdate);
 			}
 			else
 			{

@@ -4,6 +4,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.kiwisoft.media.Navigation"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -59,10 +61,15 @@
 			{
 				Episode episode=(Episode)itEpisodes.next();
 				episodes.remove(episode);
-				request.setAttribute("_episode", episode);
-%>
-				<li><jsp:include page="_episode.jsp"/>
-<%
+				out.print("<li><b>");
+				out.print(JspUtils.render(episode));
+				out.print("</b>");
+				if (!StringUtils.isEmpty(episode.getGermanTitle()))
+				{
+					out.print(" (");
+					out.print(JspUtils.render(episode.getGermanTitle()));
+					out.print(")");
+				}
 			}
 %>
 </ul>
@@ -84,10 +91,15 @@
 		while (it.hasNext())
 		{
 			Episode episode=(Episode)it.next();
-			request.setAttribute("_episode", episode);
-%>
-			<li><jsp:include page="_episode.jsp"/>
-<%
+			out.print("<li><b>");
+			out.print(JspUtils.render(episode));
+			out.print("</b>");
+			if (!StringUtils.isEmpty(episode.getGermanTitle()))
+			{
+				out.print(" (");
+				out.print(JspUtils.render(episode.getGermanTitle()));
+				out.print(")");
+			}
 		}
 %>
 </ul>
@@ -110,7 +122,7 @@
 		{
 			Movie movie=(Movie)itMovies.next();
 %>
-	<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%></a></b>
+			<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%></a></b>
 <%
 		}
 %>

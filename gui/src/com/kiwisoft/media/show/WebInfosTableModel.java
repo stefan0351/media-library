@@ -13,11 +13,7 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.WebInfo;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 08.05.2004
- * Time: 18:17:46
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 {

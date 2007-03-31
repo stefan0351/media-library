@@ -21,7 +21,7 @@ import com.kiwisoft.utils.xml.XMLObject;
 
 public class DefaultXPBean implements XPBean
 {
-	private Map map;
+	private Map<String, Object> map;
 	private List list;
 	private String name;
 	private String content;
@@ -93,7 +93,7 @@ public class DefaultXPBean implements XPBean
 
 	public Object getValue(String name)
 	{
-		if (name.indexOf(".")<0)
+		if (!name.contains("."))
 		{
 			Object value=map.get(name);
 			if (value instanceof Collection)
@@ -116,7 +116,7 @@ public class DefaultXPBean implements XPBean
 
 	public Collection getValues(String name)
 	{
-		if (name.indexOf(".")<0)
+		if (!name.contains("."))
 		{
 		 	Object value=map.get(name);
 			if ((value==null) || (value instanceof Collection)) return (Collection) value;

@@ -11,7 +11,7 @@ import javax.swing.*;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.UIUtils;
+import com.kiwisoft.utils.gui.ComponentUtils;
 import com.kiwisoft.utils.gui.WindowManager;
 
 public class EpisodeLoaderDialog extends JDialog
@@ -47,9 +47,9 @@ public class EpisodeLoaderDialog extends JDialog
 		urlField=new JTextField(40);
 		showField=new JTextField(40);
 		showField.setEditable(false);
-		firstSeasonField=UIUtils.createNumberField(Integer.class, 5, 1, null);
+		firstSeasonField=ComponentUtils.createNumberField(Integer.class, 5, 1, null);
 		firstSeasonField.setValue(1);
-		lastSeasonField=UIUtils.createNumberField(Integer.class, 5, 1, null);
+		lastSeasonField=ComponentUtils.createNumberField(Integer.class, 5, 1, null);
 		lastSeasonField.setValue(1);
 		autoCreateField=new JCheckBox("Create Episodes automatically");
 

@@ -245,8 +245,8 @@ public class MovieDetailsView extends DetailsView
 		transcriptField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		javaScriptField=new JTextField(20);
 		namesModel=new NamesTableModel();
-		yearField=UIUtils.createNumberField(Integer.class, 5, 1900, 2100);
-		runtimeField=UIUtils.createNumberField(Integer.class, 5, 0, 500);
+		yearField=ComponentUtils.createNumberField(Integer.class, 5, 1900, 2100);
+		runtimeField=ComponentUtils.createNumberField(Integer.class, 5, 0, 500);
 		SortableTable tblNames=new SortableTable(namesModel);
 		tblNames.setPreferredScrollableViewportSize(new Dimension(300, 100));
 		tblNames.initializeColumns(new MediaTableConfiguration("table.movie.names"));
