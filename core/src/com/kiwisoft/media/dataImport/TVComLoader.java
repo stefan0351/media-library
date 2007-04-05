@@ -193,6 +193,7 @@ public abstract class TVComLoader implements Job
 		String content=episodePage.substring(index1+5, index2).trim();
 		content=content.replaceAll("<br */>", "\n");
 		content=unescapeHtml(content);
+		ImportUtils.replaceHtmlFormatTags(content);
 		episodeData.setSummary(content);
 
 		index1=episodePage.indexOf("<h1>Cast and Crew</h1>", index2);
@@ -557,6 +558,7 @@ public abstract class TVComLoader implements Job
 
 		public PersonData(String key, String actor)
 		{
+			
 			this.key=key;
 			this.name=actor;
 		}

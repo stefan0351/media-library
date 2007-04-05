@@ -6,7 +6,6 @@
  */
 package com.kiwisoft.media.movie;
 
-import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.Set;
@@ -22,8 +21,6 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.fanfic.Pairing;
 import com.kiwisoft.media.dataImport.SearchPattern;
 
 public class MovieManager
@@ -44,7 +41,7 @@ public class MovieManager
 	{
 	}
 
-	public Collection<Movie> getMovies()
+	public Set<Movie> getMovies()
 	{
 		return DBLoader.getInstance().loadSet(Movie.class);
 	}
@@ -149,4 +146,8 @@ public class MovieManager
 		return DBLoader.getInstance().loadSet(Movie.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
 
+	public int getMovieCount()
+	{
+		return DBLoader.getInstance().count(Movie.class);
+	}
 }

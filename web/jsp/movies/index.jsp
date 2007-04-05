@@ -74,7 +74,7 @@
 									if (it.hasNext()) out.print("|");
 								}
 							%>
-							]
+							] (<%=MovieManager.getInstance().getMovieCount() %> Movies)
 						</small>
 					</td>
 				</tr>

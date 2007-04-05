@@ -18,15 +18,19 @@
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Episodes</title>
 <script language="JavaScript" src="/overlib.js"></script>
+<script language="JavaScript" src="/popup.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
+<style type="text/css">
+</style>
 </head>
 
 <body>
 <a name="top"></a>
-<div id="overDiv" class="over_lib"></div>
+
+<div id="overDiv"></div>
 
 <div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
+<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
 </div>
 
 <div class="main">

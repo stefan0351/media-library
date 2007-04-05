@@ -256,7 +256,7 @@ public class ProSiebenDeLoader implements Job
 			if (calendar.before(today)) calendar.add(Calendar.YEAR, 1);
 			if (calendar.get(Calendar.HOUR_OF_DAY)<5) calendar.add(Calendar.DATE, 1);
 			if (attempt>1) System.out.println("Date: "+dateFormatP7.format(calendar.getTime()));
-			fw.write("<Sendetermin><Sender>Pro Sieben</Sender><Datum>"+ImportConstants.DATE_FORMAT.format(calendar.getTime())+"</Datum></Sendetermin>\n");
+			fw.write("<Sendetermin><Sender>Pro Sieben</Sender><Datum>"+ImportUtils.DATE_FORMAT.format(calendar.getTime())+"</Datum></Sendetermin>\n");
 			fw.flush();
 
 			pos=buffer.indexOf("<div style=\"padding: 0px 0px 4px 15px;\"><strong>", end);

@@ -69,7 +69,7 @@
 				}
 %>
 				<a class="link" href="/shows/index.jsp?letter=all">All</a>
-			]</small></td></tr></table>
+			] (<%=ShowManager.getInstance().getShowCount() %> Shows)</small></td></tr></table>
 			<br>
 			<table width="765">
 			<tr valign=top>

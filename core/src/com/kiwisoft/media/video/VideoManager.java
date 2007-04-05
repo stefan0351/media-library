@@ -60,7 +60,7 @@ public class VideoManager
 
 	public int getVideoCount()
 	{
-		return DBLoader.getInstance().count(Video.class, null, null);
+		return DBLoader.getInstance().count(Video.class);
 	}
 
 	public Video createVideo()

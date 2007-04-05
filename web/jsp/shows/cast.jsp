@@ -8,6 +8,7 @@
 				   com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -20,12 +21,13 @@
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Cast</title>
 <script language="JavaScript" src="/overlib.js"></script>
+<script language="JavaScript" src="/popup.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
 
 <body>
 <a name="top"></a>
-<div id="overDiv" class="over_lib"></div>
+<div id="overDiv"></div>
 
 <media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%></media:title>
 
@@ -44,9 +46,10 @@
 <!--Content Start-->
 
 <%
-	Set mainCast=show.getMainCast();
-	if (!mainCast.isEmpty())
+	Set cast=show.getMainCast();
+	if (!cast.isEmpty())
 	{
+		cast=Utils.toSortedSet(cast, new CastMember.Comparator());
 %>
 <table class="contenttable" width="790">
 <tr><td class="header1" colspan="2">Main Cast</td></tr>
@@ -55,24 +58,33 @@
 	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td class="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
 		boolean row=false;
-		for (Iterator it=mainCast.iterator(); it.hasNext();)
+		for (Iterator it=cast.iterator(); it.hasNext();)
 		{
-			CastMember cast=(CastMember)it.next();
+			CastMember castMember=(CastMember)it.next();
 %>
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			if (!StringUtils.isEmpty(cast.getImageSmall()))
+			if (!StringUtils.isEmpty(castMember.getImageSmall()))
 			{
 %>
-			<img src="/<%=cast.getImageSmall()%>" border="0" vspace="5" hspace="5">
+			<img src="/<%=castMember.getImageSmall()%>" border="0" vspace="5" hspace="5"
+<%
+				if (!StringUtils.isEmpty(castMember.getImageLarge()))
+				{
+%>
+					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=castMember.getImageLarge()%>')" onMouseOut="nd()"
+<%
+				}
+%>
+			>
 <%
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(cast.getActor())%>"><%=JspUtils.prepareString(cast.getActor().getName())%></a></td>
-		<td class="tcell2">... <%=JspUtils.prepareString(cast.getCharacterName())%>&nbsp;</td>
-		<td class="tcell2"><%=JspUtils.prepareString(cast.getVoice())%></td>
+		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(castMember.getActor())%>"><%=JspUtils.prepareString(castMember.getActor().getName())%></a></td>
+		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>
 <%
 		}
@@ -85,9 +97,10 @@
 <%
 	}
 
-	Set recurringCast=show.getRecurringCast();
-	if (!recurringCast.isEmpty())
+	cast=show.getRecurringCast();
+	if (!cast.isEmpty())
 	{
+		cast=Utils.toSortedSet(cast, new CastMember.Comparator());
 %>
 <table class="contenttable" width="790">
 <tr><td class="header1" colspan="2">Recurring Cast</td></tr>
@@ -96,24 +109,33 @@
 	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td class="tcell2">Role</td><td class="tcell2">German Voice</td></tr>
 <%
 		boolean row=false;
-		for (Iterator it=recurringCast.iterator(); it.hasNext();)
+		for (Iterator it=cast.iterator(); it.hasNext();)
 		{
-			CastMember cast=(CastMember)it.next();
+			CastMember castMember=(CastMember)it.next();
 %>
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			if (!StringUtils.isEmpty(cast.getImageSmall()))
+			if (!StringUtils.isEmpty(castMember.getImageSmall()))
 			{
 %>
-			<img src="/<%=cast.getImageSmall()%>" border="0" vspace="5" hspace="5">
+			<img src="/<%=castMember.getImageSmall()%>" border="0" vspace="5" hspace="5"
+<%
+				if (!StringUtils.isEmpty(castMember.getImageLarge()))
+				{
+%>
+					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=castMember.getImageLarge()%>')" onMouseOut="nd()"
+<%
+				}
+%>
+			>
 <%
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(cast.getActor())%>"><%=JspUtils.prepareString(cast.getActor().getName())%></a></td>
-		<td class="tcell2">... <%=JspUtils.prepareString(cast.getCharacterName())%>&nbsp;</td>
-		<td class="tcell2"><%=JspUtils.prepareString(cast.getVoice())%></td>
+		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(castMember.getActor())%>"><%=JspUtils.prepareString(castMember.getActor().getName())%></a></td>
+		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>
 <%
 		}

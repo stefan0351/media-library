@@ -104,6 +104,13 @@
 				Movie movie=(Movie)it.next();
 				out.print("<li>");
 				out.print(renderer.getContent(movie, Collections.EMPTY_MAP, 0, 0));
+				Integer year=movie.getYear();
+				if (year!=null)
+				{
+					out.print(" (");
+					out.print(year);
+					out.print(")");
+				}
 				out.println("</li>");
 			}
 		%>

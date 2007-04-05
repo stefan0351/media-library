@@ -29,6 +29,7 @@
 		title="Tomorrow";
 		table.addAll(AirdateManager.getInstance().getAirdates(Calendar.DATE, 1));
 	}
+	table.sort();
 
 %>
 <html>

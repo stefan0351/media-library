@@ -85,7 +85,7 @@
 			if (!StringUtils.isEmpty(englishSummary))
 			{
 				out.print("<p>");
-				out.print(JspUtils.prepareString(englishSummary));
+				out.print(JspUtils.render(englishSummary, "preformatted"));
 				out.println("</p>");
 				hr=true;
 			}
@@ -95,7 +95,7 @@
 				out.print("<p>");
 				out.print(JspUtils.render(german, "icon only"));
 				out.print(" ");
-				out.print(JspUtils.prepareString(germanSummary));
+				out.print(JspUtils.render(germanSummary, "preformatted"));
 				out.println("</p>");
 			}
 		%>

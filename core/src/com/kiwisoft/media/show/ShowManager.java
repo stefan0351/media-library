@@ -48,7 +48,7 @@ public class ShowManager
 
 	public int getShowCount()
 	{
-		return DBLoader.getInstance().count(Show.class, null, null);
+		return DBLoader.getInstance().count(Show.class);
 	}
 
 	public Show getShowByName(String name)

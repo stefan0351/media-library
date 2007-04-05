@@ -55,7 +55,7 @@ public class AiringData extends XMLAdapter
 			{
 				try
 				{
-					time=ImportConstants.DATE_FORMAT.parse(xmlObject.getContent());
+					time=ImportUtils.DATE_FORMAT.parse(xmlObject.getContent());
 				}
 				catch (ParseException pe1)
 				{

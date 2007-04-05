@@ -135,8 +135,6 @@ table.table1 {
 	margin-bottom:5px;
 }
 
-
-
 /* Links ------------------------------------------------------------------------ */
 
 a.link {
@@ -161,14 +159,17 @@ a.image:hover, a.image:focus {
 
 /* Listen -------------------------------------------------------------------------*/
 
-ul
-{
+ul {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
 
-li
-{
+li {
 	list-style-image: url(clipart/li.png)
 }
 
+div#overDiv {
+	position:absolute;
+	visibility:hidden;
+	z-index:1;
+}

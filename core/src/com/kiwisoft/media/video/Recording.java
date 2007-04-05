@@ -9,6 +9,7 @@ package com.kiwisoft.media.video;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Show;
@@ -158,23 +159,32 @@ public class Recording extends IDObject implements Chain.ChainLink
 
 	public String getName()
 	{
+		StringBuilder name=new StringBuilder();
+		Language language=getLanguage();
 		Movie movie=getMovie();
-		if (movie!=null) return movie.getTitle();
-		Show show=getShow();
-		Episode episode=getEpisode();
-		String event=getEvent();
-		if (show!=null)
+		if (movie!=null) name.append(movie.getTitle(language));
+		else
 		{
-			Language language=getLanguage();
+			Episode episode=getEpisode();
 			if (episode!=null)
 			{
-				if (event!=null) return show.getTitle(language)+" - "+episode.getTitleWithKey(language)+" "+event;
-				else  return show.getTitle(language)+" - "+episode.getTitleWithKey(getLanguage());
+				name.append(episode.getShow().getTitle(language));
+				name.append(": ");
+				name.append(episode.getTitleWithKey(language));
 			}
-			else if (event!=null) return show.getTitle(language)+" - "+event;
-			else return show.getTitle(language);
+			else
+			{
+				Show show=getShow();
+				if (show!=null) name.append(show.getTitle(language));
+			}
 		}
-		return event;
+		String event=getEvent();
+		if (!StringUtils.isEmpty(event))
+		{
+			if (name.length()>0) name.append(" - ");
+			name.append(event);
+		}
+		return name.toString();
 	}
 
 	public String toString()

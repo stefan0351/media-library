@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `cast`;
 CREATE TABLE `cast` (
   `id` bigint(20) NOT NULL default '0',
   `credit_type_id` bigint(20) NOT NULL,
-  `actor_id` bigint(20) default NULL,
+  `actor_id` bigint(20) NOT NULL,
   `show_id` bigint(20) default NULL,
   `episode_id` bigint(20) default NULL,
   `movie_id` bigint(20) default NULL,
@@ -564,4 +564,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-03-31 17:38:56
+-- Dump completed on 2007-04-05 20:32:54

@@ -6,6 +6,8 @@
  */
 package com.kiwisoft.media.person;
 
+import java.util.Comparator;
+
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Identifyable;
@@ -170,4 +172,13 @@ public class CastMember extends IDObject
 		return super.loadReference(name, referenceId);
 	}
 
+	public static class Comparator implements java.util.Comparator<CastMember>
+	{
+		public int compare(CastMember o1, CastMember o2)
+		{
+			int result=o1.getActor().getName().compareToIgnoreCase(o2.getActor().getName());
+			if (result==0) result=o1.getId().compareTo(o2.getId());
+			return result;
+		}
+	}
 }

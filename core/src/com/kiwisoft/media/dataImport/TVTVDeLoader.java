@@ -346,7 +346,7 @@ public class TVTVDeLoader implements Job
 		fw.write("<DataSource>");
 		fw.write(DataSource.TVTV.getKey());
 		fw.write("</DataSource>\n");
-		fw.write("<Sendetermin><Sender>"+XMLUtils.toXMLString(channel)+"</Sender><Datum>"+ImportConstants.DATE_FORMAT.format(date)+"</Datum></Sendetermin>\n");
+		fw.write("<Sendetermin><Sender>"+XMLUtils.toXMLString(channel)+"</Sender><Datum>"+ImportUtils.DATE_FORMAT.format(date)+"</Datum></Sendetermin>\n");
 		fw.write("<Show>"+XMLUtils.toXMLString(showName)+"</Show>\n");
 		if (!StringUtils.isEmpty(title)) fw.write("<Episode>"+XMLUtils.toXMLString(title)+"</Episode>\n");
 		if (!StringUtils.isEmpty(otitle)) fw.write("<Originaltitel>"+XMLUtils.toXMLString(otitle)+"</Originaltitel>\n");

@@ -16,10 +16,10 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>print.videos</servlet-name>
-		<display-name>PrintVideosServlet</display-name>
-		<description>Servlet for creating PDF for videos</description>
-		<servlet-class>com.kiwisoft.media.video.PrintVideosServlet</servlet-class>
+		<servlet-name>create.pdf</servlet-name>
+		<display-name>PDFServlet</display-name>
+		<description>Servlet for creating PDF documents</description>
+		<servlet-class>com.kiwisoft.media.PDFServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -49,8 +49,8 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>print.videos</servlet-name>
-		<url-pattern>/videos/print.pdf</url-pattern>
+		<servlet-name>create.pdf</servlet-name>
+		<url-pattern>/create.pdf</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

@@ -17,7 +17,6 @@
 	<property name="utils.lib" value="d:/Java/utils/lib"/>
 
 	<path id="classpath">
-		<pathelement location="${classes}"/>
 		<pathelement location="${lib}/xerces.jar"/>
 		<pathelement location="${lib}/struts.jar "/>
 		<pathelement location="${lib}/tiles.jar"/>

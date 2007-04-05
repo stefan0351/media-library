@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.ChainEvent;
 import com.kiwisoft.utils.db.ChainListener;
 import com.kiwisoft.utils.gui.ApplicationFrame;
@@ -27,7 +28,10 @@ public class RecordingsView extends ViewPanel
 
 	public String getName()
 	{
-		return "Records on "+video.getName();
+		StringBuilder name=new StringBuilder(20);
+		name.append("Records on ").append(video.getName());
+		if (!StringUtils.isEmpty(video.getUserKey())) name.append(" (").append(video.getUserKey()).append(")");
+		return name.toString();
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
@@ -114,65 +118,6 @@ public class RecordingsView extends ViewPanel
 			}
 		}
 	}
-
-//	private class MoveRecordsUpAction extends AbstractAction
-//	{
-//		private Set<Recording> records;
-//
-//		public MoveRecordsUpAction(Set<Recording> records)
-//		{
-//			super("Nach oben");
-//			this.records=new TreeSet<Recording>(Chain.getComparator());
-//			this.records.addAll(records);
-//			setEnabled(!this.records.isEmpty());
-//		}
-//
-//		public void actionPerformed(ActionEvent e)
-//		{
-//			Set<Recording> selectedObjects=new HashSet<Recording>();
-//			int[] rows=tblRecords.getSelectedRows();
-//			for (int i=0; i<rows.length; i++)
-//			{
-//				RecordsTableModel.Row tableRow=(RecordsTableModel.Row)tmRecords.getRow(rows[i]);
-//				selectedObjects.add(tableRow.getUserObject());
-//			}
-//			tblRecords.clearSelection();
-//
-//			Transaction transaction=null;
-//			try
-//			{
-//				transaction=DBSession.getInstance().createTransaction();
-//				Iterator it=records.iterator();
-//				while (it.hasNext())
-//				{
-//					Recording recording=(Recording)it.next();
-//					video.getRecordings().moveUp(recording);
-//				}
-//				transaction.close();
-//			}
-//			catch (Exception e1)
-//			{
-//				try
-//				{
-//					if (transaction!=null) transaction.rollback();
-//				}
-//				catch (SQLException e2)
-//				{
-//					e2.printStackTrace();
-//				}
-//				e1.printStackTrace();
-//				JOptionPane.showMessageDialog(RecordingsView.this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-//			}
-//
-//			Iterator it=selectedObjects.iterator();
-//			while (it.hasNext())
-//			{
-//				Object o=it.next();
-//				int rowIndex=tmRecords.indexOf(o);
-//				if (rowIndex>=0) tblRecords.getSelectionModel().addSelectionInterval(rowIndex, rowIndex);
-//			}
-//		}
-//	}
 
 	public boolean isBookmarkable()
 	{
