@@ -6,8 +6,6 @@
  */
 package com.kiwisoft.media.person;
 
-import java.util.Comparator;
-
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Identifyable;
