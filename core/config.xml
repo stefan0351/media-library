@@ -18,8 +18,8 @@
 	<parameter name="path.import">c:\incoming</parameter>
 	<parameter name="path.episodes">c:\incoming\Episodes</parameter>
 	<parameter name="path.logos.channels.web">c:\Webpages\www.tv-scripte.de\clipart\tv_logos</parameter>
+	<parameter name="path.photos.thumbnails">c:\Webpages\local\photos\thumbnails</parameter>
 	<parameter name="url.logos.channels.web">/clipart/tv_logos</parameter>
-
 
 	<parameter name="reminder">false</parameter>
 	<parameter name="download.p7.date">26.04.2003</parameter>

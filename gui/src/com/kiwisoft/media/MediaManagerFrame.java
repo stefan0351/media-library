@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 
 import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.fanfic.Pairing;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.media.show.GenreLookup;
@@ -19,6 +18,7 @@ import com.kiwisoft.media.person.PersonsTask;
 import com.kiwisoft.media.person.Gender;
 import com.kiwisoft.media.person.GenderFormat;
 import com.kiwisoft.media.schedule.ScheduleTask;
+import com.kiwisoft.media.photos.PhotosTask;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
@@ -77,6 +77,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		tasks.add(new ShowsTask());
 		tasks.add(new MoviesTask());
 		tasks.add(new AllVideosTask());
+		tasks.add(new PhotosTask());
 		tasks.add(new ChannelsTask());
 		tasks.add(new ScheduleTask());
 		tasks.add(new PersonsTask());

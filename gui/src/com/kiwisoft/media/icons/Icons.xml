@@ -81,4 +81,25 @@
 	<icon key="male">
 		<resource url="/com/kiwisoft/media/icons/male.png"/>
 	</icon>
+	<icon key="photos">
+		<resource url="/com/kiwisoft/media/icons/photos.png"/>
+	</icon>
+	<icon key="photo">
+		<resource url="/com/kiwisoft/media/icons/photo.png"/>
+	</icon>
+	<icon key="rotate90">
+		<resource url="/com/kiwisoft/media/icons/rotate-90.gif"/>
+	</icon>
+	<icon key="rotate180">
+		<resource url="/com/kiwisoft/media/icons/rotate-180.gif"/>
+	</icon>
+	<icon key="rotate">
+		<resource url="/com/kiwisoft/media/icons/rotate-180.gif"/>
+	</icon>
+	<icon key="rotate-90">
+		<resource url="/com/kiwisoft/media/icons/rotate-270.gif"/>
+	</icon>
+	<icon key="no-photo-available">
+		<resource url="/com/kiwisoft/media/icons/no_photo_available.jpg"/>
+	</icon>
 </icons>

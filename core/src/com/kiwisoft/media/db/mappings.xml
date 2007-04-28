@@ -89,6 +89,7 @@
 		<field name="remainingLength" column="remaininglength"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="storage" column="storage"/>
+		<field name="obsolete" column="obsolete"/>
 		<reference name="type" column="type_id"/>
 	</mapping>
 	<mapping name="Episode" class="com.kiwisoft.media.show.Episode" table="episodes" primaryKey="id" lastModified="lastmodified">
@@ -241,6 +242,20 @@
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="creditType" column="credit_type_id"/>
+	</mapping>
+	<mapping name="Photo" class="com.kiwisoft.media.photos.Photo" table="photos" primaryKey="id" lastModified="lastmodified">
+		<field name="id" column="id"/>
+		<field name="originalFile" column="original_file"/>
+		<field name="originalWidth" column="original_width"/>
+		<field name="originalHeight" column="original_height"/>
+		<field name="creationDate" column="creation_date"/>
+		<field name="rotation" column="rotation"/> 
+		<reference name="book" column="photobook_id" type="PhotoBook"/>
+	</mapping>
+	<mapping name="PhotoBook" class="com.kiwisoft.media.photos.PhotoBook" table="photobooks" primaryKey="id" lastModified="lastmodified">
+		<field name="id" column="id"/>
+		<field name="lastModified" column="lastmodified"/>
+		<field name="name" column="name"/>
 	</mapping>
 	<association table="map_fanfic_pairing">
 		<element type="FanFic" name="pairings" column="fanfic_id"/>
