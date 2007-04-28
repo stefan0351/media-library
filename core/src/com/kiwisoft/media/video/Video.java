@@ -21,6 +21,7 @@ public class Video extends IDObject
 	private int remainingLength;
 	private Chain<Recording> recordings;
 	private String storage;
+	private boolean obsolete;
 
 	public Video()
 	{
@@ -51,6 +52,18 @@ public class Video extends IDObject
 	public void setStorage(String storage)
 	{
 		this.storage=storage;
+		setModified();
+	}
+
+
+	public boolean isObsolete()
+	{
+		return obsolete;
+	}
+
+	public void setObsolete(boolean obsolete)
+	{
+		this.obsolete=obsolete;
 		setModified();
 	}
 

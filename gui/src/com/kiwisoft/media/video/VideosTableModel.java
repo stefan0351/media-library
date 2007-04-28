@@ -10,9 +10,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.Color;
 
 import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.ObjectStyle;
+import com.kiwisoft.utils.gui.StrikeThroughDecorator;
 import com.kiwisoft.utils.ComplexComparable;
 import com.kiwisoft.utils.StringUtils;
 
@@ -26,19 +29,27 @@ public class VideosTableModel extends MutableSortableTableModel<Video>
 
 	private static final Pattern STORAGE_PATTERN=Pattern.compile("(\\d+)/(\\d+)");
 
+	private static final ObjectStyle OBSOLETE_STYLE=new ObjectStyle(new StrikeThroughDecorator(Color.RED));
+
 	public VideosTableModel(MediumType type)
 	{
 		super(new String[]{ID, NAME, TIME_LEFT, STORAGE}, new String[]{TYPE});
-		for (Video video : VideoManager.getInstance().getVideos(type)) addRow(new Row(video));
+		for (Video video : VideoManager.getInstance().getVideos(type, false)) addRow(new Row(video));
 		sort();
 	}
 
 	public static class Row extends SortableTableRow<Video> implements PropertyChangeListener
 	{
-
 		public Row(Video video)
 		{
 			super(video);
+		}
+
+		@Override
+		public ObjectStyle getCellStyle(int column, String property)
+		{
+			if (getUserObject().isObsolete()) return OBSOLETE_STYLE;
+			return null;
 		}
 
 		public void installListener()

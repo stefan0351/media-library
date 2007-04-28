@@ -7,20 +7,20 @@
  */
 package com.kiwisoft.media.video;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.regex.Pattern;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Set;
+import java.util.regex.Pattern;
 
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.show.Episode;
 
 public class VideoManager
 {
@@ -48,9 +48,11 @@ public class VideoManager
 		return DBLoader.getInstance().loadSet(Video.class);
 	}
 
-	public Collection<Video> getVideos(MediumType type)
+	public Collection<Video> getVideos(MediumType type, boolean includeObsolete)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, null, "type_id=?", type.getId());
+		return DBLoader.getInstance().loadSet(Video.class, null,
+											  includeObsolete ? "type_id=?" : "type_id=? and ifnull(obsolete, 0)=0",
+											  type.getId());
 	}
 
 	public Video getVideo(Long id)
@@ -143,13 +145,13 @@ public class VideoManager
 
 	public Set<Video> getVideos(Movie movie)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id" +
+		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id"+
 																		 " and recordings.movie_id=?", movie.getId());
 	}
 
 	public Set<Video> getVideos(Episode episode)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id" +
+		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id"+
 																		 " and recordings.episode_id=?", episode.getId());
 	}
 }

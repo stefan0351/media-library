@@ -166,7 +166,9 @@
 				for (Iterator it=videos.iterator(); it.hasNext();)
 				{
 					Video video=(Video)it.next();
+					if (video.isObsolete()) out.print("<strike>");
 					out.print(JspUtils.render(video, "Full"));
+					if (video.isObsolete()) out.print("</strike>");
 					out.print("<br>");
 				}
 %>

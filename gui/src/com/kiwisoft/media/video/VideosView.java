@@ -41,9 +41,9 @@ public class VideosView extends ViewPanel
 		VideosTableModel tableModel=new VideosTableModel(type);
 		tableController=new TableController<Video>(tableModel, new MediaTableConfiguration("table.videos"))
 		{
-			public List<ContextAction<Video>> getToolBarActions()
+			public List<ContextAction<? super Video>> getToolBarActions()
 			{
-				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
+				List<ContextAction<? super Video>> actions=new ArrayList<ContextAction<? super Video>>();
 				actions.add(new VideoDetailsAction());
 				actions.add(new NewVideoAction(type));
 				actions.add(new DeleteVideoAction(frame));
@@ -51,13 +51,16 @@ public class VideosView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<Video>> getContextActions()
+			public List<ContextAction<? super Video>> getContextActions()
 			{
-				List<ContextAction<Video>> actions=new ArrayList<ContextAction<Video>>();
+				List<ContextAction<? super Video>> actions=new ArrayList<ContextAction<? super Video>>();
 				actions.add(new VideoDetailsAction());
 				actions.add(null);
 				actions.add(new NewVideoAction(type));
 				actions.add(new DeleteVideoAction(frame));
+				actions.add(null);
+				actions.add(new SetVideoObsoleteAction(frame));
+				actions.add(new SetVideoActiveAction(frame));
 				actions.add(null);
 				actions.add(new VideoRecordingsAction(frame));
 				return actions;

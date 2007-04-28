@@ -96,6 +96,12 @@ public class VideosTable extends SortableWebTable<Video>
 				return "";
 		}
 
+		@Override
+		public String getCellStyle(int columnIndex, String columnId)
+		{
+			if (getUserObject().isObsolete()) return "text-decoration:line-through";
+			return super.getCellStyle(columnIndex, columnId);
+		}
 	}
 
 }

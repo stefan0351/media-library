@@ -95,9 +95,11 @@ public class TableTag extends TagSupport
 					else cellClass=Object.class;
 				}
 				String rendererVariant=table.getRendererVariant(rowIndex, columnIndex);
+				String cellStyle=table.getCellStyle(rowIndex, columnIndex);
 
 				HTMLRenderer renderer=HTMLRendererManager.getInstance().getRenderer(cellClass, rendererVariant);
 				out.print("<td class=\"tcell\"");
+				if (cellStyle!=null) out.print(" style=\""+cellStyle+"\"");				
 				String attributes=renderer.getAttributes(value, rowIndex, columnIndex);
 				if (attributes!=null) out.print(attributes);
 				out.print(">");

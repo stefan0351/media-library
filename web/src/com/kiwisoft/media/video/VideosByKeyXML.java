@@ -19,7 +19,7 @@ public class VideosByKeyXML implements XMLSource
 	public void createXML(XMLWriter xmlWriter) throws IOException
 	{
 		TreeSet<Video> videos=new TreeSet<Video>(new VideoComparator());
-		videos.addAll(DBLoader.getInstance().loadSet(Video.class, null, "userkey is not null"));
+		videos.addAll(DBLoader.getInstance().loadSet(Video.class, null, "userkey is not null and ifnull(obsolete, 0)=0"));
 
 		xmlWriter.startElement("videos");
 		for (Video video : videos)
