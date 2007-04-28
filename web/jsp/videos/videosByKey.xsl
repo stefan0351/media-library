@@ -12,7 +12,7 @@
 					page-height="21cm" page-width="29.7cm"
 					margin-top="1cm" margin-bottom="1cm"
 					margin-left="1cm" margin-right="1cm">
-					<fo:region-body margin-top="2cm" margin-bottom="2cm" column-count="3" column-gap="0.5cm"/>
+					<fo:region-body margin-top="2cm" margin-bottom="2cm" column-count="4" column-gap="0.3cm"/>
 					<fo:region-before extent="2cm"/>
 					<fo:region-after extent="2cm"/>
 				</fo:simple-page-master>
@@ -21,15 +21,6 @@
 
 			<fo:page-sequence master-reference="all" format="1">
 
-				<!-- header with running glossary entries -->
-				<!--				<fo:static-content flow-name="xsl-region-before">-->
-				<!--					<fo:block text-align="start" font-size="10pt" font-family="serif" line-height="1em + 2pt">-->
-				<!--						<fo:retrieve-marker retrieve-class-name="term" retrieve-boundary="page" retrieve-position="first-starting-within-page"/>-->
-				<!--						<fo:leader leader-alignment="reference-area" leader-pattern="dots" leader-length="4in"/>-->
-				<!--						<fo:retrieve-marker retrieve-class-name="term" retrieve-boundary="page" retrieve-position="last-ending-within-page"/>-->
-				<!--					</fo:block>-->
-				<!--				</fo:static-content>-->
-
 				<fo:static-content flow-name="xsl-region-after">
 					<fo:block text-align="center" font-size="10pt" font-family="serif" line-height="1em + 2pt">
 						<fo:page-number/> of <fo:page-number-citation ref-id="last-page"/>
@@ -37,16 +28,21 @@
 				</fo:static-content>
 
 				<fo:flow flow-name="xsl-region-body">
+					<fo:block font-size="10pt" font-family="sans-serif" line-height="15pt" space-after.optimum="10pt" background-color="#8080ff"
+						  color="black" text-align="center" padding-top="3pt" break-before="page">
+						  DVD's and Videos
+					</fo:block>
+
 					<fo:block space-after.optimum="10pt">
 						<fo:table table-layout="fixed" width="100%" border-width="1pt" border-style="solid" table-omit-header-at-break="false" table-omit-footer-at-break="true">
-							<fo:table-column column-width="10mm"/>
-							<fo:table-column column-width="69mm"/>
-							<fo:table-column column-width="10mm"/>
+							<fo:table-column column-width="8mm"/>
+							<fo:table-column column-width="52mm"/>
+							<fo:table-column column-width="6mm"/>
 							<fo:table-header>
 								<fo:table-row background-color="rgb(200,200,255)">
-									<fo:table-cell><fo:block font-size="8pt">Key</fo:block></fo:table-cell>
-									<fo:table-cell><fo:block font-size="8pt">Name</fo:block></fo:table-cell>
-									<fo:table-cell><fo:block font-size="8pt">Storage</fo:block></fo:table-cell>
+									<fo:table-cell><fo:block font-size="6pt">Key</fo:block></fo:table-cell>
+									<fo:table-cell><fo:block font-size="6pt">Name</fo:block></fo:table-cell>
+									<fo:table-cell><fo:block font-size="6pt">Stor.</fo:block></fo:table-cell>
 								</fo:table-row>
 							</fo:table-header>
 							<fo:table-body>
@@ -69,17 +65,17 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<fo:table-cell>
-				<fo:block font-size="8pt">
+				<fo:block font-size="6pt">
 					<xsl:value-of select="@key"/>
 				</fo:block>
 			</fo:table-cell>
 			<fo:table-cell>
-				<fo:block font-size="8pt">
+				<fo:block font-size="6pt">
 					<xsl:value-of select="@name"/>
 				</fo:block>
 			</fo:table-cell>
 			<fo:table-cell>
-				<fo:block font-size="8pt">
+				<fo:block font-size="6pt">
 					<xsl:value-of select="@storage"/>
 				</fo:block>
 			</fo:table-cell>
