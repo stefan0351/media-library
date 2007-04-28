@@ -16,6 +16,7 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.DocumentAdapter;
@@ -29,6 +30,8 @@ import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
+import com.kiwisoft.utils.gui.lookup.LookupEvent;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
@@ -63,6 +66,7 @@ public class VideoDetailsView extends DetailsView
 	private JTextField lengthField;
 	private JTextField remainingField;
 	private JTextField storageField;
+	private LookupField<Language> languageField;
 	private LookupField<MediumType> typeField;
 	private boolean manualName;
 
@@ -170,6 +174,26 @@ public class VideoDetailsView extends DetailsView
 		add(remainingField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		if (recordables!=null)
 		{
+			languageField=new LookupField<Language>(new LanguageLookup());
+			languageField.addSelectionListener(new LookupSelectionListener()
+			{
+				public void selectionChanged(LookupEvent event)
+				{
+					if (recordables!=null)
+					{
+						for (RecordableTableRow recordable : recordables)
+						{
+							recordable.setLanguage(languageField.getValue());
+							recordablesModel.fireTableDataChanged();
+						}
+						updateName();
+					}
+				}
+			});
+
+			row++;
+			add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+			add(languageField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 			setPreferredSize(new Dimension(600, 300));
 			recordablesModel=new RecordablesTableModel();
 			recordablesTable=new SortableTable(recordablesModel);
@@ -483,8 +507,7 @@ public class VideoDetailsView extends DetailsView
 		@Override
 		public boolean isEditable(int column, String property)
 		{
-			if ("language".equals(property)) return true;
-			return "length".equals(property);
+			return "language".equals(property) || "length".equals(property);
 		}
 
 		public void setChainPosition(int position)
@@ -505,6 +528,11 @@ public class VideoDetailsView extends DetailsView
 		public Language getLanguage()
 		{
 			return language;
+		}
+
+		public void setLanguage(Language language)
+		{
+			this.language=language;
 		}
 	}
 }
