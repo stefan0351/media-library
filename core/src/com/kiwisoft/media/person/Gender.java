@@ -8,6 +8,7 @@ package com.kiwisoft.media.person;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Collection;
 
 import com.kiwisoft.utils.db.Identifyable;
 
@@ -22,6 +23,11 @@ public class Gender implements Identifyable
 	public static Gender get(Long id)
 	{
 		return map.get(id);
+	}
+
+	public static Collection<Gender> values()
+	{
+		return map.values();	
 	}
 
 	private Long id;

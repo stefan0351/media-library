@@ -21,6 +21,7 @@ import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 
 public class PersonDetailsView extends DetailsView
 {
@@ -54,7 +55,7 @@ public class PersonDetailsView extends DetailsView
 	private JTextField tfFirstName;
 	private JTextField tfMiddleName;
 	private JTextField tfSurname;
-	private JComboBox cbxSex;
+	private LookupField<Gender> genderField;
 	private JCheckBox cbActor;
 	private DialogLookupField tfTVTVPattern;
 
@@ -100,8 +101,7 @@ public class PersonDetailsView extends DetailsView
 		tfMiddleName=new JTextField();
 		tfSurname=new JTextField();
 		tfTVTVPattern=new DialogLookupField(new TVTVPatternLookup());
-		cbxSex=new JComboBox(new Object[]{Gender.FEMALE, Gender.MALE, Gender.UNKNOWN});
-		cbxSex.setRenderer(new FormatBasedListRenderer());
+		genderField=new LookupField<Gender>(new GenderLookup());
 		cbActor=new JCheckBox();
 
 		setLayout(new GridBagLayout());
@@ -122,7 +122,7 @@ public class PersonDetailsView extends DetailsView
 
 		row++;
 		add(new JLabel("Gender:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxSex, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(genderField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Actor/Actress:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
@@ -147,7 +147,7 @@ public class PersonDetailsView extends DetailsView
 			tfFirstName.setText(person.getFirstName());
 			tfMiddleName.setText(person.getMiddleName());
 			tfSurname.setText(person.getSurname());
-			cbxSex.setSelectedItem(person.getGender());
+			genderField.setValue(person.getGender());
 			cbActor.setSelected(person.isActor());
 			String pattern=person.getSearchPattern(SearchPattern.TVTV);
 			if (pattern!=null) tfTVTVPattern.setText(pattern);
@@ -155,7 +155,7 @@ public class PersonDetailsView extends DetailsView
 		else
 		{
 			cbActor.setSelected(actor);
-			cbxSex.setSelectedItem(Gender.FEMALE);
+			genderField.setValue(Gender.FEMALE);
 		}
 	}
 
@@ -182,7 +182,7 @@ public class PersonDetailsView extends DetailsView
 		if (!StringUtils.isEmpty(middleName)) middleName=middleName.trim();
 		else middleName=null;
 
-		Gender gender=(Gender)cbxSex.getSelectedItem();
+		Gender gender=genderField.getValue();
 		String tvtvPattern=tfTVTVPattern.getText();
 		boolean actor=cbActor.isSelected();
 
