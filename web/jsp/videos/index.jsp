@@ -32,19 +32,19 @@
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Videos">
-			<table width="765"><tr><td class="content2"><small>[
+			<table>
+			<tr valign="top"><td class="content2" width="100" align="center"><div style="border: 1px solid black; background: url(/clipart/trans10.png)"><small>
 <%
 				for (int i=0;i<groupCount;i++)
 				{
-					if (i>0) out.print("|");
 %>
-					<a class=link href="/videos/index.jsp?group=<%=i%>"><%=VideoManager.getGroupName(i)%></a>
+					<a class=link href="/videos/index.jsp?group=<%=i%>"><%=VideoManager.getGroupName(i)%></a><br/>
 <%
 				}
 %>
-			]</small></td></tr></table>
-			<br>
-			<media:table model="videosTable" alternateRows="true"/>
+				</small></div></td>
+				<td><media:table model="videosTable" alternateRows="true"/></td>
+			</tr></table>
 		</media:panel>
 	</media:content>
 </media:body>
