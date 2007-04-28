@@ -271,9 +271,9 @@ public class FanFicDetailsView extends DetailsView
 		partsController=new TableController<String>(tmParts, new MediaTableConfiguration("table.fanfic.detail"))
 		{
 			@Override
-			public List<ContextAction<String>> getToolBarActions()
+			public List<ContextAction<? super String>> getToolBarActions()
 			{
-				List<ContextAction<String>> actions=new ArrayList<ContextAction<String>>();
+				List<ContextAction<? super String>> actions=new ArrayList<ContextAction<? super String>>();
 				actions.add(new AddPartAction());
 				actions.add(new DeletePartAction());
 				actions.add(new MovePartUpAction());
@@ -283,9 +283,9 @@ public class FanFicDetailsView extends DetailsView
 			}
 
 			@Override
-			public List<ContextAction<String>> getContextActions()
+			public List<ContextAction<? super String>> getContextActions()
 			{
-				List<ContextAction<String>> actions=new ArrayList<ContextAction<String>>();
+				List<ContextAction<? super String>> actions=new ArrayList<ContextAction<? super String>>();
 				actions.add(new AddPartAction());
 				actions.add(new DeletePartAction());
 				return actions;
@@ -398,7 +398,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<String> objects)
+		public void update(List<? extends String> objects)
 		{
 			setEnabled(isValid());
 		}
@@ -446,7 +446,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<String> objects)
+		public void update(List<? extends String> objects)
 		{
 			setEnabled(isValid());
 		}
@@ -567,7 +567,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<String> objects)
+		public void update(List<? extends String> objects)
 		{
 			setEnabled(fanFic!=null);
 		}

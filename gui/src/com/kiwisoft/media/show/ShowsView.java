@@ -52,9 +52,9 @@ public class ShowsView extends ViewPanel
 
 		tableController=new TableController<Show>(tmShows, new MediaTableConfiguration("table.shows"))
 		{
-			public List<ContextAction<Show>> getToolBarActions()
+			public List<ContextAction<? super Show>> getToolBarActions()
 			{
-				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
+				List<ContextAction<? super Show>> actions=new ArrayList<ContextAction<? super Show>>();
 				actions.add(new ShowDetailsAction());
 				actions.add(new NewShowAction());
 				actions.add(new DeleteShowAction(frame));
@@ -63,7 +63,7 @@ public class ShowsView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<Show>> getContextActions()
+			public List<ContextAction<? super Show>> getContextActions()
 			{
 				ComplexAction<Show> downloadAction=new ComplexAction<Show>("Download");
 				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
@@ -72,7 +72,7 @@ public class ShowsView extends ViewPanel
 				downloadAction.addAction(new TVComLoaderAction(frame));
 				downloadAction.addAction(new SerienJunkiesDeLoaderAction(frame));
 
-				List<ContextAction<Show>> actions=new ArrayList<ContextAction<Show>>();
+				List<ContextAction<? super Show>> actions=new ArrayList<ContextAction<? super Show>>();
 				actions.add(new ShowDetailsAction());
 				actions.add(null);
 				actions.add(new NewShowAction());
@@ -170,8 +170,15 @@ public class ShowsView extends ViewPanel
 
 		public void installListener()
 		{
-			getUserObject().addPropertyChangeListener(this);
-			getUserObject().addCollectionChangeListener(this);
+			try
+			{
+				getUserObject().addPropertyChangeListener(this);
+				getUserObject().addCollectionListener(this);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		public void removeListener()

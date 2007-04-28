@@ -53,9 +53,9 @@ public class FanDomsView extends ViewPanel implements Disposable
 		tableController=new TableController<FanDom>(tableModel, new MediaTableConfiguration("table.fanfic.domains"))
 		{
 			@Override
-			public List<ContextAction<FanDom>> getToolBarActions()
+			public List<ContextAction<? super FanDom>> getToolBarActions()
 			{
-				List<ContextAction<FanDom>> actions=new ArrayList<ContextAction<FanDom>>();
+				List<ContextAction<? super FanDom>> actions=new ArrayList<ContextAction<? super FanDom>>();
 				actions.add(new DomainDetailsAction());
 				actions.add(new NewDomainAction());
 				actions.add(new DeleteDomainAction(frame));
@@ -64,9 +64,9 @@ public class FanDomsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public List<ContextAction<FanDom>> getContextActions()
+			public List<ContextAction<? super FanDom>> getContextActions()
 			{
-				List<ContextAction<FanDom>> actions=new ArrayList<ContextAction<FanDom>>();
+				List<ContextAction<? super FanDom>> actions=new ArrayList<ContextAction<? super FanDom>>();
 				actions.add(new DomainDetailsAction());
 				actions.add(null);
 				actions.add(new NewDomainAction());
@@ -183,7 +183,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		return new Bookmark(getName(), FanDomsView.class);
 	}
 
-	@SuppressWarnings({"UNUSED_SYMBOL"})
+	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new FanDomsView(), true);

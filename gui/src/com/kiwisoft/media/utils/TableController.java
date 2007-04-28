@@ -3,7 +3,6 @@ package com.kiwisoft.media.utils;
 import com.kiwisoft.utils.gui.table.*;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ToolBar;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.db.DBSession;
@@ -31,7 +30,7 @@ public class TableController<T>
 	private SortableTableModel<T> model;
 	private TableConfiguration configuration;
 	private JScrollPane tablePane;
-	private List<ContextAction<T>> toolBarActions;
+	private List<ContextAction<? super T>> toolBarActions;
 
 	// Listeners
 	private MyMouseListener mouseListener;
@@ -77,27 +76,20 @@ public class TableController<T>
 
 	protected JToolBar createToolBar()
 	{
-		ToolBar toolBar=new ToolBar();
-		for (Iterator<ContextAction<T>> it=toolBarActions.iterator(); it.hasNext();)
-		{
-			Action action=it.next();
-			toolBar.add(action);
-			if (it.hasNext()) toolBar.addSeparator(new Dimension(10, 10));
-		}
-		return toolBar;
+		return GuiUtils.createToolBar(toolBarActions);
 	}
 
-	public List<ContextAction<T>> getToolBarActions()
+	public List<ContextAction<? super T>> getToolBarActions()
 	{
 		return Collections.emptyList();
 	}
 
-	public List<ContextAction<T>> getContextActions()
+	public List<ContextAction<? super T>> getContextActions()
 	{
 		return Collections.emptyList();
 	}
 
-	public ContextAction<T> getDoubleClickAction()
+	public ContextAction<? super T> getDoubleClickAction()
 	{
 		return null;
 	}
@@ -120,7 +112,7 @@ public class TableController<T>
 	public void updateToolBarActions()
 	{
 		List<T> objects=TableUtils.getSelectedObjects(table);
-		for (ContextAction<T> action : toolBarActions) action.update(objects);
+		for (ContextAction<? super T> action : toolBarActions) action.update(objects);
 	}
 
 	private class MyMouseListener extends MouseAdapter
@@ -133,7 +125,7 @@ public class TableController<T>
 				SortableTableRow<T> row=model.getRow(rowIndex);
 				if (row!=null)
 				{
-					ContextAction<T> action=getDoubleClickAction();
+					ContextAction<? super T> action=getDoubleClickAction();
 					action.update(Collections.singletonList(row.getUserObject()));
 					action.actionPerformed(null);
 				}
@@ -141,17 +133,17 @@ public class TableController<T>
 			}
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
 			{
-				List<ContextAction<T>> actions=getContextActions();
+				List<ContextAction<? super T>> actions=getContextActions();
 				if (!actions.isEmpty())
 				{
 					List<T> objects=TableUtils.getSelectedObjects(table);
-					for (ContextAction<T> action : actions)
+					for (ContextAction<? super T> action : actions)
 					{
 						if (action!=null) action.update(objects);
 					}
 
 					JPopupMenu menu=new JPopupMenu();
-					for (ContextAction<T> action : actions) ContextAction.addActionToMenu(menu, action);
+					for (ContextAction<? super T> action : actions) ContextAction.addActionToMenu(menu, action);
 					menu.show((Component) e.getSource(), e.getX(), e.getY());
 				}
 				e.consume();
@@ -183,7 +175,7 @@ public class TableController<T>
 		}
 
 		@Override
-		public void update(List<T> objects)
+		public void update(List<? extends T> objects)
 		{
 			super.update(objects);
 			if (!objects.isEmpty())
@@ -238,7 +230,7 @@ public class TableController<T>
 		}
 
 		@Override
-		public void update(List<T> objects)
+		public void update(List<? extends T> objects)
 		{
 			super.update(objects);
 			if (!objects.isEmpty())

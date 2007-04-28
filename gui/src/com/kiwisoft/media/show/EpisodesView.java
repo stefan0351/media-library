@@ -54,9 +54,9 @@ public class EpisodesView extends ViewPanel
 
 		tableController=new TableController<Episode>(tmEpisodes, new MediaTableConfiguration("table.episodes"))
 		{
-			public List<ContextAction<Episode>> getToolBarActions()
+			public List<ContextAction<? super Episode>> getToolBarActions()
 			{
-				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
+				List<ContextAction<? super Episode>> actions=new ArrayList<ContextAction<? super Episode>>();
 				actions.add(new EpisodeDetailsAction());
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
@@ -68,9 +68,9 @@ public class EpisodesView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<Episode>> getContextActions()
+			public List<ContextAction<? super Episode>> getContextActions()
 			{
-				List<ContextAction<Episode>> actions=new ArrayList<ContextAction<Episode>>();
+				List<ContextAction<? super Episode>> actions=new ArrayList<ContextAction<? super Episode>>();
 				actions.add(new EpisodeDetailsAction());
 				actions.add(null);
 				actions.add(new NewEpisodeAction(show));
@@ -107,7 +107,7 @@ public class EpisodesView extends ViewPanel
 			tableModel.addRow(new EpisodeTableRow(episode));
 		}
 		tableModel.sort();
-		show.addCollectionChangeListener(collectionObserver);
+		show.addCollectionListener(collectionObserver);
 	}
 
 	protected void installComponentListeners()

@@ -43,9 +43,9 @@ public class SeasonsView extends ViewPanel
 		tableController=new TableController<Season>(tableModel, new MediaTableConfiguration("table.seasons"))
 		{
 			@Override
-			public List<ContextAction<Season>> getToolBarActions()
+			public List<ContextAction<? super Season>> getToolBarActions()
 			{
-				List<ContextAction<Season>> actions=new ArrayList<ContextAction<Season>>(3);
+				List<ContextAction<? super Season>> actions=new ArrayList<ContextAction<? super Season>>(3);
 				actions.add(new SeasonDetailsAction());
 				actions.add(new NewSeasonAction(show));
 				actions.add(new DeleteSeasonAction(frame));
@@ -54,9 +54,9 @@ public class SeasonsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<Season>> getContextActions()
+			public List<ContextAction<? super Season>> getContextActions()
 			{
-				List<ContextAction<Season>> actions=new ArrayList<ContextAction<Season>>(3);
+				List<ContextAction<? super Season>> actions=new ArrayList<ContextAction<? super Season>>(3);
 				actions.add(new SeasonDetailsAction());
 				actions.add(null);
 				actions.add(new NewSeasonAction(show));
@@ -80,7 +80,7 @@ public class SeasonsView extends ViewPanel
 		for (Season season : show.getSeasons()) tableModel.addRow(new SeasonTableRow(season));
 		tableModel.sort();
 		collectionObserver=new CollectionChangeObserver();
-		show.addCollectionChangeListener(collectionObserver);
+		show.addCollectionListener(collectionObserver);
 	}
 
 	protected void installComponentListeners()

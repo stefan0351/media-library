@@ -46,9 +46,9 @@ public class LinksView extends ViewPanel
 		tableController=new TableController<Link>(tableModel, new MediaTableConfiguration("table.links"))
 		{
 			@Override
-			public List<ContextAction<Link>> getToolBarActions()
+			public List<ContextAction<? super Link>> getToolBarActions()
 			{
-				List<ContextAction<Link>> actions=new ArrayList<ContextAction<Link>>();
+				List<ContextAction<? super Link>> actions=new ArrayList<ContextAction<? super Link>>();
 				actions.add(new LinkDetailsAction());
 				actions.add(new NewLinkAction(show));
 				actions.add(new DeleteLinkAction(frame, show));
@@ -57,9 +57,9 @@ public class LinksView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<Link>> getContextActions()
+			public List<ContextAction<? super Link>> getContextActions()
 			{
-				List<ContextAction<Link>> actions=new ArrayList<ContextAction<Link>>();
+				List<ContextAction<? super Link>> actions=new ArrayList<ContextAction<? super Link>>();
 				actions.add(new LinkDetailsAction());
 				actions.add(null);
 				actions.add(new NewLinkAction(show));
@@ -86,7 +86,7 @@ public class LinksView extends ViewPanel
 		collectionObserver=new CollectionChangeObserver();
 		for (Link link : show.getLinks()) tableModel.addRow(new Row(link));
 		tableModel.sort();
-		show.addCollectionChangeListener(collectionObserver);
+		show.addCollectionListener(collectionObserver);
 	}
 
 	protected void installComponentListeners()

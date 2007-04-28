@@ -50,9 +50,9 @@ public class ShowCastView extends ViewPanel
 		mainCastController=new TableController<CastMember>(mainCastModel, new MediaTableConfiguration("table.show.cast.main"))
 		{
 			@Override
-			public List<ContextAction<CastMember>> getToolBarActions()
+			public List<ContextAction<? super CastMember>> getToolBarActions()
 			{
-				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
 				actions.add(new DeleteCastAction(show, frame));
@@ -60,9 +60,9 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<CastMember>> getContextActions()
+			public List<ContextAction<? super CastMember>> getContextActions()
 			{
-				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
 				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
@@ -79,9 +79,9 @@ public class ShowCastView extends ViewPanel
 		recurringCastController=new TableController<CastMember>(recurringCastModel, new MediaTableConfiguration("table.show.cast.recurring"))
 		{
 			@Override
-			public List<ContextAction<CastMember>> getToolBarActions()
+			public List<ContextAction<? super CastMember>> getToolBarActions()
 			{
-				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
 				actions.add(new DeleteCastAction(show, frame));
@@ -89,9 +89,9 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<CastMember>> getContextActions()
+			public List<ContextAction<? super CastMember>> getContextActions()
 			{
-				List<ContextAction<CastMember>> actions=new ArrayList<ContextAction<CastMember>>();
+				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
 				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
@@ -131,7 +131,7 @@ public class ShowCastView extends ViewPanel
 		recurringCastModel.sort();
 
 		collectionObserver=new CollectionChangeObserver();
-		show.addCollectionChangeListener(collectionObserver);
+		show.addCollectionListener(collectionObserver);
 	}
 
 	protected void installComponentListeners()

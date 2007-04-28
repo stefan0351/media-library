@@ -50,9 +50,9 @@ public class FanFicsView extends ViewPanel
 		tableController=new TableController<FanFic>(tmFanFics, new MediaTableConfiguration("table.fanfics"))
 		{
 			@Override
-			public List<ContextAction<FanFic>> getToolBarActions()
+			public List<ContextAction<? super FanFic>> getToolBarActions()
 			{
-				List<ContextAction<FanFic>> actions=new ArrayList<ContextAction<FanFic>>();
+				List<ContextAction<? super FanFic>> actions=new ArrayList<ContextAction<? super FanFic>>();
 				actions.add(new FanFicDetailsAction());
 				actions.add(new NewFanFicAction(group));
 				actions.add(new DeleteFanFicAction(frame));
@@ -60,9 +60,9 @@ public class FanFicsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<FanFic>> getContextActions()
+			public List<ContextAction<? super FanFic>> getContextActions()
 			{
-				List<ContextAction<FanFic>> actions=new ArrayList<ContextAction<FanFic>>();
+				List<ContextAction<? super FanFic>> actions=new ArrayList<ContextAction<? super FanFic>>();
 				actions.add(new FanFicDetailsAction());
 				actions.add(null);
 				actions.add(new NewFanFicAction(group));

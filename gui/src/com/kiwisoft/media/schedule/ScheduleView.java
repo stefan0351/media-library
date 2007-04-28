@@ -78,9 +78,9 @@ public class ScheduleView extends ViewPanel
 		tableController=new TableController<Airdate>(model, new MediaTableConfiguration("table.airdates"))
 		{
 			@Override
-			public List<ContextAction<Airdate>> getToolBarActions()
+			public List<ContextAction<? super Airdate>> getToolBarActions()
 			{
-				List<ContextAction<Airdate>> actions=new ArrayList<ContextAction<Airdate>>();
+				List<ContextAction<? super Airdate>> actions=new ArrayList<ContextAction<? super Airdate>>();
 				actions.add(new AirdateDetailsAction());
 				actions.add(new NewAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
@@ -91,9 +91,9 @@ public class ScheduleView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<Airdate>> getContextActions()
+			public List<ContextAction<? super Airdate>> getContextActions()
 			{
-				List<ContextAction<Airdate>> actions=new ArrayList<ContextAction<Airdate>>();
+				List<ContextAction<? super Airdate>> actions=new ArrayList<ContextAction<? super Airdate>>();
 				actions.add(new AirdateDetailsAction());
 				actions.add(null);
 				actions.add(new NewAirdateAction());

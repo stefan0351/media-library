@@ -54,18 +54,18 @@ public class PersonsView extends ViewPanel
 
 		tableController=new TableController<Person>(tableModel, new MediaTableConfiguration("table.persons"))
 		{
-			public List<ContextAction<Person>> getToolBarActions()
+			public List<ContextAction<? super Person>> getToolBarActions()
 			{
-				List<ContextAction<Person>> actions=new ArrayList<ContextAction<Person>>();
+				List<ContextAction<? super Person>> actions=new ArrayList<ContextAction<? super Person>>();
 				actions.add(new PersonDetailsAction());
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
 				return actions;
 			}
 
-			public List<ContextAction<Person>> getContextActions()
+			public List<ContextAction<? super Person>> getContextActions()
 			{
-				List<ContextAction<Person>> actions=new ArrayList<ContextAction<Person>>();
+				List<ContextAction<? super Person>> actions=new ArrayList<ContextAction<? super Person>>();
 
 				ComplexAction<Person> downloadAction=new ComplexAction<Person>("Download");
 				downloadAction.addAction(new TVTVDeLoaderContextAction<Person>(frame));

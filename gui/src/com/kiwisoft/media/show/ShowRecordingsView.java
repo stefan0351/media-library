@@ -37,9 +37,9 @@ public class ShowRecordingsView extends ViewPanel
 		tableController=new TableController<Recording>(tableModel, new MediaTableConfiguration("table.show.recordings"))
 		{
 			@Override
-			public List<ContextAction<Recording>> getToolBarActions()
+			public List<ContextAction<? super Recording>> getToolBarActions()
 			{
-				List<ContextAction<Recording>> actions=new ArrayList<ContextAction<Recording>>(1);
+				List<ContextAction<? super Recording>> actions=new ArrayList<ContextAction<? super Recording>>(1);
 				actions.add(new RecordingDetailsAction());
 				return actions;
 			}

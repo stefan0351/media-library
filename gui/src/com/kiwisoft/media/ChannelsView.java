@@ -50,9 +50,9 @@ public class ChannelsView extends ViewPanel
 		tableController=new TableController<Channel>(tmChannels, new MediaTableConfiguration("table.channels"))
 		{
 			@Override
-			public List<ContextAction<Channel>> getToolBarActions()
+			public List<ContextAction<? super Channel>> getToolBarActions()
 			{
-				List<ContextAction<Channel>> actions=new ArrayList<ContextAction<Channel>>();
+				List<ContextAction<? super Channel>> actions=new ArrayList<ContextAction<? super Channel>>();
 				actions.add(new ChannelDetailsAction());
 				actions.add(new NewChannelAction());
 				actions.add(new DeleteChannelAction(frame));
@@ -60,9 +60,9 @@ public class ChannelsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<Channel>> getContextActions()
+			public List<ContextAction<? super Channel>> getContextActions()
 			{
-				List<ContextAction<Channel>> actions=new ArrayList<ContextAction<Channel>>();
+				List<ContextAction<? super Channel>> actions=new ArrayList<ContextAction<? super Channel>>();
 				actions.add(new ChannelDetailsAction());
 				actions.add(null);
 				actions.add(new NewChannelAction());
@@ -180,7 +180,7 @@ public class ChannelsView extends ViewPanel
 		return new Bookmark(getName(), ChannelsView.class);
 	}
 
-	@SuppressWarnings({"UNUSED_SYMBOL"})
+	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ChannelsView(), true);

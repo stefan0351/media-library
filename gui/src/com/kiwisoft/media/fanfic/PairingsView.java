@@ -56,9 +56,9 @@ public class PairingsView extends ViewPanel implements Disposable
 		tableController=new TableController<Pairing>(tableModel, new MediaTableConfiguration("table.fanfic.pairings"))
 		{
 			@Override
-			public List<ContextAction<Pairing>> getToolBarActions()
+			public List<ContextAction<? super Pairing>> getToolBarActions()
 			{
-				List<ContextAction<Pairing>> actions=new ArrayList<ContextAction<Pairing>>();
+				List<ContextAction<? super Pairing>> actions=new ArrayList<ContextAction<? super Pairing>>();
 				actions.add(new PairingDetailsAction());
 				actions.add(new NewPairingAction());
 				actions.add(new DeletePairingAction(frame));
@@ -67,9 +67,9 @@ public class PairingsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public List<ContextAction<Pairing>> getContextActions()
+			public List<ContextAction<? super Pairing>> getContextActions()
 			{
-				List<ContextAction<Pairing>> actions=new ArrayList<ContextAction<Pairing>>();
+				List<ContextAction<? super Pairing>> actions=new ArrayList<ContextAction<? super Pairing>>();
 				actions.add(new PairingDetailsAction());
 				actions.add(null);
 				actions.add(new NewPairingAction());
@@ -237,7 +237,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		return new Bookmark(getName(), PairingsView.class);
 	}
 
-	@SuppressWarnings({"UNUSED_SYMBOL"})
+	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PairingsView(), true);

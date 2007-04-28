@@ -53,9 +53,9 @@ public class MoviesView extends ViewPanel
 		tableController=new TableController<Movie>(tableModel, new MediaTableConfiguration("table.movies"))
 		{
 			@Override
-			public List<ContextAction<Movie>> getToolBarActions()
+			public List<ContextAction<? super Movie>> getToolBarActions()
 			{
-				List<ContextAction<Movie>> actions=new ArrayList<ContextAction<Movie>>();
+				List<ContextAction<? super Movie>> actions=new ArrayList<ContextAction<? super Movie>>();
 				actions.add(new MovieDetailsAction());
 				actions.add(new NewMovieAction(show));
 				actions.add(new DeleteMovieAction(frame, show));
@@ -63,9 +63,9 @@ public class MoviesView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<Movie>> getContextActions()
+			public List<ContextAction<? super Movie>> getContextActions()
 			{
-				List<ContextAction<Movie>> actions=new ArrayList<ContextAction<Movie>>();
+				List<ContextAction<? super Movie>> actions=new ArrayList<ContextAction<? super Movie>>();
 				actions.add(new MovieDetailsAction());
 				actions.add(null);
 				actions.add(new NewMovieAction(show));
