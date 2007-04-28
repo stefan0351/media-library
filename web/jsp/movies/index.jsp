@@ -4,24 +4,13 @@
 				 com.kiwisoft.media.movie.Movie,
 				 com.kiwisoft.media.movie.MovieManager" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
-<%@ page import="com.kiwisoft.utils.Utils" %>
+<%@ page import="com.kiwisoft.media.movie.MovieComparator" %>
 
 <%
 	String letterString=request.getParameter("letter");
 	SortedSet letters=MovieManager.getInstance().getLetters();
 	char selectedLetter=letterString!=null && letterString.length()==1 ? letterString.charAt(0) : ((Character)letters.first()).charValue();
-	Set movies=new TreeSet(new Comparator()
-	{
-		public int compare(Object o1, Object o2)
-		{
-			Movie movie1=(Movie)o1;
-			Movie movie2=(Movie)o2;
-			int result=Utils.compareNullSafe(movie1.getIndexBy(), movie2.getIndexBy(), false);
-			if (result==0) result=Utils.compareNullSafe(movie1.getYear(), movie2.getYear(), false);
-			if (result==0) result=movie1.getId().compareTo(movie2.getId());
-			return result;
-		}
-	});
+	Set movies=new TreeSet(new MovieComparator());
 	movies.addAll(MovieManager.getInstance().getMoviesByLetter(selectedLetter));
 %>
 <html>
@@ -46,6 +35,7 @@
 	<td width="200">
 		<!--Navigation Start-->
 
+		<jsp:include page="_nav.jsp"/>
 		<jsp:include page="/_nav.jsp"/>
 
 		<!--Navigation End-->

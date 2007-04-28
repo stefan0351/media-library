@@ -18,10 +18,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.Production;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.Name;
-import com.kiwisoft.media.Genre;
-import com.kiwisoft.media.Country;
+import com.kiwisoft.media.*;
 import com.kiwisoft.media.video.Recordable;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.person.CrewMember;
@@ -120,6 +117,35 @@ public class Movie extends IDObject implements Recordable, Production
 			}
 		}
 		return getTitle();
+	}
+
+	public String getIndexBy(Language language)
+	{
+		String indexBy=null;
+		if (language!=null)
+		{
+			if ("de".equals(language.getSymbol()) && !StringUtils.isEmpty(getGermanTitle()))
+			{
+				indexBy=IndexByUtils.createGermanIndexBy(getGermanTitle());
+			}
+			else if (getLanguages().contains(language))
+			{
+				indexBy=getIndexBy();
+			}
+			else
+			{
+				for (Iterator it=getAltNames().iterator(); it.hasNext();)
+				{
+					Name altName=(Name)it.next();
+					if (altName.getLanguage()==language) indexBy=IndexByUtils.createIndexBy(altName.getName());
+				}
+			}
+		}
+		if (StringUtils.isEmpty(indexBy))
+		{
+			indexBy=getIndexBy();
+		}
+		return indexBy;
 	}
 
 	public Name createAltName()
@@ -368,5 +394,4 @@ public class Movie extends IDObject implements Recordable, Production
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
 	}
-
 }

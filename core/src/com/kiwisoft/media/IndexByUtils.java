@@ -21,6 +21,18 @@ public class IndexByUtils
 		return indexBy;
 	}
 
+	public static String createGermanIndexBy(String name)
+	{
+		if (name==null) return name;
+		String indexBy=normalizeCharacters(name);
+		indexBy=indexBy.replace(" & ", " UND ");
+		if (indexBy.startsWith("DIE ")) indexBy=indexBy.substring(4)+", DIE";
+		if (indexBy.startsWith("DER ")) indexBy=indexBy.substring(4)+", DER";
+		if (indexBy.startsWith("DAS ")) indexBy=indexBy.substring(4)+", DAS";
+		if (indexBy.startsWith("EIN ")) indexBy=indexBy.substring(4)+", EIN";
+		return indexBy;
+	}
+
 	private static String normalizeCharacters(String name)
 	{
 		StringBuilder buffer=new StringBuilder(name.length());
