@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<project name="JSP Test" default="build" basedir=".">
+
+<project name="Media Manager" default="build" basedir=".">
 
 	<property name="java.dir" value="c:/java"/>
 	<property name="build.compiler" value="jikes"/>
@@ -59,11 +60,19 @@
 		</copy>
 	</target>
 
-	<target name="meta">
-		<exec executable="c:\java\jdk\5.0\bin\apt.exe">
-			<arg line="-cp classes -nocompile -factorypath classes -factory com.kiwisoft.utils.db.DBMappingFactory @files"/>
-			<env key="java.home" value="c:\java\jdk\5.0"/>
+	<property name="dump.dir" value="${basedir}/db/dumps"/>
+
+	<target name="dump">
+		<input message="Password" addproperty="password" />
+		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/media.sql">
+			<arg line="--user=stefan --password=${password} --skip-extended-insert --opt --routines media"/>
 		</exec>
+		<zip file="${dump.dir}/dump.zip" update="false">
+			<fileset dir="${dump.dir}">
+				<include name="media.sql"/>
+			</fileset>
+		</zip>
+		<delete file="${dump.dir}/media.sql"/>
 	</target>
 
 </project>
