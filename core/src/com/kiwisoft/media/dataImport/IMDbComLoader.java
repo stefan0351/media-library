@@ -197,9 +197,11 @@ public class IMDbComLoader
 			index=page.indexOf("<tr", index);
 			if (index<0 || index>tableEnd) break;
 			int index2=page.indexOf("</tr>", index);
+			if (index2<0 || index>tableEnd) break;
 			String htmlRow=page.substring(index, index2);
+			index=index2;
 			List<String> row=XMLUtils.extractCellValues(htmlRow);
-			if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) break;
+			if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) continue;
 			String actor=XMLUtils.unescapeHtml(row.get(1));
 			String imdbKey=getNameLink(actor);
 			actor=XMLUtils.removeTags(actor).trim();
@@ -208,7 +210,6 @@ public class IMDbComLoader
 			{
 				movieData.addCast(new CastData(actor, role, creditOrder++, imdbKey));
 			}
-			index=index2;
 		}
 
 	}
