@@ -183,7 +183,7 @@ public abstract class TVComLoader implements Job
 
 	private void loadEpisode(Episode episode, EpisodeData episodeData, String episodeUrl) throws IOException
 	{
-		String episodePage=WebUtils.loadURL(episodeUrl);
+		String episodePage=loadUrl(episodeUrl);
 //		FileUtils.saveToFile(episodePage, new File("c:"+File.separator+"Incoming"+File.separator+"episode"+data.getEpisodeNumber()+".html"));
 
 		int index1=episodePage.indexOf("<div id=\"episode-tabs\">");
@@ -249,6 +249,24 @@ public abstract class TVComLoader implements Job
 			index1=index2;
 		}
 		saveEpisode(episode, episodeData);
+	}
+
+	private String loadUrl(String episodeUrl) throws IOException
+	{
+		int tries=0;
+		while (true)
+		{
+			try
+			{
+				return WebUtils.loadURL(episodeUrl);
+			}
+			catch (IOException e)
+			{
+				tries++;
+				if (tries<3) progress.warning(e.getMessage());
+				else throw e;
+			}
+		}
 	}
 
 	protected String[] resolveCastString(String cast)
