@@ -11,11 +11,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 22:33:53
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeleteVideoAction extends SimpleContextAction<Video>
 {
