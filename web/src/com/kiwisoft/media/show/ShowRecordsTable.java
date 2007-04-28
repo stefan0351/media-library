@@ -5,13 +5,11 @@ import java.util.ResourceBundle;
 
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.web.SortableWebTable;
+import com.kiwisoft.utils.gui.table.TableSortDescription;
+import com.kiwisoft.utils.gui.table.TableConstants;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 01.03.2007
- * Time: 11:13:53
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ShowRecordsTable extends SortableWebTable<Recording>
 {
@@ -30,6 +28,8 @@ public class ShowRecordsTable extends SortableWebTable<Recording>
 	{
 		Iterator it=show.getRecordings().iterator();
 		while (it.hasNext()) addRow(new RecordingRow((Recording)it.next()));
+		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
+		sort();
 	}
 
 	@Override
