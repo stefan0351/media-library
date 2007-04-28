@@ -12,6 +12,7 @@ import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.InvalidDataException;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 
 public class LinkDetailsView extends DetailsView
 {
@@ -32,7 +33,7 @@ public class LinkDetailsView extends DetailsView
 	private JTextField tfShow;
 	private JTextField tfName;
 	private JTextField tfUrl;
-	private JComboBox cbxLanguage;
+	private LookupField<Language> languageField;
 
 	private LinkDetailsView(Show show)
 	{
@@ -62,9 +63,7 @@ public class LinkDetailsView extends DetailsView
 		tfShow.setEditable(false);
 		tfUrl=new JTextField();
 		tfName=new JTextField();
-		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
-		cbxLanguage.updateUI();
-		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
+		languageField=new LookupField<Language>(new LanguageLookup());
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 150));
@@ -82,7 +81,7 @@ public class LinkDetailsView extends DetailsView
 
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxLanguage, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(languageField, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
 	private void initialize()
@@ -92,7 +91,7 @@ public class LinkDetailsView extends DetailsView
 		{
 			tfName.setText(link.getName());
 			tfUrl.setText(link.getUrl());
-			cbxLanguage.setSelectedItem(link.getLanguage());
+			languageField.setValue(link.getLanguage());
 		}
 	}
 
@@ -104,8 +103,8 @@ public class LinkDetailsView extends DetailsView
 			if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name is mssing!", tfName);
 			String url=tfUrl.getText();
 			if (StringUtils.isEmpty(url)) throw new InvalidDataException("URL is missing!", tfUrl);
-			Language language=(Language)cbxLanguage.getSelectedItem();
-			if (language==null) throw new InvalidDataException("Language is missing!", cbxLanguage);
+			Language language=languageField.getValue();
+			if (language==null) throw new InvalidDataException("Language is missing!", languageField);
 
 			Transaction transaction=null;
 			try

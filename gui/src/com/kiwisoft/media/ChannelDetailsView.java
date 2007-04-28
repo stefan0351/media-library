@@ -22,6 +22,7 @@ import com.kiwisoft.utils.gui.ImagePanel;
 import com.kiwisoft.utils.gui.ImageUpdater;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
 
 public class ChannelDetailsView extends DetailsView
@@ -36,7 +37,7 @@ public class ChannelDetailsView extends DetailsView
 	// Konfigurations Panel
 	private JTextField tfName;
 	private DialogLookupField tfLogo;
-	private JComboBox cbxLanguage;
+	private LookupField<Language> languageField;
 	private JCheckBox cbReceiving;
 	private NamesTableModel tmNames;
 
@@ -49,9 +50,7 @@ public class ChannelDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		tfName=new JTextField();
-		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
-		cbxLanguage.updateUI();
-		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
+		languageField=new LookupField<Language>(new LanguageLookup());
 		cbReceiving=new JCheckBox();
 		tfLogo=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true)
 		{
@@ -82,7 +81,7 @@ public class ChannelDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxLanguage, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
+		add(languageField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
 												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -117,7 +116,7 @@ public class ChannelDetailsView extends DetailsView
 		if (channel!=null)
 		{
 			tfName.setText(channel.getName());
-			cbxLanguage.setSelectedItem(channel.getLanguage());
+			languageField.setValue(channel.getLanguage());
 			tfLogo.setText(channel.getLogo());
 			cbReceiving.setSelected(channel.isReceivable());
 			Iterator it=channel.getAltNames().iterator();
@@ -130,7 +129,7 @@ public class ChannelDetailsView extends DetailsView
 		}
 		else
 		{
-			cbxLanguage.setSelectedItem(LanguageManager.getInstance().getLanguageBySymbol("de"));
+			languageField.setValue(LanguageManager.getInstance().getLanguageBySymbol("de"));
 			cbReceiving.setSelected(true);
 		}
 	}
@@ -144,11 +143,11 @@ public class ChannelDetailsView extends DetailsView
 			tfName.requestFocus();
 			return false;
 		}
-		Language language=(Language)cbxLanguage.getSelectedItem();
+		Language language=languageField.getValue();
 		if (language==null)
 		{
 			JOptionPane.showMessageDialog(this, "Language is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			cbxLanguage.requestFocus();
+			languageField.requestFocus();
 			return false;
 		}
 		boolean receiving=cbReceiving.isSelected();

@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
 import java.util.Date;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -49,7 +48,7 @@ public class AirdateDetailsView extends DetailsView
 	// Konfigurations Panel
 	private DateField tfDate;
 	private TimeField tfTime;
-	private JComboBox cbxLanguage;
+	private LookupField<Language> languageField;
 	private LookupField<Show> tfShow;
 	private LookupField<Episode> tfEpisode;
 	private LookupField<Movie> tfMovie;
@@ -77,9 +76,7 @@ public class AirdateDetailsView extends DetailsView
 	{
 		tfDate=new DateField();
 		tfTime=new TimeField();
-		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
-		cbxLanguage.updateUI();
-		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
+		languageField=new LookupField<Language>(new LanguageLookup());
 		tfShow=new LookupField<Show>(new ShowLookup());
 		tfEpisode=new LookupField<Episode>(new DialogEpisodeLookup());
 		tfMovie=new LookupField<Movie>(new MovieLookup());
@@ -109,7 +106,7 @@ public class AirdateDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxLanguage, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(languageField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -162,14 +159,14 @@ public class AirdateDetailsView extends DetailsView
 			tfEpisode.setValue(airdate.getEpisode());
 			tfMovie.setValue(airdate.getMovie());
 			tfChannel.setValue(airdate.getChannel());
-			cbxLanguage.setSelectedItem(airdate.getLanguage());
+			languageField.setValue(airdate.getLanguage());
 			DataSource dataSource=airdate.getDataSource();
 			if (dataSource!=null) tfDataSource.setText(dataSource.getName());
 		}
 		else
 		{
 			if (show!=null) tfShow.setValue(show);
-			cbxLanguage.setSelectedItem(LanguageManager.getInstance().getLanguageBySymbol("de"));
+			languageField.setValue(LanguageManager.getInstance().getLanguageBySymbol("de"));
 		}
 	}
 
@@ -180,7 +177,7 @@ public class AirdateDetailsView extends DetailsView
 		Show show=tfShow.getValue();
 		Episode episode=tfEpisode.getValue();
 		Movie movie=tfMovie.getValue();
-		Language language=(Language)cbxLanguage.getSelectedItem();
+		Language language=languageField.getValue();
 		Date date=tfDate.getDate();
 		if (date==null)
 		{

@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.LanguageComboBoxRenderer;
+import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
@@ -17,8 +17,6 @@ import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.media.movie.MovieLookupHandler;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.ShowLookup;
-import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.video.Video;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
@@ -44,7 +42,7 @@ public class RecordingDetailsView extends DetailsView
 	private Video video;
 
 	// Konfigurations Panel
-	private JComboBox cbxLanguage;
+	private LookupField<Language> tfLanguage;
 	private LookupField<Show> tfShow;
 	private LookupField<Episode> tfEpisode;
 	private LookupField<Movie> tfMovie;
@@ -71,9 +69,7 @@ public class RecordingDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
-		cbxLanguage.updateUI();
-		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
+		tfLanguage=new LookupField<Language>(new LanguageLookup());
 		tfShow=new LookupField<Show>(new ShowLookup());
 		tfEpisode=new LookupField<Episode>(new DialogEpisodeLookup());
 		tfMovie=new LookupField<Movie>(new MovieLookup(), new MovieLookupHandler());
@@ -95,7 +91,7 @@ public class RecordingDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbxLanguage, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(tfLanguage, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -150,14 +146,14 @@ public class RecordingDetailsView extends DetailsView
 			tfShow.setValue(recording.getShow());
 			tfEpisode.setValue(recording.getEpisode());
 			tfMovie.setValue(recording.getMovie());
-			cbxLanguage.setSelectedItem(recording.getLanguage());
+			tfLanguage.setValue(recording.getLanguage());
 			tfLength.setText(Integer.toString(recording.getLength()));
 			cbLongPlay.setSelected(recording.isLongPlay());
 		}
 		else if (video!=null)
 		{
 			tfVideo.setText(video.getName());
-			cbxLanguage.setSelectedItem(LanguageManager.getInstance().getLanguageBySymbol("de"));
+			tfLanguage.setValue(LanguageManager.getInstance().getLanguageBySymbol("de"));
 		}
 	}
 
@@ -168,7 +164,7 @@ public class RecordingDetailsView extends DetailsView
 		Show show=tfShow.getValue();
 		Episode episode=tfEpisode.getValue();
 		Movie movie=tfMovie.getValue();
-		Language language=(Language)cbxLanguage.getSelectedItem();
+		Language language=tfLanguage.getValue();
 		int length;
 		try
 		{

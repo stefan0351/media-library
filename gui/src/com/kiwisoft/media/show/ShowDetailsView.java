@@ -30,6 +30,7 @@ import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
@@ -49,7 +50,7 @@ public class ShowDetailsView extends DetailsView
 	private JTextField germanTitleField;
 	private DialogLookupField scheduleFileField;
 	private DialogLookupField indexByField;
-	private JComboBox cbxLanguage;
+	private LookupField<Language> languageField;
 	private JTextField episodeLengthField;
 	private DialogLookupField patternField;
 	private JCheckBox webShowField;
@@ -77,9 +78,7 @@ public class ShowDetailsView extends DetailsView
 		episodeLengthField.setHorizontalAlignment(JTextField.TRAILING);
 		scheduleFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		patternField=new DialogLookupField(new TVTVPatternLookup());
-		cbxLanguage=new JComboBox(LanguageManager.getInstance().getLanguages().toArray());
-		cbxLanguage.updateUI();
-		cbxLanguage.setRenderer(new LanguageComboBoxRenderer());
+		languageField=new LookupField<Language>(new LanguageLookup());
 		tmNames=new NamesTableModel();
 		SortableTable tblNames=new SortableTable(tmNames);
 		tblNames.initializeColumns(new MediaTableConfiguration("table.show.names"));
@@ -89,9 +88,9 @@ public class ShowDetailsView extends DetailsView
 		infosController=new TableController<ShowInfo>(tmInfos, new MediaTableConfiguration("table.show.infos"))
 		{
 			@Override
-			public List<ContextAction<ShowInfo>> getToolBarActions()
+			public List<ContextAction<? super ShowInfo>> getToolBarActions()
 			{
-				List<ContextAction<ShowInfo>> actions=new ArrayList<ContextAction<ShowInfo>>(2);
+				List<ContextAction<? super ShowInfo>> actions=new ArrayList<ContextAction<? super ShowInfo>>(2);
 				actions.add(new NewInfoAction());
 				actions.add(new DeleteInfoAction());
 				return actions;
@@ -119,7 +118,7 @@ public class ShowDetailsView extends DetailsView
 		add(new JScrollPane(tblGenres), new GridBagConstraints(5, row, 1, 4, 0.5, 0.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(cbxLanguage, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(languageField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Episode Runtime:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(episodeLengthField, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
@@ -180,7 +179,7 @@ public class ShowDetailsView extends DetailsView
 				tmNames.addName(name.getName(), name.getLanguage());
 			}
 			tmNames.sort();
-			cbxLanguage.setSelectedItem(show.getLanguage());
+			languageField.setValue(show.getLanguage());
 			String logoMini=show.getLogoMini();
 			if (!StringUtils.isEmpty(logoMini))
 			{
@@ -243,11 +242,11 @@ public class ShowDetailsView extends DetailsView
 			episodeLengthField.requestFocus();
 			return false;
 		}
-		final Language language=(Language)cbxLanguage.getSelectedItem();
+		final Language language=languageField.getValue();
 		if (language==null)
 		{
 			JOptionPane.showMessageDialog(this, "Language is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			cbxLanguage.requestFocus();
+			languageField.requestFocus();
 			return false;
 		}
 		final String tvtvPattern=patternField.getText();
