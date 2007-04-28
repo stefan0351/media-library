@@ -2,9 +2,11 @@ package com.kiwisoft.media;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.MenuItem;
 import java.io.File;
 import java.util.Locale;
 import javax.swing.UIManager;
+import javax.swing.ImageIcon;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.Configurator;
@@ -45,6 +47,9 @@ public class MediaManager
 		{
 			e.printStackTrace();
 		}
+		UIManager.put("MenuItem.checkIcon", Icons.ICON_1X1);
+		UIManager.put("MenuItem.arrayIcon", Icons.ICON_1X1);
+
 		splashWindow=new SplashWindow(Icons.getIcon("splash"));
 		splashWindow.setStatus("MediaManager Version 2.0");
 		splashWindow.setVisible(true);
