@@ -19,6 +19,8 @@ import com.kiwisoft.media.person.Gender;
 import com.kiwisoft.media.person.GenderFormat;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.photos.PhotosTask;
+import com.kiwisoft.media.pics.PictureFormat;
+import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
@@ -53,13 +55,20 @@ public class MediaManagerFrame extends ApplicationFrame
 		return new IntroPanel();
 	}
 
-	protected void initializeTableComponents()
+	@Override
+	protected void initializeFormats()
 	{
+		super.initializeFormats();
 		FormatManager formatManager=FormatManager.getInstance();
 		formatManager.setFormat(Language.class, new LanguageFormat());
 		formatManager.setFormat(Country.class, new CountryFormat());
 		formatManager.setFormat(Gender.class, new GenderFormat());
+		formatManager.setFormat(Picture.class, new PictureFormat());
+	}
 
+	protected void initializeTableComponents()
+	{
+		super.initializeTableComponents();
 		TableEditorFactory editorFactory=TableEditorFactory.getInstance();
 		editorFactory.setEditor(Language.class, new LanguageLookup());
 		editorFactory.setEditor(Pairing.class, new PairingLookup());
@@ -82,6 +91,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		tasks.add(new ScheduleTask());
 		tasks.add(new PersonsTask());
 		if (Configurator.getInstance().getBoolean("fanfics.enabled", false)) tasks.add(new FanFicTask());
+		tasks.add(new DataTask());
 		return tasks;
 
 	}

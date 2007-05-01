@@ -12,6 +12,7 @@ import com.kiwisoft.utils.db.Identifyable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.pics.Picture;
 
 public class CastMember extends IDObject
 {
@@ -22,10 +23,9 @@ public class CastMember extends IDObject
 	public static final String VOICE="voice";
 	public static final String CHARACTER_NAME="characterName";
 	public static final String CREDIT_TYPE="creditType";
+	public static final String PICTURE="picture";
 
 	private String voice;
-	private String imageSmall;
-	private String imageLarge;
 	private String characterName;
 	private String description;
 	private Integer creditOrder;
@@ -79,6 +79,16 @@ public class CastMember extends IDObject
 		setReference(MOVIE, value);
 	}
 
+	public Picture getPicture()
+	{
+		return (Picture)getReference(PICTURE);
+	}
+
+	public void setPicture(Picture picture)
+	{
+		setReference(PICTURE, picture);
+	}
+
 	public CreditType getCreditType()
 	{
 		return (CreditType)getReference(CREDIT_TYPE);
@@ -124,28 +134,6 @@ public class CastMember extends IDObject
 		this.voice=voice;
 		setModified();
 		firePropertyChange(VOICE, oldVoice, voice);
-	}
-
-	public String getImageSmall()
-	{
-		return imageSmall;
-	}
-
-	public void setImageSmall(String imageSmall)
-	{
-		this.imageSmall=imageSmall;
-		setModified();
-	}
-
-	public String getImageLarge()
-	{
-		return imageLarge;
-	}
-
-	public void setImageLarge(String imageLarge)
-	{
-		this.imageLarge=imageLarge;
-		setModified();
 	}
 
 	public String getDescription()

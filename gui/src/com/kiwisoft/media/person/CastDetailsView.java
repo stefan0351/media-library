@@ -2,27 +2,20 @@ package com.kiwisoft.media.person;
 
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
-import com.kiwisoft.media.WebFileLookup;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.StringUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.ImagePanel;
-import com.kiwisoft.utils.gui.ImageUpdater;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.lookup.LookupHandler;
+import com.kiwisoft.utils.gui.*;
+import com.kiwisoft.utils.gui.lookup.*;
 
 public class CastDetailsView extends DetailsView
 {
@@ -44,9 +37,8 @@ public class CastDetailsView extends DetailsView
 	private JTextField tfCharacter;
 	private LookupField<Person> tfActor;
 	private JTextField tfVoice;
-	private DialogLookupField tfImageSmall;
-	private DialogLookupField tfImageLarge;
 	private JTextPane tfDescription;
+	private LookupField<Picture> pictureField;
 
 	private CastDetailsView(CastMember cast)
 	{
@@ -69,62 +61,50 @@ public class CastDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfCharacter=new JTextField(200);
-		tfActor=new LookupField<Person>(new PersonLookup(), new ActorLookupHandler());
+		tfCharacter=new JTextField(40);
+		tfActor=new LookupField<Person>(new PersonLookup(), new PersonLookupHandler());
 		tfVoice=new JTextField();
-		tfImageSmall=new DialogLookupField(new WebFileLookup(false));
-		tfImageLarge=new DialogLookupField(new WebFileLookup(false));
-		ImagePanel ipImageSmall=new ImagePanel(new Dimension(160, 120));
-		ipImageSmall.setBorder(new EtchedBorder());
-		ImagePanel ipImageLarge=new ImagePanel(new Dimension(160, 120));
-		ipImageLarge.setBorder(new EtchedBorder());
 		tfDescription=new JTextPane();
+		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
+		picturePreview.setBorder(new EtchedBorder());
+		pictureField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler());
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(600, 450));
+		setPreferredSize(new Dimension(600, 300));
 		int row=0;
 		row++;
+		add(picturePreview,
+			new GridBagConstraints(0, row, 1, 10, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 10), 0, 0));
 		add(new JLabel("Role:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(tfCharacter,
-			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Actor/Actress:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfActor,
-			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("German Voice:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(tfVoice,
-			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Photo (small):"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfImageSmall,
-			new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(ipImageSmall,
-			new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
-		add(new JLabel("Photo (large):"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfImageLarge,
-			new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(ipImageLarge,
-			new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Picture:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(pictureField,
+			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Summary:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(new JScrollPane(tfDescription),
-			new GridBagConstraints(1, row, 2, 1, 1.0, 0.5, WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+			new GridBagConstraints(2, row, 2, 1, 1.0, 0.5, WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
-		new ImageUpdater(tfImageSmall.getTextField(), ipImageSmall);
-		new ImageUpdater(tfImageLarge.getTextField(), ipImageLarge);
+		new PicturePreviewUpdater(pictureField, picturePreview);
 	}
 
 	private void initializeData()
@@ -134,12 +114,7 @@ public class CastDetailsView extends DetailsView
 			tfActor.setValue(cast.getActor());
 			tfCharacter.setText(cast.getCharacterName());
 			tfVoice.setText(cast.getVoice());
-			String imageSmall=cast.getImageSmall();
-			if (!isEmpty(imageSmall))
-				tfImageSmall.setText(new File(Configurator.getInstance().getString("path.root"), imageSmall).getAbsolutePath());
-			String imageLarge=cast.getImageLarge();
-			if (!isEmpty(imageLarge))
-				tfImageLarge.setText(new File(Configurator.getInstance().getString("path.root"), imageLarge).getAbsolutePath());
+			pictureField.setValue(cast.getPicture());
 			tfDescription.setText(cast.getDescription());
 		}
 	}
@@ -150,29 +125,7 @@ public class CastDetailsView extends DetailsView
 		Person actor=tfActor.getValue();
 		String voice=tfVoice.getText();
 		if (isEmpty(voice)) voice=null;
-		String imageSmall=tfImageSmall.getText();
-		String imageLarge=tfImageLarge.getText();
-		try
-		{
-			if (!isEmpty(imageSmall))
-			{
-				imageSmall=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), imageSmall);
-				imageSmall=StringUtils.replaceStrings(imageSmall, "\\", "/");
-			}
-			else imageSmall=null;
-			if (!isEmpty(imageLarge))
-			{
-				imageLarge=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), imageLarge);
-				imageLarge=StringUtils.replaceStrings(imageLarge, "\\", "/");
-			}
-			else imageLarge=null;
-		}
-		catch (IOException e)
-		{
-			JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
-			tfImageSmall.requestFocus();
-			return false;
-		}
+		Picture picture=pictureField.getValue();
 		String description=tfDescription.getText();
 
 		Transaction transaction=null;
@@ -187,8 +140,7 @@ public class CastDetailsView extends DetailsView
 			cast.setActor(actor);
 			cast.setCharacterName(character);
 			cast.setVoice(voice);
-			cast.setImageSmall(imageSmall);
-			cast.setImageLarge(imageLarge);
+			cast.setPicture(picture);
 			cast.setDescription(description);
 			transaction.close();
 			return true;
@@ -209,7 +161,7 @@ public class CastDetailsView extends DetailsView
 		}
 	}
 
-	private class ActorLookupHandler implements LookupHandler<Person>
+	private class PersonLookupHandler implements LookupHandler<Person>
 	{
 		public boolean isCreateAllowed()
 		{

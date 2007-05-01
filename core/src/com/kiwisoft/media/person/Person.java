@@ -14,6 +14,7 @@ import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.DBLoader;
@@ -27,6 +28,7 @@ public class Person extends IDObject
 	public static final String SURNAME="surname";
 	public static final String NAME="name";
 	public static final String GENDER="gender";
+	public static final String PICTURE="picture";
 
 	private String firstName;
 	private String middleName;
@@ -98,6 +100,16 @@ public class Person extends IDObject
 	public void setSex(Gender gender)
 	{
 		setReference(GENDER, gender);
+	}
+
+	public Picture getPicture()
+	{
+		return (Picture)getReference(PICTURE);
+	}
+
+	public void setPicture(Picture picture)
+	{
+		setReference(PICTURE, picture);
 	}
 
 	public boolean isActor()

@@ -183,7 +183,7 @@ public class MoviesView extends ViewPanel
 			if ("title".equals(property)) return getUserObject().getTitle();
 			else if ("germanTitle".equals(property)) return getUserObject().getGermanTitle();
 			else if ("year".equals(property)) return getUserObject().getYear();
-			else if ("poster".equals(property)) return getUserObject().getPosterMini();
+			else if ("poster".equals(property)) return getUserObject().hasPoster();
 			return null;
 		}
 	}

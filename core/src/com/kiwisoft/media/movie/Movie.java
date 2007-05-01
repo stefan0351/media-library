@@ -19,6 +19,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.video.Recordable;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.person.CrewMember;
@@ -33,6 +34,7 @@ public class Movie extends IDObject implements Recordable, Production
 	public static final String LANGUAGES="languages";
 	public static final String COUNTRIES="countries";
 	public static final String INDEX_BY="indexBy";
+	public static final String POSTER="poster";
 
 	private static final DBAssociation<Movie, Genre> ASSOCIATION_GENRES
 		=DBAssociation.getAssociation(GENRES, Movie.class, Genre.class);
@@ -47,7 +49,6 @@ public class Movie extends IDObject implements Recordable, Production
 	private Set<Name> altNames;
 	private String javaScript;
 	private String webScriptFile;
-	private String posterMini;
 	private Integer year;
 	private Integer runtime;
 	private String indexBy;
@@ -199,6 +200,16 @@ public class Movie extends IDObject implements Recordable, Production
 		setModified();
 	}
 
+	public Picture getPoster()
+	{
+		return (Picture)getReference(POSTER);
+	}
+
+	public void setPoster(Picture picture)
+	{
+		setReference(POSTER, picture);
+	}
+
 	public String getJavaScript()
 	{
 		return javaScript;
@@ -218,17 +229,6 @@ public class Movie extends IDObject implements Recordable, Production
 	public void setWebScriptFile(String webScriptFile)
 	{
 		this.webScriptFile=webScriptFile;
-		setModified();
-	}
-
-	public String getPosterMini()
-	{
-		return posterMini;
-	}
-
-	public void setPosterMini(String posterMini)
-	{
-		this.posterMini=posterMini;
 		setModified();
 	}
 
@@ -393,5 +393,10 @@ public class Movie extends IDObject implements Recordable, Production
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public boolean hasPoster()
+	{
+		return getReferenceId(POSTER)!=null;
 	}
 }

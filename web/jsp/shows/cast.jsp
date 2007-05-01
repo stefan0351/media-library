@@ -1,14 +1,14 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import = "java.util.Iterator,
 				   java.util.Set,
+				   org.apache.commons.lang.StringEscapeUtils,
 				   com.kiwisoft.media.Navigation,
 				   com.kiwisoft.media.person.CastMember,
-				   com.kiwisoft.media.show.Show,
-				   com.kiwisoft.media.show.ShowManager,
-				   com.kiwisoft.utils.StringUtils" %>
-<%@ page import="com.kiwisoft.web.JspUtils"%>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@ page import="com.kiwisoft.utils.Utils" %>
+				   com.kiwisoft.media.pics.Picture,
+				   com.kiwisoft.media.show.Show" %>
+<%@ page import="com.kiwisoft.media.show.ShowManager"%>
+<%@ page import="com.kiwisoft.utils.Utils"%>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -64,19 +64,14 @@
 %>
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			if (!StringUtils.isEmpty(castMember.getImageSmall()))
+			Picture picture=castMember.getPicture();
+			if (picture==null) picture=castMember.getActor().getPicture();
+			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
 %>
-			<img src="/<%=castMember.getImageSmall()%>" border="0" vspace="5" hspace="5"
-<%
-				if (!StringUtils.isEmpty(castMember.getImageLarge()))
-				{
-%>
-					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=castMember.getImageLarge()%>')" onMouseOut="nd()"
-<%
-				}
-%>
-			>
+				<img src="/<%=picture.getThumbnail50x50().getFile().replace('\\', '/')%>" border="0" vspace="5" hspace="5"
+					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
+					onMouseOut="nd()">
 <%
 			}
 			row=!row;
@@ -115,19 +110,14 @@
 %>
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			if (!StringUtils.isEmpty(castMember.getImageSmall()))
+			Picture picture=castMember.getPicture();
+			if (picture==null) picture=castMember.getActor().getPicture();
+			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
 %>
-			<img src="/<%=castMember.getImageSmall()%>" border="0" vspace="5" hspace="5"
-<%
-				if (!StringUtils.isEmpty(castMember.getImageLarge()))
-				{
-%>
-					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=castMember.getImageLarge()%>')" onMouseOut="nd()"
-<%
-				}
-%>
-			>
+				<img src="/<%=picture.getThumbnail50x50().getFile().replace('\\', '/')%>" border="0" vspace="5" hspace="5"
+					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
+					onMouseOut="nd()">
 <%
 			}
 			row=!row;

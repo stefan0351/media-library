@@ -3,6 +3,8 @@
 				 com.kiwisoft.media.show.Show" %>
 <%@ page import="com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.media.Navigation"%>
+<%@ page import="com.kiwisoft.media.pics.Picture" %>
+<%@ page import="com.kiwisoft.media.pics.Thumbnail" %>
 
 <%
 	Movie movie=(Movie)request.getAttribute("movie");
@@ -12,11 +14,29 @@
 <table class="menutable">
 <tr><td class="menuheader">Movie</td></tr>
 <%
-	String posterPath=movie.getPosterMini();
-	if (!StringUtils.isEmpty(posterPath))
+	String thumbnailPath=null;
+	String posterPath=null;
+	Picture poster=movie.getPoster();
+	if (poster!=null)
+	{
+		Thumbnail thumbnail=poster.getThumbnailSidebar();
+		if (thumbnail!=null) thumbnailPath=thumbnail.getFile();
+		else if (poster.getWidth()<=170) thumbnailPath=poster.getFile();
+		if (poster.getWidth()>170) posterPath=poster.getFile();
+	}
+	if (!StringUtils.isEmpty(thumbnailPath))
 	{
 %>
-<tr><td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=posterPath%>"></td></tr>
+<tr><td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=thumbnailPath.replace('\\', '/')%>"
+<%
+		if (!StringUtils.isEmpty(posterPath))
+		{
+%>
+			onMouseOver="imagePopup('Poster', '/<%=posterPath.replace('\\', '/')%>')" onMouseOut="nd()"
+<%
+		}
+%>
+	></td></tr>
 <tr><td><hr size=1 color=black></td></tr>
 <%
 	}

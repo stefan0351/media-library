@@ -125,11 +125,11 @@
 		<field name="javaScript" column="javascript"/>
 		<field name="webScriptFile" column="webscriptfile"/>
 		<field name="lastModified" column="lastmodified"/>
-		<field name="posterMini" column="poster_mini"/>
 		<field name="year" column="year"/>
 		<field name="runtime" column="runtime"/>
 		<field name="imdbKey" column="imdb_key"/>
 		<reference name="show" column="show_id" type="Show"/>
+		<reference name="poster" column="poster_id" type="Picture"/>
 	</mapping>
 	<mapping name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id">
 		<field name="id" column="id"/>
@@ -150,13 +150,12 @@
 		<field name="imdbKey" column="imdb_key"/>
 		<field name="tvcomKey" column="tvcom_key"/>
 		<reference name="gender" column="gender_id"/>
+		<reference name="picture" column="picture_id" type="Picture"/>
 	</mapping>
 	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="voice" column="voice"/>
 		<field name="lastModified" column="lastmodified"/>
-		<field name="imageSmall" column="image_small"/>
-		<field name="imageLarge" column="image_large"/>
 		<field name="description" column="description"/>
 		<field name="characterName" column="character_name"/>
 		<field name="creditOrder" column="credit_order"/>
@@ -164,6 +163,7 @@
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
+		<reference name="picture" column="picture_id" type="Picture"/>
 		<reference name="creditType" column="credit_type_id"/>
 	</mapping>
 	<mapping name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified">
@@ -256,6 +256,23 @@
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
+	</mapping>
+	<mapping name="Picture" class="com.kiwisoft.media.pics.Picture" table="pictures" primaryKey="id" lastModified="lastmodified">
+		<field name="id" column="id"/>
+		<field name="name" column="name"/>
+		<field name="file" column="file"/>
+		<field name="width" column="width"/>
+		<field name="height" column="height"/>
+		<field name="lastModified" column="lastmodified"/>
+		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="Thumbnail"/>
+		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="Thumbnail"/>
+	</mapping>
+	<mapping name="Thumbnail" class="com.kiwisoft.media.pics.Thumbnail" table="thumbnails" primaryKey="id" lastModified="lastmodified">
+		<field name="id" column="id"/>
+		<field name="file" column="file"/>
+		<field name="width" column="width"/>
+		<field name="height" column="height"/>
+		<field name="lastModified" column="lastmodified"/>
 	</mapping>
 	<association table="map_fanfic_pairing">
 		<element type="FanFic" name="pairings" column="fanfic_id"/>

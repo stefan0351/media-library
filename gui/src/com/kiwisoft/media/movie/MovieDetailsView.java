@@ -2,8 +2,6 @@ package com.kiwisoft.media.movie;
 
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,10 +12,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
@@ -25,6 +25,7 @@ import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
 
@@ -65,12 +66,12 @@ public class MovieDetailsView extends DetailsView
 	private JTextField javaScriptField;
 	private DialogLookupField transcriptField;
 	private NamesTableModel namesModel;
-	private DialogLookupField posterField;
 	private JFormattedTextField yearField;
 	private JFormattedTextField runtimeField;
 	private ObjectTableModel<Genre> genresModel;
 	private ObjectTableModel<Language> languagesModel;
 	private ObjectTableModel<Country> countriesModel;
+	private LookupField<Picture> posterField;
 
 	private MovieDetailsView(Show show)
 	{
@@ -116,12 +117,7 @@ public class MovieDetailsView extends DetailsView
 			languagesModel.setObjects(movie.getLanguages());
 			countriesModel.setObjects(movie.getCountries());
 			namesModel.sort();
-			String posterMini=movie.getPosterMini();
-			if (!StringUtils.isEmpty(posterMini))
-			{
-				posterMini=new File(Configurator.getInstance().getString(PATH_ROOT), posterMini).getAbsolutePath();
-				posterField.setText(posterMini);
-			}
+			posterField.setValue(movie.getPoster());
 		}
 		else if (show!=null)
 		{
@@ -155,22 +151,7 @@ public class MovieDetailsView extends DetailsView
 		Collection<Language> languages=languagesModel.getObjects();
 		Collection<Country> countries=countriesModel.getObjects();
 		Collection<Genre> genres=genresModel.getObjects();
-		String posterMini=posterField.getText();
-		if (!StringUtils.isEmpty(posterMini))
-		{
-			try
-			{
-				posterMini=FileUtils.getRelativePath(Configurator.getInstance().getString(PATH_ROOT), posterMini);
-				posterMini=StringUtils.replaceStrings(posterMini, "\\", "/");
-			}
-			catch (IOException e)
-			{
-				JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				posterField.requestFocus();
-				return false;
-			}
-		}
-		else posterMini=null;
+		Picture poster=posterField.getValue();
 
 		Transaction transaction=null;
 		try
@@ -186,7 +167,7 @@ public class MovieDetailsView extends DetailsView
 			movie.setGermanTitle(germanName);
 			movie.setRecord(record);
 			movie.setJavaScript(javascript);
-			movie.setPosterMini(posterMini);
+			movie.setPoster(poster);
 			movie.setWebScriptFile(script);
 			movie.setYear((Integer)yearField.getValue());
 			movie.setRuntime((Integer)runtimeField.getValue());
@@ -233,7 +214,14 @@ public class MovieDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		posterField=new DialogLookupField(new WebFileLookup(false));
+		posterField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		{
+			@Override
+			public String getDefaultName()
+			{
+				return titleField.getText();
+			}
+		});
 		ImagePanel posterPreview=new ImagePanel(new Dimension(150, 200));
 		posterPreview.setBorder(new EtchedBorder());
 		showField=new JTextField();
@@ -325,14 +313,13 @@ public class MovieDetailsView extends DetailsView
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Poster (mini):"),
+		add(new JLabel("Poster:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(posterField,
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
-
 		titleField.getDocument().addDocumentListener(new FrameTitleUpdater());
-		new ImageUpdater(posterField.getTextField(), posterPreview);
+		new PicturePreviewUpdater(posterField, posterPreview);
 	}
 
 	public JComponent getDefaultFocusComponent()
@@ -362,5 +349,4 @@ public class MovieDetailsView extends DetailsView
 			return Icons.getIcon("lookup.create");
 		}
 	}
-
 }

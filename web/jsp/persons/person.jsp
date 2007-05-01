@@ -16,6 +16,11 @@
 	Long personId=new Long(request.getParameter("id"));
 	Person person=PersonManager.getInstance().getPerson(personId);
 	request.setAttribute("person", person);
+
+	Credits actingCredits=person.getActingCredits();
+	request.setAttribute("actingCredits", actingCredits);
+	Map creditMap=person.getCrewCredits();
+	request.setAttribute("crewCredits", creditMap);
 %>
 <html>
 
@@ -41,6 +46,7 @@
 <td width="200">
 	<!--Navigation Start-->
 
+	<jsp:include page="_nav.jsp"/>
 	<jsp:include page="/_nav.jsp"/>
 
 	<!--Navigation End-->
@@ -57,7 +63,6 @@
 <td class="content">
 
 <%
-	Credits actingCredits=person.getActingCredits();
 	if (!actingCredits.isEmpty())
 	{
 %>
@@ -152,7 +157,6 @@
 <%
 	}
 
-	Map creditMap=person.getCrewCredits();
 	for (Iterator itTypes=creditMap.keySet().iterator(); itTypes.hasNext();)
 	{
 		CreditType type=(CreditType)itTypes.next();
