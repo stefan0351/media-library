@@ -57,6 +57,7 @@ public class PhotosView extends ViewPanel
 		toolBarActions=new ArrayList<ContextAction<? super Photo>>(2);
 		toolBarActions.add(new AddPhotoAction(frame, photoBook));
 		toolBarActions.add(new DeletePhotoAction(frame));
+		toolBarActions.add(new ShowPhotoAction());
 		ComplexAction<Photo> rotateAction=new ComplexAction<Photo>("Rotate", Icons.getIcon("rotate"));
 		rotateAction.addAction(new RotatePhotoAction(frame, 90));
 		rotateAction.addAction(new RotatePhotoAction(frame, 180));
