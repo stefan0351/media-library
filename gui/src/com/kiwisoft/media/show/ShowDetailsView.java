@@ -255,17 +255,8 @@ public class ShowDetailsView extends DetailsView
 		String logoMini=tfLogo.getText();
 		if (!StringUtils.isEmpty(logoMini))
 		{
-			try
-			{
-				logoMini=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), logoMini);
-				logoMini=StringUtils.replaceStrings(logoMini, "\\", "/");
-			}
-			catch (IOException e)
-			{
-				JOptionPane.showMessageDialog(this, e.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				tfLogo.requestFocus();
-				return false;
-			}
+			logoMini=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), logoMini);
+			logoMini=StringUtils.replaceStrings(logoMini, "\\", "/");
 		}
 		else logoMini=null;
 		final List<WebInfosTableModel.Row> infoRows=new ArrayList<WebInfosTableModel.Row>();

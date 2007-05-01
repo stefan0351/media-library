@@ -150,19 +150,9 @@ public class FanFicDetailsView extends DetailsView
 				tblParts.requestFocus();
 				return false;
 			}
-			try
-			{
-				source=FileUtils.getRelativePath(Configurator.getInstance().getString("path.fanfics"), source);
-				source=StringUtils.replaceStrings(source, "\\", "/");
-				sources.add(source);
-			}
-			catch (IOException e)
-			{
-				JOptionPane.showMessageDialog(this, e.getMessage(), "IOException", JOptionPane.ERROR_MESSAGE);
-				tblParts.getSelectionModel().setSelectionInterval(i, i);
-				tblParts.requestFocus();
-				return false;
-			}
+			source=FileUtils.getRelativePath(Configurator.getInstance().getString("path.fanfics"), source);
+			source=StringUtils.replaceStrings(source, "\\", "/");
+			sources.add(source);
 		}
 		Set<Author> authors=new HashSet<Author>(tmAuthors.getObjects());
 		if (authors.isEmpty())
