@@ -28,6 +28,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class ShowsView extends ViewPanel
 {
@@ -43,7 +44,7 @@ public class ShowsView extends ViewPanel
 
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		ShowsTableModel tmShows=new ShowsTableModel();
+		SortableTableModel<Show> tmShows=new DefaultSortableTableModel<Show>("title", "germanTitle", "type");
 		Collection<Show> shows;
 		if (genre!=null) shows=genre.getShows();
 		else shows=ShowManager.getInstance().getShows();
@@ -143,21 +144,6 @@ public class ShowsView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class ShowsTableModel extends SortableTableModel<Show>
-	{
-		private static final String[] COLUMNS={"title", "germanTitle", "type"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

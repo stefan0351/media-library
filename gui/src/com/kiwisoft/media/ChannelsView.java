@@ -19,8 +19,9 @@ import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class ChannelsView extends ViewPanel
 {
@@ -38,7 +39,7 @@ public class ChannelsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		ChannelsTableModel tmChannels=new ChannelsTableModel();
+		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>("name", "receiving");
 		for (Channel channel : ChannelManager.getInstance().getChannels())
 		{
 			tmChannels.addRow(new ChannelTableRow(channel));
@@ -117,21 +118,6 @@ public class ChannelsView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class ChannelsTableModel extends SortableTableModel<Channel>
-	{
-		private static final String[] COLUMNS={"name", "receiving"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

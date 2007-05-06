@@ -11,6 +11,7 @@ public class DataTask extends MenuSidebarItem.Task
 	public DataTask()
 	{
 		super("Data");
+		add(new ChannelsTask());
 		add(new PicturesTask());
 	}
 }

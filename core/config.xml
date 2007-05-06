@@ -11,6 +11,7 @@
 	<parameter name="file.web.dates">c:\Webpages\www.tv-scripte.de\index.html</parameter>
 
 	<parameter name="path.root">c:\Webpages\local</parameter>
+	<parameter name="path.books.covers">c:\Webpages\local\books\covers</parameter>
 	<parameter name="path.shows">c:\Webpages\local\shows</parameter>
 	<parameter name="path.fanfics">c:\Webpages\local\fanfic\authors</parameter>
 	<parameter name="path.dates.p7">c:\incoming\pro7.xml</parameter>
@@ -20,6 +21,7 @@
 	<parameter name="path.logos.channels.web">c:\Webpages\www.tv-scripte.de\clipart\tv_logos</parameter>
 	<parameter name="path.photos.thumbnails">c:\Webpages\local\photos\thumbnails</parameter>
 	<parameter name="url.logos.channels.web">/clipart/tv_logos</parameter>
+	<parameter name="image.editor">C:\Programme\iGrafx\Image\1.0\IGXIMG.EXE</parameter>
 
 	<parameter name="reminder">false</parameter>
 	<parameter name="download.p7.date">26.04.2003</parameter>

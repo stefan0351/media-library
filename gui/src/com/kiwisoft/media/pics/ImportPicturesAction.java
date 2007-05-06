@@ -18,7 +18,7 @@ public class ImportPicturesAction extends ContextAction<Picture>
 
 	public ImportPicturesAction(ApplicationFrame frame)
 	{
-		super("Import");
+		super("Import Pictures");
 		this.frame=frame;
 	}
 

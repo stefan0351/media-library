@@ -17,6 +17,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class SeasonsView extends ViewPanel
 {
@@ -37,7 +38,7 @@ public class SeasonsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SeasonsTableModel tableModel=new SeasonsTableModel();
+		SortableTableModel<Season> tableModel=new DefaultSortableTableModel<Season>("name", "years");
 		createTableData(tableModel);
 
 		tableController=new TableController<Season>(tableModel, new MediaTableConfiguration("table.seasons"))
@@ -75,7 +76,7 @@ public class SeasonsView extends ViewPanel
 		return tableController.createComponent();
 	}
 
-	private void createTableData(SeasonsTableModel tableModel)
+	private void createTableData(SortableTableModel<Season> tableModel)
 	{
 		for (Season season : show.getSeasons()) tableModel.addRow(new SeasonTableRow(season));
 		tableModel.sort();
@@ -123,21 +124,6 @@ public class SeasonsView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class SeasonsTableModel extends SortableTableModel<Season>
-	{
-		private static final String[] COLUMNS={"name", "years"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

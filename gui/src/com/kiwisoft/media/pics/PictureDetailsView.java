@@ -159,8 +159,7 @@ public class PictureDetailsView extends DetailsView
 		}
 		catch (InvalidDataException e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Invalid Data", JOptionPane.INFORMATION_MESSAGE);
-			e.getComponent().requestFocus();
+			e.handle();
 		}
 		catch (Exception e)
 		{

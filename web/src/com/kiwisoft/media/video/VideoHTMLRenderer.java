@@ -31,20 +31,21 @@ public class VideoHTMLRenderer extends DefaultHTMLRenderer
 			Video video=(Video)value;
 			StringBuilder buffer=new StringBuilder();
 			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(video)).append("\">");
+			String key=video.getFullKey();
 			if (FULL.equals(variant))
 			{
 				if (!StringUtils.isEmpty(video.getName())) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
-				if (!StringUtils.isEmpty(video.getUserKey()))
+				if (!StringUtils.isEmpty(key))
 				{
 					buffer.append(" (");
-					buffer.append(StringEscapeUtils.escapeHtml(video.getUserKey()));
+					buffer.append(StringEscapeUtils.escapeHtml(key));
 					buffer.append(")");
 				}
 			}
 			else
 			{
-				if (NAME.equals(variant) || video.getUserKey()==null) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
-				else buffer.append(StringEscapeUtils.escapeHtml(video.getUserKey()));
+				if (NAME.equals(variant) || key==null) buffer.append(StringEscapeUtils.escapeHtml(video.getName()));
+				else buffer.append(StringEscapeUtils.escapeHtml(key));
 			}
 			buffer.append("</a>");
 			if (FULL.equals(variant))

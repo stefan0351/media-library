@@ -22,7 +22,6 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
  */
 public class PicturesImport implements Job
 {
-
 	private File directory;
 	private String rootPath;
 

@@ -15,7 +15,7 @@ public class Video extends IDObject
 	public static final String RECORDINGS="recordings";
 	public static final String TYPE="type";
 
-	private String userKey;
+	private Integer userKey;
 	private String name;
 	private int length;
 	private int remainingLength;
@@ -25,7 +25,7 @@ public class Video extends IDObject
 
 	public Video()
 	{
-		setUserKey("D"+SequenceManager.getSequence("video").next());
+		setUserKey((int)SequenceManager.getSequence("video").next());
 	}
 
 	public Video(DBDummy dummy)
@@ -33,12 +33,25 @@ public class Video extends IDObject
 		super(dummy);
 	}
 
-	public String getUserKey()
+	public String getFullKey()
+	{
+		if (userKey!=null)
+		{
+			StringBuilder builder=new StringBuilder();
+			MediumType type=getType();
+			if (type!=null) builder.append(type.getUserKeyPrefix());
+			builder.append(userKey);
+			return builder.toString();
+		}
+		return null;
+	}
+
+	public Integer getUserKey()
 	{
 		return userKey;
 	}
 
-	public void setUserKey(String userKey)
+	public void setUserKey(Integer userKey)
 	{
 		this.userKey=userKey;
 		setModified();

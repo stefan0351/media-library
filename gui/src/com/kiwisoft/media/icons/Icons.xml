@@ -102,4 +102,7 @@
 	<icon key="no-photo-available">
 		<resource url="/com/kiwisoft/media/icons/no_photo_available.jpg"/>
 	</icon>
+	<icon key="manage">
+		<resource url="/com/kiwisoft/media/icons/database_gear.png"/>
+	</icon>
 </icons>

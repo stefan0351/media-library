@@ -9,11 +9,7 @@ import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.Language;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 19.05.2004
- * Time: 21:56:27
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ShowRecordsTableModel extends SortableTableModel<Recording>
 {

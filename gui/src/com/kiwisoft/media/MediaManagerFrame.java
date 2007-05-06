@@ -14,13 +14,12 @@ import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.video.AllVideosTask;
 import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.dataImport.*;
-import com.kiwisoft.media.person.PersonsTask;
-import com.kiwisoft.media.person.Gender;
-import com.kiwisoft.media.person.GenderFormat;
+import com.kiwisoft.media.person.*;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.photos.PhotosTask;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.books.BooksTask;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
@@ -76,6 +75,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		editorFactory.setEditor(Author.class, new AuthorLookup());
 		editorFactory.setEditor(Genre.class, new GenreLookup());
 		editorFactory.setEditor(Country.class, new CountryLookup());
+		editorFactory.setEditor(Person.class, new PersonLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
 	}
@@ -83,14 +83,14 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected List<MenuSidebarItem.Task> getTasks()
 	{
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);
-		tasks.add(new ShowsTask());
-		tasks.add(new MoviesTask());
-		tasks.add(new AllVideosTask());
-		tasks.add(new PhotosTask());
-		tasks.add(new ChannelsTask());
-		tasks.add(new ScheduleTask());
-		tasks.add(new PersonsTask());
+		tasks.add(new BooksTask());
 		if (Configurator.getInstance().getBoolean("fanfics.enabled", false)) tasks.add(new FanFicTask());
+		tasks.add(new MoviesTask());
+		tasks.add(new PersonsTask());
+		tasks.add(new PhotosTask());
+		tasks.add(new ScheduleTask());
+		tasks.add(new ShowsTask());
+		tasks.add(new AllVideosTask());
 		tasks.add(new DataTask());
 		return tasks;
 

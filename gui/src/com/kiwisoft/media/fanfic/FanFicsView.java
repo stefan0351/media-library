@@ -25,6 +25,7 @@ import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class FanFicsView extends ViewPanel
 {
@@ -45,7 +46,7 @@ public class FanFicsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		FanFicsTableModel tmFanFics=new FanFicsTableModel();
+		SortableTableModel<FanFic> tmFanFics=new DefaultSortableTableModel<FanFic>("id", "title", "author", "fandom", "pairing");
 
 		tableController=new TableController<FanFic>(tmFanFics, new MediaTableConfiguration("table.fanfics"))
 		{
@@ -150,21 +151,6 @@ public class FanFicsView extends ViewPanel
 						}
 				}
 			}
-		}
-	}
-
-	private static class FanFicsTableModel extends SortableTableModel<FanFic>
-	{
-		private static final String[] COLUMNS={"id", "title", "author", "fandom", "pairing"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

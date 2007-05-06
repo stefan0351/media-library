@@ -274,6 +274,20 @@
 		<field name="height" column="height"/>
 		<field name="lastModified" column="lastmodified"/>
 	</mapping>
+	<mapping name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified">
+		<field name="id" column="id"/>
+		<field name="title" column="title"/>
+		<field name="binding" column="binding"/>
+		<field name="publisher" column="publisher"/>
+		<field name="publishedYear" column="published_year"/>
+		<field name="edition" column="edition"/>
+		<field name="pageCount" column="pages"/>
+		<field name="isbn10" column="isbn10"/>
+		<field name="isbn13" column="isbn13"/>
+		<reference name="cover" column="cover_id" type="Picture"/>
+		<reference name="language" column="language_id" type="Language"/>
+	</mapping>
+
 	<association table="map_fanfic_pairing">
 		<element type="FanFic" name="pairings" column="fanfic_id"/>
 		<element type="Pairing" name="fanfics" column="pairing_id"/>
@@ -301,5 +315,13 @@
 	<association table="map_movie_country">
 		<element type="Movie" name="countries" column="movie_id"/>
 		<element type="Country" name="movies" column="country_id"/>
+	</association>
+	<association table="map_book_author">
+		<element name="authors" column="book_id" type="Book"/>
+		<element name="books" column="author_id" type="Person"/>
+	</association>
+	<association table="map_book_translator">
+		<element name="translators" column="book_id" type="Book"/>
+		<element name="books" column="translator_id" type="Person"/>
 	</association>
 </mappings>

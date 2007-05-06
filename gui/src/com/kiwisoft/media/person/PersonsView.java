@@ -23,6 +23,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
@@ -47,7 +48,7 @@ public class PersonsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Person> tableModel=new PersonsTableModel();
+		SortableTableModel<Person> tableModel=new DefaultSortableTableModel<Person>("gender", "name");
 
 		personListener=new PersonListener();
 		PersonManager.getInstance().addCollectionChangeListener(personListener);
@@ -138,21 +139,6 @@ public class PersonsView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class PersonsTableModel extends SortableTableModel<Person>
-	{
-		private static final String[] COLUMNS={"gender", "name"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

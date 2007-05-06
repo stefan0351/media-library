@@ -20,6 +20,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class LinksView extends ViewPanel
 {
@@ -40,7 +41,7 @@ public class LinksView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		LinksTableModel tableModel=new LinksTableModel();
+		SortableTableModel<Link> tableModel=new DefaultSortableTableModel<Link>("name", "language", "url");
 		createTableData(tableModel);
 
 		tableController=new TableController<Link>(tableModel, new MediaTableConfiguration("table.links"))
@@ -81,7 +82,7 @@ public class LinksView extends ViewPanel
 		return component;
 	}
 
-	private void createTableData(LinksTableModel tableModel)
+	private void createTableData(SortableTableModel<Link> tableModel)
 	{
 		collectionObserver=new CollectionChangeObserver();
 		for (Link link : show.getLinks()) tableModel.addRow(new Row(link));
@@ -131,21 +132,6 @@ public class LinksView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class LinksTableModel extends SortableTableModel<Link>
-	{
-		private static final String[] COLUMNS={"name", "language", "url"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

@@ -22,8 +22,7 @@ public class PersonLookup extends ListLookup<Person>
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');
 			else text=text+"%";
-			return DBLoader.getInstance().loadSet(Person.class, null,
-					"actor=1 and (concat(surname, ', ', firstname) like ? or concat(firstname, ' ', surname) like ?)", text, text);
+			return DBLoader.getInstance().loadSet(Person.class, null, "surname like ? or name like ?", text, text);
 		}
 	}
 

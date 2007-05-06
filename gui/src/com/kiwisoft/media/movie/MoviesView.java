@@ -24,6 +24,7 @@ import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class MoviesView extends ViewPanel
 {
@@ -46,7 +47,7 @@ public class MoviesView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		MoviesTableModel tableModel=new MoviesTableModel();
+		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>("title", "germanTitle", "year");
 		collectionObserver=new CollectionChangeObserver();
 		MovieManager.getInstance().addCollectionChangeListener(collectionObserver);
 
@@ -138,21 +139,6 @@ public class MoviesView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class MoviesTableModel extends SortableTableModel<Movie>
-	{
-		private static final String[] COLUMNS={"title", "germanTitle", "year"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

@@ -21,8 +21,9 @@ import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Disposable;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 /**
  * @author Stefan Stiller
@@ -44,7 +45,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		AuthorsTableModel tableModel=new AuthorsTableModel();
+		SortableTableModel<Author> tableModel=new DefaultSortableTableModel<Author>("name");
 		for (Author author : FanFicManager.getInstance().getAuthors()) tableModel.addRow(new Row(author));
 		tableModel.sort();
 		updateListener=new UpdateListener();
@@ -124,21 +125,6 @@ public class AuthorsView extends ViewPanel implements Disposable
 						break;
 				}
 			}
-		}
-	}
-
-	private static class AuthorsTableModel extends SortableTableModel<Author>
-	{
-		private static final String[] COLUMNS={"name"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

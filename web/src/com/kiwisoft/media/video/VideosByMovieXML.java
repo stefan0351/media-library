@@ -34,7 +34,7 @@ public class VideosByMovieXML implements XMLSource
 			xmlWriter.setAttribute("name", record.getName());
 			Video video=record.getVideo();
 			xmlWriter.setAttribute("mediumType", video.getType().getName());
-			xmlWriter.setAttribute("mediumKey", video.getUserKey());
+			xmlWriter.setAttribute("mediumKey", video.getFullKey());
 			xmlWriter.setAttribute("storage", video.getStorage());
 			xmlWriter.setAttribute("language", record.getLanguage().getSymbol());
 			xmlWriter.closeElement("record");

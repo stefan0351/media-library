@@ -30,7 +30,8 @@ public class RecordingsView extends ViewPanel
 	{
 		StringBuilder name=new StringBuilder(20);
 		name.append("Records on ").append(video.getName());
-		if (!StringUtils.isEmpty(video.getUserKey())) name.append(" (").append(video.getUserKey()).append(")");
+		String key=video.getFullKey();
+		if (!StringUtils.isEmpty(key)) name.append(" (").append(key).append(")");
 		return name.toString();
 	}
 

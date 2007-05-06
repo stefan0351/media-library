@@ -22,6 +22,7 @@ import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class ShowCastView extends ViewPanel
 {
@@ -43,8 +44,8 @@ public class ShowCastView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		CastTableModel mainCastModel=new CastTableModel();
-		CastTableModel recurringCastModel=new CastTableModel();
+		SortableTableModel<CastMember> mainCastModel=new DefaultSortableTableModel<CastMember>("character", "actor", "voice");
+		SortableTableModel<CastMember> recurringCastModel=new DefaultSortableTableModel<CastMember>("character", "actor", "voice");
 		createTableData(mainCastModel, recurringCastModel);
 
 		mainCastController=new TableController<CastMember>(mainCastModel, new MediaTableConfiguration("table.show.cast.main"))
@@ -123,7 +124,7 @@ public class ShowCastView extends ViewPanel
 		return pnlContent;
 	}
 
-	private void createTableData(CastTableModel mainCastModel, CastTableModel recurringCastModel)
+	private void createTableData(SortableTableModel<CastMember> mainCastModel, SortableTableModel<CastMember> recurringCastModel)
 	{
 		for (CastMember castMember : show.getMainCast()) mainCastModel.addRow(new CastTableRow(castMember));
 		mainCastModel.sort();
@@ -187,21 +188,6 @@ public class ShowCastView extends ViewPanel
 					if (index>=0) tableModel.removeRowAt(index);
 					break;
 			}
-		}
-	}
-
-	private static class CastTableModel extends SortableTableModel<CastMember>
-	{
-		private static final String[] COLUMNS={"character", "actor", "voice"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

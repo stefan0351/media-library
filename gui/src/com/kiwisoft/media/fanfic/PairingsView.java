@@ -28,8 +28,9 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class PairingsView extends ViewPanel implements Disposable
 {
@@ -47,7 +48,7 @@ public class PairingsView extends ViewPanel implements Disposable
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		PairingsTableModel tableModel=new PairingsTableModel();
+		SortableTableModel<Pairing> tableModel=new DefaultSortableTableModel<Pairing>("name");
 		for (Pairing pairing : FanFicManager.getInstance().getPairings()) tableModel.addRow(new Row(pairing));
 		tableModel.sort();
 		updateListener=new UpdateListener();
@@ -125,21 +126,6 @@ public class PairingsView extends ViewPanel implements Disposable
 						break;
 				}
 			}
-		}
-	}
-
-	private static class PairingsTableModel extends SortableTableModel<Pairing>
-	{
-		private static final String[] COLUMNS={"name"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

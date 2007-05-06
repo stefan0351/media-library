@@ -138,8 +138,7 @@ public class LinkDetailsView extends DetailsView
 		}
 		catch (InvalidDataException e)
 		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			e.getComponent().requestFocus();
+			e.handle();
 			return false;
 		}
 		catch (Exception e)

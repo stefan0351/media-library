@@ -213,7 +213,7 @@ public class VideoDetailsView extends DetailsView
 		this.video=video;
 		if (video!=null)
 		{
-			keyField.setText(video.getUserKey());
+			keyField.setText(video.getFullKey());
 			nameField.setText(video.getName());
 			lengthField.setText(String.valueOf(video.getLength()));
 			lengthField.setEditable(false);
@@ -282,7 +282,7 @@ public class VideoDetailsView extends DetailsView
 			transaction=DBSession.getInstance().createTransaction();
 			if (video==null) video=VideoManager.getInstance().createVideo();
 			// todo remove if all videos have a key
-			else if (StringUtils.isEmpty(video.getUserKey())) video.setUserKey("D"+SequenceManager.getSequence("video").next());
+			else if (video.getUserKey()==null) video.setUserKey((int)SequenceManager.getSequence("video").next());
 			video.setLength(length);
 			video.setRemainingLength(remain);
 			video.setName(name);
@@ -302,7 +302,7 @@ public class VideoDetailsView extends DetailsView
 			}
 			transaction.close();
 			VideoManager.getInstance().fireElementChanged(video);
-			keyField.setText(video.getUserKey());
+			keyField.setText(video.getFullKey());
 			return true;
 		}
 		catch (Exception e)

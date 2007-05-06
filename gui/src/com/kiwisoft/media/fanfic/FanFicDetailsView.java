@@ -25,10 +25,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.ObjectTableModel;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.*;
 import com.kiwisoft.utils.xml.XMLWriter;
 
 public class FanFicDetailsView extends DetailsView
@@ -105,7 +102,7 @@ public class FanFicDetailsView extends DetailsView
 			{
 				String source=((FanFicPart)it.next()).getSource();
 				String path=new File(Configurator.getInstance().getString("path.fanfics"), source).getAbsolutePath();
-				partsController.getModel().addRow(new FanFicPartsTableModel.Row(path));
+				partsController.getModel().addRow(new FanFicPartTableRow(path));
 			}
 			for (Pairing pairing : fanFic.getPairings()) tmPairings.addObject(pairing);
 			for (FanDom fanDom : fanFic.getFanDoms()) tmFanDoms.addObject(fanDom);
@@ -257,7 +254,8 @@ public class FanFicDetailsView extends DetailsView
 		tblAuthors=new SortableTable(tmAuthors);
 		tblAuthors.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
 
-		FanFicPartsTableModel tmParts=new FanFicPartsTableModel();
+		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("parts");
+		tmParts.setResortable(false);
 		partsController=new TableController<String>(tmParts, new MediaTableConfiguration("table.fanfic.detail"))
 		{
 			@Override
@@ -492,7 +490,7 @@ public class FanFicDetailsView extends DetailsView
 			{
 				String lastPath=tmParts.getObject(rows-1);
 				File file=new File(lastPath);
-				tmParts.addRow(new FanFicPartsTableModel.Row(StringUtils.increase(file.getPath())));
+				tmParts.addRow(new FanFicPartTableRow(StringUtils.increase(file.getPath())));
 			}
 			else
 			{
@@ -520,14 +518,14 @@ public class FanFicDetailsView extends DetailsView
 				{
 					StringBuilder path=buildFileName(author, tfTitle.getText());
 					path.append(".xp");
-					tmParts.addRow(new FanFicPartsTableModel.Row(path.toString()));
+					tmParts.addRow(new FanFicPartTableRow(path.toString()));
 				}
 				else if (option==JOptionPane.YES_OPTION)
 				{
 					StringBuilder path=buildFileName(author, tfTitle.getText());
 					path.append(File.separator);
 					path.append("01.xp");
-					tmParts.addRow(new FanFicPartsTableModel.Row(path.toString()));
+					tmParts.addRow(new FanFicPartTableRow(path.toString()));
 				}
 			}
 		}

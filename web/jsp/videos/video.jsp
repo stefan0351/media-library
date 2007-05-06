@@ -13,7 +13,7 @@
 <html>
 
 <head>
-<title>Video - <%=video.getUserKey()+": "+video.getName()%></title>
+<title>Video - <%=video.getFullKey()+": "+video.getName()%></title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -30,7 +30,7 @@
 		<jsp:include page="/_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="<%="Video "+video.getUserKey()+": "+video.getName()%>">
+		<media:panel title="<%="Video "+video.getFullKey()+": "+video.getName()%>">
 			<table>
 			<tr><td class="content2"><b>Medium:</b></td><td class="content2"><%=JspUtils.render(video.getType())%></td></tr>
 			<tr><td class="content2"><b>Length:</b></td><td class="content2"><%=video.getLength()%></td></tr>

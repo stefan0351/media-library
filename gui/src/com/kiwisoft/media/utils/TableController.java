@@ -126,8 +126,11 @@ public class TableController<T>
 				if (row!=null)
 				{
 					ContextAction<? super T> action=getDoubleClickAction();
-					action.update(Collections.singletonList(row.getUserObject()));
-					action.actionPerformed(null);
+					if (action!=null)
+					{
+						action.update(Collections.singletonList(row.getUserObject()));
+						action.actionPerformed(null);
+					}
 				}
 				e.consume();
 			}

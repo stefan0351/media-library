@@ -23,6 +23,7 @@ import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class ScheduleView extends ViewPanel
 {
@@ -59,7 +60,7 @@ public class ScheduleView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		AirdatesTableModel model=new AirdatesTableModel();
+		SortableTableModel<Airdate> model=new DefaultSortableTableModel<Airdate>("time", "channel", "event");
 		Iterator it=airdates.iterator();
 		while (it.hasNext())
 		{
@@ -151,21 +152,6 @@ public class ScheduleView extends ViewPanel
 			{
 				if (filter.filter(airdate)) model.addRow(new AirdatesTableRow(airdate));
 			}
-		}
-	}
-
-	private static class AirdatesTableModel extends SortableTableModel<Airdate>
-	{
-		private static final String[] COLUMNS={"time", "channel", "event"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

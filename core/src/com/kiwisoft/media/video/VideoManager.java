@@ -13,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
@@ -29,7 +28,6 @@ public class VideoManager
 	public static final String VIDEOS="videos";
 
 	private static VideoManager instance;
-	private static Pattern keyPattern;
 
 	public synchronized static VideoManager getInstance()
 	{
@@ -103,18 +101,12 @@ public class VideoManager
 		collectionChangeSupport.fireElementChanged(VIDEOS, video);
 	}
 
-	public Pattern getKeyPattern()
-	{
-		if (keyPattern==null) keyPattern=Pattern.compile("([A-Z])(\\d+)");
-		return keyPattern;
-	}
-
 	public int getGroupCount()
 	{
 		try
 		{
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("select max((cast(substr(userkey, 2) as signed)-1) div ?) from videos ");
+			PreparedStatement statement=connection.prepareStatement("select max(userkey) div ? from videos ");
 			try
 			{
 				statement.setInt(1, GROUP_SIZE);
@@ -135,12 +127,12 @@ public class VideoManager
 
 	public Set<Video> getGroupVideos(int group)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, null, "(cast(substr(userkey, 2) as signed)-1) div ?=?", GROUP_SIZE, group);
+		return DBLoader.getInstance().loadSet(Video.class, null, "userkey div ?=?", GROUP_SIZE, group);
 	}
 
 	public static String getGroupName(int group)
 	{
-		return "D"+(group*50+1)+"-D"+(group*50+50);
+		return (group*50+1)+"-"+(group*50+50);
 	}
 
 	public Set<Video> getVideos(Movie movie)

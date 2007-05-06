@@ -21,8 +21,9 @@ import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Disposable;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 /**
  * @author Stefan Stiller
@@ -44,7 +45,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		FanDomainsTableModel tableModel=new FanDomainsTableModel();
+		SortableTableModel<FanDom> tableModel=new DefaultSortableTableModel<FanDom>("name");
 		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new Row(domain));
 		tableModel.sort();
 		updateListener=new UpdateListener();
@@ -122,21 +123,6 @@ public class FanDomsView extends ViewPanel implements Disposable
 						break;
 				}
 			}
-		}
-	}
-
-	private static class FanDomainsTableModel extends SortableTableModel<FanDom>
-	{
-		private static final String[] COLUMNS={"name"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

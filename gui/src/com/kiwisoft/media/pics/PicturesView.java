@@ -18,10 +18,13 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class PicturesView extends ViewPanel
 {
@@ -40,7 +43,7 @@ public class PicturesView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		MyTableModel tableModel=new MyTableModel();
+		SortableTableModel<Picture> tableModel=new DefaultSortableTableModel<Picture>("name", "file", "width", "height");
 
 		tableController=new TableController<Picture>(tableModel, new DefaultTableConfiguration(PicturesView.class, "table.pictures"))
 		{
@@ -50,7 +53,9 @@ public class PicturesView extends ViewPanel
 				List<ContextAction<? super Picture>> actions=new ArrayList<ContextAction<? super Picture>>();
 				actions.add(new PictureDetailsAction());
 				actions.add(new NewPictureAction());
-				actions.add(new ImportPicturesAction(frame));
+				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
+											  new ImportPicturesAction(frame),
+											  new CreateThumbnailsAction(frame)));
 				return actions;
 			}
 
@@ -125,21 +130,6 @@ public class PicturesView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class MyTableModel extends SortableTableModel<Picture>
-	{
-		private static final String[] COLUMNS={"name", "file", "width", "height"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 

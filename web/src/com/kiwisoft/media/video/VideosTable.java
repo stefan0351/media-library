@@ -57,16 +57,7 @@ public class VideosTable extends SortableWebTable<Video>
 		@Override
 		public Comparable getSortValue(int column, String property)
 		{
-			if (ID.equals(property))
-			{
-				String key=getUserObject().getUserKey();
-				if (StringUtils.isEmpty(key)) return null;
-				Matcher matcher=VideoManager.getInstance().getKeyPattern().matcher(key);
-				if (matcher.matches())
-					return new ComplexComparable<String, Integer>(matcher.group(1), new Integer(matcher.group(2)));
-				else
-					return new ComplexComparable<String, Integer>(key, null);
-			}
+			if (ID.equals(property)) return getUserObject().getUserKey();
 			else if (STORAGE.equals(property))
 			{
 				String storage=getUserObject().getStorage();
@@ -83,7 +74,7 @@ public class VideosTable extends SortableWebTable<Video>
 		public Object getDisplayValue(int column, String property)
 		{
 			if (ID.equals(property))
-				return getUserObject().getUserKey();
+				return getUserObject().getFullKey();
 			else if (NAME.equals(property))
 				return getUserObject();
 			else if (TIME_LEFT.equals(property))

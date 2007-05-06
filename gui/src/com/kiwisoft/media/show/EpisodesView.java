@@ -18,6 +18,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
 public class EpisodesView extends ViewPanel
 {
@@ -49,7 +50,7 @@ public class EpisodesView extends ViewPanel
 
 	public JComponent createContentPanel(ApplicationFrame frame)
 	{
-		EpisodesTableModel tmEpisodes=new EpisodesTableModel();
+		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>("userkey", "title", "germanTitle", "firstAired");
 		createTableData(tmEpisodes);
 
 		tableController=new TableController<Episode>(tmEpisodes, new MediaTableConfiguration("table.episodes"))
@@ -163,21 +164,6 @@ public class EpisodesView extends ViewPanel
 				case ChainEvent.CHANGED:
 					tableController.getModel().sort();
 			}
-		}
-	}
-
-	private static class EpisodesTableModel extends SortableTableModel<Episode>
-	{
-		private static final String[] COLUMNS={"userkey", "title", "germanTitle", "firstAired"};
-
-		public int getColumnCount()
-		{
-			return COLUMNS.length;
-		}
-
-		public String getColumnName(int column)
-		{
-			return COLUMNS[column];
 		}
 	}
 
