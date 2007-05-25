@@ -485,7 +485,6 @@
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/lib/avalon-framework.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/batik-all.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-io.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/fop.jar!/" />
         <root url="jar://$PROJECT_DIR$/lib/xmlgraphics-commons.jar!/" />
       </CLASSES>

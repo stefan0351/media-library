@@ -213,7 +213,6 @@ public class Book extends IDObject
 		TRANSLATORS_ASSOCIATION.setAssociations(this, translators);
 	}
 
-
 	@Override
 	public void delete()
 	{

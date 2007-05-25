@@ -27,7 +27,7 @@
 
 	<target name="prepare">
 		<delete dir="${webapp.classes}"/>
-		<mkdir dir="${webapp.lib}"/>
+		<mkdir dir="${webapp.lib}"/>                                              		
 		<mkdir dir="${webapp.classes}"/>
 	</target>
 
