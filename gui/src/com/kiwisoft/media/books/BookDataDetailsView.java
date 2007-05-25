@@ -210,13 +210,19 @@ public class BookDataDetailsView extends DetailsView
 					book.setTitle(title);
 					for (String name : authors)
 					{
-						Person author=getPerson(name);
-						book.addAuthor(author);
+						if (!StringUtils.isEmpty(name))
+						{
+							Person author=getPerson(name);
+							book.addAuthor(author);
+						}
 					}
 					for (String name : translators)
 					{
-						Person translator=getPerson(name);
-						book.addTranslator(translator);
+						if (!StringUtils.isEmpty(name))
+						{
+							Person translator=getPerson(name);
+							book.addTranslator(translator);
+						}
 					}
 					book.setBinding(binding);
 					book.setPublisher(publisher);

@@ -112,6 +112,11 @@ public class MovieManager
 		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
+	public Set<Movie> getMoviesByLetter(char ch)
+	{
+		return DBLoader.getInstance().loadSet(Movie.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
+	}
+
 	public SortedSet<Character> getLetters()
 	{
 		try
@@ -139,11 +144,6 @@ public class MovieManager
 		{
 			throw new RuntimeException(e);
 		}
-	}
-
-	public Set<Movie> getMoviesByLetter(char ch)
-	{
-		return DBLoader.getInstance().loadSet(Movie.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
 
 	public int getMovieCount()

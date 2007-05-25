@@ -1,25 +1,18 @@
 package com.kiwisoft.media.pics;
 
 import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
 
 /**
  * @author Stefan Stiller
  */
-public class Picture extends IDObject
+public class Picture extends PictureFile
 {
 	public static final String NAME="name";
-	public static final String FILE="file";
-	public static final String WIDTH="width";
-	public static final String HEIGHT="height";
 	public static final String VARIANT="variant";
 	public static final String THUMBNAIL_50x50="thumbnail50x50";
 	public static final String THUMBNAIL_SIDEBAR="thumbnailSidebar";
 
 	private String name;
-	private String file;
-	private int width;
-	private int height;
 
 	public Picture()
 	{
@@ -44,48 +37,9 @@ public class Picture extends IDObject
 		firePropertyChange(NAME, oldName, name);
 	}
 
-	public String getFile()
-	{
-		return file;
-	}
-
-	public void setFile(String file)
-	{
-		String oldFile=this.file;
-		this.file=file;
-		setModified();
-		firePropertyChange(FILE, oldFile, file);
-	}
-
-	public int getWidth()
-	{
-		return width;
-	}
-
-	public void setWidth(int width)
-	{
-		int oldWidth=this.width;
-		this.width=width;
-		setModified();
-		firePropertyChange(WIDTH, oldWidth, width);
-	}
-
-	public int getHeight()
-	{
-		return height;
-	}
-
-	public void setHeight(int height)
-	{
-		int oldHeight=this.height;
-		this.height=height;
-		setModified();
-		firePropertyChange(HEIGHT, oldHeight, height);
-	}
-
 	public void setThumbnail(String property, String path, int imageWidth, int imageHeight)
 	{
-		Thumbnail thumbnail=(Thumbnail)getReference(property);
+		PictureFile thumbnail=(PictureFile)getReference(property);
 		if (path==null)
 		{
 			if (thumbnail!=null)
@@ -98,7 +52,7 @@ public class Picture extends IDObject
 		{
 			if (thumbnail==null)
 			{
-				thumbnail=new Thumbnail();
+				thumbnail=new PictureFile();
 				setReference(property, thumbnail);
 			}
 			thumbnail.setFile(path);
@@ -107,12 +61,12 @@ public class Picture extends IDObject
 		}
 	}
 
-	public Thumbnail getThumbnail50x50()
+	public PictureFile getThumbnail50x50()
 	{
-		return (Thumbnail)getReference(THUMBNAIL_50x50);
+		return (PictureFile)getReference(THUMBNAIL_50x50);
 	}
 
-	public void setThumbnail50x50(Thumbnail thumbnail)
+	public void setThumbnail50x50(PictureFile thumbnail)
 	{
 		setReference(THUMBNAIL_50x50, thumbnail);
 	}
@@ -122,12 +76,12 @@ public class Picture extends IDObject
 		setThumbnail(THUMBNAIL_50x50, path, imageWidth, imageHeight);
 	}
 
-	public Thumbnail getThumbnailSidebar()
+	public PictureFile getThumbnailSidebar()
 	{
-		return (Thumbnail)getReference(THUMBNAIL_SIDEBAR);
+		return (PictureFile)getReference(THUMBNAIL_SIDEBAR);
 	}
 
-	public void setThumbnailSidebar(Thumbnail thumbnail)
+	public void setThumbnailSidebar(PictureFile thumbnail)
 	{
 		setReference(THUMBNAIL_SIDEBAR, thumbnail);
 	}

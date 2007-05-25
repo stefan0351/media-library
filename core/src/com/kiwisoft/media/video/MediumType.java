@@ -15,9 +15,9 @@ public class MediumType implements Identifyable
 {
 	public static final Map<Long, MediumType> map=new HashMap<Long, MediumType>();
 
-	public static final MediumType VHS=new MediumType(new Long(2), "Video", "Videos", "V", true);
-	public static final MediumType VHS_ORIGINAL=new MediumType(new Long(1), "Video - Original", "Videos - Original", "V");
-	public static final MediumType VCD=new MediumType(new Long(3), "Video-CD", "Video-CD's", "C");
+	public static final MediumType VHS=new MediumType(new Long(2), "VHS", "Videos", "V", true);
+	public static final MediumType VHS_ORIGINAL=new MediumType(new Long(1), "VHS(O)", "Videos - Original", "V");
+	public static final MediumType VCD=new MediumType(new Long(3), "VCD", "Video-CD's", "C");
 	public static final MediumType DVD=new MediumType(new Long(4), "DVD", "DVD's", "D");
 	public static final MediumType DVD_ORIGINAL=new MediumType(new Long(5), "DVD(O)", "Original DVD's", "D");
 	public static final MediumType DVD_RW=new MediumType(new Long(6), "DVD(RW)", "Rewritable DVD's", "D", true);

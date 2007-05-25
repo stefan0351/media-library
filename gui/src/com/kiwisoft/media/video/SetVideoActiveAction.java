@@ -2,7 +2,6 @@ package com.kiwisoft.media.video;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.utils.db.DBSession;
@@ -24,7 +23,7 @@ public class SetVideoActiveAction extends MultiContextAction<Video>
 	}
 
 	@Override
-	public void update(List<Video> objects)
+	public void update(List<? extends Video> objects)
 	{
 		super.update(objects);
 		for (Video video : getObjects())

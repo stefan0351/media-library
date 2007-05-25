@@ -245,14 +245,19 @@
 	</mapping>
 	<mapping name="Photo" class="com.kiwisoft.media.photos.Photo" table="photos" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
-		<field name="originalFile" column="original_file"/>
-		<field name="originalWidth" column="original_width"/>
-		<field name="originalHeight" column="original_height"/>
 		<field name="creationDate" column="creation_date"/>
 		<field name="rotation" column="rotation"/> 
-		<reference name="book" column="photobook_id" type="PhotoBook"/>
+		<field name="sequence" column="sequence"/>
+		<field name="cameraMake" column="camera_make"/>
+		<field name="cameraModel" column="camera_model"/>
+		<field name="colorDepth" column="color_depth"/>
+		<field name="exposureTime" column="exposure_time"/>
+		<field name="description" column="description"/>
+		<reference name="gallery" column="photogallery_id" type="PhotoGallery"/>
+		<reference name="originalPicture" column="original_pic_id" type="PictureFile"/>
+		<reference name="thumbnail" column="thumbnail_id" type="PictureFile"/>
 	</mapping>
-	<mapping name="PhotoBook" class="com.kiwisoft.media.photos.PhotoBook" table="photobooks" primaryKey="id" lastModified="lastmodified">
+	<mapping name="PhotoGallery" class="com.kiwisoft.media.photos.PhotoGallery" table="photogalleries" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
@@ -264,10 +269,10 @@
 		<field name="width" column="width"/>
 		<field name="height" column="height"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="Thumbnail"/>
-		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="Thumbnail"/>
+		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="PictureFile"/>
+		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="PictureFile"/>
 	</mapping>
-	<mapping name="Thumbnail" class="com.kiwisoft.media.pics.Thumbnail" table="thumbnails" primaryKey="id" lastModified="lastmodified">
+	<mapping name="PictureFile" class="com.kiwisoft.media.pics.PictureFile" table="picture_files" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="file" column="file"/>
 		<field name="width" column="width"/>

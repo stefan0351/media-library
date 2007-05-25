@@ -106,25 +106,4 @@ public class PictureManager implements CollectionChangeSource
 		return map;
 	}
 
-	public static class ImageData
-	{
-		private File file;
-		private Dimension size;
-
-		public ImageData(File file, Dimension size)
-		{
-			this.file=file;
-			this.size=size;
-		}
-
-		public File getFile()
-		{
-			return file;
-		}
-
-		public Dimension getSize()
-		{
-			return size;
-		}
-	}
 }

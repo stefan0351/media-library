@@ -11,24 +11,25 @@ import com.kiwisoft.media.utils.GuiUtils;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.db.*;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 
 public class PhotosView extends ViewPanel
 {
-	private PhotoBook photoBook;
+	private PhotoGallery photoGallery;
 	private ThumbnailPanel thumbnailPanel;
 	private List<ContextAction<? super Photo>> toolBarActions;
 
-	public PhotosView(PhotoBook photoBook)
+	public PhotosView(PhotoGallery photoGallery)
 	{
-		this.photoBook=photoBook;
+		this.photoGallery=photoGallery;
 	}
 
 	public String getName()
 	{
-		return "Photos - "+photoBook.getName();
+		return "Photos - "+photoGallery.getName();
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
@@ -39,30 +40,33 @@ public class PhotosView extends ViewPanel
 		panel.add(createToolBar(frame), BorderLayout.NORTH);
 		panel.add(new JScrollPane(thumbnailPanel), BorderLayout.CENTER);
 
-		getModelListenerList().installCollectionListener(photoBook, new PhotoBookCollectionListener());
+		getModelListenerList().installCollectionListener(photoGallery, new PhotosCollectionListener());
 		thumbnailPanel.addListSelectionListener(new SelectionListener());
+		getModelListenerList().installChainListener(photoGallery.getPhotos(), new PhotosChainListener());
 
 		return panel;
-
 	}
 
 	@Override
 	protected void initializeData()
 	{
-		for (Photo photo : photoBook.getPhotos()) addThumbnail(photo);
+		for (Photo photo : photoGallery.getPhotos()) addThumbnail(photo);
 	}
 
 	protected JToolBar createToolBar(ApplicationFrame frame)
 	{
 		toolBarActions=new ArrayList<ContextAction<? super Photo>>(2);
-		toolBarActions.add(new AddPhotoAction(frame, photoBook));
+		toolBarActions.add(new PhotoDetailsAction());
+		toolBarActions.add(new AddPhotoAction(frame, photoGallery));
 		toolBarActions.add(new DeletePhotoAction(frame));
-		toolBarActions.add(new ShowPhotoAction());
+		toolBarActions.add(new ShowPhotoAction(frame));
 		ComplexAction<Photo> rotateAction=new ComplexAction<Photo>("Rotate", Icons.getIcon("rotate"));
 		rotateAction.addAction(new RotatePhotoAction(frame, 90));
 		rotateAction.addAction(new RotatePhotoAction(frame, 180));
 		rotateAction.addAction(new RotatePhotoAction(frame, -90));
 		toolBarActions.add(rotateAction);
+		toolBarActions.add(new MovePhotoUpAction(thumbnailPanel, photoGallery.getPhotos()));
+		toolBarActions.add(new MovePhotoDownAction(thumbnailPanel, photoGallery.getPhotos()));
 		return GuiUtils.createToolBar(toolBarActions);
 	}
 
@@ -74,18 +78,18 @@ public class PhotosView extends ViewPanel
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getName(), PhotosView.class);
-		bookmark.setParameter("photoBook.id", String.valueOf(photoBook.getId()));
+		bookmark.setParameter("photoGallery.id", String.valueOf(photoGallery.getId()));
 		return bookmark;
 	}
 
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		Long id=Long.valueOf(bookmark.getParameter("photoBook.id"));
-		PhotoBook photoBook=PhotoManager.getInstance().getBook(id);
-		frame.setCurrentView(new PhotosView(photoBook), true);
+		Long id=Long.valueOf(bookmark.getParameter("photoGallery.id"));
+		PhotoGallery photoGallery=PhotoManager.getInstance().getGallery(id);
+		frame.setCurrentView(new PhotosView(photoGallery), true);
 	}
 
-	private class PhotoBookCollectionListener implements CollectionChangeListener
+	private class PhotosCollectionListener implements CollectionChangeListener
 	{
 		public void collectionChanged(CollectionChangeEvent event)
 		{
@@ -137,4 +141,13 @@ public class PhotosView extends ViewPanel
 			}
 		}
 	}
+
+	private class PhotosChainListener implements ChainListener
+	{
+		public void chainChanged(ChainEvent event)
+		{
+			thumbnailPanel.sort(Chain.getComparator());
+		}
+	}
+
 }

@@ -38,7 +38,7 @@ public class DeletePhotoAction extends MultiContextAction<Photo>
 			{
 				public void run() throws Exception
 				{
-					for (Photo photo : photos) photo.getBook().dropPhoto(photo);
+					for (Photo photo : photos) photo.getGallery().dropPhoto(photo);
 				}
 
 				public void handleError(Throwable throwable)

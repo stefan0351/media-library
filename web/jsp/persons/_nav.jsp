@@ -1,6 +1,6 @@
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.media.pics.Picture" %>
-<%@ page import="com.kiwisoft.media.pics.Thumbnail" %>
+<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page language="java" %>
 
 <table class="menutable">
@@ -13,7 +13,7 @@
 	if (picture!=null)
 	{
 		String fileName=null;
-		Thumbnail thumbnail=picture.getThumbnailSidebar();
+		PictureFile thumbnail=picture.getThumbnailSidebar();
 		if (thumbnail!=null) fileName=thumbnail.getFile();
 		else if (picture.getWidth()<=170) fileName=picture.getFile();
 		if (fileName!=null)

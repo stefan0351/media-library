@@ -6,11 +6,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 28.02.2007
- * Time: 18:15:07
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ContentTag extends TagSupport
 {

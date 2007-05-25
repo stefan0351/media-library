@@ -1,0 +1,107 @@
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+<%@ page import="java.util.Collection,
+				 com.kiwisoft.media.books.Book" %>
+<%@ page import="com.kiwisoft.media.books.BookManager" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.Language" %>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
+
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
+
+<%
+	Book book=BookManager.getInstance().getBook(new Long(request.getParameter("book")));
+	request.setAttribute("book", book);
+%>
+<html>
+
+<head>
+<title>Book - <%=JspUtils.render(book.getTitle())%>
+</title>
+<script language="JavaScript" src="/overlib.js"></script>
+<script language="JavaScript" src="/window.js"></script>
+<script language="JavaScript" src="/popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
+</head>
+
+<body>
+<div id="overDiv" class="over_lib"></div>
+<a name="top"></a>
+
+<media:title><%=JspUtils.render(book.getTitle())%>
+</media:title>
+<media:body>
+	<media:sidebar>
+		<jsp:include page="_book_nav.jsp"/>
+		<jsp:include page="/_nav.jsp"/>
+	</media:sidebar>
+	<media:content>
+		<media:panel title="Details">
+			<dl>
+<%
+				Collection authors=book.getAuthors();
+				if (!authors.isEmpty())
+				{
+%>
+					<dt><b>Author:</b> <dd><%=JspUtils.renderSet(authors)%></dd>
+<%
+				}
+				Collection translators=book.getTranslators();
+				if (!translators.isEmpty())
+				{
+%>
+					<dt><b>Translated by:</b> <dd><%=JspUtils.renderSet(translators)%></dd>
+<%
+				}
+				Language language=book.getLanguage();
+				if (language!=null)
+				{
+%>
+					<dt><b>Language</b> <dd><%=JspUtils.render(language)%></dd>
+<%
+				}
+				String publisher=book.getPublisher();
+				if (!StringUtils.isEmpty(publisher))
+				{
+%>
+					<dt><b>Published by:</b> <dd><%=JspUtils.render(publisher)%></dd>
+<%
+				}
+				Integer publishedYear=book.getPublishedYear();
+				String edition=book.getEdition();
+				if (publishedYear!=null || !StringUtils.isEmpty(edition))
+				{
+%>
+					<dt><b>Edition:</b>
+						<dd><%=JspUtils.render(edition)%> <%=JspUtils.render(publishedYear)%></dd>
+<%
+				}
+				String binding=book.getBinding();
+				if (!StringUtils.isEmpty(binding))
+				{
+%>
+					<dt><b>Binding:</b> <dd><%=JspUtils.render(binding)%></dd>
+<%
+				}
+				Integer pageCount=book.getPageCount();
+				if (pageCount!=null)
+				{
+%>
+					<dt><b>Pages:</b> <dd><%=JspUtils.render(pageCount)%></dd>
+<%
+				}
+				String isbn=book.getIsbn13();
+				if (StringUtils.isEmpty(isbn)) isbn=book.getIsbn10();
+				if (!StringUtils.isEmpty(isbn))
+				{
+%>
+					<dt><b>ISBN:</b> <dd><%=JspUtils.render(isbn)%></dd>
+<%
+				}
+%>
+			</dl>
+		</media:panel>
+	</media:content>
+</media:body>
+
+</body>
+</html>

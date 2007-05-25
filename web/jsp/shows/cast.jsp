@@ -68,11 +68,7 @@
 			if (picture==null) picture=castMember.getActor().getPicture();
 			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
-%>
-				<img src="/<%=picture.getThumbnail50x50().getFile().replace('\\', '/')%>" border="0" vspace="5" hspace="5"
-					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
-					onMouseOut="nd()">
-<%
+				out.print(renderPicture(castMember.getActor().getName(), picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
 			}
 			row=!row;
 %>

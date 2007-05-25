@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Collection;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -28,10 +26,9 @@ import com.kiwisoft.utils.gui.DetailsFrame;
 import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.ImagePanel;
 import com.kiwisoft.utils.gui.InvalidDataException;
+import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
-import com.kiwisoft.utils.gui.lookup.LookupField;
 
 public class BookDetailsView extends DetailsView
 {
@@ -66,23 +63,11 @@ public class BookDetailsView extends DetailsView
 	{
 		authorsModel=new ObjectTableModel<Person>("name", Person.class, null);
 		final SortableTable authorsField=new SortableTable(authorsModel);
-		authorsField.initializeColumns(new DefaultTableConfiguration(BookDetailsView.class, "table.book.authors"));
 		authorsField.setBorder(new LineBorder(Color.BLACK));
 		authorsField.addComponentListener(new WindowResizeListener(authorsField));
 
 		translatorsModel=new ObjectTableModel<Person>("name", Person.class, null);
-		SortableTable translatorsField=new SortableTable(translatorsModel)
-		{
-
-			@Override
-			public void requestFocus()
-			{
-				System.out.println("BookDetailsView.requestFocus");
-				Thread.dumpStack();
-				super.requestFocus();
-			}
-		};
-		translatorsField.initializeColumns(new DefaultTableConfiguration(BookDetailsView.class, "table.book.translators"));
+		SortableTable translatorsField=new SortableTable(translatorsModel);
 		translatorsField.setBorder(new LineBorder(Color.BLACK));
 		translatorsField.addComponentListener(new WindowResizeListener(authorsField));
 
@@ -214,8 +199,6 @@ public class BookDetailsView extends DetailsView
 
 			return DBSession.execute(new Transactional()
 			{
-				private Map<String, Person> persons=new HashMap<String, Person>();
-
 				public void run() throws Exception
 				{
 					if (book==null) book=BookManager.getInstance().createBook();
@@ -280,10 +263,10 @@ public class BookDetailsView extends DetailsView
 		}
 
 		@Override
-			public void componentResized(ComponentEvent e)
-				{
-					Container ancestor=authorsField.getTopLevelAncestor();
-					if (ancestor instanceof Window) ((Window)ancestor).pack();
-				}
+		public void componentResized(ComponentEvent e)
+		{
+			Container ancestor=authorsField.getTopLevelAncestor();
+			if (ancestor instanceof Window) ((Window)ancestor).pack();
+		}
 	}
 }

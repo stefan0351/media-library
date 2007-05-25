@@ -7,11 +7,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.Icons;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 01.03.2007
- * Time: 12:17:59
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class NewShowAction extends ContextAction<Show>
 {
@@ -20,7 +16,7 @@ public class NewShowAction extends ContextAction<Show>
 		super("New", Icons.getIcon("add"));
 	}
 
-	public void update(List<Show> objects)
+	public void update(List<? extends Show> objects)
 	{
 		setEnabled(true);
 	}

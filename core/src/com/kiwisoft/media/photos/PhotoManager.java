@@ -2,14 +2,15 @@ package com.kiwisoft.media.photos;
 
 import java.util.Set;
 import java.io.File;
-import java.net.MalformedURLException;
-
-import javax.swing.ImageIcon;
-import javax.swing.Icon;
+import java.text.NumberFormat;
+import java.text.DecimalFormat;
+import java.awt.Dimension;
 
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.gui.ImageUtils;
+import com.kiwisoft.media.pics.ImageData;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -17,7 +18,7 @@ import com.kiwisoft.utils.gui.ImageUtils;
 public class PhotoManager implements CollectionChangeSource
 {
 	private static PhotoManager instance;
-	public static final String BOOKS="books";
+	public static final String GALLERIES="galleries";
 
 	public static PhotoManager getInstance()
 	{
@@ -31,28 +32,27 @@ public class PhotoManager implements CollectionChangeSource
 	{
 	}
 
-	public Set<PhotoBook> getBooks()
+	public Set<PhotoGallery> getGalleries()
 	{
-		return DBLoader.getInstance().loadSet(PhotoBook.class);
+		return DBLoader.getInstance().loadSet(PhotoGallery.class);
 	}
 
-	public PhotoBook getBook(Long id)
+	public PhotoGallery getGallery(Long id)
 	{
-		return DBLoader.getInstance().load(PhotoBook.class, id);
+		return DBLoader.getInstance().load(PhotoGallery.class, id);
 	}
 
-	public PhotoBook createBook()
+	public PhotoGallery createGallery()
 	{
-		PhotoBook book=new PhotoBook();
-		collectionChangeSupport.fireElementAdded(BOOKS, book);
-		return book;
+		PhotoGallery gallery=new PhotoGallery();
+		collectionChangeSupport.fireElementAdded(GALLERIES, gallery);
+		return gallery;
 	}
 
-
-	public void dropBook(PhotoBook book)
+	public void dropGallery(PhotoGallery gallery)
 	{
-		book.delete();
-		collectionChangeSupport.fireElementRemoved(BOOKS, book);
+		gallery.delete();
+		collectionChangeSupport.fireElementRemoved(GALLERIES, gallery);
 	}
 
 	public void addCollectionListener(CollectionChangeListener listener)
@@ -65,24 +65,18 @@ public class PhotoManager implements CollectionChangeSource
 		collectionChangeSupport.removeListener(listener);
 	}
 
-	public Icon getThumbnail(Photo photo)
+	public ImageData createThumbnail(File file, int rotation)
 	{
-		File originalFile=new File(photo.getOriginalFile());
-		String extension=FileUtils.getExtension(originalFile);
-		String thumbnailPath=Configurator.getInstance().getString("path.photos.thumbnails");
-		File thumbnailFile=new File(thumbnailPath, photo.getId()+"_"+photo.getRotation()+"."+extension.toLowerCase());
-		if (!thumbnailFile.exists())
+		NumberFormat numberFormat=new DecimalFormat("000000");
+		File thumbnailFile;
+		do
 		{
-			new File(thumbnailPath).mkdirs();
-			ImageUtils.rotateAndResize(originalFile, photo.getRotation(), 160, 160, thumbnailFile);
+			thumbnailFile=new File(MediaConfiguration.getPhotoThumbnailPath(), numberFormat.format(MediaConfiguration.nextThumbnailId())+".jpg");
 		}
-		try
-		{
-			return new ImageIcon(thumbnailFile.toURL());
-		}
-		catch (MalformedURLException e)
-		{
-			throw new RuntimeException(e);
-		}
+		while (thumbnailFile.exists());
+		ImageUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
+		Dimension size=ImageUtils.getImageSize(thumbnailFile);
+		if (size!=null) return new ImageData(thumbnailFile, size);
+		return null;
 	}
 }

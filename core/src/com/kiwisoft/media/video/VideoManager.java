@@ -132,7 +132,7 @@ public class VideoManager
 
 	public static String getGroupName(int group)
 	{
-		return (group*50+1)+"-"+(group*50+50);
+		return Math.max(1, group*50)+"-"+(group*50+49);
 	}
 
 	public Set<Video> getVideos(Movie movie)

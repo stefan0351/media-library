@@ -8,6 +8,8 @@
 package com.kiwisoft.media;
 
 import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.kiwisoft.utils.db.DBLoader;
 
@@ -30,9 +32,20 @@ public class LanguageManager
 		return DBLoader.getInstance().loadSet(Language.class);
 	}
 
+	public Map<String, Language> symbolMap=new HashMap<String, Language>();
+
 	public Language getLanguageBySymbol(String symbol)
 	{
-		return DBLoader.getInstance().load(Language.class, null, "symbol=?", symbol);
+		if (symbolMap.containsKey(symbol))
+		{
+			return symbolMap.get(symbol);
+		}
+		else
+		{
+			Language language=DBLoader.getInstance().load(Language.class, null, "symbol=?", symbol);
+			symbolMap.put(symbol, language);
+			return language;
+		}
 	}
 }
 

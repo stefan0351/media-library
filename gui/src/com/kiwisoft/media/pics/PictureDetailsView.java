@@ -2,24 +2,22 @@ package com.kiwisoft.media.pics;
 
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.utils.Configurator;
-import com.kiwisoft.utils.DocumentAdapter;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
+import com.kiwisoft.media.utils.GuiUtils;
 
 public class PictureDetailsView extends DetailsView
 {
@@ -65,24 +63,20 @@ public class PictureDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		nameField=new JTextField(40);
-		imageField=new ImageField(new Dimension(250, 250));
-		imageField.setBorder(new TitledBorder("Original"));
-		thumbnail50x50Field=new ImageField(new Dimension(50, 50));
-		thumbnail50x50Field.setBorder(new TitledBorder("50x50"));
-		thumbnailSidebarField=new ImageField(new Dimension(170, 170));
-		thumbnailSidebarField.setBorder(new TitledBorder("Sidebar"));
+		imageField=new ImageField("Original", new Dimension(250, 250));
+		thumbnail50x50Field=new ImageField("50x50", new Dimension(50, 50), new EditThumbnail50x50Action());
+		thumbnailSidebarField=new ImageField("SideBar", new Dimension(170, 170), new CreateThumbnailSideBarAction());
 
 		setLayout(new GridBagLayout());
 		int row=0;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(nameField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(imageField, new GridBagConstraints(1, row, 1, 2, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(thumbnail50x50Field, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
-		add(thumbnailSidebarField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
+		add(new JLabel("Images:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(imageField, new GridBagConstraints(1, row, 1, 2, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(thumbnailSidebarField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(thumbnail50x50Field, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		imageField.addPropertyChangeListener("file", new PropertyChangeListener()
@@ -96,8 +90,8 @@ public class PictureDetailsView extends DetailsView
 					File thumbnailSide=thumbnailSidebarField.getFile();
 					if (thumbnailMini==null || !thumbnailMini.exists() || thumbnailSide==null || !thumbnailSide.exists())
 					{
-						Map<String,PictureManager.ImageData> thumbnails=PictureManager.getThumbnails(file);
-						PictureManager.ImageData imageData=thumbnails.get(Picture.THUMBNAIL_50x50);
+						Map<String, ImageData> thumbnails=PictureManager.getThumbnails(file);
+						ImageData imageData=thumbnails.get(Picture.THUMBNAIL_50x50);
 						if (imageData!=null && (thumbnailMini==null || !thumbnailMini.exists()))
 						{
 							thumbnail50x50Field.setFile(imageData.getFile());
@@ -118,7 +112,7 @@ public class PictureDetailsView extends DetailsView
 		if (picture!=null)
 		{
 			nameField.setText(picture.getName());
-			Thumbnail thumbnail=picture.getThumbnail50x50();
+			PictureFile thumbnail=picture.getThumbnail50x50();
 			if (thumbnail!=null) thumbnail50x50Field.setFileName(thumbnail.getFile());
 			thumbnail=picture.getThumbnailSidebar();
 			if (thumbnail!=null) thumbnailSidebarField.setFileName(thumbnail.getFile());
@@ -190,7 +184,7 @@ public class PictureDetailsView extends DetailsView
 		}
 	}
 
-	private static class ImageField extends JPanel implements MouseListener
+	private static class ImageField extends JPanel
 	{
 		private File file;
 		private int width;
@@ -198,12 +192,78 @@ public class PictureDetailsView extends DetailsView
 
 		private ImagePanel imagePanel;
 
-		public ImageField(Dimension size)
+		public ImageField(String name, Dimension size, Action... actions)
 		{
-			super(new BorderLayout());
+			super(new GridBagLayout());
+			setBorder(new LineBorder(Color.BLACK));
+
+			add(createTitleBar(name),
+				new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			add(createToolBar(actions),
+				new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			add(createImagePanel(size),
+				new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		}
+
+		private ImagePanel createImagePanel(Dimension size)
+		{
 			imagePanel=new ImagePanel(size);
-			add(imagePanel, BorderLayout.CENTER);
-			addMouseListener(this);
+			imagePanel.setBackground(Color.WHITE);
+			imagePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+			return imagePanel;
+		}
+
+		private JLabel createTitleBar(String name)
+		{
+			JLabel label=new JLabel(name);
+			label.setOpaque(true);
+			label.setBackground(Utils.darker(UIManager.getColor("Panel.background"), 0.8));
+			return label;
+		}
+
+		private JToolBar createToolBar(Action[] actions)
+		{
+			JToolBar toolBar=new JToolBar()
+			{
+				@Override
+				protected JButton createActionComponent(Action a)
+				{
+					JButton button=super.createActionComponent(a);
+					button.setMargin(new Insets(2, 2, 2, 2));
+					return button;
+				}
+			};
+			toolBar.setFloatable(false);
+			toolBar.setMargin(null);
+			toolBar.add(new OpenFileAction());
+			for (Action action : actions) toolBar.add(action);
+			return toolBar;
+		}
+
+		private class OpenFileAction extends AbstractAction
+		{
+			public OpenFileAction()
+			{
+				super("Open File", Icons.getIcon("open.file"));
+			}
+
+			public void actionPerformed(ActionEvent e)
+			{
+				ImageFileChooser fileChooser=new ImageFileChooser();
+				if (file!=null) fileChooser.setSelectedFile(file);
+				else
+				{
+					String path=Configurator.getInstance().getString("path.pictures.recent", null);
+					if (path==null) path=Configurator.getInstance().getString("path.root");
+					if (path!=null) fileChooser.setCurrentDirectory(new File(path));
+				}
+				if (fileChooser.showOpenDialog(ImageField.this)==JFileChooser.APPROVE_OPTION)
+				{
+					File file=fileChooser.getSelectedFile();
+					setFile(file);
+					Configurator.getInstance().setString("path.pictures.recent", file.getParent());
+				}
+			}
 		}
 
 		public void setFileName(String fileName)
@@ -252,59 +312,6 @@ public class PictureDetailsView extends DetailsView
 			firePropertyChange("file", oldFile, this.file);
 		}
 
-		/**
-		 * Invoked when the mouse button has been clicked (pressed
-		 * and released) on a component.
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-			if (e.getClickCount()>1 && e.getButton()==MouseEvent.BUTTON1)
-			{
-				ImageFileChooser fileChooser=new ImageFileChooser();
-				if (file!=null) fileChooser.setSelectedFile(file);
-				else
-				{
-					String path=Configurator.getInstance().getString("path.pictures.recent", null);
-					if (path==null) path=Configurator.getInstance().getString("path.root");
-					if (path!=null) fileChooser.setCurrentDirectory(new File(path));
-				}
-				if (fileChooser.showOpenDialog(this)==JFileChooser.APPROVE_OPTION)
-				{
-					File file=fileChooser.getSelectedFile();
-					setFile(file);
-					Configurator.getInstance().setString("path.pictures.recent", file.getParent());
-				}
-			}
-		}
-
-		/**
-		 * Invoked when a mouse button has been pressed on a component.
-		 */
-		public void mousePressed(MouseEvent e)
-		{
-		}
-
-		/**
-		 * Invoked when a mouse button has been released on a component.
-		 */
-		public void mouseReleased(MouseEvent e)
-		{
-		}
-
-		/**
-		 * Invoked when the mouse enters a component.
-		 */
-		public void mouseEntered(MouseEvent e)
-		{
-		}
-
-		/**
-		 * Invoked when the mouse exits a component.
-		 */
-		public void mouseExited(MouseEvent e)
-		{
-		}
-
 		public int getImageWidth()
 		{
 			return width;
@@ -313,6 +320,69 @@ public class PictureDetailsView extends DetailsView
 		public int getImageHeight()
 		{
 			return height;
+		}
+	}
+
+	public class EditThumbnail50x50Action extends AbstractAction
+	{
+		public EditThumbnail50x50Action()
+		{
+			super("Edit", Icons.getIcon("edit"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			File file=thumbnail50x50Field.getFile();
+			if (file==null || !file.exists())
+			{
+				File imageFile=imageField.getFile();
+				if (imageFile!=null && imageFile.exists())
+				{
+					String name=FileUtils.getNameWithoutExtension(imageFile);
+					file=new File(imageFile.getParentFile(), name+"_mini.jpg");
+					ImageUtils.convert(imageFile, file);
+				}
+			}
+			if (file!=null && file.exists())
+			{
+				try
+				{
+					Utils.run("\""+Configurator.getInstance().getString("image.editor")+"\""
+							  +" \""+file.getAbsolutePath()+"\"", null, null);
+					thumbnail50x50Field.setFile(file);
+				}
+				catch (Exception e1)
+				{
+					GuiUtils.handleThrowable(thumbnail50x50Field, e1);
+				}
+			}
+		}
+	}
+
+	public class CreateThumbnailSideBarAction extends AbstractAction
+	{
+		public CreateThumbnailSideBarAction()
+		{
+			super("Create", Icons.getIcon("add"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			File file=thumbnailSidebarField.getFile();
+			if (file==null || !file.exists())
+			{
+				File imageFile=imageField.getFile();
+				if (imageFile!=null && imageFile.exists())
+				{
+					String name=FileUtils.getNameWithoutExtension(imageFile);
+					file=new File(imageFile.getParentFile(), name+"_sb.jpg");
+					ImageUtils.resize(imageFile, 170, -1, file);
+				}
+			}
+			if (file!=null && file.exists())
+			{
+				thumbnailSidebarField.setFile(file);
+			}
 		}
 	}
 }

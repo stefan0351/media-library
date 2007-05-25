@@ -1,10 +1,9 @@
-<%@ page language="java" %>
-<%@ page import="com.kiwisoft.media.movie.Movie,
-				 com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.utils.StringUtils"%>
-<%@ page import="com.kiwisoft.media.Navigation"%>
-<%@ page import="com.kiwisoft.media.pics.Picture" %>
-<%@ page import="com.kiwisoft.media.pics.Thumbnail" %>
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+<%@ page import="com.kiwisoft.media.Navigation,
+				 com.kiwisoft.media.movie.Movie" %>
+<%@ page import="com.kiwisoft.media.pics.Picture"%>
+<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
+<%@ page import="com.kiwisoft.media.show.Show" %>
 
 <%
 	Movie movie=(Movie)request.getAttribute("movie");
@@ -14,29 +13,21 @@
 <table class="menutable">
 <tr><td class="menuheader">Movie</td></tr>
 <%
-	String thumbnailPath=null;
-	String posterPath=null;
+	PictureFile thumbnail=null;
 	Picture poster=movie.getPoster();
 	if (poster!=null)
 	{
-		Thumbnail thumbnail=poster.getThumbnailSidebar();
-		if (thumbnail!=null) thumbnailPath=thumbnail.getFile();
-		else if (poster.getWidth()<=170) thumbnailPath=poster.getFile();
-		if (poster.getWidth()>170) posterPath=poster.getFile();
+		thumbnail=poster.getThumbnailSidebar();
+		if (thumbnail==null && poster.getWidth()<=170) thumbnail=poster;
 	}
-	if (!StringUtils.isEmpty(thumbnailPath))
+	if (thumbnail!=null)
 	{
 %>
-<tr><td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=thumbnailPath.replace('\\', '/')%>"
+<tr><td class="menuitem" align="center">
 <%
-		if (!StringUtils.isEmpty(posterPath))
-		{
+		out.println(renderPicture("Poster", poster, thumbnail, null));
 %>
-			onMouseOver="imagePopup('Poster', '/<%=posterPath.replace('\\', '/')%>')" onMouseOut="nd()"
-<%
-		}
-%>
-	></td></tr>
+	</td></tr>
 <tr><td><hr size=1 color=black></td></tr>
 <%
 	}

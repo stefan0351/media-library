@@ -2,6 +2,7 @@
 
 <table class="menutable">
 <tr><td class="menuheader">Main</td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/books/index.jsp">Books</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/fanfic/fandoms.jsp">Fan Fiction</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/movies/index.jsp">Movies</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp">Shows</a></td></tr>

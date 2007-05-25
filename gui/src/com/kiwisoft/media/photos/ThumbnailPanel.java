@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Comparator;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -78,6 +79,35 @@ public class ThumbnailPanel extends JPanel
 			}
 		}
 		return selectedThumbnails;
+	}
+
+	public void clearSelection()
+	{
+		selectionModel.clearSelection();
+	}
+
+	public int indexOf(Photo photo)
+	{
+		for (int i=0; i<thumbnails.size(); i++)
+		{
+			Thumbnail thumbnail=thumbnails.get(i);
+			if (thumbnail.getPhoto()==photo) return i;
+		}
+		return -1;
+	}
+
+	public void addSelectionInterval(int rowIndex, int rowIndex1)
+	{
+		selectionModel.addSelectionInterval(rowIndex, rowIndex1);
+	}
+
+	public void sort(Comparator<? super Thumbnail> comparator)
+	{
+		clearSelection();
+		Collections.sort(thumbnails, comparator);
+		removeAll();
+		for (Thumbnail thumbnail : thumbnails) add(thumbnail);
+		updateUI();
 	}
 
 	private class MyMouseListener extends MouseAdapter

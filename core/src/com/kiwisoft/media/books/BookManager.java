@@ -1,11 +1,18 @@
 package com.kiwisoft.media.books;
 
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.CollectionChangeSource;
 import com.kiwisoft.utils.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.utils.db.DBSession;
 
 /**
  * @author Stefan Stiller
@@ -42,6 +49,40 @@ public class BookManager implements CollectionChangeSource
 		fireElementRemoved(BOOKS, book);
 	}
 
+	public Set<Book> getBooksByLetter(char ch)
+	{
+		return DBLoader.getInstance().loadSet(Book.class, null, "sort_letter(title)=?", String.valueOf(ch));
+	}
+
+	public SortedSet<Character> getLetters()
+	{
+		try
+		{
+			SortedSet<Character> set=new TreeSet<Character>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(title) from books");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next())
+				{
+					String string=resultSet.getString(1);
+					if (string!=null && string.length()>0)
+						set.add(new Character(string.charAt(0)));
+				}
+			}
+			finally
+			{
+				statement.close();
+			}
+			return set;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	public void addCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.addListener(listener);
@@ -60,5 +101,15 @@ public class BookManager implements CollectionChangeSource
 	protected void fireElementRemoved(String propertyName, Object element)
 	{
 		collectionChangeSupport.fireElementRemoved(propertyName, element);
+	}
+
+	public int getBookCount()
+	{
+		return DBLoader.getInstance().count(Book.class);
+	}
+
+	public Book getBook(Long id)
+	{
+		return DBLoader.getInstance().load(Book.class, id);
 	}
 }

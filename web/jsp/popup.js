@@ -1,9 +1,8 @@
 function imagePopup(name, img, width, height)
 {
-	return overlib("<img src=\""+img+"\">",CAPTION,name,FGCOLOR,"white",BGCOLOR,"#005500",CAPCOLOR,"white",WIDTH,width,HEIGHT,height,VAUTO);
-}
-
-function imagePopup(name, img)
-{
-	return overlib("<img src=\""+img+"\">",CAPTION,name,FGCOLOR,"white",BGCOLOR,"#005500",CAPCOLOR,"white",VAUTO);
+	var content="<img src=\""+img+"\"";
+	if (width>0) content+=" width=\""+width+"\"";
+	if (height>0) content+=" height=\""+height+"\"";
+	content+=">";
+	return overlib(content,CAPTION,name,FGCOLOR,"white",BGCOLOR,"#005500",CAPCOLOR,"white",VAUTO);
 }

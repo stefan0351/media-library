@@ -53,7 +53,12 @@ public class ShowRecordsTable extends SortableWebTable<Recording>
 
 		public Comparable getSortValue(int column, String property)
 		{
-			if (EVENT.equals(property)) return new Integer(getUserObject().getEpisode().getChainPosition());
+			if (EVENT.equals(property))
+			{
+				Episode episode=getUserObject().getEpisode();
+				if (episode!=null) return episode.getChainPosition();
+				else return Integer.MAX_VALUE;
+			}
 			return super.getSortValue(column, property);
 		}
 

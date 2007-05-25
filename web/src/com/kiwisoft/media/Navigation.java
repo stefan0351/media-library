@@ -7,6 +7,7 @@ import com.kiwisoft.media.show.Season;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.video.Video;
+import com.kiwisoft.media.books.Book;
 
 public class Navigation
 {
@@ -19,6 +20,11 @@ public class Navigation
 		ShowInfo link=show.getDefaultInfo();
 		if (link!=null) return "/"+link.getPath()+"?show="+show.getId();
 		return "/shows/episodes.jsp?show="+show.getId();
+	}
+
+	public static String getLink(Book book)
+	{
+		return "/books/book.jsp?book="+book.getId();
 	}
 
 	public static String getLink(Season season)

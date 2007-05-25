@@ -9,6 +9,9 @@
 	<icon key="details">
 		<resource url="/com/kiwisoft/media/icons/page_edit.png"/>
 	</icon>
+	<icon key="edit">
+		<resource url="/com/kiwisoft/media/icons/page_edit.png"/>
+	</icon>
 	<icon key="add">
 		<resource url="/com/kiwisoft/media/icons/add.png"/>
 	</icon>
@@ -104,5 +107,8 @@
 	</icon>
 	<icon key="manage">
 		<resource url="/com/kiwisoft/media/icons/database_gear.png"/>
+	</icon>
+	<icon key="open.file">
+		<resource url="/com/kiwisoft/media/icons/folder_explore.png"/>
 	</icon>
 </icons>

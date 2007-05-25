@@ -26,20 +26,12 @@ public class AmazonDeLoader
 		this.url=url;
 	}
 
-//	http://www.amazon.de/Winterschmied-Terry-Pratchett/dp/3442546192/ref=sr_1_1/303-2943436-3629057?ie=UTF8&s=books&qid=1175865960&sr=1-1
-//	http://www.amazon.de/Kleine-freie-M%C3%A4nner-M%C3%A4rchen-Scheibenwelt/dp/3442463092/ref=sr_1_2/303-2943436-3629057?ie=UTF8&s=books&qid=1175868777&sr=1-2
-//	http://www.amazon.de/Gevatter-Tod-Roman-bizarren-Scheibenwelt/dp/349228504X/ref=sr_1_3/303-2943436-3629057?ie=UTF8&s=books&qid=1175868777&sr=1-3
-//	http://www.amazon.de/Wer-Angst-Beowulf-Roman-Fantasy/dp/3453065867/ref=sr_1_2/303-2943436-3629057?ie=UTF8&s=books&qid=1175869217&sr=1-2
-//	http://www.amazon.de/Wintersmith-Terry-Pratchett/dp/0060890312/ref=sr_1_1/303-2943436-3629057?ie=UTF8&s=books-intl-de&qid=1175960540&sr=1-1
-//	http://www.amazon.de/Good-Omens-Accurate-Prophecies-Nutter/dp/0060853980/ref=sr_1_3/303-2943436-3629057?ie=UTF8&s=books-intl-de&qid=1175960540&sr=1-3
-
 	public BookData load() throws IOException
 	{
 		BookData bookData=new BookData();
 
 		System.out.print("Loading main page...");
 		String page=WebUtils.loadURL(url);
-//		FileUtils.saveToFile(page, new File(tempPath, "page.html"));
 		System.out.println("done");
 
 		System.out.print("Analyzing main page...");
@@ -52,7 +44,6 @@ public class AmazonDeLoader
 		{
 			System.out.print("Loading image page...");
 			String imagePage=WebUtils.loadURL(imagePageURL);
-//			FileUtils.saveToFile(imagePage, new File(tempPath, "imagePage.html"));
 			System.out.println("done");
 
 			System.out.print("Analyzing image page...");
@@ -224,11 +215,12 @@ public class AmazonDeLoader
 
 	private static String extractImagePageURL(String page)
 	{
-		int index=page.indexOf("Gr\u00F6\u00DFeres Bild");
+		int index=page.indexOf("<td id=\"prodImageCell\"");
 		if (index<0) return null;
-		index=page.lastIndexOf("http://www.amazon.de/gp/product/images", index);
-		int index2=page.indexOf("'", index);
+		index=page.indexOf("<a", index);
+		if (index<0) return null;
+		int index2=page.indexOf(">", index);
 		if (index2<0) return null;
-		return page.substring(index, index2);
+		return XMLUtils.getAttribute(page.substring(index, index2), "href");
 	}
 }

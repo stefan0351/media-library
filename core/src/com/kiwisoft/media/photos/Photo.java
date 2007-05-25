@@ -1,25 +1,38 @@
 package com.kiwisoft.media.photos;
 
-import java.util.Date;
 import java.io.File;
+import java.util.Date;
 
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.pics.ImageData;
+import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.utils.db.Chain;
+import com.kiwisoft.utils.FileUtils;
 
-public class Photo extends IDObject
+public class Photo extends IDObject implements Chain.ChainLink
 {
 	public static final String ROTATION="rotation";
-	public static final String BOOK="book";
+	public static final String GALLERY="gallery";
+	public static final String ORIGINAL_PICTURE="originalPicture";
+	public static final String THUMBNAIL="thumbnail";
 
-	private String originalFile;
-	private int originalWidth;
-	private int originalHeight;
+	public static final int THUMBNAIL_WIDTH=160;
+	public static final int THUMBNAIL_HEIGHT=120;
+
 	private Date creationDate;
 	private int rotation;
+	private int sequence;
+	private String cameraMake;
+	private String cameraModel;
+	private String exposureTime;
+	private int colorDepth;
+	private String description;
 
-	public Photo(PhotoBook book)
+	public Photo(PhotoGallery gallery)
 	{
-		setBook(book);
+		setGallery(gallery);
 	}
 
 	public Photo(DBDummy dummy)
@@ -27,53 +40,34 @@ public class Photo extends IDObject
 		super(dummy);
 	}
 
-	public Photo(PhotoBook book, File file)
+	public PhotoGallery getGallery()
 	{
-		this(book);
-		setOriginalFile(file.getAbsolutePath());
+		return (PhotoGallery)getReference(GALLERY);
 	}
 
-	public PhotoBook getBook()
+	public void setGallery(PhotoGallery gallery)
 	{
-		return (PhotoBook)getReference(BOOK);
+		setReference(GALLERY, gallery);
 	}
 
-	public void setBook(PhotoBook book)
+	public PictureFile getOriginalPicture()
 	{
-		setReference(BOOK, book);
+		return (PictureFile)getReference(ORIGINAL_PICTURE);
 	}
 
-	public String getOriginalFile()
+	public void setOriginalPicture(PictureFile pictureFile)
 	{
-		return originalFile;
+		setReference(ORIGINAL_PICTURE, pictureFile);
 	}
 
-	public void setOriginalFile(String originalFile)
+	public PictureFile getThumbnail()
 	{
-		this.originalFile=originalFile;
-		setModified();
+		return (PictureFile)getReference(THUMBNAIL);
 	}
 
-	public int getOriginalWidth()
+	public void setThumbnail(PictureFile pictureFile)
 	{
-		return originalWidth;
-	}
-
-	public void setOriginalWidth(int originalWidth)
-	{
-		this.originalWidth=originalWidth;
-		setModified();
-	}
-
-	public int getOriginalHeight()
-	{
-		return originalHeight;
-	}
-
-	public void setOriginalHeight(int originalHeight)
-	{
-		this.originalHeight=originalHeight;
-		setModified();
+		setReference(THUMBNAIL, pictureFile);
 	}
 
 	public Date getCreationDate()
@@ -94,9 +88,120 @@ public class Photo extends IDObject
 
 	public void setRotation(int rotation)
 	{
+		PictureFile picture=getOriginalPicture();
+		if (picture==null) return;
+		File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
+		if (!file.exists()) return;
+		ImageData thumbnailData=PhotoManager.getInstance().createThumbnail(file, rotation);
+		if (thumbnailData==null) return;
+
+		PictureFile thumbnail=getThumbnail();
+		setThumbnail(new PictureFile(thumbnailData));
+		if (thumbnail!=null) thumbnail.deletePhysically();
+
 		int oldRotation=this.rotation;
 		this.rotation=rotation;
 		setModified();
 		firePropertyChange(ROTATION, oldRotation, rotation);
+	}
+
+	public int getWidth()
+	{
+		PictureFile picture=getOriginalPicture();
+		if (picture!=null)
+		{
+			if (rotation==90 || rotation==270) return picture.getHeight();
+			return picture.getWidth();
+		}
+		return -1;
+	}
+
+	public int getHeight()
+	{
+		PictureFile picture=getOriginalPicture();
+		if (picture!=null)
+		{
+			if (rotation==90 || rotation==270) return picture.getWidth();
+			return picture.getHeight();
+		}
+		return -1;
+	}
+
+	public void setChainPosition(int position)
+	{
+		this.sequence=position;
+		setModified();
+	}
+
+	public int getChainPosition()
+	{
+		return sequence;
+	}
+
+
+	public String getCameraMake()
+	{
+		return cameraMake;
+	}
+
+	public void setCameraMake(String cameraMake)
+	{
+		this.cameraMake=cameraMake;
+		setModified();
+	}
+
+	public String getCameraModel()
+	{
+		return cameraModel;
+	}
+
+	public void setCameraModel(String cameraModel)
+	{
+		this.cameraModel=cameraModel;
+		setModified();
+	}
+
+	public String getExposureTime()
+	{
+		return exposureTime;
+	}
+
+	public void setExposureTime(String exposureTime)
+	{
+		this.exposureTime=exposureTime;
+		setModified();
+	}
+
+	public int getColorDepth()
+	{
+		return colorDepth;
+	}
+
+	public void setColorDepth(int colorDepth)
+	{
+		this.colorDepth=colorDepth;
+		setModified();
+	}
+
+
+	public String getDescription()
+	{
+		return description;
+	}
+
+	public void setDescription(String description)
+	{
+		this.description=description;
+		setModified();
+	}
+
+	@Override
+	public void delete()
+	{
+		PictureFile picture=getOriginalPicture();
+		if (picture!=null) picture.delete();
+		PictureFile thumbnail=getThumbnail();
+		if (thumbnail!=null) thumbnail.deletePhysically();
+		super.delete();
 	}
 }

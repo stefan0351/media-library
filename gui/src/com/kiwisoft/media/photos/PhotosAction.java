@@ -9,7 +9,7 @@ import com.kiwisoft.utils.gui.Icons;
 /**
  * @author Stefan Stiller
  */
-public class PhotosAction extends SimpleContextAction<PhotoBook>
+public class PhotosAction extends SimpleContextAction<PhotoGallery>
 {
 	private ApplicationFrame frame;
 

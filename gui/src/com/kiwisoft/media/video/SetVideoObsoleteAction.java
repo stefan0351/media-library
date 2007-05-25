@@ -23,7 +23,7 @@ public class SetVideoObsoleteAction extends MultiContextAction<Video>
 	}
 
 	@Override
-	public void update(List<Video> objects)
+	public void update(List<? extends Video> objects)
 	{
 		super.update(objects);
 		for (Video video : getObjects())

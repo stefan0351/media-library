@@ -1,6 +1,8 @@
 package com.kiwisoft.media;
 
 import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.kiwisoft.utils.db.DBLoader;
 
@@ -23,8 +25,19 @@ public class CountryManager
 		return DBLoader.getInstance().loadSet(Country.class);
 	}
 
+	public Map<String, Country> symbolMap=new HashMap<String, Country>();
+
 	public Country getCountryBySymbol(String symbol)
 	{
-		return DBLoader.getInstance().load(Country.class, null, "symbol=?", symbol);
+		if (symbolMap.containsKey(symbol))
+		{
+			return symbolMap.get(symbol);
+		}
+		else
+		{
+			Country country=DBLoader.getInstance().load(Country.class, null, "symbol=?", symbol);
+			symbolMap.put(symbol, country);
+			return country;
+		}
 	}
 }

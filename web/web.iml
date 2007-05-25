@@ -12,9 +12,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Tomcat 5.5.4" level="application_server_libraries" />
-    <orderEntry type="module" module-name="core" />
-    <orderEntry type="module" module-name="utils" />
+    <orderEntry type="library" exported="" name="Tomcat 5.5.4" level="application_server_libraries" />
+    <orderEntry type="module" module-name="core" exported="" />
     <orderEntry type="library" exported="" name="FOP" level="project" />
     <orderEntryProperties />
   </component>

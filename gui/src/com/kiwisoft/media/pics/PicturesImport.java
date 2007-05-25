@@ -54,7 +54,7 @@ public class PicturesImport implements Job
 				final Dimension imageSize=ImageUtils.getImageSize(imageFile);
 				if (imageSize!=null)
 				{
-					final Map<String, PictureManager.ImageData> thumbnails=PictureManager.getThumbnails(imageFile);
+					final Map<String, ImageData> thumbnails=PictureManager.getThumbnails(imageFile);
 					if (!DBSession.execute(new Transactional()
 					{
 						public void run() throws Exception
@@ -64,9 +64,9 @@ public class PicturesImport implements Job
 							picture.setFile(relativePath);
 							picture.setWidth(imageSize.width);
 							picture.setHeight(imageSize.height);
-							for (Map.Entry<String, PictureManager.ImageData> entry : thumbnails.entrySet())
+							for (Map.Entry<String, ImageData> entry : thumbnails.entrySet())
 							{
-								PictureManager.ImageData imageData=entry.getValue();
+								ImageData imageData=entry.getValue();
 								Dimension size=imageData.getSize();
 								picture.setThumbnail(entry.getKey(), FileUtils.getRelativePath(rootPath, imageData.getFile().getAbsolutePath()),
 													 size.width, size.height);

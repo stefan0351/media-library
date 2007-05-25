@@ -5,6 +5,7 @@ import java.util.Set;
 import java.io.File;
 
 import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
 
 /**
  * @author Stefan Stiller
@@ -18,7 +19,7 @@ public class BookData
 	private int pageCount;
 	private String publisher;
 	private int publishedYear;
-	private Language language;
+	private Language language=LanguageManager.getInstance().getLanguageBySymbol("de");
 	private String isbn10;
 	private String isbn13;
 	private String edition;
