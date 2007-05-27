@@ -3,6 +3,7 @@ package com.kiwisoft.media.utils;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -60,5 +61,12 @@ public class GuiUtils
 	{
 		throwable.printStackTrace();
 		showMessageDialog(component, throwable.getClass().getSimpleName()+":\n"+throwable.getMessage(), "Error", ERROR_MESSAGE);
+	}
+
+	public static JLabel createBoldLabel(String name)
+	{
+		JLabel label=new JLabel(name);
+		label.setFont(label.getFont().deriveFont(Font.BOLD));
+		return label;
 	}
 }

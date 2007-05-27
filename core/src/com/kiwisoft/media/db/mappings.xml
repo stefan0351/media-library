@@ -251,8 +251,13 @@
 		<field name="cameraMake" column="camera_make"/>
 		<field name="cameraModel" column="camera_model"/>
 		<field name="colorDepth" column="color_depth"/>
-		<field name="exposureTime" column="exposure_time"/>
 		<field name="description" column="description"/>
+		<field name="exposureTime" column="exposure_time"/>
+		<field name="xResolution" column="xresolution"/>
+		<field name="yResolution" column="yresolution"/>
+		<field name="fNumber" column="f_number"/>
+		<field name="focalLength" column="focal_length"/>
+		<field name="isoSpeed" column="iso_speed"/>
 		<reference name="gallery" column="photogallery_id" type="PhotoGallery"/>
 		<reference name="originalPicture" column="original_pic_id" type="PictureFile"/>
 		<reference name="thumbnail" column="thumbnail_id" type="PictureFile"/>
@@ -261,6 +266,7 @@
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
+		<field name="creationDate" column="creation_date"/>
 	</mapping>
 	<mapping name="Picture" class="com.kiwisoft.media.pics.Picture" table="pictures" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>

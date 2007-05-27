@@ -14,6 +14,7 @@ import com.kiwisoft.utils.FileUtils;
 public class Photo extends IDObject implements Chain.ChainLink
 {
 	public static final String ROTATION="rotation";
+	public static final String DESCRIPTION="description";
 	public static final String GALLERY="gallery";
 	public static final String ORIGINAL_PICTURE="originalPicture";
 	public static final String THUMBNAIL="thumbnail";
@@ -21,14 +22,20 @@ public class Photo extends IDObject implements Chain.ChainLink
 	public static final int THUMBNAIL_WIDTH=160;
 	public static final int THUMBNAIL_HEIGHT=120;
 
-	private Date creationDate;
 	private int rotation;
 	private int sequence;
-	private String cameraMake;
-	private String cameraModel;
-	private String exposureTime;
 	private int colorDepth;
 	private String description;
+
+	private Date creationDate;
+	private String cameraMake;
+	private String cameraModel;
+	private Double exposureTime;
+	private Double fNumber;
+	private Double focalLength;
+	private Integer isoSpeed;
+	private Integer xResolution;
+	private Integer yResolution;
 
 	public Photo(PhotoGallery gallery)
 	{
@@ -48,6 +55,11 @@ public class Photo extends IDObject implements Chain.ChainLink
 	public void setGallery(PhotoGallery gallery)
 	{
 		setReference(GALLERY, gallery);
+	}
+
+	public Long getOriginalPictureId()
+	{
+		return getReferenceId(ORIGINAL_PICTURE);
 	}
 
 	public PictureFile getOriginalPicture()
@@ -161,14 +173,69 @@ public class Photo extends IDObject implements Chain.ChainLink
 		setModified();
 	}
 
-	public String getExposureTime()
+	public Double getExposureTime()
 	{
 		return exposureTime;
 	}
 
-	public void setExposureTime(String exposureTime)
+	public void setExposureTime(Double exposureTime)
 	{
 		this.exposureTime=exposureTime;
+		setModified();
+	}
+
+	public Double getFNumber()
+	{
+		return fNumber;
+	}
+
+	public void setFNumber(Double fNumber)
+	{
+		this.fNumber=fNumber;
+		setModified();
+	}
+
+	public Double getFocalLength()
+	{
+		return focalLength;
+	}
+
+	public void setFocalLength(Double focalLength)
+	{
+		this.focalLength=focalLength;
+		setModified();
+	}
+
+	public Integer getIsoSpeed()
+	{
+		return isoSpeed;
+	}
+
+	public void setIsoSpeed(Integer isoSpeed)
+	{
+		this.isoSpeed=isoSpeed;
+		setModified();
+	}
+
+	public Integer getXResolution()
+	{
+		return xResolution;
+	}
+
+	public void setXResolution(Integer xResolution)
+	{
+		this.xResolution=xResolution;
+		setModified();
+	}
+
+	public Integer getYResolution()
+	{
+		return yResolution;
+	}
+
+	public void setYResolution(Integer yResolution)
+	{
+		this.yResolution=yResolution;
 		setModified();
 	}
 
@@ -183,7 +250,6 @@ public class Photo extends IDObject implements Chain.ChainLink
 		setModified();
 	}
 
-
 	public String getDescription()
 	{
 		return description;
@@ -191,8 +257,10 @@ public class Photo extends IDObject implements Chain.ChainLink
 
 	public void setDescription(String description)
 	{
+		String oldDescription=this.description;
 		this.description=description;
 		setModified();
+		firePropertyChange(DESCRIPTION, oldDescription, description);
 	}
 
 	@Override

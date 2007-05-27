@@ -1,9 +1,12 @@
 package com.kiwisoft.media.photos;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -11,10 +14,14 @@ import com.kiwisoft.media.utils.GuiUtils;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.db.*;
-import com.kiwisoft.utils.gui.*;
-import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.db.Chain;
+import com.kiwisoft.utils.db.ChainEvent;
+import com.kiwisoft.utils.db.ChainListener;
+import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
+import com.kiwisoft.utils.gui.actions.ContextAction;
 
 public class PhotosView extends ViewPanel
 {
@@ -67,6 +74,7 @@ public class PhotosView extends ViewPanel
 		toolBarActions.add(rotateAction);
 		toolBarActions.add(new MovePhotoUpAction(thumbnailPanel, photoGallery.getPhotos()));
 		toolBarActions.add(new MovePhotoDownAction(thumbnailPanel, photoGallery.getPhotos()));
+		toolBarActions.add(new MovePhotoAction(frame, photoGallery));
 		return GuiUtils.createToolBar(toolBarActions);
 	}
 

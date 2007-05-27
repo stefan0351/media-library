@@ -1,0 +1,74 @@
+<%@ page import="com.kiwisoft.media.photos.PhotoGallery" %>
+<%@ page import="com.kiwisoft.media.photos.PhotoManager" %>
+<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
+<%@ page import="com.kiwisoft.utils.Utils" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="java.util.*" %>
+<%@ page import="com.kiwisoft.utils.format.FormatStringComparator" %>
+<%@ page import="org.apache.jasper.compiler.JspUtil" %>
+<%@ page import="com.kiwisoft.media.photos.Photo" %>
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
+<html>
+
+<%
+	PhotoGallery gallery=PhotoManager.getInstance().getGallery(new Long(request.getParameter("gallery")));
+%>
+
+<head>
+<title>Photos - <%=JspUtils.render(gallery.getName())%></title>
+<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="/style.css">
+</head>
+
+<body>
+<a name="top"></a>
+
+<div id="overDiv" class="over_lib"></div>
+
+<media:title>Photos</media:title>
+<media:body>
+	<media:sidebar>
+		<jsp:include page="/_nav.jsp"/>
+	</media:sidebar>
+	<media:content>
+		<media:panel title="<%=JspUtils.render(gallery.getName())%>">
+			<table cellspacing="0">
+			<%
+				List rows=Utils.splitIntoRows(gallery.getPhotos(), 4);
+				for (Iterator itRows=rows.iterator(); itRows.hasNext();)
+				{
+					List row=(List)itRows.next();
+					out.print("<tr>");
+					for (Iterator itPhotos=row.iterator(); itPhotos.hasNext();)
+					{
+						Photo photo=(Photo)itPhotos.next();
+						PictureFile thumbnail=photo.getThumbnail();
+			%>
+			<td width="170" height="130" align="center" valign="middle" background="/clipart/trans10.png">
+				<a href="/picture?picturefile_id=<%=photo.getOriginalPictureId()%>"><%=renderPicture(thumbnail, null)%></a>
+			</td>
+			<%
+						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");
+					}
+					out.println("</tr>");
+					out.print("<tr>");
+					for (Iterator itPhotos=row.iterator(); itPhotos.hasNext();)
+					{
+						Photo photo=(Photo)itPhotos.next();
+			%>
+			<td class="content2" width="170" align="center" background="/clipart/trans20.png"><%=JspUtils.render(photo.getDescription())%></td>
+			<%
+						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");
+					}
+					out.println("</tr>");
+					if (itRows.hasNext()) out.println("<tr height=\"10\"><td colSpan=\"7\"></td></tr>");
+				}
+			%>
+			</table>
+		</media:panel>
+	</media:content>
+</media:body>
+
+</body>
+</html>

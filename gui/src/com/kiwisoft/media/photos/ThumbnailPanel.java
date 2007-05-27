@@ -27,7 +27,7 @@ public class ThumbnailPanel extends JPanel
 
 	public ThumbnailPanel()
 	{
-		super(new AutoGridLayout(new Dimension(170, 170), 10, 10));
+		super(new AutoGridLayout(new Dimension(175, 155), 10, 10));
 		thumbnails=new ArrayList<Thumbnail>();
 		selectionModel=new DefaultListSelectionModel();
 		addMouseListener(new MyMouseListener());

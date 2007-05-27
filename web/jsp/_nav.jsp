@@ -5,8 +5,9 @@
 <tr><td class="menuitem"><a class="menulink" href="/books/index.jsp">Books</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/fanfic/fandoms.jsp">Fan Fiction</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/movies/index.jsp">Movies</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp">Shows</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/photos/index.jsp">Photos</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/schedule.jsp">Schedule</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="/shows/index.jsp">Shows</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="/videos/index.jsp">Videos</a></td></tr>
 </table>
 

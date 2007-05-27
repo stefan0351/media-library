@@ -50,4 +50,17 @@ public abstract class MediaJspBase extends HttpJspBase
 		html.append(">");
 		return html.toString();
 	}
+
+	public String renderPicture(PictureFile picture, String otherAttributes)
+	{
+		StringBuilder html=new StringBuilder();
+		html.append("<img");
+		html.append(" src=\"/").append(picture.getFile().replace('\\', '/')).append("\"");
+		html.append(" border=\"0\"");
+		if (picture.getWidth()>0) html.append(" width=\"").append(picture.getWidth()).append("\"");
+		if (picture.getHeight()>0) html.append(" height=\"").append(picture.getHeight()).append("\"");
+		if (otherAttributes!=null) html.append(" ").append(otherAttributes);
+		html.append(">");
+		return html.toString();
+	}
 }

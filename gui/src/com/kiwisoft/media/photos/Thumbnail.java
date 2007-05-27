@@ -31,14 +31,13 @@ public class Thumbnail extends JPanel implements Chain.ChainLink, Disposable, Pr
 
 	public Thumbnail(Photo photo)
 	{
-		super(new BorderLayout(0, 10));
+		super(new BorderLayout(0, 0));
 		this.photo=photo;
 
 		photoComponent=new ImagePanel(new Dimension(Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT));
 		photoComponent.setOpaque(false);
 		infoLabel=new JLabel();
 		infoLabel.setOpaque(true);
-		infoLabel.setBackground(Color.LIGHT_GRAY);
 		infoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		setSelected(false);
@@ -75,7 +74,8 @@ public class Thumbnail extends JPanel implements Chain.ChainLink, Disposable, Pr
 
 	private void updateLabel()
 	{
-		infoLabel.setText(photo.getWidth()+"x"+photo.getHeight());
+		infoLabel.setText(photo.getDescription());
+		infoLabel.setToolTipText(photo.getDescription());
 	}
 
 	public Photo getPhoto()
@@ -98,7 +98,7 @@ public class Thumbnail extends JPanel implements Chain.ChainLink, Disposable, Pr
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		if (Photo.THUMBNAIL.equals(evt.getPropertyName())) updateThumbnail();
-		else if (Photo.ROTATION.equals(evt.getPropertyName())) updateLabel();
+		else if (Photo.DESCRIPTION.equals(evt.getPropertyName())) updateLabel();
 	}
 
 	public void dispose()

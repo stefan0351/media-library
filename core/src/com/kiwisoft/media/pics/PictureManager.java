@@ -54,6 +54,16 @@ public class PictureManager implements CollectionChangeSource
 		fireElementRemoved(PICTURES, picture);
 	}
 
+	public Picture getPicture(Long id)
+	{
+		return DBLoader.getInstance().load(Picture.class, id);
+	}
+
+	public PictureFile getPictureFile(Long id)
+	{
+		return DBLoader.getInstance().load(PictureFile.class, id);
+	}
+
 	public void addCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.addListener(listener);

@@ -23,6 +23,13 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>picture</servlet-name>
+		<display-name>PictureServlet</display-name>
+		<description>Streams pictures from file system</description>
+		<servlet-class>com.kiwisoft.media.PictureServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>add_link</servlet-name>
 		<display-name>Add Link Servlet</display-name>
 		<description>Servlet to add new show links</description>
@@ -66,6 +73,11 @@
 	<servlet-mapping>
 		<servlet-name>import_imdb</servlet-name>
 		<url-pattern>/import_imdb</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>picture</servlet-name>
+		<url-pattern>/picture</url-pattern>
 	</servlet-mapping>
 
 	<taglib>

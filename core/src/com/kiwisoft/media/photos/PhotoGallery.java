@@ -1,6 +1,7 @@
 package com.kiwisoft.media.photos;
 
 import java.util.HashSet;
+import java.util.Date;
 
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
@@ -9,14 +10,17 @@ import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.gui.ImageDescriptor;
+import com.kiwisoft.utils.DateUtils;
 
 public class PhotoGallery extends IDObject
 {
 	public static final String NAME="name";
 	public static final String PHOTOS="photos";
+	public static final String CREATION_DATE="creationDate";
 
 	private String name;
 	private Chain<Photo> photos;
+	private Date creationDate;
 
 	public PhotoGallery()
 	{
@@ -34,8 +38,22 @@ public class PhotoGallery extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified(CREATION_DATE, oldName, name);
+	}
+
+	public Date getCreationDate()
+	{
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate)
+	{
+		if (creationDate!=null) creationDate=DateUtils.getStartOfDay(creationDate);
+		Date oldCreationDate=this.creationDate;
+		this.creationDate=creationDate;
+		setModified(CREATION_DATE, oldCreationDate, creationDate);
 	}
 
 	public Chain<Photo> getPhotos()
@@ -52,21 +70,39 @@ public class PhotoGallery extends IDObject
 		Photo photo=new Photo(this);
 		photo.setOriginalPicture(picture);
 		photo.setThumbnail(thumbnail);
+		photo.setXResolution(imageData.getXResolution());
+		photo.setYResolution(imageData.getYResolution());
+		photo.setColorDepth(imageData.getColorDepth());
 		photo.setCreationDate(imageData.getDate());
 		photo.setCameraMake(imageData.getCameraMake());
 		photo.setCameraModel(imageData.getCameraModel());
 		photo.setExposureTime(imageData.getExposureTime());
-		photo.setColorDepth(imageData.getColorDepth());
+		photo.setFocalLength(imageData.getFocalLength());
+		photo.setFNumber(imageData.getFNumber());
+		photo.setIsoSpeed(imageData.getIsoSpeed());
 
-		getPhotos().addNew(photo);
-		fireElementAdded(PHOTOS, photo);
+		addPhoto(photo);
 		return photo;
 	}
 
 	public void dropPhoto(Photo photo)
 	{
-		getPhotos().remove(photo);
+		removePhoto(photo);
 		photo.delete();
+	}
+
+	public void addPhoto(Photo photo)
+	{
+		photo.setGallery(this);
+		getPhotos().addNew(photo);
+		fireElementAdded(PHOTOS, photo);
+		if (getCreationDate()==null) setCreationDate(photo.getCreationDate());
+	}
+
+	public void removePhoto(Photo photo)
+	{
+		getPhotos().remove(photo);
+		photo.setGallery(null);
 		fireElementRemoved(PHOTOS, photo);
 	}
 
@@ -77,11 +113,18 @@ public class PhotoGallery extends IDObject
 		super.afterReload();
 	}
 
-
 	@Override
 	public void delete()
 	{
 		for (Photo photo : new HashSet<Photo>(getPhotos().elements())) photo.delete();
 		super.delete();
+	}
+
+	public PictureFile getThumbnail()
+	{
+		Photo photo=DBLoader.getInstance().load(Photo.class, null, "photogallery_id=?" +
+													   " and sequence=(select min(sequence) from photos where photogallery_id=?)",
+									getId(), getId());
+		return photo!=null ? photo.getThumbnail() : null;
 	}
 }

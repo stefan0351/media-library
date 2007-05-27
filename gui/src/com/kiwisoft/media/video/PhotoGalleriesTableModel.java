@@ -5,16 +5,17 @@ import java.beans.PropertyChangeListener;
 
 import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoManager;
-import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 
-public class PhotoGalleriesTableModel extends MutableSortableTableModel<PhotoGallery>
+public class PhotoGalleriesTableModel extends DefaultSortableTableModel<PhotoGallery>
 {
 	private static final String NAME="name";
+	private static final String CREATION_DATE="creationDate";
 
 	public PhotoGalleriesTableModel()
 	{
-		super(new String[]{NAME}, new String[0]);
+		super(NAME, CREATION_DATE);
 		for (PhotoGallery gallery : PhotoManager.getInstance().getGalleries()) addRow(new Row(gallery));
 		sort();
 	}
@@ -41,10 +42,19 @@ public class PhotoGalleriesTableModel extends MutableSortableTableModel<PhotoGal
 			fireRowUpdated();
 		}
 
+		@Override
+		public String getCellFormat(int column, String property)
+		{
+			if (CREATION_DATE.equals(property)) return "Date only";
+			return super.getCellFormat(column, property);
+		}
+
 		public Object getDisplayValue(int column, String property)
 		{
 			if (NAME.equals(property))
 				return getUserObject().getName();
+			else if (CREATION_DATE.equals(property))
+				return getUserObject().getCreationDate();
 			else
 				return "";
 		}

@@ -17,6 +17,8 @@ import com.kiwisoft.media.dataImport.*;
 import com.kiwisoft.media.person.*;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.photos.PhotosTask;
+import com.kiwisoft.media.photos.PhotoGallery;
+import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
@@ -63,6 +65,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		formatManager.setFormat(Country.class, new CountryFormat());
 		formatManager.setFormat(Gender.class, new GenderFormat());
 		formatManager.setFormat(Picture.class, new PictureFormat());
+		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
 	}
 
 	protected void initializeTableComponents()
