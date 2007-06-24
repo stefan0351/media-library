@@ -3,6 +3,7 @@ package com.kiwisoft.media;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureManager;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.gui.Icons;
 
 public class PictureServlet extends HttpServlet
 {
@@ -36,14 +38,32 @@ public class PictureServlet extends HttpServlet
 	{
 		try
 		{
-			Long id=new Long(request.getParameter("picturefile_id"));
-			PictureFile picture=PictureManager.getInstance().getPictureFile(id);
-			File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
-			String extension=FileUtils.getExtension(file);
-			response.setContentType("image/"+extension);
-			if (file.exists())
+			InputStream inputStream=null;
+			String contentType=null;
+			String type=request.getParameter("type");
+			if ("PictureFile".equals(type))
 			{
-				FileInputStream inputStream=new FileInputStream(file);
+				Long id=new Long(request.getParameter("id"));
+				PictureFile picture=PictureManager.getInstance().getPictureFile(id);
+				File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
+				if (file.exists())
+				{
+					inputStream=new FileInputStream(file);
+					contentType="image/"+FileUtils.getExtension(file);
+				}
+				else
+				{
+					inputStream=Icons.getIconStream("no-photo-available");
+				}
+			}
+			else if ("Icon".equals(type))
+			{
+				String name=request.getParameter("name");
+				inputStream=Icons.getIconStream(name);
+			}
+			if (inputStream!=null)
+			{
+				response.setContentType(contentType);
 				ServletOutputStream outputStream=response.getOutputStream();
 				IOUtils.copy(inputStream, outputStream);
 				outputStream.flush();

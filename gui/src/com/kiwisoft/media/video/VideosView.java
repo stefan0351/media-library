@@ -6,7 +6,6 @@
  */
 package com.kiwisoft.media.video;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
@@ -15,6 +14,7 @@ import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class VideosView extends ViewPanel
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		VideosTableModel tableModel=new VideosTableModel(type);
-		tableController=new TableController<Video>(tableModel, new MediaTableConfiguration("table.videos"))
+		tableController=new TableController<Video>(tableModel, new DefaultTableConfiguration(VideosTableModel.class))
 		{
 			public List<ContextAction<? super Video>> getToolBarActions()
 			{

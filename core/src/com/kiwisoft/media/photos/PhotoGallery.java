@@ -1,16 +1,16 @@
 package com.kiwisoft.media.photos;
 
-import java.util.HashSet;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.gui.ImageDescriptor;
-import com.kiwisoft.utils.DateUtils;
 
 public class PhotoGallery extends IDObject
 {
@@ -120,11 +120,32 @@ public class PhotoGallery extends IDObject
 		super.delete();
 	}
 
+	private Photo[] galleryPhoto;
+
+	public Photo getGalleryPhoto()
+	{
+		if (galleryPhoto==null)
+		{
+			galleryPhoto=new Photo[1];
+			galleryPhoto[0]=DBLoader.getInstance().load(Photo.class, null, "photogallery_id=? and gallery_photo=1", getId());
+		}
+		return galleryPhoto[0];
+	}
+
+	public void setGalleryPhoto(Photo photo)
+	{
+		Photo oldGalleryPhoto=getGalleryPhoto();
+		if (oldGalleryPhoto!=null) oldGalleryPhoto.setGalleryPhoto(false);
+		galleryPhoto[0]=photo;
+		if (photo!=null) photo.setGalleryPhoto(true);
+	}
+
 	public PictureFile getThumbnail()
 	{
-		Photo photo=DBLoader.getInstance().load(Photo.class, null, "photogallery_id=?" +
-													   " and sequence=(select min(sequence) from photos where photogallery_id=?)",
-									getId(), getId());
+		Photo photo=getGalleryPhoto();
+		if (photo==null) photo=DBLoader.getInstance().load(Photo.class, null, "photogallery_id=?"+
+																			  " and sequence=(select min(sequence) from photos where photogallery_id=?)",
+														   getId(), getId());
 		return photo!=null ? photo.getThumbnail() : null;
 	}
 }

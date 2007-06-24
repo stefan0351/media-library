@@ -41,7 +41,7 @@
 						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
 						PictureFile thumbnail=gallery.getThumbnail();
 			%>
-			<td width="170" height="130" align="center" valign="middle" background="/clipart/trans10.png">
+			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(/clipart/trans10.png);">
 				<a href="/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderPicture(thumbnail, null)%></a>
 			</td>
 			<%
@@ -53,7 +53,10 @@
 					{
 						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
 			%>
-			<td class="content2" width="170" align="center" background="/clipart/trans20.png"><%=JspUtils.render(gallery.getName())%></td>
+			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(/clipart/trans20.png);">
+				[<%=JspUtils.render(gallery.getCreationDate(), "Date only")%>]<br>
+				<%=JspUtils.render(gallery.getName())%>
+			</td>
 			<%
 						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");
 					}

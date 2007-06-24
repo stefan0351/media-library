@@ -24,12 +24,12 @@ import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.media.MediaTableConfiguration;
 
 public class PersonsView extends ViewPanel
 {
@@ -53,7 +53,7 @@ public class PersonsView extends ViewPanel
 		personListener=new PersonListener();
 		PersonManager.getInstance().addCollectionChangeListener(personListener);
 
-		tableController=new TableController<Person>(tableModel, new MediaTableConfiguration("table.persons"))
+		tableController=new TableController<Person>(tableModel, new DefaultTableConfiguration(PersonsView.class, "persons"))
 		{
 			public List<ContextAction<? super Person>> getToolBarActions()
 			{

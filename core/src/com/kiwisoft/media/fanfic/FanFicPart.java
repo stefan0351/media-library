@@ -11,7 +11,8 @@ import java.io.File;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class FanFicPart extends IDObject implements Chain.ChainLink
 {
@@ -56,7 +57,7 @@ public class FanFicPart extends IDObject implements Chain.ChainLink
 	{
 		try
 		{
-			File file=new File(Configurator.getInstance().getString("path.fanfics"), source);
+			File file=FileUtils.getFile(MediaConfiguration.getFanFicPath(), source);
 			return file.length();
 		}
 		catch (Exception e)

@@ -44,7 +44,7 @@ public class BooksView extends ViewPanel
 	{
 		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>("title", "author", "publisher", "binding", "pageCount", "isbn");
 
-		tableController=new TableController<Book>(tableModel, new DefaultTableConfiguration(getClass(), "table.books"))
+		tableController=new TableController<Book>(tableModel, new DefaultTableConfiguration(BooksView.class, "books"))
 		{
 			@Override
 			public List<ContextAction<? super Book>> getToolBarActions()

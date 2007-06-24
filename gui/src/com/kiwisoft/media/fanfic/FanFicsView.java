@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
@@ -26,6 +25,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class FanFicsView extends ViewPanel
 {
@@ -48,7 +48,7 @@ public class FanFicsView extends ViewPanel
 	{
 		SortableTableModel<FanFic> tmFanFics=new DefaultSortableTableModel<FanFic>("id", "title", "author", "fandom", "pairing");
 
-		tableController=new TableController<FanFic>(tmFanFics, new MediaTableConfiguration("table.fanfics"))
+		tableController=new TableController<FanFic>(tmFanFics, new DefaultTableConfiguration(FanFicsView.class, "fanfics"))
 		{
 			@Override
 			public List<ContextAction<? super FanFic>> getToolBarActions()

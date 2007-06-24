@@ -297,8 +297,7 @@ public class BookDataDetailsView extends DetailsView
 				if (!coverFile.exists()) return;
 				try
 				{
-					Utils.run("\""+Configurator.getInstance().getString("image.editor")+"\""
-							  +" \""+coverFile.getAbsolutePath()+"\"", null, null);
+					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+coverFile.getAbsolutePath()+"\"", null, null);
 					coverPreview.setImage(new ImageIcon(coverFile.toURL()));
 				}
 				catch (Exception e1)

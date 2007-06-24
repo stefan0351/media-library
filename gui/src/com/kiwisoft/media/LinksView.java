@@ -17,10 +17,7 @@ import com.kiwisoft.utils.CollectionChangeListener;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.*;
 
 public class LinksView extends ViewPanel
 {
@@ -44,7 +41,7 @@ public class LinksView extends ViewPanel
 		SortableTableModel<Link> tableModel=new DefaultSortableTableModel<Link>("name", "language", "url");
 		createTableData(tableModel);
 
-		tableController=new TableController<Link>(tableModel, new MediaTableConfiguration("table.links"))
+		tableController=new TableController<Link>(tableModel, new DefaultTableConfiguration(LinksView.class, "links"))
 		{
 			@Override
 			public List<ContextAction<? super Link>> getToolBarActions()

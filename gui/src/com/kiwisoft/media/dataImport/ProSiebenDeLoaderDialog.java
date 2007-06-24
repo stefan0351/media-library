@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -78,9 +79,9 @@ public class ProSiebenDeLoaderDialog extends JDialog
 
 	private void initialize()
 	{
-		tfPath.setText(Configurator.getInstance().getString("path.dates.p7", ""));
-		tfDate.setDate(Configurator.getInstance().getDate("download.p7.date"));
-		tfDays.setText(String.valueOf(Configurator.getInstance().getInt("download.p7.offset", 7)));
+		tfPath.setText(MediaConfiguration.getRecentSchedulePath());
+		tfDate.setDate(MediaConfiguration.getRecentPro7Date());
+		tfDays.setText(String.valueOf(MediaConfiguration.getRecentPro7Offset()));
 	}
 
 	private class ApplyAction extends AbstractAction
@@ -148,9 +149,9 @@ public class ProSiebenDeLoaderDialog extends JDialog
 			}
 			if (shows==null)
 			{
-				Configurator.getInstance().setString("path.dates.p7", pathName);
-				Configurator.getInstance().setInt("download.p7.offset", days);
-				Configurator.getInstance().setDate("download.p7.date", date);
+				MediaConfiguration.setRecentSchedulePath(pathName);
+				MediaConfiguration.setRecentPro7Offset(days);
+				MediaConfiguration.setRecentPro7Date(date);
 				Configurator.getInstance().saveUserValues();
 			}
 			dispose();

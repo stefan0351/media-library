@@ -8,11 +8,15 @@
 package com.kiwisoft.media;
 
 import java.io.File;
+import java.util.Date;
 import javax.servlet.ServletContext;
 
 import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.format.FormatManager;
+import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;
+import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.media.video.Video;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.video.RecordingHTMLRenderer;
@@ -23,6 +27,11 @@ import com.kiwisoft.media.movie.MovieHTMLRenderer;
 import com.kiwisoft.media.schedule.AirdateHTMLRenderer;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonHTMLRenderer;
+import com.kiwisoft.media.person.Gender;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureFormat;
+import com.kiwisoft.media.photos.PhotoGallery;
+import com.kiwisoft.media.photos.PhotoGalleryFormat;
 
 public class MediaManagerApp
 {
@@ -38,8 +47,22 @@ public class MediaManagerApp
 	{
 		String path=context.getRealPath("WEB-INF/config.xml");
 		Configurator.getInstance().loadDefaultsFromFile(new File(path));
+		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
+		initializeFormats();
+		initializeRenderers();
+	}
 
+	protected void initializeFormats()
+	{
+		FormatManager formatManager=FormatManager.getInstance();
+		formatManager.setFormat(Picture.class, new PictureFormat());
+		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
+	}
+
+	private void initializeRenderers()
+	{
 		HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
+		rendererManager.setRenderer(Date.class, "Date only", new DefaultHTMLRenderer("Date only"));
 		rendererManager.setRenderer(String.class, "preformatted", new PreformattedHTMLRenderer());
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
 		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));

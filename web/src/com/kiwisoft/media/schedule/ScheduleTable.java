@@ -15,11 +15,7 @@ import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.db.IDObject;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 19.03.2007
- * Time: 20:11:53
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ScheduleTable extends SortableWebTable<Airdate>
 {

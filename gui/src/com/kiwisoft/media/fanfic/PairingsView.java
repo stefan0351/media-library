@@ -15,7 +15,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
@@ -31,6 +30,7 @@ import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class PairingsView extends ViewPanel implements Disposable
 {
@@ -54,7 +54,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		tableController=new TableController<Pairing>(tableModel, new MediaTableConfiguration("table.fanfic.pairings"))
+		tableController=new TableController<Pairing>(tableModel, new DefaultTableConfiguration(PairingsView.class, "pairings"))
 		{
 			@Override
 			public List<ContextAction<? super Pairing>> getToolBarActions()

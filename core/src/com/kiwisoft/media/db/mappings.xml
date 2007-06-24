@@ -258,6 +258,7 @@
 		<field name="fNumber" column="f_number"/>
 		<field name="focalLength" column="focal_length"/>
 		<field name="isoSpeed" column="iso_speed"/>
+		<field name="galleryPhoto" column="gallery_photo"/>
 		<reference name="gallery" column="photogallery_id" type="PhotoGallery"/>
 		<reference name="originalPicture" column="original_pic_id" type="PictureFile"/>
 		<reference name="thumbnail" column="thumbnail_id" type="PictureFile"/>

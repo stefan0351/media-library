@@ -12,9 +12,8 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
@@ -101,7 +100,7 @@ public class FanFicDetailsView extends DetailsView
 			for (Iterator it=fanFic.getParts().iterator(); it.hasNext();)
 			{
 				String source=((FanFicPart)it.next()).getSource();
-				String path=new File(Configurator.getInstance().getString("path.fanfics"), source).getAbsolutePath();
+				String path=FileUtils.getFile(MediaConfiguration.getFanFicPath(), source).getAbsolutePath();
 				partsController.getModel().addRow(new FanFicPartTableRow(path));
 			}
 			for (Pairing pairing : fanFic.getPairings()) tmPairings.addObject(pairing);
@@ -147,7 +146,7 @@ public class FanFicDetailsView extends DetailsView
 				tblParts.requestFocus();
 				return false;
 			}
-			source=FileUtils.getRelativePath(Configurator.getInstance().getString("path.fanfics"), source);
+			source=FileUtils.getRelativePath(MediaConfiguration.getFanFicPath(), source);
 			source=StringUtils.replaceStrings(source, "\\", "/");
 			sources.add(source);
 		}
@@ -242,21 +241,21 @@ public class FanFicDetailsView extends DetailsView
 		tfUrl=new JTextField();
 		tfPrequel=new LookupField<FanFic>(new FanFicLookup());
 
-		tmPairings=new ObjectTableModel<Pairing>("pairings", Pairing.class, null);
+		tmPairings=new ObjectTableModel<Pairing>("name", Pairing.class, null);
 		tblPairings=new SortableTable(tmPairings);
-		tblPairings.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
+		tblPairings.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "pairings"));
 
-		tmFanDoms=new ObjectTableModel<FanDom>("fandoms", FanDom.class, null);
+		tmFanDoms=new ObjectTableModel<FanDom>("name", FanDom.class, null);
 		tblFanDoms=new SortableTable(tmFanDoms);
-		tblFanDoms.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
+		tblFanDoms.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "fandoms"));
 
-		tmAuthors=new ObjectTableModel<Author>("authors", Author.class, null);
+		tmAuthors=new ObjectTableModel<Author>("name", Author.class, null);
 		tblAuthors=new SortableTable(tmAuthors);
-		tblAuthors.initializeColumns(new MediaTableConfiguration("table.fanfic.detail"));
+		tblAuthors.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "authors"));
 
-		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("parts");
+		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("name");
 		tmParts.setResortable(false);
-		partsController=new TableController<String>(tmParts, new MediaTableConfiguration("table.fanfic.detail"))
+		partsController=new TableController<String>(tmParts, new DefaultTableConfiguration(FanFicDetailsView.class, "parts"))
 		{
 			@Override
 			public List<ContextAction<? super String>> getToolBarActions()
@@ -533,7 +532,7 @@ public class FanFicDetailsView extends DetailsView
 		private StringBuilder buildFileName(Author author, String title)
 		{
 			title=title.toLowerCase();
-			StringBuilder path=new StringBuilder(Configurator.getInstance().getString("path.fanfics"));
+			StringBuilder path=new StringBuilder(MediaConfiguration.getFanFicPath());
 			path.append(File.separator);
 			path.append(author.getPath());
 			path.append(File.separator);

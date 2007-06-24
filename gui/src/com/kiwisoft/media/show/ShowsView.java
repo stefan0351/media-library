@@ -29,6 +29,7 @@ import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ShowsView extends ViewPanel
 {
@@ -51,7 +52,7 @@ public class ShowsView extends ViewPanel
 		for (Show show : shows) tmShows.addRow(new ShowTableRow(show));
 		tmShows.sort();
 
-		tableController=new TableController<Show>(tmShows, new MediaTableConfiguration("table.shows"))
+		tableController=new TableController<Show>(tmShows, new DefaultTableConfiguration(ShowsView.class, "shows"))
 		{
 			public List<ContextAction<? super Show>> getToolBarActions()
 			{

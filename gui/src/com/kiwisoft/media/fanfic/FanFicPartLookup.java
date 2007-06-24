@@ -6,14 +6,8 @@ import javax.swing.JFileChooser;
 import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.media.MediaConfiguration;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 15.04.2004
- * Time: 19:56:11
- * To change this template use File | Settings | File Templates.
- */
 public class FanFicPartLookup extends FileLookup
 {
 	public FanFicPartLookup()
@@ -23,13 +17,12 @@ public class FanFicPartLookup extends FileLookup
 
 	public String getCurrentDirectory()
 	{
-		Configurator configurator=Configurator.getInstance();
-		return configurator.getString("path.fanfics.current", configurator.getString("path.fanfics"));
+		return MediaConfiguration.getRecentFanFicPath();
 	}
 
 	public void setCurrentDirectory(String path)
 	{
-		Configurator.getInstance().setString("path.fanfics.current", path);
+		MediaConfiguration.setRecentFanFicPath(path);
 		Configurator.getInstance().saveUserValues();
 	}
 

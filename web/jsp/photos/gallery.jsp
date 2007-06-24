@@ -1,12 +1,11 @@
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.kiwisoft.media.photos.Photo" %>
 <%@ page import="com.kiwisoft.media.photos.PhotoGallery" %>
 <%@ page import="com.kiwisoft.media.photos.PhotoManager" %>
 <%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
-<%@ page import="java.util.*" %>
-<%@ page import="com.kiwisoft.utils.format.FormatStringComparator" %>
-<%@ page import="org.apache.jasper.compiler.JspUtil" %>
-<%@ page import="com.kiwisoft.media.photos.Photo" %>
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <html>
@@ -45,8 +44,8 @@
 						Photo photo=(Photo)itPhotos.next();
 						PictureFile thumbnail=photo.getThumbnail();
 			%>
-			<td width="170" height="130" align="center" valign="middle" background="/clipart/trans10.png">
-				<a href="/picture?picturefile_id=<%=photo.getOriginalPictureId()%>"><%=renderPicture(thumbnail, null)%></a>
+			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(/clipart/trans10.png);">
+				<a href="/picture?type=PictureFile&id=<%=photo.getOriginalPictureId()%>"><%=renderPicture(thumbnail, null)%></a>
 			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");
@@ -57,7 +56,10 @@
 					{
 						Photo photo=(Photo)itPhotos.next();
 			%>
-			<td class="content2" width="170" align="center" background="/clipart/trans20.png"><%=JspUtils.render(photo.getDescription())%></td>
+			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(/clipart/trans20.png);">
+				[<%=JspUtils.render(photo.getCreationDate())%>]<br>
+				<%=JspUtils.render(photo.getDescription())%>
+			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");
 					}

@@ -10,16 +10,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
-import com.kiwisoft.media.dataImport.AirdateImport;
-import com.kiwisoft.media.dataImport.ImportPathDialog;
-import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
-public class ImportAirdatesAction extends AbstractAction
+public class ImportScheduleAction extends AbstractAction
 {
 	private JFrame parent;
 
-	public ImportAirdatesAction(JFrame frame)
+	public ImportScheduleAction(JFrame frame)
 	{
 		super("Import Schedule");
 		parent=frame;
@@ -27,7 +25,7 @@ public class ImportAirdatesAction extends AbstractAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		String[] values=ImportPathDialog.create(parent, Configurator.getInstance().getString("path.import", ""), "*.xml");
+		String[] values=ImportPathDialog.create(parent, MediaConfiguration.getRecentSchedulePath(), "*.xml");
 		if (values!=null)
 		{
 			AirdateImport airdateImport=new AirdateImport(values[0], values[1]);

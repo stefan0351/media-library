@@ -13,7 +13,6 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.ContactMedium;
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
@@ -25,6 +24,7 @@ import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.StringTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class AuthorDetailsView extends DetailsView
 {
@@ -59,12 +59,12 @@ public class AuthorDetailsView extends DetailsView
 			}
 		});
 		tfPath=new DialogLookupField(new PathLookup());
-		tmMails=new StringTableModel("mail");
+		tmMails=new StringTableModel("address");
 		SortableTable tblMails=new SortableTable(tmMails);
-		tblMails.initializeColumns(new MediaTableConfiguration("table.fanfic.author"));
-		tmWeb=new StringTableModel("web");
+		tblMails.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "mail"));
+		tmWeb=new StringTableModel("address");
 		SortableTable tblWeb=new SortableTable(tmWeb);
-		tblWeb.initializeColumns(new MediaTableConfiguration("table.fanfic.author"));
+		tblWeb.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "web"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 200));

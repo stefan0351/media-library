@@ -16,12 +16,15 @@ import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
 import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ChannelsView extends ViewPanel
 {
@@ -39,7 +42,7 @@ public class ChannelsView extends ViewPanel
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>("name", "receiving");
+		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>("icon", "name", "receiving");
 		for (Channel channel : ChannelManager.getInstance().getChannels())
 		{
 			tmChannels.addRow(new ChannelTableRow(channel));
@@ -48,7 +51,7 @@ public class ChannelsView extends ViewPanel
 		channelListener=new ChannelListener();
 		ChannelManager.getInstance().addCollectionChangeListener(channelListener);
 
-		tableController=new TableController<Channel>(tmChannels, new MediaTableConfiguration("table.channels"))
+		tableController=new TableController<Channel>(tmChannels, new DefaultTableConfiguration(ChannelsView.class, "channels"))
 		{
 			@Override
 			public List<ContextAction<? super Channel>> getToolBarActions()
@@ -145,13 +148,14 @@ public class ChannelsView extends ViewPanel
 
 		public Object getDisplayValue(int column, String property)
 		{
-			switch (column)
+			if ("icon".equals(property))
 			{
-				case 0:
-					return getUserObject().getName();
-				case 1:
-					return Boolean.valueOf(getUserObject().isReceivable());
+				String logo=getUserObject().getLogo();
+				if (!StringUtils.isEmpty(logo)) return IconManager.getIconFromFile(logo);
+				return null;
 			}
+			else if ("name".equals(property)) return getUserObject().getName();
+			else if ("receiving".equals(property)) return Boolean.valueOf(getUserObject().isReceivable());
 			return "";
 		}
 	}

@@ -19,6 +19,7 @@ import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class TVTVDeLoaderDialog<T> extends JDialog
 {
@@ -59,7 +60,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 
 	private void initialize()
 	{
-		tfPath.setText(Configurator.getInstance().getString("path.dates.tvtv", ""));
+		tfPath.setText(MediaConfiguration.getRecentSchedulePath());
 	}
 
 	private class ApplyAction extends AbstractAction
@@ -100,7 +101,7 @@ public class TVTVDeLoaderDialog<T> extends JDialog
 			}
 			if (objects==null)
 			{
-				Configurator.getInstance().setString("path.dates.tvtv", pathName);
+				MediaConfiguration.setRecentSchedulePath(pathName);
 				Configurator.getInstance().saveUserValues();
 			}
 			dispose();

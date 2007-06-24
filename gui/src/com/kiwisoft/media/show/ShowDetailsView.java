@@ -18,7 +18,6 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -34,6 +33,7 @@ import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ShowDetailsView extends DetailsView
 {
@@ -69,7 +69,7 @@ public class ShowDetailsView extends DetailsView
 	{
 		indexByField=new DialogLookupField(new IndexByLookup());
 		keyField=new JTextField();
-		tfLogo=new DialogLookupField(new WebFileLookup(false));
+		tfLogo=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		ImagePanel imgLogo=new ImagePanel(new Dimension(150, 150));
 		imgLogo.setBorder(new EtchedBorder());
 		titleField=new JTextField();
@@ -81,11 +81,11 @@ public class ShowDetailsView extends DetailsView
 		languageField=new LookupField<Language>(new LanguageLookup());
 		tmNames=new NamesTableModel();
 		SortableTable tblNames=new SortableTable(tmNames);
-		tblNames.initializeColumns(new MediaTableConfiguration("table.show.names"));
+		tblNames.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "names"));
 		webShowField=new JCheckBox();
 
 		WebInfosTableModel<ShowInfo> tmInfos=new WebInfosTableModel<ShowInfo>(false);
-		infosController=new TableController<ShowInfo>(tmInfos, new MediaTableConfiguration("table.show.infos"))
+		infosController=new TableController<ShowInfo>(tmInfos, new DefaultTableConfiguration(ShowDetailsView.class, "infos"))
 		{
 			@Override
 			public List<ContextAction<? super ShowInfo>> getToolBarActions()
@@ -96,9 +96,9 @@ public class ShowDetailsView extends DetailsView
 				return actions;
 			}
 		};
-		genresModel=new ObjectTableModel("genres", Genre.class, null);
+		genresModel=new ObjectTableModel("name", Genre.class, null);
 		SortableTable tblGenres=new SortableTable(genresModel);
-		tblGenres.initializeColumns(new MediaTableConfiguration("table.show"));
+		tblGenres.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "genres"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(800, 500));
@@ -183,7 +183,7 @@ public class ShowDetailsView extends DetailsView
 			String logoMini=show.getLogoMini();
 			if (!StringUtils.isEmpty(logoMini))
 			{
-				logoMini=new File(Configurator.getInstance().getString("path.root"), logoMini).getAbsolutePath();
+				logoMini=new File(MediaConfiguration.getRootPath(), logoMini).getAbsolutePath();
 				tfLogo.setText(logoMini);
 			}
 			WebInfosTableModel<ShowInfo> tmInfos=(WebInfosTableModel<ShowInfo>)infosController.getModel();
@@ -255,7 +255,7 @@ public class ShowDetailsView extends DetailsView
 		String logoMini=tfLogo.getText();
 		if (!StringUtils.isEmpty(logoMini))
 		{
-			logoMini=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), logoMini);
+			logoMini=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), logoMini);
 			logoMini=StringUtils.replaceStrings(logoMini, "\\", "/");
 		}
 		else logoMini=null;

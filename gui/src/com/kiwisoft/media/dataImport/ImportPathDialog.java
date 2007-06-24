@@ -35,7 +35,7 @@ public class ImportPathDialog extends JComponent
 
 	private JDialog createDialog(Frame aParent)
 	{
-		dialog=new JDialog(aParent, "Path+Filter", true);
+		dialog=new JDialog(aParent, "Path & Filter", true);
 
 		tfPath=new DialogLookupField(new FileLookup(JFileChooser.DIRECTORIES_ONLY, true));
 		tfPath.setPreferredSize(new Dimension(300, tfPath.getPreferredSize().height));

@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.video.CreateVideoAction;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
@@ -15,10 +14,7 @@ import com.kiwisoft.utils.db.*;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.*;
 
 public class EpisodesView extends ViewPanel
 {
@@ -53,7 +49,7 @@ public class EpisodesView extends ViewPanel
 		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>("userkey", "title", "germanTitle", "firstAired");
 		createTableData(tmEpisodes);
 
-		tableController=new TableController<Episode>(tmEpisodes, new MediaTableConfiguration("table.episodes"))
+		tableController=new TableController<Episode>(tmEpisodes, new DefaultTableConfiguration(EpisodesView.class, "episodes"))
 		{
 			public List<ContextAction<? super Episode>> getToolBarActions()
 			{

@@ -6,7 +6,6 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
@@ -18,6 +17,7 @@ import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class SeasonsView extends ViewPanel
 {
@@ -41,7 +41,7 @@ public class SeasonsView extends ViewPanel
 		SortableTableModel<Season> tableModel=new DefaultSortableTableModel<Season>("name", "years");
 		createTableData(tableModel);
 
-		tableController=new TableController<Season>(tableModel, new MediaTableConfiguration("table.seasons"))
+		tableController=new TableController<Season>(tableModel, new DefaultTableConfiguration(SeasonsView.class, "seasons"))
 		{
 			@Override
 			public List<ContextAction<? super Season>> getToolBarActions()

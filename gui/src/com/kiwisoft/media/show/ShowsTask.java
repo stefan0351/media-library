@@ -18,11 +18,18 @@ public class ShowsTask extends MenuSidebarItem.Task
 	public ShowsTask()
 	{
 		super("Shows");
-		List<Genre> genres=new ArrayList<Genre>(DBLoader.getInstance().loadSet(Genre.class));
-		Collections.sort(genres, StringUtils.getComparator());
-		for (Genre genre : genres)
+		try
 		{
-			add(new ShowGenreTask(genre));
+			List<Genre> genres=new ArrayList<Genre>(DBLoader.getInstance().loadSet(Genre.class));
+			Collections.sort(genres, StringUtils.getComparator());
+			for (Genre genre : genres)
+			{
+				add(new ShowGenreTask(genre));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

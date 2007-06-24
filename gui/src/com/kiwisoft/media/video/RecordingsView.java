@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.StringUtils;
@@ -12,6 +11,7 @@ import com.kiwisoft.utils.db.ChainEvent;
 import com.kiwisoft.utils.db.ChainListener;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 
 public class RecordingsView extends ViewPanel
@@ -41,7 +41,7 @@ public class RecordingsView extends ViewPanel
 		recordingsListener=new RecordingsListener();
 		video.getRecordings().addChainListener(recordingsListener);
 
-		tableController=new TableController<Recording>(tableModel, new MediaTableConfiguration("table.recordings"))
+		tableController=new TableController<Recording>(tableModel, new DefaultTableConfiguration(RecordingsView.class, "recordings"))
 		{
 			@Override
 			public List<ContextAction<? super Recording>> getToolBarActions()

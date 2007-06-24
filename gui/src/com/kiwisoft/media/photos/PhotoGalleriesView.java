@@ -31,7 +31,7 @@ public class PhotoGalleriesView extends ViewPanel
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		PhotoGalleriesTableModel tableModel=new PhotoGalleriesTableModel();
-		tableController=new TableController<PhotoGallery>(tableModel, new DefaultTableConfiguration(PhotoGalleriesTableModel.class, "table.photoGalleries"))
+		tableController=new TableController<PhotoGallery>(tableModel, new DefaultTableConfiguration(PhotoGalleriesTableModel.class))
 		{
 			public List<ContextAction<? super PhotoGallery>> getToolBarActions()
 			{

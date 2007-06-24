@@ -15,7 +15,6 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
@@ -32,10 +31,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
 import com.kiwisoft.utils.gui.lookup.LookupEvent;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConstants;
+import com.kiwisoft.utils.gui.table.*;
 
 public class VideoDetailsView extends DetailsView
 {
@@ -197,7 +193,7 @@ public class VideoDetailsView extends DetailsView
 			setPreferredSize(new Dimension(600, 300));
 			recordablesModel=new RecordablesTableModel();
 			recordablesTable=new SortableTable(recordablesModel);
-			recordablesTable.initializeColumns(new MediaTableConfiguration("table.video.recordables"));
+			recordablesTable.initializeColumns(new DefaultTableConfiguration(VideoDetailsView.class, "recordables"));
 			row++;
 			add(new JLabel("Records:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 			add(new JScrollPane(recordablesTable), new GridBagConstraints(1, row, 3, 1, 1.0, 1.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));

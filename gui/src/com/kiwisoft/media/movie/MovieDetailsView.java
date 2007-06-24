@@ -28,6 +28,7 @@ import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -237,16 +238,16 @@ public class MovieDetailsView extends DetailsView
 		runtimeField=ComponentUtils.createNumberField(Integer.class, 5, 0, 500);
 		SortableTable tblNames=new SortableTable(namesModel);
 		tblNames.setPreferredScrollableViewportSize(new Dimension(300, 100));
-		tblNames.initializeColumns(new MediaTableConfiguration("table.movie.names"));
-		genresModel=new ObjectTableModel<Genre>("genres", Genre.class, null);
+		tblNames.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "names"));
+		genresModel=new ObjectTableModel<Genre>("name", Genre.class, null);
 		SortableTable genresTable=new SortableTable(genresModel);
-		genresTable.initializeColumns(new MediaTableConfiguration("table.movie"));
-		languagesModel=new ObjectTableModel<Language>("languages", Language.class, null);
+		genresTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "genres"));
+		languagesModel=new ObjectTableModel<Language>("name", Language.class, null);
 		SortableTable languagesTable=new SortableTable(languagesModel);
-		languagesTable.initializeColumns(new MediaTableConfiguration("table.movie"));
-		countriesModel=new ObjectTableModel<Country>("countries", Country.class, null);
+		languagesTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "languages"));
+		countriesModel=new ObjectTableModel<Country>("name", Country.class, null);
 		SortableTable countriesTable=new SortableTable(countriesModel);
-		countriesTable.initializeColumns(new MediaTableConfiguration("table.movie"));
+		countriesTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "countries"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(800, 340));

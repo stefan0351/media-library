@@ -1,16 +1,15 @@
 package com.kiwisoft.media.show;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.WebInfo;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -65,7 +64,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 			if (info!=null)
 			{
 				name=info.getName();
-				path=new File(Configurator.getInstance().getString("path.root"), info.getPath()).getAbsolutePath();
+				path=FileUtils.getFile(MediaConfiguration.getRootPath(), info.getPath()).getAbsolutePath();
 				language=info.getLanguage();
 			}
 			else language=LanguageManager.getInstance().getLanguageBySymbol("de");
@@ -90,7 +89,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 		{
 			if (!StringUtils.isEmpty(path))
 			{
-				String relPath=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), path);
+				String relPath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), path);
 				relPath=StringUtils.replaceStrings(relPath, "\\", "/");
 				return relPath;
 			}
@@ -99,7 +98,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 
 		public String getCellFormat(int column, String property)
 		{
-			if (column==1) return "WebFile";
+			if (column==1) return "ExistingFile";
 			return super.getCellFormat(column, property);
 		}
 

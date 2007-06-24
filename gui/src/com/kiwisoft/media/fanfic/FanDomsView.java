@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.CollectionChangeEvent;
@@ -24,6 +23,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -51,7 +51,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		tableController=new TableController<FanDom>(tableModel, new MediaTableConfiguration("table.fanfic.domains"))
+		tableController=new TableController<FanDom>(tableModel, new DefaultTableConfiguration(FanDomsView.class, "domains"))
 		{
 			@Override
 			public List<ContextAction<? super FanDom>> getToolBarActions()

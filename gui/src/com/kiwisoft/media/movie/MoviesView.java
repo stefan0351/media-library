@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.video.CreateVideoAction;
 import com.kiwisoft.media.utils.TableController;
@@ -25,6 +24,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class MoviesView extends ViewPanel
 {
@@ -51,7 +51,7 @@ public class MoviesView extends ViewPanel
 		collectionObserver=new CollectionChangeObserver();
 		MovieManager.getInstance().addCollectionChangeListener(collectionObserver);
 
-		tableController=new TableController<Movie>(tableModel, new MediaTableConfiguration("table.movies"))
+		tableController=new TableController<Movie>(tableModel, new DefaultTableConfiguration(MoviesView.class, "movies"))
 		{
 			@Override
 			public List<ContextAction<? super Movie>> getToolBarActions()

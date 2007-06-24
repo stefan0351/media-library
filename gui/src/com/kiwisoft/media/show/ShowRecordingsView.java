@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.media.video.Recording;
 import com.kiwisoft.media.video.RecordingDetailsAction;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 
 public class ShowRecordingsView extends ViewPanel
@@ -34,7 +34,7 @@ public class ShowRecordingsView extends ViewPanel
 		ShowRecordsTableModel tableModel=new ShowRecordsTableModel(show);
 		tableModel.sort();
 
-		tableController=new TableController<Recording>(tableModel, new MediaTableConfiguration("table.show.recordings"))
+		tableController=new TableController<Recording>(tableModel, new DefaultTableConfiguration(ShowRecordsTableModel.class))
 		{
 			@Override
 			public List<ContextAction<? super Recording>> getToolBarActions()

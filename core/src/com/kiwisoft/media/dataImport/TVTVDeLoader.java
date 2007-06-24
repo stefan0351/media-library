@@ -128,9 +128,10 @@ public class TVTVDeLoader implements Job
 	private void loadShowDates(Show show, String searchUrl, String patternString)
 	{
 		progressSupport.startStep("Load schedule for "+show.getTitle()+"...");
+		String content=null;
 		try
 		{
-			String content=WebUtils.loadURL(searchUrl+patternString);
+			content=WebUtils.loadURL(searchUrl+patternString);
 			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
 			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
 			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
@@ -141,9 +142,10 @@ public class TVTVDeLoader implements Job
 			parseListing(content);
 			progressSupport.info("Loaded schedule for "+show.getTitle()+".");
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
+			System.out.println("content = "+content);
 			progressSupport.error("Loading of schedule for "+show.getTitle()+" failed.");
 		}
 	}

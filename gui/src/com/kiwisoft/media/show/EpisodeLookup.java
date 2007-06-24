@@ -15,7 +15,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.TableLookup;
 import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.media.MediaTableConfiguration;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class EpisodeLookup extends TableLookup<Episode>
 {
@@ -51,7 +51,7 @@ public class EpisodeLookup extends TableLookup<Episode>
 
 	protected TableConfiguration getTableConfiguration()
 	{
-		return new MediaTableConfiguration("episodes.lookup");
+		return new DefaultTableConfiguration(EpisodeLookup.class);
 	}
 
 	public String[] getColumnNames()

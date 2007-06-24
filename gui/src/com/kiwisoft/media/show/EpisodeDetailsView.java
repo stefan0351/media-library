@@ -27,6 +27,7 @@ import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.DateField;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class EpisodeDetailsView extends DetailsView
 {
@@ -260,7 +261,7 @@ public class EpisodeDetailsView extends DetailsView
 		productionCodeField=new JTextField(10);
 		namesModel=new NamesTableModel();
 		SortableTable tblNames=new SortableTable(namesModel);
-		tblNames.initializeColumns(new MediaTableConfiguration("table.episode.names"));
+		tblNames.initializeColumns(new DefaultTableConfiguration(EpisodeDetailsView.class, "names"));
 		JScrollPane namesPanel=new JScrollPane(tblNames);
 		namesPanel.setPreferredSize(new Dimension(300, 100));
 

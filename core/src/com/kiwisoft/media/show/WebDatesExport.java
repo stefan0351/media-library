@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.AirdateComparator;
 import com.kiwisoft.media.Channel;
-import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -62,7 +62,7 @@ public class WebDatesExport implements Job
 	// todo reruns
 	private void exportCurrentWebDates(Show show)
 	{
-		File file=new File(Configurator.getInstance().getString("file.web.dates"));
+		File file=new File(MediaConfiguration.getWebSchedulePath());
 		FileReader fr;
 		try
 		{
@@ -165,7 +165,7 @@ public class WebDatesExport implements Job
 				File logoFile=new File(logo);
 				if (logoFile.exists())
 				{
-					FileUtils.syncFiles(logoFile, new File(Configurator.getInstance().getString("path.logos.channels.web")));
+					FileUtils.syncFiles(logoFile, new File(MediaConfiguration.getWebChannelLogoPath()));
 					buffer.append("<img src=\"/clipart/tv_logos/");
 					buffer.append(logoFile.getName());
 					buffer.append("\" alt=\"");

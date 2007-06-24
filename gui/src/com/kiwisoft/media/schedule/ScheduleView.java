@@ -11,7 +11,6 @@ import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.AirdateManager;
-import com.kiwisoft.media.MediaTableConfiguration;
 import com.kiwisoft.utils.Bookmark;
 import com.kiwisoft.utils.ClassObserver;
 import com.kiwisoft.utils.DateUtils;
@@ -24,6 +23,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ScheduleView extends ViewPanel
 {
@@ -76,7 +76,7 @@ public class ScheduleView extends ViewPanel
 			DBObject.addClassObserver(airdatesListener, Airdate.class);
 		}
 
-		tableController=new TableController<Airdate>(model, new MediaTableConfiguration("table.airdates"))
+		tableController=new TableController<Airdate>(model, new DefaultTableConfiguration(ScheduleView.class, "airdates"))
 		{
 			@Override
 			public List<ContextAction<? super Airdate>> getToolBarActions()

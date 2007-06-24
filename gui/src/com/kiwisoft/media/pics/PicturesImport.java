@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
@@ -16,6 +15,7 @@ import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -28,7 +28,7 @@ public class PicturesImport implements Job
 	public PicturesImport(File directory)
 	{
 		this.directory=directory;
-		rootPath=Configurator.getInstance().getString("path.root");
+		rootPath=MediaConfiguration.getRootPath();
 	}
 
 	public String getName()

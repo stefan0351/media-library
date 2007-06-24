@@ -65,7 +65,7 @@
 	<target name="dump">
 		<input message="Password" addproperty="password" />
 		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/media.sql">
-			<arg line="--user=stefan --password=${password} --skip-extended-insert --opt --routines media"/>
+			<arg line="--user=stefan --password=${password} --skip-extended-insert --skip-quote-names --opt --routines media"/>
 		</exec>
 		<zip file="${dump.dir}/dump.zip" update="false">
 			<fileset dir="${dump.dir}">
@@ -73,6 +73,13 @@
 			</fileset>
 		</zip>
 		<delete file="${dump.dir}/media.sql"/>
+	</target>
+
+	<target name="dump.structure">
+		<input message="Password" addproperty="password" />
+		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/structure.sql">
+			<arg line="--user=stefan --password=${password} --no-data --skip-quote-names --routines media"/>
+		</exec>
 	</target>
 
 </project>

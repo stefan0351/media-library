@@ -9,7 +9,8 @@ import com.kiwisoft.utils.gui.lookup.LookupEvent;
 import com.kiwisoft.utils.gui.ImagePanel;
 import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.Configurator;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -31,7 +32,7 @@ public class PicturePreviewUpdater implements LookupSelectionListener
 		Picture picture=lookupField.getValue();
 		if (picture!=null)
 		{
-			File file=new File(Configurator.getInstance().getString("path.root"), picture.getFile());
+			File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
 			if (file.exists())
 			{
 				try

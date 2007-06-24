@@ -42,6 +42,7 @@ public class PhotoDetailsView extends DetailsView
 	private JTextField focalLengthField;
 	private JTextField resolutionField;
 	private JTextField fNumberField;
+	private JCheckBox galleryPhotoField;
 
 	private PhotoDetailsView(Photo photo)
 	{
@@ -52,22 +53,27 @@ public class PhotoDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		setLayout(new GridBagLayout());
-		add(createDescriptionPanel(),
-			new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		add(createContentDetailsPanel(),
+			new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		add(createPictureDetailsPanel(),
 			new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		add(createShootingDetailsPanel(),
 			new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 0, 0), 0, 0));
 	}
 
-	private JPanel createDescriptionPanel()
+	private JPanel createContentDetailsPanel()
 	{
 		descriptionField=new JTextPane();
 		JScrollPane descriptionPane=new JScrollPane(descriptionField);
 		descriptionPane.setPreferredSize(new Dimension(400, 100));
-		JPanel panel=new JPanel(new BorderLayout());
-		panel.setBorder(new TitledBorder(new EtchedBorder(), "Description Details"));
-		panel.add(descriptionPane, BorderLayout.CENTER);
+		galleryPhotoField=new JCheckBox("Gallery Photo");
+
+		JPanel panel=new JPanel(new GridBagLayout());
+		panel.setBorder(new TitledBorder(new EtchedBorder(), "Content Details"));
+		int row=0;
+		panel.add(descriptionPane, new GridBagConstraints(0, row, 1, 1, 1.0, 1.0, WEST, BOTH, new Insets(5, 5, 0, 5), 0, 0));
+		row++;
+		panel.add(galleryPhotoField, new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 5, 5), 0, 0));
 		return panel;
 	}
 
@@ -187,6 +193,7 @@ public class PhotoDetailsView extends DetailsView
 			PictureFile picture=photo.getOriginalPicture();
 			sizeField.setText(picture.getWidth()+"x"+picture.getHeight());
 			resolutionField.setText(photo.getXResolution()+"x"+photo.getYResolution());
+			galleryPhotoField.setSelected(photo.isGalleryPhoto());
 			try
 			{
 				fileField.setText(FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile()).getCanonicalPath());
@@ -206,6 +213,8 @@ public class PhotoDetailsView extends DetailsView
 			public void run() throws Exception
 			{
 				photo.setDescription(description);
+				if (galleryPhotoField.isSelected()) photo.getGallery().setGalleryPhoto(photo);
+				else photo.getGallery().setGalleryPhoto(null);
 			}
 
 			public void handleError(Throwable throwable)

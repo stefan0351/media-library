@@ -18,6 +18,7 @@ public class Photo extends IDObject implements Chain.ChainLink
 	public static final String GALLERY="gallery";
 	public static final String ORIGINAL_PICTURE="originalPicture";
 	public static final String THUMBNAIL="thumbnail";
+	public static final String GALLERY_PHOTO="galleryPhoto";
 
 	public static final int THUMBNAIL_WIDTH=160;
 	public static final int THUMBNAIL_HEIGHT=120;
@@ -36,6 +37,7 @@ public class Photo extends IDObject implements Chain.ChainLink
 	private Integer isoSpeed;
 	private Integer xResolution;
 	private Integer yResolution;
+	private boolean galleryPhoto;
 
 	public Photo(PhotoGallery gallery)
 	{
@@ -55,6 +57,22 @@ public class Photo extends IDObject implements Chain.ChainLink
 	public void setGallery(PhotoGallery gallery)
 	{
 		setReference(GALLERY, gallery);
+	}
+
+
+	public boolean isGalleryPhoto()
+	{
+		return galleryPhoto;
+	}
+
+	/**
+	 * Should not be called directly. Use {@link PhotoGallery#setGalleryPhoto(Photo)} instead.
+	 */
+	public void setGalleryPhoto(boolean galleryPhoto)
+	{
+		boolean oldGalleryPhoto=this.galleryPhoto;
+		this.galleryPhoto=galleryPhoto;
+		setModified(GALLERY_PHOTO, oldGalleryPhoto, galleryPhoto);
 	}
 
 	public Long getOriginalPictureId()

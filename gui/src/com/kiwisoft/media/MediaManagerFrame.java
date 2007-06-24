@@ -5,6 +5,7 @@ import java.util.List;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JFileChooser;
 
 import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.media.fanfic.FanDom;
@@ -22,11 +23,11 @@ import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.lookup.TableDialogLookupEditor;
+import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.table.TableEditorFactory;
 
 public class MediaManagerFrame extends ApplicationFrame
@@ -40,7 +41,7 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected JMenuBar createMenu()
 	{
 		JMenu menuFile=new JMenu("Import/Export");
-		menuFile.add(new ImportAirdatesAction(MediaManagerFrame.this));
+		menuFile.add(new ImportScheduleAction(MediaManagerFrame.this));
 		menuFile.add(new ExportWebDatesAction());
 		menuFile.addSeparator();
 		menuFile.add(new ProSiebenDeLoaderAction(this));
@@ -80,14 +81,17 @@ public class MediaManagerFrame extends ApplicationFrame
 		editorFactory.setEditor(Country.class, new CountryLookup());
 		editorFactory.setEditor(Person.class, new PersonLookup());
 		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
-		editorFactory.setEditor(String.class, "WebFile", new TableDialogLookupEditor(new WebFileLookup(true)));
+		editorFactory.setEditor(String.class, "File", new TableDialogLookupEditor(new FileLookup(JFileChooser.FILES_ONLY, false)));
+		editorFactory.setEditor(String.class, "ExistingFile", new TableDialogLookupEditor(new FileLookup(JFileChooser.FILES_ONLY, true)));
+		editorFactory.setEditor(String.class, "Directory", new TableDialogLookupEditor(new FileLookup(JFileChooser.DIRECTORIES_ONLY, false)));
+		editorFactory.setEditor(String.class, "ExistingDirectory", new TableDialogLookupEditor(new FileLookup(JFileChooser.DIRECTORIES_ONLY, true)));
 	}
 
 	protected List<MenuSidebarItem.Task> getTasks()
 	{
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);
 		tasks.add(new BooksTask());
-		if (Configurator.getInstance().getBoolean("fanfics.enabled", false)) tasks.add(new FanFicTask());
+		if (MediaConfiguration.isFanFicsEnabled()) tasks.add(new FanFicTask());
 		tasks.add(new MoviesTask());
 		tasks.add(new PersonsTask());
 		tasks.add(new PhotosTask());
@@ -96,6 +100,5 @@ public class MediaManagerFrame extends ApplicationFrame
 		tasks.add(new AllVideosTask());
 		tasks.add(new DataTask());
 		return tasks;
-
 	}
 }

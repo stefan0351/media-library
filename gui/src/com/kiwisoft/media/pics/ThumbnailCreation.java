@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
@@ -14,6 +13,7 @@ import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -29,7 +29,7 @@ public class ThumbnailCreation implements Job
 	{
 		final ProgressSupport progressSupport=new ProgressSupport(this, progressListener);
 		progressSupport.startStep("Loading pictures...");
-		String rootPath=Configurator.getInstance().getString("path.root");
+		String rootPath=MediaConfiguration.getRootPath();
 		Set<Picture> pictures=DBLoader.getInstance().loadSet(Picture.class, null, "thumbnail_sidebar_id is null and width>170");
 		progressSupport.startStep("Creating thumbnails...");
 		progressSupport.initialize(true, pictures.size(), null);

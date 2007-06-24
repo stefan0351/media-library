@@ -24,6 +24,7 @@ import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ChannelDetailsView extends DetailsView
 {
@@ -56,19 +57,19 @@ public class ChannelDetailsView extends DetailsView
 		{
 			public String getCurrentDirectory()
 			{
-				return Configurator.getInstance().getString("path.logos.channels", null);
+				return MediaConfiguration.getChannelLogoPath();
 			}
 
 			public void setCurrentDirectory(String path)
 			{
-				Configurator.getInstance().setString("path.logos.channels", path);
+				MediaConfiguration.setChannelLogoPath(path);
 				Configurator.getInstance().saveUserValues();
 			}
 		});
 		ImagePanel imgLogo=new ImagePanel(new Dimension(50, 30));
 		tmNames=new NamesTableModel();
 		SortableTable tblNames=new SortableTable(tmNames);
-		tblNames.initializeColumns(new MediaTableConfiguration("table.channel.names"));
+		tblNames.initializeColumns(new DefaultTableConfiguration(ChannelDetailsView.class, "names"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 250));

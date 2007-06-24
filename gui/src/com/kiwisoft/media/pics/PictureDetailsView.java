@@ -18,6 +18,7 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class PictureDetailsView extends DetailsView
 {
@@ -129,7 +130,7 @@ public class PictureDetailsView extends DetailsView
 			File file=imageField.getFile();
 			if (file==null) throw new InvalidDataException("No image is specified!", imageField);
 			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
-			final String imagePath=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), file.getAbsolutePath());
+			final String imagePath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
 			final String thumbnail50x50Path=getThumbnailPath(thumbnail50x50Field);
 			final String thumbnailSidebarPath=getThumbnailPath(thumbnailSidebarField);
 			return DBSession.execute(new Transactional()
@@ -169,7 +170,7 @@ public class PictureDetailsView extends DetailsView
 		if (file!=null)
 		{
 			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
-			path=FileUtils.getRelativePath(Configurator.getInstance().getString("path.root"), file.getAbsolutePath());
+			path=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
 		}
 		return path;
 	}
@@ -253,15 +254,15 @@ public class PictureDetailsView extends DetailsView
 				if (file!=null) fileChooser.setSelectedFile(file);
 				else
 				{
-					String path=Configurator.getInstance().getString("path.pictures.recent", null);
-					if (path==null) path=Configurator.getInstance().getString("path.root");
+					String path=MediaConfiguration.getRecentPicturePath();
+					if (path==null) path=MediaConfiguration.getRootPath();
 					if (path!=null) fileChooser.setCurrentDirectory(new File(path));
 				}
 				if (fileChooser.showOpenDialog(ImageField.this)==JFileChooser.APPROVE_OPTION)
 				{
 					File file=fileChooser.getSelectedFile();
 					setFile(file);
-					Configurator.getInstance().setString("path.pictures.recent", file.getParent());
+					MediaConfiguration.setRecentPicturePath(file.getParent());
 				}
 			}
 		}
@@ -269,7 +270,7 @@ public class PictureDetailsView extends DetailsView
 		public void setFileName(String fileName)
 		{
 			if (StringUtils.isEmpty(fileName)) setFile(null);
-			else setFile(new File(Configurator.getInstance().getString("path.root"), fileName));
+			else setFile(FileUtils.getFile(MediaConfiguration.getRootPath(), fileName));
 		}
 
 		public File getFile()
@@ -347,8 +348,7 @@ public class PictureDetailsView extends DetailsView
 			{
 				try
 				{
-					Utils.run("\""+Configurator.getInstance().getString("image.editor")+"\""
-							  +" \""+file.getAbsolutePath()+"\"", null, null);
+					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+file.getAbsolutePath()+"\"", null, null);
 					thumbnail50x50Field.setFile(file);
 				}
 				catch (Exception e1)
@@ -357,6 +357,7 @@ public class PictureDetailsView extends DetailsView
 				}
 			}
 		}
+
 	}
 
 	public class CreateThumbnailSideBarAction extends AbstractAction

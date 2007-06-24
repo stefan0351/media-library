@@ -11,7 +11,6 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.*;
 import com.kiwisoft.media.utils.TableController;
 import com.kiwisoft.media.person.*;
 import com.kiwisoft.utils.Bookmark;
@@ -23,6 +22,7 @@ import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 
 public class ShowCastView extends ViewPanel
 {
@@ -48,7 +48,7 @@ public class ShowCastView extends ViewPanel
 		SortableTableModel<CastMember> recurringCastModel=new DefaultSortableTableModel<CastMember>("character", "actor", "voice");
 		createTableData(mainCastModel, recurringCastModel);
 
-		mainCastController=new TableController<CastMember>(mainCastModel, new MediaTableConfiguration("table.show.cast.main"))
+		mainCastController=new TableController<CastMember>(mainCastModel, new DefaultTableConfiguration(ShowCastView.class, "cast.main"))
 		{
 			@Override
 			public List<ContextAction<? super CastMember>> getToolBarActions()
@@ -77,7 +77,7 @@ public class ShowCastView extends ViewPanel
 				return new CastDetailsAction();
 			}
 		};
-		recurringCastController=new TableController<CastMember>(recurringCastModel, new MediaTableConfiguration("table.show.cast.recurring"))
+		recurringCastController=new TableController<CastMember>(recurringCastModel, new DefaultTableConfiguration(ShowCastView.class, "cast.recurring"))
 		{
 			@Override
 			public List<ContextAction<? super CastMember>> getToolBarActions()
