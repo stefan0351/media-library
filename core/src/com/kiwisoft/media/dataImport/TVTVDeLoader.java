@@ -139,6 +139,7 @@ public class TVTVDeLoader implements Job
 
 			// Load dates list frame
 			content=WebUtils.loadURL(url);
+//			FileUtils.saveToFile(content, new File(path, show.getUserKey()+".html"));
 			parseListing(content);
 			progressSupport.info("Loaded schedule for "+show.getTitle()+".");
 		}
@@ -200,7 +201,9 @@ public class TVTVDeLoader implements Job
 			{
 				// Load details
 				String content=WebUtils.loadURL(infoUrl+id);
+//				FileUtils.saveToFile(content, new File(path, "frame"+id+".html"));
 				tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
+				tag=XMLUtils.getNextTag(content, tag.end, "FRAMESET");
 				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
 				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
 				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
