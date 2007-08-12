@@ -27,13 +27,13 @@
 	<icon key="schedule">
 		<resource url="/com/kiwisoft/media/icons/calendar.png"/>
 	</icon>
-	<icon key="records">
+	<icon key="tracks">
 		<resource url="/com/kiwisoft/media/icons/cd.png"/>
 	</icon>
-	<icon key="video">
+	<icon key="medium">
 		<resource url="/com/kiwisoft/media/icons/cd.png"/>
 	</icon>
-	<icon key="video.add">
+	<icon key="medium.add">
 		<resource url="/com/kiwisoft/media/icons/cd_add.png"/>
 	</icon>
 	<icon key="links">

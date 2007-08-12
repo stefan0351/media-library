@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.gui.FormatBasedListRenderer;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.WindowManager;

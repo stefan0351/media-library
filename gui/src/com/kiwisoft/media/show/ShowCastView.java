@@ -1,28 +1,25 @@
 package com.kiwisoft.media.show;
 
-import static java.awt.GridBagConstraints.NONE;
-import static java.awt.GridBagConstraints.WEST;
-import static java.awt.GridBagConstraints.BOTH;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.person.*;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
 
 public class ShowCastView extends ViewPanel
 {
@@ -37,7 +34,7 @@ public class ShowCastView extends ViewPanel
 		this.show=show;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return show.getTitle()+" - Cast";
 	}
@@ -116,7 +113,7 @@ public class ShowCastView extends ViewPanel
 					   new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, WEST, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
 		pnlContent.add(new JLabel("Recurring Cast:"),
-				 new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		row++;
 		pnlContent.add(recurringCastController.createComponent(),
 					   new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, WEST, BOTH, new Insets(5, 0, 0, 0), 0, 0));
@@ -238,7 +235,7 @@ public class ShowCastView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), ShowCastView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), ShowCastView.class);
 		bookmark.setParameter("show", String.valueOf(show.getId()));
 		return bookmark;
 	}

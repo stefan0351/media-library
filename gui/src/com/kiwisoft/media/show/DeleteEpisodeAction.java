@@ -1,22 +1,18 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.db.DBSession;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.List;
 import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.actions.MultiContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 18:38:11
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeleteEpisodeAction extends MultiContextAction<Episode>
 {
@@ -38,9 +34,9 @@ public class DeleteEpisodeAction extends MultiContextAction<Episode>
 			if (episode.isUsed())
 			{
 				JOptionPane.showMessageDialog(viewPanel,
-						"The episode '"+episode.getTitle()+"' can't be deleted.",
-						"Message",
-						JOptionPane.INFORMATION_MESSAGE);
+											  "The episode '"+episode.getTitle()+"' can't be deleted.",
+											  "Message",
+											  JOptionPane.INFORMATION_MESSAGE);
 				return;
 			}
 		}

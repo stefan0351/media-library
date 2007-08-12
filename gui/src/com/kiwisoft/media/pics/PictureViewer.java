@@ -8,9 +8,11 @@ import java.net.MalformedURLException;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.gui.*;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 
 /**
  * @author Stefan Stiller
@@ -68,7 +70,7 @@ public class PictureViewer extends DetailsView
 		}
 		try
 		{
-			ImageIcon icon=ImageUtils.loadIcon(file.toURL());
+			ImageIcon icon=ImageUtils.loadIcon(file.toURI().toURL());
 			imagePanel.setImage(icon);
 		}
 		catch (MalformedURLException e)

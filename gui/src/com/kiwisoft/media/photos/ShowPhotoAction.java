@@ -1,18 +1,16 @@
 package com.kiwisoft.media.photos;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
 
-import javax.swing.JOptionPane;
-
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureViewer;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 public class ShowPhotoAction extends SimpleContextAction<Photo>

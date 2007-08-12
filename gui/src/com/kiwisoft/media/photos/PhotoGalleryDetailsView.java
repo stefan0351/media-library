@@ -13,10 +13,10 @@ import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.InvalidDataException;
 import com.kiwisoft.utils.gui.lookup.DateField;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 public class PhotoGalleryDetailsView extends DetailsView
 {
@@ -91,7 +91,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 					photoGallery.setCreationDate(date);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(PhotoGalleryDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -6,16 +6,12 @@ import static javax.swing.JOptionPane.*;
 
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 04.03.2007
- * Time: 11:27:46
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeletePersonAction extends SimpleContextAction<Person>
 {
@@ -45,7 +41,7 @@ public class DeletePersonAction extends SimpleContextAction<Person>
 					PersonManager.getInstance().dropPerson(person);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

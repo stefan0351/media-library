@@ -16,20 +16,20 @@ import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.dataImport.SerienJunkiesDeLoaderAction;
 import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
 import com.kiwisoft.media.dataImport.TVComLoaderAction;
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class ShowsView extends ViewPanel
 {
@@ -85,7 +85,7 @@ public class ShowsView extends ViewPanel
 				actions.add(new ShowAirdatesAction(frame));
 				actions.add(new ShowMoviesAction(frame));
 				actions.add(new ShowCastAction(frame));
-				actions.add(new ShowRecordingsAction(frame));
+				actions.add(new ShowTracksAction(frame));
 				actions.add(new ShowLinksAction(frame));
 				actions.add(downloadAction);
 				return actions;
@@ -103,7 +103,7 @@ public class ShowsView extends ViewPanel
 		return tableController.createComponent();
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		if (genre==null) return "Shows";
 		else return "Shows - "+genre.getName();
@@ -206,7 +206,7 @@ public class ShowsView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), ShowsView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), ShowsView.class);
 		if (genre!=null) bookmark.setParameter("genre_id", genre.getId().toString());
 		return bookmark;
 	}

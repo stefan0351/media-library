@@ -6,30 +6,30 @@
  */
 package com.kiwisoft.media.person;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.*;
+import java.util.Set;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.table.*;
 
 public class PersonsView extends ViewPanel
 {
@@ -41,7 +41,7 @@ public class PersonsView extends ViewPanel
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Persons";
 	}
@@ -184,7 +184,7 @@ public class PersonsView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), PersonsView.class);
+		return new Bookmark(getTitle(), PersonsView.class);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

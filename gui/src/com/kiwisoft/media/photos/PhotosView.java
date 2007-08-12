@@ -10,18 +10,18 @@ import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.kiwisoft.media.utils.GuiUtils;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.ChainEvent;
 import com.kiwisoft.utils.db.ChainListener;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class PhotosView extends ViewPanel
 {
@@ -34,7 +34,7 @@ public class PhotosView extends ViewPanel
 		this.photoGallery=photoGallery;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Photos - "+photoGallery.getName();
 	}
@@ -85,7 +85,7 @@ public class PhotosView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), PhotosView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), PhotosView.class);
 		bookmark.setParameter("photoGallery.id", String.valueOf(photoGallery.getId()));
 		return bookmark;
 	}

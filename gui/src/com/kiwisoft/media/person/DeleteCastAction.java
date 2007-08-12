@@ -6,20 +6,15 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 16.03.2007
- * Time: 21:30:47
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeleteCastAction extends MultiContextAction<CastMember>
 {

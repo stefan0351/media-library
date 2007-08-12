@@ -2,15 +2,11 @@ package com.kiwisoft.media.schedule;
 
 import java.util.Calendar;
 
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.MenuSidebarItem;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 13.11.2004
- * Time: 21:55:45
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ScheduleTask extends MenuSidebarItem.Task
 {

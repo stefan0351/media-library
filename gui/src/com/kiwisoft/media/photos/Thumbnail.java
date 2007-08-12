@@ -62,7 +62,7 @@ public class Thumbnail extends JPanel implements Chain.ChainLink, Disposable, Pr
 			{
 				try
 				{
-					photoComponent.setImage(new ImageIcon(file.toURL()));
+					photoComponent.setImage(new ImageIcon(file.toURI().toURL()));
 				}
 				catch (MalformedURLException e)
 				{

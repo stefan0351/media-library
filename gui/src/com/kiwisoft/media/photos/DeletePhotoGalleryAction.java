@@ -1,16 +1,12 @@
 package com.kiwisoft.media.photos;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
-import static javax.swing.JOptionPane.YES_NO_OPTION;
-import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.*;
 
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
@@ -42,7 +38,7 @@ public class DeletePhotoGalleryAction extends SimpleContextAction<PhotoGallery>
 					PhotoManager.getInstance().dropGallery(gallery);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -10,14 +10,11 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
@@ -25,6 +22,9 @@ import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.Bookmark;
 
 public class PicturesView extends ViewPanel
 {
@@ -36,7 +36,7 @@ public class PicturesView extends ViewPanel
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Pictures";
 	}
@@ -172,11 +172,11 @@ public class PicturesView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), PicturesView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), PicturesView.class);
 		String searchText=searchField.getText();
 		if (!StringUtils.isEmpty(searchText))
 		{
-			bookmark.setName(getName()+": "+searchText);
+			bookmark.setName(getTitle()+": "+searchText);
 			bookmark.setParameter("searchText", searchText);
 		}
 		return bookmark;

@@ -25,6 +25,9 @@ import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.*;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsDialog;
+import com.kiwisoft.app.DetailsFrame;
 
 public class PersonDetailsView extends DetailsView
 {

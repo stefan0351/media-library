@@ -5,9 +5,9 @@ import javax.swing.JOptionPane;
 
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.app.ApplicationFrame;
 
 public class RotatePhotoAction extends SimpleContextAction<Photo>
 {
@@ -34,7 +34,7 @@ public class RotatePhotoAction extends SimpleContextAction<Photo>
 					photo.setRotation((photo.getRotation()+angle)%360);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

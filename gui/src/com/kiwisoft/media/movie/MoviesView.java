@@ -9,22 +9,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.kiwisoft.media.Name;
-import com.kiwisoft.media.video.CreateVideoAction;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.media.medium.CreateMediumAction;
+import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class MoviesView extends ViewPanel
 {
@@ -39,7 +39,7 @@ public class MoviesView extends ViewPanel
 		this.show=show;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		if (show!=null) return show.getTitle()+" - Movies";
 		return "Movies";
@@ -72,7 +72,7 @@ public class MoviesView extends ViewPanel
 				actions.add(new NewMovieAction(show));
 				actions.add(new DeleteMovieAction(frame, show));
 				actions.add(null);
-				actions.add(new CreateVideoAction());
+				actions.add(new CreateMediumAction());
 				return actions;
 			}
 
@@ -181,7 +181,7 @@ public class MoviesView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), MoviesView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), MoviesView.class);
 		if (show!=null) bookmark.setParameter("show", String.valueOf(show.getId()));
 		return bookmark;
 	}

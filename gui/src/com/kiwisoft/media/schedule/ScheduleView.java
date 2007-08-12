@@ -3,33 +3,31 @@ package com.kiwisoft.media.schedule;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
-import java.util.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JComponent;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.AirdateManager;
-import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.utils.ClassObserver;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.db.DBObject;
 import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.filter.ObjectFilter;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
 
 public class ScheduleView extends ViewPanel
 {
 	private Show show;
 
-	private String title;
 	private Collection airdates;
 	private ObjectFilter filter;
 	private AirdatesListener airdatesListener;
@@ -40,7 +38,7 @@ public class ScheduleView extends ViewPanel
 	public ScheduleView(Show show)
 	{
 		this.show=show;
-		this.title="Schedule for "+show.getTitle();
+		setTitle("Schedule for "+show.getTitle());
 		this.airdates=show.getAirdates();
 		this.filter=new ShowFilter(show);
 	}
@@ -50,12 +48,7 @@ public class ScheduleView extends ViewPanel
 		this.unit=unit;
 		this.quantity=quantity;
 		this.airdates=AirdateManager.getInstance().getAirdates(unit, quantity);
-		this.title="Current Schedule";
-	}
-
-	public String getName()
-	{
-		return title;
+		setTitle("Current Schedule");
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
@@ -136,7 +129,7 @@ public class ScheduleView extends ViewPanel
 
 	private class AirdatesListener implements ClassObserver
 	{
-		public void instanceCreated(DBObject dbObject)
+		public void instanceCreated(Object dbObject)
 		{
 		}
 
@@ -236,7 +229,7 @@ public class ScheduleView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), ScheduleView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), ScheduleView.class);
 		if (show!=null) bookmark.setParameter("show", String.valueOf(show.getId()));
 		else
 		{

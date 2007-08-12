@@ -56,7 +56,7 @@ public class ThumbnailCreation implements Job
 									picture.setThumbnail(Picture.THUMBNAIL_SIDEBAR, thumbnailPath, thumbnailSize.width, thumbnailSize.height);
 								}
 
-								public void handleError(Throwable throwable)
+								public void handleError(Throwable throwable, boolean rollback)
 								{
 									progressSupport.error(throwable);
 								}

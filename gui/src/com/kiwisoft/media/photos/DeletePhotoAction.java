@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 import static javax.swing.JOptionPane.*;
 
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 
@@ -41,7 +41,7 @@ public class DeletePhotoAction extends MultiContextAction<Photo>
 					for (Photo photo : photos) photo.getGallery().dropPhoto(photo);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", ERROR_MESSAGE);
 				}

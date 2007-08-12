@@ -2,17 +2,20 @@ package com.kiwisoft.media.show;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JComponent;
 
-import com.kiwisoft.media.video.CreateVideoAction;
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.db.*;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.media.medium.CreateMediumAction;
+import com.kiwisoft.utils.db.Chain;
+import com.kiwisoft.utils.db.ChainEvent;
+import com.kiwisoft.utils.db.ChainListener;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 
@@ -36,7 +39,7 @@ public class EpisodesView extends ViewPanel
 		this.show=season.getShow();
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		if (season!=null)
 			return show.getTitle()+" - "+season.getSeasonName()+" - Episodes";
@@ -59,8 +62,8 @@ public class EpisodesView extends ViewPanel
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				if (season==null)
 				{
-					actions.add(new MoveUpAction(show.getEpisodes()));
-					actions.add(new MoveDownAction(show.getEpisodes()));
+					actions.add(new ChainMoveUpAction(this, show.getEpisodes()));
+					actions.add(new ChainMoveDownAction(this, show.getEpisodes()));
 				}
 				return actions;
 			}
@@ -74,7 +77,7 @@ public class EpisodesView extends ViewPanel
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				actions.add(null);
 				actions.add(new CreateSeasonAction());
-				actions.add(new CreateVideoAction());
+				actions.add(new CreateMediumAction());
 				return actions;
 			}
 
@@ -199,7 +202,7 @@ public class EpisodesView extends ViewPanel
 		@Override
 		public String getCellFormat(int column, String property)
 		{
-			if ("firstAired".equals(property)) return "Date only"; 
+			if ("firstAired".equals(property)) return "Date only";
 			return super.getCellFormat(column, property);
 		}
 
@@ -228,7 +231,7 @@ public class EpisodesView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), EpisodesView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), EpisodesView.class);
 		if (season!=null)
 		{
 			bookmark.setParameter("type", "season");

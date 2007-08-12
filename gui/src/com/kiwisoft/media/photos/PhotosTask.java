@@ -1,7 +1,7 @@
 package com.kiwisoft.media.photos;
 
-import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.MenuSidebarItem;
 
 /**
  * @author Stefan Stiller

@@ -17,8 +17,12 @@ import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.utils.gui.style.StyleUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsDialog;
+import com.kiwisoft.app.DetailsFrame;
 
 public class PictureDetailsView extends DetailsView
 {
@@ -146,7 +150,7 @@ public class PictureDetailsView extends DetailsView
 					picture.setThumbnailSidebar(thumbnailSidebarPath, thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(PictureDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -218,7 +222,7 @@ public class PictureDetailsView extends DetailsView
 		{
 			JLabel label=new JLabel(name);
 			label.setOpaque(true);
-			label.setBackground(Utils.darker(UIManager.getColor("Panel.background"), 0.8));
+			label.setBackground(StyleUtils.darker(UIManager.getColor("Panel.background"), 0.8));
 			return label;
 		}
 
@@ -289,7 +293,7 @@ public class PictureDetailsView extends DetailsView
 				{
 					try
 					{
-						ImageIcon icon=ImageUtils.loadIcon(file.toURL());
+						ImageIcon icon=ImageUtils.loadIcon(file.toURI().toURL());
 						imagePanel.setImage(icon);
 						width=icon.getIconWidth();
 						height=icon.getIconHeight();

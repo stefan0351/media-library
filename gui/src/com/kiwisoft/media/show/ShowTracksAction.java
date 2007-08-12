@@ -3,25 +3,24 @@ package com.kiwisoft.media.show;
 import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.movie.MoviesView;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
  * @author Stefan Stiller
  */
-public class ShowMoviesAction extends SimpleContextAction<Show>
+public class ShowTracksAction extends SimpleContextAction<Show>
 {
 	private ApplicationFrame frame;
 
-	public ShowMoviesAction(ApplicationFrame frame)
+	public ShowTracksAction(ApplicationFrame frame)
 	{
-		super("Movies", Icons.getIcon("movie"));
+		super("Tracks", Icons.getIcon("tracks"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new MoviesView(getObject()), true);
+		frame.setCurrentView(new ShowTracksView(getObject()), true);
 	}
 }

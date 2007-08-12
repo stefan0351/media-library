@@ -27,8 +27,8 @@ import com.kiwisoft.utils.gui.lookup.LookupEvent;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
 import com.kiwisoft.utils.gui.lookup.TimeField;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 
 public class AirdateDetailsView extends DetailsView
 {

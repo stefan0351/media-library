@@ -12,13 +12,13 @@ import javax.swing.border.TitledBorder;
 
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 public class PhotoDetailsView extends DetailsView
 {
@@ -217,7 +217,7 @@ public class PhotoDetailsView extends DetailsView
 				else photo.getGallery().setGalleryPhoto(null);
 			}
 
-			public void handleError(Throwable throwable)
+			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(PhotoDetailsView.this, throwable);
 			}

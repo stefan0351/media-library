@@ -1,19 +1,18 @@
 package com.kiwisoft.media.photos;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.media.video.*;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.table.SortableTableModel;
+import com.kiwisoft.utils.gui.table.TableController;
 
 public class PhotoGalleriesView extends ViewPanel
 {
@@ -23,7 +22,7 @@ public class PhotoGalleriesView extends ViewPanel
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Photo Galleries";
 	}
@@ -94,7 +93,7 @@ public class PhotoGalleriesView extends ViewPanel
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						PhotoGallery gallery=(PhotoGallery) event.getElement();
+						PhotoGallery gallery=(PhotoGallery)event.getElement();
 						tableModel.addRow(new PhotoGalleriesTableModel.Row(gallery));
 						break;
 					case CollectionChangeEvent.REMOVED:
@@ -113,7 +112,7 @@ public class PhotoGalleriesView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), PhotoGalleriesView.class);
+		return new Bookmark(getTitle(), PhotoGalleriesView.class);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

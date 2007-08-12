@@ -29,6 +29,9 @@ import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsDialog;
 
 public class MovieDetailsView extends DetailsView
 {

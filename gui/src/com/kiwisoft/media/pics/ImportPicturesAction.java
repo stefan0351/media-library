@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
 
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
  * @author Stefan Stiller

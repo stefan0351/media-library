@@ -1,18 +1,14 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.LinksView;
+import com.kiwisoft.app.ApplicationFrame;
 
 import java.awt.event.ActionEvent;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 21:50:19
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ShowLinksAction extends SimpleContextAction<Show>
 {

@@ -17,7 +17,7 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataImport.SearchPattern;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -30,10 +30,9 @@ import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.ObjectTableModel;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 public class ShowDetailsView extends DetailsView
 {
@@ -341,7 +340,7 @@ public class ShowDetailsView extends DetailsView
 				}
 			}
 
-			public void handleError(Throwable throwable)
+			public void handleError(Throwable throwable, boolean rollback)
 			{
 				JOptionPane.showMessageDialog(ShowDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
@@ -370,7 +369,7 @@ public class ShowDetailsView extends DetailsView
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(field, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(field, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 

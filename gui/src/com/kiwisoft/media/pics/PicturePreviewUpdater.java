@@ -37,7 +37,7 @@ public class PicturePreviewUpdater implements LookupSelectionListener
 			{
 				try
 				{
-					preview.setImage(ImageUtils.loadIcon(file.toURL()));
+					preview.setImage(ImageUtils.loadIcon(file.toURI().toURL()));
 				}
 				catch (Exception e)
 				{

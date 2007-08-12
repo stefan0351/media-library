@@ -7,8 +7,8 @@ import java.util.List;
 import com.kiwisoft.media.Genre;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
+import com.kiwisoft.app.MenuSidebarItem;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
  * @author Stefan Stiller

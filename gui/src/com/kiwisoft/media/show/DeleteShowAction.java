@@ -1,20 +1,16 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.Icons;
+import java.awt.event.ActionEvent;
+import javax.swing.JOptionPane;
+
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
+import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Gieselbert
- * Date: 03.03.2007
- * Time: 21:43:26
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeleteShowAction extends SimpleContextAction<Show>
 {
@@ -51,7 +47,7 @@ public class DeleteShowAction extends SimpleContextAction<Show>
 					ShowManager.getInstance().dropShow(show);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

@@ -10,7 +10,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 
 /**
  * @author Stefan Stiller
@@ -50,7 +50,7 @@ public class MovePhotoUpAction extends MultiContextAction<Photo>
 				for (Photo photo : photos) chain.moveUp(photo);
 			}
 
-			public void handleError(Throwable throwable)
+			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(thumbnailPanel, throwable);
 			}

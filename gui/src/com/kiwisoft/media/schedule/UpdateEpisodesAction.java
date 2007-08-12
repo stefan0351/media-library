@@ -2,18 +2,14 @@ package com.kiwisoft.media.schedule;
 
 import java.awt.event.ActionEvent;
 
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.show.EpisodeUpdater;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 16.03.2007
- * Time: 20:12:08
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class UpdateEpisodesAction extends MultiContextAction<Airdate>
 {

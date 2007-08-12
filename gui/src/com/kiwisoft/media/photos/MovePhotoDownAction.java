@@ -7,10 +7,10 @@ import javax.swing.SwingUtilities;
 
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.media.utils.GuiUtils;
 
 /**
  * @author Stefan Stiller
@@ -50,7 +50,7 @@ public class MovePhotoDownAction extends MultiContextAction<Photo>
 				for (Photo photo : photos) chain.moveDown(photo);
 			}
 
-			public void handleError(Throwable throwable)
+			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(thumbnailPanel, throwable);
 			}

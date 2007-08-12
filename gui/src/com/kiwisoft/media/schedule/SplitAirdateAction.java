@@ -1,25 +1,20 @@
 package com.kiwisoft.media.schedule;
 
 import java.awt.event.ActionEvent;
-import java.util.Date;
 import java.sql.SQLException;
-
+import java.util.Date;
 import javax.swing.JOptionPane;
 
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 16.03.2007
- * Time: 20:13:41
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class SplitAirdateAction extends SimpleContextAction<Airdate>
 {
