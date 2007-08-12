@@ -1,4 +1,4 @@
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.util.Map;
 
@@ -11,14 +11,14 @@ import com.kiwisoft.utils.StringUtils;
 /**
  * @author Stefan Stiller
  */
-public class VideoHTMLRenderer extends DefaultHTMLRenderer
+public class MediumHTMLRenderer extends DefaultHTMLRenderer
 {
 	public static final String NAME="Name";
 	public static final String FULL="Full";
 
 	private String variant;
 
-	public VideoHTMLRenderer(String variant)
+	public MediumHTMLRenderer(String variant)
 	{
 		this.variant=variant;
 	}
@@ -26,9 +26,9 @@ public class VideoHTMLRenderer extends DefaultHTMLRenderer
 	@Override
 	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
 	{
-		if (value instanceof Video)
+		if (value instanceof Medium)
 		{
-			Video video=(Video)value;
+			Medium video=(Medium)value;
 			StringBuilder buffer=new StringBuilder();
 			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(video)).append("\">");
 			String key=video.getFullKey();

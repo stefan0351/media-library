@@ -13,8 +13,8 @@
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
-<%@ page import="com.kiwisoft.media.video.VideoManager" %>
-<%@ page import="com.kiwisoft.media.video.Video" %>
+<%@ page import="com.kiwisoft.media.medium.MediumManager" %>
+<%@ page import="com.kiwisoft.media.medium.Medium" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -157,20 +157,20 @@
 		</dt>
 		<%
 			}
-			Set videos=VideoManager.getInstance().getVideos(episode);
-			if (!videos.isEmpty())
+			Set media=MediumManager.getInstance().getMedia(episode);
+			if (!media.isEmpty())
 			{
 		%>
-				<dt><b>DVD/Video:</b><dd>
+				<dt><b>Media:</b><dd>
 <%
-				for (Iterator it=videos.iterator(); it.hasNext();)
-				{
-					Video video=(Video)it.next();
-					if (video.isObsolete()) out.print("<strike>");
-					out.print(JspUtils.render(video, "Full"));
-					if (video.isObsolete()) out.print("</strike>");
-					out.print("<br>");
-				}
+	for (Iterator it=media.iterator(); it.hasNext();)
+	{
+		Medium medium=(Medium)it.next();
+		if (medium.isObsolete()) out.print("<strike>");
+		out.print(JspUtils.render(medium, "Full"));
+		if (medium.isObsolete()) out.print("</strike>");
+		out.print("<br>");
+	}
 %>
 				</dd></dt>
 <%

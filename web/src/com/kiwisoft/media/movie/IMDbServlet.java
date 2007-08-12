@@ -63,7 +63,7 @@ public class IMDbServlet extends HttpServlet
 					if (Boolean.parseBoolean(request.getParameter("force_new"))) movieData.setMovie(null);
 					CreateMovieTx createMovieTx=new CreateMovieTx(movieData)
 					{
-						public void handleError(Throwable throwable)
+						public void handleError(Throwable throwable, boolean rollback)
 						{
 							request.setAttribute("error", throwable);
 						}

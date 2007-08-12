@@ -14,7 +14,7 @@
 	Map links=new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	links.put("Schedule", "/shows/schedule.jsp?show="+show.getId());
 	if (show.getRecordingCount()>0)
-		links.put("Records", "/shows/videos.jsp?show="+show.getId());
+		links.put("Media", "/shows/tracks.jsp?show="+show.getId());
 	if (!show.getMainCast().isEmpty() || !show.getRecurringCast().isEmpty())
 		links.put("Cast and Crew", "/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkCount()>0)

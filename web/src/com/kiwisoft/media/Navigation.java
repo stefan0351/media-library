@@ -6,7 +6,7 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Season;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.video.Video;
+import com.kiwisoft.media.medium.Medium;
 import com.kiwisoft.media.books.Book;
 
 public class Navigation
@@ -42,9 +42,9 @@ public class Navigation
 		return "/persons/person.jsp?id="+person.getId();
 	}
 
-	public static String getLink(Video video)
+	public static String getLink(Medium medium)
 	{
-		return "/videos/video.jsp?id="+video.getId();
+		return "/media/medium.jsp?id="+medium.getId();
 	}
 
 	public static String getLink(Movie movie)

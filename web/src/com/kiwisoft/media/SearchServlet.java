@@ -15,7 +15,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.SetMap;
+import com.kiwisoft.collection.SetMap;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 

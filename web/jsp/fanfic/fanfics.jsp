@@ -8,6 +8,7 @@
 				 java.util.*,
 				 com.kiwisoft.media.Link,
 				 com.kiwisoft.media.Language"%>
+<%@ page import="com.kiwisoft.collection.SortedSetMap" %>
 
 <%
     FanFicGroup container=null;
@@ -152,15 +153,15 @@
 			<tr><td class=header2>Links</td></tr>
 			<tr><td class="content">
 <%
-			SortedSetMap sortedLinks=new SortedSetMap();
-			for (Iterator itLinks=fanDom.getLinks().iterator(); itLinks.hasNext();)
-			{
-				Link link=(Link)itLinks.next();
-				sortedLinks.add(link.getLanguage(), link);
-			}
-			for (Iterator itLanguages=sortedLinks.keySet().iterator(); itLanguages.hasNext();)
-			{
-				Language language=(Language)itLanguages.next();
+	com.kiwisoft.collection.SortedSetMap sortedLinks=new SortedSetMap();
+	for (Iterator itLinks=fanDom.getLinks().iterator(); itLinks.hasNext();)
+	{
+		Link link=(Link)itLinks.next();
+		sortedLinks.add(link.getLanguage(), link);
+	}
+	for (Iterator itLanguages=sortedLinks.keySet().iterator(); itLanguages.hasNext();)
+	{
+		Language language=(Language)itLanguages.next();
 %>
 				<p><b><u><%=language.getName()%>e Webseiten</u></b></p>
 				<ul>

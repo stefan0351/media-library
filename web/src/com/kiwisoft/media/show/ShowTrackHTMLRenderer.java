@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.HTMLRendererManager;
@@ -18,29 +18,29 @@ import com.kiwisoft.web.HTMLRendererManager;
  * Time: 18:58:57
  * To change this template use File | Settings | File Templates.
  */
-public class ShowRecordingHTMLRenderer extends DefaultHTMLRenderer
+public class ShowTrackHTMLRenderer extends DefaultHTMLRenderer
 {
-	public ShowRecordingHTMLRenderer()
+	public ShowTrackHTMLRenderer()
 	{
 	}
 
 	@Override
 	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
 	{
-		if (value instanceof Recording)
+		if (value instanceof Track)
 		{
-			Recording recording=(Recording)value;
+			Track track=(Track)value;
 			StringBuilder buffer=new StringBuilder();
-			Movie movie=recording.getMovie();
-			context.put(Language.class.getName(), recording.getLanguage());
+			Movie movie=track.getMovie();
+			context.put(Language.class.getName(), track.getLanguage());
 			HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 			if (movie!=null) buffer.append(rendererManager.getRenderer(Movie.class).getContent(movie, context, rowIndex, columnIndex));
 			else
 			{
-				Episode episode=recording.getEpisode();
+				Episode episode=track.getEpisode();
 				if (episode!=null) buffer.append(rendererManager.getRenderer(Episode.class).getContent(episode, context, rowIndex, columnIndex));
 			}
-			String event=recording.getEvent();
+			String event=track.getEvent();
 			if (event!=null)
 			{
 				if (buffer.length()>0) buffer.append(" - ");

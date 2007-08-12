@@ -1,4 +1,4 @@
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -6,36 +6,32 @@ import java.util.ResourceBundle;
 import com.kiwisoft.web.SortableWebTable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 01.03.2007
- * Time: 11:43:17
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
-public class RecordsTable extends SortableWebTable<Recording>
+public class TracksTable extends SortableWebTable<Track>
 {
 	public static final String INDEX="index";
 	public static final String EVENT="event";
 	public static final String LENGTH="length";
 	public static final String LANGUAGE="language";
 
-	private Video video;
+	private Medium medium;
 
-	public RecordsTable(Video video)
+	public TracksTable(Medium medium)
 	{
 		super(INDEX, EVENT, LENGTH, LANGUAGE);
-		this.video=video;
-		Iterator<Recording> it=video.getRecordings().iterator();
+		this.medium=medium;
+		Iterator<Track> it=medium.getTracks().iterator();
 		while (it.hasNext())
 		{
-			addRow(new RecordingRow(it.next()));
+			addRow(new TrackRow(it.next()));
 		}
 		sort();
 	}
 
 	public ResourceBundle getBundle()
 	{
-		return ResourceBundle.getBundle(RecordsTable.class.getName());
+		return ResourceBundle.getBundle(TracksTable.class.getName());
 	}
 
 	public boolean isResortable()
@@ -43,9 +39,9 @@ public class RecordsTable extends SortableWebTable<Recording>
 		return false;
 	}
 
-	public class RecordingRow extends Row<Recording>
+	public class TrackRow extends Row<Track>
 	{
-		public RecordingRow(Recording record)
+		public TrackRow(Track record)
 		{
 			super(record);
 		}
@@ -58,8 +54,8 @@ public class RecordsTable extends SortableWebTable<Recording>
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Recording record=getUserObject();
-			if (INDEX.equals(property)) return video.getRecordingIndex(record)+1;
+			Track record=getUserObject();
+			if (INDEX.equals(property)) return medium.getRecordingIndex(record)+1;
 			if (EVENT.equals(property)) return record;
 			if (LENGTH.equals(property)) return record.getLength();
 			if (LANGUAGE.equals(property)) return record.getLanguage();

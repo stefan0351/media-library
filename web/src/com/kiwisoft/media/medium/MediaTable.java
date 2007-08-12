@@ -1,4 +1,4 @@
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ import com.kiwisoft.web.SortableWebTable;
 /**
  * @author Stefan Stiller
  */
-public class VideosTable extends SortableWebTable<Video>
+public class MediaTable extends SortableWebTable<Medium>
 {
 	private static final String ID="id";
 	private static final String NAME="name";
@@ -24,20 +24,20 @@ public class VideosTable extends SortableWebTable<Video>
 
 	private static final Pattern STORAGE_PATTERN=Pattern.compile("(\\d+)/(\\d+)");
 
-	public VideosTable(int group)
+	public MediaTable(int group)
 	{
 		super(ID, NAME, STORAGE, TIME_LEFT, TYPE);
-		Collection<Video> videos;
-		if (group==-1) videos=VideoManager.getInstance().getAllVideos();
-		else videos=VideoManager.getInstance().getGroupVideos(group);
-		for (Video video : videos) addRow(new VideoRow(video));
+		Collection<Medium> media;
+		if (group==-1) media=MediumManager.getInstance().getAllMedia();
+		else media=MediumManager.getInstance().getGroupMedia(group);
+		for (Medium medium : media) addRow(new MediumRow(medium));
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
 		sort();
 	}
 
 	public ResourceBundle getBundle()
 	{
-		return ResourceBundle.getBundle(VideosTable.class.getName());
+		return ResourceBundle.getBundle(MediaTable.class.getName());
 	}
 
 	@Override
@@ -47,9 +47,9 @@ public class VideosTable extends SortableWebTable<Video>
 		return super.getRendererVariant(rowIndex, columnIndex);
 	}
 
-	public static class VideoRow extends Row<Video>
+	public static class MediumRow extends Row<Medium>
 	{
-		public VideoRow(Video video)
+		public MediumRow(Medium video)
 		{
 			super(video);
 		}

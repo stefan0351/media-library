@@ -1,54 +1,50 @@
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.io.IOException;
 import java.util.TreeSet;
 import java.util.Comparator;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 import com.kiwisoft.media.XMLSource;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieComparator;
 import com.kiwisoft.utils.xml.XMLWriter;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Utils;
 
 /**
  * @author Stefan Stiller
  */
-public class VideosByMovieXML implements XMLSource
+public class MediaByMovieXML implements XMLSource
 {
 	public void createXML(XMLWriter xmlWriter) throws IOException
 	{
-		TreeSet<Recording> records=new TreeSet<Recording>(new MyComparator());
-		records.addAll(DBLoader.getInstance().loadSet(Recording.class, "videos",
+		TreeSet<Track> records=new TreeSet<Track>(new MyComparator());
+		records.addAll(DBLoader.getInstance().loadSet(Track.class, "videos",
 													 "videos.id=recordings.video_id" +
 													 " and movie_id is not null and videos.userkey is not null" +
 													 " and ifnull(videos.obsolete, 0)=0"));
 
-		xmlWriter.startElement("records");
-		for (Recording record : records)
+		xmlWriter.startElement("tracks");
+		for (Track record : records)
 		{
-			xmlWriter.startElement("record");
+			xmlWriter.startElement("track");
 			xmlWriter.setAttribute("name", record.getName());
-			Video video=record.getVideo();
+			Medium video=record.getMedium();
 			xmlWriter.setAttribute("mediumType", video.getType().getName());
 			xmlWriter.setAttribute("mediumKey", video.getFullKey());
 			xmlWriter.setAttribute("storage", video.getStorage());
 			xmlWriter.setAttribute("language", record.getLanguage().getSymbol());
-			xmlWriter.closeElement("record");
+			xmlWriter.closeElement("track");
 		}
-		xmlWriter.closeElement("records");
+		xmlWriter.closeElement("tracks");
 	}
 
-	private static class MyComparator implements Comparator<Recording>
+	private static class MyComparator implements Comparator<Track>
 	{
 		public MyComparator()
 		{
 		}
 
-		public int compare(Recording o1, Recording o2)
+		public int compare(Track o1, Track o2)
 		{
 			Movie movie1=o1.getMovie();
 			Movie movie2=o2.getMovie();

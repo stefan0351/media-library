@@ -1,19 +1,19 @@
 <%@ page language="java"  extends="com.kiwisoft.media.MediaJspBase"%>
 <%@ page import="com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowManager,
-				 com.kiwisoft.media.show.ShowRecordsTable"%>
+				 com.kiwisoft.media.show.ShowTracksTable"%>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	Show show=ShowManager.getInstance().getShow(new Long(request.getParameter("show")));
 	request.setAttribute("show", show);
-	ShowRecordsTable model=new ShowRecordsTable(show);
+	ShowTracksTable model=new ShowTracksTable(show);
 	request.setAttribute("recordsTable", model);
 %>
 <html>
 
 <head>
-<title>Videos</title>
+<title>Media</title>
 <script language="JavaScript" src="/overlib.js"></script>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 </head>
@@ -41,7 +41,7 @@
 <!--Content Start-->
 
 <table class="contenttable" width="790">
-<tr><td class="header1">Records</td></tr>
+<tr><td class="header1">Tracks</td></tr>
 <tr><td class="content">
 	<media:table model="recordsTable" alternateRows="true"/>
 	<p align=right><a class=link href="#top">Top</a></p>

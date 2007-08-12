@@ -4,7 +4,7 @@
 				   com.kiwisoft.media.Link,
 				   com.kiwisoft.media.show.Show,
 				   com.kiwisoft.media.show.ShowManager,
-				   com.kiwisoft.utils.SortedSetMap" %>
+				   com.kiwisoft.collection.SortedSetMap" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
 
 <%
@@ -46,7 +46,7 @@
 <tr><td class="header1">Links</td></tr>
 <tr><td class="content">
 <%
-	SortedSetMap sortedLinks=new SortedSetMap();
+	com.kiwisoft.collection.SortedSetMap sortedLinks=new SortedSetMap();
 	for (Iterator itLinks=show.getLinks().iterator(); itLinks.hasNext();)
 	{
 		Link link=(Link)itLinks.next();

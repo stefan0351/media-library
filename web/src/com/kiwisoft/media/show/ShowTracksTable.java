@@ -3,7 +3,7 @@ package com.kiwisoft.media.show;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.utils.gui.table.TableConstants;
@@ -11,23 +11,23 @@ import com.kiwisoft.utils.gui.table.TableConstants;
 /**
  * @author Stefan Stiller
  */
-public class ShowRecordsTable extends SortableWebTable<Recording>
+public class ShowTracksTable extends SortableWebTable<Track>
 {
 	public static final String EVENT="event";
-	public static final String VIDEO="video";
+	public static final String MEDIUM="medium";
 	public static final String STORAGE="storage";
 	public static final String LANGUAGE="language";
 
-	public ShowRecordsTable(Show show)
+	public ShowTracksTable(Show show)
 	{
-		super(EVENT, VIDEO, STORAGE, LANGUAGE);
+		super(EVENT, MEDIUM, STORAGE, LANGUAGE);
 		initializeData(show);
 	}
 
 	private void initializeData(Show show)
 	{
 		Iterator it=show.getRecordings().iterator();
-		while (it.hasNext()) addRow(new RecordingRow((Recording)it.next()));
+		while (it.hasNext()) addRow(new TrackRow((Track)it.next()));
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
 		sort();
 	}
@@ -41,14 +41,14 @@ public class ShowRecordsTable extends SortableWebTable<Recording>
 
 	public ResourceBundle getBundle()
 	{
-		return ResourceBundle.getBundle(ShowRecordsTable.class.getName());
+		return ResourceBundle.getBundle(ShowTracksTable.class.getName());
 	}
 
-	private static class RecordingRow extends Row<Recording>
+	private static class TrackRow extends Row<Track>
 	{
-		public RecordingRow(Recording recording)
+		public TrackRow(Track track)
 		{
-			super(recording);
+			super(track);
 		}
 
 		public Comparable getSortValue(int column, String property)
@@ -64,11 +64,11 @@ public class ShowRecordsTable extends SortableWebTable<Recording>
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Recording recording=getUserObject();
-			if (EVENT.equals(property)) return recording;
-			else if (VIDEO.equals(property)) return recording.getVideo();
-			else if (STORAGE.equals(property)) return recording.getVideo().getStorage();
-			else if (LANGUAGE.equals(property)) return recording.getLanguage();
+			Track track=getUserObject();
+			if (EVENT.equals(property)) return track;
+			else if (MEDIUM.equals(property)) return track.getMedium();
+			else if (STORAGE.equals(property)) return track.getMedium().getStorage();
+			else if (LANGUAGE.equals(property)) return track.getLanguage();
 			return null;
 		}
 	}

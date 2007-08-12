@@ -7,12 +7,12 @@
 <%@ page import="com.kiwisoft.media.person.CastMember" %>
 <%@ page import="com.kiwisoft.media.person.CrewMember" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
-<%@ page import="com.kiwisoft.utils.SortedSetMap" %>
+<%@ page import="com.kiwisoft.collection.SortedSetMap" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
-<%@ page import="com.kiwisoft.media.video.Video" %>
-<%@ page import="com.kiwisoft.media.video.VideoManager" %>
+<%@ page import="com.kiwisoft.media.medium.Medium" %>
+<%@ page import="com.kiwisoft.media.medium.MediumManager" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -154,20 +154,20 @@
 		</tr>
 		<%
 			}
-			Set videos=VideoManager.getInstance().getVideos(movie);
+			Set videos=MediumManager.getInstance().getMedia(movie);
 			if (!videos.isEmpty())
 			{
 		%>
-				<tr valign="top"><td class="content2"><b>DVD/Video:</b></td><td class="content2">
+				<tr valign="top"><td class="content2"><b>Media:</b></td><td class="content2">
 <%
-				for (Iterator it=videos.iterator(); it.hasNext();)
-				{
-					Video video=(Video)it.next();
-					if (video.isObsolete()) out.print("<strike>");
-					out.print(JspUtils.render(video, "Full"));
-					if (video.isObsolete()) out.print("</strike>");
-					out.print("<br>");
-				}
+	for (Iterator it=videos.iterator(); it.hasNext();)
+	{
+		Medium medium=(Medium)it.next();
+		if (medium.isObsolete()) out.print("<strike>");
+		out.print(JspUtils.render(medium, "Full"));
+		if (medium.isObsolete()) out.print("</strike>");
+		out.print("<br>");
+	}
 %>
 				</td></tr>
 <%
@@ -233,7 +233,7 @@
 	Set crew=movie.getCrewMembers();
 	if (!crew.isEmpty())
 	{
-		SortedSetMap sortedCrew=new SortedSetMap(null, new Comparator()
+		SortedSetMap sortedCrew=new com.kiwisoft.collection.SortedSetMap(null, new Comparator()
 		{
 			public int compare(Object o1, Object o2)
 			{

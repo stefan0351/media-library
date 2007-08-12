@@ -11,27 +11,27 @@ import java.io.File;
 import java.util.Date;
 import javax.servlet.ServletContext;
 
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;
 import com.kiwisoft.web.DefaultHTMLRenderer;
-import com.kiwisoft.media.video.Video;
-import com.kiwisoft.media.video.Recording;
-import com.kiwisoft.media.video.RecordingHTMLRenderer;
-import com.kiwisoft.media.video.VideoHTMLRenderer;
+import com.kiwisoft.media.medium.Medium;
+import com.kiwisoft.media.medium.Track;
+import com.kiwisoft.media.medium.TrackHTMLRenderer;
+import com.kiwisoft.media.medium.MediumHTMLRenderer;
 import com.kiwisoft.media.show.*;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieHTMLRenderer;
 import com.kiwisoft.media.schedule.AirdateHTMLRenderer;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonHTMLRenderer;
-import com.kiwisoft.media.person.Gender;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoGalleryFormat;
+import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.app.Application;
 
 public class MediaManagerApp
 {
@@ -45,8 +45,9 @@ public class MediaManagerApp
 
 	private MediaManagerApp(ServletContext context)
 	{
+		new Application("media");
 		String path=context.getRealPath("WEB-INF/config.xml");
-		Configurator.getInstance().loadDefaultsFromFile(new File(path));
+		new SimpleConfiguration().loadDefaultsFromFile(new File(path));
 		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
 		initializeFormats();
 		initializeRenderers();
@@ -67,11 +68,11 @@ public class MediaManagerApp
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
 		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));
 		rendererManager.setRenderer(Country.class, new CountryHTMLRenderer());
-		rendererManager.setRenderer(Video.class, new VideoHTMLRenderer(null));
-		rendererManager.setRenderer(Video.class, VideoHTMLRenderer.NAME, new VideoHTMLRenderer(VideoHTMLRenderer.NAME));
-		rendererManager.setRenderer(Video.class, VideoHTMLRenderer.FULL, new VideoHTMLRenderer(VideoHTMLRenderer.FULL));
-		rendererManager.setRenderer(Recording.class, "Show", new ShowRecordingHTMLRenderer());
-		rendererManager.setRenderer(Recording.class, new RecordingHTMLRenderer());
+		rendererManager.setRenderer(Medium.class, new MediumHTMLRenderer(null));
+		rendererManager.setRenderer(Medium.class, MediumHTMLRenderer.NAME, new MediumHTMLRenderer(MediumHTMLRenderer.NAME));
+		rendererManager.setRenderer(Medium.class, MediumHTMLRenderer.FULL, new MediumHTMLRenderer(MediumHTMLRenderer.FULL));
+		rendererManager.setRenderer(Track.class, "Show", new ShowTrackHTMLRenderer());
+		rendererManager.setRenderer(Track.class, new TrackHTMLRenderer());
 		rendererManager.setRenderer(Airdate.class, new AirdateHTMLRenderer());
 		rendererManager.setRenderer(Episode.class, new EpisodeHTMLRenderer());
 		rendererManager.setRenderer(Movie.class, new MovieHTMLRenderer());

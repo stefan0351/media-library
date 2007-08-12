@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import com.kiwisoft.utils.ObjectCache;
+import com.kiwisoft.collection.ObjectCache;
 import com.kiwisoft.utils.xml.CopyingTagHandler;
 import com.kiwisoft.utils.xml.ReplacingTagHandler;
 import com.kiwisoft.utils.xml.XMLHandler;

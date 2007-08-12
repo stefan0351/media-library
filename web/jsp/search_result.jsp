@@ -6,7 +6,7 @@
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.media.show.Episode" %>
 <%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.utils.SetMap" %>
+<%@ page import="com.kiwisoft.collection.SetMap" %>
 <%@ page import="com.kiwisoft.web.HTMLRenderer" %>
 <%@ page import="com.kiwisoft.web.HTMLRendererManager" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>

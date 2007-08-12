@@ -2,7 +2,7 @@
 <module version="4" relativePaths="true" type="J2EE_WEB_MODULE" j2ee-integration="Tomcat Server">
   <component name="AppServerSpecificValidatorsManager" />
   <component name="ModuleRootManager" />
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <output url="file://$MODULE_DIR$/../../../../Webpages/local/WEB-INF/classes" />
     <exclude-output />
     <exploded url="file://$MODULE_DIR$/../../../../Webpages/local" />
@@ -12,9 +12,46 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Tomcat 5.5.4" level="application_server_libraries" />
+    <orderEntry type="library" exported="" name="Tomcat 5" level="application_server_libraries" />
     <orderEntry type="module" module-name="core" exported="" />
-    <orderEntry type="library" exported="" name="FOP" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/fop.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../lib/fop-doc.jar!/" />
+        </JAVADOC>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/xmlgraphics-commons.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/avalon-framework.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/batik-all.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -41,9 +78,49 @@
       <attribute name="URI" value="/WEB-INF/lib/utils.jar" />
     </containerElement>
     <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/commons-beanutils.jar" />
+      <url>jar://$MODULE_DIR$/../../../commons/beanutils/1.7.0/commons-beanutils.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/log4j-1.2.14.jar" />
+      <url>jar://$MODULE_DIR$/../../../log4j/1.2.14/dist/lib/log4j-1.2.14.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/avalon-framework.jar" />
+      <url>jar://$MODULE_DIR$/../lib/avalon-framework.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/batik-all.jar" />
+      <url>jar://$MODULE_DIR$/../lib/batik-all.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/fop.jar" />
+      <url>jar://$MODULE_DIR$/../lib/fop.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/mysql.jar" />
       <url>jar://$MODULE_DIR$/../lib/mysql.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/xmlgraphics-commons.jar" />
+      <url>jar://$MODULE_DIR$/../lib/xmlgraphics-commons.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/commons-beanutils.jar" />
+      <url>jar://$MODULE_DIR$/../../utils/lib/commons-beanutils.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/commons-io.jar" />
+      <url>jar://$MODULE_DIR$/../../utils/lib/commons-io.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -65,9 +142,9 @@
       <attribute name="URI" value="/WEB-INF/lib/xerces.jar" />
       <url>jar://$MODULE_DIR$/../../utils/lib/xerces.jar!/</url>
     </containerElement>
-    <containerElement type="library" name="FOP" level="project">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib" />
+    <containerElement type="library" name="Tomcat 5" level="application_server_libraries">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
     </containerElement>
     <containerElement type="library" name="Tomcat 5.5.4" level="application_server_libraries">
       <attribute name="method" value="0" />
