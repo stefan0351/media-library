@@ -12,20 +12,20 @@ import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.*;
 import com.kiwisoft.utils.xml.XMLWriter;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 
 public class FanFicDetailsView extends DetailsView
 {

@@ -15,8 +15,8 @@ import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 public class PairingDetailsView extends DetailsView
 {

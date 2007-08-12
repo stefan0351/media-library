@@ -15,22 +15,22 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Disposable;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class PairingsView extends ViewPanel implements Disposable
 {
@@ -41,7 +41,7 @@ public class PairingsView extends ViewPanel implements Disposable
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Fan Fiction - Pairings";
 	}
@@ -220,7 +220,7 @@ public class PairingsView extends ViewPanel implements Disposable
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), PairingsView.class);
+		return new Bookmark(getTitle(), PairingsView.class);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

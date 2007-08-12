@@ -17,14 +17,14 @@ import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.DialogLookup;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.table.SortableTable;
 import com.kiwisoft.utils.gui.table.StringTableModel;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 
 public class AuthorDetailsView extends DetailsView
 {

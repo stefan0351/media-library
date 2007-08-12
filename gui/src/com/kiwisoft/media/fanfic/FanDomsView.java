@@ -8,22 +8,18 @@ package com.kiwisoft.media.fanfic;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.gui.Disposable;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
 
 /**
  * @author Stefan Stiller
@@ -38,7 +34,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Fan Fiction - Domains";
 	}
@@ -166,7 +162,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), FanDomsView.class);
+		return new Bookmark(getTitle(), FanDomsView.class);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

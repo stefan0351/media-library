@@ -12,20 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBObject;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class FanFicsView extends ViewPanel
 {
@@ -39,7 +36,7 @@ public class FanFicsView extends ViewPanel
 		this.group=group;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Fan Fiction - "+group.getFanFicGroupName();
 	}
@@ -202,7 +199,7 @@ public class FanFicsView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), FanFicsView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), FanFicsView.class);
 		bookmark.setParameter("class", group.getClass().getName());
 		bookmark.setParameter("id", String.valueOf(group.getId()));
 		return bookmark;

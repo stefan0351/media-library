@@ -22,8 +22,8 @@ import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.lookup.LookupEvent;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 /**
  * @author Stefan Stiller

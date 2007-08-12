@@ -3,10 +3,10 @@ package com.kiwisoft.media.fanfic;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.cfg.Configuration;
 
 public class FanFicPartLookup extends FileLookup
 {
@@ -23,7 +23,7 @@ public class FanFicPartLookup extends FileLookup
 	public void setCurrentDirectory(String path)
 	{
 		MediaConfiguration.setRecentFanFicPath(path);
-		Configurator.getInstance().saveUserValues();
+		Configuration.getInstance().saveUserValues();
 	}
 
 	public Icon getIcon()
