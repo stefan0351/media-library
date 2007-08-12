@@ -1,29 +1,25 @@
 package com.kiwisoft.media.books;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.swing.*;
 
-import com.kiwisoft.utils.gui.ViewPanel;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.Bookmark;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.utils.gui.table.*;
 
 public class BooksView extends ViewPanel
 {
@@ -35,7 +31,7 @@ public class BooksView extends ViewPanel
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Books";
 	}
@@ -177,11 +173,11 @@ public class BooksView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), BooksView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), BooksView.class);
 		String searchText=searchField.getText();
 		if (!StringUtils.isEmpty(searchText))
 		{
-			bookmark.setName(getName()+": "+searchText);
+			bookmark.setName(getTitle()+": "+searchText);
 			bookmark.setParameter("searchText", searchText);
 		}
 		return bookmark;

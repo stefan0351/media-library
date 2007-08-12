@@ -19,7 +19,7 @@ import com.kiwisoft.media.pics.PictureManager;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.dataImport.BookData;
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
@@ -27,6 +27,8 @@ import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.app.DetailsDialog;
+import com.kiwisoft.app.DetailsView;
 
 public class BookDataDetailsView extends DetailsView
 {
@@ -256,7 +258,7 @@ public class BookDataDetailsView extends DetailsView
 					return person;
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(BookDataDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -298,7 +300,7 @@ public class BookDataDetailsView extends DetailsView
 				try
 				{
 					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+coverFile.getAbsolutePath()+"\"", null, null);
-					coverPreview.setImage(new ImageIcon(coverFile.toURL()));
+					coverPreview.setImage(new ImageIcon(coverFile.toURI().toURL()));
 				}
 				catch (Exception e1)
 				{

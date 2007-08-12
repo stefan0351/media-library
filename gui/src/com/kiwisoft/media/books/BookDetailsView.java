@@ -17,18 +17,17 @@ import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureLookup;
 import com.kiwisoft.media.pics.PictureLookupHandler;
 import com.kiwisoft.media.pics.PicturePreviewUpdater;
-import com.kiwisoft.media.utils.GuiUtils;
+import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transactional;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
-import com.kiwisoft.utils.gui.ImagePanel;
-import com.kiwisoft.utils.gui.InvalidDataException;
+import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.table.ObjectTableModel;
 import com.kiwisoft.utils.gui.table.SortableTable;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.app.DetailsFrame;
 
 public class BookDetailsView extends DetailsView
 {
@@ -216,7 +215,7 @@ public class BookDetailsView extends DetailsView
 					book.setCover(cover);
 				}
 
-				public void handleError(Throwable throwable)
+				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(BookDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}

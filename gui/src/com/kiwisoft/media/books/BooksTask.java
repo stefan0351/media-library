@@ -1,9 +1,7 @@
 package com.kiwisoft.media.books;
 
-import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.media.video.MediumType;
-import com.kiwisoft.media.video.VideosView;
+import com.kiwisoft.app.MenuSidebarItem;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
  * @author Stefan Stiller
