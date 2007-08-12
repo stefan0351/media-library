@@ -8,9 +8,8 @@ package com.kiwisoft.media.dataImport;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.media.dataImport.TVTVDeLoaderDialog;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
+import com.kiwisoft.app.ApplicationFrame;
 
 public class TVTVDeLoaderContextAction<T> extends MultiContextAction<T>
 {

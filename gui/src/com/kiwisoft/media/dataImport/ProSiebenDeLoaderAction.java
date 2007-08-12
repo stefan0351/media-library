@@ -8,10 +8,9 @@ package com.kiwisoft.media.dataImport;
 
 import java.awt.event.ActionEvent;
 
+import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.dataImport.ProSiebenDeLoaderDialog;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 
 public class ProSiebenDeLoaderAction extends MultiContextAction<Show>
 {

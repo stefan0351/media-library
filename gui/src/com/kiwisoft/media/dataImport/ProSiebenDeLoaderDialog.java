@@ -15,7 +15,6 @@ import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.Icons;
@@ -24,6 +23,7 @@ import com.kiwisoft.utils.gui.lookup.DateField;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.cfg.Configuration;
 
 public class ProSiebenDeLoaderDialog extends JDialog
 {
@@ -152,7 +152,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 				MediaConfiguration.setRecentSchedulePath(pathName);
 				MediaConfiguration.setRecentPro7Offset(days);
 				MediaConfiguration.setRecentPro7Date(date);
-				Configurator.getInstance().saveUserValues();
+				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
 			new ProgressDialog((JFrame)getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).show();

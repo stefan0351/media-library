@@ -5,9 +5,9 @@ import javax.swing.JFrame;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.cfg.Configuration;
 
 public class TVComLoaderAction extends SimpleContextAction<Show>
 {
@@ -21,7 +21,7 @@ public class TVComLoaderAction extends SimpleContextAction<Show>
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Configurator configurator=Configurator.getInstance();
+		Configuration configurator=Configuration.getInstance();
 		String url=configurator.getString("TVCom.url", "");
 		Show show=getObject();
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, url);
