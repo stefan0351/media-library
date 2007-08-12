@@ -8,14 +8,13 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 
@@ -31,7 +30,7 @@ public class LinksView extends ViewPanel
 		this.show=show;
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return show.getTitle()+" - Links";
 	}
@@ -174,7 +173,7 @@ public class LinksView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getName(), LinksView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), LinksView.class);
 		bookmark.setParameter("show", String.valueOf(show.getId()));
 		return bookmark;
 	}

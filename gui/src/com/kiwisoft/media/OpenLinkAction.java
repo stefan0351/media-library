@@ -6,16 +6,12 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 11:19:23
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class OpenLinkAction extends SimpleContextAction<Link>
 {

@@ -1,7 +1,7 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.gui.MenuSidebarItem;
 import com.kiwisoft.media.pics.PicturesTask;
+import com.kiwisoft.app.MenuSidebarItem;
 
 /**
  * @author Stefan Stiller

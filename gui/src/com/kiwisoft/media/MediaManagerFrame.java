@@ -12,7 +12,7 @@ import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.media.show.GenreLookup;
-import com.kiwisoft.media.video.AllVideosTask;
+import com.kiwisoft.media.medium.AllMediaTask;
 import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.dataImport.*;
 import com.kiwisoft.media.person.*;
@@ -24,11 +24,11 @@ import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
 import com.kiwisoft.utils.format.FormatManager;
-import com.kiwisoft.utils.gui.MenuSidebarItem;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.lookup.TableDialogLookupEditor;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.table.TableEditorFactory;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.MenuSidebarItem;
 
 public class MediaManagerFrame extends ApplicationFrame
 {
@@ -92,12 +92,12 @@ public class MediaManagerFrame extends ApplicationFrame
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);
 		tasks.add(new BooksTask());
 		if (MediaConfiguration.isFanFicsEnabled()) tasks.add(new FanFicTask());
+		tasks.add(new AllMediaTask());
 		tasks.add(new MoviesTask());
 		tasks.add(new PersonsTask());
 		tasks.add(new PhotosTask());
 		tasks.add(new ScheduleTask());
 		tasks.add(new ShowsTask());
-		tasks.add(new AllVideosTask());
 		tasks.add(new DataTask());
 		return tasks;
 	}

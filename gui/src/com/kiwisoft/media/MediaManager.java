@@ -7,9 +7,12 @@ import java.util.Locale;
 import javax.swing.UIManager;
 
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.SplashWindow;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.cfg.Configuration;
+import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.app.Application;
 
 public class MediaManager
 {
@@ -18,10 +21,10 @@ public class MediaManager
 	public static void main(String[] args)
 	{
 		Locale.setDefault(Locale.UK);
+		new Application("media");
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
-		final Configurator configuration=Configurator.getInstance();
-		configuration.determineBaseDirectory(Show.class);
-		File configFile=new File(configuration.getApplicationBase(), "config.xml");
+		SimpleConfiguration configuration=new SimpleConfiguration();
+		File configFile=new File(FileUtils.getRootDirectory(Show.class), "config.xml");
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
@@ -58,7 +61,7 @@ public class MediaManager
 		{
 			public void windowClosing(WindowEvent e)
 			{
-				configuration.saveUserValues();
+				Configuration.getInstance().saveUserValues();
 				super.windowClosing(e);
 			}
 		});

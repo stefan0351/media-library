@@ -9,10 +9,10 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.gui.DetailsFrame;
-import com.kiwisoft.utils.gui.DetailsView;
 import com.kiwisoft.utils.gui.InvalidDataException;
 import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 
 public class LinkDetailsView extends DetailsView
 {

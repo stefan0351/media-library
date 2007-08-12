@@ -5,12 +5,14 @@ import java.util.ResourceBundle;
 import java.io.File;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.utils.TableController;
+import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ObjectStyle;
-import com.kiwisoft.utils.gui.ViewPanel;
+import com.kiwisoft.utils.gui.style.ObjectStyle;
 import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.cfg.Configuration;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 /**
  * @author Stefan Stiller
@@ -28,7 +30,7 @@ public class ConfigurationView extends ViewPanel
 	}
 
 	@Override
-	public String getName()
+	public String getTitle()
 	{
 		return "Configuration";
 	}
@@ -184,13 +186,13 @@ public class ConfigurationView extends ViewPanel
 
 		private void setProprtyValue(Object value)
 		{
-			if (String.class==type) Configurator.getInstance().setString(getUserObject(), (String)value);
+			if (String.class==type) Configuration.getInstance().setString(getUserObject(), (String)value);
 			else throw new RuntimeException("Unsupported type: "+type);
 		}
 
 		private Object getPropertyValue()
 		{
-			if (String.class==type) return Configurator.getInstance().getString(getUserObject(), null);
+			if (String.class==type) return Configuration.getInstance().getString(getUserObject(), null);
 			else throw new RuntimeException("Unsupported type: "+type);
 		}
 
@@ -210,7 +212,7 @@ public class ConfigurationView extends ViewPanel
 	@Override
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), getClass());
+		return new Bookmark(getTitle(), getClass());
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})

@@ -6,17 +6,13 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.ApplicationFrame;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 12:48:30
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class DeleteChannelAction extends SimpleContextAction<Channel>
 {

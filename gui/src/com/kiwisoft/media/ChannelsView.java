@@ -12,19 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 
-import com.kiwisoft.media.utils.TableController;
-import com.kiwisoft.utils.Bookmark;
-import com.kiwisoft.utils.CollectionChangeEvent;
-import com.kiwisoft.utils.CollectionChangeListener;
+import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.ApplicationFrame;
-import com.kiwisoft.utils.gui.ViewPanel;
 import com.kiwisoft.utils.gui.IconManager;
 import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.app.Bookmark;
 
 public class ChannelsView extends ViewPanel
 {
@@ -35,7 +32,7 @@ public class ChannelsView extends ViewPanel
 	{
 	}
 
-	public String getName()
+	public String getTitle()
 	{
 		return "Channels";
 	}
@@ -167,7 +164,7 @@ public class ChannelsView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		return new Bookmark(getName(), ChannelsView.class);
+		return new Bookmark(getTitle(), ChannelsView.class);
 	}
 
 	@SuppressWarnings({"UnusedDeclaration"})
