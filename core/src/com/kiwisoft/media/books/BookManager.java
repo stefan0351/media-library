@@ -8,9 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeSource;
-import com.kiwisoft.utils.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSource;
+import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
 

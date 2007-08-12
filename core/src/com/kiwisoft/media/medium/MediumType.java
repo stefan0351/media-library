@@ -4,7 +4,7 @@
  * Date: Oct 16, 2003
  * Time: 11:16:36 PM
  */
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.util.*;
 

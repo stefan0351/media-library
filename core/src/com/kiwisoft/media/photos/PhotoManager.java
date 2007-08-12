@@ -7,10 +7,12 @@ import java.text.DecimalFormat;
 import java.awt.Dimension;
 
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeSource;
 
 /**
  * @author Stefan Stiller

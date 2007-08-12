@@ -23,7 +23,7 @@ import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.CrewMember;
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.*;
 
@@ -190,14 +190,14 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return episodes;
 	}
 
-	public Set<Recording> getRecordings()
+	public Set<Track> getRecordings()
 	{
-		return DBLoader.getInstance().loadSet(Recording.class, null, "show_id=?", getId());
+		return DBLoader.getInstance().loadSet(Track.class, null, "show_id=?", getId());
 	}
 
 	public int getRecordingCount()
 	{
-		return DBLoader.getInstance().count(Recording.class, null, "show_id=?", getId());
+		return DBLoader.getInstance().count(Track.class, null, "show_id=?", getId());
 	}
 
 	public Movie createMovie()

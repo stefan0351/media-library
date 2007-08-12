@@ -88,7 +88,7 @@ public class PhotoImportJob implements Job
 			photoGallery.createPhoto(picture, thumbnail);
 		}
 
-		public void handleError(Throwable throwable)
+		public void handleError(Throwable throwable, boolean rollback)
 		{
 			progressSupport.error(throwable);
 		}

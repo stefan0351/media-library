@@ -9,10 +9,9 @@ package com.kiwisoft.media.person;
 
 import java.util.Set;
 
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.media.movie.Movie;
 
 public class PersonManager
 {

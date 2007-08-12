@@ -1,6 +1,6 @@
 package com.kiwisoft.media;
 
-import sun.text.Normalizer;
+import java.text.Normalizer;
 
 /**
  * @author Stefan Stiller
@@ -47,7 +47,7 @@ public class IndexByUtils
 			else
 			{
 				ch=Character.toUpperCase(ch);
-				ch=Normalizer.normalize(Character.valueOf(ch).toString(), Normalizer.DECOMP, 0).charAt(0);
+				ch=Normalizer.normalize(Character.valueOf(ch).toString(), Normalizer.Form.NFD).charAt(0);
 				Object replacement=null;
 				switch (ch)
 				{

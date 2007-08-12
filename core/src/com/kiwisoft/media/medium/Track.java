@@ -4,7 +4,7 @@
  * Date: Mar 29, 2003
  * Time: 12:21:05 AM
  */
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
@@ -15,13 +15,13 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Language;
 
-public class Recording extends IDObject implements Chain.ChainLink
+public class Track extends IDObject implements Chain.ChainLink
 {
 	public static final String SHOW="show";
 	public static final String EPISODE="episode";
 	public static final String MOVIE="movie";
 	public static final String LANGUAGE="language";
-	public static final String VIDEO="video";
+	public static final String MEDIUM="medium";
 	public static final String SEQUENCE="sequence";
 
 	private String event;
@@ -29,12 +29,12 @@ public class Recording extends IDObject implements Chain.ChainLink
 	private boolean longPlay;
 	private int sequence;
 
-	public Recording(Video video)
+	public Track(Medium video)
 	{
-		setVideo(video);
+		setMedium(video);
 	}
 
-	public Recording(DBDummy dummy)
+	public Track(DBDummy dummy)
 	{
 		super(dummy);
 	}
@@ -86,7 +86,7 @@ public class Recording extends IDObject implements Chain.ChainLink
 
 	public void setLength(int length)
 	{
-		Video video=getVideo();
+		Medium video=getMedium();
 		if (video!=null)
 		{
 			MediumType type=video.getType();
@@ -124,14 +124,14 @@ public class Recording extends IDObject implements Chain.ChainLink
 		setModified();
 	}
 
-	public Video getVideo()
+	public Medium getMedium()
 	{
-		return (Video)getReference(VIDEO);
+		return (Medium)getReference(MEDIUM);
 	}
 
-	public void setVideo(Video video)
+	public void setMedium(Medium medium)
 	{
-		setReference(VIDEO, video);
+		setReference(MEDIUM, medium);
 	}
 
 	public int getSequence()
@@ -196,8 +196,8 @@ public class Recording extends IDObject implements Chain.ChainLink
 	{
 		public int compare(Object o1, Object o2)
 		{
-			Recording e1=(Recording)o1;
-			Recording e2=(Recording)o2;
+			Track e1=(Track)o1;
+			Track e2=(Track)o2;
 			if (e1.getSequence()<e2.getSequence()) return -1;
 			if (e1.getSequence()>e2.getSequence()) return 1;
 			return 0;

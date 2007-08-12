@@ -20,8 +20,8 @@ import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.video.Recordable;
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Recordable;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
@@ -380,9 +380,9 @@ public class Movie extends IDObject implements Recordable, Production
 		return getTitle(language);
 	}
 
-	public void initRecord(Recording recording)
+	public void initRecord(Track track)
 	{
-		recording.setMovie(this);
+		track.setMovie(this);
 	}
 
 	public Set<CrewMember> getCrewMembers(CreditType type)

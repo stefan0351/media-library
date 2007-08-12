@@ -16,8 +16,8 @@ import com.kiwisoft.media.Name;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CreditType;
-import com.kiwisoft.media.video.Recordable;
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Recordable;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.db.Chain;
 import com.kiwisoft.utils.db.DBDummy;
@@ -316,10 +316,10 @@ public class Episode extends IDObject implements Chain.ChainLink, Comparable, Pr
 		return show.getTitle(language)+" - "+getTitleWithKey(language);
 	}
 
-	public void initRecord(Recording recording)
+	public void initRecord(Track track)
 	{
-		recording.setShow(getShow());
-		recording.setEpisode(this);
+		track.setShow(getShow());
+		track.setEpisode(this);
 	}
 
 	public void delete()

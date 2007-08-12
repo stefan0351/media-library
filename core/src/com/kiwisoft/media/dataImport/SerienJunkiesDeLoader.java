@@ -20,6 +20,7 @@ import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
+import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -31,10 +32,8 @@ public abstract class SerienJunkiesDeLoader implements Job
 	public static void main(String[] args) throws Exception
 	{
 		Locale.setDefault(Locale.GERMANY);
-		final Configurator configuration=Configurator.getInstance();
-		configuration.determineBaseDirectory(Show.class);
-		File configFile=new File(configuration.getApplicationBase(), "config.xml");
-		configuration.loadDefaultsFromFile(configFile);
+		File configFile=new File(FileUtils.getRootDirectory(Show.class), "config.xml");
+		new SimpleConfiguration().loadDefaultsFromFile(configFile);
 
 //		Jack & Jill,  Drake & Josh, Even Stevens
 //		Malcolm in the Middle, Summerland       , "Raising Dad"
@@ -281,7 +280,7 @@ public abstract class SerienJunkiesDeLoader implements Job
 	{
 		public T value;
 
-		public void handleError(Throwable e)
+		public void handleError(Throwable e, boolean rollback)
 		{
 			progress.error(e.getClass().getSimpleName()+": "+e.getMessage());
 		}

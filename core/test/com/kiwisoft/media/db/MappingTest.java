@@ -8,8 +8,9 @@ package com.kiwisoft.media.db;
 
 import java.io.File;
 
-import com.kiwisoft.utils.Configurator;
 import com.kiwisoft.utils.db.DBMappingTest;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.cfg.SimpleConfiguration;
 
 public class MappingTest extends DBMappingTest
 {
@@ -20,8 +21,6 @@ public class MappingTest extends DBMappingTest
 
 	protected void configure()
 	{
-		Configurator configurator=Configurator.getInstance();
-		configurator.determineBaseDirectory(getClass());
-		configurator.loadDefaultsFromFile(new File(Configurator.getInstance().getApplicationBase(), "config.xml"));
+		new SimpleConfiguration().loadDefaultsFromFile(new File(FileUtils.getRootDirectory(getClass()), "config.xml"));
 	}
 }

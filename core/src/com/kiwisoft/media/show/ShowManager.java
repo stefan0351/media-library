@@ -15,11 +15,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.media.video.Recording;
+import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
 
@@ -78,14 +78,14 @@ public class ShowManager
 	public boolean isShowUsed(Show show)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
-		return (dbLoader.count(Recording.class, null, "show_id=?", show.getId())>0)
+		return (dbLoader.count(Track.class, null, "show_id=?", show.getId())>0)
 		        || (dbLoader.count(Airdate.class, null, "show_id=?", show.getId())>0);
 	}
 
 	public boolean isEpisodeUsed(Episode episode)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();
-		return (dbLoader.count(Recording.class, null, "episode_id=?", episode.getId())>0)
+		return (dbLoader.count(Track.class, null, "episode_id=?", episode.getId())>0)
 				|| (dbLoader.count(Airdate.class, null, "episode_id=?", episode.getId())>0);
 	}
 

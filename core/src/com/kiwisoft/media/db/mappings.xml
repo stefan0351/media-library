@@ -68,7 +68,7 @@
 		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 	</mapping>
-	<mapping name="Recording" class="com.kiwisoft.media.video.Recording" table="recordings" primaryKey="id" lastModified="lastmodified">
+	<mapping name="Track" class="com.kiwisoft.media.medium.Track" table="tracks" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="longPlay" column="longplay"/>
 		<field name="length" column="length"/>
@@ -76,12 +76,12 @@
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="language" column="language_id" type="Language"/>
-		<reference name="video" column="video_id" type="Video"/>
+		<reference name="medium" column="medium_id" type="Medium"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<field name="sequence" column="sequence"/>
 		<field name="lastModified" column="lastmodified"/>
 	</mapping>
-	<mapping name="Video" class="com.kiwisoft.media.video.Video" table="videos" primaryKey="id" lastModified="lastmodified">
+	<mapping name="Medium" class="com.kiwisoft.media.medium.Medium" table="media" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
 		<field name="name" column="name"/>

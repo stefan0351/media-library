@@ -5,7 +5,7 @@
  * Time: 7:27:21 PM
  * To change this template use Options | File Templates.
  */
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,64 +16,64 @@ import java.util.Set;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.db.DBSession;
 
-public class VideoManager
+public class MediumManager
 {
 	public static final int GROUP_SIZE=50;
 
-	public static final String VIDEOS="videos";
+	public static final String MEDIA="media";
 
-	private static VideoManager instance;
+	private static MediumManager instance;
 
-	public synchronized static VideoManager getInstance()
+	public synchronized static MediumManager getInstance()
 	{
-		if (instance==null) instance=new VideoManager();
+		if (instance==null) instance=new MediumManager();
 		return instance;
 	}
 
 	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
-	private VideoManager()
+	private MediumManager()
 	{
 	}
 
-	public Collection<Video> getAllVideos()
+	public Collection<Medium> getAllMedia()
 	{
-		return DBLoader.getInstance().loadSet(Video.class);
+		return DBLoader.getInstance().loadSet(Medium.class);
 	}
 
-	public Collection<Video> getVideos(MediumType type, boolean includeObsolete)
+	public Collection<Medium> getMedia(MediumType type, boolean includeObsolete)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, null,
+		return DBLoader.getInstance().loadSet(Medium.class, null,
 											  includeObsolete ? "type_id=?" : "type_id=? and ifnull(obsolete, 0)=0",
 											  type.getId());
 	}
 
-	public Video getVideo(Long id)
+	public Medium getMedium(Long id)
 	{
-		return DBLoader.getInstance().load(Video.class, id);
+		return DBLoader.getInstance().load(Medium.class, id);
 	}
 
-	public int getVideoCount()
+	public int getMediumCount()
 	{
-		return DBLoader.getInstance().count(Video.class);
+		return DBLoader.getInstance().count(Medium.class);
 	}
 
-	public Video createVideo()
+	public Medium createMedium()
 	{
-		Video video=new Video();
-		fireElementAdded(VIDEOS, video);
-		return video;
+		Medium medium=new Medium();
+		fireElementAdded(MEDIA, medium);
+		return medium;
 	}
 
-	public void dropVideo(Video video)
+	public void dropMedium(Medium medium)
 	{
-		video.delete();
-		fireElementRemoved(VIDEOS, video);
+		medium.delete();
+		fireElementRemoved(MEDIA, medium);
 	}
 
 	public void addCollectionChangeListener(CollectionChangeListener listener)
@@ -96,9 +96,9 @@ public class VideoManager
 		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
-	public void fireElementChanged(Video video)
+	public void fireElementChanged(Medium video)
 	{
-		collectionChangeSupport.fireElementChanged(VIDEOS, video);
+		collectionChangeSupport.fireElementChanged(MEDIA, video);
 	}
 
 	public int getGroupCount()
@@ -106,7 +106,7 @@ public class VideoManager
 		try
 		{
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("select max(userkey) div ? from videos ");
+			PreparedStatement statement=connection.prepareStatement("select max(userkey) div ? from media ");
 			try
 			{
 				statement.setInt(1, GROUP_SIZE);
@@ -125,9 +125,9 @@ public class VideoManager
 		}
 	}
 
-	public Set<Video> getGroupVideos(int group)
+	public Set<Medium> getGroupMedia(int group)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, null, "userkey div ?=?", GROUP_SIZE, group);
+		return DBLoader.getInstance().loadSet(Medium.class, null, "userkey div ?=?", GROUP_SIZE, group);
 	}
 
 	public static String getGroupName(int group)
@@ -135,15 +135,15 @@ public class VideoManager
 		return Math.max(1, group*50)+"-"+(group*50+49);
 	}
 
-	public Set<Video> getVideos(Movie movie)
+	public Set<Medium> getMedia(Movie movie)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id"+
-																		 " and recordings.movie_id=?", movie.getId());
+		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+
+																		 " and tracks.movie_id=?", movie.getId());
 	}
 
-	public Set<Video> getVideos(Episode episode)
+	public Set<Medium> getMedia(Episode episode)
 	{
-		return DBLoader.getInstance().loadSet(Video.class, "recordings", "recordings.video_id=videos.id"+
-																		 " and recordings.episode_id=?", episode.getId());
+		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+
+																		 " and tracks.episode_id=?", episode.getId());
 	}
 }

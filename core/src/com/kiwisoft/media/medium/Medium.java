@@ -4,31 +4,31 @@
  * Date: Mar 28, 2003
  * Time: 10:04:17 PM
  */
-package com.kiwisoft.media.video;
+package com.kiwisoft.media.medium;
 
 import java.util.Iterator;
 
 import com.kiwisoft.utils.db.*;
 
-public class Video extends IDObject
+public class Medium extends IDObject
 {
-	public static final String RECORDINGS="recordings";
+	public static final String TRACKS="tracks";
 	public static final String TYPE="type";
 
 	private Integer userKey;
 	private String name;
 	private int length;
 	private int remainingLength;
-	private Chain<Recording> recordings;
+	private Chain<Track> tracks;
 	private String storage;
 	private boolean obsolete;
 
-	public Video()
+	public Medium()
 	{
-		setUserKey((int)SequenceManager.getSequence("video").next());
+		setUserKey((int)SequenceManager.getSequence("medium").next());
 	}
 
-	public Video(DBDummy dummy)
+	public Medium(DBDummy dummy)
 	{
 		super(dummy);
 	}
@@ -102,31 +102,31 @@ public class Video extends IDObject
 		setModified();
 	}
 
-	public Recording createRecording()
+	public Track createTrack()
 	{
-		Recording recording=new Recording(this);
-		getRecordings().addNew(recording);
-		fireElementAdded(RECORDINGS, recording);
-		return recording;
+		Track track=new Track(this);
+		getTracks().addNew(track);
+		fireElementAdded(TRACKS, track);
+		return track;
 	}
 
-	public void dropRecording(Recording recording)
+	public void dropTrack(Track track)
 	{
-		getRecordings().remove(recording);
-		recording.delete();
-		fireElementRemoved(RECORDINGS, recording);
+		getTracks().remove(track);
+		track.delete();
+		fireElementRemoved(TRACKS, track);
 	}
 
-	public int getRecordingIndex(Recording recording)
+	public int getRecordingIndex(Track track)
 	{
-		return getRecordings().indexOf(recording);
+		return getTracks().indexOf(track);
 	}
 
-	public Chain<Recording> getRecordings()
+	public Chain<Track> getTracks()
 	{
-		if (recordings==null)
-			recordings=new Chain<Recording>(DBLoader.getInstance().loadSet(Recording.class, null, "video_id=?", getId()));
-		return recordings;
+		if (tracks==null)
+			tracks=new Chain<Track>(DBLoader.getInstance().loadSet(Track.class, null, "medium_id=?", getId()));
+		return tracks;
 	}
 
 	public MediumType getType()
@@ -153,7 +153,7 @@ public class Video extends IDObject
 	public void delete()
 	{
 		super.delete();
-		Iterator<Recording> it=getRecordings().iterator();
+		Iterator<Track> it=getTracks().iterator();
 		while (it.hasNext()) it.next().delete();
 	}
 
@@ -165,7 +165,7 @@ public class Video extends IDObject
 
 	public void afterReload()
 	{
-		recordings=null;
+		tracks=null;
 		super.afterReload();
 	}
 }

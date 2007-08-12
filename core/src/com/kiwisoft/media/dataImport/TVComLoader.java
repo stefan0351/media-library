@@ -610,7 +610,7 @@ public abstract class TVComLoader implements Job
 	{
 		public T value;
 
-		public void handleError(Throwable e)
+		public void handleError(Throwable e, boolean rollback)
 		{
 			progress.error(e.getClass().getSimpleName()+": "+e.getMessage());
 		}

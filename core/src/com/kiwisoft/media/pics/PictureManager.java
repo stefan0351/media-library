@@ -7,9 +7,9 @@ import java.io.File;
 import java.awt.Dimension;
 
 import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.CollectionChangeListener;
-import com.kiwisoft.utils.CollectionChangeSupport;
-import com.kiwisoft.utils.CollectionChangeSource;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
+import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.gui.ImageUtils;
 
