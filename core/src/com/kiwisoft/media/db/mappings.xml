@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\java\projects\utils\src\com\kiwisoft\utils\db\mappings.xsd">
-	<mapping name="Sequence" class="com.kiwisoft.utils.db.Sequence" table="sequences" primaryKey="name">
+	<mapping name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>
 		<field name="value" column="value"/>
 	</mapping>

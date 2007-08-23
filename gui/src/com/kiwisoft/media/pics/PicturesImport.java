@@ -9,8 +9,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;

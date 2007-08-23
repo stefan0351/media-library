@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 
 import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.utils.*;
+import com.kiwisoft.persistence.DatabaseConfiguration;
 import com.kiwisoft.utils.gui.style.ObjectStyle;
 import com.kiwisoft.utils.gui.table.*;
 import com.kiwisoft.cfg.Configuration;
@@ -81,11 +82,11 @@ public class ConfigurationView extends ViewPanel
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_IMAGE_EDITOR, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_WEB_DATES, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_LOGOS_CHANNELS_WEB, String.class, "ExistingDirectory", false));
-		tableModel.addRow(new ConfigRow(BaseConfiguration.DB_URL, String.class, true));
-		tableModel.addRow(new ConfigRow(BaseConfiguration.DB_USER, String.class, true));
-		tableModel.addRow(new ConfigRow(BaseConfiguration.DB_PASSWORD, String.class, false));
-		tableModel.addRow(new ConfigRow(BaseConfiguration.DB_DRIVER, String.class, true));
-		tableModel.addRow(new ConfigRow(BaseConfiguration.DB_MAPPINGS, String.class, true));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_URL, String.class, true));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_USER, String.class, true));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_PASSWORD, String.class, false));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_DRIVER, String.class, true));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_MAPPINGS, String.class, true));
 		tableModel.sort();
 	}
 

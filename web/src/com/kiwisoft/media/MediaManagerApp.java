@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.Date;
 import javax.servlet.ServletContext;
 
-import com.kiwisoft.utils.format.FormatManager;
+import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;

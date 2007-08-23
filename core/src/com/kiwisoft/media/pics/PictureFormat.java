@@ -1,17 +1,12 @@
 package com.kiwisoft.media.pics;
 
-import com.kiwisoft.utils.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
 
 /**
  * @author Stefan Stiller
  */
 public class PictureFormat extends DefaultObjectFormat
 {
-	public PictureFormat()
-	{
-		super(DEFAULT);
-	}
-
 	@Override
 	public String format(Object value)
 	{

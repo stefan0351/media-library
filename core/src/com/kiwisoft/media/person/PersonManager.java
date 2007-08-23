@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 
 public class PersonManager
 {

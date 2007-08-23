@@ -2,17 +2,11 @@ package com.kiwisoft.media.schedule;
 
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.text.DateFormat;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.web.SortableWebTable;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.utils.gui.table.TableConstants;
-import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.web.SortableWebTable;
+import com.kiwisoft.web.TableSortDescription;
 
 /**
  * @author Stefan Stiller

@@ -60,7 +60,7 @@ public class PhotoGalleriesView extends ViewPanel
 			}
 		};
 
-		getModelListenerList().installCollectionListener(PhotoManager.getInstance(), new MyCollectionListener());
+		getModelListenerList().addDisposable(PhotoManager.getInstance().addCollectionListener(new MyCollectionListener()));
 
 		return tableController.createComponent();
 	}

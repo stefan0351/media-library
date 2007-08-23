@@ -4,7 +4,7 @@
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.kiwisoft.utils.format.FormatStringComparator" %>
+<%@ page import="com.kiwisoft.format.FormatStringComparator" %>
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <html>
@@ -30,7 +30,7 @@
 			<table cellspacing="0">
 			<%
 				List galleries=new ArrayList(PhotoManager.getInstance().getGalleries());
-				Collections.sort(galleries, new FormatStringComparator());
+				Collections.sort(galleries, new com.kiwisoft.format.FormatStringComparator());
 				List rows=Utils.splitIntoRows(galleries, 4);
 				for (Iterator itRows=rows.iterator(); itRows.hasNext();)
 				{

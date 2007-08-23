@@ -17,7 +17,7 @@ import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.gui.Disposable;
+import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 

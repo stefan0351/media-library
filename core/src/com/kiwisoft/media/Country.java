@@ -1,7 +1,7 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 public class Country extends IDObject implements Comparable
 {

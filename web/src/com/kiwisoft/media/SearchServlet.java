@@ -17,7 +17,7 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.collection.SetMap;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 
 /**
  * @author Stefan Stiller

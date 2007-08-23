@@ -1,14 +1,10 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 08.06.2004
- * Time: 21:24:59
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public abstract class WebInfo extends IDObject
 {

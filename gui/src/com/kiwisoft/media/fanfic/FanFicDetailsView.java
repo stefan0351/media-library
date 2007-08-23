@@ -16,8 +16,8 @@ import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
@@ -208,7 +208,7 @@ public class FanFicDetailsView extends DetailsView
 			transaction.close();
 			transaction=null;
 			fanFic.notifyChanged();
-			partsController.updateToolBarActions();
+			partsController.selectionChanged();
 			tfId.setText(fanFic.getId().toString());
 			return true;
 		}

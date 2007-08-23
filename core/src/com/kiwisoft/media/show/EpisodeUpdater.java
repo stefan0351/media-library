@@ -7,20 +7,16 @@ import java.util.Iterator;
 
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBErrors;
-import com.kiwisoft.utils.db.DBException;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.persistence.DBException;
+import com.kiwisoft.persistence.DBErrors;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.DBSession;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 25.04.2004
- * Time: 12:28:28
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class EpisodeUpdater implements Job
 {

@@ -17,7 +17,7 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 
@@ -81,7 +81,7 @@ public class BooksView extends ViewPanel
 		panel.add(tableController.createComponent(), BorderLayout.CENTER);
 		panel.add(resultLabel, BorderLayout.SOUTH);
 
-		getModelListenerList().installCollectionListener(BookManager.getInstance(), new CollectionChangeObserver());
+		getModelListenerList().addDisposable(BookManager.getInstance().addCollectionListener(new CollectionChangeObserver()));
 
 		return panel;
 	}

@@ -21,14 +21,14 @@ import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.dataImport.BookData;
 import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
 public class BookDataDetailsView extends DetailsView
 {

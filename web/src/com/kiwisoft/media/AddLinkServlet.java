@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.*;
 
 /**
  * URL: javascript:window.location=%22http://localhost:8080/add_link.jsp?name=%22+document.title+%22&url=%22+encodeURI(document.URL)

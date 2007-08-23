@@ -1,10 +1,10 @@
 package com.kiwisoft.media.person;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 public class CrewMember extends IDObject
 {

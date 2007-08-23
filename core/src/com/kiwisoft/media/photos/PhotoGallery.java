@@ -6,11 +6,11 @@ import java.util.HashSet;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.collection.Chain;
 import com.kiwisoft.utils.gui.ImageDescriptor;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBLoader;
 
 public class PhotoGallery extends IDObject
 {

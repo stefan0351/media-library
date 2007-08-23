@@ -4,7 +4,7 @@
 				 com.kiwisoft.media.ContactMedium,
 				 com.kiwisoft.media.show.ShowManager,
 				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.utils.db.Chain,
+				 com.kiwisoft.collection.Chain,
 				 java.util.*,
 				 com.kiwisoft.media.Link,
 				 com.kiwisoft.media.Language"%>

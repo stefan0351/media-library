@@ -10,10 +10,6 @@ import java.util.Set;
 import java.util.Iterator;
 import java.util.Collection;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBAssociation;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
@@ -25,6 +21,10 @@ import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.person.CrewMember;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Movie extends IDObject implements Recordable, Production
 {

@@ -1,20 +1,13 @@
 package com.kiwisoft.media.person;
 
-import javax.swing.Icon;
-
-import com.kiwisoft.utils.format.DefaultObjectFormat;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
 
 /**
  * @author Stefan Stiller
  */
 public class GenderFormat extends DefaultObjectFormat
 {
-	public GenderFormat()
-	{
-		super(DEFAULT);
-	}
-
 	public String format(Object value)
 	{
 		if (value instanceof Gender)
@@ -25,16 +18,16 @@ public class GenderFormat extends DefaultObjectFormat
 		return super.format(value);
 	}
 
-	public Icon getIcon(Object value)
+	public String getIconName(Object value)
 	{
 		if (value instanceof Gender)
 		{
 			Gender gender=(Gender)value;
-			if (gender==Gender.FEMALE) return Icons.getIcon("female");
-			else if (gender==Gender.MALE) return Icons.getIcon("male");
+			if (gender==Gender.FEMALE) return "female";
+			else if (gender==Gender.MALE) return "male";
 			return null;
 		}
-		return super.getIcon(value);
+		return super.getIconName(value);
 	}
 
 }

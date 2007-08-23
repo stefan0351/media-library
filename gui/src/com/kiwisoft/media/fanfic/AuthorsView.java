@@ -15,7 +15,7 @@ import javax.swing.JComponent;
 import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.gui.Disposable;
+import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.utils.gui.table.SortableTableModel;

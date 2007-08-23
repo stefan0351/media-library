@@ -2,7 +2,7 @@ package com.kiwisoft.media;
 
 import java.util.Set;
 
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 
 public class GenreManager
 {

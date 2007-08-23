@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Collection;
 
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.Identifyable;
 
 public class Gender implements Identifyable
 {

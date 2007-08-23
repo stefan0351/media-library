@@ -5,7 +5,7 @@ import java.util.TreeSet;
 
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.collection.SetMap;
-import com.kiwisoft.utils.format.FormatStringComparator;
+import com.kiwisoft.format.FormatStringComparator;
 
 /**
  * @author Stefan Stiller

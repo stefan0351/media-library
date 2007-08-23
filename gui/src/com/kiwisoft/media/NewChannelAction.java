@@ -6,11 +6,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 12:44:03
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class NewChannelAction extends ContextAction<Channel>
 {

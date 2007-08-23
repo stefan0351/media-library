@@ -1,10 +1,9 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 public class Summary extends IDObject
 {

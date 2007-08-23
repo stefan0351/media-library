@@ -6,9 +6,9 @@ import java.util.Collection;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBAssociation;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 /**
  * @author Stefan Stiller

@@ -15,8 +15,8 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.InvalidDataException;
 import com.kiwisoft.app.DetailsFrame;

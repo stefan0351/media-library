@@ -6,12 +6,13 @@ import java.util.HashMap;
 import java.io.File;
 import java.awt.Dimension;
 
-import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.gui.ImageUtils;
+import com.kiwisoft.persistence.DBLoader;
 
 /**
  * @author Stefan Stiller
@@ -64,9 +65,9 @@ public class PictureManager implements CollectionChangeSource
 		return DBLoader.getInstance().load(PictureFile.class, id);
 	}
 
-	public void addCollectionListener(CollectionChangeListener listener)
+	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

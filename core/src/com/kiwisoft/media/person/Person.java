@@ -16,10 +16,10 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.Identifyable;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Person extends IDObject
 {

@@ -11,11 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.ChainEvent;
-import com.kiwisoft.utils.db.ChainListener;
+import com.kiwisoft.collection.*;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
 import com.kiwisoft.utils.gui.actions.ContextAction;
@@ -47,9 +43,9 @@ public class PhotosView extends ViewPanel
 		panel.add(createToolBar(frame), BorderLayout.NORTH);
 		panel.add(new JScrollPane(thumbnailPanel), BorderLayout.CENTER);
 
-		getModelListenerList().installCollectionListener(photoGallery, new PhotosCollectionListener());
+		getModelListenerList().addDisposable(photoGallery.addCollectionListener(new PhotosCollectionListener()));
 		thumbnailPanel.addListSelectionListener(new SelectionListener());
-		getModelListenerList().installChainListener(photoGallery.getPhotos(), new PhotosChainListener());
+		getModelListenerList().addDisposable(photoGallery.getPhotos().addChainListener(new PhotosChainListener()));
 
 		return panel;
 	}
@@ -150,9 +146,9 @@ public class PhotosView extends ViewPanel
 		}
 	}
 
-	private class PhotosChainListener implements ChainListener
+	private class PhotosChainListener implements ChainListener<Photo>
 	{
-		public void chainChanged(ChainEvent event)
+		public void chainChanged(ChainEvent<Photo> event)
 		{
 			thumbnailPanel.sort(Chain.getComparator());
 		}

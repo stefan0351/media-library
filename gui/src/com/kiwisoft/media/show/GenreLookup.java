@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.kiwisoft.utils.gui.lookup.ListLookup;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.media.Genre;
 
 public class GenreLookup extends ListLookup<Genre>

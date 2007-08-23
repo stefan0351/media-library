@@ -2,10 +2,10 @@ package com.kiwisoft.media;
 
 import java.util.Set;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBAssociation;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 public class Genre extends IDObject
 {

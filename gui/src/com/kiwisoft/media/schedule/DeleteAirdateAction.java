@@ -8,8 +8,8 @@ import javax.swing.JOptionPane;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 

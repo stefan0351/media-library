@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.Calendar;
 
-import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.persistence.DBLoader;
 
 public class AirdateManager
 {

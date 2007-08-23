@@ -18,11 +18,7 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 02.05.2004
- * Time: 16:43:07
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class WebDatesExport implements Job
 {
@@ -95,7 +91,7 @@ public class WebDatesExport implements Job
 			FileWriter fw;
 			try
 			{
-				LinkedList currentDates=new LinkedList();
+				List<Airdate> currentDates=new LinkedList<Airdate>();
 				Iterator it=show.getAirdates().iterator();
 				while (it.hasNext())
 				{

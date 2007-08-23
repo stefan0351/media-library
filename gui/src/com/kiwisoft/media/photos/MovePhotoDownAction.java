@@ -8,9 +8,9 @@ import javax.swing.SwingUtilities;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.collection.Chain;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
 /**
  * @author Stefan Stiller

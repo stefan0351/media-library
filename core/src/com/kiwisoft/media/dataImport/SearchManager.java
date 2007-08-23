@@ -5,9 +5,8 @@ import java.util.Collections;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 
 public class SearchManager
 {

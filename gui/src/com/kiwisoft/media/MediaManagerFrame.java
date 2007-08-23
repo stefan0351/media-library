@@ -23,12 +23,12 @@ import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
-import com.kiwisoft.utils.format.FormatManager;
 import com.kiwisoft.utils.gui.lookup.TableDialogLookupEditor;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.table.TableEditorFactory;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
+import com.kiwisoft.format.FormatManager;
 
 public class MediaManagerFrame extends ApplicationFrame
 {

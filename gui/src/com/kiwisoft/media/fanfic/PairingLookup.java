@@ -8,10 +8,8 @@ package com.kiwisoft.media.fanfic;
 
 import java.util.Collection;
 
-import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.fanfic.Pairing;
-import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.persistence.DBLoader;
 
 public class PairingLookup extends ListLookup<Pairing>
 {

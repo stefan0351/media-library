@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 
 public class LanguageManager
 {

@@ -15,8 +15,8 @@ import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsFrame;
 

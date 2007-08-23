@@ -20,11 +20,12 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.collection.DoubleKeyMap;
+import com.kiwisoft.collection.Chain;
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.db.SequenceManager;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.SequenceManager;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.lookup.LookupField;
 import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
@@ -459,7 +460,7 @@ public class MediumDetailsView extends DetailsView
 		}
 	}
 
-	private class RecordableTableRow extends SortableTableRow<Recordable> implements Chain.ChainLink
+	private class RecordableTableRow extends SortableTableRow<Recordable> implements ChainLink
 	{
 		private int length;
 		private int index;

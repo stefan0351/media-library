@@ -1,6 +1,6 @@
 package com.kiwisoft.media.pics;
 
-import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.persistence.DBDummy;
 
 /**
  * @author Stefan Stiller

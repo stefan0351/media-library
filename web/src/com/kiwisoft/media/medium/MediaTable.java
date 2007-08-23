@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 import com.kiwisoft.utils.ComplexComparable;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.gui.table.TableConstants;
-import com.kiwisoft.utils.gui.table.TableSortDescription;
 import com.kiwisoft.web.SortableWebTable;
+import com.kiwisoft.web.TableSortDescription;
 
 /**
  * @author Stefan Stiller

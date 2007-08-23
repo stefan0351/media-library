@@ -7,11 +7,10 @@
 package com.kiwisoft.media;
 
 import java.util.Set;
-import java.util.Date;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.IDObject;
 
 public class Channel extends IDObject
 {

@@ -16,7 +16,6 @@ import java.util.*;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.RegularFileFilter;
-import com.kiwisoft.utils.db.*;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressDialog;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
@@ -24,6 +23,7 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.DefaultXMLObject;
 import com.kiwisoft.utils.xml.XMLHandler;
 import com.kiwisoft.utils.xml.XMLObject;
+import com.kiwisoft.persistence.*;
 
 public class AirdateImport implements Job
 {

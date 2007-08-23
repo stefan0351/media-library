@@ -5,8 +5,8 @@ import java.util.List;
 import static javax.swing.JOptionPane.*;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
 

@@ -6,13 +6,14 @@
  */
 package com.kiwisoft.media.person;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 public class CastMember extends IDObject
 {
@@ -162,7 +163,9 @@ public class CastMember extends IDObject
 	{
 		public int compare(CastMember o1, CastMember o2)
 		{
-			int result=o1.getActor().getName().compareToIgnoreCase(o2.getActor().getName());
+			String name1=o1.getActor()!=null ? o1.getActor().getName() : null;
+			String name2=o2.getActor()!=null ? o2.getActor().getName() : null;
+			int result=StringUtils.compareIgnoreCase(name1, name2, false);
 			if (result==0) result=o1.getId().compareTo(o2.getId());
 			return result;
 		}

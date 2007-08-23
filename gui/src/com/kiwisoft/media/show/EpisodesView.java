@@ -12,10 +12,10 @@ import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.ChainEvent;
+import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.medium.CreateMediumAction;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.ChainEvent;
-import com.kiwisoft.utils.db.ChainListener;
+import com.kiwisoft.collection.ChainListener;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 

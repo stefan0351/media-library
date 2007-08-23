@@ -6,11 +6,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 01.03.2007
- * Time: 12:17:18
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class ShowDetailsAction extends SimpleContextAction<Show>
 {

@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.lookup.TableLookup;
 import com.kiwisoft.utils.gui.table.TableConfiguration;
 import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;

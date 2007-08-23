@@ -16,7 +16,7 @@ import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.SortableTableModel;
 import com.kiwisoft.utils.gui.table.SortableTableRow;

@@ -17,9 +17,9 @@ import java.sql.ResultSet;
 
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.DBSession;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DBSession;
 
 public class FanFicManager
 {

@@ -18,9 +18,9 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.utils.ClassObserver;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.db.DBObject;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.filter.ObjectFilter;
+import com.kiwisoft.persistence.DBObject;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.utils.Filter;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.table.*;
 
@@ -29,7 +29,7 @@ public class ScheduleView extends ViewPanel
 	private Show show;
 
 	private Collection airdates;
-	private ObjectFilter filter;
+	private Filter filter;
 	private AirdatesListener airdatesListener;
 	private int unit;
 	private int quantity;
@@ -202,7 +202,7 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
-	private static class ShowFilter implements ObjectFilter
+	private static class ShowFilter implements Filter
 	{
 		private Show show;
 

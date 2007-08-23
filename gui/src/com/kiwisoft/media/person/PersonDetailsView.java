@@ -21,8 +21,8 @@ import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PicturePreviewUpdater;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.lookup.*;
 import com.kiwisoft.app.DetailsView;
@@ -76,16 +76,16 @@ public class PersonDetailsView extends DetailsView
 	{
 		createContentPanel();
 		setPerson(null, actor);
-		List names=new ArrayList();
+		List<String> names=new ArrayList<String>();
 		nameField.setText(text);
 		for (StringTokenizer tokens=new StringTokenizer(text, " "); tokens.hasMoreTokens();) names.add(tokens.nextToken());
 		int nameCount=names.size();
 		if (nameCount>0)
 		{
-			firstNameField.setText((String)names.get(0));
+			firstNameField.setText(names.get(0));
 			if (nameCount>1)
 			{
-				if (nameCount==2) surnameField.setText((String)names.get(1));
+				if (nameCount==2) surnameField.setText(names.get(1));
 				else
 				{
 					StringBuilder middleName=new StringBuilder();
@@ -95,7 +95,7 @@ public class PersonDetailsView extends DetailsView
 						middleName.append(names.get(i));
 					}
 					middleNameField.setText(middleName.toString());
-					surnameField.setText((String)names.get(nameCount-1));
+					surnameField.setText(names.get(nameCount-1));
 				}
 			}
 		}

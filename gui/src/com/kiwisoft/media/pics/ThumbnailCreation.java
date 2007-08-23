@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.util.Set;
 
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.utils.gui.ImageUtils;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;

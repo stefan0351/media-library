@@ -19,12 +19,12 @@ import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.collection.ChainLink;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
-public class Episode extends IDObject implements Chain.ChainLink, Comparable, Production, Recordable
+public class Episode extends IDObject implements ChainLink, Comparable, Production, Recordable
 {
 	public static final String SHOW="show";
 

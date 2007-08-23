@@ -7,7 +7,7 @@ import java.util.Comparator;
 import com.kiwisoft.media.XMLSource;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.utils.xml.XMLWriter;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.Utils;
 
 /**

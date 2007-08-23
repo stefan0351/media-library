@@ -2,13 +2,13 @@
 <%@ page import = "java.util.Iterator,
 				   java.util.Set,
 				   org.apache.commons.lang.StringEscapeUtils,
-				   com.kiwisoft.media.Navigation,
 				   com.kiwisoft.media.person.CastMember,
 				   com.kiwisoft.media.pics.Picture,
 				   com.kiwisoft.media.show.Show" %>
 <%@ page import="com.kiwisoft.media.show.ShowManager"%>
 <%@ page import="com.kiwisoft.utils.Utils"%>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -62,18 +62,20 @@
 		{
 			CastMember castMember=(CastMember)it.next();
 %>
-	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
+			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
 			Picture picture=castMember.getPicture();
-			if (picture==null) picture=castMember.getActor().getPicture();
+			Person actor=castMember.getActor();
+			if (picture==null && actor!=null) picture=actor.getPicture();
 			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
-				out.print(renderPicture(castMember.getActor().getName(), picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
+				out.print(renderPicture(actor!=null ? actor.getName() : castMember.getCharacterName(), 
+										picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(castMember.getActor())%>"><%=JspUtils.prepareString(castMember.getActor().getName())%></a></td>
+		<td class="tcell2"><%=JspUtils.render(actor)%></td>
 		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
 		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>
@@ -107,19 +109,20 @@
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
 			Picture picture=castMember.getPicture();
-			if (picture==null) picture=castMember.getActor().getPicture();
+			Person actor=castMember.getActor();
+			if (picture==null && actor!=null) picture=actor.getPicture();
 			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
 %>
 				<img src="/<%=picture.getThumbnail50x50().getFile().replace('\\', '/')%>" border="0" vspace="5" hspace="5"
-					onMouseOver="imagePopup('<%=JspUtils.render(castMember.getActor().getName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
+					onMouseOver="imagePopup('<%=JspUtils.render(actor!=null ? actor.getName() : castMember.getCharacterName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
 					onMouseOut="nd()">
 <%
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><a class="link" href="<%=Navigation.getLink(castMember.getActor())%>"><%=JspUtils.prepareString(castMember.getActor().getName())%></a></td>
+		<td class="tcell2"><%=JspUtils.render(castMember.getActor())%></td>
 		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
 		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>

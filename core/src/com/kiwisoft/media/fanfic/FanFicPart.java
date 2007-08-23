@@ -8,13 +8,13 @@ package com.kiwisoft.media.fanfic;
 
 import java.io.File;
 
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
-public class FanFicPart extends IDObject implements Chain.ChainLink
+public class FanFicPart extends IDObject implements ChainLink
 {
 	public static final String FANFIC="fanFic";
 	public static final String SEQUENCE="sequence";

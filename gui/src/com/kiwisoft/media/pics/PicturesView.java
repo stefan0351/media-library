@@ -14,7 +14,7 @@ import com.kiwisoft.utils.gui.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.actions.ContextAction;
 import com.kiwisoft.utils.gui.actions.ComplexAction;
@@ -53,7 +53,7 @@ public class PicturesView extends ViewPanel
 				List<ContextAction<? super Picture>> actions=new ArrayList<ContextAction<? super Picture>>();
 				actions.add(new PictureDetailsAction());
 				actions.add(new NewPictureAction());
-				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
+				actions.add(new ComplexAction<Picture>("Manage", Icons.getIcon("manage"),
 											  new ImportPicturesAction(frame),
 											  new CreateThumbnailsAction(frame)));
 				return actions;
@@ -87,7 +87,7 @@ public class PicturesView extends ViewPanel
 		panel.add(tableController.createComponent(), BorderLayout.CENTER);
 		panel.add(resultLabel, BorderLayout.SOUTH);
 
-		getModelListenerList().installCollectionListener(PictureManager.getInstance(), new CollectionChangeObserver());
+		getModelListenerList().addDisposable(PictureManager.getInstance().addCollectionListener(new CollectionChangeObserver()));
 
 		return panel;
 	}

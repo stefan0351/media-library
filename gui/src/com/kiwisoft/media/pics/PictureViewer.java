@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 
 import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;

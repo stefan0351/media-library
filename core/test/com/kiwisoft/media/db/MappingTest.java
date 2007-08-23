@@ -8,9 +8,9 @@ package com.kiwisoft.media.db;
 
 import java.io.File;
 
-import com.kiwisoft.utils.db.DBMappingTest;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.persistence.DBMappingTest;
 
 public class MappingTest extends DBMappingTest
 {

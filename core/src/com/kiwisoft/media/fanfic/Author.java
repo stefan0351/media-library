@@ -9,11 +9,11 @@ package com.kiwisoft.media.fanfic;
 import java.util.Set;
 import java.util.SortedSet;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.DBAssociation;
 import com.kiwisoft.media.ContactMedium;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Author extends IDObject implements FanFicGroup, Comparable
 {

@@ -7,7 +7,7 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.media.WebInfo;
-import com.kiwisoft.utils.db.DBDummy;
+import com.kiwisoft.persistence.DBDummy;
 
 public class ShowInfo extends WebInfo
 {

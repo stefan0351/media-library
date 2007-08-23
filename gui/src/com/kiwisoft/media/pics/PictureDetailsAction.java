@@ -2,8 +2,6 @@ package com.kiwisoft.media.pics;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieDetailsView;
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.Icons;
 

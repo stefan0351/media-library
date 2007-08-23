@@ -8,9 +8,9 @@ import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.ImageDescriptor;
 import com.kiwisoft.utils.gui.ImageUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.media.pics.ImageData;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
 /**
  * @author Stefan Stiller

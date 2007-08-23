@@ -1,17 +1,10 @@
 package com.kiwisoft.media;
 
-import javax.swing.Icon;
-
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
 
 public class LanguageFormat extends DefaultObjectFormat
 {
-	public LanguageFormat()
-	{
-		super(DEFAULT);
-	}
-
 	public String format(Object value)
 	{
 		if (value instanceof Language)
@@ -22,13 +15,13 @@ public class LanguageFormat extends DefaultObjectFormat
 		return super.format(value);
 	}
 
-	public Icon getIcon(Object value)
+	public String getIconName(Object value)
 	{
 		if (value instanceof Language)
 		{
 			Language language=(Language)value;
-			return IconManager.getIcon("com/kiwisoft/media/icons/languages/"+language.getSymbol()+".png");
+			return "resource:/com/kiwisoft/media/icons/languages/"+language.getSymbol()+".png";
 		}
-		return super.getIcon(value);
+		return super.getIconName(value);
 	}
 }

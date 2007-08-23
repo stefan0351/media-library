@@ -9,14 +9,14 @@ package com.kiwisoft.media.fanfic;
 import java.util.Set;
 import java.util.SortedSet;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBAssociation;
-import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.media.Link;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
 public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkable
 {

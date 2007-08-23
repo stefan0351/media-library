@@ -14,8 +14,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.gui.style.StyleUtils;
@@ -23,6 +21,8 @@ import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
 public class PictureDetailsView extends DetailsView
 {

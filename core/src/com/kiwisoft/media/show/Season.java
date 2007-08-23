@@ -10,10 +10,10 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Season extends IDObject implements Comparable
 {

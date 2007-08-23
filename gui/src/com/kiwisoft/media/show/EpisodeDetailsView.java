@@ -18,8 +18,6 @@ import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataImport.ImportEpisode;
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
 import com.kiwisoft.utils.gui.lookup.DialogLookupField;
 import com.kiwisoft.utils.gui.lookup.FileLookup;
 import com.kiwisoft.utils.gui.lookup.DateField;
@@ -28,6 +26,8 @@ import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.DBSession;
 
 public class EpisodeDetailsView extends DetailsView
 {

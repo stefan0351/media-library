@@ -6,16 +6,16 @@
  */
 package com.kiwisoft.media.medium;
 
-import com.kiwisoft.utils.db.Chain;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Language;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
-public class Track extends IDObject implements Chain.ChainLink
+public class Track extends IDObject implements ChainLink
 {
 	public static final String SHOW="show";
 	public static final String EPISODE="episode";

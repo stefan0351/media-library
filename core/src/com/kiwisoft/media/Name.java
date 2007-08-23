@@ -6,12 +6,12 @@
  */
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Name extends IDObject
 {

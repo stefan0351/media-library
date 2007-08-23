@@ -14,7 +14,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.utils.gui.WindowManager;
 import com.kiwisoft.utils.ListenerSupport;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.format.FormatStringComparator;
+import com.kiwisoft.format.FormatStringComparator;
 
 public class MovePhotoDialog extends JDialog
 {
@@ -44,7 +44,7 @@ public class MovePhotoDialog extends JDialog
 
 	private void initializeData()
 	{
-		Vector<PhotoGallery> galleries=new Vector(PhotoManager.getInstance().getGalleries());
+		Vector<PhotoGallery> galleries=new Vector<PhotoGallery>(PhotoManager.getInstance().getGalleries());
 		if (oldGallery!=null) galleries.remove(oldGallery);
 		Collections.sort(galleries, new FormatStringComparator());
 		galleriesField.setModel(new DefaultComboBoxModel(galleries));

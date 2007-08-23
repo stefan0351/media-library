@@ -10,9 +10,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.HashSet;
 
-import com.kiwisoft.utils.db.*;
+import com.kiwisoft.persistence.*;
+import com.kiwisoft.collection.Chain;
 
-@TableData(table="fanfics")
 public class FanFic extends IDObject
 {
 	public static final String AUTHORS="authors";
@@ -26,7 +26,7 @@ public class FanFic extends IDObject
 	private static final DBAssociation<FanFic, Pairing> ASSOCIATIONS_PAIRINGS=DBAssociation.getAssociation(PAIRINGS, FanFic.class, Pairing.class);
 	private static final DBAssociation<FanFic, FanDom> ASSOCIATIONS_FANDOMS=DBAssociation.getAssociation(FANDOMS, FanFic.class, FanDom.class);
 
-	@FieldData(column="title") private String title;
+	private String title;
 	private String rating;
 	private String description;
 	private boolean finished;

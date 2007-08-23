@@ -6,9 +6,9 @@
  */
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.DBDummy;
 import com.kiwisoft.media.fanfic.Author;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 public class ContactMedium extends IDObject
 {

@@ -18,7 +18,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.MediaManagerApp;
 import com.kiwisoft.media.Navigation;
-import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.StringUtils;
 
 /**

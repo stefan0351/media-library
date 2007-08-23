@@ -14,15 +14,15 @@ import javax.swing.border.LineBorder;
 
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.utils.gui.Disposable;
+import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.gui.ImagePanel;
-import com.kiwisoft.utils.db.Chain;
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.FileUtils;
 
 /**
  * @author Stefan Stiller
  */
-public class Thumbnail extends JPanel implements Chain.ChainLink, Disposable, PropertyChangeListener
+public class Thumbnail extends JPanel implements ChainLink, Disposable, PropertyChangeListener
 {
 	private Photo photo;
 	private boolean selected;

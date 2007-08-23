@@ -6,12 +6,12 @@ import java.util.Date;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
-import com.kiwisoft.utils.db.Chain;
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
-public class Photo extends IDObject implements Chain.ChainLink
+public class Photo extends IDObject implements ChainLink
 {
 	public static final String ROTATION="rotation";
 	public static final String DESCRIPTION="description";

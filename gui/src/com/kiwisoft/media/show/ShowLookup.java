@@ -12,7 +12,7 @@ import java.util.Set;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.lookup.ListLookup;
 
 public class ShowLookup extends ListLookup<Show>

@@ -9,10 +9,8 @@ package com.kiwisoft.media;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.utils.db.DBLoader;
 import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.persistence.DBLoader;
 
 public class LanguageLookup extends ListLookup<Language>
 {

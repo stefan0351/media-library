@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.kiwisoft.utils.gui.GuiUtils;
 import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.ApplicationFrame;
 
 public class MovePhotoAction extends MultiContextAction<Photo>

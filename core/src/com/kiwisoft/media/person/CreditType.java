@@ -3,7 +3,7 @@ package com.kiwisoft.media.person;
 import java.util.Map;
 import java.util.HashMap;
 
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.Identifyable;
 
 public class CreditType implements Identifyable, Comparable<CreditType>
 {

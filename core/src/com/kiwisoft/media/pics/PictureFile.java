@@ -2,11 +2,11 @@ package com.kiwisoft.media.pics;
 
 import java.awt.Dimension;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.utils.gui.ImageDescriptor;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 /**
  * @author Stefan Stiller

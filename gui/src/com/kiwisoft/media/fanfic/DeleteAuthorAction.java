@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 
 import com.kiwisoft.utils.gui.actions.SimpleContextAction;
 import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.db.Transaction;
-import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.app.ApplicationFrame;
 
 /**

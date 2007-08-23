@@ -9,9 +9,9 @@ package com.kiwisoft.media.fanfic;
 import java.util.Set;
 import java.util.SortedSet;
 
-import com.kiwisoft.utils.db.DBAssociation;
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.persistence.DBAssociation;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 public class Pairing extends IDObject implements FanFicGroup, Comparable
 {

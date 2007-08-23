@@ -11,7 +11,7 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.person.*;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.Transactional;
+import com.kiwisoft.persistence.Transactional;
 
 /**
  * @author Stefan Stiller

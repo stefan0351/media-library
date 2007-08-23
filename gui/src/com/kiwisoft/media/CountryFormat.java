@@ -1,17 +1,10 @@
 package com.kiwisoft.media;
 
-import javax.swing.Icon;
-
-import com.kiwisoft.utils.gui.IconManager;
-import com.kiwisoft.utils.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
+import com.kiwisoft.format.DefaultObjectFormat;
 
 public class CountryFormat extends DefaultObjectFormat
 {
-	public CountryFormat()
-	{
-		super(DEFAULT);
-	}
-
 	public String format(Object value)
 	{
 		if (value instanceof Country)
@@ -22,13 +15,13 @@ public class CountryFormat extends DefaultObjectFormat
 		return super.format(value);
 	}
 
-	public Icon getIcon(Object value)
+	public String getIconName(Object value)
 	{
 		if (value instanceof Country)
 		{
 			Country country=(Country)value;
-			return IconManager.getIcon("com/kiwisoft/media/icons/countries/"+country.getSymbol().toLowerCase()+".png");
+			return "resource:/com/kiwisoft/media/icons/countries/"+country.getSymbol().toLowerCase()+".png";
 		}
-		return super.getIcon(value);
+		return super.getIconName(value);
 	}
 }

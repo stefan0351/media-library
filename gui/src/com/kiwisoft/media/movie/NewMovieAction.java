@@ -7,11 +7,7 @@ import com.kiwisoft.utils.gui.Icons;
 import com.kiwisoft.media.show.Show;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 10.03.2007
- * Time: 21:51:48
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class NewMovieAction extends ContextAction<Movie>
 {

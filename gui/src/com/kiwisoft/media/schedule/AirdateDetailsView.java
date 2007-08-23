@@ -20,8 +20,9 @@ import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.utils.Time;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.utils.gui.lookup.DateField;
 import com.kiwisoft.utils.gui.lookup.LookupEvent;
 import com.kiwisoft.utils.gui.lookup.LookupField;
@@ -151,8 +152,9 @@ public class AirdateDetailsView extends DetailsView
 			Date date=airdate.getDate();
 			if (date!=null)
 			{
+				Time time=DateUtils.getTime(date, true);
 				tfDate.setDate(date);
-				tfTime.setDate(date);
+				tfTime.setTime(time);
 			}
 			tfEvent.setText(airdate.getEvent());
 			tfShow.setValue(airdate.getShow());
@@ -185,14 +187,14 @@ public class AirdateDetailsView extends DetailsView
 			tfDate.requestFocus();
 			return false;
 		}
-		Date time=tfTime.getDate();
+		Time time=tfTime.getTime();
 		if (time==null)
 		{
 			JOptionPane.showMessageDialog(this, "Time is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 			tfTime.requestFocus();
 			return false;
 		}
-		Date fullDate=DateUtils.merge(date, time);
+		Date fullDate=DateUtils.merge(date, DateUtils.GMT, time);
 		Channel channel=tfChannel.getValue();
 		if (channel==null)
 		{

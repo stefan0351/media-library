@@ -14,13 +14,13 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transactional;
 import com.kiwisoft.utils.gui.progress.Job;
 import com.kiwisoft.utils.gui.progress.ProgressListener;
 import com.kiwisoft.utils.gui.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
 /**
  * @author Stefan Stiller

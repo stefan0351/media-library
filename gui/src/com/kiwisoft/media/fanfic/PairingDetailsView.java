@@ -13,8 +13,8 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.utils.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.db.DBSession;
-import com.kiwisoft.utils.db.Transaction;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsFrame;
 

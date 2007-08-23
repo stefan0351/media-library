@@ -11,8 +11,9 @@ import java.sql.SQLException;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.utils.db.DBLoader;
-import com.kiwisoft.utils.db.DBSession;
+import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DBSession;
 
 /**
  * @author Stefan Stiller
@@ -83,9 +84,9 @@ public class BookManager implements CollectionChangeSource
 		}
 	}
 
-	public void addCollectionListener(CollectionChangeListener listener)
+	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

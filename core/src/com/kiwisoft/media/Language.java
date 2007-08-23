@@ -6,8 +6,8 @@
  */
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 public class Language extends IDObject implements Comparable
 {

@@ -8,7 +8,12 @@ package com.kiwisoft.media.medium;
 
 import java.util.Iterator;
 
-import com.kiwisoft.utils.db.*;
+import com.kiwisoft.utils.Identifyable;
+import com.kiwisoft.collection.Chain;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.SequenceManager;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
 
 public class Medium extends IDObject
 {

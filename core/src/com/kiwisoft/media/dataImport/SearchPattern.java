@@ -6,11 +6,11 @@
  */
 package com.kiwisoft.media.dataImport;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.person.Person;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.persistence.DBDummy;
 
 public class SearchPattern extends IDObject
 {

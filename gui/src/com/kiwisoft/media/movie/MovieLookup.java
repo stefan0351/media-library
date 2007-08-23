@@ -12,8 +12,7 @@ import java.util.Set;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.db.DBLoader;
+import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.gui.lookup.ListLookup;
 
 public class MovieLookup extends ListLookup<Movie>

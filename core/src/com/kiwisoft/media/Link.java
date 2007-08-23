@@ -6,10 +6,10 @@
  */
 package com.kiwisoft.media;
 
-import com.kiwisoft.utils.db.DBDummy;
-import com.kiwisoft.utils.db.IDObject;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.fanfic.FanDom;
+import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 public class Link extends IDObject implements Comparable
 {

@@ -9,7 +9,7 @@ package com.kiwisoft.media.dataImport;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kiwisoft.utils.db.Identifyable;
+import com.kiwisoft.utils.Identifyable;
 
 public class DataSource implements Identifyable
 {
