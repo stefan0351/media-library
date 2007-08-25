@@ -4,9 +4,9 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.utils.gui.table.TableConstants;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
+import com.kiwisoft.web.TableConstants;
 
 /**
  * @author Stefan Stiller

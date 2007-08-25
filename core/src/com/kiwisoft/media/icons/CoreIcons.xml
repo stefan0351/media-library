@@ -2,7 +2,7 @@
 
 <!-- Copyright (c) 2002-2006, Stefan Stiller. -->
 <icons>
-	<include resource="/com/kiwisoft/utils/icons/Icons.xml"/>
+	<include resource="/com/kiwisoft/swing/icons/Icons.xml"/>
 	<icon key="no-photo-available">
 		<resource url="/com/kiwisoft/media/icons/no_photo_available.jpg"/>
 	</icon>

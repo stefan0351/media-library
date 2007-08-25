@@ -13,9 +13,9 @@ import java.util.Set;
 
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.lookup.TableLookup;
-import com.kiwisoft.utils.gui.table.TableConfiguration;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.lookup.TableLookup;
+import com.kiwisoft.swing.table.TableConfiguration;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
 
 public class EpisodeLookup extends TableLookup<Episode>
 {

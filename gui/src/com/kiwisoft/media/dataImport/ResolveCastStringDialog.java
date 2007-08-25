@@ -6,8 +6,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.WindowManager;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.WindowManager;
 
 public class ResolveCastStringDialog extends JDialog
 {

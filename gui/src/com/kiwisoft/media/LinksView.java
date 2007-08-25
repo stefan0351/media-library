@@ -15,8 +15,8 @@ import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.*;
 
 public class LinksView extends ViewPanel
 {

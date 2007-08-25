@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.utils.gui.ImagePanel;
+import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.FileUtils;
 

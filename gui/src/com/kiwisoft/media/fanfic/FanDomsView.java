@@ -18,8 +18,8 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.*;
 
 /**
  * @author Stefan Stiller

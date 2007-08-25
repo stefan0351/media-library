@@ -3,8 +3,8 @@ package com.kiwisoft.media.fanfic;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.cfg.Configuration;
 

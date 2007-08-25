@@ -1,7 +1,7 @@
 package com.kiwisoft.media.fanfic;
 
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.TableConstants;
+import com.kiwisoft.swing.table.SortableTableRow;
+import com.kiwisoft.swing.table.TableConstants;
 
 /**
  * @author Stefan Stiller

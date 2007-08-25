@@ -10,8 +10,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.swing.table.SortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
 
 public class TracksTableModel extends SortableTableModel<Track>
 {

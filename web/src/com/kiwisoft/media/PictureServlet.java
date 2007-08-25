@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureManager;
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.icons.Icons;
 
 public class PictureServlet extends HttpServlet
 {

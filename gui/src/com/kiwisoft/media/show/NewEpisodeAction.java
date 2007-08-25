@@ -2,8 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.actions.ContextAction;
 
 /**
  * @author Stefan Stiller

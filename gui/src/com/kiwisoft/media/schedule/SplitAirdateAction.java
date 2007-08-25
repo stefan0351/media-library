@@ -11,7 +11,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.swing.actions.SimpleContextAction;
 
 /**
  * @author Stefan Stiller

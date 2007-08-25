@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBSession;

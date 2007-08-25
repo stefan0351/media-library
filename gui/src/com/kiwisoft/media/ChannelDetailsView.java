@@ -11,17 +11,17 @@ import java.util.Map;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.utils.DocumentAdapter;
+import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.ImagePanel;
-import com.kiwisoft.utils.gui.ImageUpdater;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.ImageUpdater;
+import com.kiwisoft.swing.table.SortableTable;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.lookup.DialogLookupField;
+import com.kiwisoft.swing.lookup.FileLookup;
+import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
@@ -165,7 +165,7 @@ public class ChannelDetailsView extends DetailsView
 			channel.setLogo(logo);
 			channel.setLanguage(language);
 			channel.setReceivable(receiving);
-			Iterator it=new HashSet(channel.getAltNames()).iterator();
+			Iterator it=new HashSet<Name>(channel.getAltNames()).iterator();
 			while (it.hasNext())
 			{
 				Name altName=(Name)it.next();

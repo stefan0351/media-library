@@ -3,12 +3,12 @@ package com.kiwisoft.media.pics;
 import java.io.File;
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.lookup.LookupEvent;
-import com.kiwisoft.utils.gui.ImagePanel;
-import com.kiwisoft.utils.gui.ImageUtils;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.lookup.LookupSelectionListener;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupEvent;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.ImageUtils;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
 

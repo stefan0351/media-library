@@ -14,15 +14,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.gui.*;
-import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.utils.gui.style.StyleUtils;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.swing.*;
+import com.kiwisoft.swing.icons.Icons;
 
 public class PictureDetailsView extends DetailsView
 {

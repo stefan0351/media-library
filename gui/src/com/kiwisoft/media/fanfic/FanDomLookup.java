@@ -11,7 +11,7 @@ import java.util.Collection;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 
 public class FanDomLookup extends ListLookup<FanDom>
 {

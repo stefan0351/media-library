@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingUtilities;
 
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.swing.actions.MultiContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;

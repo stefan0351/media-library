@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 import java.awt.Dimension;
 
-import com.kiwisoft.utils.gui.ImageUtils;
+import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.MediaConfiguration;

@@ -2,7 +2,7 @@ package com.kiwisoft.media.pics;
 
 import java.awt.Dimension;
 
-import com.kiwisoft.utils.gui.ImageDescriptor;
+import com.kiwisoft.swing.ImageDescriptor;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.IDObject;

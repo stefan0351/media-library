@@ -5,8 +5,8 @@ import java.beans.PropertyChangeListener;
 
 import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoManager;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.table.DefaultSortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
+import com.kiwisoft.swing.table.DefaultSortableTableModel;
 
 public class PhotoGalleriesTableModel extends DefaultSortableTableModel<PhotoGallery>
 {

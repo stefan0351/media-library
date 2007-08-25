@@ -5,11 +5,11 @@ import java.util.ResourceBundle;
 import java.io.File;
 import javax.swing.JComponent;
 
-import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.persistence.DatabaseConfiguration;
-import com.kiwisoft.utils.gui.style.ObjectStyle;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.style.ObjectStyle;
+import com.kiwisoft.swing.table.*;
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;

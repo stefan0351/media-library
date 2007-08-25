@@ -8,7 +8,7 @@ package com.kiwisoft.media.fanfic;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.app.ApplicationFrame;
 
 public class FanFicsAction<T extends FanFicGroup> extends SimpleContextAction<T>

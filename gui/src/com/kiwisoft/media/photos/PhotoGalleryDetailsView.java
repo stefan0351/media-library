@@ -9,12 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.utils.DocumentAdapter;
+import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.utils.gui.InvalidDataException;
-import com.kiwisoft.utils.gui.lookup.DateField;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsFrame;
 

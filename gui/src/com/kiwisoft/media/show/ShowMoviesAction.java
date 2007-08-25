@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.movie.MoviesView;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.actions.SimpleContextAction;
 
 /**
  * @author Stefan Stiller

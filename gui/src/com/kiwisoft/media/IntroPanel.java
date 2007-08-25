@@ -15,8 +15,8 @@ import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ImagePanel;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.ImagePanel;
 
 public class IntroPanel extends JPanel
 {

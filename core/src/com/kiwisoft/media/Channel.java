@@ -19,7 +19,7 @@ public class Channel extends IDObject
 	private String name;
 	private String logo;
 	private boolean receivable;
-	private Set altNames;
+	private Set<Name> altNames;
 
 	public Channel()
 	{
@@ -54,7 +54,7 @@ public class Channel extends IDObject
 		name.delete();
 	}
 
-	public Set getAltNames()
+	public Set<Name> getAltNames()
 	{
 		if (altNames==null)
 			altNames=DBLoader.getInstance().loadSet(Name.class, null, "ref_id=?", getId());

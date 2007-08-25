@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.utils.gui.ImageUtils;
-import com.kiwisoft.utils.gui.progress.Job;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.swing.ImageUtils;
+import com.kiwisoft.swing.progress.Job;
+import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.swing.progress.ProgressSupport;
 import com.kiwisoft.media.MediaConfiguration;
 
 /**

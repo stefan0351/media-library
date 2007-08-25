@@ -5,11 +5,11 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.utils.ComplexComparable;
+import com.kiwisoft.utils.CompoundComparable;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.table.TableConstants;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
+import com.kiwisoft.web.TableConstants;
 
 /**
  * @author Stefan Stiller
@@ -64,7 +64,7 @@ public class MediaTable extends SortableWebTable<Medium>
 				if (StringUtils.isEmpty(storage)) return null;
 				Matcher matcher=STORAGE_PATTERN.matcher(storage);
 				if (matcher.matches())
-					return new ComplexComparable<Integer, Integer>(new Integer(matcher.group(1)), new Integer(matcher.group(2)));
+					return new CompoundComparable<Integer, Integer>(new Integer(matcher.group(1)), new Integer(matcher.group(2)));
 				else
 					return storage;
 			}

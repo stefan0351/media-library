@@ -13,7 +13,7 @@ import java.util.Set;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 
 public class MovieLookup extends ListLookup<Movie>
 {

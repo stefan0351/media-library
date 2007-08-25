@@ -9,7 +9,7 @@ package com.kiwisoft.media.show;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.media.Genre;
 

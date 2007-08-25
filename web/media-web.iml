@@ -52,7 +52,24 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="utils-web" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-web.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/commons-io.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">
@@ -74,44 +91,6 @@
       <attribute name="method" value="5" />
       <attribute name="URI" value="/WEB-INF/lib/core.jar" />
     </containerElement>
-    <containerElement type="module" name="utils">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-base">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-base.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-cfg">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-cfg.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-collections">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-collections.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-format">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-format.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-web">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-web.jar" />
-    </containerElement>
-    <containerElement type="module" name="utils-xml">
-      <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/utils-xml.jar" />
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/commons-beanutils.jar" />
-      <url>jar://$MODULE_DIR$/../../../commons/beanutils/1.7.0/commons-beanutils.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/log4j-1.2.14.jar" />
-      <url>jar://$MODULE_DIR$/../../../log4j/1.2.14/dist/lib/log4j-1.2.14.jar!/</url>
-    </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/avalon-framework.jar" />
@@ -124,8 +103,63 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/commons-io.jar" />
+      <url>jar://$MODULE_DIR$/../lib/commons-io.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/commons-lang.jar" />
+      <url>jar://$MODULE_DIR$/../lib/commons-lang.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/fop.jar" />
       <url>jar://$MODULE_DIR$/../lib/fop.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-application.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-application.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-base.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-base.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-collections.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-collections.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-configuration.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-configuration.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-database.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-database.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-formats.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-formats.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-swing.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-web.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-web.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/kiwisoft_utils-xml.jar" />
+      <url>jar://$MODULE_DIR$/../lib/kiwisoft_utils-xml.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -137,46 +171,7 @@
       <attribute name="URI" value="/WEB-INF/lib/xmlgraphics-commons.jar" />
       <url>jar://$MODULE_DIR$/../lib/xmlgraphics-commons.jar!/</url>
     </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/commons-beanutils.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/commons-beanutils.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/commons-io.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/commons-io.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/commons-lang.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/commons-lang.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/commons-logging.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/commons-logging.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/junit.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/junit.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/log4j.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/log4j.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="/WEB-INF/lib/xerces.jar" />
-      <url>jar://$MODULE_DIR$/../../utils/lib/xerces.jar!/</url>
-    </containerElement>
     <containerElement type="library" name="Tomcat 5" level="application_server_libraries">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="&lt;N/A&gt;" />
-    </containerElement>
-    <containerElement type="library" name="Tomcat 5.5.4" level="application_server_libraries">
       <attribute name="method" value="0" />
       <attribute name="URI" value="&lt;N/A&gt;" />
     </containerElement>

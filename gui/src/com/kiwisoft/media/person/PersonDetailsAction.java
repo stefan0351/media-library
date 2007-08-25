@@ -1,8 +1,8 @@
 package com.kiwisoft.media.person;
 
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
 
 import java.awt.event.ActionEvent;
 

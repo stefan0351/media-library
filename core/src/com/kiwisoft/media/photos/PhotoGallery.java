@@ -7,7 +7,7 @@ import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.collection.Chain;
-import com.kiwisoft.utils.gui.ImageDescriptor;
+import com.kiwisoft.swing.ImageDescriptor;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBLoader;

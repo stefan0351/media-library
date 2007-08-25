@@ -8,12 +8,13 @@ import java.net.MalformedURLException;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
-import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.utils.gui.*;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.ImageUtils;
 
 /**
  * @author Stefan Stiller

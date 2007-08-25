@@ -13,11 +13,11 @@ import java.util.List;
 import javax.swing.*;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.WindowManager;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.FileLookup;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.lookup.DialogLookupField;
+import com.kiwisoft.swing.lookup.FileLookup;
+import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.cfg.Configuration;
 

@@ -1,7 +1,7 @@
 package com.kiwisoft.media.medium;
 
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.actions.MultiContextAction;
+import com.kiwisoft.swing.icons.Icons;
 
 import java.awt.event.ActionEvent;
 

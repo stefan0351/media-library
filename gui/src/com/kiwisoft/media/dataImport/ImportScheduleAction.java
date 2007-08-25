@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.swing.progress.ProgressDialog;
 
 public class ImportScheduleAction extends AbstractAction
 {

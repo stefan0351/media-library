@@ -3,8 +3,8 @@ package com.kiwisoft.media.photos;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.ApplicationFrame;

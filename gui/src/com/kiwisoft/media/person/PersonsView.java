@@ -27,9 +27,9 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.actions.ComplexAction;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.actions.ComplexAction;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.*;
 
 public class PersonsView extends ViewPanel
 {

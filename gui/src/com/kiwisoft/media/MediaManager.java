@@ -6,10 +6,8 @@ import java.io.File;
 import java.util.Locale;
 import javax.swing.UIManager;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.SplashWindow;
-import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.app.Application;
@@ -24,8 +22,7 @@ public class MediaManager
 		new Application("media");
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File(FileUtils.getRootDirectory(Show.class), "config.xml");
-		configuration.loadDefaultsFromFile(configFile);
+		configuration.loadDefaultsFromResource("config.xml");
 		try
 		{
 			configuration.loadUserValues("media"+File.separator+"profile.xml");

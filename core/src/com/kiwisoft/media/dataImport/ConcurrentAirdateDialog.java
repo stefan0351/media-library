@@ -28,7 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.utils.gui.WindowManager;
+import com.kiwisoft.swing.WindowManager;
 
 class ConcurrentAirdateDialog extends JDialog
 {

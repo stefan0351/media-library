@@ -8,7 +8,7 @@ package com.kiwisoft.media.fanfic;
 
 import java.util.Collection;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 import com.kiwisoft.persistence.DBLoader;
 
 public class PairingLookup extends ListLookup<Pairing>

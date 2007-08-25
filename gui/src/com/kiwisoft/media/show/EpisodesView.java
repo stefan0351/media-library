@@ -16,8 +16,8 @@ import com.kiwisoft.collection.ChainEvent;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.collection.ChainListener;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.*;
 
 public class EpisodesView extends ViewPanel
 {

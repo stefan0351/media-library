@@ -5,8 +5,8 @@ import javax.swing.JFrame;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
 
 public class TVComLoaderAction extends SimpleContextAction<Show>

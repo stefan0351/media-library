@@ -21,8 +21,8 @@ import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.Filter;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.*;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.*;
 
 public class ScheduleView extends ViewPanel
 {

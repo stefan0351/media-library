@@ -8,11 +8,11 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.WindowManager;
-import com.kiwisoft.utils.gui.lookup.DateField;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.lookup.LookupHandler;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.lookup.DateField;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupHandler;
 
 public class NoEpisodeDialog extends JDialog
 {

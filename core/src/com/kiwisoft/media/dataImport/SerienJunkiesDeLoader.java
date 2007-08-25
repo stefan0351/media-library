@@ -1,26 +1,28 @@
 package com.kiwisoft.media.dataImport;
 
 import java.io.IOException;
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.media.*;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import static com.kiwisoft.utils.StringUtils.isEmpty;
-import com.kiwisoft.utils.*;
-import com.kiwisoft.utils.gui.progress.Job;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
-import com.kiwisoft.utils.xml.XMLUtils;
-import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.swing.progress.Job;
+import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.swing.progress.ProgressSupport;
+import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.StringUtils;
+import static com.kiwisoft.utils.StringUtils.isEmpty;
+import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.xml.XMLUtils;
 
 /**
  * @author Stefan Stiller
@@ -28,18 +30,6 @@ import com.kiwisoft.persistence.Transactional;
 public abstract class SerienJunkiesDeLoader implements Job
 {
 	public static final Pattern NUMBER_PATTERN=Pattern.compile("(\\d{2})x(\\d{2})");
-
-	public static void main(String[] args) throws Exception
-	{
-		Locale.setDefault(Locale.GERMANY);
-		File configFile=new File(FileUtils.getRootDirectory(Show.class), "config.xml");
-		new SimpleConfiguration().loadDefaultsFromFile(configFile);
-
-//		Jack & Jill,  Drake & Josh, Even Stevens
-//		Malcolm in the Middle, Summerland       , "Raising Dad"
-//		Grosse Point (Starlets), Dead Like Me, oc, the girl of tommorrow
-// 		futurama
-	}
 
 	private ProgressSupport progress;
 
@@ -227,8 +217,8 @@ public abstract class SerienJunkiesDeLoader implements Job
 					episode.setAirdate(newDate);
 				else if (oldDate!=null && newDate!=null && !oldDate.equals(newDate))
 					progress.warning("Different valules for 'First Aired' found."+
-							"\n\tDatabase: "+airdateFormat.format(oldDate)+
-							"\n\tSerienJunkies.de: "+airdateFormat.format(newDate));
+									 "\n\tDatabase: "+airdateFormat.format(oldDate)+
+									 "\n\tSerienJunkies.de: "+airdateFormat.format(newDate));
 
 				String oldSummary=episode.getSummaryText(german);
 				String newSummary=data.summary;

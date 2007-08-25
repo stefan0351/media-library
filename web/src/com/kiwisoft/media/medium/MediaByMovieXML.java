@@ -18,10 +18,10 @@ public class MediaByMovieXML implements XMLSource
 	public void createXML(XMLWriter xmlWriter) throws IOException
 	{
 		TreeSet<Track> records=new TreeSet<Track>(new MyComparator());
-		records.addAll(DBLoader.getInstance().loadSet(Track.class, "videos",
-													 "videos.id=recordings.video_id" +
-													 " and movie_id is not null and videos.userkey is not null" +
-													 " and ifnull(videos.obsolete, 0)=0"));
+		records.addAll(DBLoader.getInstance().loadSet(Track.class, "media",
+													 "media.id=tracks.medium_id" +
+													 " and movie_id is not null and media.userkey is not null" +
+													 " and ifnull(media.obsolete, 0)=0"));
 
 		xmlWriter.startElement("tracks");
 		for (Track record : records)

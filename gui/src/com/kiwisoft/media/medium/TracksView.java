@@ -10,11 +10,11 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.collection.ChainEvent;
 import com.kiwisoft.collection.ChainListener;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.ChainMoveDownAction;
-import com.kiwisoft.utils.gui.table.ChainMoveUpAction;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
-import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.ChainMoveDownAction;
+import com.kiwisoft.swing.table.ChainMoveUpAction;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.table.TableController;
 
 public class TracksView extends ViewPanel
 {

@@ -8,9 +8,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JOptionPane.showConfirmDialog;
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.ApplicationFrame;

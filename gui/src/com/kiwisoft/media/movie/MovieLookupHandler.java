@@ -4,8 +4,8 @@ import java.awt.Window;
 
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieDetailsView;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.lookup.LookupHandler;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupHandler;
 
 /**
  * Created by IntelliJ IDEA.

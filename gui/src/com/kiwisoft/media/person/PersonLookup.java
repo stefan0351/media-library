@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 
 public class PersonLookup extends ListLookup<Person>
 {

@@ -4,10 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.WindowManager;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.lookup.FileLookup;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.lookup.DialogLookupField;
+import com.kiwisoft.swing.lookup.FileLookup;
 
 public class ImportPathDialog extends JComponent
 {

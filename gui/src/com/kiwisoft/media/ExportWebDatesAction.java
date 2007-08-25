@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.kiwisoft.media.show.WebDatesExport;
-import com.kiwisoft.utils.gui.progress.ProgressDialog;
+import com.kiwisoft.swing.progress.ProgressDialog;
 
 public class ExportWebDatesAction extends AbstractAction
 {

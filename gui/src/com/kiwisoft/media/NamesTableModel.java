@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.swing.table.SortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
 
 public class NamesTableModel extends SortableTableModel<String>
 {

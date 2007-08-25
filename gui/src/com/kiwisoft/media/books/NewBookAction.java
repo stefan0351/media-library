@@ -2,8 +2,8 @@ package com.kiwisoft.media.books;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.icons.Icons;
 
 /**
  * @author Stefan Stiller

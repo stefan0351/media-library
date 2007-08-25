@@ -14,8 +14,8 @@ import com.kiwisoft.media.show.Show;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.*;
-import com.kiwisoft.utils.gui.lookup.*;
+import com.kiwisoft.swing.lookup.*;
+import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsFrame;
 

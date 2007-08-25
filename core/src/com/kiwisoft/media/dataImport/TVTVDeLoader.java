@@ -14,9 +14,9 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.gui.progress.Job;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.swing.progress.Job;
+import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.swing.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 public class TVTVDeLoader implements Job

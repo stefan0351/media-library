@@ -2,7 +2,7 @@ package com.kiwisoft.media.medium;
 
 import java.util.Collection;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.medium.MediumType;
 

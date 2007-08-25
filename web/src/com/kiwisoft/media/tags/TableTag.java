@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.web.*;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.table.TableConstants;
 
 /**
  * @author Stefan Stiller

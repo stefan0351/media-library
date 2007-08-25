@@ -1,7 +1,7 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.media.LinksView;
 import com.kiwisoft.app.ApplicationFrame;
 

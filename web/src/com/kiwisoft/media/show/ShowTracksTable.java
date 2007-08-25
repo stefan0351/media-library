@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
-import com.kiwisoft.utils.gui.table.TableConstants;
+import com.kiwisoft.web.TableConstants;
 
 /**
  * @author Stefan Stiller

@@ -3,10 +3,10 @@ package com.kiwisoft.media.show;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.Language;
+import com.kiwisoft.swing.table.SortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
 
 /**
  * @author Stefan Stiller

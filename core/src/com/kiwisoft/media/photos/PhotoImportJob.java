@@ -3,11 +3,11 @@ package com.kiwisoft.media.photos;
 import java.io.File;
 import java.io.IOException;
 
-import com.kiwisoft.utils.gui.progress.Job;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.ImageDescriptor;
-import com.kiwisoft.utils.gui.ImageUtils;
+import com.kiwisoft.swing.progress.Job;
+import com.kiwisoft.swing.progress.ProgressSupport;
+import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.swing.ImageDescriptor;
+import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;

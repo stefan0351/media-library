@@ -10,8 +10,8 @@ import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureViewer;
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.actions.SimpleContextAction;
 
 public class ShowPhotoAction extends SimpleContextAction<Photo>
 {

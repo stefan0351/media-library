@@ -13,16 +13,16 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.ContactMedium;
-import com.kiwisoft.utils.DocumentAdapter;
+import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.lookup.DialogLookup;
-import com.kiwisoft.utils.gui.lookup.DialogLookupField;
-import com.kiwisoft.utils.gui.table.SortableTable;
-import com.kiwisoft.utils.gui.table.StringTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.lookup.DialogLookup;
+import com.kiwisoft.swing.lookup.DialogLookupField;
+import com.kiwisoft.swing.table.SortableTable;
+import com.kiwisoft.swing.table.StringTableModel;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 

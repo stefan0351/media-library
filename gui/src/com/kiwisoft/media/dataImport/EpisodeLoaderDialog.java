@@ -10,9 +10,9 @@ import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ComponentUtils;
-import com.kiwisoft.utils.gui.WindowManager;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.ComponentUtils;
+import com.kiwisoft.swing.WindowManager;
 
 public class EpisodeLoaderDialog extends JDialog
 {

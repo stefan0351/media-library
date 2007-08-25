@@ -3,7 +3,7 @@ package com.kiwisoft.media;
 import java.util.Collection;
 import java.util.Collections;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 import com.kiwisoft.persistence.DBLoader;
 
 public class CountryLookup extends ListLookup<Country>

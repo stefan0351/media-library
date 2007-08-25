@@ -11,7 +11,7 @@ import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.utils.gui.ImageUtils;
+import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.persistence.DBLoader;
 
 /**

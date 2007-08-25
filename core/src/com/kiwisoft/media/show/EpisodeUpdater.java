@@ -7,9 +7,9 @@ import java.util.Iterator;
 
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.progress.Job;
-import com.kiwisoft.utils.gui.progress.ProgressListener;
-import com.kiwisoft.utils.gui.progress.ProgressSupport;
+import com.kiwisoft.swing.progress.Job;
+import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.swing.progress.ProgressSupport;
 import com.kiwisoft.persistence.DBException;
 import com.kiwisoft.persistence.DBErrors;
 import com.kiwisoft.persistence.Transaction;

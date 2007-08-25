@@ -15,7 +15,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.kiwisoft.utils.gui.AutoGridLayout;
+import com.kiwisoft.swing.AutoGridLayout;
 
 /**
  * @author Stefan Stiller

@@ -432,16 +432,9 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gui/gui.iml" filepath="$PROJECT_DIR$/gui/gui.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/media-core.iml" filepath="$PROJECT_DIR$/core/media-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/gui/media-gui.iml" filepath="$PROJECT_DIR$/gui/media-gui.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/media-web.iml" filepath="$PROJECT_DIR$/web/media-web.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../utils/utils.iml" filepath="$PROJECT_DIR$/../utils/utils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../utils/base/utils-base.iml" filepath="$PROJECT_DIR$/../utils/base/utils-base.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../utils/collections/utils-collections.iml" filepath="$PROJECT_DIR$/../utils/collections/utils-collections.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../utils/xml/utils-xml.iml" filepath="$PROJECT_DIR$/../utils/xml/utils-xml.iml" />
-      <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 6.0" project-jdk-type="JavaSDK">

@@ -7,10 +7,10 @@ import javax.swing.JFileChooser;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.ImageFileChooser;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.progress.SmallProgressDialog;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.ImageFileChooser;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.progress.SmallProgressDialog;
 
 public class AddPhotoAction extends ContextAction<Object>
 {

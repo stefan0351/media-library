@@ -12,11 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.Color;
 
-import com.kiwisoft.utils.gui.table.MutableSortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
-import com.kiwisoft.utils.gui.style.ObjectStyle;
-import com.kiwisoft.utils.gui.style.StrikeThroughDecorator;
-import com.kiwisoft.utils.ComplexComparable;
+import com.kiwisoft.swing.table.MutableSortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
+import com.kiwisoft.swing.style.ObjectStyle;
+import com.kiwisoft.swing.style.StrikeThroughDecorator;
+import com.kiwisoft.utils.CompoundComparable;
 import com.kiwisoft.utils.StringUtils;
 
 public class MediaTableModel extends MutableSortableTableModel<Medium>
@@ -77,7 +77,7 @@ public class MediaTableModel extends MutableSortableTableModel<Medium>
 				if (StringUtils.isEmpty(storage)) return null;
 				Matcher matcher=STORAGE_PATTERN.matcher(storage);
 				if (matcher.matches())
-					return new ComplexComparable<Integer, Integer>(new Integer(matcher.group(1)), new Integer(matcher.group(2)));
+					return new CompoundComparable<Integer, Integer>(new Integer(matcher.group(1)), new Integer(matcher.group(2)));
 				else
 					return storage;
 			}

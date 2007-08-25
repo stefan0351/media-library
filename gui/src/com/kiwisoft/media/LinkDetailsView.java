@@ -9,8 +9,8 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.InvalidDataException;
-import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 

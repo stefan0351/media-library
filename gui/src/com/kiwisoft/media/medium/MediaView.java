@@ -6,12 +6,12 @@
  */
 package com.kiwisoft.media.medium;
 
-import com.kiwisoft.utils.gui.table.TableController;
+import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.gui.actions.ContextAction;
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.table.SortableTableModel;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;

@@ -1,7 +1,7 @@
 package com.kiwisoft.media.pics;
 
-import com.kiwisoft.utils.gui.lookup.LookupHandler;
-import com.kiwisoft.utils.gui.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupHandler;
+import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.media.pics.PictureDetailsView;
 
 /**

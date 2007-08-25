@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.utils.gui.GuiUtils;
-import com.kiwisoft.utils.gui.FormatBasedListRenderer;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.WindowManager;
+import com.kiwisoft.swing.WindowManager;
 import com.kiwisoft.utils.ListenerSupport;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.format.FormatStringComparator;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.FormatBasedListRenderer;
+import com.kiwisoft.swing.*;
 
 public class MovePhotoDialog extends JDialog
 {

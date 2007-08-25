@@ -20,9 +20,9 @@ import com.kiwisoft.media.show.ShowLookup;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.lookup.LookupEvent;
-import com.kiwisoft.utils.gui.lookup.LookupField;
-import com.kiwisoft.utils.gui.lookup.LookupSelectionListener;
+import com.kiwisoft.swing.lookup.LookupEvent;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 

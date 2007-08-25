@@ -2,8 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.io.IOException;
 
-import com.kiwisoft.utils.gui.table.SortableTableModel;
-import com.kiwisoft.utils.gui.table.SortableTableRow;
+import com.kiwisoft.swing.table.SortableTableModel;
+import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.Language;

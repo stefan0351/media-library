@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.utils.gui.lookup.ListLookup;
-import com.kiwisoft.utils.gui.lookup.LookupUtils;
+import com.kiwisoft.swing.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.LookupUtils;
 
 public class GenderLookup extends ListLookup<Gender>
 {

@@ -13,7 +13,7 @@ import java.util.Set;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.ChannelManager;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.gui.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.ListLookup;
 
 public class ChannelLookup extends ListLookup<Channel>
 {

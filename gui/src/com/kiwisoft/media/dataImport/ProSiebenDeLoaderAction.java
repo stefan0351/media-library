@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
+import com.kiwisoft.swing.actions.MultiContextAction;
 
 public class ProSiebenDeLoaderAction extends MultiContextAction<Show>
 {

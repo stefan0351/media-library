@@ -12,7 +12,7 @@ import java.util.Date;
 import javax.servlet.ServletContext;
 
 import com.kiwisoft.format.FormatManager;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -48,7 +48,7 @@ public class MediaManagerApp
 		new Application("media");
 		String path=context.getRealPath("WEB-INF/config.xml");
 		new SimpleConfiguration().loadDefaultsFromFile(new File(path));
-		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
+//		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
 		initializeFormats();
 		initializeRenderers();
 	}

@@ -10,11 +10,11 @@ import javax.swing.JToolBar;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.kiwisoft.utils.gui.GuiUtils;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.collection.*;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.actions.ComplexAction;
-import com.kiwisoft.utils.gui.actions.ContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.actions.ComplexAction;
+import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;

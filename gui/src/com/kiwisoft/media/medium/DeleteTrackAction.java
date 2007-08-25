@@ -9,8 +9,8 @@ import javax.swing.JOptionPane;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.utils.gui.Icons;
-import com.kiwisoft.utils.gui.actions.MultiContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.actions.MultiContextAction;
 
 /**
  * @author Stefan Stiller

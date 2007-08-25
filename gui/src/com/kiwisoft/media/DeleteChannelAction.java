@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
-import com.kiwisoft.utils.gui.Icons;
+import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.app.ApplicationFrame;

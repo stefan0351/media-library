@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.show.EpisodeDetailsView;
-import com.kiwisoft.utils.gui.actions.SimpleContextAction;
+import com.kiwisoft.swing.actions.SimpleContextAction;
 
 /**
  * Created by IntelliJ IDEA.
