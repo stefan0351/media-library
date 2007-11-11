@@ -19,7 +19,9 @@
 <%
 	Movie movie=MovieManager.getInstance().getMovie(new Long(request.getParameter("movie")));
 	request.setAttribute("movie", movie);
-	Language english=LanguageManager.getInstance().getLanguageBySymbol("en");%>
+	Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
+	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
+%>
 <html>
 
 <head>
@@ -56,17 +58,31 @@
 
 <a name="summary"></a>
 <table class="contenttable" width="790">
-<tr>
-	<td class="header1">Summary</td>
-</tr>
-<tr>
-	<td class="content">
-		<%=JspUtils.prepareString(movie.getSummaryText(english))%>
-		<br clear=all>
-
-		<p align=right><a class=link href="#top">Top</a></p>
-	</td>
-</tr>
+<%
+	String englishSummary=movie.getSummaryText(english);
+	String germanSummary=movie.getSummaryText(german);
+%>
+	<tr><td class="header1">Summary</td></tr>
+	<tr><td class="content">
+<%
+		if (!StringUtils.isEmpty(englishSummary))
+		{
+			out.print("<p>");
+			out.print(JspUtils.render(englishSummary, "preformatted"));
+			out.println("</p>");
+		}
+		if (!StringUtils.isEmpty(germanSummary))
+		{
+			if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
+			out.print("<p>");
+			out.print(JspUtils.render(german, "icon only"));
+			out.print(" ");
+			out.print(JspUtils.render(germanSummary, "preformatted"));
+			out.println("</p>");
+		}
+%>
+	<p align=right><a class=link href="#top">Top</a></p>
+	</td></tr>
 </table>
 
 <a name="details"></a>

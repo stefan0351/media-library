@@ -20,6 +20,7 @@ public class PreformattedHTMLRenderer extends DefaultHTMLRenderer
 				if (i>0) output.append("<br/>");
 				String line=lines[i];
 				line=StringEscapeUtils.escapeHtml(line);
+				line=replaceTags(line, "br");
 				line=replaceTags(line, "i");
 				line=replaceTags(line, "u");
 				line=replaceTags(line, "b");
