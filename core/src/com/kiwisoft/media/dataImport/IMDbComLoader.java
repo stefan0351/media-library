@@ -14,6 +14,7 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Country;
 import com.kiwisoft.media.CountryManager;
 import com.kiwisoft.media.person.CreditType;
+import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -23,6 +24,17 @@ public class IMDbComLoader
 	private String url;
 	private Pattern nameLinkPattern;
 	private String key;
+
+	public static void main(String[] args) throws Exception
+	{
+		Locale.setDefault(Locale.UK);
+		SimpleConfiguration configuration=new SimpleConfiguration();
+		configuration.loadDefaultsFromResource("config.xml");
+
+		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0489085/", "tt0489085");
+//		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0465407/", "tt0465407");
+		System.out.println(loader.load());
+	}
 
 	public IMDbComLoader(String url, String key)
 	{
@@ -42,11 +54,17 @@ public class IMDbComLoader
 			page=WebUtils.loadURL(url+movieData.getCreditsLink());
 			parseCreditsPage(page, movieData);
 		}
-		if (movieData.getPlotSummaryLink()!=null)
+		if (movieData.getPlotSynopsisLink()!=null)
+		{
+			page=WebUtils.loadURL(url+movieData.getPlotSynopsisLink());
+			parseSynopsisPage(page, movieData);
+		}
+		if (StringUtils.isEmpty(movieData.getSummary()) && movieData.getPlotSummaryLink()!=null)
 		{
 			page=WebUtils.loadURL(url+movieData.getPlotSummaryLink());
 			parseSummaryPage(page, movieData);
 		}
+		if (StringUtils.isEmpty(movieData.getSummary())) movieData.setSummary(movieData.getOutline());
 		if (movieData.getReleaseInfoLink()!=null)
 		{
 			page=WebUtils.loadURL(url+movieData.getReleaseInfoLink());
@@ -63,27 +81,39 @@ public class IMDbComLoader
 		Matcher matcher;
 		Pattern pattern;
 
-		pattern=Pattern.compile("<div class=\"(link|link empty)\"><i>-</i><a href=\"(\\w+)\">full cast and crew</a></div>");
+		pattern=Pattern.compile("<a href=\"(\\w+)\" class=\"(link|link empty)\">full cast and crew</a>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
 		{
-			if ("link".equals(matcher.group(1))) movieData.setCreditsLink(matcher.group(2));
+			System.out.println("full cast and crew");
+			if ("link".equals(matcher.group(2))) movieData.setCreditsLink(matcher.group(1));
 			index=matcher.end();
 		}
 
-		pattern=Pattern.compile("<div class=\"(link|link empty)\"><i>-</i><a href=\"(\\w+)\">plot summary</a></div>");
+		pattern=Pattern.compile("<a href=\"(\\w+)\" class=\"(link|link empty)\">plot summary</a>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
 		{
-			if ("link".equals(matcher.group(1))) movieData.setPlotSummaryLink(matcher.group(2));
+			System.out.println("plot summary");
+			if ("link".equals(matcher.group(2))) movieData.setPlotSummaryLink(matcher.group(1));
 			index=matcher.end();
 		}
 
-		pattern=Pattern.compile("<div class=\"(link|link empty)\"><i>-</i><a href=\"(\\w+)\">release dates</a></div>");
+		pattern=Pattern.compile("<a href=\"(\\w+)\" class=\"(link|link empty)\">plot synopsis</a>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
 		{
-			if ("link".equals(matcher.group(1))) movieData.setReleaseInfoLink(matcher.group(2));
+			System.out.println("plot synopsis");
+			if ("link".equals(matcher.group(2))) movieData.setPlotSynopsisLink(matcher.group(1));
+			index=matcher.end();
+		}
+
+		pattern=Pattern.compile("<a href=\"(\\w+)\" class=\"(link|link empty)\">release dates</a>");
+		matcher=pattern.matcher(page);
+		if (matcher.find(index))
+		{
+			System.out.println("release dates");
+			if ("link".equals(matcher.group(2))) movieData.setReleaseInfoLink(matcher.group(1));
 			index=matcher.end();
 		}
 
@@ -98,6 +128,17 @@ public class IMDbComLoader
 			if (title.startsWith("\"") && title.endsWith("\"")) title=title.substring(1, title.length()-1);
 			movieData.setTitle(title);
 			movieData.setYear(Integer.parseInt(matcher.group(2)));
+		}
+
+		index=page.indexOf("<h5>Plot Outline:</h5>");
+		if (index>0)
+		{
+			index=index+"<h5>Plot Outline:</h5>".length();
+			int index2=page.indexOf("</div>", index);
+			String outline=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index, index2)));
+			outline=XMLUtils.removeTag(outline, "a");
+			outline=outline.replace("<", "[").replace(">", "]");
+			movieData.setOutline(outline);
 		}
 
 		index=page.indexOf("Additional Details");
@@ -224,12 +265,29 @@ public class IMDbComLoader
 	private void parseSummaryPage(String page, MovieData movieData)
 	{
 		int index1=page.indexOf("<p class=\"plotpar\">");
-		index1=page.indexOf(">", index1)+1;
-		int index2=page.indexOf("</p>");
-		String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
-		summary=XMLUtils.removeTag(summary, "a");
-		summary=summary.replace("<", "[").replace(">", "]");
-		movieData.setSummary(summary);
+		if (index1>=0)
+		{
+			index1=page.indexOf(">", index1)+1;
+			int index2=page.indexOf("</p>");
+			String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
+			summary=XMLUtils.removeTag(summary, "a");
+			summary=summary.replace("<", "[").replace(">", "]");
+			movieData.setSummary(summary);
+		}
+	}
+
+	private void parseSynopsisPage(String page, MovieData movieData)
+	{
+		int index1=page.indexOf("<div id=\"swiki.2.1\">");
+		if (index1>=0)
+		{
+			index1=page.indexOf(">", index1)+1;
+			int index2=page.indexOf("</div>", index1);
+			String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
+			summary=XMLUtils.removeTag(summary, "a");
+			summary=summary.replace("<", "[").replace(">", "]");
+			movieData.setSummary(summary);
+		}
 	}
 
 	private void parseReleaseInfoPage(String page, MovieData movieData)

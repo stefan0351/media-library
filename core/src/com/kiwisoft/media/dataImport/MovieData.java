@@ -16,6 +16,7 @@ public class MovieData
 {
 	private String plotSummaryLink;
 	private String releaseInfoLink;
+	private String plotSynopsisLink;
 	private String creditsLink;
 
 	private String title;
@@ -29,6 +30,7 @@ public class MovieData
 	private Set<Language> languages=new HashSet<Language>();
 	private Movie movie;
 	private String imdbKey;
+	private String outline;
 
 	public void addCrew(CrewData crewData)
 	{
@@ -168,5 +170,45 @@ public class MovieData
 	public String getImdbKey()
 	{
 		return imdbKey;
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder buffer=new StringBuilder("MovieData{");
+		buffer.append("\n\ttitle=").append(title);
+		buffer.append("\n\tgermanTitle=").append(germanTitle);
+		buffer.append("\n\tlanguages=").append(languages);
+		buffer.append("\n\tcountries=").append(countries);
+		buffer.append("\n\tyear=").append(year);
+		buffer.append("\n\truntime=").append(runtime);
+		buffer.append("\n\timdbKey=").append(imdbKey);
+		buffer.append("\n\tplotSummaryLink=").append(plotSummaryLink);
+		buffer.append("\n\tplotSynopsisLink=").append(plotSynopsisLink);
+		buffer.append("\n\tcreditsLink=").append(creditsLink);
+		buffer.append("\n\treleaseInfoLink=").append(releaseInfoLink);
+		buffer.append("\n\tsummary=").append(summary);
+		buffer.append("}");
+		return buffer.toString();
+	}
+
+	public void setPlotSynopsisLink(String plotSynopsisLink)
+	{
+		this.plotSynopsisLink=plotSynopsisLink;
+	}
+
+	public String getPlotSynopsisLink()
+	{
+		return plotSynopsisLink;
+	}
+
+	public void setOutline(String outline)
+	{
+		this.outline=outline;
+	}
+
+	public String getOutline()
+	{
+		return outline;
 	}
 }
