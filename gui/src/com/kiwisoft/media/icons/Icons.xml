@@ -108,4 +108,7 @@
 	<icon key="open.file">
 		<resource url="/com/kiwisoft/media/icons/folder_explore.png"/>
 	</icon>
+	<icon key="excel">
+		<resource url="/com/kiwisoft/media/icons/excel.png"/>
+	</icon>
 </icons>
