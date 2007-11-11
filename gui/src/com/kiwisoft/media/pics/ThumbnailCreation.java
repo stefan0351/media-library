@@ -9,7 +9,6 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.swing.progress.Job;
 import com.kiwisoft.swing.progress.ProgressListener;
 import com.kiwisoft.swing.progress.ProgressSupport;
@@ -42,8 +41,8 @@ public class ThumbnailCreation implements Job
 				if (file.exists())
 				{
 					File thumbnailFile=new File(file.getParentFile(), FileUtils.getNameWithoutExtension(file)+"_sb.jpg");
-					if (!thumbnailFile.exists()) ImageUtils.resize(file, 170, -1, thumbnailFile);
-					final Dimension thumbnailSize=ImageUtils.getImageSize(thumbnailFile);
+					if (!thumbnailFile.exists()) PictureUtils.resize(file, 170, -1, thumbnailFile);
+					final Dimension thumbnailSize=PictureUtils.getImageSize(thumbnailFile);
 					if (thumbnailSize!=null)
 					{
 						if (thumbnailSize.width==170)

@@ -14,7 +14,6 @@ import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.ImageUtils;
 
 /**
  * @author Stefan Stiller
@@ -62,7 +61,7 @@ public class PictureViewer extends DetailsView
 						rotatedFile.delete();
 					}
 				});
-				ImageUtils.rotate(file, rotation, rotatedFile);
+				PictureUtils.rotate(file, rotation, rotatedFile);
 				file=rotatedFile;
 			}
 			catch (IOException e)
@@ -72,7 +71,7 @@ public class PictureViewer extends DetailsView
 		}
 		try
 		{
-			ImageIcon icon=ImageUtils.loadIcon(file.toURI().toURL());
+			ImageIcon icon=PictureUtils.loadIcon(file.toURI().toURL());
 			imagePanel.setImage(icon);
 		}
 		catch (MalformedURLException e)

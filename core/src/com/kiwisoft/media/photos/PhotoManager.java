@@ -6,9 +6,9 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 import java.awt.Dimension;
 
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.media.pics.ImageData;
+import com.kiwisoft.media.pics.PictureUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
@@ -77,8 +77,8 @@ public class PhotoManager implements CollectionChangeSource
 			thumbnailFile=new File(MediaConfiguration.getPhotoThumbnailPath(), numberFormat.format(MediaConfiguration.nextThumbnailId())+".jpg");
 		}
 		while (thumbnailFile.exists());
-		ImageUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
-		Dimension size=ImageUtils.getImageSize(thumbnailFile);
+		PictureUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
+		Dimension size=PictureUtils.getImageSize(thumbnailFile);
 		if (size!=null) return new ImageData(thumbnailFile, size);
 		return null;
 	}

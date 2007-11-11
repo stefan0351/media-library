@@ -11,7 +11,6 @@ import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.persistence.DBLoader;
 
 /**
@@ -96,7 +95,7 @@ public class PictureManager implements CollectionChangeSource
 			File file=new File(basePath+"_"+suffix+".jpg");
 			if (file.exists())
 			{
-				Dimension size=ImageUtils.getImageSize(file);
+				Dimension size=PictureUtils.getImageSize(file);
 				if (size!=null)
 				{
 					if (size.width==50 && size.height==50)

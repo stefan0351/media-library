@@ -5,9 +5,9 @@ import java.util.HashSet;
 
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.media.pics.PictureDetails;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.collection.Chain;
-import com.kiwisoft.swing.ImageDescriptor;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBLoader;
@@ -62,7 +62,7 @@ public class PhotoGallery extends IDObject
 		return photos;
 	}
 
-	public Photo createPhoto(ImageDescriptor imageData, ImageData thumbnailData)
+	public Photo createPhoto(PictureDetails imageData, ImageData thumbnailData)
 	{
 		PictureFile picture=new PictureFile(imageData);
 		PictureFile thumbnail=new PictureFile(thumbnailData);

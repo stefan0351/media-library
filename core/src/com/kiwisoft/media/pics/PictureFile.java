@@ -2,7 +2,6 @@ package com.kiwisoft.media.pics;
 
 import java.awt.Dimension;
 
-import com.kiwisoft.swing.ImageDescriptor;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.IDObject;
@@ -25,7 +24,7 @@ public class PictureFile extends IDObject
 	{
 	}
 
-	public PictureFile(ImageDescriptor imageData)
+	public PictureFile(PictureDetails imageData)
 	{
 		setFile(FileUtils.getRelativePath(MediaConfiguration.getRootPath(), imageData.getFile().getAbsolutePath()));
 		setWidth(imageData.getWidth());

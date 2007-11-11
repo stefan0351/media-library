@@ -6,9 +6,9 @@ import java.io.IOException;
 import com.kiwisoft.swing.progress.Job;
 import com.kiwisoft.swing.progress.ProgressSupport;
 import com.kiwisoft.swing.progress.ProgressListener;
-import com.kiwisoft.swing.ImageDescriptor;
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.media.pics.ImageData;
+import com.kiwisoft.media.pics.PictureDetails;
+import com.kiwisoft.media.pics.PictureUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 
@@ -38,7 +38,7 @@ public class PhotoImportJob implements Job
 			{
 				if (file.isFile())
 				{
-					final ImageDescriptor descriptor=ImageUtils.getImageFormat(file);
+					final PictureDetails descriptor=PictureUtils.getImageFormat(file);
 					String type=descriptor.getType();
 					if ("PNG".equals(type) || "JPEG".equals(type) || "GIF".equals(type))
 					{
@@ -74,10 +74,10 @@ public class PhotoImportJob implements Job
 
 	private class CreatePhotoTx implements Transactional
 	{
-		private ImageDescriptor picture;
+		private PictureDetails picture;
 		private ImageData thumbnail;
 
-		public CreatePhotoTx(ImageDescriptor picture, ImageData thumbnail)
+		public CreatePhotoTx(PictureDetails picture, ImageData thumbnail)
 		{
 			this.picture=picture;
 			this.thumbnail=thumbnail;

@@ -294,7 +294,7 @@ public class PictureDetailsView extends DetailsView
 				{
 					try
 					{
-						ImageIcon icon=ImageUtils.loadIcon(file.toURI().toURL());
+						ImageIcon icon=PictureUtils.loadIcon(file.toURI().toURL());
 						imagePanel.setImage(icon);
 						width=icon.getIconWidth();
 						height=icon.getIconHeight();
@@ -346,7 +346,7 @@ public class PictureDetailsView extends DetailsView
 				{
 					String name=FileUtils.getNameWithoutExtension(imageFile);
 					file=new File(imageFile.getParentFile(), name+"_mini.jpg");
-					ImageUtils.convert(imageFile, file);
+					PictureUtils.convert(imageFile, file);
 				}
 			}
 			if (file!=null && file.exists())
@@ -382,7 +382,7 @@ public class PictureDetailsView extends DetailsView
 				{
 					String name=FileUtils.getNameWithoutExtension(imageFile);
 					file=new File(imageFile.getParentFile(), name+"_sb.jpg");
-					ImageUtils.resize(imageFile, 170, -1, file);
+					PictureUtils.resize(imageFile, 170, -1, file);
 				}
 			}
 			if (file!=null && file.exists())

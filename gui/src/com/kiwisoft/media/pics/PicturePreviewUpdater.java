@@ -7,7 +7,6 @@ import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
@@ -37,7 +36,7 @@ public class PicturePreviewUpdater implements LookupSelectionListener
 			{
 				try
 				{
-					preview.setImage(ImageUtils.loadIcon(file.toURI().toURL()));
+					preview.setImage(PictureUtils.loadIcon(file.toURI().toURL()));
 				}
 				catch (Exception e)
 				{

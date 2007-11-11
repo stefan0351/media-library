@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.swing.ImageUtils;
 import com.kiwisoft.swing.progress.Job;
 import com.kiwisoft.swing.progress.ProgressListener;
 import com.kiwisoft.swing.progress.ProgressSupport;
@@ -51,7 +50,7 @@ public class PicturesImport implements Job
 			if (pictures.isEmpty())
 			{
 				progressSupport.info("Importing picture '"+relativePath+"'.");
-				final Dimension imageSize=ImageUtils.getImageSize(imageFile);
+				final Dimension imageSize=PictureUtils.getImageSize(imageFile);
 				if (imageSize!=null)
 				{
 					final Map<String, ImageData> thumbnails=PictureManager.getThumbnails(imageFile);
