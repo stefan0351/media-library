@@ -1,4 +1,4 @@
-<%@ page language="java" %>
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase"%>
 <%@ page import="java.util.Iterator,
 				 java.util.Map,
 				 java.util.TreeMap,
@@ -6,8 +6,9 @@
 				 com.kiwisoft.media.show.Season,
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowInfo"%>
-<%@ page import="com.kiwisoft.utils.StringUtils"%>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
+<%@ page import="com.kiwisoft.media.pics.Picture" %>
 
 <%
 	Show show=(Show)request.getAttribute("show");
@@ -31,11 +32,20 @@
 <table class="menutable">
 <tr><td class="menuheader">Show</td></tr>
 <%
-	String logoPath=show.getLogoMini();
-	if (!StringUtils.isEmpty(logoPath))
+	PictureFile thumbnail=null;
+	Picture logo=show.getLogo();
+	if (logo!=null)
+	{
+		thumbnail=logo.getThumbnailSidebar();
+		if (thumbnail==null && logo.getWidth()<=170) thumbnail=logo;
+	}
+	if (logo!=null)
 	{
 %>
-		<tr><td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=logoPath%>"></td></tr>
+		<tr><td class="menuitem" align="center">
+<%
+			out.println(renderPicture("Logo", logo, thumbnail, null));
+%>
 		<tr><td><hr size=1 color=black></td></tr>
 <%
 	}

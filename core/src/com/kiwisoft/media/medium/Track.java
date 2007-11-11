@@ -15,7 +15,7 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 
-public class Track extends IDObject implements ChainLink
+public class Track extends IDObject implements ChainLink, Recordable
 {
 	public static final String SHOW="show";
 	public static final String EPISODE="episode";
@@ -159,8 +159,13 @@ public class Track extends IDObject implements ChainLink
 
 	public String getName()
 	{
-		StringBuilder name=new StringBuilder();
 		Language language=getLanguage();
+		return getName(language);
+	}
+
+	private String getName(Language language)
+	{
+		StringBuilder name=new StringBuilder();
 		Movie movie=getMovie();
 		if (movie!=null) name.append(movie.getTitle(language));
 		else
@@ -202,5 +207,24 @@ public class Track extends IDObject implements ChainLink
 			if (e1.getSequence()>e2.getSequence()) return 1;
 			return 0;
 		}
+	}
+
+	public int getRecordableLength()
+	{
+		return getLength();
+	}
+
+	public String getRecordableName(Language language)
+	{
+		return getName(language);
+	}
+
+	public void initRecord(Track track)
+	{
+		track.setShow(getShow());
+		track.setEpisode(getEpisode());
+		track.setMovie(getMovie());
+		track.setEvent(getEvent());
+		track.setLongPlay(isLongPlay());
 	}
 }

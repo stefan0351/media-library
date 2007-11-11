@@ -8,6 +8,8 @@ import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.medium.Medium;
 import com.kiwisoft.media.books.Book;
+import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.media.photos.Photo;
 
 public class Navigation
 {
@@ -50,5 +52,10 @@ public class Navigation
 	public static String getLink(Movie movie)
 	{
 		return "/movies/movie.jsp?movie="+movie.getId();
+	}
+
+	public static String getLink(Photo photo)
+	{
+		return "/picture?type=PictureFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
 	}
 }

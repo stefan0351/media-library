@@ -15,37 +15,43 @@ import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.persistence.DBLoader;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MediaView extends ViewPanel
 {
 	private MediumListener mediumListener;
-	private MediumType type;
 	private TableController<Medium> tableController;
+	private JLabel resultLabel;
+	private JTextField searchField;
 
-	public MediaView(MediumType type)
+	public MediaView()
 	{
-		this.type=type;
 	}
 
 	public String getTitle()
 	{
-		return type.getPluralName();
+		return "Media";
 	}
 
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		MediaTableModel tableModel=new MediaTableModel(type);
+		MediaTableModel tableModel=new MediaTableModel();
 		tableController=new TableController<Medium>(tableModel, new DefaultTableConfiguration(MediaTableModel.class))
 		{
 			public List<ContextAction<? super Medium>> getToolBarActions()
 			{
 				List<ContextAction<? super Medium>> actions=new ArrayList<ContextAction<? super Medium>>();
 				actions.add(new MediumDetailsAction());
-				actions.add(new NewMediumAction(type));
+				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(new TracksAction(frame));
 				return actions;
@@ -56,7 +62,7 @@ public class MediaView extends ViewPanel
 				List<ContextAction<? super Medium>> actions=new ArrayList<ContextAction<? super Medium>>();
 				actions.add(new MediumDetailsAction());
 				actions.add(null);
-				actions.add(new NewMediumAction(type));
+				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(null);
 				actions.add(new SetMediumObsoleteAction(frame));
@@ -75,7 +81,17 @@ public class MediaView extends ViewPanel
 		mediumListener=new MediumListener();
 		MediumManager.getInstance().addCollectionChangeListener(mediumListener);
 
-		return tableController.createComponent();
+		searchField=new JTextField();
+		searchField.addActionListener(new SearchActionListener(searchField));
+
+		resultLabel=new JLabel("No search executed.");
+
+		JPanel panel=new JPanel(new BorderLayout(0, 10));
+		panel.add(searchField, BorderLayout.NORTH);
+		panel.add(tableController.createComponent(), BorderLayout.CENTER);
+		panel.add(resultLabel, BorderLayout.SOUTH);
+
+		return panel;
 	}
 
 	protected void installComponentListeners()
@@ -106,30 +122,14 @@ public class MediaView extends ViewPanel
 				{
 					case CollectionChangeEvent.ADDED:
 						Medium newMedium=(Medium) event.getElement();
-						if (newMedium.getType()==type)
-						{
-							MediaTableModel.Row row=new MediaTableModel.Row(newMedium);
-							tableModel.addRow(row);
-						}
+						MediaTableModel.Row row=new MediaTableModel.Row(newMedium);
+						tableModel.addRow(row);
 						break;
 					case CollectionChangeEvent.REMOVED:
 					{
 						int index=tableModel.indexOf(event.getElement());
 						if (index>=0) tableModel.removeRowAt(index);
-					}
-					break;
-					case CollectionChangeEvent.CHANGED:
-					{
-						Medium medium=(Medium) event.getElement();
-						int index=tableModel.indexOf(medium);
-						if (medium.getType()==type)
-						{
-							if (index<0) tableModel.addRow(new MediaTableModel.Row(medium));
-						}
-						else
-						{
-							if (index>=0) tableModel.removeRowAt(index);
-						}
+						break;
 					}
 				}
 			}
@@ -144,15 +144,69 @@ public class MediaView extends ViewPanel
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), MediaView.class);
-		bookmark.setParameter("mediumType", String.valueOf(type.getId()));
+		String searchText=searchField.getText();
+		if (!StringUtils.isEmpty(searchText))
+		{
+			bookmark.setName(getTitle()+": "+searchText);
+			bookmark.setParameter("searchText", searchText);
+		}
 		return bookmark;
 	}
 
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		Long typeId=new Long(bookmark.getParameter("mediumType"));
-		MediumType type=MediumType.get(typeId);
-		frame.setCurrentView(new MediaView(type), true);
+		final MediaView view=new MediaView();
+		final String searchText=bookmark.getParameter("searchText");
+		frame.setCurrentView(view, true);
+		if (!StringUtils.isEmpty(searchText))
+		{
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run()
+				{
+					view.searchField.setText(searchText);
+					view.searchField.postActionEvent();
+				}
+			});
+		}
+	}
+
+	private class SearchActionListener implements ActionListener
+		{
+		private final JTextField searchField;
+
+		public SearchActionListener(JTextField searchField)
+		{
+			this.searchField=searchField;
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			String searchText=searchField.getText();
+
+			Set<Medium> media;
+			if (StringUtils.isEmpty(searchText))
+			{
+				media=MediumManager.getInstance().getAllMedia();
+			}
+			else
+			{
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				media=DBLoader.getInstance().loadSet(Medium.class, null, "name like ? or userkey like ?", searchText, searchText);
+			}
+			SortableTableModel<Medium> tableModel=tableController.getModel();
+			tableModel.clear();
+			List<MediaTableModel.Row> rows=new ArrayList<MediaTableModel.Row>(media.size());
+			for (Medium medium : media) rows.add(new MediaTableModel.Row(medium));
+			tableModel.addRows(rows);
+			tableModel.sort();
+			int rowCount=rows.size();
+			if (rows.isEmpty()) resultLabel.setText("No rows found.");
+			else if (rowCount==1) resultLabel.setText("1 row found.");
+			else if (rowCount>1000) resultLabel.setText("More than 1000 Row(s) found.");
+			else resultLabel.setText(rowCount+" rows found.");
+		}
 	}
 
 }

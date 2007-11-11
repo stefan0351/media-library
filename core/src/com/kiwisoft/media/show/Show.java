@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.dataImport.SearchManager;
 import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.fanfic.FanDom;
@@ -43,6 +44,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String DEFAULT_INFO="defaultInfo";
 	public static final String LINKS="links";
 	public static final String GENRES="genres";
+	public static final String LOGO="logo";
 
 	private static final DBAssociation<Show, Genre> ASSOCIATION_GENRES=DBAssociation.getAssociation(GENRES, Show.class, Genre.class);
 
@@ -56,7 +58,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private Set<Movie> movies;
 	private Set<Season> seasons;
 	private String webDatesFile;
-	private String logoMini;
 	private Set<ShowInfo> infos;
 	private Set<Link> links;
 	private Integer startYear, endYear;
@@ -440,15 +441,14 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setModified();
 	}
 
-	public String getLogoMini()
+	public Picture getLogo()
 	{
-		return logoMini;
+		return (Picture)getReference(LOGO);
 	}
 
-	public void setLogoMini(String logoMini)
+	public void setLogo(Picture logo)
 	{
-		this.logoMini=logoMini;
-		setModified();
+		setReference(LOGO, logo);
 	}
 
 	public ShowInfo getDefaultInfo()

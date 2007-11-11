@@ -31,11 +31,9 @@ public class MediaTableModel extends MutableSortableTableModel<Medium>
 
 	private static final ObjectStyle OBSOLETE_STYLE=new ObjectStyle(new StrikeThroughDecorator(Color.RED));
 
-	public MediaTableModel(MediumType type)
+	public MediaTableModel()
 	{
 		super(new String[]{ID, NAME, TIME_LEFT, STORAGE}, new String[]{TYPE});
-		for (Medium video : MediumManager.getInstance().getMedia(type, false)) addRow(new Row(video));
-		sort();
 	}
 
 	public static class Row extends SortableTableRow<Medium> implements PropertyChangeListener

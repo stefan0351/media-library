@@ -15,6 +15,8 @@
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Images</title>
 <link rel="StyleSheet" type="text/css" href="/style.css">
 <script language="JavaScript" src="/overlib.js"></script>
+<script language="JavaScript" src="/window.js"></script>
+<script language="JavaScript" src="/popup.js"></script>
 </head>
 
 <body>

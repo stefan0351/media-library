@@ -16,6 +16,8 @@ import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureManager;
+import com.kiwisoft.media.pics.PictureDetails;
+import com.kiwisoft.media.pics.PictureUtils;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.dataImport.BookData;
@@ -194,7 +196,7 @@ public class BookDataDetailsView extends DetailsView
 			{
 				File coverFile=new File(coverPath);
 				if (!coverFile.exists()) throw new InvalidDataException("Cover file doesn't exist!", coverFileField);
-				coverSize=ImageUtils.getImageSize(coverFile);
+				coverSize=PictureUtils.getImageSize(coverFile);
 				if (coverSize==null) throw new InvalidDataException("Cover file is no image!", coverFileField);
 				coverPath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(),coverPath);
 			}

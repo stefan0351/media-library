@@ -77,7 +77,7 @@ public class EpisodesView extends ViewPanel
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				actions.add(null);
 				actions.add(new CreateSeasonAction());
-				actions.add(new CreateMediumAction());
+				actions.add(new CreateMediumAction<Episode>());
 				return actions;
 			}
 

@@ -44,9 +44,9 @@ public class MediumDetailsView extends DetailsView
 		new DetailsFrame(new MediumDetailsView(medium)).show();
 	}
 
-	public static void create(MediumType type)
+	public static void create()
 	{
-		new DetailsFrame(new MediumDetailsView(type)).show();
+		new DetailsFrame(new MediumDetailsView()).show();
 	}
 
 	public static void create(List<? extends Recordable> recordables)
@@ -56,7 +56,6 @@ public class MediumDetailsView extends DetailsView
 
 	private Chain<RecordableTableRow> recordables;
 	private Medium video;
-	private MediumType type;
 
 	private JTextField keyField;
 	private JTextField nameField;
@@ -74,6 +73,19 @@ public class MediumDetailsView extends DetailsView
 		createContentPanel();
 		setVideo(null);
 		updateName();
+	}
+
+	private MediumDetailsView(Medium video)
+	{
+		createContentPanel();
+		setVideo(video);
+		if (video!=null) manualName=true;
+	}
+
+	private MediumDetailsView()
+	{
+		createContentPanel();
+		setVideo(null);
 	}
 
 	private void updateName()
@@ -123,20 +135,6 @@ public class MediumDetailsView extends DetailsView
 			}
 			nameField.setText(StringUtils.formatAsEnumeration(names, " / "));
 		}
-	}
-
-	private MediumDetailsView(Medium video)
-	{
-		createContentPanel();
-		setVideo(video);
-		if (video!=null) manualName=true;
-	}
-
-	private MediumDetailsView(MediumType type)
-	{
-		this.type=type;
-		createContentPanel();
-		setVideo(null);
 	}
 
 	protected void createContentPanel()
@@ -220,8 +218,7 @@ public class MediumDetailsView extends DetailsView
 		}
 		else
 		{
-			if (type!=null) typeField.setValue(type);
-			else typeField.setValue(MediumType.DVD);
+			typeField.setValue(MediumType.DVD);
 			lengthField.setEditable(true);
 			remainingField.setEditable(false);
 			lengthField.getDocument().addDocumentListener(new RemainingUpdater());
@@ -252,7 +249,7 @@ public class MediumDetailsView extends DetailsView
 			try
 			{
 				length=Integer.parseInt(lengthField.getText());
-				if (length<=0 || length>500) throw new NumberFormatException();
+				if (length<=0) throw new NumberFormatException();
 			}
 			catch (NumberFormatException e)
 			{
@@ -453,6 +450,7 @@ public class MediumDetailsView extends DetailsView
 			return false;
 		}
 
+		@SuppressWarnings({"unchecked"})
 		public void sort()
 		{
 			Collections.sort(rows, new Chain.ChainComparator());

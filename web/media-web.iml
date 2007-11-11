@@ -84,7 +84,7 @@
     <setting name="SYNC_EXPLODED_DIR" value="false" />
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
-    <setting name="RUN_JASPER_VALIDATION" value="false" />
+    <setting name="RUN_JASPER_VALIDATION" value="true" />
   </component>
   <component name="WebModuleProperties">
     <containerElement type="module" name="media-core">
@@ -115,6 +115,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/fop.jar" />
       <url>jar://$MODULE_DIR$/../lib/fop.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/junit.jar" />
+      <url>jar://$MODULE_DIR$/../lib/junit.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -165,6 +170,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/mysql.jar" />
       <url>jar://$MODULE_DIR$/../lib/mysql.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/poi.jar" />
+      <url>jar://$MODULE_DIR$/../lib/poi.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

@@ -376,6 +376,24 @@ CREATE TABLE map_show_genre (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `media`
+--
+
+DROP TABLE IF EXISTS media;
+CREATE TABLE media (
+  id bigint(20) NOT NULL default '0',
+  userkey int(11) default NULL,
+  `name` varchar(200) default NULL,
+  length int(11) NOT NULL default '0',
+  remaininglength int(11) NOT NULL default '0',
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  type_id bigint(20) default NULL,
+  `storage` varchar(50) default NULL,
+  obsolete tinyint(1) default NULL,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `movies`
 --
 
@@ -516,26 +534,6 @@ CREATE TABLE pictures (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `recordings`
---
-
-DROP TABLE IF EXISTS recordings;
-CREATE TABLE recordings (
-  id bigint(20) NOT NULL default '0',
-  longplay tinyint(1) default NULL,
-  length int(11) default NULL,
-  event varchar(200) default NULL,
-  show_id bigint(20) default NULL,
-  episode_id bigint(20) default NULL,
-  language_id bigint(20) default NULL,
-  video_id bigint(20) default NULL,
-  sequence int(11) default NULL,
-  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  movie_id bigint(20) default NULL,
-  PRIMARY KEY  (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
 -- Table structure for table `searchpatterns`
 --
 
@@ -609,7 +607,7 @@ CREATE TABLE shows (
   webdatesfile varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   language_id bigint(20) default NULL,
-  logo_mini varchar(200) default NULL,
+  logo_id bigint(20) default NULL,
   defaultinfo_id bigint(20) default NULL,
   title varchar(100) NOT NULL,
   start_year int(11) default NULL,
@@ -633,20 +631,22 @@ CREATE TABLE summary (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `videos`
+-- Table structure for table `tracks`
 --
 
-DROP TABLE IF EXISTS videos;
-CREATE TABLE videos (
+DROP TABLE IF EXISTS tracks;
+CREATE TABLE tracks (
   id bigint(20) NOT NULL default '0',
-  userkey int(11) default NULL,
-  `name` varchar(200) default NULL,
-  length int(11) NOT NULL default '0',
-  remaininglength int(11) NOT NULL default '0',
+  longplay tinyint(1) default NULL,
+  length int(11) default NULL,
+  event varchar(200) default NULL,
+  show_id bigint(20) default NULL,
+  episode_id bigint(20) default NULL,
+  language_id bigint(20) default NULL,
+  medium_id bigint(20) NOT NULL,
+  sequence int(11) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  type_id bigint(20) default NULL,
-  `storage` varchar(50) default NULL,
-  obsolete tinyint(1) default NULL,
+  movie_id bigint(20) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -678,4 +678,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-05-30 17:00:27
+-- Dump completed on 2007-11-11 18:19:59

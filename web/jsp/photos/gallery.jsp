@@ -6,6 +6,7 @@
 <%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.Navigation" %>
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <html>
@@ -45,7 +46,7 @@
 						PictureFile thumbnail=photo.getThumbnail();
 			%>
 			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(/clipart/trans10.png);">
-				<a href="/picture?type=PictureFile&id=<%=photo.getOriginalPictureId()%>"><%=renderPicture(thumbnail, null)%></a>
+				<a href="<%=Navigation.getLink(photo)%>"><%=renderPicture(thumbnail, null)%></a>
 			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");

@@ -41,12 +41,12 @@ public class MediumManager
 	{
 	}
 
-	public Collection<Medium> getAllMedia()
+	public Set<Medium> getAllMedia()
 	{
 		return DBLoader.getInstance().loadSet(Medium.class);
 	}
 
-	public Collection<Medium> getMedia(MediumType type, boolean includeObsolete)
+	public Set<Medium> getMedia(MediumType type, boolean includeObsolete)
 	{
 		return DBLoader.getInstance().loadSet(Medium.class, null,
 											  includeObsolete ? "type_id=?" : "type_id=? and ifnull(obsolete, 0)=0",
@@ -145,5 +145,13 @@ public class MediumManager
 	{
 		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+
 																		 " and tracks.episode_id=?", episode.getId());
+	}
+
+	public Set<Track> getMovieTracks()
+	{
+		return DBLoader.getInstance().loadSet(Track.class, "media",
+													 "media.id=tracks.medium_id" +
+													 " and movie_id is not null and media.userkey is not null" +
+													 " and ifnull(media.obsolete, 0)=0");
 	}
 }

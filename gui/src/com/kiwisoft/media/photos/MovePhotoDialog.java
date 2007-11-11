@@ -8,10 +8,10 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import javax.swing.*;
 
-import com.kiwisoft.swing.WindowManager;
 import com.kiwisoft.utils.ListenerSupport;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.format.FormatStringComparator;
+import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.FormatBasedListRenderer;
 import com.kiwisoft.swing.*;
@@ -56,7 +56,7 @@ public class MovePhotoDialog extends JDialog
 		newGalleryField=new JRadioButton();
 		existingGalleryField=new JRadioButton();
 		galleriesField=new JComboBox();
-		galleriesField.setRenderer(new FormatBasedListRenderer());
+		galleriesField.setRenderer(new FormatBasedListRenderer(FormatManager.getInstance()));
 		galleriesField.setEnabled(false);
 		galleryNameField=new JTextField(30);
 		galleryNameField.setEnabled(false);

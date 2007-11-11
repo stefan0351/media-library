@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureManager;
+import com.kiwisoft.media.pics.PictureUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.swing.icons.Icons;
 
@@ -36,6 +37,7 @@ public class PictureServlet extends HttpServlet
 
 	private void process(HttpServletRequest request, HttpServletResponse response)
 	{
+		File rotatedFile=null;
 		try
 		{
 			InputStream inputStream=null;
@@ -44,12 +46,31 @@ public class PictureServlet extends HttpServlet
 			if ("PictureFile".equals(type))
 			{
 				Long id=new Long(request.getParameter("id"));
+				String rotate=request.getParameter("rotate");
 				PictureFile picture=PictureManager.getInstance().getPictureFile(id);
 				File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
 				if (file.exists())
 				{
+					String extension=FileUtils.getExtension(file);
+					if (rotate!=null)
+					{
+						try
+						{
+							int angle=Integer.parseInt(rotate);
+							if (angle!=0)
+							{
+								rotatedFile=File.createTempFile("pic", "."+extension, new File(System.getenv("TEMP")));
+								PictureUtils.rotate(file, angle, rotatedFile);
+								file=rotatedFile;
+							}
+						}
+						catch (NumberFormatException e)
+						{
+							e.printStackTrace();
+						}
+					}
 					inputStream=new FileInputStream(file);
-					contentType="image/"+FileUtils.getExtension(file);
+					contentType="image/"+extension;
 				}
 				else
 				{
@@ -81,6 +102,20 @@ public class PictureServlet extends HttpServlet
 			}
 			catch (Exception e1)
 			{
+			}
+		}
+		finally
+		{
+			if (rotatedFile!=null)
+			{
+				try
+				{
+					rotatedFile.delete();
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

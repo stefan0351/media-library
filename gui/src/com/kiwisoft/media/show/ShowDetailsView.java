@@ -7,7 +7,6 @@ import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -16,22 +15,21 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
 import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.DocumentAdapter;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.actions.MultiContextAction;
-import com.kiwisoft.swing.lookup.DialogLookup;
-import com.kiwisoft.swing.lookup.DialogLookupField;
-import com.kiwisoft.swing.lookup.FileLookup;
-import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.*;
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.ImageUpdater;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsFrame;
@@ -56,9 +54,9 @@ public class ShowDetailsView extends DetailsView
 	private DialogLookupField patternField;
 	private JCheckBox webShowField;
 	private NamesTableModel tmNames;
-	private DialogLookupField tfLogo;
+	private LookupField<Picture> logoField;
 	private TableController<ShowInfo> infosController;
-	private ObjectTableModel genresModel;
+	private ObjectTableModel<Genre> genresModel;
 
 	private ShowDetailsView(Show show)
 	{
@@ -70,9 +68,16 @@ public class ShowDetailsView extends DetailsView
 	{
 		indexByField=new DialogLookupField(new IndexByLookup());
 		keyField=new JTextField();
-		tfLogo=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		ImagePanel imgLogo=new ImagePanel(new Dimension(150, 150));
-		imgLogo.setBorder(new EtchedBorder());
+		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		{
+			@Override
+			public String getDefaultName()
+			{
+				return titleField.getText();
+			}
+		});
+		ImagePanel logoPreview=new ImagePanel(new Dimension(150, 150));
+		logoPreview.setBorder(new EtchedBorder());
 		titleField=new JTextField();
 		germanTitleField=new JTextField();
 		episodeLengthField=new JTextField();
@@ -97,14 +102,14 @@ public class ShowDetailsView extends DetailsView
 				return actions;
 			}
 		};
-		genresModel=new ObjectTableModel("name", Genre.class, null);
+		genresModel=new ObjectTableModel<Genre>("name", Genre.class, null);
 		SortableTable tblGenres=new SortableTable(genresModel);
 		tblGenres.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "genres"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(800, 500));
 		int row=0;
-		add(imgLogo, new GridBagConstraints(0, row, 1, 8, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(logoPreview, new GridBagConstraints(0, row, 1, 8, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(new JLabel("Key:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
 		add(keyField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		row++;
@@ -136,7 +141,7 @@ public class ShowDetailsView extends DetailsView
 		add(new JScrollPane(tblNames), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5,NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Logo:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfLogo, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(logoField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Pages:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(infosController.createComponent(), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
@@ -144,7 +149,7 @@ public class ShowDetailsView extends DetailsView
 		FrameTitleUpdater frameTitleUpdater=new FrameTitleUpdater();
 		titleField.getDocument().addDocumentListener(frameTitleUpdater);
 		germanTitleField.getDocument().addDocumentListener(frameTitleUpdater);
-		new ImageUpdater(tfLogo.getTextField(), imgLogo);
+		new PicturePreviewUpdater(logoField, logoPreview);
 		infosController.installListeners();
 	}
 
@@ -181,12 +186,7 @@ public class ShowDetailsView extends DetailsView
 			}
 			tmNames.sort();
 			languageField.setValue(show.getLanguage());
-			String logoMini=show.getLogoMini();
-			if (!StringUtils.isEmpty(logoMini))
-			{
-				logoMini=new File(MediaConfiguration.getRootPath(), logoMini).getAbsolutePath();
-				tfLogo.setText(logoMini);
-			}
+			logoField.setValue(show.getLogo());
 			WebInfosTableModel<ShowInfo> tmInfos=(WebInfosTableModel<ShowInfo>)infosController.getModel();
 			for (Iterator itInfos=show.getInfos().iterator(); itInfos.hasNext();)
 			{
@@ -253,18 +253,12 @@ public class ShowDetailsView extends DetailsView
 		final String tvtvPattern=patternField.getText();
 		final Map<String, Language> names=tmNames.getNames();
 		final Collection<Genre> genres=genresModel.getObjects();
-		String logoMini=tfLogo.getText();
-		if (!StringUtils.isEmpty(logoMini))
-		{
-			logoMini=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), logoMini);
-			logoMini=StringUtils.replaceStrings(logoMini, "\\", "/");
-		}
-		else logoMini=null;
-		final List<WebInfosTableModel.Row> infoRows=new ArrayList<WebInfosTableModel.Row>();
+		final Picture logo=logoField.getValue();
+		final List<WebInfosTableModel<ShowInfo>.Row> infoRows=new ArrayList<WebInfosTableModel<ShowInfo>.Row>();
 		SortableTableModel<ShowInfo> infosModel=infosController.getModel();
 		for (int i=0; i<infosModel.getRowCount(); i++)
 		{
-			WebInfosTableModel.Row row=(WebInfosTableModel.Row)infosModel.getRow(i);
+			WebInfosTableModel<ShowInfo>.Row row=(WebInfosTableModel.Row)infosModel.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
 			{
 				JOptionPane.showMessageDialog(this, "Name for page is missing!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -288,7 +282,6 @@ public class ShowDetailsView extends DetailsView
 			}
 			infoRows.add(row);
 		}
-		final String logoMini1=logoMini;
 
 		return DBSession.execute(new Transactional()
 		{
@@ -304,7 +297,7 @@ public class ShowDetailsView extends DetailsView
 				show.setWebDatesFile(scheduleFileField.getText());
 				show.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 				show.setLanguage(language);
-				show.setLogoMini(logoMini1);
+				show.setLogo(logo);
 				show.setGenres(genres);
 				for (Name altName : new HashSet<Name>(show.getAltNames()))
 				{
@@ -322,9 +315,9 @@ public class ShowDetailsView extends DetailsView
 					altName.setLanguage(names.get(text));
 				}
 				Set<ShowInfo> removedInfos=new HashSet<ShowInfo>(show.getInfos());
-				for (WebInfosTableModel.Row row : infoRows)
+				for (WebInfosTableModel<ShowInfo>.Row row : infoRows)
 				{
-					ShowInfo info=(ShowInfo)row.getUserObject();
+					ShowInfo info=row.getUserObject();
 					if (info==null)
 					{
 						info=show.createInfo();

@@ -66,6 +66,8 @@ public class TracksView extends ViewPanel
 				actions.add(new NewTrackAction(medium));
 				actions.add(new DeleteTrackAction(frame, medium));
 				actions.add(null);
+				actions.add(new CreateMediumAction<Track>());
+				actions.add(null);
 				actions.add(new ChainMoveUpAction(this, medium.getTracks()));
 				actions.add(new ChainMoveDownAction(this, medium.getTracks()));
 				return actions;

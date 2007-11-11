@@ -24,6 +24,7 @@ public class MediaConfiguration
 	public static final String PATH_BOOKS_COVERS="path.books.covers";
 	public static final String PATH_FANFICS="path.fanfics";
 	public static final String PATH_FANFICS_RECENT="path.fanfics.recent";
+	public static final String PATH_EXPORTS_RECENT="path.exports.recent";
 	public static final String PATH_WEB_RECENT="path.web.recent";
 	public static final String PATH_LOGOS_CHANNELS="path.logos.channels";
 	public static final String PATH_IMAGE_EDITOR="path.image.editor";
@@ -161,5 +162,15 @@ public class MediaConfiguration
 	public static String getWebSchedulePath()
 	{
 		return Configuration.getInstance().getString(PATH_WEB_DATES);
+	}
+
+	public static String getRecentExportPath()
+	{
+		return Configuration.getInstance().getString(PATH_EXPORTS_RECENT);
+	}
+
+	public static void setRecentExportPath(String path)
+	{
+		Configuration.getInstance().setString(PATH_EXPORTS_RECENT, path);
 	}
 }

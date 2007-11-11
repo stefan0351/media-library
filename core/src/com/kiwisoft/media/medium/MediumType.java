@@ -21,7 +21,7 @@ public class MediumType implements Identifyable
 	public static final MediumType DVD=new MediumType(new Long(4), "DVD", "DVD's", "D");
 	public static final MediumType DVD_ORIGINAL=new MediumType(new Long(5), "DVD(O)", "Original DVD's", "D");
 	public static final MediumType DVD_RW=new MediumType(new Long(6), "DVD(RW)", "Rewritable DVD's", "D", true);
-	private String userKeyPrefix;
+	public static final MediumType HDD=new MediumType(new Long(7), "HDD", "Harddisks", "H", true);
 
 	public static MediumType get(Long id)
 	{
@@ -50,6 +50,7 @@ public class MediumType implements Identifyable
 	private String name;
 	private String pluralName;
 	private boolean rewritable;
+	private String userKeyPrefix;
 
 	private MediumType(Long id, String name, String pluralName, String userKeyPrefix)
 	{
