@@ -2,18 +2,18 @@ package com.kiwisoft.media.medium;
 
 import java.io.IOException;
 import java.util.TreeSet;
-import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.media.XMLSource;
 import com.kiwisoft.utils.xml.XMLWriter;
-import com.kiwisoft.persistence.DBLoader;
 
 /**
  * @author Stefan Stiller
  */
 public class MediaByMovieXML implements XMLSource
 {
-	public void createXML(XMLWriter xmlWriter) throws IOException
+	public void createXML(HttpServletRequest request, XMLWriter xmlWriter) throws IOException
 	{
 		TreeSet<Track> records=new TreeSet<Track>(new TracksByTitleComparator());
 		records.addAll(MediumManager.getInstance().getMovieTracks());

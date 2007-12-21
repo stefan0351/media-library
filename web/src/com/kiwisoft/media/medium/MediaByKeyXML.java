@@ -4,6 +4,8 @@ import java.util.TreeSet;
 import java.util.Comparator;
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kiwisoft.media.XMLSource;
 import com.kiwisoft.utils.xml.XMLWriter;
 import com.kiwisoft.persistence.DBLoader;
@@ -14,7 +16,7 @@ import com.kiwisoft.utils.Utils;
  */
 public class MediaByKeyXML implements XMLSource
 {
-	public void createXML(XMLWriter xmlWriter) throws IOException
+	public void createXML(HttpServletRequest request, XMLWriter xmlWriter) throws IOException
 	{
 		TreeSet<Medium> mediums=new TreeSet<Medium>(new MediumComparator());
 		mediums.addAll(DBLoader.getInstance().loadSet(Medium.class, null, "userkey is not null and ifnull(obsolete, 0)=0"));

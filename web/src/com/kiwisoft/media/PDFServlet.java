@@ -44,10 +44,11 @@ public class PDFServlet extends HttpServlet
 			XMLSource xmlSource=(XMLSource)Class.forName(xmlSourceName).newInstance();
 			String xslPath=request.getParameter("xsl");
 			File xslFile=new File(servletContext.getRealPath(xslPath));
-			convertXML2PDF(response, createXML(xmlSource), xslFile);
+			convertXML2PDF(response, createXML(request, xmlSource), xslFile);
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
 			request.setAttribute("error", e);
 			RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/error.jsp");
 			try
@@ -60,12 +61,12 @@ public class PDFServlet extends HttpServlet
 		}
 	}
 
-	private Reader createXML(XMLSource xmlSource) throws IOException
+	private Reader createXML(HttpServletRequest request, XMLSource xmlSource) throws IOException
 	{
 		StringWriter writer=new StringWriter();
 		XMLWriter xmlWriter=new XMLWriter(writer, null);
 		xmlWriter.start();
-		xmlSource.createXML(xmlWriter);
+		xmlSource.createXML(request, xmlWriter);
 		xmlWriter.close();
 		return new StringReader(writer.toString());
 	}
@@ -87,38 +88,9 @@ public class PDFServlet extends HttpServlet
 		// Setup XSLT
 		TransformerFactory factory=TransformerFactory.newInstance();
 		Transformer transformer=factory.newTransformer(new StreamSource(xslt));
-//		transformer.setParameter("versionParam", "2.0");
 
 		// Start XSLT transformation and FOP processing
 		transformer.transform(new StreamSource(xml), new SAXResult(fop.getDefaultHandler()));
-
-//		//Construct driver
-//		Driver driver=new Driver();
-//
-//		//Setup logger
-//		Logger logger=new ConsoleLogger(ConsoleLogger.LEVEL_ERROR);
-//		driver.setLogger(logger);
-//		MessageHandler.setScreenLogger(logger);
-//
-//		//Setup Renderer (output format)
-//		driver.setRenderer(Driver.RENDER_PDF);
-//
-//		//Setup output
-//		OutputStream outputStream=response.getOutputStream();
-//		driver.setOutputStream(outputStream);
-//
-//		//Setup XSLT
-//		TransformerFactory factory=TransformerFactory.newInstance();
-//		Transformer transformer=factory.newTransformer(new StreamSource(xslt));
-//
-//		//Setup input for XSLT transformation
-//		Source src=new StreamSource(xml);
-//
-//		//Resulting SAX events (the generated FO) must be piped through to FOP
-//		Result res=new SAXResult(driver.getContentHandler());
-//
-//		//Start XSLT transformation and FOP processing
-//		transformer.transform(src, res);
 
 		outputStream.flush();
 	}

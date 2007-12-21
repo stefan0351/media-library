@@ -18,95 +18,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/episode.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/episode.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookupField.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookupField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/links.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/links.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/media-web.iml" afterPath="$PROJECT_DIR$/web/media-web.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/gallery.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/gallery.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookup.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediaTableModel.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediaTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressSupport.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressSupport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" />
-      <change type="DELETED" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\table\ChainMoveUpAction.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/structure.sql" afterPath="$PROJECT_DIR$/db/dumps/structure.sql" />
-      <change type="DELETED" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\table\ChainMoveDownAction.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/database/utils-database.iml" afterPath="$PROJECT_DIR$/../utils/database/utils-database.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TracksView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TracksView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDataDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDataDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/ComponentUtils.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/ComponentUtils.java" />
-      <change type="DELETED" beforePath="C:\java\projects\media\gui\src\com\kiwisoft\media\medium\MediaTask.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodesView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodesView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableModel.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoGallery.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoGallery.java" />
-      <change type="MODIFICATION" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\ImageUtils.java" afterPath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\ImageUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByMovieXML.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByMovieXML.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/syntax/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRowEditor.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRowEditor.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/app/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/utils-swing.iml" afterPath="$PROJECT_DIR$/../utils/swing/utils-swing.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/icons/Icons.xml" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/icons/Icons.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/TracksByTitleComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/PictureServlet.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/PictureServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/ExportMediaByTitleAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/media-core.iml" afterPath="$PROJECT_DIR$/core/media-core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/app/utils-app.iml" afterPath="$PROJECT_DIR$/../utils/app/utils-app.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/xml/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTable.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/cfg/utils-cfg.iml" afterPath="$PROJECT_DIR$/../utils/cfg/utils-cfg.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/web/PreformattedHTMLRenderer.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/web/PreformattedHTMLRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/episodes.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/episodes.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturePreviewUpdater.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturePreviewUpdater.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/utils.ipr" afterPath="$PROJECT_DIR$/../utils/utils.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureViewer.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureViewer.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/database/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookup.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookup.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressDialog.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableDialogLookupField.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableDialogLookupField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressSupport.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/progress/ProgressSupport.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/build.xml" afterPath="$PROJECT_DIR$/../utils/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/MovePhotoDialog.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/MovePhotoDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturesImport.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturesImport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureFile.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureFile.java" />
+      <change type="DELETED" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\table\ChainMoveUpAction.java" afterPath="" />
+      <change type="DELETED" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\table\ChainMoveDownAction.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/database/utils-database.iml" afterPath="$PROJECT_DIR$/../utils/database/utils-database.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/DVDCoverXML.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/ComponentUtils.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/ComponentUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.xml" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/icons/Icons.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/web/utils-web.iml" afterPath="$PROJECT_DIR$/../utils/web/utils-web.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/dump.zip" afterPath="$PROJECT_DIR$/db/dumps/dump.zip" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/utils.iws" afterPath="$PROJECT_DIR$/../utils/utils.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableModel.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableModel.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/web/build.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/swing/build.xml" />
+      <change type="MODIFICATION" beforePath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\ImageUtils.java" afterPath="C:\java\projects\utils\swing\src\com\kiwisoft\swing\ImageUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/media/medium.jsp" afterPath="$PROJECT_DIR$/web/jsp/media/medium.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/XMLSource.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/XMLSource.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByKeyXML.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByKeyXML.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/build.bat" afterPath="$PROJECT_DIR$/../utils/build.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoImportJob.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/photos/PhotoImportJob.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" afterPath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureDetails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/MovieData.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/MovieData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByMovieXML.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByMovieXML.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/syntax/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRowEditor.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRowEditor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/jsp/media/dvd_cover.xsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/utils.iml" afterPath="$PROJECT_DIR$/../utils/utils.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookupEditor.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableLookupEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediaView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediaView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MoveTracksAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/media.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/media.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/_show_nav.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/_show_nav.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/app/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableDialogLookupEditor.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/lookup/TableDialogLookupEditor.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/collections/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRow.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTableRow.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MoviesView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MoviesView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/photos/gallery.jsp" afterPath="$PROJECT_DIR$/web/jsp/photos/gallery.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/ThumbnailCreation.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/ThumbnailCreation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/utils-swing.iml" afterPath="$PROJECT_DIR$/../utils/swing/utils-swing.iml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/format/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/app/utils-app.iml" afterPath="$PROJECT_DIR$/../utils/app/utils-app.iml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/cfg/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/NewMediumAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/NewMediumAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/AllMediaTask.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/AllMediaTask.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../utils/xml/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/cfg/utils-cfg.iml" afterPath="$PROJECT_DIR$/../utils/cfg/utils-cfg.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTable.java" afterPath="$PROJECT_DIR$/../utils/swing/src/com/kiwisoft/swing/treetable/TreeTable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/PDFServlet.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/PDFServlet.java" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="true" />
@@ -289,94 +243,94 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="gallery.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/jsp/shows/gallery.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.3845238">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="genre.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/jsp/shows/genre.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.jsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/jsp/shows/index.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="58" selection-start="315" selection-end="315" vertical-scroll-proportion="0.12142857">
+            <state line="6" column="58" selection-start="315" selection-end="315" vertical-scroll-proportion="0.020238096">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PictureServlet.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="PictureServlet.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PictureServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="103" column="86" selection-start="2944" selection-end="2944" vertical-scroll-proportion="0.5030303">
+            <state line="23" column="72" selection-start="699" selection-end="699" vertical-scroll-proportion="0.16190477">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gallery.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/jsp/photos/gallery.jsp">
+      <file leaf-file-name="PDFServlet.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PDFServlet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="37" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.39166668">
+            <state line="56" column="60" selection-start="1771" selection-end="1771" vertical-scroll-proportion="0.37380952">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Navigation.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java">
+      <file leaf-file-name="media.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/jsp/shows/media.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="25" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.9190476">
+            <state line="25" column="57" selection-start="930" selection-end="930" vertical-scroll-proportion="0.28848484">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotoDetailsView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/PhotoDetailsView.java">
+      <file leaf-file-name="medium.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/jsp/media/medium.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="694" selection-end="694" vertical-scroll-proportion="0.08095238">
+            <state line="37" column="12" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.76242423">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotosView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/PhotosView.java">
+      <file leaf-file-name="MediaByKeyXML.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByKeyXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="39" selection-start="2024" selection-end="2024" vertical-scroll-proportion="0.9511905">
+            <state line="16" column="13" selection-start="368" selection-end="368" vertical-scroll-proportion="0.14166667">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShowPhotoAction.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/ShowPhotoAction.java">
+      <file leaf-file-name="DVDCoverXML.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/DVDCoverXML.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="51" selection-start="1029" selection-end="1029" vertical-scroll-proportion="0.46547619">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PictureViewer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureViewer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="1453" selection-end="1507" vertical-scroll-proportion="0.6988095">
+            <state line="6" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.12142857">
               <folding>
-                <element signature="class#1357:1450" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mediaByKey.xsl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/jsp/media/mediaByKey.xsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="83" column="0" selection-start="2925" selection-end="2925" vertical-scroll-proportion="0.81454545">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dvd_cover.xsl" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/jsp/media/dvd_cover.xsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="65" selection-start="958" selection-end="958" vertical-scroll-proportion="0.4121212">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_media_nav.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/jsp/media/_media_nav.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="55" selection-start="299" selection-end="387" vertical-scroll-proportion="0.3642857">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -394,8 +348,9 @@
     <option name="HIDE_CLASSES_WHERE_METHOD_NOT_IMPLEMENTED" value="false" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/web/jsp/media/mediaByMovie.xsl" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/web/jsp/media/mediaByKey.xsl" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/web/jsp/media/mediaByMovie.xsl" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/web/jsp/media/dvd_cover.xsl" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="InspectionManager">
     <option name="AUTOSCROLL_TO_SOURCE" value="false" />
@@ -632,29 +587,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\jsp\shows" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="media.ipr" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="media-web" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\jsp" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\jsp\photos" />
+          <option name="myItemId" value="PsiDirectory:C:\java\projects\media\web\jsp\media" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -989,7 +922,7 @@
       <showLibraryContents PackagesPane="true" />
       <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure Scope="false" ProjectPane="false" J2EEPane="false" PackagesPane="false" Favorites="false" />
+      <showStructure Favorites="false" ProjectPane="false" Scope="false" J2EEPane="false" PackagesPane="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -1003,11 +936,11 @@
     <property name="cvs_file_history_flatWidth2" value="294" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="vcs_file_view_flatWidth2" value="218" />
     <property name="cvs_file_history_flatWidth1" value="295" />
+    <property name="vcs_file_view_flatWidth2" value="218" />
     <property name="vcs_file_view_flatWidth5" value="145" />
-    <property name="vcs_file_view_flatOrder3" value="3" />
     <property name="cvs_file_history_flatOrder2" value="2" />
+    <property name="vcs_file_view_flatOrder3" value="3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatWidth4" value="169" />
     <property name="vcs_file_view_treeWidth0" value="371" />
@@ -1098,7 +1031,7 @@
   <component name="ResourceEditor" />
   <component name="ResourceGroupPanel.TableConfiguration" />
   <component name="RestoreUpdateTree" />
-  <component name="RunManager" selected="Application.MediaManager">
+  <component name="RunManager" selected="Tomcat Server.Web Application">
     <tempConfiguration default="false" name="IMDbComLoader" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataImport.IMDbComLoader" />
       <option name="VM_PARAMETERS" value="" />
@@ -1120,47 +1053,24 @@
         <option name="Make" value="true" />
       </method>
     </tempConfiguration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../intellij/963/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CONTEXT_PATH" value="/" />
-        <option name="MODULE_NAME" value="media-web" />
-        <option name="DEPLOY" value="false" />
-      </J2EE_MODULE>
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" />
@@ -1188,24 +1098,30 @@
       <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
       <option name="LOCAL_PORT" value="80" />
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+    <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../intellij/963/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <method>
-        <option name="Make" value="true" />
-      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -1222,6 +1138,23 @@
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CONTEXT_PATH" value="/" />
+        <option name="MODULE_NAME" value="media-web" />
+        <option name="DEPLOY" value="false" />
+      </J2EE_MODULE>
       <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
       <option name="BASE_DIRECTORY_NAME" value="" />
       <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
@@ -1430,7 +1363,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24898621" order="2" />
       <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.42135477" order="8" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39494833" order="4" />
-      <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" order="8" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5459705" order="8" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" order="0" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.543554" order="8" />
@@ -1448,12 +1380,13 @@
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46715328" order="1" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" order="5" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7340425" order="7" />
       <window_info id="ModuleGraph" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.645857" order="8" />
+      <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="3" />
       <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -1569,72 +1502,23 @@
     <option name="myLastEditedConfigurable" value="EditorHightlightingSettings" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/_show_nav.jsp">
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="14" selection-start="506" selection-end="506" vertical-scroll-proportion="0.26309523">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/episodes.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="867" selection-end="867" vertical-scroll-proportion="0.44523808">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/links.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="779" selection-end="779" vertical-scroll-proportion="0.425">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/media.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="49" selection-start="835" selection-end="835" vertical-scroll-proportion="0.4739394">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/cast.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="93" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.5769697">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/gallery.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.3845238">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/genre.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/shows/index.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="58" selection-start="315" selection-end="315" vertical-scroll-proportion="0.12142857">
+        <state line="58" column="25" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.85">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/PhotoDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="694" selection-end="694" vertical-scroll-proportion="0.08095238">
+        <state line="22" column="13" selection-start="694" selection-end="694" vertical-scroll-proportion="0.020238096">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/PhotosView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="39" selection-start="2024" selection-end="2024" vertical-scroll-proportion="0.9511905">
+        <state line="64" column="39" selection-start="2024" selection-end="2024" vertical-scroll-proportion="0.020238096">
           <folding />
         </state>
       </provider>
@@ -1648,30 +1532,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureViewer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="1453" selection-end="1507" vertical-scroll-proportion="0.6988095">
-          <folding>
-            <element signature="class#1357:1450" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="25" selection-start="1403" selection-end="1403" vertical-scroll-proportion="0.9190476">
+        <state line="64" column="0" selection-start="1453" selection-end="1507" vertical-scroll-proportion="0.44523808">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/photos/gallery.jsp">
+    <entry file="file://$PROJECT_DIR$/web/jsp/shows/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="37" selection-start="1702" selection-end="1702" vertical-scroll-proportion="0.39166668">
+        <state line="6" column="58" selection-start="315" selection-end="315" vertical-scroll-proportion="0.020238096">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PictureServlet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="86" selection-start="2944" selection-end="2944" vertical-scroll-proportion="0.5030303">
+        <state line="23" column="72" selection-start="699" selection-end="699" vertical-scroll-proportion="0.16190477">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/shows/media.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="57" selection-start="930" selection-end="930" vertical-scroll-proportion="0.28848484">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/media/_media_nav.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="55" selection-start="299" selection-end="387" vertical-scroll-proportion="0.3642857">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/MediaByKeyXML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="13" selection-start="368" selection-end="368" vertical-scroll-proportion="0.14166667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/media/medium.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="12" selection-start="1358" selection-end="1358" vertical-scroll-proportion="0.76242423">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/PDFServlet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="60" selection-start="1771" selection-end="1771" vertical-scroll-proportion="0.37380952">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/medium/DVDCoverXML.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="148" selection-end="148" vertical-scroll-proportion="0.12142857">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/media/mediaByKey.xsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="0" selection-start="2925" selection-end="2925" vertical-scroll-proportion="0.81454545">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/jsp/media/dvd_cover.xsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="65" selection-start="958" selection-end="958" vertical-scroll-proportion="0.4121212">
           <folding />
         </state>
       </provider>
