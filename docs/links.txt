@@ -1,0 +1,8 @@
+Links
+-----
+
+Import Link
+	javascript:window.location=%22http://localhost:8080/add_link.jsp?name=%22+document.title+%22&url=%22+encodeURI(document.URL)
+
+Import von IMDb
+	javascript:window.location=%22http://localhost:8080/import_imdb?url=%22+encodeURI(document.URL)

@@ -9,20 +9,18 @@
 	<!-- Application Directories -->
 
 	<property name="sources" value="${basedir}/src"/>
-	<property name="lib" value="${basedir}/lib"/>
+	<property name="lib.dir" value="${basedir}/lib"/>
 	<property name="webapp" value="d:/Webpages/local"/>
 	<property name="webapp.classes" value="${webapp}/WEB-INF/classes"/>
 	<property name="webapp.lib" value="${webapp}/WEB-INF/lib"/>
 	<property name="jsp.sources" value="${basedir}/pages"/>
-	<property name="utils.sources" value="d:/Java/utils/src"/>
-	<property name="utils.lib" value="d:/Java/utils/lib"/>
+	<property name="utils.builds" value="d:/Projects/Java/utils/builds"/>
 
 	<path id="classpath">
-		<pathelement location="${lib}/xerces.jar"/>
-		<pathelement location="${lib}/struts.jar "/>
-		<pathelement location="${lib}/tiles.jar"/>
-		<pathelement location="${lib}/servlet.jar"/>
-		<pathelement location="${utils.lib}/junit.jar"/>
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+			<exclude name="*src.jar"/>
+		</fileset>
 	</path>
 
 	<target name="prepare">
@@ -37,9 +35,6 @@
 	</target>
 
 	<target name="compile" depends="prepare">
-		<javac srcdir="${utils.sources}" destdir="${webapp.classes}" deprecation="off">
-			<classpath refid="classpath"/>
-		</javac>
 		<javac srcdir="${sources}" destdir="${webapp.classes}" deprecation="off">
 			<classpath refid="classpath"/>
 		</javac>
@@ -80,6 +75,16 @@
 		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/structure.sql">
 			<arg line="--user=stefan --password=${password} --no-data --skip-quote-names --routines media"/>
 		</exec>
+	</target>
+
+	<target name="refresh_utils">
+		<copy todir="${lib.dir}" preservelastmodified="true">
+			<fileset dir="${utils.builds}">
+				<include name="*.jar"/>
+				<exclude name="*math*.jar"/>
+				<exclude name="*syntax*.jar"/>
+			</fileset>
+		</copy>
 	</target>
 
 </project>

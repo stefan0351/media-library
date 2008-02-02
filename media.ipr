@@ -41,6 +41,7 @@
       <entry name="?*.png" />
       <entry name="?*.jpeg" />
       <entry name="?*.jpg" />
+      <entry name="?*.odtt" />
     </wildcardResourcePatterns>
   </component>
   <component name="DataSourceManager" />
