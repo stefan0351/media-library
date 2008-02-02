@@ -14,7 +14,7 @@ import java.util.Set;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.person.CastMember;
-import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
@@ -295,9 +295,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return DBLoader.getInstance().load(Summary.class, null, "episode_id=? and language_id=?", getId(), language.getId());
 	}
 
-	public Set<CrewMember> getCrewMembers(CreditType type)
+	public Set<Credit> getCredits(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
+		return DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
 	public Set<CastMember> getCastMembers(CreditType type)
@@ -327,7 +327,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		for (Name name : new HashSet<Name>(getAltNames())) dropAltName(name);
 		for (Summary summary : DBLoader.getInstance().loadSet(Summary.class, null, "episode_id=?", getId())) summary.delete();
 		for (CastMember castMember : DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=?", getId())) castMember.delete();
-		for (CrewMember crewMember : DBLoader.getInstance().loadSet(CrewMember.class, null, "episode_id=?", getId())) crewMember.delete();
+		for (Credit crewMember : DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=?", getId())) crewMember.delete();
 		super.delete();
 	}
 

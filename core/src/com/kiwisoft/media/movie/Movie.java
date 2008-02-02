@@ -18,7 +18,7 @@ import com.kiwisoft.media.*;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
-import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.persistence.DBDummy;
@@ -365,9 +365,9 @@ public class Movie extends IDObject implements Recordable, Production
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=?", getId());
 	}
 
-	public Set<CrewMember> getCrewMembers()
+	public Set<Credit> getCrewMembers()
 	{
-		return DBLoader.getInstance().loadSet(CrewMember.class, null, "movie_id=?", getId());
+		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=?", getId());
 	}
 
 	public int getRecordableLength()
@@ -385,9 +385,9 @@ public class Movie extends IDObject implements Recordable, Production
 		track.setMovie(this);
 	}
 
-	public Set<CrewMember> getCrewMembers(CreditType type)
+	public Set<Credit> getCredits(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CrewMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
 	public Set<CastMember> getCastMembers(CreditType type)

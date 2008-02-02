@@ -190,7 +190,7 @@
 					boolean first=true;
 					for (Iterator itRoles=mainCredits.iterator(); itRoles.hasNext();)
 					{
-						CrewMember crewMember=(CrewMember)itRoles.next();
+						Credit crewMember=(Credit)itRoles.next();
 						if (!StringUtils.isEmpty(crewMember.getSubType()))
 						{
 							if (first) out.print(" (");
@@ -221,7 +221,7 @@
 							boolean first=true;
 							for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
 							{
-								CrewMember crewMember=(CrewMember)itRoles.next();
+								Credit crewMember=(Credit)itRoles.next();
 								if (!StringUtils.isEmpty(crewMember.getSubType()))
 								{
 									if (first) out.print(" (");

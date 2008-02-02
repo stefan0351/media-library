@@ -211,13 +211,13 @@ public class Person extends IDObject
 		return credits;
 	}
 
-	public Map<CreditType, Credits<CrewMember>> getCrewCredits()
+	public Map<CreditType, Credits<Credit>> getCrewCredits()
 	{
-		Map<CreditType, Credits<CrewMember>> creditMap=new HashMap<CreditType, Credits<CrewMember>>();
-		for (CrewMember crewMember : DBLoader.getInstance().loadSet(CrewMember.class, null, "person_id=?", getId()))
+		Map<CreditType, Credits<Credit>> creditMap=new HashMap<CreditType, Credits<Credit>>();
+		for (Credit crewMember : DBLoader.getInstance().loadSet(Credit.class, null, "person_id=?", getId()))
 		{
-			Credits<CrewMember> credits=creditMap.get(crewMember.getCreditType());
-			if (credits==null) creditMap.put(crewMember.getCreditType(), credits=new Credits<CrewMember>());
+			Credits<Credit> credits=creditMap.get(crewMember.getCreditType());
+			if (credits==null) creditMap.put(crewMember.getCreditType(), credits=new Credits<Credit>());
 			Movie movie=crewMember.getMovie();
 			if (movie!=null)
 			{

@@ -5,7 +5,7 @@
 				 org.apache.commons.lang.StringEscapeUtils,
 				 com.kiwisoft.media.*" %>
 <%@ page import="com.kiwisoft.media.person.CastMember" %>
-<%@ page import="com.kiwisoft.media.person.CrewMember" %>
+<%@ page import="com.kiwisoft.media.person.Credit" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.media.show.Episode" %>
 <%@ page import="com.kiwisoft.media.show.Show" %>
@@ -185,8 +185,8 @@
 </table>
 <%
 
-	Set writers=episode.getCrewMembers(CreditType.WRITER);
-	Set directors=episode.getCrewMembers(CreditType.DIRECTOR);
+	Set writers=episode.getCredits(CreditType.WRITER);
+	Set directors=episode.getCredits(CreditType.DIRECTOR);
 	Set mainCast=episode.getCastMembers(CreditType.MAIN_CAST);
 	Set recurringCast=episode.getCastMembers(CreditType.RECURRING_CAST);
 	Set guestCast=episode.getCastMembers(CreditType.GUEST_CAST);
@@ -210,7 +210,7 @@
 		<%
 			for (Iterator it=writers.iterator(); it.hasNext();)
 			{
-				CrewMember crew=(CrewMember)it.next();
+				Credit crew=(Credit)it.next();
 				out.print(JspUtils.render(crew.getPerson()));
 				if (!StringUtils.isEmpty(crew.getSubType())) out.print(" ("+crew.getSubType()+")");
 				if (it.hasNext()) out.println(",");
@@ -228,7 +228,7 @@
 		<%
 			for (Iterator it=directors.iterator(); it.hasNext();)
 			{
-				CrewMember crew=(CrewMember)it.next();
+				Credit crew=(Credit)it.next();
 				out.print(JspUtils.render(crew.getPerson()));
 				if (it.hasNext()) out.println(",");
 			}

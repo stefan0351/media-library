@@ -45,13 +45,13 @@ public abstract class CreateMovieTx implements Transactional
 		if (movie.getCountries().isEmpty()) movie.setCountries(movieData.getCountries());
 
 		Set<CrewData> crew=new HashSet<CrewData>();
-		for (CrewMember crewMember : movie.getCrewMembers()) crew.add(new CrewData(crewMember));
+		for (Credit crewMember : movie.getCrewMembers()) crew.add(new CrewData(crewMember));
 		for (CrewData crewData : movieData.getCrew())
 		{
 			if (!crew.contains(crewData))
 			{
 				Person person=getPerson(persons, crewData.getImdbKey(), crewData.getName());
-				CrewMember crewMember=new CrewMember();
+				Credit crewMember=new Credit();
 				crewMember.setMovie(movie);
 				crewMember.setPerson(person);
 				crewMember.setCreditType(crewData.getType());

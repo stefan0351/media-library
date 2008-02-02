@@ -1,6 +1,6 @@
 package com.kiwisoft.media.dataImport;
 
-import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.Person;
 
@@ -11,7 +11,7 @@ public class CrewData
 	private String subType;
 	private String imdbKey;
 
-	public CrewData(CrewMember crewMember)
+	public CrewData(Credit crewMember)
 	{
 		Person person=crewMember.getPerson();
 		name=person.getName();

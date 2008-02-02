@@ -5,7 +5,7 @@
 <%@ page import="com.kiwisoft.media.movie.Movie" %>
 <%@ page import="com.kiwisoft.media.movie.MovieManager" %>
 <%@ page import="com.kiwisoft.media.person.CastMember" %>
-<%@ page import="com.kiwisoft.media.person.CrewMember" %>
+<%@ page import="com.kiwisoft.media.person.Credit" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.collection.SortedSetMap" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
@@ -199,20 +199,7 @@
 	List cast=new ArrayList(movie.getCastMembers());
 	if (!cast.isEmpty())
 	{
-		Collections.sort(cast, new Comparator()
-		{
-			public int compare(Object o1, Object o2)
-			{
-				CastMember castMember1=(CastMember)o1;
-				CastMember castMember2=(CastMember)o2;
-				Integer creditOrder2=castMember2.getCreditOrder();
-				Integer creditOrder1=castMember1.getCreditOrder();
-				if (creditOrder1!=null && creditOrder2!=null) return creditOrder1.compareTo(creditOrder2);
-				else if (creditOrder1!=null) return -1;
-				else if (creditOrder2!=null) return 1;
-				return castMember1.getActor().getName().compareToIgnoreCase(castMember2.getActor().getName());
-			}
-		});
+		Collections.sort(cast, new CastMember.CreditComparator());
 %>
 <a name="cast"></a>
 <table class="contenttable" width="790">
@@ -253,14 +240,14 @@
 		{
 			public int compare(Object o1, Object o2)
 			{
-				CrewMember crewMember1=(CrewMember)o1;
-				CrewMember crewMember2=(CrewMember)o2;
+				Credit crewMember1=(Credit)o1;
+				Credit crewMember2=(Credit)o2;
 				return crewMember1.getPerson().getName().compareToIgnoreCase(crewMember2.getPerson().getName());
 			}
 		});
 		for (Iterator it=crew.iterator(); it.hasNext();)
 		{
-			CrewMember crewMember=(CrewMember)it.next();
+			Credit crewMember=(Credit)it.next();
 			sortedCrew.add(crewMember.getCreditType(), crewMember);
 		}
 %>
@@ -283,7 +270,7 @@
 				<%
 					for (Iterator it2=sortedCrew.get(type).iterator(); it2.hasNext();)
 					{
-						CrewMember crewMember=(CrewMember)it2.next();
+						Credit crewMember=(Credit)it2.next();
 						out.print(JspUtils.render(crewMember.getPerson()));
 						if (!StringUtils.isEmpty(crewMember.getSubType()))
 						{
