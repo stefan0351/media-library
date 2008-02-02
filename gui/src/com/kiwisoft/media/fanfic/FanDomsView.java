@@ -50,9 +50,9 @@ public class FanDomsView extends ViewPanel implements Disposable
 		tableController=new TableController<FanDom>(tableModel, new DefaultTableConfiguration(FanDomsView.class, "domains"))
 		{
 			@Override
-			public List<ContextAction<? super FanDom>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super FanDom>> actions=new ArrayList<ContextAction<? super FanDom>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new DomainDetailsAction());
 				actions.add(new NewDomainAction());
 				actions.add(new DeleteDomainAction(frame));
@@ -61,9 +61,9 @@ public class FanDomsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public List<ContextAction<? super FanDom>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super FanDom>> actions=new ArrayList<ContextAction<? super FanDom>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new DomainDetailsAction());
 				actions.add(null);
 				actions.add(new NewDomainAction());
@@ -74,9 +74,9 @@ public class FanDomsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public ContextAction<FanDom> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
-				return new FanFicsAction<FanDom>(frame);
+				return new FanFicsAction(frame);
 			}
 
 		};

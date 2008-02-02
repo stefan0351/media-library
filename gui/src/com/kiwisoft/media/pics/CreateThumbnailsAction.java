@@ -9,7 +9,7 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class CreateThumbnailsAction extends ContextAction<Picture>
+public class CreateThumbnailsAction extends ContextAction
 {
 	private ApplicationFrame frame;
 

@@ -9,13 +9,13 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
 
-public class TVComLoaderAction extends SimpleContextAction<Show>
+public class TVComLoaderAction extends SimpleContextAction
 {
 	private JFrame parent;
 
 	public TVComLoaderAction(JFrame frame)
 	{
-		super("Load Episodes from TV.com");
+		super(Show.class, "Load Episodes from TV.com");
 		parent=frame;
 	}
 
@@ -23,7 +23,7 @@ public class TVComLoaderAction extends SimpleContextAction<Show>
 	{
 		Configuration configurator=Configuration.getInstance();
 		String url=configurator.getString("TVCom.url", "");
-		Show show=getObject();
+		Show show=(Show)getObject();
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, url);
 		dialog.setVisible(true);
 		if (dialog.isOk())

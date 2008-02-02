@@ -6,21 +6,17 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 15:06:01
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
-public class FanFicDetailsAction extends SimpleContextAction<FanFic>
+public class FanFicDetailsAction extends SimpleContextAction
 {
 	public FanFicDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(FanFic.class, "Details", Icons.getIcon("details"));
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		FanFicDetailsView.create(getObject());
+		FanFicDetailsView.create((FanFic)getObject());
 	}
 }

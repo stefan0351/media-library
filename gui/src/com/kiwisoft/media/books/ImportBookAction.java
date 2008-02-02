@@ -12,7 +12,7 @@ import com.kiwisoft.swing.actions.ContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ImportBookAction extends ContextAction<Book>
+public class ImportBookAction extends ContextAction
 {
 	private ApplicationFrame frame;
 

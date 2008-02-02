@@ -14,19 +14,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteFanFicAction extends SimpleContextAction<FanFic>
+public class DeleteFanFicAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteFanFicAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(FanFic.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		FanFic fanFic=getObject();
+		FanFic fanFic=(FanFic)getObject();
 		if (fanFic.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame, "FanFic '"+fanFic.getTitle()+"' can't be deleted.", "Message",

@@ -23,7 +23,7 @@ public class PhotosView extends ViewPanel
 {
 	private PhotoGallery photoGallery;
 	private ThumbnailPanel thumbnailPanel;
-	private List<ContextAction<? super Photo>> toolBarActions;
+	private List<ContextAction> toolBarActions;
 
 	public PhotosView(PhotoGallery photoGallery)
 	{
@@ -58,12 +58,12 @@ public class PhotosView extends ViewPanel
 
 	protected JToolBar createToolBar(ApplicationFrame frame)
 	{
-		toolBarActions=new ArrayList<ContextAction<? super Photo>>(2);
+		toolBarActions=new ArrayList<ContextAction>(2);
 		toolBarActions.add(new PhotoDetailsAction());
 		toolBarActions.add(new AddPhotoAction(frame, photoGallery));
 		toolBarActions.add(new DeletePhotoAction(frame));
 		toolBarActions.add(new ShowPhotoAction(frame));
-		ComplexAction<Photo> rotateAction=new ComplexAction<Photo>("Rotate", Icons.getIcon("rotate"));
+		ComplexAction rotateAction=new ComplexAction("Rotate", Icons.getIcon("rotate"));
 		rotateAction.addAction(new RotatePhotoAction(frame, 90));
 		rotateAction.addAction(new RotatePhotoAction(frame, 180));
 		rotateAction.addAction(new RotatePhotoAction(frame, -90));
@@ -141,7 +141,7 @@ public class PhotosView extends ViewPanel
 				{
 					photos.add(thumbnail.getPhoto());
 				}
-				for (ContextAction<? super Photo> action : toolBarActions) action.update(photos);
+				for (ContextAction action : toolBarActions) action.update(photos);
 			}
 		}
 	}

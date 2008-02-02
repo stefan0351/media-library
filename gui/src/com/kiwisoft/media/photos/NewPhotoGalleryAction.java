@@ -8,7 +8,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewPhotoGalleryAction extends ContextAction<PhotoGallery>
+public class NewPhotoGalleryAction extends ContextAction
 {
 	public NewPhotoGalleryAction()
 	{

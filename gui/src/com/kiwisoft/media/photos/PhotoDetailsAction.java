@@ -8,15 +8,15 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class PhotoDetailsAction extends SimpleContextAction<Photo>
+public class PhotoDetailsAction extends SimpleContextAction
 {
 	public PhotoDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Photo.class, "Details", Icons.getIcon("details"));
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		PhotoDetailsView.create(getObject());
+		PhotoDetailsView.create((Photo)getObject());
 	}
 }

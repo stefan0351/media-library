@@ -14,19 +14,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteChannelAction extends SimpleContextAction<Channel>
+public class DeleteChannelAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteChannelAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Channel.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		Channel channel=getObject();
+		Channel channel=(Channel)getObject();
 		if (channel.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame, "The channel '"+channel.getName()+"' can't be deleted.", "Message",

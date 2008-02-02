@@ -10,7 +10,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewAirdateAction extends ContextAction<Airdate>
+public class NewAirdateAction extends ContextAction
 {
 	public NewAirdateAction()
 	{

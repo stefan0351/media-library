@@ -14,13 +14,13 @@ import com.kiwisoft.swing.actions.MultiContextAction;
 /**
  * @author Stefan Stiller
  */
-public class DeleteSeasonAction extends MultiContextAction<Season>
+public class DeleteSeasonAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteSeasonAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Season.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 

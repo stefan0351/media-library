@@ -16,13 +16,13 @@ import com.kiwisoft.swing.actions.MultiContextAction;
 /**
  * @author Stefan Stiller
  */
-public class DeleteAirdateAction extends MultiContextAction<Airdate>
+public class DeleteAirdateAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteAirdateAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Airdate.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 

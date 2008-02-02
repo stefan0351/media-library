@@ -54,9 +54,9 @@ public class ShowsView extends ViewPanel
 
 		tableController=new TableController<Show>(tmShows, new DefaultTableConfiguration(ShowsView.class, "shows"))
 		{
-			public List<ContextAction<? super Show>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Show>> actions=new ArrayList<ContextAction<? super Show>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ShowDetailsAction());
 				actions.add(new NewShowAction());
 				actions.add(new DeleteShowAction(frame));
@@ -65,16 +65,16 @@ public class ShowsView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<? super Show>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				ComplexAction<Show> downloadAction=new ComplexAction<Show>("Download");
+				ComplexAction downloadAction=new ComplexAction("Download");
 				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
-				downloadAction.addAction(new TVTVDeLoaderContextAction<Show>(frame));
+				downloadAction.addAction(new TVTVDeLoaderContextAction(frame));
 				downloadAction.addSeparator();
 				downloadAction.addAction(new TVComLoaderAction(frame));
 				downloadAction.addAction(new SerienJunkiesDeLoaderAction(frame));
 
-				List<ContextAction<? super Show>> actions=new ArrayList<ContextAction<? super Show>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ShowDetailsAction());
 				actions.add(null);
 				actions.add(new NewShowAction());
@@ -91,7 +91,7 @@ public class ShowsView extends ViewPanel
 				return actions;
 			}
 
-			public ContextAction<Show> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new ShowEpisodesAction(frame);
 			}

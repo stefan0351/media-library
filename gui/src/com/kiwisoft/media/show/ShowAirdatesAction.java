@@ -10,18 +10,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowAirdatesAction extends SimpleContextAction<Show>
+public class ShowAirdatesAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowAirdatesAction(ApplicationFrame frame)
 	{
-		super("Schedule", Icons.getIcon("schedule"));
+		super(Show.class, "Schedule", Icons.getIcon("schedule"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ScheduleView(getObject()), true);
+		frame.setCurrentView(new ScheduleView((Show)getObject()), true);
 	}
 }

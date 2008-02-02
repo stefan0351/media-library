@@ -32,9 +32,9 @@ public class PhotoGalleriesView extends ViewPanel
 		PhotoGalleriesTableModel tableModel=new PhotoGalleriesTableModel();
 		tableController=new TableController<PhotoGallery>(tableModel, new DefaultTableConfiguration(PhotoGalleriesTableModel.class))
 		{
-			public List<ContextAction<? super PhotoGallery>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super PhotoGallery>> actions=new ArrayList<ContextAction<? super PhotoGallery>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PhotoGalleryDetailsAction());
 				actions.add(new NewPhotoGalleryAction());
 				actions.add(new DeletePhotoGalleryAction(frame));
@@ -42,9 +42,9 @@ public class PhotoGalleriesView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<? super PhotoGallery>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super PhotoGallery>> actions=new ArrayList<ContextAction<? super PhotoGallery>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PhotoGalleryDetailsAction());
 				actions.add(null);
 				actions.add(new NewPhotoGalleryAction());
@@ -54,7 +54,7 @@ public class PhotoGalleriesView extends ViewPanel
 				return actions;
 			}
 
-			public ContextAction<? super PhotoGallery> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new PhotosAction(frame);
 			}

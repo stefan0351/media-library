@@ -69,7 +69,7 @@ public class PictureDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		nameField=new JTextField(40);
-		imageField=new ImageField("Original", new Dimension(250, 250));
+		imageField=new ImageField("Original", new Dimension(250, 250), new EditAction());
 		thumbnail50x50Field=new ImageField("50x50", new Dimension(50, 50), new EditThumbnail50x50Action());
 		thumbnailSidebarField=new ImageField("SideBar", new Dimension(170, 170), new CreateThumbnailSideBarAction());
 
@@ -329,13 +329,8 @@ public class PictureDetailsView extends DetailsView
 		}
 	}
 
-	public class EditThumbnail50x50Action extends AbstractAction
+	public class EditThumbnail50x50Action extends EditAction
 	{
-		public EditThumbnail50x50Action()
-		{
-			super("Edit", Icons.getIcon("edit"));
-		}
-
 		public void actionPerformed(ActionEvent e)
 		{
 			File file=thumbnail50x50Field.getFile();
@@ -349,16 +344,35 @@ public class PictureDetailsView extends DetailsView
 					PictureUtils.convert(imageFile, file);
 				}
 			}
+			edit(thumbnail50x50Field, file);
+		}
+
+	}
+
+	protected class EditAction extends AbstractAction
+	{
+		public EditAction()
+		{
+			super("Edit", Icons.getIcon("edit"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			edit(imageField, imageField.getFile());
+		}
+
+		protected void edit(ImageField imageField, File file)
+		{
 			if (file!=null && file.exists())
 			{
 				try
 				{
 					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+file.getAbsolutePath()+"\"", null, null);
-					thumbnail50x50Field.setFile(file);
+					imageField.setFile(file);
 				}
 				catch (Exception e1)
 				{
-					GuiUtils.handleThrowable(thumbnail50x50Field, e1);
+					GuiUtils.handleThrowable(imageField, e1);
 				}
 			}
 		}

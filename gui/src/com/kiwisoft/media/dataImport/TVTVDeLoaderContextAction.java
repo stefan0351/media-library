@@ -10,19 +10,27 @@ import java.awt.event.ActionEvent;
 
 import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.person.Person;
 
-public class TVTVDeLoaderContextAction<T> extends MultiContextAction<T>
+public class TVTVDeLoaderContextAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public TVTVDeLoaderContextAction(ApplicationFrame frame)
 	{
-		super("Load Schedule from TVTV.de");
+		super(Object.class, "Load Schedule from TVTV.de");
 		this.frame=frame;
+	}
+
+	@Override
+	protected boolean isValid(Object object)
+	{
+		return object instanceof Show || object instanceof Person;
 	}
 
 	public void actionPerformed(final ActionEvent anEvent)
 	{
-		new TVTVDeLoaderDialog<T>(frame, getObjects()).setVisible(true);
+		new TVTVDeLoaderDialog(frame, getObjects()).setVisible(true);
 	}
 }

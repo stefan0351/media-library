@@ -1,20 +1,18 @@
 package com.kiwisoft.media.show;
 
-import com.kiwisoft.swing.actions.MultiContextAction;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.SeasonDetailsView;
-
 import java.awt.event.ActionEvent;
 import java.util.List;
+
+import com.kiwisoft.swing.actions.MultiContextAction;
 
 /**
  * @author Stefan Stiller
  */
-public class CreateSeasonAction extends MultiContextAction<Episode>
+public class CreateSeasonAction extends MultiContextAction
 {
 	public CreateSeasonAction()
 	{
-		super("Create Season");
+		super(Episode.class, "Create Season");
 	}
 
 	public void actionPerformed(ActionEvent e)

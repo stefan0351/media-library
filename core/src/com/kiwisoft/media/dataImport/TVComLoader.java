@@ -412,9 +412,9 @@ public abstract class TVComLoader implements Job
 		if (crewList!=null)
 		{
 			final Set<String> crewNames=new HashSet<String>();
-			for (Iterator it=episode.getCrewMembers(type).iterator(); it.hasNext();)
+			for (Iterator it=episode.getCredits(type).iterator(); it.hasNext();)
 			{
-				CrewMember crewMember=(CrewMember)it.next();
+				Credit crewMember=(Credit)it.next();
 				crewNames.add(crewMember.getPerson().getName());
 			}
 			DBSession.execute(new MyTransactional()
@@ -426,7 +426,7 @@ public abstract class TVComLoader implements Job
 						if (!crewNames.contains(personData.name))
 						{
 							Person person=getPerson(personCache, personData.key, personData.name);
-							CrewMember crewMember=new CrewMember();
+							Credit crewMember=new Credit();
 							crewMember.setEpisode(episode);
 							crewMember.setCreditType(type);
 							crewMember.setSubType(subType);

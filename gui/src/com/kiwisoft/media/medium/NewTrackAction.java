@@ -8,7 +8,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewTrackAction extends ContextAction<Track>
+public class NewTrackAction extends ContextAction
 {
 	private Medium medium;
 

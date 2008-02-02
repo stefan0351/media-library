@@ -16,19 +16,19 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class SplitAirdateAction extends SimpleContextAction<Airdate>
+public class SplitAirdateAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public SplitAirdateAction(ApplicationFrame frame)
 	{
-		super("Split Airdate");
+		super(Airdate.class, "Split Airdate");
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Airdate airdate=getObject();
+		Airdate airdate=(Airdate)getObject();
 		String event=airdate.getEvent();
 		String[] events=event.split("/");
 		if (events.length>1)

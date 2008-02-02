@@ -9,7 +9,7 @@ import com.kiwisoft.media.show.Show;
 /**
  * @author Stefan Stiller
  */
-public class NewMovieAction extends ContextAction<Movie>
+public class NewMovieAction extends ContextAction
 {
 	private Show show;
 

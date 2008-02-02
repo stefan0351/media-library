@@ -9,18 +9,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowCastAction extends SimpleContextAction<Show>
+public class ShowCastAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowCastAction(ApplicationFrame frame)
 	{
-		super("Cast", Icons.getIcon("cast"));
+		super(Show.class, "Cast", Icons.getIcon("cast"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ShowCastView(getObject()), true);
+		frame.setCurrentView(new ShowCastView((Show)getObject()), true);
 	}
 }

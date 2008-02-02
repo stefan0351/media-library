@@ -54,9 +54,9 @@ public class EpisodesView extends ViewPanel
 
 		tableController=new TableController<Episode>(tmEpisodes, new DefaultTableConfiguration(EpisodesView.class, "episodes"))
 		{
-			public List<ContextAction<? super Episode>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Episode>> actions=new ArrayList<ContextAction<? super Episode>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new EpisodeDetailsAction());
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
@@ -68,20 +68,20 @@ public class EpisodesView extends ViewPanel
 				return actions;
 			}
 
-			public List<ContextAction<? super Episode>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Episode>> actions=new ArrayList<ContextAction<? super Episode>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new EpisodeDetailsAction());
 				actions.add(null);
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				actions.add(null);
 				actions.add(new CreateSeasonAction());
-				actions.add(new CreateMediumAction<Episode>());
+				actions.add(new CreateMediumAction());
 				return actions;
 			}
 
-			public ContextAction<Episode> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new EpisodeDetailsAction();
 			}

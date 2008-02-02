@@ -12,28 +12,20 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class SetMediumActiveAction extends MultiContextAction<Medium>
+public class SetMediumActiveAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public SetMediumActiveAction(ApplicationFrame frame)
 	{
-		super("Set Active");
+		super(Medium.class, "Set Active");
 		this.frame=frame;
 	}
 
 	@Override
-	public void update(List<? extends Medium> objects)
+	protected boolean isValid(Object object)
 	{
-		super.update(objects);
-		for (Medium medium : getObjects())
-		{
-			if (!medium.isObsolete())
-			{
-				setEnabled(false);
-				break;
-			}
-		}
+		return super.isValid(object) && ((Medium)object).isObsolete();
 	}
 
 	public void actionPerformed(ActionEvent event)

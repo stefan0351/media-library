@@ -72,9 +72,9 @@ public class ScheduleView extends ViewPanel
 		tableController=new TableController<Airdate>(model, new DefaultTableConfiguration(ScheduleView.class, "airdates"))
 		{
 			@Override
-			public List<ContextAction<? super Airdate>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Airdate>> actions=new ArrayList<ContextAction<? super Airdate>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AirdateDetailsAction());
 				actions.add(new NewAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
@@ -85,9 +85,9 @@ public class ScheduleView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super Airdate>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Airdate>> actions=new ArrayList<ContextAction<? super Airdate>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AirdateDetailsAction());
 				actions.add(null);
 				actions.add(new NewAirdateAction());
@@ -100,7 +100,7 @@ public class ScheduleView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<Airdate> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new AirdateDetailsAction();
 			}
@@ -148,7 +148,7 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
-	private static class AirdatesTableRow extends SortableTableRow implements PropertyChangeListener
+	private static class AirdatesTableRow extends SortableTableRow<Airdate> implements PropertyChangeListener
 	{
 		private DateFormat dateFormat;
 
@@ -161,17 +161,17 @@ public class ScheduleView extends ViewPanel
 
 		public void installListener()
 		{
-			((Airdate)getUserObject()).addPropertyChangeListener(this);
+			getUserObject().addPropertyChangeListener(this);
 		}
 
 		public void removeListener()
 		{
-			((Airdate)getUserObject()).removePropertyChangeListener(this);
+			getUserObject().removePropertyChangeListener(this);
 		}
 
 		public void propertyChange(PropertyChangeEvent evt)
 		{
-			if (((Airdate)getUserObject()).getState()==IDObject.State.DELETED) fireRowDeleted();
+			if (getUserObject().getState()==IDObject.State.DELETED) fireRowDeleted();
 			fireRowUpdated();
 		}
 
@@ -179,15 +179,14 @@ public class ScheduleView extends ViewPanel
 		{
 			if (column==0)
 			{
-				Airdate airdate=(Airdate)getUserObject();
-				return airdate.getDate();
+				return getUserObject().getDate();
 			}
 			return super.getSortValue(column, property);
 		}
 
 		public Object getDisplayValue(int column, String property)
 		{
-			Airdate airdate=(Airdate)getUserObject();
+			Airdate airdate=getUserObject();
 			switch (column)
 			{
 				case 0:

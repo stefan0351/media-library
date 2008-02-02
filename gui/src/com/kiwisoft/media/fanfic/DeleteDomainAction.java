@@ -14,19 +14,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteDomainAction extends SimpleContextAction<FanDom>
+public class DeleteDomainAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteDomainAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(FanDom.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		FanDom domain=getObject();
+		FanDom domain=(FanDom)getObject();
 		if (domain.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame, "Domain '"+domain.getName()+"' can't be deleted.", "Message",

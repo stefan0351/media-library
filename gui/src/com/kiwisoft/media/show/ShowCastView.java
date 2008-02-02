@@ -48,9 +48,9 @@ public class ShowCastView extends ViewPanel
 		mainCastController=new TableController<CastMember>(mainCastModel, new DefaultTableConfiguration(ShowCastView.class, "cast.main"))
 		{
 			@Override
-			public List<ContextAction<? super CastMember>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new CastDetailsAction());
 				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
 				actions.add(new DeleteCastAction(show, frame));
@@ -58,9 +58,9 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super CastMember>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
 				actions.add(new NewCastAction(show, CreditType.MAIN_CAST));
@@ -69,7 +69,7 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<CastMember> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new CastDetailsAction();
 			}
@@ -77,9 +77,9 @@ public class ShowCastView extends ViewPanel
 		recurringCastController=new TableController<CastMember>(recurringCastModel, new DefaultTableConfiguration(ShowCastView.class, "cast.recurring"))
 		{
 			@Override
-			public List<ContextAction<? super CastMember>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new CastDetailsAction());
 				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
 				actions.add(new DeleteCastAction(show, frame));
@@ -87,9 +87,9 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super CastMember>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super CastMember>> actions=new ArrayList<ContextAction<? super CastMember>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new CastDetailsAction());
 				actions.add(null);
 				actions.add(new NewCastAction(show, CreditType.RECURRING_CAST));
@@ -98,7 +98,7 @@ public class ShowCastView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<CastMember> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new CastDetailsAction();
 			}

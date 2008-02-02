@@ -258,9 +258,9 @@ public class FanFicDetailsView extends DetailsView
 		partsController=new TableController<String>(tmParts, new DefaultTableConfiguration(FanFicDetailsView.class, "parts"))
 		{
 			@Override
-			public List<ContextAction<? super String>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super String>> actions=new ArrayList<ContextAction<? super String>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AddPartAction());
 				actions.add(new DeletePartAction());
 				actions.add(new MovePartUpAction());
@@ -270,9 +270,9 @@ public class FanFicDetailsView extends DetailsView
 			}
 
 			@Override
-			public List<ContextAction<? super String>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super String>> actions=new ArrayList<ContextAction<? super String>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AddPartAction());
 				actions.add(new DeletePartAction());
 				return actions;
@@ -360,11 +360,11 @@ public class FanFicDetailsView extends DetailsView
 		partsController.dispose();
 	}
 
-	private class DeletePartAction extends SimpleContextAction<String>
+	private class DeletePartAction extends SimpleContextAction
 	{
 		public DeletePartAction()
 		{
-			super("Delete", Icons.getIcon("delete"));
+			super(String.class, "Delete", Icons.getIcon("delete"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -377,7 +377,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class MovePartUpAction extends ContextAction<String>
+	private class MovePartUpAction extends ContextAction
 	{
 		public MovePartUpAction()
 		{
@@ -385,7 +385,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<? extends String> objects)
+		public void update(List objects)
 		{
 			setEnabled(isValid());
 		}
@@ -424,7 +424,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class MovePartDownAction extends ContextAction<String>
+	private class MovePartDownAction extends ContextAction
 	{
 		public MovePartDownAction()
 		{
@@ -433,7 +433,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<? extends String> objects)
+		public void update(List objects)
 		{
 			setEnabled(isValid());
 		}
@@ -474,7 +474,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class AddPartAction extends ContextAction<String>
+	private class AddPartAction extends ContextAction
 	{
 		public AddPartAction()
 		{
@@ -545,7 +545,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 	}
 
-	private class FilesAction extends ContextAction<String>
+	private class FilesAction extends ContextAction
 	{
 		public FilesAction()
 		{
@@ -554,7 +554,7 @@ public class FanFicDetailsView extends DetailsView
 		}
 
 		@Override
-		public void update(List<? extends String> objects)
+		public void update(List objects)
 		{
 			setEnabled(fanFic!=null);
 		}

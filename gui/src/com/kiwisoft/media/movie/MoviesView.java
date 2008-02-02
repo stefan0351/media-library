@@ -10,7 +10,6 @@ import javax.swing.*;
 
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.medium.CreateMediumAction;
-import com.kiwisoft.media.medium.ExportMediaByTitleAction;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
@@ -19,12 +18,10 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.actions.ContextAction;
-import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.table.SortableTableModel;
 import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.swing.table.DefaultSortableTableModel;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
-import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
@@ -57,31 +54,30 @@ public class MoviesView extends ViewPanel
 		tableController=new TableController<Movie>(tableModel, new DefaultTableConfiguration(MoviesView.class, "movies"))
 		{
 			@Override
-			public List<ContextAction<? super Movie>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Movie>> actions=new ArrayList<ContextAction<? super Movie>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MovieDetailsAction());
 				actions.add(new NewMovieAction(show));
 				actions.add(new DeleteMovieAction(frame, show));
-				actions.add(new ComplexAction<Object>("Export to Excel", Icons.getIcon("excel"), new ExportMediaByTitleAction(frame)));
 				return actions;
 			}
 
 			@Override
-			public List<ContextAction<? super Movie>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Movie>> actions=new ArrayList<ContextAction<? super Movie>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MovieDetailsAction());
 				actions.add(null);
 				actions.add(new NewMovieAction(show));
 				actions.add(new DeleteMovieAction(frame, show));
 				actions.add(null);
-				actions.add(new CreateMediumAction<Movie>());
+				actions.add(new CreateMediumAction());
 				return actions;
 			}
 
 			@Override
-			public ContextAction<Movie> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new MovieDetailsAction();
 			}

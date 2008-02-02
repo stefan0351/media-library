@@ -8,7 +8,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewPictureAction extends ContextAction<Picture>
+public class NewPictureAction extends ContextAction
 {
 	public NewPictureAction()
 	{

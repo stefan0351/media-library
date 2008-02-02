@@ -13,19 +13,19 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 
-public class ShowPhotoAction extends SimpleContextAction<Photo>
+public class ShowPhotoAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowPhotoAction(ApplicationFrame frame)
 	{
-		super("Show", Icons.getIcon("photo"));
+		super(Photo.class, "Show", Icons.getIcon("photo"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Photo photo=getObject();
+		Photo photo=(Photo)getObject();
 		if (photo!=null)
 		{
 			PictureFile picture=photo.getOriginalPicture();

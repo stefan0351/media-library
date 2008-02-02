@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 /**
  * @author Stefan Stiller
  */
-public class CreateMediumAction<T extends Recordable> extends MultiContextAction<T>
+public class CreateMediumAction extends MultiContextAction
 {
 	public CreateMediumAction()
 	{
-		super("Create Medium", Icons.getIcon("medium.add"));
+		super(Recordable.class, "Create Medium", Icons.getIcon("medium.add"));
 	}
 
 	public void actionPerformed(ActionEvent e)

@@ -12,7 +12,7 @@ import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.progress.SmallProgressDialog;
 
-public class AddPhotoAction extends ContextAction<Object>
+public class AddPhotoAction extends ContextAction
 {
 	private ApplicationFrame frame;
 	private PhotoGallery photoGallery;

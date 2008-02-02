@@ -13,19 +13,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeletePersonAction extends SimpleContextAction<Person>
+public class DeletePersonAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeletePersonAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Person.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		final Person person=getObject();
+		final Person person=(Person)getObject();
 		if (person.isUsed())
 		{
 			showMessageDialog(frame, "Person '"+person.getName()+"' kann nicht gelöscht werden.", "Meldung", INFORMATION_MESSAGE);

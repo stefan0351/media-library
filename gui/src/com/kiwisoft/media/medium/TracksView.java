@@ -46,9 +46,9 @@ public class TracksView extends ViewPanel
 		tableController=new TableController<Track>(tableModel, new DefaultTableConfiguration(TracksView.class, "tracks"))
 		{
 			@Override
-			public List<ContextAction<? super Track>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Track>> actions=new ArrayList<ContextAction<? super Track>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new TrackDetailsAction());
 				actions.add(new NewTrackAction(medium));
 				actions.add(new DeleteTrackAction(frame, medium));
@@ -58,15 +58,15 @@ public class TracksView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super Track>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Track>> actions=new ArrayList<ContextAction<? super Track>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new TrackDetailsAction());
 				actions.add(null);
 				actions.add(new NewTrackAction(medium));
 				actions.add(new DeleteTrackAction(frame, medium));
 				actions.add(null);
-				actions.add(new CreateMediumAction<Track>());
+				actions.add(new CreateMediumAction());
 				actions.add(null);
 				actions.add(new ChainMoveUpAction(this, medium.getTracks()));
 				actions.add(new ChainMoveDownAction(this, medium.getTracks()));
@@ -74,7 +74,7 @@ public class TracksView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<Track> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new TrackDetailsAction();
 			}

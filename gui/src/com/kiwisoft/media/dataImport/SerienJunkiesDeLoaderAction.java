@@ -9,13 +9,13 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
 
-public class SerienJunkiesDeLoaderAction extends SimpleContextAction<Show>
+public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 {
 	private JFrame parent;
 
 	public SerienJunkiesDeLoaderAction(JFrame frame)
 	{
-		super("Load Episodes from SerienJunkies.de");
+		super(Show.class, "Load Episodes from SerienJunkies.de");
 		parent=frame;
 	}
 
@@ -23,7 +23,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction<Show>
 	{
 		Configuration configurator=Configuration.getInstance();
 		String url=configurator.getString("SerienJunkiesDe.url", "");
-		Show show=getObject();
+		Show show=(Show)getObject();
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, url);
 		dialog.setVisible(true);
 		if (dialog.isOk())

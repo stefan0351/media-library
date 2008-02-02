@@ -13,19 +13,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteMediumAction extends SimpleContextAction<Medium>
+public class DeleteMediumAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteMediumAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Medium.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		final Medium medium=getObject();
+		final Medium medium=(Medium)getObject();
 		if (medium.isUsed())
 		{
 			showMessageDialog(frame, "The video '"+medium.getName()+"' can't be deleted.", "Message", INFORMATION_MESSAGE);

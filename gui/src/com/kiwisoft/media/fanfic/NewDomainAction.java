@@ -6,13 +6,9 @@ import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 17.03.2007
- * Time: 15:06:19
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
-public class NewDomainAction extends ContextAction<FanDom>
+public class NewDomainAction extends ContextAction
 {
 	public NewDomainAction()
 	{

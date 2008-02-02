@@ -9,18 +9,18 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class TracksAction extends SimpleContextAction<Medium>
+public class TracksAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public TracksAction(ApplicationFrame frame)
 	{
-		super("Tracks", Icons.getIcon("tracks"));
+		super(Medium.class, "Tracks", Icons.getIcon("tracks"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new TracksView(getObject()), true);
+		frame.setCurrentView(new TracksView((Medium)getObject()), true);
 	}
 }

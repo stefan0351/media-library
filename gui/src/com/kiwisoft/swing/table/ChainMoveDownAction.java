@@ -12,44 +12,39 @@ import com.kiwisoft.collection.Chain;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.swing.table.TableController;
 
 /**
  * @author Stefan Stiller
 */
-public class ChainMoveDownAction<T> extends MultiContextAction<T>
+public class ChainMoveDownAction extends MultiContextAction
 {
 	private Chain chain;
 	private TableController tableController;
 
 	public ChainMoveDownAction(TableController tableController, Chain chain)
 	{
-		super("Move Down", Icons.getIcon("move.down"));
+		super(ChainLink.class, "Move Down", Icons.getIcon("move.down"));
 		this.tableController=tableController;
 		this.chain=chain;
 	}
 
 	@Override
-	public void update(List<? extends T> objects)
+	protected boolean isValid(Object object)
 	{
-		super.update(objects);
-		if (!objects.isEmpty())
-		{
-			if (objects.contains(chain.getLast())) setEnabled(false);
-		}
+		return super.isValid(object) && object!=chain.getLast();
 	}
 
 	@SuppressWarnings({"unchecked"})
 	public void actionPerformed(ActionEvent e)
 	{
-		List<T> objects=getObjects();
+		List objects=getObjects();
 		Collections.sort(objects, Collections.reverseOrder(new Chain.ChainComparator()));
 		tableController.getTable().clearSelection();
 		Transaction transaction=null;
 		try
 		{
 			transaction=DBSession.getInstance().createTransaction();
-			for (T object : objects) chain.moveDown((ChainLink) object);
+			for (Object object : objects) chain.moveDown((ChainLink) object);
 			transaction.close();
 		}
 		catch (Exception e1)
@@ -66,7 +61,7 @@ public class ChainMoveDownAction<T> extends MultiContextAction<T>
 			JOptionPane.showMessageDialog(tableController.getTable(), e1.getLocalizedMessage(), "Ausnahmefehler", JOptionPane.ERROR_MESSAGE);
 		}
 
-		for (T object : objects)
+		for (Object object : objects)
 		{
 			int rowIndex=tableController.getModel().indexOf(object);
 			if (rowIndex>=0) tableController.getTable().getSelectionModel().addSelectionInterval(rowIndex, rowIndex);

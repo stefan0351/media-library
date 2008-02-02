@@ -53,9 +53,9 @@ public class AuthorsView extends ViewPanel implements Disposable
 		tableController=new TableController<Author>(tableModel, new DefaultTableConfiguration(AuthorsView.class, "authors"))
 		{
 			@Override
-			public List<ContextAction<? super Author>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Author>> actions=new ArrayList<ContextAction<? super Author>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AuthorDetailsAction());
 				actions.add(new NewAuthorAction());
 				actions.add(new DeleteAuthorAction(frame));
@@ -64,9 +64,9 @@ public class AuthorsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public List<ContextAction<? super Author>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Author>> actions=new ArrayList<ContextAction<? super Author>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AuthorDetailsAction());
 				actions.add(null);
 				actions.add(new NewAuthorAction());
@@ -77,9 +77,9 @@ public class AuthorsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public ContextAction<Author> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
-				return new FanFicsAction<Author>(frame);
+				return new FanFicsAction(frame);
 			}
 		};
 		return tableController.createComponent();

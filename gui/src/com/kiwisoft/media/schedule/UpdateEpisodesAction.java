@@ -11,13 +11,13 @@ import com.kiwisoft.swing.progress.ProgressDialog;
 /**
  * @author Stefan Stiller
  */
-public class UpdateEpisodesAction extends MultiContextAction<Airdate>
+public class UpdateEpisodesAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public UpdateEpisodesAction(ApplicationFrame frame)
 	{
-		super("Update References");
+		super(Airdate.class, "Update References");
 		this.frame=frame;
 	}
 

@@ -15,14 +15,14 @@ import com.kiwisoft.persistence.DBSession;
 /**
  * @author Stefan Stiller
  */
-public class MoveTracksAction extends MultiContextAction<Track>
+public class MoveTracksAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 	private Medium medium;
 
 	public MoveTracksAction(ApplicationFrame frame, Medium video)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Track.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 		this.medium=video;
 	}

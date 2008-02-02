@@ -8,7 +8,7 @@ import com.kiwisoft.swing.actions.ContextAction;
 /**
  * @author Stefan Stiller
  */
-public class NewEpisodeAction extends ContextAction<Episode>
+public class NewEpisodeAction extends ContextAction
 {
 	private Show show;
 

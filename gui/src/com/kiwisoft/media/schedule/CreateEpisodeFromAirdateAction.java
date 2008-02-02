@@ -7,21 +7,17 @@ import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 16.03.2007
- * Time: 20:10:11
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
-public class CreateEpisodeFromAirdateAction extends SimpleContextAction<Airdate>
+public class CreateEpisodeFromAirdateAction extends SimpleContextAction
 {
 	public CreateEpisodeFromAirdateAction()
 	{
-		super("Create Episode");
+		super(Airdate.class, "Create Episode");
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		EpisodeDetailsView.create(getObject());
+		EpisodeDetailsView.create((Airdate)getObject());
 	}
 }

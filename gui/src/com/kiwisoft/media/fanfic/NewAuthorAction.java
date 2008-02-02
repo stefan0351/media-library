@@ -8,7 +8,7 @@ import com.kiwisoft.swing.actions.ContextAction;
 /**
  * @author Stefan Stiller
  */
-public class NewAuthorAction extends ContextAction<Author>
+public class NewAuthorAction extends ContextAction
 {
 	public NewAuthorAction()
 	{

@@ -55,21 +55,21 @@ public class PersonsView extends ViewPanel
 
 		tableController=new TableController<Person>(tableModel, new DefaultTableConfiguration(PersonsView.class, "persons"))
 		{
-			public List<ContextAction<? super Person>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Person>> actions=new ArrayList<ContextAction<? super Person>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PersonDetailsAction());
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
 				return actions;
 			}
 
-			public List<ContextAction<? super Person>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Person>> actions=new ArrayList<ContextAction<? super Person>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 
-				ComplexAction<Person> downloadAction=new ComplexAction<Person>("Download");
-				downloadAction.addAction(new TVTVDeLoaderContextAction<Person>(frame));
+				ComplexAction downloadAction=new ComplexAction("Download");
+				downloadAction.addAction(new TVTVDeLoaderContextAction(frame));
 
 				actions.add(new PersonDetailsAction());
 				actions.add(null);
@@ -80,7 +80,7 @@ public class PersonsView extends ViewPanel
 				return actions;
 			}
 
-			public ContextAction<Person> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new PersonDetailsAction();
 			}

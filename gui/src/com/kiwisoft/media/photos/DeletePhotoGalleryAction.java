@@ -10,19 +10,19 @@ import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 
-public class DeletePhotoGalleryAction extends SimpleContextAction<PhotoGallery>
+public class DeletePhotoGalleryAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeletePhotoGalleryAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(PhotoGallery.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		final PhotoGallery gallery=getObject();
+		final PhotoGallery gallery=(PhotoGallery)getObject();
 		if (gallery.isUsed())
 		{
 			showMessageDialog(frame, "The photo gallery '"+gallery.getName()+"' can't be deleted.", "Message", INFORMATION_MESSAGE);

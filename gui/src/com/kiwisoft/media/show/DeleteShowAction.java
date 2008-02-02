@@ -12,19 +12,19 @@ import com.kiwisoft.persistence.DBSession;
 /**
  * @author Stefan Stiller
  */
-public class DeleteShowAction extends SimpleContextAction<Show>
+public class DeleteShowAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteShowAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Show.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		final Show show=getObject();
+		final Show show=(Show)getObject();
 		if (show.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame,

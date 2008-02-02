@@ -8,7 +8,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewBookAction extends ContextAction<Object>
+public class NewBookAction extends ContextAction
 {
 	public NewBookAction()
 	{

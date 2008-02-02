@@ -11,18 +11,18 @@ import java.awt.event.ActionEvent;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.app.ApplicationFrame;
 
-public class FanFicsAction<T extends FanFicGroup> extends SimpleContextAction<T>
+public class FanFicsAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public FanFicsAction(ApplicationFrame frame)
 	{
-		super("Fan Fiction");
+		super(FanFicGroup.class, "Fan Fiction");
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new FanFicsView(getObject()), true);
+		frame.setCurrentView(new FanFicsView((FanFicGroup)getObject()), true);
 	}
 }

@@ -8,15 +8,15 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class TrackDetailsAction extends SimpleContextAction<Track>
+public class TrackDetailsAction extends SimpleContextAction
 {
 	public TrackDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Track.class, "Details", Icons.getIcon("details"));
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		TrackDetailsView.create(getObject());
+		TrackDetailsView.create((Track)getObject());
 	}
 }

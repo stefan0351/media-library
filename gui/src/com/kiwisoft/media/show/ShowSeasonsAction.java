@@ -8,18 +8,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowSeasonsAction extends SimpleContextAction<Show>
+public class ShowSeasonsAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowSeasonsAction(ApplicationFrame frame)
 	{
-		super("Seasons");
+		super(Show.class, "Seasons");
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new SeasonsView(getObject()), true);
+		frame.setCurrentView(new SeasonsView((Show)getObject()), true);
 	}
 }

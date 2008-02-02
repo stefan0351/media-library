@@ -48,30 +48,29 @@ public class PicturesView extends ViewPanel
 		tableController=new TableController<Picture>(tableModel, new DefaultTableConfiguration(PicturesView.class, "table.pictures"))
 		{
 			@Override
-			public List<ContextAction<? super Picture>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Picture>> actions=new ArrayList<ContextAction<? super Picture>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PictureDetailsAction());
 				actions.add(new NewPictureAction());
-				actions.add(new ComplexAction<Picture>("Manage", Icons.getIcon("manage"),
+				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
 											  new ImportPicturesAction(frame),
 											  new CreateThumbnailsAction(frame)));
 				return actions;
 			}
 
 			@Override
-			public List<ContextAction<? super Picture>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Picture>> actions=new ArrayList<ContextAction<? super Picture>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PictureDetailsAction());
 				actions.add(null);
 				actions.add(new NewPictureAction());
-//				actions.add(new DeleteMovieAction(frame, show));
 				return actions;
 			}
 
 			@Override
-			public ContextAction<Picture> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new PictureDetailsAction();
 			}

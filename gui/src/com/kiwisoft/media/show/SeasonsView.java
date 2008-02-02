@@ -1,6 +1,5 @@
 package com.kiwisoft.media.show;
 
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.actions.ContextAction;
-import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.table.*;
 
 public class SeasonsView extends ViewPanel
@@ -41,9 +39,9 @@ public class SeasonsView extends ViewPanel
 		tableController=new TableController<Season>(tableModel, new DefaultTableConfiguration(SeasonsView.class, "seasons"))
 		{
 			@Override
-			public List<ContextAction<? super Season>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Season>> actions=new ArrayList<ContextAction<? super Season>>(3);
+				List<ContextAction> actions=new ArrayList<ContextAction>(3);
 				actions.add(new SeasonDetailsAction());
 				actions.add(new NewSeasonAction(show));
 				actions.add(new DeleteSeasonAction(frame));
@@ -52,9 +50,9 @@ public class SeasonsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super Season>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Season>> actions=new ArrayList<ContextAction<? super Season>>(3);
+				List<ContextAction> actions=new ArrayList<ContextAction>(3);
 				actions.add(new SeasonDetailsAction());
 				actions.add(null);
 				actions.add(new NewSeasonAction(show));
@@ -65,7 +63,7 @@ public class SeasonsView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<Season> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new SeasonEpisodesAction(frame);
 			}
@@ -167,22 +165,6 @@ public class SeasonsView extends ViewPanel
 					return season.getYearString();
 			}
 			return "";
-		}
-	}
-
-	public static class SeasonEpisodesAction extends SimpleContextAction<Season>
-	{
-		private ApplicationFrame frame;
-
-		public SeasonEpisodesAction(ApplicationFrame frame)
-		{
-			super("Episodes");
-			this.frame=frame;
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			frame.setCurrentView(new EpisodesView(getObject()), true);
 		}
 	}
 

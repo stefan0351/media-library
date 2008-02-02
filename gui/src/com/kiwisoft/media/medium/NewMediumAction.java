@@ -8,7 +8,7 @@ import com.kiwisoft.swing.actions.ContextAction;
 /**
  * @author Stefan Stiller
  */
-public class NewMediumAction extends ContextAction<Medium>
+public class NewMediumAction extends ContextAction
 {
 	public NewMediumAction()
 	{

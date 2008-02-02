@@ -8,15 +8,15 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class MediumDetailsAction extends SimpleContextAction<Medium>
+public class MediumDetailsAction extends SimpleContextAction
 {
 	public MediumDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Medium.class, "Details", Icons.getIcon("details"));
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		MediumDetailsView.create(getObject());
+		MediumDetailsView.create((Medium)getObject());
 	}
 }

@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 /**
  * @author Stefan Stiller
  */
-public class NewPersonAction extends ContextAction<Person>
+public class NewPersonAction extends ContextAction
 {
 	public NewPersonAction()
 	{

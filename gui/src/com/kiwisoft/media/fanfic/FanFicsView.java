@@ -48,9 +48,9 @@ public class FanFicsView extends ViewPanel
 		tableController=new TableController<FanFic>(tmFanFics, new DefaultTableConfiguration(FanFicsView.class, "fanfics"))
 		{
 			@Override
-			public List<ContextAction<? super FanFic>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super FanFic>> actions=new ArrayList<ContextAction<? super FanFic>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new FanFicDetailsAction());
 				actions.add(new NewFanFicAction(group));
 				actions.add(new DeleteFanFicAction(frame));
@@ -58,9 +58,9 @@ public class FanFicsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super FanFic>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super FanFic>> actions=new ArrayList<ContextAction<? super FanFic>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new FanFicDetailsAction());
 				actions.add(null);
 				actions.add(new NewFanFicAction(group));
@@ -69,7 +69,7 @@ public class FanFicsView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<FanFic> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new FanFicDetailsAction();
 			}

@@ -10,13 +10,13 @@ import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.MultiContextAction;
 
-public class DeletePhotoAction extends MultiContextAction<Photo>
+public class DeletePhotoAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeletePhotoAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Photo.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 

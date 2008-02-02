@@ -8,11 +8,11 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class CastDetailsAction extends SimpleContextAction<CastMember>
+public class CastDetailsAction extends SimpleContextAction
 {
 	public CastDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(CastMember.class, "Details", Icons.getIcon("details"));
 	}
 
 	/**
@@ -20,6 +20,6 @@ public class CastDetailsAction extends SimpleContextAction<CastMember>
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		CastDetailsView.create(getObject());
+		CastDetailsView.create((CastMember)getObject());
 	}
 }

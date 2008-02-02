@@ -47,19 +47,20 @@ public class MediaView extends ViewPanel
 		MediaTableModel tableModel=new MediaTableModel();
 		tableController=new TableController<Medium>(tableModel, new DefaultTableConfiguration(MediaTableModel.class))
 		{
-			public List<ContextAction<? super Medium>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Medium>> actions=new ArrayList<ContextAction<? super Medium>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MediumDetailsAction());
 				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(new TracksAction(frame));
+				actions.add(new CDDBAction(frame));
 				return actions;
 			}
 
-			public List<ContextAction<? super Medium>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Medium>> actions=new ArrayList<ContextAction<? super Medium>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MediumDetailsAction());
 				actions.add(null);
 				actions.add(new NewMediumAction());
@@ -69,10 +70,11 @@ public class MediaView extends ViewPanel
 				actions.add(new SetMediumActiveAction(frame));
 				actions.add(null);
 				actions.add(new TracksAction(frame));
+				actions.add(new CreateCoverAction(frame));
 				return actions;
 			}
 
-			public ContextAction<Medium> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new MediumDetailsAction();
 			}

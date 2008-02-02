@@ -10,18 +10,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowMoviesAction extends SimpleContextAction<Show>
+public class ShowMoviesAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowMoviesAction(ApplicationFrame frame)
 	{
-		super("Movies", Icons.getIcon("movie"));
+		super(Show.class, "Movies", Icons.getIcon("movie"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new MoviesView(getObject()), true);
+		frame.setCurrentView(new MoviesView((Show)getObject()), true);
 	}
 }

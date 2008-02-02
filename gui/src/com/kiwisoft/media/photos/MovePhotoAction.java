@@ -9,14 +9,14 @@ import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.ApplicationFrame;
 
-public class MovePhotoAction extends MultiContextAction<Photo>
+public class MovePhotoAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 	private PhotoGallery gallery;
 
 	public MovePhotoAction(ApplicationFrame frame, PhotoGallery gallery)
 	{
-		super("Move to Another Gallery");
+		super(Photo.class, "Move to Another Gallery");
 		this.frame=frame;
 		this.gallery=gallery;
 	}

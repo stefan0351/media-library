@@ -12,28 +12,21 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class SetMediumObsoleteAction extends MultiContextAction<Medium>
+public class SetMediumObsoleteAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public SetMediumObsoleteAction(ApplicationFrame frame)
 	{
-		super("Set Obsolete");
+		super(Medium.class, "Set Obsolete");
 		this.frame=frame;
 	}
 
+
 	@Override
-	public void update(List<? extends Medium> objects)
+	protected boolean isValid(Object object)
 	{
-		super.update(objects);
-		for (Medium medium : getObjects())
-		{
-			if (medium.isObsolete())
-			{
-				setEnabled(false);
-				break;
-			}
-		}
+		return super.isValid(object) && !((Medium)object).isObsolete();
 	}
 
 	public void actionPerformed(ActionEvent event)

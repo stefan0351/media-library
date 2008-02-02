@@ -9,11 +9,11 @@ import com.kiwisoft.media.Airdate;
 /**
  * @author Stefan Stiller
  */
-public class AirdateDetailsAction extends SimpleContextAction<Airdate>
+public class AirdateDetailsAction extends SimpleContextAction
 {
 	protected AirdateDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Airdate.class, "Details", Icons.getIcon("details"));
 	}
 
 	/**
@@ -21,6 +21,6 @@ public class AirdateDetailsAction extends SimpleContextAction<Airdate>
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		AirdateDetailsView.create(getObject());
+		AirdateDetailsView.create((Airdate)getObject());
 	}
 }

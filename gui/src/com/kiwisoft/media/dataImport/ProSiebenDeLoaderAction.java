@@ -12,13 +12,13 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.swing.actions.MultiContextAction;
 
-public class ProSiebenDeLoaderAction extends MultiContextAction<Show>
+public class ProSiebenDeLoaderAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
 	public ProSiebenDeLoaderAction(ApplicationFrame frame)
 	{
-		super("Load Schedule from ProSieben.de");
+		super(Show.class, "Load Schedule from ProSieben.de");
 		this.frame=frame;
 	}
 

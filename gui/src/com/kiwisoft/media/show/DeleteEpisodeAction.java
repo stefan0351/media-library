@@ -14,14 +14,14 @@ import com.kiwisoft.persistence.Transaction;
 /**
  * @author Stefan Stiller
  */
-public class DeleteEpisodeAction extends MultiContextAction<Episode>
+public class DeleteEpisodeAction extends MultiContextAction
 {
 	private Show show;
 	private ViewPanel viewPanel;
 
 	public DeleteEpisodeAction(Show show, ViewPanel viewPanel)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Episode.class, "Delete", Icons.getIcon("delete"));
 		this.show=show;
 		this.viewPanel=viewPanel;
 	}

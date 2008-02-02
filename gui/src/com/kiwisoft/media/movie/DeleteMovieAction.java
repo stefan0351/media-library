@@ -16,14 +16,14 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteMovieAction extends MultiContextAction<Movie>
+public class DeleteMovieAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 	private Show show;
 
 	public DeleteMovieAction(ApplicationFrame frame, Show show)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Movie.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 		this.show=show;
 	}

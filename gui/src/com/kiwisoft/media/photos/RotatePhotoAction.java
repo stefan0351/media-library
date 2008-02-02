@@ -9,7 +9,7 @@ import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.app.ApplicationFrame;
 
-public class RotatePhotoAction extends SimpleContextAction<Photo>
+public class RotatePhotoAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
@@ -17,14 +17,14 @@ public class RotatePhotoAction extends SimpleContextAction<Photo>
 
 	public RotatePhotoAction(ApplicationFrame frame, int angle)
 	{
-		super("Rotate "+angle+"°", angle==0 ? null : Icons.getIcon("rotate"+angle));
+		super(Photo.class, "Rotate "+angle+"°", angle==0 ? null : Icons.getIcon("rotate"+angle));
 		this.frame=frame;
 		this.angle=angle;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		final Photo photo=getObject();
+		final Photo photo=(Photo)getObject();
 		if (photo!=null)
 		{
 			DBSession.execute(new Transactional()

@@ -1,7 +1,6 @@
 package com.kiwisoft.media.show;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
@@ -9,16 +8,11 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewShowAction extends ContextAction<Show>
+public class NewShowAction extends ContextAction
 {
 	public NewShowAction()
 	{
 		super("New", Icons.getIcon("add"));
-	}
-
-	public void update(List<? extends Show> objects)
-	{
-		setEnabled(true);
 	}
 
 	public void actionPerformed(ActionEvent e)

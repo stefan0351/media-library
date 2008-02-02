@@ -9,18 +9,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class PhotosAction extends SimpleContextAction<PhotoGallery>
+public class PhotosAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public PhotosAction(ApplicationFrame frame)
 	{
-		super("Photos", Icons.getIcon("photos"));
+		super(PhotoGallery.class, "Photos", Icons.getIcon("photos"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new PhotosView(getObject()), true);
+		frame.setCurrentView(new PhotosView((PhotoGallery)getObject()), true);
 	}
 }

@@ -9,7 +9,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewCastAction extends ContextAction<CastMember>
+public class NewCastAction extends ContextAction
 {
 	private Show show;
 	private CreditType castType;

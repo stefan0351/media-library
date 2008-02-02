@@ -8,7 +8,7 @@ import com.kiwisoft.swing.actions.ContextAction;
 /**
  * @author Stefan Stiller
  */
-public class NewChannelAction extends ContextAction<Channel>
+public class NewChannelAction extends ContextAction
 {
 	public NewChannelAction()
 	{

@@ -18,19 +18,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteBookAction extends SimpleContextAction<Book>
+public class DeleteBookAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteBookAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Book.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		final Book book=getObject();
+		final Book book=(Book)getObject();
 		if (book.isUsed())
 		{
 			showMessageDialog(frame, "The book '"+book.getTitle()+"' can't be deleted.", "Message", INFORMATION_MESSAGE);

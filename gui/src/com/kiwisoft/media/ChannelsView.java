@@ -51,9 +51,9 @@ public class ChannelsView extends ViewPanel
 		tableController=new TableController<Channel>(tmChannels, new DefaultTableConfiguration(ChannelsView.class, "channels"))
 		{
 			@Override
-			public List<ContextAction<? super Channel>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Channel>> actions=new ArrayList<ContextAction<? super Channel>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ChannelDetailsAction());
 				actions.add(new NewChannelAction());
 				actions.add(new DeleteChannelAction(frame));
@@ -61,9 +61,9 @@ public class ChannelsView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super Channel>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Channel>> actions=new ArrayList<ContextAction<? super Channel>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ChannelDetailsAction());
 				actions.add(null);
 				actions.add(new NewChannelAction());
@@ -72,7 +72,7 @@ public class ChannelsView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<Channel> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new ChannelDetailsAction();
 			}

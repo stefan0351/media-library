@@ -2,24 +2,24 @@ package com.kiwisoft.media.show;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.app.ApplicationFrame;
 
 /**
  * @author Stefan Stiller
- */
-public class ShowEpisodesAction extends SimpleContextAction
+*/
+public class SeasonEpisodesAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
-	public ShowEpisodesAction(ApplicationFrame frame)
+	public SeasonEpisodesAction(ApplicationFrame frame)
 	{
-		super(Show.class, "Episodes");
+		super(Season.class, "Episodes");
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new EpisodesView((Show)getObject()), true);
+		frame.setCurrentView(new EpisodesView((Season)getObject()), true);
 	}
 }

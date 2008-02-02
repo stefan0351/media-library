@@ -8,7 +8,7 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewPairingAction extends ContextAction<Pairing>
+public class NewPairingAction extends ContextAction
 {
 	public NewPairingAction()
 	{

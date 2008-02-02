@@ -57,9 +57,9 @@ public class PairingsView extends ViewPanel implements Disposable
 		tableController=new TableController<Pairing>(tableModel, new DefaultTableConfiguration(PairingsView.class, "pairings"))
 		{
 			@Override
-			public List<ContextAction<? super Pairing>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Pairing>> actions=new ArrayList<ContextAction<? super Pairing>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PairingDetailsAction());
 				actions.add(new NewPairingAction());
 				actions.add(new DeletePairingAction(frame));
@@ -68,9 +68,9 @@ public class PairingsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public List<ContextAction<? super Pairing>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Pairing>> actions=new ArrayList<ContextAction<? super Pairing>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new PairingDetailsAction());
 				actions.add(null);
 				actions.add(new NewPairingAction());
@@ -81,9 +81,9 @@ public class PairingsView extends ViewPanel implements Disposable
 			}
 
 			@Override
-			public ContextAction<Pairing> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
-				return new FanFicsAction<Pairing>(frame);
+				return new FanFicsAction(frame);
 			}
 
 		};
@@ -162,19 +162,19 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
-	public static class DeletePairingAction extends SimpleContextAction<Pairing>
+	public static class DeletePairingAction extends SimpleContextAction
 	{
 		private ApplicationFrame frame;
 
 		public DeletePairingAction(ApplicationFrame frame)
 		{
-			super("Delete", Icons.getIcon("delete"));
+			super(Pairing.class, "Delete", Icons.getIcon("delete"));
 			this.frame=frame;
 		}
 
 		public void actionPerformed(ActionEvent event)
 		{
-			Pairing pairing=getObject();
+			Pairing pairing=(Pairing)getObject();
 			if (pairing.isUsed())
 			{
 				JOptionPane.showMessageDialog(frame, "The pairing '"+pairing.getName()+"' can't be deleted.", "Message",

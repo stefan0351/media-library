@@ -15,26 +15,22 @@ import com.kiwisoft.persistence.Transactional;
 /**
  * @author Stefan Stiller
 */
-public class MovePhotoUpAction extends MultiContextAction<Photo>
+public class MovePhotoUpAction extends MultiContextAction
 {
 	private ThumbnailPanel thumbnailPanel;
 	private Chain<Photo> chain;
 
 	public MovePhotoUpAction(ThumbnailPanel thumbnailPanel, Chain<Photo> chain)
 	{
-		super("Move Up", Icons.getIcon("move.up"));
+		super(Photo.class, "Move Up", Icons.getIcon("move.up"));
 		this.thumbnailPanel=thumbnailPanel;
 		this.chain=chain;
 	}
 
 	@Override
-	public void update(List<? extends Photo> objects)
+	protected boolean isValid(Object object)
 	{
-		super.update(objects);
-		if (!objects.isEmpty())
-		{
-			if (objects.contains(chain.getFirst())) setEnabled(false);
-		}
+		return super.isValid(object) && object!=chain.getFirst();
 	}
 
 	@SuppressWarnings({"unchecked"})

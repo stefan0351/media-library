@@ -12,7 +12,7 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class ImportPicturesAction extends ContextAction<Picture>
+public class ImportPicturesAction extends ContextAction
 {
 	private ApplicationFrame frame;
 

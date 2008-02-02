@@ -14,19 +14,19 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteAuthorAction extends SimpleContextAction<Author>
+public class DeleteAuthorAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public DeleteAuthorAction(ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(Author.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent event)
 	{
-		Author author=getObject();
+		Author author=(Author)getObject();
 		if (author.isUsed())
 		{
 			JOptionPane.showMessageDialog(frame, "The author '"+author.getName()+"' can't be deleted.", "Message",

@@ -16,14 +16,14 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class DeleteCastAction extends MultiContextAction<CastMember>
+public class DeleteCastAction extends MultiContextAction
 {
 	private Show show;
 	private ApplicationFrame frame;
 
 	public DeleteCastAction(Show show, ApplicationFrame frame)
 	{
-		super("Delete", Icons.getIcon("delete"));
+		super(CastMember.class, "Delete", Icons.getIcon("delete"));
 		this.show=show;
 		this.frame=frame;
 	}

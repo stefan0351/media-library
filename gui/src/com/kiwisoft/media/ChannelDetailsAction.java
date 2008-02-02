@@ -8,11 +8,11 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class ChannelDetailsAction extends SimpleContextAction<Channel>
+public class ChannelDetailsAction extends SimpleContextAction
 {
 	protected ChannelDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Channel.class, "Details", Icons.getIcon("details"));
 	}
 
 	/**
@@ -20,6 +20,6 @@ public class ChannelDetailsAction extends SimpleContextAction<Channel>
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		ChannelDetailsView.create(getObject());
+		ChannelDetailsView.create((Channel)getObject());
 	}
 }

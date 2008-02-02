@@ -37,15 +37,15 @@ public class ShowTracksView extends ViewPanel
 		tableController=new TableController<Track>(tableModel, new DefaultTableConfiguration(ShowTracksTableModel.class))
 		{
 			@Override
-			public List<ContextAction<? super Track>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Track>> actions=new ArrayList<ContextAction<? super Track>>(1);
+				List<ContextAction> actions=new ArrayList<ContextAction>(1);
 				actions.add(new TrackDetailsAction());
 				return actions;
 			}
 
 			@Override
-			public ContextAction<Track> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new TrackDetailsAction();
 			}

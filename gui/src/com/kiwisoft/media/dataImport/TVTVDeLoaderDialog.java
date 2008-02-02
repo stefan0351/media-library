@@ -21,12 +21,12 @@ import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.cfg.Configuration;
 
-public class TVTVDeLoaderDialog<T> extends JDialog
+public class TVTVDeLoaderDialog extends JDialog
 {
 	private DialogLookupField tfPath;
-	private List<T> objects;
+	private List objects;
 
-	public TVTVDeLoaderDialog(JFrame owner, List<T> objects) throws HeadlessException
+	public TVTVDeLoaderDialog(JFrame owner, List objects) throws HeadlessException
 	{
 		super(owner, "Load Schedule from TVTV.de", true);
 		this.objects=objects;

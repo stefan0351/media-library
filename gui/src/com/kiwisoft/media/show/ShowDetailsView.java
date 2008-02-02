@@ -94,9 +94,9 @@ public class ShowDetailsView extends DetailsView
 		infosController=new TableController<ShowInfo>(tmInfos, new DefaultTableConfiguration(ShowDetailsView.class, "infos"))
 		{
 			@Override
-			public List<ContextAction<? super ShowInfo>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super ShowInfo>> actions=new ArrayList<ContextAction<? super ShowInfo>>(2);
+				List<ContextAction> actions=new ArrayList<ContextAction>(2);
 				actions.add(new NewInfoAction());
 				actions.add(new DeleteInfoAction());
 				return actions;
@@ -374,7 +374,7 @@ public class ShowDetailsView extends DetailsView
 		}
 	}
 
-	private class NewInfoAction extends ContextAction<ShowInfo>
+	private class NewInfoAction extends ContextAction
 	{
 		public NewInfoAction()
 		{
@@ -387,11 +387,11 @@ public class ShowDetailsView extends DetailsView
 		}
 	}
 
-	private class DeleteInfoAction extends MultiContextAction<ShowInfo>
+	private class DeleteInfoAction extends MultiContextAction
 	{
 		public DeleteInfoAction()
 		{
-			super("Delete", Icons.getIcon("delete"));
+			super(ShowInfo.class,  "Delete", Icons.getIcon("delete"));
 		}
 
 		public void actionPerformed(ActionEvent e)

@@ -16,39 +16,36 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class ChainMoveUpAction<T> extends MultiContextAction<T>
+public class ChainMoveUpAction extends MultiContextAction
 {
 	private Chain chain;
 	private TableController tableController;
 
 	public ChainMoveUpAction(TableController tableController, Chain chain)
 	{
-		super("Move Up", Icons.getIcon("move.up"));
+		super(ChainLink.class, "Move Up", Icons.getIcon("move.up"));
 		this.tableController=tableController;
 		this.chain=chain;
 	}
 
+
 	@Override
-	public void update(List<? extends T> objects)
+	protected boolean isValid(Object object)
 	{
-		super.update(objects);
-		if (!objects.isEmpty())
-		{
-			if (objects.contains(chain.getFirst())) setEnabled(false);
-		}
+		return super.isValid(object) && object!=chain.getFirst();
 	}
 
 	@SuppressWarnings({"unchecked"})
 	public void actionPerformed(ActionEvent e)
 	{
-		List<T> objects=getObjects();
+		List objects=getObjects();
 		Collections.sort(objects, new Chain.ChainComparator());
 		tableController.getTable().clearSelection();
 		Transaction transaction=null;
 		try
 		{
 			transaction=DBSession.getInstance().createTransaction();
-			for (T object : objects) chain.moveUp((ChainLink)object);
+			for (Object object : objects) chain.moveUp((ChainLink)object);
 			transaction.close();
 		}
 		catch (Exception e1)
@@ -65,7 +62,7 @@ public class ChainMoveUpAction<T> extends MultiContextAction<T>
 			JOptionPane.showMessageDialog(tableController.getTable(), e1.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
-		for (T object : objects)
+		for (Object object : objects)
 		{
 			int rowIndex=tableController.getModel().indexOf(object);
 			if (rowIndex>=0) tableController.getTable().getSelectionModel().addSelectionInterval(rowIndex, rowIndex);

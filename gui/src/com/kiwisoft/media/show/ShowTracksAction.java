@@ -9,18 +9,18 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowTracksAction extends SimpleContextAction<Show>
+public class ShowTracksAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
 	public ShowTracksAction(ApplicationFrame frame)
 	{
-		super("Tracks", Icons.getIcon("tracks"));
+		super(Show.class, "Tracks", Icons.getIcon("tracks"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ShowTracksView(getObject()), true);
+		frame.setCurrentView(new ShowTracksView((Show)getObject()), true);
 	}
 }

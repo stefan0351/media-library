@@ -8,15 +8,15 @@ import com.kiwisoft.swing.actions.SimpleContextAction;
 /**
  * @author Stefan Stiller
  */
-public class ShowDetailsAction extends SimpleContextAction<Show>
+public class ShowDetailsAction extends SimpleContextAction
 {
 	public ShowDetailsAction()
 	{
-		super("Details", Icons.getIcon("details"));
+		super(Show.class, "Details", Icons.getIcon("details"));
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		ShowDetailsView.create(getObject());
+		ShowDetailsView.create((Show)getObject());
 	}
 }
