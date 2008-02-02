@@ -23,7 +23,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
-import com.kiwisoft.media.person.CrewMember;
+import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.collection.Chain;
@@ -42,9 +42,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String RECURRING_CAST="recurringCast";
 	public static final String LANGUAGE="language";
 	public static final String DEFAULT_INFO="defaultInfo";
-	public static final String LINKS="links";
 	public static final String GENRES="genres";
 	public static final String LOGO="logo";
+	public static final String LINK_GROUP="linkGroup";
 
 	private static final DBAssociation<Show, Genre> ASSOCIATION_GENRES=DBAssociation.getAssociation(GENRES, Show.class, Genre.class);
 
@@ -59,7 +59,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private Set<Season> seasons;
 	private String webDatesFile;
 	private Set<ShowInfo> infos;
-	private Set<Link> links;
 	private Integer startYear, endYear;
 	private String indexBy;
 
@@ -142,33 +141,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	{
 		if (infos==null) infos=DBLoader.getInstance().loadSet(ShowInfo.class, null, "show_id=?", getId());
 		return infos;
-	}
-
-	public Link createLink()
-	{
-		Link link=new Link(this);
-		if (links!=null) links.add(link);
-		fireElementAdded(LINKS, link);
-		return link;
-	}
-
-	public void dropLink(Link link)
-	{
-		if (links!=null) links.remove(link);
-		link.delete();
-		fireElementRemoved(LINKS, link);
-	}
-
-	public Set<Link> getLinks()
-	{
-		if (links==null) links=DBLoader.getInstance().loadSet(Link.class, null, "show_id=?", getId());
-		return links;
-	}
-
-	public int getLinkCount()
-	{
-		if (links!=null) return links.size();
-		else return DBLoader.getInstance().count(Link.class, null, "show_id=?", getId());
 	}
 
 	public Episode createEpisode()
@@ -481,9 +453,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		ASSOCIATION_GENRES.setAssociations(this, genres);
 	}
 
-	public Set<CrewMember> getCrewMembers(CreditType type)
+	public Set<Credit> getCredits(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(CrewMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
+		return DBLoader.getInstance().loadSet(Credit.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
 	public Set<CastMember> getCastMembers(CreditType type)
@@ -531,5 +503,22 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	{
 		this.indexBy=indexBy;
 		setModified();
+	}
+
+	public LinkGroup getLinkGroup()
+	{
+		return (LinkGroup)getReference(LINK_GROUP);
+	}
+
+	public LinkGroup getLinkGroup(boolean create)
+	{
+		LinkGroup group=getLinkGroup();
+		if (group==null && create) setLinkGroup(group=new LinkGroup(getTitle()));
+		return group;
+	}
+
+	public void setLinkGroup(LinkGroup group)
+	{
+		setReference(LINK_GROUP, group);
 	}
 }

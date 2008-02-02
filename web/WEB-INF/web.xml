@@ -30,13 +30,6 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>add_link</servlet-name>
-		<display-name>Add Link Servlet</display-name>
-		<description>Servlet to add new show links</description>
-		<servlet-class>com.kiwisoft.media.AddLinkServlet</servlet-class>
-	</servlet>
-
-	<servlet>
 		<servlet-name>search</servlet-name>
 		<display-name>Search Servlet</display-name>
 		<description>Search for all type of objects</description>
@@ -58,11 +51,6 @@
 	<servlet-mapping>
 		<servlet-name>create.pdf</servlet-name>
 		<url-pattern>/create.pdf</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>add_link</servlet-name>
-		<url-pattern>/add_link</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

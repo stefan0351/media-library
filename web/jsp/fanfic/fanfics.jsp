@@ -9,6 +9,7 @@
 				 com.kiwisoft.media.Link,
 				 com.kiwisoft.media.Language"%>
 <%@ page import="com.kiwisoft.collection.SortedSetMap" %>
+<%@ page import="com.kiwisoft.media.LinkGroup" %>
 
 <%
     FanFicGroup container=null;
@@ -142,19 +143,20 @@
 			</dl></td></tr>
 			</table>
 <%
-	}
-	else if (container instanceof FanDom)
+}
+else if (container instanceof FanDom)
+{
+	FanDom fanDom=(FanDom)container;
+	LinkGroup linkGroup=fanDom.getLinkGroup();
+	if (linkGroup!=null && linkGroup.getLinkCount()>0)
 	{
-		FanDom fanDom=(FanDom)container;
-		if (fanDom.getLinkCount()>0)
-		{
 %>
 			<table class="contenttable" width="765">
 			<tr><td class=header2>Links</td></tr>
 			<tr><td class="content">
 <%
 	com.kiwisoft.collection.SortedSetMap sortedLinks=new SortedSetMap();
-	for (Iterator itLinks=fanDom.getLinks().iterator(); itLinks.hasNext();)
+	for (Iterator itLinks=linkGroup.getLinks().iterator(); itLinks.hasNext();)
 	{
 		Link link=(Link)itLinks.next();
 		sortedLinks.add(link.getLanguage(), link);

@@ -12,23 +12,21 @@ import java.util.SortedSet;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.Linkable;
-import com.kiwisoft.media.Link;
+import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
-import com.kiwisoft.persistence.DBLoader;
 
 public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkable
 {
 	public static final String SHOW="show";
 	public static final String MOVIE="movie";
 	public static final String FANFICS="fanfics";
-	public static final String LINKS="links";
+	public static final String LINK_GROUP="linkGroup";
 
 	private static final DBAssociation<FanDom, FanFic> ASSOCIATIONS_FANFICS=DBAssociation.getAssociation(FANFICS, FanDom.class, FanFic.class);
 
 	private String name;
-	private Set<Link> links;
 
 	public FanDom()
 	{
@@ -75,7 +73,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		setReference(MOVIE, movie);
 	}
 
-	public Set getFanFics()
+	public Set<FanFic> getFanFics()
 	{
 		return ASSOCIATIONS_FANFICS.getAssociations(this);
 	}
@@ -90,12 +88,12 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		return ASSOCIATIONS_FANFICS.isExistsAssociation(this, fanFic);
 	}
 
-	public SortedSet getFanFicLetters()
+	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
-	public Set getFanFics(char ch)
+	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
 	}
@@ -115,30 +113,20 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		return getName().compareToIgnoreCase(((FanDom)o).getName());
 	}
 
-	public Link createLink()
+	public LinkGroup getLinkGroup()
 	{
-		Link link=new Link(this);
-		if (links!=null) links.add(link);
-		fireElementAdded(LINKS, link);
-		return link;
+		return (LinkGroup)getReference(LINK_GROUP);
 	}
 
-	public void dropLink(Link link)
+	public LinkGroup getLinkGroup(boolean create)
 	{
-		if (links!=null) links.remove(link);
-		link.delete();
-		fireElementRemoved(LINKS, link);
+		LinkGroup group=getLinkGroup();
+		if (group==null && create) setLinkGroup(group=new LinkGroup(getName()+" - FanFic"));
+		return group;
 	}
 
-	public Set<Link> getLinks()
+	public void setLinkGroup(LinkGroup group)
 	{
-		if (links==null) links=DBLoader.getInstance().loadSet(Link.class, null, "fandom_id=?", getId());
-		return links;
-	}
-
-	public int getLinkCount()
-	{
-		if (links!=null) return links.size();
-		else return DBLoader.getInstance().count(Link.class, null, "fandom_id=?", getId());
+		setReference(LINK_GROUP, group);
 	}
 }

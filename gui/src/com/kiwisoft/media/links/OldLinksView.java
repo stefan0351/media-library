@@ -1,31 +1,31 @@
-package com.kiwisoft.media;
+package com.kiwisoft.media.links;
 
-import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 
-public class LinksView extends ViewPanel
+public class OldLinksView extends ViewPanel
 {
 	private Show show;
 
 	private TableController<Link> tableController;
 	private CollectionChangeObserver collectionObserver;
 
-	public LinksView(Show show)
+	public OldLinksView(Show show)
 	{
 		this.show=show;
 	}
@@ -40,50 +40,48 @@ public class LinksView extends ViewPanel
 		SortableTableModel<Link> tableModel=new DefaultSortableTableModel<Link>("name", "language", "url");
 		createTableData(tableModel);
 
-		tableController=new TableController<Link>(tableModel, new DefaultTableConfiguration(LinksView.class, "links"))
+		tableController=new TableController<Link>(tableModel, new DefaultTableConfiguration(OldLinksView.class, "links"))
 		{
 			@Override
-			public List<ContextAction<? super Link>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Link>> actions=new ArrayList<ContextAction<? super Link>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new LinkDetailsAction());
-				actions.add(new NewLinkAction(show));
-				actions.add(new DeleteLinkAction(frame, show));
+				actions.add(new NewLinkAction());
+				actions.add(new DeleteLinkAction(frame));
 				actions.add(new OpenLinkAction(frame));
 				return actions;
 			}
 
 			@Override
-			public List<ContextAction<? super Link>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Link>> actions=new ArrayList<ContextAction<? super Link>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new LinkDetailsAction());
 				actions.add(null);
-				actions.add(new NewLinkAction(show));
-				actions.add(new DeleteLinkAction(frame, show));
+				actions.add(new NewLinkAction());
+				actions.add(new DeleteLinkAction(frame));
 				actions.add(null);
 				actions.add(new OpenLinkAction(frame));
 				return actions;
 			}
 
 			@Override
-			public ContextAction<Link> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new LinkDetailsAction();
 			}
 		};
-		JComponent component=tableController.createComponent();
-		tableController.getTable().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_MASK), "new link");
-		tableController.getTable().getActionMap().put("new link", new NewLinkAction(show));
-		return component;
+		return tableController.createComponent();
 	}
 
 	private void createTableData(SortableTableModel<Link> tableModel)
 	{
 		collectionObserver=new CollectionChangeObserver();
-		for (Link link : show.getLinks()) tableModel.addRow(new Row(link));
+		LinkGroup linkGroup=show.getLinkGroup();
+		for (Link link : linkGroup.getLinks()) tableModel.addRow(new Row(link));
 		tableModel.sort();
-		show.addCollectionListener(collectionObserver);
+		linkGroup.addCollectionListener(collectionObserver);
 	}
 
 	protected void installComponentListeners()
@@ -109,7 +107,7 @@ public class LinksView extends ViewPanel
 	{
 		public void collectionChanged(CollectionChangeEvent event)
 		{
-			if (Show.LINKS.equals(event.getPropertyName()))
+			if (LinkGroup.LINKS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
@@ -173,7 +171,7 @@ public class LinksView extends ViewPanel
 
 	public Bookmark getBookmark()
 	{
-		Bookmark bookmark=new Bookmark(getTitle(), LinksView.class);
+		Bookmark bookmark=new Bookmark(getTitle(), OldLinksView.class);
 		bookmark.setParameter("show", String.valueOf(show.getId()));
 		return bookmark;
 	}
@@ -182,6 +180,6 @@ public class LinksView extends ViewPanel
 	{
 		Long id=new Long(bookmark.getParameter("show"));
 		Show show=ShowManager.getInstance().getShow(id);
-		frame.setCurrentView(new LinksView(show), true);
+		frame.setCurrentView(new OldLinksView(show), true);
 	}
 }

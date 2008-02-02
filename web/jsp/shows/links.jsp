@@ -6,6 +6,7 @@
 				   com.kiwisoft.media.show.ShowManager,
 				   com.kiwisoft.collection.SortedSetMap" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="com.kiwisoft.media.LinkGroup" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -49,10 +50,14 @@
 <tr><td class="content">
 <%
 	com.kiwisoft.collection.SortedSetMap sortedLinks=new SortedSetMap();
-	for (Iterator itLinks=show.getLinks().iterator(); itLinks.hasNext();)
+	LinkGroup linkGroup=show.getLinkGroup();
+	if (linkGroup!=null)
 	{
-		Link link=(Link)itLinks.next();
-		sortedLinks.add(link.getLanguage(), link);
+		for (Iterator itLinks=linkGroup.getLinks().iterator(); itLinks.hasNext();)
+		{
+			Link link=(Link)itLinks.next();
+			sortedLinks.add(link.getLanguage(), link);
+		}
 	}
 	for (Iterator itLanguages=sortedLinks.keySet().iterator(); itLanguages.hasNext();)
 	{

@@ -23,6 +23,7 @@ import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
+import com.kiwisoft.media.links.LinksTask;
 import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.table.TableEditorFactory;
@@ -67,6 +68,9 @@ public class MediaManagerFrame extends ApplicationFrame
 		formatManager.setFormat(Gender.class, new GenderFormat());
 		formatManager.setFormat(Picture.class, new PictureFormat());
 		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
+		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());
+		formatManager.setFormat(Link.class, new LinkFormat());
+		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 	}
 
 	protected void initializeTableComponents()
@@ -92,6 +96,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);
 		tasks.add(new BooksTask());
 		if (MediaConfiguration.isFanFicsEnabled()) tasks.add(new FanFicTask());
+		tasks.add(new LinksTask());
 		tasks.add(new AllMediaTask());
 		tasks.add(new MoviesTask());
 		tasks.add(new PersonsTask());

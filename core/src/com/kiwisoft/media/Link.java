@@ -6,28 +6,21 @@
  */
 package com.kiwisoft.media;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 
 public class Link extends IDObject implements Comparable
 {
-	public static final String SHOW="show";
-	public static final String FANDOM="fanDom";
+	public static final String NAME="name";
+	public static final String GROUP="group";
 	public static final String LANGUAGE="language";
 
 	private String name;
 	private String url;
 
-	public Link(Show show)
+	public Link(LinkGroup group)
 	{
-		setShow(show);
-	}
-
-	public Link(FanDom fanDom)
-	{
-		setFanDom(fanDom);
+		setGroup(group);
 	}
 
 	public Link(DBDummy dummy)
@@ -42,39 +35,30 @@ public class Link extends IDObject implements Comparable
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified(NAME, oldName, this.name);
 	}
 
 	public void setUrl(String url)
 	{
 		this.url=url;
 		setModified();
-}
+	}
 
 	public String getUrl()
 	{
 		return url;
-   }
-
-	public Show getShow()
-	{
-		return (Show)getReference(SHOW);
 	}
 
-	public void setShow(Show show)
+	public LinkGroup getGroup()
 	{
-		setReference(SHOW, show);
+		return (LinkGroup)getReference(GROUP);
 	}
 
-	public FanDom getFanDom()
+	public void setGroup(LinkGroup group)
 	{
-		return (FanDom)getReference(FANDOM);
-	}
-
-	public void setFanDom(FanDom fanDom)
-	{
-		setReference(FANDOM, fanDom);
+		setReference(GROUP, group);
 	}
 
 	public Language getLanguage()
