@@ -1,13 +1,8 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Mar 29, 2003
- * Time: 12:21:05 AM
- */
 package com.kiwisoft.media.medium;
 
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Show;
@@ -23,6 +18,8 @@ public class Track extends IDObject implements ChainLink, Recordable
 	public static final String LANGUAGE="language";
 	public static final String MEDIUM="medium";
 	public static final String SEQUENCE="sequence";
+	public static final String SONG="song";
+	public static final String TYPE="type";
 
 	private String event;
 	private int length;
@@ -72,6 +69,16 @@ public class Track extends IDObject implements ChainLink, Recordable
 	public void setShow(Show show)
 	{
 		setReference(SHOW, show);
+	}
+
+	public TrackType getType()
+	{
+		return (TrackType)getReference(TYPE);
+	}
+
+	public void setType(TrackType type)
+	{
+		setReference(TYPE, type);
 	}
 
 	public Language getLanguage()
@@ -132,6 +139,16 @@ public class Track extends IDObject implements ChainLink, Recordable
 	public void setMedium(Medium medium)
 	{
 		setReference(MEDIUM, medium);
+	}
+
+	public Song getSong()
+	{
+		return (Song)getReference(SONG);
+	}
+
+	public void setSong(Song song)
+	{
+		setReference(SONG, song);
 	}
 
 	public int getSequence()
@@ -195,6 +212,13 @@ public class Track extends IDObject implements ChainLink, Recordable
 	public String toString()
 	{
 		return getName();
+	}
+
+	@Override
+	public Identifyable loadReference(String name, Long referenceId)
+	{
+		if (TYPE.equals(name)) return TrackType.get(referenceId);
+		return super.loadReference(name, referenceId);
 	}
 
 	public static class Comparator implements java.util.Comparator

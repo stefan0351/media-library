@@ -19,6 +19,7 @@ public class CreditType implements Identifyable, Comparable<CreditType>
 	public static final CreditType MAIN_CAST=new CreditType(8L, "Main Cast", "Main Cast");
 	public static final CreditType RECURRING_CAST=new CreditType(9L, "Recurring Cast", "Recurring Cast");
 	public static final CreditType GUEST_CAST=new CreditType(10L, "Guest Gast", "Guest Cast");
+	public static final CreditType INTERPRET=new CreditType(11L, "Interpret", "Interpret");
 
 	public static CreditType get(Long id)
 	{

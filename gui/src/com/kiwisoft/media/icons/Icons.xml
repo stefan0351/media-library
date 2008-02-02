@@ -111,4 +111,7 @@
 	<icon key="excel">
 		<resource url="/com/kiwisoft/media/icons/excel.png"/>
 	</icon>
+	<icon key="download">
+		<resource url="/com/kiwisoft/media/icons/download.gif"/>
+	</icon>
 </icons>

@@ -17,11 +17,12 @@ public class MediumType implements Identifyable
 
 	public static final MediumType VHS=new MediumType(new Long(2), "VHS", "Videos", "V", true);
 	public static final MediumType VHS_ORIGINAL=new MediumType(new Long(1), "VHS(O)", "Videos - Original", "V");
-	public static final MediumType VCD=new MediumType(new Long(3), "VCD", "Video-CD's", "C");
+	public static final MediumType VIDEO_CD=new MediumType(new Long(3), "VCD", "Video-CD's", "C");
 	public static final MediumType DVD=new MediumType(new Long(4), "DVD", "DVD's", "D");
 	public static final MediumType DVD_ORIGINAL=new MediumType(new Long(5), "DVD(O)", "Original DVD's", "D");
 	public static final MediumType DVD_RW=new MediumType(new Long(6), "DVD(RW)", "Rewritable DVD's", "D", true);
 	public static final MediumType HDD=new MediumType(new Long(7), "HDD", "Harddisks", "H", true);
+	public static final MediumType AUDIO_CD=new MediumType(new Long(8), "Audio-CD", "Audio-CD's", "A");
 
 	public static MediumType get(Long id)
 	{
