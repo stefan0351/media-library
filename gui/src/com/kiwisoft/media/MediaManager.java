@@ -3,14 +3,20 @@ package com.kiwisoft.media;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.Locale;
 import javax.swing.UIManager;
 
-import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.SplashWindow;
+import com.kiwisoft.app.Application;
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.app.Application;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.SplashWindow;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.media.dataImport.AmazonHttpHandler;
+import com.kiwisoft.media.dataImport.LinkHttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 public class MediaManager
 {
@@ -63,9 +69,38 @@ public class MediaManager
 			}
 		});
 		splashWindow.dispose();
+		startHttpListener(frame);
+	}
+
+	private static void startHttpListener(final MediaManagerFrame frame)
+	{
+		try
+		{
+			System.out.print("Starting listener on port 50001...");
+			final HttpServer httpServer=HttpServer.create(new InetSocketAddress("localhost", 50001), 0);
+			httpServer.createContext("/amazon", new AmazonHttpHandler(frame));
+			httpServer.createContext("/link", new LinkHttpHandler(frame));
+			Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+				@Override
+				public void run()
+				{
+					System.out.print("Stopping listener...");
+					httpServer.stop(0);
+					System.out.println("done");
+				}
+			});
+			httpServer.start();
+			System.out.println("done");
+		}
+		catch (IOException e)
+		{
+			GuiUtils.handleThrowable(frame, e);
+		}
 	}
 
 	private MediaManager()
 	{
 	}
+
 }

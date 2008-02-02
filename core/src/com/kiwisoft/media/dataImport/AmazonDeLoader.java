@@ -2,6 +2,7 @@ package com.kiwisoft.media.dataImport;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.ResourceBundle;
@@ -80,8 +81,14 @@ public class AmazonDeLoader
 		title=title.replaceAll("\u00DF", "ss");
 		while (title.endsWith("_")) title=title.substring(0, title.length()-1);
 		while (title.startsWith("_")) title=title.substring(1);
-		//noinspection deprecation
-		title=URLEncoder.encode(title);
+		try
+		{
+			title=URLEncoder.encode(title, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new RuntimeException(e);
+		}
 		if (index==0) return title+extension;
 		else return title+"_"+index+extension;
 	}
@@ -107,6 +114,12 @@ public class AmazonDeLoader
 				bookData.setPageCount(Integer.parseInt(matcher.group(2)));
 				continue;
 			}
+			matcher=Pattern.compile("<b>Taschenbuch</b>").matcher(liContent);
+			if (matcher.matches())
+			{
+				bookData.setBinding("Taschenbuch");
+				continue;
+			}
 			matcher=Pattern.compile("<b>Verlag:</b> (.+); Auflage: (.*) \\([a-zA-Z\\.]*\\s*(\\d+)\\)").matcher(liContent);
 			if (matcher.matches())
 			{
@@ -116,6 +129,13 @@ public class AmazonDeLoader
 				continue;
 			}
 			matcher=Pattern.compile("<b>Verlag:</b> (.+) \\([a-zA-Z\\.]*\\s*(\\d+)\\)").matcher(liContent);
+			if (matcher.matches())
+			{
+				bookData.setPublisher(matcher.group(1));
+				bookData.setPublishedYear(Integer.parseInt(matcher.group(2)));
+				continue;
+			}
+			matcher=Pattern.compile("<b>Verlag:</b> (.+) \\(.*\\s*(\\d{4})\\)").matcher(liContent);
 			if (matcher.matches())
 			{
 				bookData.setPublisher(matcher.group(1));
@@ -217,8 +237,9 @@ public class AmazonDeLoader
 	{
 		int index=page.indexOf("<td id=\"prodImageCell\"");
 		if (index<0) return null;
+		int indexEnd=page.indexOf("</td>", index);
 		index=page.indexOf("<a", index);
-		if (index<0) return null;
+		if (index<0 || index>indexEnd) return null;
 		int index2=page.indexOf(">", index);
 		if (index2<0) return null;
 		return XMLUtils.getAttribute(page.substring(index, index2), "href");

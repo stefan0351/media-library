@@ -43,9 +43,9 @@ public class BooksView extends ViewPanel
 		tableController=new TableController<Book>(tableModel, new DefaultTableConfiguration(BooksView.class, "books"))
 		{
 			@Override
-			public List<ContextAction<? super Book>> getToolBarActions()
+			public List<ContextAction> getToolBarActions()
 			{
-				List<ContextAction<? super Book>> actions=new ArrayList<ContextAction<? super Book>>(1);
+				List<ContextAction> actions=new ArrayList<ContextAction>(1);
 				actions.add(new BookDetailsAction());
 				actions.add(new NewBookAction());
 				actions.add(new DeleteBookAction(frame));
@@ -54,9 +54,9 @@ public class BooksView extends ViewPanel
 			}
 
 			@Override
-			public List<ContextAction<? super Book>> getContextActions()
+			public List<ContextAction> getContextActions()
 			{
-				List<ContextAction<? super Book>> actions=new ArrayList<ContextAction<? super Book>>();
+				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new BookDetailsAction());
 				actions.add(null);
 				actions.add(new NewBookAction());
@@ -65,7 +65,7 @@ public class BooksView extends ViewPanel
 			}
 
 			@Override
-			public ContextAction<Book> getDoubleClickAction()
+			public ContextAction getDoubleClickAction()
 			{
 				return new BookDetailsAction();
 			}
