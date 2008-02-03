@@ -151,9 +151,9 @@ public class Person extends IDObject
 		return getName();
 	}
 
-	public Identifyable loadReference(String name, Long referenceId)
+	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (GENDER.equals(name)) return Gender.get(referenceId);
+		if (GENDER.equals(name)) return Gender.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

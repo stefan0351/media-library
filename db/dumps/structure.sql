@@ -124,6 +124,26 @@ CREATE TABLE countries (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `credit`
+--
+
+DROP TABLE IF EXISTS credit;
+CREATE TABLE credit (
+  id bigint(20) NOT NULL,
+  credit_type_id bigint(20) NOT NULL,
+  episode_id bigint(20) default NULL,
+  song_id bigint(20) default NULL,
+  person_id bigint(20) NOT NULL,
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  sub_type varchar(200) default NULL,
+  movie_id bigint(20) default NULL,
+  PRIMARY KEY  (id),
+  KEY ix_crew_episode (episode_id),
+  KEY ix_crew_movie (movie_id),
+  KEY ix_crew_person (person_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `credit_types`
 --
 
@@ -133,25 +153,6 @@ CREATE TABLE credit_types (
   by_name varchar(20) default NULL,
   as_name varchar(20) default NULL,
   PRIMARY KEY  (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `crew`
---
-
-DROP TABLE IF EXISTS crew;
-CREATE TABLE crew (
-  id bigint(20) NOT NULL,
-  credit_type_id bigint(20) NOT NULL,
-  episode_id bigint(20) default NULL,
-  person_id bigint(20) NOT NULL,
-  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  sub_type varchar(200) default NULL,
-  movie_id bigint(20) default NULL,
-  PRIMARY KEY  (id),
-  KEY ix_crew_episode (episode_id),
-  KEY ix_crew_movie (movie_id),
-  KEY ix_crew_person (person_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -189,6 +190,7 @@ CREATE TABLE fandoms (
   show_id bigint(20) default NULL,
   movie_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  linkgroup_id bigint(20) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -263,18 +265,30 @@ CREATE TABLE languages (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `linkgroups`
+--
+
+DROP TABLE IF EXISTS linkgroups;
+CREATE TABLE linkgroups (
+  id bigint(20) NOT NULL,
+  `name` varchar(200) default NULL,
+  parentgroup_id bigint(20) default NULL,
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `links`
 --
 
 DROP TABLE IF EXISTS links;
 CREATE TABLE links (
   id bigint(20) NOT NULL default '0',
-  show_id bigint(20) default NULL,
   language_id bigint(20) default NULL,
   `name` varchar(200) default NULL,
   url varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  fandom_id bigint(20) default NULL,
+  linkgroup_id bigint(20) NOT NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -534,6 +548,17 @@ CREATE TABLE pictures (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `relatedlinkgroups`
+--
+
+DROP TABLE IF EXISTS relatedlinkgroups;
+CREATE TABLE relatedlinkgroups (
+  linkgroup_id bigint(20) NOT NULL,
+  relatedgroup_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_relatedlinkgroups (linkgroup_id,relatedgroup_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `searchpatterns`
 --
 
@@ -612,6 +637,20 @@ CREATE TABLE shows (
   title varchar(100) NOT NULL,
   start_year int(11) default NULL,
   end_year int(11) default NULL,
+  linkgroup_id bigint(20) default NULL,
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `songs`
+--
+
+DROP TABLE IF EXISTS songs;
+CREATE TABLE songs (
+  id bigint(20) NOT NULL,
+  title varchar(200) default NULL,
+  version varchar(200) default NULL,
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -639,9 +678,11 @@ CREATE TABLE tracks (
   id bigint(20) NOT NULL default '0',
   longplay tinyint(1) default NULL,
   length int(11) default NULL,
+  type_id bigint(20) NOT NULL,
   event varchar(200) default NULL,
   show_id bigint(20) default NULL,
   episode_id bigint(20) default NULL,
+  song_id bigint(20) default NULL,
   language_id bigint(20) default NULL,
   medium_id bigint(20) NOT NULL,
   sequence int(11) default NULL,
@@ -659,12 +700,19 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50020 DEFINER=root@localhost*/ /*!50003 FUNCTION sort_letter(name varchar(200)) RETURNS char(1) CHARSET utf8
     DETERMINISTIC
 begin
+
 	declare letter char(1);
+
 	set letter=upper(left(name, 1));	
+
 	if (letter>='0' and letter<='9') then
+
 		set letter='0';
+
 	end if;
+
 	return letter;
+
 end */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
@@ -678,4 +726,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-11-11 18:19:59
+-- Dump completed on 2008-02-03 13:54:05

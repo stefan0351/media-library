@@ -13,7 +13,7 @@ import com.kiwisoft.utils.Identifyable;
 
 public class DataSource implements Identifyable
 {
-	public static final Map map=new HashMap();
+	public static final Map<Object, DataSource> map=new HashMap<Object, DataSource>();
 
 	public static final DataSource PRISMA_ONLINE=new DataSource(new Long(1), "prisma", "PrismaOnline.de");
 	public static final DataSource PRO7=new DataSource(new Long(2), "pro7", "Pro7.de");
@@ -22,12 +22,12 @@ public class DataSource implements Identifyable
 
 	public static DataSource get(Long id)
 	{
-		return (DataSource)map.get(id);
+		return map.get(id);
 	}
 
 	public static DataSource get(String key)
 	{
-		return (DataSource)map.get(key);
+		return map.get(key);
 	}
 
 	private Long id;
@@ -41,6 +41,11 @@ public class DataSource implements Identifyable
 		this.name=name;
 		map.put(id, this);
 		map.put(key, this);
+	}
+
+	public Object getPrimaryKey()
+	{
+		return getId();
 	}
 
 	public Long getId()

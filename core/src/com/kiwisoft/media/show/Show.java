@@ -29,7 +29,6 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
-import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.DBLoader;
 
 public class Show extends IDObject implements FanFicGroup, Linkable, Production
@@ -45,8 +44,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String GENRES="genres";
 	public static final String LOGO="logo";
 	public static final String LINK_GROUP="linkGroup";
-
-	private static final DBAssociation<Show, Genre> ASSOCIATION_GENRES=DBAssociation.getAssociation(GENRES, Show.class, Genre.class);
 
 	private String userKey;
 	private String title;
@@ -435,22 +432,23 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void addGenre(Genre genre)
 	{
-		ASSOCIATION_GENRES.addAssociation(this, genre);
+		createAssociation(GENRES, genre);
 	}
 
 	public void removeGenre(Genre genre)
 	{
-		ASSOCIATION_GENRES.removeAssociation(this, genre);
+		dropAssociation(GENRES, genre);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Set<Genre> getGenres()
 	{
-		return ASSOCIATION_GENRES.getAssociations(this);
+		return getAssociations(GENRES);
 	}
 
 	public void setGenres(Collection<Genre> genres)
 	{
-		ASSOCIATION_GENRES.setAssociations(this, genres);
+		setAssociations(GENRES, genres);
 	}
 
 	public Set<Credit> getCredits(CreditType type)

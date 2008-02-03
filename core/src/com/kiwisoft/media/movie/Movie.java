@@ -36,13 +36,6 @@ public class Movie extends IDObject implements Recordable, Production
 	public static final String INDEX_BY="indexBy";
 	public static final String POSTER="poster";
 
-	private static final DBAssociation<Movie, Genre> ASSOCIATION_GENRES
-		=DBAssociation.getAssociation(GENRES, Movie.class, Genre.class);
-	private static final DBAssociation<Movie, Language> ASSOCIATION_LANGUAGES
-		=DBAssociation.getAssociation(LANGUAGES, Movie.class, Language.class);
-	private static final DBAssociation<Movie, Country> ASSOCIATION_COUNTRIES
-		=DBAssociation.getAssociation(COUNTRIES, Movie.class, Country.class);
-
 	private String title;
 	private String germanTitle;
 	private boolean record;
@@ -302,62 +295,65 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void addGenre(Genre genre)
 	{
-		ASSOCIATION_GENRES.addAssociation(this, genre);
+		DBAssociation.getAssociation(Movie.class, GENRES).addAssociation(this, genre);
 	}
 
 	public void removeGenre(Genre genre)
 	{
-		ASSOCIATION_GENRES.removeAssociation(this, genre);
+		DBAssociation.getAssociation(Movie.class, GENRES).removeAssociation(this, genre);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Set<Genre> getGenres()
 	{
-		return ASSOCIATION_GENRES.getAssociations(this);
+		return (Set<Genre>)DBAssociation.getAssociation(Movie.class, GENRES).getAssociations(this);
 	}
 
 	public void setGenres(Collection<Genre> genres)
 	{
-		ASSOCIATION_GENRES.setAssociations(this, genres);
+		DBAssociation.getAssociation(Movie.class, GENRES).setAssociations(this, genres);
 	}
 
 	public void addLanguage(Language language)
 	{
-		ASSOCIATION_LANGUAGES.addAssociation(this, language);
+		DBAssociation.getAssociation(Movie.class, LANGUAGES).addAssociation(this, language);
 	}
 
 	public void removeLanguage(Language language)
 	{
-		ASSOCIATION_LANGUAGES.removeAssociation(this, language);
+		DBAssociation.getAssociation(Movie.class, LANGUAGES).removeAssociation(this, language);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Set<Language> getLanguages()
 	{
-		return ASSOCIATION_LANGUAGES.getAssociations(this);
+		return (Set<Language>)DBAssociation.getAssociation(Movie.class, LANGUAGES).getAssociations(this);
 	}
 
 	public void setLanguages(Collection<Language> languages)
 	{
-		ASSOCIATION_LANGUAGES.setAssociations(this, languages);
+		DBAssociation.getAssociation(Movie.class, LANGUAGES).setAssociations(this, languages);
 	}
 
 	public void addCountry(Country country)
 	{
-		ASSOCIATION_COUNTRIES.addAssociation(this, country);
+		DBAssociation.getAssociation(Movie.class, COUNTRIES).addAssociation(this, country);
 	}
 
 	public void removeCountry(Country country)
 	{
-		ASSOCIATION_COUNTRIES.removeAssociation(this, country);
+		DBAssociation.getAssociation(Movie.class, COUNTRIES).removeAssociation(this, country);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Set<Country> getCountries()
 	{
-		return ASSOCIATION_COUNTRIES.getAssociations(this);
+		return (Set<Country>)DBAssociation.getAssociation(Movie.class, COUNTRIES).getAssociations(this);
 	}
 
 	public void setCountries(Collection<Country> countries)
 	{
-		ASSOCIATION_COUNTRIES.setAssociations(this, countries);
+		DBAssociation.getAssociation(Movie.class, COUNTRIES).setAssociations(this, countries);
 	}
 
 	public Set<CastMember> getCastMembers()

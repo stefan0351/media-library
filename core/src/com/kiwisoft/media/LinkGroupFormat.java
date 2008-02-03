@@ -21,6 +21,6 @@ public class LinkGroupFormat extends DefaultObjectFormat
 	@Override
 	public String getIconName(Object object)
 	{
-		return "links";
+		return "linkgroup";
 	}
 }

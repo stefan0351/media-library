@@ -17,8 +17,6 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 {
 	public static final String FANFICS="fanfics";
 
-	private static final DBAssociation<Pairing, FanFic> ASSOCIATIONS_FANFICS=DBAssociation.getAssociation(FANFICS, Pairing.class, FanFic.class);
-
 	private String name;
 
 	public Pairing()
@@ -46,19 +44,20 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		setModified();
 	}
 
-	public Set getFanFics()
+	@SuppressWarnings({"unchecked"})
+	public Set<FanFic> getFanFics()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociations(this);
+		return (Set<FanFic>)DBAssociation.getAssociation(Pairing.class, FANFICS).getAssociations(this);
 	}
 
 	public int getFanFicCount()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociationsSize(this);
+		return DBAssociation.getAssociation(Pairing.class, FANFICS).getAssociationsSize(this);
 	}
 
 	public boolean contains(FanFic fanFic)
 	{
-		return ASSOCIATIONS_FANFICS.isExistsAssociation(this, fanFic);
+		return DBAssociation.getAssociation(Pairing.class, FANFICS).isExistsAssociation(this, fanFic);
 	}
 
 	public SortedSet getFanFicLetters()

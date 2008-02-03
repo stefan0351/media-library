@@ -26,56 +26,83 @@ public class DeleteLinkAction extends SimpleContextAction
 
 	public DeleteLinkAction(ApplicationFrame frame)
 	{
-		super(new Class[]{Link.class, LinkGroup.class}, "Delete", Icons.getIcon("delete"));
+		super(new Class[]{Link.class, LinkGroup.class, LinkGroupNode.class, RelatedLinkGroupNode.class, LinkNode.class},
+			  "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();
-		if (object instanceof Link)
-		{
-			final Link link=(Link)object;
-			if (confirm(link))
-			{
-				DBSession.execute(new Transactional()
-				{
-					public void run() throws Exception
-					{
-						link.getGroup().dropLink(link);
-					}
+		if (object instanceof Link) dropLink((Link)object);
+		else if (object instanceof LinkNode) dropLink(((LinkNode)object).getUserObject());
+		else if (object instanceof LinkGroup) dropLinkGroup((LinkGroup)object);
+		else if (object instanceof LinkGroupNode) dropLinkGroup(((LinkGroupNode)object).getUserObject());
+		else if (object instanceof RelatedLinkGroupNode) removeRelatedGroup((RelatedLinkGroupNode)object);
+	}
 
-					public void handleError(Throwable throwable, boolean rollback)
-					{
-						GuiUtils.handleThrowable(frame, throwable);
-					}
-				});
-			}
+	private void dropLinkGroup(final LinkGroup linkGroup)
+	{
+		if (confirm(linkGroup))
+		{
+			DBSession.execute(new Transactional()
+			{
+				public void run() throws Exception
+				{
+					Set<Show> shows=DBLoader.getInstance().loadSet(Show.class, null, "linkgroup_id=?", linkGroup.getId());
+					for (Show show : shows) show.setLinkGroup(null);
+					Set<FanDom> fanDoms=DBLoader.getInstance().loadSet(FanDom.class, null, "linkgroup_id=?", linkGroup.getId());
+					for (FanDom fanDom : fanDoms) fanDom.setLinkGroup(null);
+					LinkGroup parentGroup=linkGroup.getParentGroup();
+					if (parentGroup!=null) parentGroup.dropSubGroup(linkGroup);
+					else LinkManager.getInstance().dropRootGroup(linkGroup);
+				}
+
+				public void handleError(Throwable throwable, boolean rollback)
+				{
+					GuiUtils.handleThrowable(frame, throwable);
+				}
+			});
 		}
-		else if (object instanceof LinkGroup)
-		{
-			final LinkGroup linkGroup=(LinkGroup)object;
-			if (confirm(linkGroup))
-			{
-				DBSession.execute(new Transactional()
-				{
-					public void run() throws Exception
-					{
-						Set<Show> shows=DBLoader.getInstance().loadSet(Show.class, null, "linkgroup_id=?", linkGroup.getId());
-						for (Show show : shows) show.setLinkGroup(null);
-						Set<FanDom> fanDoms=DBLoader.getInstance().loadSet(FanDom.class, null, "linkgroup_id=?", linkGroup.getId());
-						for (FanDom fanDom : fanDoms) fanDom.setLinkGroup(null);
-						LinkGroup parentGroup=linkGroup.getParentGroup();
-						if (parentGroup!=null) parentGroup.dropSubGroup(linkGroup);
-						else LinkManager.getInstance().dropRootGroup(linkGroup);
-					}
+	}
 
-					public void handleError(Throwable throwable, boolean rollback)
-					{
-						GuiUtils.handleThrowable(frame, throwable);
-					}
-				});
-			}
+	private void removeRelatedGroup(RelatedLinkGroupNode node)
+	{
+		final LinkGroup relatedGroup=node.getUserObject();
+		if (node.getParent() instanceof LinkGroupNode)
+		{
+			final LinkGroup linkGroup=((LinkGroupNode)node.getParent()).getUserObject();
+			DBSession.execute(new Transactional()
+			{
+				public void run() throws Exception
+				{
+					linkGroup.removeRelatedGroup(relatedGroup);
+				}
+
+				public void handleError(Throwable throwable, boolean rollback)
+				{
+					GuiUtils.handleThrowable(frame, throwable);
+				}
+			});
+		}
+	}
+
+	private void dropLink(final Link link)
+	{
+		if (confirm(link))
+		{
+			DBSession.execute(new Transactional()
+			{
+				public void run() throws Exception
+				{
+					link.getGroup().dropLink(link);
+				}
+
+				public void handleError(Throwable throwable, boolean rollback)
+				{
+					GuiUtils.handleThrowable(frame, throwable);
+				}
+			});
 		}
 	}
 

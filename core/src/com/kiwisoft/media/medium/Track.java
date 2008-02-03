@@ -215,9 +215,9 @@ public class Track extends IDObject implements ChainLink, Recordable
 	}
 
 	@Override
-	public Identifyable loadReference(String name, Long referenceId)
+	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (TYPE.equals(name)) return TrackType.get(referenceId);
+		if (TYPE.equals(name)) return TrackType.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

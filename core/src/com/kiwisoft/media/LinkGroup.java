@@ -1,11 +1,11 @@
 package com.kiwisoft.media;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
-import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.IDObject;
 
 public class LinkGroup extends IDObject implements Linkable
 {
@@ -13,6 +13,7 @@ public class LinkGroup extends IDObject implements Linkable
 	public static final String NAME="name";
 	public static final String LINKS="links";
 	public static final String SUB_GROUPS="subGroups";
+	public static final String RELATED_GROUPS="relatedGroups";
 
 	private String name;
 	private Set<Link> links;
@@ -146,5 +147,27 @@ public class LinkGroup extends IDObject implements Linkable
 		for (LinkGroup group : new HashSet<LinkGroup>(getSubGroups())) dropSubGroup(group);
 		for (Link link : new HashSet<Link>(getLinks())) dropLink(link);
 		super.delete();
+	}
+
+	public Set<LinkGroup> getRelatedGroups()
+	{
+		return getAssociations(RELATED_GROUPS);
+	}
+
+	public boolean isRelatedGroup(LinkGroup linkGroup)
+	{
+		return containsAssociation(RELATED_GROUPS, linkGroup);
+	}
+
+	public void addRelatedGroup(LinkGroup linkGroup)
+	{
+		createAssociation(RELATED_GROUPS, linkGroup);
+		linkGroup.createAssociation(RELATED_GROUPS, this);
+	}
+
+	public void removeRelatedGroup(LinkGroup linkGroup)
+	{
+		dropAssociation(RELATED_GROUPS, linkGroup);
+		linkGroup.dropAssociation(RELATED_GROUPS, this);
 	}
 }

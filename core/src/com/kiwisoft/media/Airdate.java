@@ -167,9 +167,9 @@ public class Airdate extends IDObject
 		setReference(DATA_SOURCE, dataSource);
 	}
 
-	public Identifyable loadReference(String name, Long referenceId)
+	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (DATA_SOURCE.equals(name)) return DataSource.get(referenceId);
+		if (DATA_SOURCE.equals(name)) return DataSource.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

@@ -77,7 +77,7 @@ public class Photo extends IDObject implements ChainLink
 
 	public Long getOriginalPictureId()
 	{
-		return getReferenceId(ORIGINAL_PICTURE);
+		return (Long)getReferenceId(ORIGINAL_PICTURE);
 	}
 
 	public PictureFile getOriginalPicture()

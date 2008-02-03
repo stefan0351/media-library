@@ -22,10 +22,6 @@ public class FanFic extends IDObject
 	public static final String PREQUEL="prequel";
 	public static final String PARTS = "parts";
 
-	private static final DBAssociation<FanFic, Author> ASSOCIATIONS_AUTHORS=DBAssociation.getAssociation(AUTHORS, FanFic.class, Author.class);
-	private static final DBAssociation<FanFic, Pairing> ASSOCIATIONS_PAIRINGS=DBAssociation.getAssociation(PAIRINGS, FanFic.class, Pairing.class);
-	private static final DBAssociation<FanFic, FanDom> ASSOCIATIONS_FANDOMS=DBAssociation.getAssociation(FANDOMS, FanFic.class, FanDom.class);
-
 	private String title;
 	private String rating;
 	private String description;
@@ -144,7 +140,7 @@ public class FanFic extends IDObject
 
 	public Collection<Author> getAuthors()
 	{
-		return ASSOCIATIONS_AUTHORS.getAssociations(this);
+		return getAssociations(AUTHORS);
 	}
 
 	public void setAuthors(Collection<Author> authors)
@@ -159,17 +155,18 @@ public class FanFic extends IDObject
 
 	public void addAuthor(Author author)
 	{
-		ASSOCIATIONS_AUTHORS.addAssociation(this, author);
+		createAssociation(AUTHORS, author);
 	}
 
 	public void removeAuthor(Author author)
 	{
-		ASSOCIATIONS_AUTHORS.removeAssociation(this, author);
+		dropAssociation(AUTHORS, author);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Collection<FanDom> getFanDoms()
 	{
-		return ASSOCIATIONS_FANDOMS.getAssociations(this);
+		return (Collection<FanDom>)DBAssociation.getAssociation(FanFic.class, FANDOMS).getAssociations(this);
 	}
 
 	public void setFanDoms(Collection<FanDom> fanDoms)
@@ -189,17 +186,18 @@ public class FanFic extends IDObject
 
 	public void addFanDom(FanDom fanDom)
 	{
-		ASSOCIATIONS_FANDOMS.addAssociation(this, fanDom);
+		DBAssociation.getAssociation(FanFic.class, FANDOMS).addAssociation(this, fanDom);
 	}
 
 	public void removeFanDom(FanDom fanDom)
 	{
-		ASSOCIATIONS_FANDOMS.removeAssociation(this, fanDom);
+		DBAssociation.getAssociation(FanFic.class, FANDOMS).removeAssociation(this, fanDom);
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Collection<Pairing> getPairings()
 	{
-		return ASSOCIATIONS_PAIRINGS.getAssociations(this);
+		return (Collection<Pairing>)DBAssociation.getAssociation(FanFic.class, PAIRINGS).getAssociations(this);
 	}
 
 	public void setPairings(Collection<Pairing> pairings)
@@ -215,12 +213,12 @@ public class FanFic extends IDObject
 
 	public void addPairing(Pairing pairing)
 	{
-		ASSOCIATIONS_PAIRINGS.addAssociation(this, pairing);
+		DBAssociation.getAssociation(FanFic.class, PAIRINGS).addAssociation(this, pairing);
 	}
 
 	public void removePairing(Pairing pairing)
 	{
-		ASSOCIATIONS_PAIRINGS.removeAssociation(this, pairing);
+		DBAssociation.getAssociation(FanFic.class, PAIRINGS).removeAssociation(this, pairing);
 	}
 
 	public String toString()

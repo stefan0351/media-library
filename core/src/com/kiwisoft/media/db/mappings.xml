@@ -351,4 +351,8 @@
 		<element name="translators" column="book_id" type="Book"/>
 		<element name="books" column="translator_id" type="Person"/>
 	</association>
+	<association table="relatedlinkgroups">
+		<element type="LinkGroup" name="relatedGroups" column="linkgroup_id"/>
+		<element type="LinkGroup" name="alternateGroups" column="relatedgroup_id"/>
+	</association>
 </mappings>

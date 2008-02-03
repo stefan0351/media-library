@@ -12,8 +12,6 @@ public class Genre extends IDObject
 	public static final String SHOWS="shows";
 	public static final String NAME="name";
 
-	private static final DBAssociation<Genre, Show> ASSOCIATION_SHOWS=DBAssociation.getAssociation(SHOWS, Genre.class, Show.class);
-
 	private String name;
 
 	public Genre()
@@ -42,8 +40,9 @@ public class Genre extends IDObject
 		return super.toString();
 	}
 
+	@SuppressWarnings({"unchecked"})
 	public Set<Show> getShows()
 	{
-		return ASSOCIATION_SHOWS.getAssociations(this);
+		return (Set<Show>)DBAssociation.getAssociation(Genre.class, SHOWS).getAssociations(this);
 	}
 }

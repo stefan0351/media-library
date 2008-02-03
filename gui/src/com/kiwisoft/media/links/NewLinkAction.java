@@ -14,7 +14,7 @@ public class NewLinkAction extends SimpleContextAction
 {
 	public NewLinkAction()
 	{
-		super(new Class[]{Link.class, Linkable.class}, "Link", Icons.getIcon("link.open"));
+		super(new Class[]{Link.class, Linkable.class, LinkNode.class, LinkGroupNode.class}, "Link", Icons.getIcon("link"));
 	}
 
 
@@ -23,5 +23,7 @@ public class NewLinkAction extends SimpleContextAction
 		Object object=getObject();
 		if (object instanceof Linkable) LinkDetailsView.create((Linkable)object);
 		else if (object instanceof Link) LinkDetailsView.create(((Link)object).getGroup());
+		else if (object instanceof LinkGroupNode) LinkDetailsView.create(((LinkGroupNode)object).getUserObject());
+		else if (object instanceof LinkNode) LinkDetailsView.create(((LinkNode)object).getUserObject().getGroup());
 	}
 }

@@ -38,6 +38,11 @@ public class CreditType implements Identifyable, Comparable<CreditType>
 		map.put(id, this);
 	}
 
+	public Object getPrimaryKey()
+	{
+		return getId();
+	}
+	
 	public Long getId()
 	{
 		return id;

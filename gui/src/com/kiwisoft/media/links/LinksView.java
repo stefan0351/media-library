@@ -93,45 +93,8 @@ public class LinksView extends ViewPanel
 		public int getSourceActions(JComponent c)
 		{
 			GenericTree tree=(GenericTree)c;
-			if (tree.getSelectionCount()==1) return COPY_OR_MOVE;
+			if (tree.getSelectionCount()==1) return COPY+MOVE;
 			else return NONE;
-		}
-
-		@Override
-		public boolean canImport(TransferSupport support)
-		{
-			return true;
-		}
-
-		@Override
-		public boolean importData(TransferSupport support)
-		{
-			GenericTree tree=(GenericTree)support.getComponent();
-			Point dropLocation=support.getDropLocation().getDropPoint();
-			TreePath path=tree.getPathForLocation(dropLocation.x, dropLocation.y);
-			Transferable transferable=support.getTransferable();
-			try
-			{
-				Object draggedObject=transferable.getTransferData(MediaTransferable.DATA_FLAVOR);
-				if (path!=null)
-				{
-					GenericTreeNode targetNode=(GenericTreeNode)path.getLastPathComponent();
-					return moveObjectTo(draggedObject, targetNode.getUserObject());
-				}
-				else
-				{
-					return moveObjectTo(draggedObject, null);
-				}
-			}
-			catch (UnsupportedFlavorException e)
-			{
-				e.printStackTrace();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			return false;
 		}
 
 		@Override
@@ -146,58 +109,137 @@ public class LinksView extends ViewPanel
 			}
 			return null;
 		}
+
+		@Override
+		public boolean canImport(TransferSupport support)
+		{
+			return true;
+		}
+
+		@Override
+		public boolean importData(TransferSupport support)
+		{
+			System.out.println("support.getUserDropAction() = "+support.getUserDropAction());
+			GenericTree tree=(GenericTree)support.getComponent();
+			Point dropLocation=support.getDropLocation().getDropPoint();
+			TreePath path=tree.getPathForLocation(dropLocation.x, dropLocation.y);
+			Transferable transferable=support.getTransferable();
+			try
+			{
+				Object draggedObject=transferable.getTransferData(MediaTransferable.DATA_FLAVOR);
+				if (path!=null)
+				{
+					GenericTreeNode targetNode=(GenericTreeNode)path.getLastPathComponent();
+					return dragObject(draggedObject, targetNode.getUserObject(), support.getUserDropAction());
+				}
+				else
+				{
+					return dragObject(draggedObject, null, support.getUserDropAction());
+				}
+			}
+			catch (UnsupportedFlavorException e)
+			{
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			return false;
+		}
+
+		private boolean dragObject(Object draggedObject, Object target, int dropAction)
+		{
+			switch (dropAction)
+			{
+				case MOVE:
+					return moveObject(draggedObject, target);
+				case COPY:
+					return copyObject(draggedObject, target);
+			}
+			return false;
+		}
+
+		private boolean moveObject(Object draggedObject, Object target)
+		{
+			if (draggedObject instanceof LinkGroup)
+			{
+				final LinkGroup draggedGroup=(LinkGroup)draggedObject;
+				if (target!=draggedObject && draggedGroup.getParentGroup()!=target && (target==null || target instanceof LinkGroup))
+				{
+					final LinkGroup targetGroup=(LinkGroup)target;
+					return DBSession.execute(new Transactional()
+					{
+						public void run() throws Exception
+						{
+							LinkGroup oldParentGroup=draggedGroup.getParentGroup();
+							if (oldParentGroup==null) LinkManager.getInstance().removeRootGroup(draggedGroup);
+							else oldParentGroup.removeSubGroup(draggedGroup);
+							if (targetGroup==null) LinkManager.getInstance().addRootGroup(draggedGroup);
+							else targetGroup.addSubGroup(draggedGroup);
+							draggedGroup.setParentGroup(targetGroup);
+						}
+
+						public void handleError(Throwable throwable, boolean rollback)
+						{
+							GuiUtils.handleThrowable(LinksView.this, throwable);
+						}
+					});
+				}
+			}
+			else if (draggedObject instanceof Link)
+			{
+				final Link draggedLink=(Link)draggedObject;
+				if (target instanceof LinkGroup && draggedLink.getGroup()!=target)
+				{
+					final LinkGroup targetGroup=(LinkGroup)target;
+					return DBSession.execute(new Transactional()
+					{
+						public void run() throws Exception
+						{
+							LinkGroup oldParentGroup=draggedLink.getGroup();
+							if (oldParentGroup!=null) oldParentGroup.removeLink(draggedLink);
+							targetGroup.addLink(draggedLink);
+							draggedLink.setGroup(targetGroup);
+						}
+
+						public void handleError(Throwable throwable, boolean rollback)
+						{
+							GuiUtils.handleThrowable(LinksView.this, throwable);
+						}
+					});
+				}
+			}
+			return false;
+		}
+
+		private boolean copyObject(Object draggedObject, Object target)
+		{
+			if (draggedObject instanceof LinkGroup)
+			{
+				final LinkGroup draggedGroup=(LinkGroup)draggedObject;
+				if (target!=draggedGroup && target instanceof LinkGroup)
+				{
+					final LinkGroup targetGroup=(LinkGroup)target;
+					if (!targetGroup.isRelatedGroup(draggedGroup))
+					{
+						return DBSession.execute(new Transactional()
+						{
+							public void run() throws Exception
+							{
+								targetGroup.addRelatedGroup(draggedGroup);
+							}
+
+							public void handleError(Throwable throwable, boolean rollback)
+							{
+								GuiUtils.handleThrowable(LinksView.this, throwable);
+							}
+						});
+					}
+				}
+			}
+			return false;
+		}
 	}
 
-	public boolean moveObjectTo(Object draggedObject, Object target)
-	{
-		if (draggedObject instanceof LinkGroup)
-		{
-			final LinkGroup draggedGroup=(LinkGroup)draggedObject;
-			if (target!=draggedObject && draggedGroup.getParentGroup()!=target && (target==null || target instanceof LinkGroup))
-			{
-				final LinkGroup targetGroup=(LinkGroup)target;
-				return DBSession.execute(new Transactional()
-				{
-					public void run() throws Exception
-					{
-						LinkGroup oldParentGroup=draggedGroup.getParentGroup();
-						if (oldParentGroup==null) LinkManager.getInstance().removeRootGroup(draggedGroup);
-						else oldParentGroup.removeSubGroup(draggedGroup);
-						if (targetGroup==null) LinkManager.getInstance().addRootGroup(draggedGroup);
-						else targetGroup.addSubGroup(draggedGroup);
-						draggedGroup.setParentGroup(targetGroup);
-					}
-
-					public void handleError(Throwable throwable, boolean rollback)
-					{
-						GuiUtils.handleThrowable(LinksView.this, throwable);
-					}
-				});
-			}
-		}
-		else if (draggedObject instanceof Link)
-		{
-			final Link draggedLink=(Link)draggedObject;
-			if (target instanceof LinkGroup && draggedLink.getGroup()!=target)
-			{
-				final LinkGroup targetGroup=(LinkGroup)target;
-				return DBSession.execute(new Transactional()
-				{
-					public void run() throws Exception
-					{
-						LinkGroup oldParentGroup=draggedLink.getGroup();
-						if (oldParentGroup!=null) oldParentGroup.removeLink(draggedLink);
-						targetGroup.addLink(draggedLink);
-						draggedLink.setGroup(targetGroup);
-					}
-
-					public void handleError(Throwable throwable, boolean rollback)
-					{
-						GuiUtils.handleThrowable(LinksView.this, throwable);
-					}
-				});
-			}
-		}
-		return false;
-	}
 }

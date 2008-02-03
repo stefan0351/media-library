@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Collection;
 
 import com.kiwisoft.utils.Identifyable;
-import com.kiwisoft.media.person.Gender;
 
 public class TrackType implements Identifyable
 {
@@ -48,5 +47,10 @@ public class TrackType implements Identifyable
 	public String toString()
 	{
 		return getName();
+	}
+
+	public Object getPrimaryKey()
+	{
+		return getId();
 	}
 }

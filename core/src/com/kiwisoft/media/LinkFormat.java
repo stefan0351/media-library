@@ -22,6 +22,6 @@ public class LinkFormat extends DefaultObjectFormat
 	@Override
 	public String getIconName(Object object)
 	{
-		return "link.open";
+		return "link";
 	}
 }

@@ -40,6 +40,11 @@ public class Gender implements Identifyable
 		map.put(id, this);
 	}
 
+	public Object getPrimaryKey()
+	{
+		return getId();
+	}
+
 	public Long getId()
 	{
 		return id;

@@ -39,6 +39,18 @@
 	<icon key="links">
 		<resource url="/com/kiwisoft/media/icons/world_link.png"/>
 	</icon>
+	<icon key="link">
+		<resource url="/com/kiwisoft/media/icons/link.png"/>
+	</icon>
+	<icon key="link.open">
+		<resource url="/com/kiwisoft/media/icons/link_go.png"/>
+	</icon>
+	<icon key="linkgroup">
+		<resource url="/com/kiwisoft/media/icons/folder_link.png"/>
+	</icon>
+	<icon key="relatedlinkgroup">
+		<resource url="/com/kiwisoft/media/icons/folder_go.png"/>
+	</icon>
 	<icon key="lookup.calendar">
 		<resource url="/com/kiwisoft/media/icons/calendar.png"/>
 	</icon>
@@ -74,9 +86,6 @@
 	</icon>
 	<icon key="move.down">
 		<resource url="/com/kiwisoft/media/icons/arrow_down.png"/>
-	</icon>
-	<icon key="link.open">
-		<resource url="/com/kiwisoft/media/icons/link_go.png"/>
 	</icon>
 	<icon key="female">
 		<resource url="/com/kiwisoft/media/icons/female.png"/>

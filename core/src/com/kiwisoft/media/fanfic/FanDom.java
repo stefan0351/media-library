@@ -13,7 +13,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 
@@ -23,8 +22,6 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 	public static final String MOVIE="movie";
 	public static final String FANFICS="fanfics";
 	public static final String LINK_GROUP="linkGroup";
-
-	private static final DBAssociation<FanDom, FanFic> ASSOCIATIONS_FANFICS=DBAssociation.getAssociation(FANFICS, FanDom.class, FanFic.class);
 
 	private String name;
 
@@ -75,17 +72,17 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 
 	public Set<FanFic> getFanFics()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociations(this);
+		return getAssociations(FANFICS);
 	}
 
 	public int getFanFicCount()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociationsSize(this);
+		return getAssociationsCount(FANFICS);
 	}
 
 	public boolean contains(FanFic fanFic)
 	{
-		return ASSOCIATIONS_FANFICS.isExistsAssociation(this, fanFic);
+		return containsAssociation(FANFICS, fanFic);
 	}
 
 	public SortedSet<Character> getFanFicLetters()

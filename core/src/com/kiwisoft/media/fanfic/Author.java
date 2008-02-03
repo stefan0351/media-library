@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import com.kiwisoft.media.ContactMedium;
-import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBLoader;
@@ -20,8 +19,6 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 	public static final String MAIL="mail";
 	public static final String WEB="web";
 	public static final String FANFICS="fanfics";
-
-	private static final DBAssociation<Author, FanFic> ASSOCIATIONS_FANFICS=DBAssociation.getAssociation(FANFICS, Author.class, FanFic.class);
 
 	private String name;
 	private String path;
@@ -114,17 +111,17 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 
 	public Set<FanFic> getFanFics()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociations(this);
+		return getAssociations(FANFICS);
 	}
 
 	public int getFanFicCount()
 	{
-		return ASSOCIATIONS_FANFICS.getAssociationsSize(this);
+		return getAssociationsCount(FANFICS);
 	}
 
 	public boolean contains(FanFic fanFic)
 	{
-		return ASSOCIATIONS_FANFICS.isExistsAssociation(this, fanFic);
+		return containsAssociation(FANFICS, fanFic);
 	}
 
 	public SortedSet<Character> getFanFicLetters()

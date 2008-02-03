@@ -19,6 +19,12 @@ public class LinkNode extends GenericTreeNode<Link>
 	}
 
 	@Override
+	public int getSortPriority()
+	{
+		return 2;
+	}
+
+	@Override
 	public boolean isLeaf()
 	{
 		return true;

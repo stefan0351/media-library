@@ -78,7 +78,7 @@ public class Season extends IDObject implements Comparable
 
 	public Long getShowId()
 	{
-		return getReferenceId(SHOW);
+		return (Long)getReferenceId(SHOW);
 	}
 
 	public void setShow(Show show)

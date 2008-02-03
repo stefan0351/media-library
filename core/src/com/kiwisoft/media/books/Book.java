@@ -6,7 +6,6 @@ import java.util.Collection;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 
@@ -27,9 +26,6 @@ public class Book extends IDObject
 	public static final String COVER="cover";
 	public static final String AUTHORS="authors";
 	public static final String TRANSLATORS="translators";
-
-	public static final DBAssociation<Book, Person> AUTHORS_ASSOCIATION=DBAssociation.getAssociation(AUTHORS, Book.class, Person.class);
-	public static final DBAssociation<Book, Person> TRANSLATORS_ASSOCIATION=DBAssociation.getAssociation(TRANSLATORS, Book.class, Person.class);
 
 	private String title;
 	private String publisher;
@@ -175,49 +171,41 @@ public class Book extends IDObject
 
 	public void addAuthor(Person author)
 	{
-		AUTHORS_ASSOCIATION.addAssociation(this, author);
+		createAssociation(AUTHORS, author);
 	}
 
 	public void removeAuthor(Person author)
 	{
-		AUTHORS_ASSOCIATION.removeAssociation(this, author);
+		dropAssociation(AUTHORS, author);
 	}
 
 	public Set<Person> getAuthors()
 	{
-		return AUTHORS_ASSOCIATION.getAssociations(this);
+		return getAssociations(AUTHORS);
 	}
 
 	public void setAuthors(Collection<Person> authors)
 	{
-		AUTHORS_ASSOCIATION.setAssociations(this, authors);
+		setAssociations(AUTHORS, authors);
 	}
 
 	public void addTranslator(Person translator)
 	{
-		TRANSLATORS_ASSOCIATION.addAssociation(this, translator);
+		createAssociation(TRANSLATORS, translator);
 	}
 
 	public void removeTranslator(Person translator)
 	{
-		TRANSLATORS_ASSOCIATION.removeAssociation(this, translator);
+		dropAssociation(TRANSLATORS, translator);
 	}
 
 	public Set<Person> getTranslators()
 	{
-		return TRANSLATORS_ASSOCIATION.getAssociations(this);
+		return getAssociations(TRANSLATORS);
 	}
 
 	public void setTranslators(Collection<Person> translators)
 	{
-		TRANSLATORS_ASSOCIATION.setAssociations(this, translators);
-	}
-
-	@Override
-	public void delete()
-	{
-		AUTHORS_ASSOCIATION.setAssociations(this, null);
-		TRANSLATORS_ASSOCIATION.setAssociations(this, null);
-		super.delete();
+		setAssociations(TRANSLATORS, translators);
 	}
 }

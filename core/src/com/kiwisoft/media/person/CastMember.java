@@ -153,9 +153,9 @@ public class CastMember extends IDObject
 		return getCharacterName()+" ("+getActor()+")";
 	}
 
-	public Identifyable loadReference(String name, Long referenceId)
+	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (CREDIT_TYPE.equals(name)) return CreditType.get(referenceId);
+		if (CREDIT_TYPE.equals(name)) return CreditType.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

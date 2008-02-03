@@ -22,6 +22,12 @@ public class LinkGroupNode extends GenericTreeNode<LinkGroup>
 	}
 
 	@Override
+	public int getSortPriority()
+	{
+		return 1;
+	}
+
+	@Override
 	protected void installListeners()
 	{
 		getListeners().addDisposable(getUserObject().addCollectionListener(new ChildListener()));
@@ -36,6 +42,8 @@ public class LinkGroupNode extends GenericTreeNode<LinkGroup>
 		for (LinkGroup linkGroup : groups) treeNodes.add(new LinkGroupNode(linkGroup));
 		Set<Link> links=getUserObject().getLinks();
 		for (Link link : links) treeNodes.add(new LinkNode(link));
+		Set<LinkGroup> relatedGroups=getUserObject().getRelatedGroups();
+		for (LinkGroup group : relatedGroups) treeNodes.add(new RelatedLinkGroupNode(group));
 		return treeNodes;
 	}
 
@@ -65,6 +73,17 @@ public class LinkGroupNode extends GenericTreeNode<LinkGroup>
 				if (event.getType()==CollectionChangeEvent.ADDED)
 				{
 					addChild(new LinkGroupNode((LinkGroup)event.getElement()));
+				}
+				else if (event.getType()==CollectionChangeEvent.REMOVED)
+				{
+					removeObject(event.getElement());
+				}
+			}
+			else if (LinkGroup.RELATED_GROUPS.equals(event.getPropertyName()))
+			{
+				if (event.getType()==CollectionChangeEvent.ADDED)
+				{
+					addChild(new RelatedLinkGroupNode((LinkGroup)event.getElement()));
 				}
 				else if (event.getType()==CollectionChangeEvent.REMOVED)
 				{

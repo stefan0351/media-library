@@ -69,6 +69,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		formatManager.setFormat(Picture.class, new PictureFormat());
 		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
 		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());
+		formatManager.setFormat(LinkGroup.class, "RelatedLinkGroup", new RelatedLinkGroupFormat());
 		formatManager.setFormat(Link.class, new LinkFormat());
 		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 	}
