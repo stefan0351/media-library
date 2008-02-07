@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.media.Link;
 import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.LinkManager;
 import com.kiwisoft.swing.tree.GenericTreeNode;

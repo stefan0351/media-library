@@ -24,7 +24,7 @@ public class RelatedLinkGroupNode extends GenericTreeNode<LinkGroup>
 	@Override
 	public String getFormatVariant()
 	{
-		return "RelatedLinkGroup";
+		return "hierarchy";
 	}
 
 	@Override

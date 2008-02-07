@@ -19,7 +19,7 @@
 	if (!show.getMainCast().isEmpty() || !show.getRecurringCast().isEmpty())
 		links.put("Cast and Crew", "/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkGroup()!=null && show.getLinkGroup().getLinkCount()>0)
-		links.put("Links", "/shows/links.jsp?show="+show.getId());
+		links.put("Links", "/links.jsp?show="+show.getId()+"&group="+show.getLinkGroup().getId());
 	if (show.getFanFicCount()>0)
 		links.put("Fan Fiction", "/fanfic/fanfics.jsp?show="+show.getId());
 	for (Iterator it=show.getInfos().iterator(); it.hasNext();)

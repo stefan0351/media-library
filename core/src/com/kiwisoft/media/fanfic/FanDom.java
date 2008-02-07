@@ -13,6 +13,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.media.LinkGroup;
+import com.kiwisoft.media.LinkManager;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 
@@ -21,7 +22,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 	public static final String SHOW="show";
 	public static final String MOVIE="movie";
 	public static final String FANFICS="fanfics";
-	public static final String LINK_GROUP="linkGroup";
+	public static final String NAME="name";
 
 	private String name;
 
@@ -46,8 +47,9 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified(NAME, oldName, this.name);
 	}
 
 	public Show getShow()
@@ -118,7 +120,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();
-		if (group==null && create) setLinkGroup(group=new LinkGroup(getName()+" - FanFic"));
+		if (group==null && create) setLinkGroup(group=LinkManager.getInstance().createRootGroup(getName()+" - FanFic"));
 		return group;
 	}
 

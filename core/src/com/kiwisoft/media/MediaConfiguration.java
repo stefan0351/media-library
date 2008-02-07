@@ -30,6 +30,7 @@ public class MediaConfiguration
 	public static final String PATH_IMAGE_EDITOR="path.image.editor";
 	public static final String PATH_WEB_DATES="path.web.dates";
 	public static final String PATH_LOGOS_CHANNELS_WEB="path.logos.channels.web";
+	public static final String PATH_DOWNLOADS="path.downloads";
 
 	private MediaConfiguration()
 	{
@@ -172,5 +173,15 @@ public class MediaConfiguration
 	public static void setRecentExportPath(String path)
 	{
 		Configuration.getInstance().setString(PATH_EXPORTS_RECENT, path);
+	}
+
+	public static String getDownloadPath()
+	{
+		return Configuration.getInstance().getString(PATH_DOWNLOADS);
+	}
+
+	public static void setDownloadPath(String path)
+	{
+		Configuration.getInstance().setString(PATH_DOWNLOADS, path);
 	}
 }

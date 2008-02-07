@@ -12,7 +12,6 @@ import java.util.Date;
 import javax.servlet.ServletContext;
 
 import com.kiwisoft.format.FormatManager;
-import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -58,6 +57,9 @@ public class MediaManagerApp
 		FormatManager formatManager=FormatManager.getInstance();
 		formatManager.setFormat(Picture.class, new PictureFormat());
 		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
+		formatManager.setFormat(LinkGroup.class, "hierarchy", new LinkGroupHierarchyFormat());
+		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());
+		formatManager.setFormat(Link.class, new LinkFormat());
 	}
 
 	private void initializeRenderers()
@@ -81,6 +83,8 @@ public class MediaManagerApp
 		rendererManager.setRenderer(Genre.class, new GenreHTMLRenderer());
 		rendererManager.setRenderer(Season.class, new SeasonHTMLRenderer());
 		rendererManager.setRenderer(Season.class, "Menu", new SeasonHTMLRenderer("menulink"));
+		rendererManager.setRenderer(LinkGroup.class, new LinkGroupHTMLRenderer());
+		rendererManager.setRenderer(LinkGroup.class, "hierarchy", new LinkGroupHierarchyHTMLRenderer());
 	}
 }
 

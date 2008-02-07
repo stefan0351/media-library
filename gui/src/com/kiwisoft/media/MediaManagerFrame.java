@@ -24,6 +24,10 @@ import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.books.BooksTask;
 import com.kiwisoft.media.links.LinksTask;
+import com.kiwisoft.media.download.WebFolderFormat;
+import com.kiwisoft.media.download.WebFolder;
+import com.kiwisoft.media.download.WebDocument;
+import com.kiwisoft.media.download.WebDocumentFormat;
 import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.table.TableEditorFactory;
@@ -69,9 +73,11 @@ public class MediaManagerFrame extends ApplicationFrame
 		formatManager.setFormat(Picture.class, new PictureFormat());
 		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
 		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());
-		formatManager.setFormat(LinkGroup.class, "RelatedLinkGroup", new RelatedLinkGroupFormat());
+		formatManager.setFormat(LinkGroup.class, "hierarchy", new LinkGroupHierarchyFormat());
 		formatManager.setFormat(Link.class, new LinkFormat());
 		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
+		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
+		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
 	}
 
 	protected void initializeTableComponents()

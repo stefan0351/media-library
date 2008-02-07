@@ -6,16 +6,14 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 import javax.swing.tree.TreePath;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.media.Link;
-import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.media.LinkManager;
-import com.kiwisoft.media.MediaTransferable;
+import com.kiwisoft.media.*;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
@@ -29,13 +27,23 @@ import com.kiwisoft.swing.tree.TreeUtils;
 
 /**
  * @author Stefan Stiller
+ * @todo import from html
+ * @todo export to html
+ * @todo check active
  */
 public class LinksView extends ViewPanel
 {
 	private TreeController treeController;
+	private Linkable linkable;
 
 	public LinksView()
 	{
+		this(null);
+	}
+
+	public LinksView(Linkable linkable)
+	{
+		this.linkable=linkable;
 		setTitle("Links");
 	}
 
@@ -50,6 +58,8 @@ public class LinksView extends ViewPanel
 				actions.add(new LinkDetailsAction());
 				actions.add(new ComplexAction("Add", Icons.getIcon("add"), new NewLinkAction(), new NewLinkGroupAction()));
 				actions.add(new DeleteLinkAction(applicationFrame));
+				actions.add(new ExportLinksAction(applicationFrame));
+				actions.add(new DownloadAction(applicationFrame));
 				return actions;
 			}
 
@@ -63,6 +73,7 @@ public class LinksView extends ViewPanel
 		GenericTree tree=treeController.getTree();
 		tree.setRootVisible(false);
 		tree.setDragEnabled(true);
+		tree.setExpandsSelectedPaths(true);
 		tree.setTransferHandler(new MyTransferHandler());
 		return component;
 	}
@@ -70,9 +81,44 @@ public class LinksView extends ViewPanel
 	@Override
 	protected void initializeData()
 	{
-		treeController.getTree().setRoot(new LinksRootNode());
+		GenericTree tree=treeController.getTree();
+		LinksRootNode rootNode=new LinksRootNode();
+		tree.setRoot(rootNode);
+		if (linkable!=null)
+		{
+			LinkGroup linkGroup=linkable.getLinkGroup(false);
+			if (linkGroup!=null)
+			{
+				TreePath groupPath=getLinkGroupPath(linkGroup);
+				TreePath treePath=TreeUtils.findByUserObjectPath(rootNode, groupPath);
+				if (treePath!=null)
+				{
+					tree.expandPath(treePath);
+					tree.setSelectionPath(treePath);
+				}
+			}
+			else
+			{
+				rootNode.children(); // loads children
+				LinkableNode linkableNode=new LinkableNode(linkable);
+				rootNode.addChild(linkableNode);
+				tree.setSelectionPath(TreeUtils.getPathToRoot(linkableNode));
+			}
+		}
 		super.initializeData();
 	}
+
+	private TreePath getLinkGroupPath(LinkGroup group)
+	{
+		List<Object> path=new LinkedList<Object>();
+		while (group!=null)
+		{
+			path.add(0, group);
+			group=group.getParentGroup();
+		}
+		return new TreePath(path.toArray());
+	}
+
 
 	@Override
 	protected void installComponentListeners()

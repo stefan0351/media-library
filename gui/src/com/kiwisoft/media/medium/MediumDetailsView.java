@@ -275,7 +275,6 @@ public class MediumDetailsView extends DetailsView
 		{
 			transaction=DBSession.getInstance().createTransaction();
 			if (video==null) video=MediumManager.getInstance().createMedium();
-			// todo remove if all videos have a key
 			else if (video.getUserKey()==null) video.setUserKey((int)SequenceManager.getSequence("medium").next());
 			video.setLength(length);
 			video.setRemainingLength(remain);

@@ -82,6 +82,7 @@ public class ConfigurationView extends ViewPanel
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_IMAGE_EDITOR, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_WEB_DATES, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_LOGOS_CHANNELS_WEB, String.class, "ExistingDirectory", false));
+		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_DOWNLOADS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_URL, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_USER, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_PASSWORD, String.class, false));

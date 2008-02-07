@@ -123,4 +123,40 @@
 	<icon key="download">
 		<resource url="/com/kiwisoft/media/icons/download.gif"/>
 	</icon>
+	<icon key="export">
+		<resource url="/com/kiwisoft/media/icons/page_down.gif"/>
+	</icon>
+	<icon key="import">
+		<resource url="/com/kiwisoft/media/icons/page_up.gif"/>
+	</icon>
+	<icon key="play">
+		<resource url="/com/kiwisoft/media/icons/control_play.png"/>
+	</icon>
+	<icon key="play_all">
+		<resource url="/com/kiwisoft/media/icons/control_fastforward.png"/>
+	</icon>
+	<icon key="stop">
+		<resource url="/com/kiwisoft/media/icons/control_stop.png"/>
+	</icon>
+	<icon key="webhost">
+		<resource url="/com/kiwisoft/media/icons/webhost.png"/>
+	</icon>
+	<icon key="webdirectory">
+		<resource url="/com/kiwisoft/media/icons/webdirectory.png"/>
+	</icon>
+	<icon key="webpage.error">
+		<resource url="/com/kiwisoft/media/icons/webpage_error.png"/>
+	</icon>
+	<icon key="webpage.finished">
+		<resource url="/com/kiwisoft/media/icons/webpage_finished.png"/>
+	</icon>
+	<icon key="webpage.new">
+		<resource url="/com/kiwisoft/media/icons/webpage_new.png"/>
+	</icon>
+	<icon key="webpage.processing">
+		<resource url="/com/kiwisoft/media/icons/webpage_processing.png"/>
+	</icon>
+	<icon key="webpage.queued">
+		<resource url="/com/kiwisoft/media/icons/webpage_queued.png"/>
+	</icon>
 </icons>

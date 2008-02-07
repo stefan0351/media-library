@@ -43,7 +43,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String DEFAULT_INFO="defaultInfo";
 	public static final String GENRES="genres";
 	public static final String LOGO="logo";
-	public static final String LINK_GROUP="linkGroup";
+	public static final String TITLE="title";
 
 	private String userKey;
 	private String title;
@@ -80,8 +80,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setTitle(String title)
 	{
+		String oldTitle=this.title;
 		this.title=title;
-		setModified();
+		setModified(TITLE, oldTitle, this.title);
 	}
 
 	public String getTitle(Language language)
@@ -511,7 +512,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();
-		if (group==null && create) setLinkGroup(group=new LinkGroup(getTitle()));
+		if (group==null && create) setLinkGroup(group=LinkManager.getInstance().createRootGroup(getTitle()));
 		return group;
 	}
 

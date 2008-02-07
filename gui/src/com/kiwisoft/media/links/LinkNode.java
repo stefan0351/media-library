@@ -31,6 +31,12 @@ public class LinkNode extends GenericTreeNode<Link>
 	}
 
 	@Override
+	public String getToolTip()
+	{
+		return getUserObject().getUrl();
+	}
+
+	@Override
 	public List<ContextAction> getContextActions()
 	{
 		List<ContextAction> actions=new ArrayList<ContextAction>(1);

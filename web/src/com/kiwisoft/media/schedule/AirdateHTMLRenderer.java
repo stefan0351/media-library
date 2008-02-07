@@ -13,11 +13,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 18.03.2007
- * Time: 18:58:57
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 {
