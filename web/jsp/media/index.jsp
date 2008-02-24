@@ -15,8 +15,8 @@
 
 <head>
 <title>Media</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -28,17 +28,17 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_media_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Media">
 			<table>
-			<tr valign="top"><td class="content2" width="100" align="center"><div style="border: 1px solid black; background: url(/clipart/trans10.png)"><small>
+			<tr valign="top"><td class="content2" width="100" align="center"><div style="border: 1px solid black; background: url(<%=request.getContextPath()%>/clipart/trans10.png)"><small>
 <%
 				for (int i=0;i<groupCount;i++)
 				{
 %>
-					<a class=link href="/media/index.jsp?group=<%=i%>"><%=MediumManager.getGroupName(i)%></a><br/>
+					<a class=link href="<%=request.getContextPath()%>/media/index.jsp?group=<%=i%>"><%=MediumManager.getGroupName(i)%></a><br/>
 <%
 				}
 %>

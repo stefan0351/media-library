@@ -20,7 +20,7 @@
 %>
 <table class="menutable">
 <tr><td class="menuheader">Book</td></tr>
-<tr><td class="menuitem" align="center"><%=renderPicture("Cover", cover, thumbnail, null)%></td></tr>
+<tr><td class="menuitem" align="center"><%=renderPicture(request, "Cover", cover, thumbnail, null)%></td></tr>
 </table>
 <%
 	}

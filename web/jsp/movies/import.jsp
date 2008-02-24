@@ -16,8 +16,8 @@
 
 <head>
 <title>Media Manager - Import from IMDb.com</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -34,7 +34,7 @@
 	<td width="200">
 		<!--Navigation Start-->
 
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 
 		<!--Navigation End-->
 	</td>
@@ -65,7 +65,7 @@
 						for (Iterator it=movie.getLanguages().iterator(); it.hasNext();)
 						{
 							Language language=(Language)it.next();
-							out.print(JspUtils.render(language));
+							out.print(JspUtils.render(request, language));
 							if (it.hasNext()) out.print(", ");
 						}
 					%>
@@ -75,7 +75,7 @@
 						for (Iterator it=movie.getCountries().iterator(); it.hasNext();)
 						{
 							Country country=(Country)it.next();
-							out.print(JspUtils.render(country));
+							out.print(JspUtils.render(request, country));
 							if (it.hasNext()) out.print(", ");
 						}
 					%>

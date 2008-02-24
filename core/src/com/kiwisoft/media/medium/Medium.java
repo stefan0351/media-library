@@ -58,8 +58,9 @@ public class Medium extends IDObject
 
 	public void setUserKey(Integer userKey)
 	{
+		Integer oldUserKey=this.userKey;
 		this.userKey=userKey;
-		setModified();
+		setModified("userKey", oldUserKey, this.userKey);
 	}
 
 	public String getStorage()
@@ -69,8 +70,9 @@ public class Medium extends IDObject
 
 	public void setStorage(String storage)
 	{
+		String oldStorage=this.storage;
 		this.storage=storage;
-		setModified();
+		setModified("storage", oldStorage, this.storage);
 	}
 
 
@@ -81,8 +83,9 @@ public class Medium extends IDObject
 
 	public void setObsolete(boolean obsolete)
 	{
+		boolean oldObsolete=this.obsolete;
 		this.obsolete=obsolete;
-		setModified();
+		setModified("obsolete", oldObsolete, this.obsolete);
 	}
 
 	public String getName()
@@ -92,8 +95,9 @@ public class Medium extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public int getLength()
@@ -103,8 +107,9 @@ public class Medium extends IDObject
 
 	public void setLength(int length)
 	{
+		int oldLength=this.length;
 		this.length=length;
-		setModified();
+		setModified("length", oldLength, this.length);
 	}
 
 	public Track createTrack()

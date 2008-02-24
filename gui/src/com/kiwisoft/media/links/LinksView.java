@@ -165,7 +165,6 @@ public class LinksView extends ViewPanel
 		@Override
 		public boolean importData(TransferSupport support)
 		{
-			System.out.println("support.getUserDropAction() = "+support.getUserDropAction());
 			GenericTree tree=(GenericTree)support.getComponent();
 			Point dropLocation=support.getDropLocation().getDropPoint();
 			TreePath path=tree.getPathForLocation(dropLocation.x, dropLocation.y);

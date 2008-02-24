@@ -18,8 +18,8 @@
 
 <head>
 <title><%=show.getTitle()%> - Theme</title>
-<link rel="StyleSheet" type="text/css" href="/style.css">
-<script language="JavaScript" src="/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
+<script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
 <media:sidebar>
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 </media:sidebar>
 <media:content>
 <media:panel title="<%="themes".equals(xp.getName()) ? "Theme" : "Music"%>">
@@ -63,7 +63,7 @@
 		%>
 		<tr>
 			<td class="content2"><b>Title</b>:</td>
-			<td class="content2"><%=JspUtils.render(title)%>
+			<td class="content2"><%=JspUtils.render(request, title)%>
 			</td>
 		</tr>
 		<%
@@ -74,7 +74,7 @@
 		%>
 		<tr>
 			<td class="content2"><b>Composer:</b></td>
-			<td class="content2"><%=JspUtils.render(composer)%>
+			<td class="content2"><%=JspUtils.render(request, composer)%>
 			</td>
 		</tr>
 		<%
@@ -85,7 +85,7 @@
 		%>
 		<tr>
 			<td class="content2"><b>Interpret:</b></td>
-			<td class="content2"><%=JspUtils.render(interpret)%>
+			<td class="content2"><%=JspUtils.render(request, interpret)%>
 			</td>
 		</tr>
 		<%
@@ -96,7 +96,7 @@
 		%>
 		<tr>
 			<td class="content2"><b>File:</b></td>
-			<td class="content2"><a href="<%=source%>"><img src="/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td>
+			<td class="content2"><a href="<%=source%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td>
 		</tr>
 		<%
 			}
@@ -106,7 +106,7 @@
 		%>
 		<tr valign=top>
 			<td class="content2"><b>Lyrics:</b></td>
-			<td class="content2"><%=JspUtils.render(lyrics.toString(), "preformatted")%>
+			<td class="content2"><%=JspUtils.render(request, lyrics.toString(), "preformatted")%>
 			</td>
 		</tr>
 		<%
@@ -130,7 +130,7 @@
 %>
 <table class="contenttable" width="765">
 <tr>
-	<td class="header2"><%=JspUtils.render(song.getValue("title"))%>
+	<td class="header2"><%=JspUtils.render(request, song.getValue("title"))%>
 	</td>
 </tr>
 <tr>
@@ -142,31 +142,31 @@
 		{
 			Episode episode=ShowManager.getInstance().getEpisode(show.getUserKey(), episodeKey.toString());
 	%>
-	<tr><td class="content2"><b>Episode:</b></td><td class="content2"><%=JspUtils.render(episode)%></td></tr>
+	<tr><td class="content2"><b>Episode:</b></td><td class="content2"><%=JspUtils.render(request, episode)%></td></tr>
 	<%
 		}
 		if (song.getValue("composer")!=null)
 		{
 	%>
-	<tr><td class="content2"><b>Composer:</b></td><td class="content2"><%=JspUtils.render(song.getValue("composer"))%></td></tr>
+	<tr><td class="content2"><b>Composer:</b></td><td class="content2"><%=JspUtils.render(request, song.getValue("composer"))%></td></tr>
 	<%
 		}
 		if (song.getValue("interpret")!=null)
 		{
 	%>
-	<tr><td class="content2"><b>Interpret:</b></td><td class="content2"><%=JspUtils.render(song.getValue("interpret"))%></td></tr>
+	<tr><td class="content2"><b>Interpret:</b></td><td class="content2"><%=JspUtils.render(request, song.getValue("interpret"))%></td></tr>
 	<%
 		}
 		if (song.getValue("source")!=null)
 		{
 	%>
-	<tr><td class="content2"><b>File:</b></td><td class="content2"><a href="<%=song.getValue("source")%>"><img src="/icons/sound.gif" border="0"></a> (<%=song.getValue("length")%>)</td></tr>
+	<tr><td class="content2"><b>File:</b></td><td class="content2"><a href="<%=song.getValue("source")%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" border="0"></a> (<%=song.getValue("length")%>)</td></tr>
 	<%
 		}
 		if (song.getValue("lyrics")!=null)
 		{
 	%>
-	<tr valign=top><td class="content2"><b>Lyrics:</b></td><td class="content2"><%=JspUtils.render(song.getValue("lyrics").toString(), "preformatted")%></td></tr>
+	<tr valign=top><td class="content2"><b>Lyrics:</b></td><td class="content2"><%=JspUtils.render(request, song.getValue("lyrics").toString(), "preformatted")%></td></tr>
 	<%
 		}
 	%>

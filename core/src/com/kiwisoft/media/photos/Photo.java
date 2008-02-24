@@ -59,7 +59,6 @@ public class Photo extends IDObject implements ChainLink
 		setReference(GALLERY, gallery);
 	}
 
-
 	public boolean isGalleryPhoto()
 	{
 		return galleryPhoto;
@@ -107,8 +106,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setCreationDate(Date creationDate)
 	{
+		Date oldCreationDate=this.creationDate;
 		this.creationDate=creationDate;
-		setModified();
+		setModified("creationDate", oldCreationDate, this.creationDate);
 	}
 
 	public int getRotation()
@@ -131,8 +131,7 @@ public class Photo extends IDObject implements ChainLink
 
 		int oldRotation=this.rotation;
 		this.rotation=rotation;
-		setModified();
-		firePropertyChange(ROTATION, oldRotation, rotation);
+		setModified(ROTATION, oldRotation, rotation);
 	}
 
 	public int getWidth()
@@ -159,15 +158,15 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setChainPosition(int position)
 	{
+		int oldPosition=this.sequence;
 		this.sequence=position;
-		setModified();
+		setModified("chainPosition", oldPosition, this.sequence);
 	}
 
 	public int getChainPosition()
 	{
 		return sequence;
 	}
-
 
 	public String getCameraMake()
 	{
@@ -176,8 +175,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setCameraMake(String cameraMake)
 	{
+		String oldMake=this.cameraMake;
 		this.cameraMake=cameraMake;
-		setModified();
+		setModified("cameraMake", oldMake, this.cameraMake);
 	}
 
 	public String getCameraModel()
@@ -187,8 +187,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setCameraModel(String cameraModel)
 	{
+		String oldModel=this.cameraModel;
 		this.cameraModel=cameraModel;
-		setModified();
+		setModified("cameraModel", oldModel, this.cameraModel);
 	}
 
 	public Double getExposureTime()
@@ -198,8 +199,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setExposureTime(Double exposureTime)
 	{
+		Double oldExposureTime=this.exposureTime;
 		this.exposureTime=exposureTime;
-		setModified();
+		setModified("exposureTime", oldExposureTime, this.exposureTime);
 	}
 
 	public Double getFNumber()
@@ -209,8 +211,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setFNumber(Double fNumber)
 	{
+		Double oldFNumber=this.fNumber;
 		this.fNumber=fNumber;
-		setModified();
+		setModified("fNumber", oldFNumber, this.fNumber);
 	}
 
 	public Double getFocalLength()
@@ -220,8 +223,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setFocalLength(Double focalLength)
 	{
+		Double oldFocalLength=this.focalLength;
 		this.focalLength=focalLength;
-		setModified();
+		setModified("focalLength", oldFocalLength, focalLength);
 	}
 
 	public Integer getIsoSpeed()
@@ -231,8 +235,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setIsoSpeed(Integer isoSpeed)
 	{
+		Integer oldIsoSpeed=this.isoSpeed;
 		this.isoSpeed=isoSpeed;
-		setModified();
+		setModified("isoSpeed", oldIsoSpeed, this.isoSpeed);
 	}
 
 	public Integer getXResolution()
@@ -242,8 +247,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setXResolution(Integer xResolution)
 	{
+		Integer oldXResolution=this.xResolution;
 		this.xResolution=xResolution;
-		setModified();
+		setModified("xResolution", oldXResolution, this.xResolution);
 	}
 
 	public Integer getYResolution()
@@ -253,8 +259,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setYResolution(Integer yResolution)
 	{
+		Integer oldYResolution=this.yResolution;
 		this.yResolution=yResolution;
-		setModified();
+		setModified("yResolution", oldYResolution, this.yResolution);
 	}
 
 	public int getColorDepth()
@@ -264,8 +271,9 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setColorDepth(int colorDepth)
 	{
+		int oldColorDepth=this.colorDepth;
 		this.colorDepth=colorDepth;
-		setModified();
+		setModified("colorDepth", oldColorDepth, this.colorDepth);
 	}
 
 	public String getDescription()
@@ -277,8 +285,7 @@ public class Photo extends IDObject implements ChainLink
 	{
 		String oldDescription=this.description;
 		this.description=description;
-		setModified();
-		firePropertyChange(DESCRIPTION, oldDescription, description);
+		setModified(DESCRIPTION, oldDescription, description);
 	}
 
 	@Override

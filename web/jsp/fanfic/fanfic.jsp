@@ -15,8 +15,8 @@
 
 <head>
 <title>Fan Fiction - <%=fanficInfo.getTitle()%></title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
 <!--Navigation Start-->
 
 <jsp:include page="_nav.jsp"/>
-<jsp:include page="/_nav.jsp"/>
+<jsp:include page="../_nav.jsp"/>
 
 <!--Navigation End-->
 </td>
@@ -54,7 +54,7 @@
 	{
 		Author author=(Author)itAuthors.next();
 %>
-				<a class=link href="/fanfic/fanfics.jsp?author=<%=author.getId()%>"><%=author.getName()%></a>
+				<a class=link href="<%=request.getContextPath()%>/fanfic/fanfics.jsp?author=<%=author.getId()%>"><%=author.getName()%></a>
  <%
 		if (itAuthors.hasNext()) out.print(",");
 	}
@@ -67,7 +67,7 @@
 	{
 		FanDom fandom=(FanDom)itFanDoms.next();
 %>
-				<a class=link href="/fanfic/fanfics.jsp?fandom=<%=fandom.getId()%>"><%=fandom.getName()%></a>
+				<a class=link href="<%=request.getContextPath()%>/fanfic/fanfics.jsp?fandom=<%=fandom.getId()%>"><%=fandom.getName()%></a>
 <%
 		if (itFanDoms.hasNext()) out.print(", ");
 	}
@@ -80,7 +80,7 @@
 	{
 		Pairing pairing=(Pairing)itPairs.next();
 %>
-				<a class=link href="/fanfic/fanfics.jsp?pairing=<%=pairing.getId()%>"><%=pairing.getName()%></a>
+				<a class=link href="<%=request.getContextPath()%>/fanfic/fanfics.jsp?pairing=<%=pairing.getId()%>"><%=pairing.getName()%></a>
 <%
 		if (itPairs.hasNext()) out.print(", ");
 	}
@@ -217,7 +217,7 @@
 		if (sequel!=null)
 		{
 %>
-			<p align=center><b>[</b> Continued in <a class="link" href="/fanfic/authors/<%=sequel.getSource()%>">"<%=sequel.getTitle()%>"</a> <b>]</b></p>
+			<p align=center><b>[</b> Continued in <a class="link" href="<%=request.getContextPath()%>/fanfic/authors/<%=sequel.getSource()%>">"<%=sequel.getTitle()%>"</a> <b>]</b></p>
 <%
 		}
 		else

@@ -20,8 +20,8 @@
 
 <head>
 <title>Shows - <%=StringEscapeUtils.escapeHtml(genre.getName())%></title>
-<link type="text/css" rel="stylesheet" href="/style.css"/>
-<script language="JavaScript" src="/overlib.js"></script>
+<link type="text/css" rel="stylesheet" href="../style.css"/>
+<script language="JavaScript" src="../overlib.js"></script>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_shows_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="<%=StringEscapeUtils.escapeHtml(genre.getName())%>">
@@ -42,7 +42,7 @@
 				{
 					Show show=(Show)itShows.next();
 %>
-					<li><b><%=JspUtils.render(show)%></b>
+					<li><b><%=JspUtils.render(request, show)%></b>
 <%
 					String yearString=show.getYearString();
 					if (yearString!=null)

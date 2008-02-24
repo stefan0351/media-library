@@ -14,8 +14,8 @@
 
 <head>
 <title>Media</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -33,7 +33,7 @@
 
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 <!--Navigation End-->
 </td>

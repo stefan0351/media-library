@@ -43,7 +43,7 @@ public class SearchServlet extends HttpServlet
 	{
 		HttpSession session=request.getSession();
 		ServletContext servletContext=session.getServletContext();
-		MediaManagerApp.getInstance(servletContext);
+		MediaManagerApp.getInstance();
 
 		try
 		{

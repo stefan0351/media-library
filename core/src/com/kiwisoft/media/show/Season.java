@@ -45,8 +45,9 @@ public class Season extends IDObject implements Comparable
 
 	public void setNumber(int number)
 	{
+		int oldNumber=this.number;
 		this.number=number;
-		setModified();
+		setModified("number", oldNumber, this.number);
 	}
 
 	public int getStartYear()
@@ -56,8 +57,9 @@ public class Season extends IDObject implements Comparable
 
 	public void setStartYear(int startYear)
 	{
+		int oldYear=this.startYear;
 		this.startYear=startYear;
-		setModified();
+		setModified("startYear", oldYear, this.startYear);
 	}
 
 	public int getEndYear()
@@ -67,8 +69,9 @@ public class Season extends IDObject implements Comparable
 
 	public void setEndYear(int endYear)
 	{
+		int oldYear=this.endYear;
 		this.endYear=endYear;
-		setModified();
+		setModified("endYear", oldYear, this.endYear);
 	}
 
 	public Show getShow()
@@ -113,8 +116,9 @@ public class Season extends IDObject implements Comparable
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public String getSeasonName()

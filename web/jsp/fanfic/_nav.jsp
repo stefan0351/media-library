@@ -9,7 +9,7 @@
 
 <table class="menutable">
 <tr><td class="menuheader">Fan Fiction</td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/fanfic/fandoms.jsp">Domains</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/fanfic/pairings.jsp">Pairings</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="/fanfic/authors.jsp">Authors</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/fanfic/fandoms.jsp">Domains</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/fanfic/pairings.jsp">Pairings</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/fanfic/authors.jsp">Authors</a></td></tr>
 </table>

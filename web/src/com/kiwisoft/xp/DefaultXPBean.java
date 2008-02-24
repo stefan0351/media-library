@@ -7,42 +7,42 @@
 package com.kiwisoft.xp;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import com.kiwisoft.utils.WebUtils;
+import javax.servlet.http.HttpServletRequest;
+
+import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class DefaultXPBean implements XPBean
 {
+	private final static List<String> SOURCE_ATTRIBUTES=Arrays.asList("image.preview",
+																	  "image.source",
+																	  "theme.source",
+																	  "fanfic.next");
 	private Map<String, Object> map;
-	private List list;
+	private List<Object> list;
 	private String name;
 	private String content;
-	private String basePath;
 
 	public DefaultXPBean(XMLContext context, String name)
 	{
 		this.name=name;
-		this.map=new HashMap();
-		this.list=new LinkedList();
-		basePath=(String)context.getAttribute("path");
+		this.map=new HashMap<String, Object>();
+		this.list=new ArrayList<Object>();
 	}
 
 	public void setXMLAttribute(XMLContext context, String name, String value)
 	{
-		if ("href".equals(name) || "preview".equals(name))
+		if (SOURCE_ATTRIBUTES.contains((this.name+"."+name).toLowerCase()))
 		{
-			String path=new File(basePath).getParent();
-			putValue(name, WebUtils.getPath(path, value));
+			File file=new File(new File(context.getFileName()).getParentFile(), value);
+			HttpServletRequest request=(HttpServletRequest)context.getAttribute("request");
+			putValue(name, request.getContextPath()+"/resource?file="+FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()));
 		}
-		else putValue(name, value);
+		putValue(name, value);
 	}
 
 	public void setXMLReference(XMLContext context, String name, Object value)
@@ -141,11 +141,6 @@ public class DefaultXPBean implements XPBean
 			}
 			return null;
 		}
-	}
-
-	public String getBasePath()
-	{
-		return basePath;
 	}
 
 	public List getChildren()

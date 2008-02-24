@@ -7,8 +7,8 @@
 
 <head>
 <title>Fan Fiction - Domains</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
 <table cellspacing="0" cellpadding="5"><tr valign="top">
 	<td width="200">
 		<jsp:include page="_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</td>
 	<td width="800">
 		<a name="top"></a>

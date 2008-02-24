@@ -2,6 +2,8 @@ package com.kiwisoft.media.medium;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -30,7 +32,7 @@ public class MediumHTMLRenderer extends DefaultHTMLRenderer
 		{
 			Medium video=(Medium)value;
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(video)).append("\">");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), video)).append("\">");
 			String key=video.getFullKey();
 			if (FULL.equals(variant))
 			{

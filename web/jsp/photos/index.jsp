@@ -4,15 +4,14 @@
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.kiwisoft.format.FormatStringComparator" %>
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <html>
 
 <head>
 <title>Photos</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -23,7 +22,7 @@
 <media:title>Photos</media:title>
 <media:body>
 	<media:sidebar>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Galleries">
@@ -41,8 +40,8 @@
 						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
 						PictureFile thumbnail=gallery.getThumbnail();
 			%>
-			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(/clipart/trans10.png);">
-				<a href="/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderPicture(thumbnail, null)%></a>
+			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/clipart/trans10.png);">
+				<a href="<%=request.getContextPath()%>/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderPicture(request, thumbnail, null)%></a>
 			</td>
 			<%
 						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");
@@ -53,9 +52,9 @@
 					{
 						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
 			%>
-			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(/clipart/trans20.png);">
-				[<%=JspUtils.render(gallery.getCreationDate(), "Date only")%>]<br>
-				<%=JspUtils.render(gallery.getName())%>
+			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(<%=request.getContextPath()%>/clipart/trans20.png);">
+				[<%=JspUtils.render(request, gallery.getCreationDate(), "Date only")%>]<br>
+				<%=JspUtils.render(request, gallery.getName())%>
 			</td>
 			<%
 						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");

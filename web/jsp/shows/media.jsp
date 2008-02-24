@@ -18,12 +18,12 @@
 
 <head>
 <title><%=show.getTitle()%> - Multimedia</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
 <jsp:include page="_shows_nav.jsp"/>
 <jsp:include page="_show_nav.jsp" />
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>

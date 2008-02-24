@@ -40,7 +40,7 @@ public class PhotoGallery extends IDObject
 	{
 		String oldName=this.name;
 		this.name=name;
-		setModified(CREATION_DATE, oldName, name);
+		setModified(NAME, oldName, name);
 	}
 
 	public Date getCreationDate()

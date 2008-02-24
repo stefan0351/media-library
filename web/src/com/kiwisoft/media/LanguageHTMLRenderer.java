@@ -32,7 +32,7 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 			Language language=(Language)value;
 			String icon=getIcon(language.getSymbol());
 			StringBuilder output=new StringBuilder();
-			if (icon!=null) output.append("<img src=\"").append(icon).append("\"> ");
+			if (icon!=null) output.append("<img src=\"").append(context.get("contextPath")).append("/resource?file=").append(icon).append("\"> ");
 			if (withText || icon==null) output.append(StringEscapeUtils.escapeHtml(language.getName()));
 			return output.toString();
 		}

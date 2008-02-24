@@ -13,19 +13,19 @@
 <%
 	Show show=(Show)request.getAttribute("show");
 	Map links=new TreeMap(String.CASE_INSENSITIVE_ORDER);
-	links.put("Schedule", "/shows/schedule.jsp?show="+show.getId());
+	links.put("Schedule", request.getContextPath()+"/shows/schedule.jsp?show="+show.getId());
 	if (show.getRecordingCount()>0)
-		links.put("Media", "/shows/tracks.jsp?show="+show.getId());
+		links.put("Media", request.getContextPath()+"/shows/tracks.jsp?show="+show.getId());
 	if (!show.getMainCast().isEmpty() || !show.getRecurringCast().isEmpty())
-		links.put("Cast and Crew", "/shows/cast.jsp?show="+show.getId());
+		links.put("Cast and Crew", request.getContextPath()+"/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkGroup()!=null && show.getLinkGroup().getLinkCount()>0)
-		links.put("Links", "/links.jsp?show="+show.getId()+"&group="+show.getLinkGroup().getId());
+		links.put("Links", request.getContextPath()+"/links.jsp?show="+show.getId()+"&group="+show.getLinkGroup().getId());
 	if (show.getFanFicCount()>0)
-		links.put("Fan Fiction", "/fanfic/fanfics.jsp?show="+show.getId());
+		links.put("Fan Fiction", request.getContextPath()+"/fanfic/fanfics.jsp?show="+show.getId());
 	for (Iterator it=show.getInfos().iterator(); it.hasNext();)
 	{
 		ShowInfo info=(ShowInfo)it.next();
-		links.put(info.getName(), "/"+info.getPath()+"?show="+show.getId());
+		links.put(info.getName(), request.getContextPath()+"/resource?file="+info.getPath()+"&show="+show.getId());
 	}
 %>
 
@@ -44,7 +44,7 @@
 %>
 		<tr><td class="menuitem" align="center">
 <%
-			out.println(renderPicture("Logo", logo, thumbnail, null));
+			out.println(renderPicture(request, "Logo", logo, thumbnail, null));
 %>
 		<tr><td><hr size=1 color=black></td></tr>
 <%
@@ -53,7 +53,7 @@
 	if (!it.hasNext())
 	{
 %>
-		<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>">Episodes</a></td></tr>
+		<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/shows/episodes.jsp?show=<%=show.getId()%>">Episodes</a></td></tr>
 <%
 	}
 	else
@@ -62,14 +62,14 @@
 		{
 			Season season=(Season)it.next();
 %>
-			<tr><td class="menuitem"><%=JspUtils.render(season, "Menu")%></td></tr>
+			<tr><td class="menuitem"><%=JspUtils.render(request, season, "Menu")%></td></tr>
 <%
 		}
 	}
 	if (!show.getMovies().isEmpty())
 	{
 %>
-	<tr><td class="menuitem"><a class="menulink" href="/shows/episodes.jsp?show=<%=show.getId()%>#movies">Movies</a></td></tr>
+	<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/shows/episodes.jsp?show=<%=show.getId()%>#movies">Movies</a></td></tr>
 <%
 	}
 %>

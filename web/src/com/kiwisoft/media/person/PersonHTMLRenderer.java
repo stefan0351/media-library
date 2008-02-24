@@ -2,6 +2,8 @@ package com.kiwisoft.media.person;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.media.Navigation;
@@ -19,7 +21,7 @@ public class PersonHTMLRenderer extends DefaultHTMLRenderer
 		{
 			Person person=(Person)value;
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(person)).append("\">");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), person)).append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(person.getName()));
 			buffer.append("</a>");
 			return buffer.toString();

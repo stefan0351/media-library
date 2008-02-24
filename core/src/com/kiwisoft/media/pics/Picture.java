@@ -33,8 +33,7 @@ public class Picture extends PictureFile
 	{
 		String oldName=this.name;
 		this.name=name;
-		setModified();
-		firePropertyChange(NAME, oldName, name);
+		setModified(NAME, oldName, name);
 	}
 
 	public void setThumbnail(String property, String path, int imageWidth, int imageHeight)

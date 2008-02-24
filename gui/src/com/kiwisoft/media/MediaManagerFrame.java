@@ -2,6 +2,7 @@ package com.kiwisoft.media;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -34,6 +35,7 @@ import com.kiwisoft.swing.table.TableEditorFactory;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
 import com.kiwisoft.format.FormatManager;
+import com.kiwisoft.utils.UrlFormat;
 
 public class MediaManagerFrame extends ApplicationFrame
 {
@@ -46,7 +48,9 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected JMenuBar createMenu()
 	{
 		JMenu menuFile=new JMenu("Import/Export");
-		menuFile.add(new ImportScheduleAction(MediaManagerFrame.this));
+		menuFile.add(new ImportChangesAction(this));
+		menuFile.addSeparator();
+		menuFile.add(new ImportScheduleAction(this));
 		menuFile.add(new ExportWebDatesAction());
 		menuFile.addSeparator();
 		menuFile.add(new ProSiebenDeLoaderAction(this));
@@ -78,6 +82,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
+		formatManager.setFormat(URL.class, new UrlFormat());
 	}
 
 	protected void initializeTableComponents()

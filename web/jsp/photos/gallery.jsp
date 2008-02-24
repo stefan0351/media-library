@@ -16,9 +16,9 @@
 %>
 
 <head>
-<title>Photos - <%=JspUtils.render(gallery.getName())%></title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<title>Photos - <%=JspUtils.render(request, gallery.getName())%></title>
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -29,10 +29,10 @@
 <media:title>Photos</media:title>
 <media:body>
 	<media:sidebar>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="<%=JspUtils.render(gallery.getName())%>">
+		<media:panel title="<%=JspUtils.render(request, gallery.getName())%>">
 			<table cellspacing="0">
 			<%
 				List rows=Utils.splitIntoRows(gallery.getPhotos(), 4);
@@ -45,8 +45,8 @@
 						Photo photo=(Photo)itPhotos.next();
 						PictureFile thumbnail=photo.getThumbnail();
 			%>
-			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(/clipart/trans10.png);">
-				<a href="<%=Navigation.getLink(photo)%>"><%=renderPicture(thumbnail, null)%></a>
+			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/clipart/trans10.png);">
+				<a href="<%=Navigation.getLink(request, photo)%>"><%=renderPicture(request, thumbnail, null)%></a>
 			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");
@@ -57,9 +57,9 @@
 					{
 						Photo photo=(Photo)itPhotos.next();
 			%>
-			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(/clipart/trans20.png);">
-				[<%=JspUtils.render(photo.getCreationDate())%>]<br>
-				<%=JspUtils.render(photo.getDescription())%>
+			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(<%=request.getContextPath()%>/clipart/trans20.png);">
+				[<%=JspUtils.render(request, photo.getCreationDate())%>]<br>
+				<%=JspUtils.render(request, photo.getDescription())%>
 			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");

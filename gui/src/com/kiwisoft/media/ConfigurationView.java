@@ -3,6 +3,8 @@ package com.kiwisoft.media;
 import java.awt.Color;
 import java.util.ResourceBundle;
 import java.io.File;
+import java.net.URL;
+import java.net.MalformedURLException;
 import javax.swing.JComponent;
 
 import com.kiwisoft.swing.table.TableController;
@@ -83,26 +85,30 @@ public class ConfigurationView extends ViewPanel
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_WEB_DATES, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_LOGOS_CHANNELS_WEB, String.class, "ExistingDirectory", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_DOWNLOADS, String.class, "ExistingDirectory", true));
+		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_CDDBIDGEN_EXE, String.class, "ExistingFile", false));
+		tableModel.addRow(new ConfigRow(MediaConfiguration.URL_CDDB, String.class, "URL", false));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_URL, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_USER, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_PASSWORD, String.class, false));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_DRIVER, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_MAPPINGS, String.class, true));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_LOG_CHANGES, Boolean.class, false));
+		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_CHANGE_LOG_DIR, String.class, "Directory", false));
 		tableModel.sort();
 	}
 
 	private class ConfigRow extends SortableTableRow<String>
 	{
-		private Class<String> type;
+		private Class type;
 		private boolean required;
 		private String format;
 
-		public ConfigRow(String property, Class<String> type, boolean required)
+		public ConfigRow(String property, Class type, boolean required)
 		{
 			this(property, type, null, required);
 		}
 
-		public ConfigRow(String property, Class<String> type, String format, boolean required)
+		public ConfigRow(String property, Class type, String format, boolean required)
 		{
 			super(property);
 			this.type=type;
@@ -153,6 +159,21 @@ public class ConfigurationView extends ViewPanel
 					else if (!file.isFile()) return INVALID_PROPERTY_VALUE_STYLE;
 				}
 			}
+			else if ("URL".equals(format))
+			{
+				String value=(String)getPropertyValue();
+				if (!StringUtils.isEmpty(value))
+				{
+					try
+					{
+						new URL(value);
+					}
+					catch (MalformedURLException e)
+					{
+						return INVALID_PROPERTY_VALUE_STYLE;
+					}
+				}
+			}
 			return super.getCellStyle(column, property);
 		}
 
@@ -180,21 +201,38 @@ public class ConfigurationView extends ViewPanel
 		{
 			if ("value".equals(property))
 			{
-				setProprtyValue(value);
+				setPropertyValue(value);
 				return TableConstants.ROW_UPDATE;
 			}
 			return super.setValue(value, column, property);
 		}
 
-		private void setProprtyValue(Object value)
+		private void setPropertyValue(Object value)
 		{
 			if (String.class==type) Configuration.getInstance().setString(getUserObject(), (String)value);
+			else if (Boolean.class==type) Configuration.getInstance().setBoolean(getUserObject(), (Boolean)value);
+			else if (URL.class==type) Configuration.getInstance().setString(getUserObject(), value!=null ? value.toString() : null);
 			else throw new RuntimeException("Unsupported type: "+type);
 		}
 
 		private Object getPropertyValue()
 		{
 			if (String.class==type) return Configuration.getInstance().getString(getUserObject(), null);
+			else if (Boolean.class==type) return Configuration.getInstance().getBoolean(getUserObject(), null);
+			else if (URL.class==type)
+			{
+				String value=Configuration.getInstance().getString(getUserObject(), null);
+				if (StringUtils.isEmpty(value)) return null;
+				try
+				{
+					return new URL(value);
+				}
+				catch (MalformedURLException e)
+				{
+					e.printStackTrace();
+					return null;
+				}
+			}
 			else throw new RuntimeException("Unsupported type: "+type);
 		}
 

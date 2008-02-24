@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.format.FormatManager;
+import com.kiwisoft.format.FormatUtils;
 import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.media.LinkManager;
@@ -72,7 +73,7 @@ public class LinkGroupDetailsView extends DetailsView
 
 	private void initialize()
 	{
-		if (parent!=null) parentField.setText(FormatManager.getInstance().format(parent));
+		if (parent!=null) parentField.setText(FormatUtils.format(parent));
 		if (group!=null) nameField.setText(group.getName());
 	}
 

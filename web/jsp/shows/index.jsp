@@ -41,8 +41,8 @@
 
 <head>
 <title>Shows</title>
-<link type="text/css" rel="stylesheet" href="/style.css"/>
-<script language="JavaScript" src="/overlib.js"></script>
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style.css"/>
+<script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_shows_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Index">
@@ -64,11 +64,11 @@
 				{
 					Character letter=(Character)it.next();
 %>
-					<a class=link href="/shows/index.jsp?letter=<%=letter%>"><%=letter%></a> |
+					<a class=link href="<%=request.getContextPath()%>/shows/index.jsp?letter=<%=letter%>"><%=letter%></a> |
 <%
 				}
 %>
-				<a class="link" href="/shows/index.jsp?letter=all">All</a>
+				<a class="link" href="<%=request.getContextPath()%>/shows/index.jsp?letter=all">All</a>
 			] (<%=ShowManager.getInstance().getShowCount() %> Shows)</small></td></tr></table>
 			<br>
 			<table width="765">
@@ -81,7 +81,7 @@
 					{
 						Show show=(Show)itShows.next();
 %>
-						<li><b><%=JspUtils.render(show)%></b>
+						<li><b><%=JspUtils.render(request, show)%></b>
 <%
 						String yearString=show.getYearString();
 						if (yearString!=null)

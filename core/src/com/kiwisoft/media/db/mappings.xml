@@ -187,7 +187,6 @@
 		<field name="middleName" column="middlename"/>
 		<field name="surname" column="surname"/>
 		<field name="name" column="name"/>
-		<field name="actor" column="actor"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="imdbKey" column="imdb_key"/>
 		<field name="tvcomKey" column="tvcom_key"/>
@@ -259,6 +258,7 @@
 	<mapping name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>
 		<field name="value" column="value"/>
+		<field name="increment" column="increment"/>
 	</mapping>
 	<mapping name="Show" class="com.kiwisoft.media.show.Show" table="shows" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>

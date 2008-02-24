@@ -20,8 +20,8 @@
 
 <head>
 <title>Books</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 		<!--Navigation Start-->
 
 		<%--<jsp:include page="_nav.jsp"/>--%>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 
 		<!--Navigation End-->
 	</td>
@@ -61,7 +61,7 @@
 								{
 									Character letter=(Character)it.next();
 							%>
-							<a class=link href="/books/index.jsp?letter=<%=letter%>"><%=letter%>
+							<a class=link href="<%=request.getContextPath()%>/books/index.jsp?letter=<%=letter%>"><%=letter%>
 							</a>
 							<%
 									if (it.hasNext()) out.print("|");
@@ -83,8 +83,8 @@
 							{
 								Book book=(Book)itBooks.next();
 %>
-								<li><b><a class="link" href="<%=Navigation.getLink(book)%>"><%=JspUtils.render(book.getTitle())%></a></b>
-									by <%=JspUtils.renderSet(book.getAuthors())%>
+								<li><b><a class="link" href="<%=Navigation.getLink(request, book)%>"><%=JspUtils.render(request, book.getTitle())%></a></b>
+									by <%=JspUtils.renderSet(request, book.getAuthors())%>
 <%
 							}
 %>

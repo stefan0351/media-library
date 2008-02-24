@@ -62,8 +62,9 @@ public class Name extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public IDObject getReference()
@@ -82,14 +83,16 @@ public class Name extends IDObject
 
 	public void setReference(IDObject reference)
 	{
+		Long oldId=this.refId;
 		refId=reference.getId();
-		setModified();
+		setModified("refId", oldId, this.refId);
 	}
 
 	private void setType(int type)
 	{
+		int oldType=this.type;
 		this.type=type;
-		setModified();
+		setModified("type", oldType, this.type);
 	}
 
 	public Language getLanguage()

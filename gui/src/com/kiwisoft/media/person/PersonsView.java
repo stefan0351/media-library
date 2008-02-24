@@ -127,11 +127,8 @@ public class PersonsView extends ViewPanel
 				{
 					case CollectionChangeEvent.ADDED:
 						Person newPerson=(Person)event.getElement();
-						if (newPerson.isActor())
-						{
-							Row row=new Row(newPerson);
-							tableModel.addRow(row);
-						}
+						Row row=new Row(newPerson);
+						tableModel.addRow(row);
 						break;
 					case CollectionChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());

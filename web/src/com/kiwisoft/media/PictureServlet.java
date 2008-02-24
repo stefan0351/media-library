@@ -22,7 +22,7 @@ public class PictureServlet extends HttpServlet
 	public void init(ServletConfig servletConfig) throws ServletException
 	{
 		super.init(servletConfig);
-		MediaManagerApp.getInstance(getServletContext());
+		MediaManagerApp.getInstance();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -43,11 +43,13 @@ public class PictureServlet extends HttpServlet
 			InputStream inputStream=null;
 			String contentType=null;
 			String type=request.getParameter("type");
-			if ("PictureFile".equals(type))
+			if ("PictureFile".equals(type) || "Picture".equals(type))
 			{
 				Long id=new Long(request.getParameter("id"));
 				String rotate=request.getParameter("rotate");
-				PictureFile picture=PictureManager.getInstance().getPictureFile(id);
+				PictureFile picture;
+				if ("PictureFile".equals(type)) picture=PictureManager.getInstance().getPictureFile(id);
+				else picture=PictureManager.getInstance().getPicture(id);
 				File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
 				if (file.exists())
 				{
@@ -74,6 +76,7 @@ public class PictureServlet extends HttpServlet
 				}
 				else
 				{
+					System.err.println("File "+file.getAbsolutePath()+" doesn't exist");
 					inputStream=Icons.getIconStream("no-photo-available");
 				}
 			}

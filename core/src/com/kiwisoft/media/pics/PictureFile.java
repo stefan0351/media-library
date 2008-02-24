@@ -68,8 +68,7 @@ public class PictureFile extends IDObject
 	{
 		String oldFile=this.file;
 		this.file=file;
-		setModified();
-		firePropertyChange(FILE, oldFile, file);
+		setModified(FILE, oldFile, file);
 	}
 
 	public int getWidth()
@@ -81,8 +80,7 @@ public class PictureFile extends IDObject
 	{
 		int oldWidth=this.width;
 		this.width=width;
-		setModified();
-		firePropertyChange(WIDTH, oldWidth, width);
+		setModified(WIDTH, oldWidth, width);
 	}
 
 	public int getHeight()
@@ -94,8 +92,7 @@ public class PictureFile extends IDObject
 	{
 		int oldHeight=this.height;
 		this.height=height;
-		setModified();
-		firePropertyChange(HEIGHT, oldHeight, height);
+		setModified(HEIGHT, oldHeight, height);
 	}
 
 	public void deletePhysically()

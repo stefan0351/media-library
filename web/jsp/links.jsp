@@ -32,10 +32,10 @@
 
 <head>
 <title>Links</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="overlib.js"></script>
+<script language="JavaScript" src="window.js"></script>
+<script language="JavaScript" src="popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -49,18 +49,18 @@
 			if (show!=null)
 			{
 		%>
-		<jsp:include page="/shows/_show_nav.jsp"/>
-		<jsp:include page="/shows/_shows_nav.jsp"/>
+		<jsp:include page="shows/_show_nav.jsp"/>
+		<jsp:include page="shows/_shows_nav.jsp"/>
 		<%
 			}
 		%>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="_nav.jsp"/>
 
 	</media:sidebar>
 	<media:content>
 		<media:panel title="<%=group!=null ? group.getName() : "Links"%>">
 			<%
-				if (group!=null) out.println("<p>"+JspUtils.render(group, "Hierarchy")+"</p>");
+				if (group!=null) out.println("<p>"+JspUtils.render(request, group, "Hierarchy")+"</p>");
 
 				List links=new ArrayList();
 				List relatedGroups=new ArrayList();
@@ -107,7 +107,7 @@
 				for (Iterator it=childGroups.iterator(); it.hasNext();)
 				{
 					LinkGroup childGroup=(LinkGroup)it.next();
-					out.println("<li>"+JspUtils.render(childGroup)+"</li>");
+					out.println("<li>"+JspUtils.render(request, childGroup)+"</li>");
 				}
 			%>
 			</ul>
@@ -122,7 +122,7 @@
 				for (Iterator it=relatedGroups.iterator(); it.hasNext();)
 				{
 					LinkGroup relatedGroup=(LinkGroup)it.next();
-					out.println("<li>"+JspUtils.render(relatedGroup, "hierarchy")+"</li>");
+					out.println("<li>"+JspUtils.render(request, relatedGroup, "hierarchy")+"</li>");
 				}
 			%>
 			</ul>

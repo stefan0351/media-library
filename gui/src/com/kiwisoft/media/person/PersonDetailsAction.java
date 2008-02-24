@@ -17,6 +17,6 @@ public class PersonDetailsAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		PersonDetailsView.create((Person)getObject(), true);
+		PersonDetailsView.create((Person)getObject());
 	}
 }

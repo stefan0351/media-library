@@ -13,10 +13,10 @@
 
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Images</title>
-<link rel="StyleSheet" type="text/css" href="/style.css">
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
+<script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
+<script language="JavaScript" src="<%=request.getContextPath()%>/window.js"></script>
+<script language="JavaScript" src="<%=request.getContextPath()%>/popup.js"></script>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
 	<media:sidebar>
 		<jsp:include page="_show_nav.jsp" />
 		<jsp:include page="_shows_nav.jsp"/>
-		<jsp:include page="/_nav.jsp" />
+		<jsp:include page="../_nav.jsp" />
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Images">

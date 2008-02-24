@@ -81,8 +81,7 @@ public class Airdate extends IDObject
 	{
 		String oldEvent=getEvent();
 		this.event=event;
-		setModified();
-		firePropertyChange(EVENT, oldEvent, event);
+		setModified(EVENT, oldEvent, event);
 	}
 
 	public String getName()
@@ -113,8 +112,9 @@ public class Airdate extends IDObject
 
 	public void setReminder(boolean reminder)
 	{
+		boolean oldReminder=this.reminder;
 		this.reminder=reminder;
-		setModified();
+		setModified("reminder", oldReminder, this.reminder);
 	}
 
 	public Language getLanguage()
@@ -136,8 +136,7 @@ public class Airdate extends IDObject
 	{
 		Date oldDate=getDate();
 		this.date=date;
-		setModified();
-		firePropertyChange(DATE, oldDate, date);
+		setModified(DATE, oldDate, date);
 	}
 
 	public String getChannelName()

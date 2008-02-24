@@ -28,7 +28,9 @@ public class MediaManager
 		new Application("media");
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		configuration.loadDefaultsFromResource("config.xml");
+		File configFile=new File("conf", "config.xml");
+		System.out.println("Loading configuration from "+configFile.getAbsolutePath());
+		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
 			configuration.loadUserValues("media"+File.separator+"profile.xml");
@@ -55,7 +57,7 @@ public class MediaManager
 		UIManager.put("MenuItem.arrayIcon", Icons.ICON_1X1);
 
 		splashWindow=new SplashWindow(Icons.getIcon("splash"));
-		splashWindow.setStatus("MediaManager Version 2.0");
+		splashWindow.setStatus("MediaLib Version 3.0");
 		splashWindow.setVisible(true);
 
 		MediaManagerFrame frame=new MediaManagerFrame();

@@ -1,5 +1,7 @@
 package com.kiwisoft.media;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowInfo;
 import com.kiwisoft.media.show.Episode;
@@ -8,7 +10,6 @@ import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.medium.Medium;
 import com.kiwisoft.media.books.Book;
-import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.photos.Photo;
 
 public class Navigation
@@ -17,45 +18,45 @@ public class Navigation
 	{
 	}
 
-	public static String getLink(Show show)
+	public static String getLink(HttpServletRequest request, Show show)
 	{
 		ShowInfo link=show.getDefaultInfo();
-		if (link!=null) return "/"+link.getPath()+"?show="+show.getId();
-		return "/shows/episodes.jsp?show="+show.getId();
+		if (link!=null) return request.getContextPath()+"/resource?file="+link.getPath()+"&show="+show.getId();
+		return request.getContextPath()+"/shows/episodes.jsp?show="+show.getId();
 	}
 
-	public static String getLink(Book book)
+	public static String getLink(HttpServletRequest request, Book book)
 	{
-		return "/books/book.jsp?book="+book.getId();
+		return request.getContextPath()+"/books/book.jsp?book="+book.getId();
 	}
 
-	public static String getLink(Season season)
+	public static String getLink(HttpServletRequest request, Season season)
 	{
-		return "/shows/episodes.jsp?show="+season.getShowId()+"#season"+season.getNumber();
+		return request.getContextPath()+"/shows/episodes.jsp?show="+season.getShowId()+"#season"+season.getNumber();
 	}
 
-	public static String getLink(Episode episode)
+	public static String getLink(HttpServletRequest request, Episode episode)
 	{
-		return "/shows/episode.jsp?episode="+episode.getId();
+		return request.getContextPath()+"/shows/episode.jsp?episode="+episode.getId();
 	}
 
-	public static String getLink(Person person)
+	public static String getLink(HttpServletRequest request, Person person)
 	{
-		return "/persons/person.jsp?id="+person.getId();
+		return request.getContextPath()+"/persons/person.jsp?id="+person.getId();
 	}
 
-	public static String getLink(Medium medium)
+	public static String getLink(HttpServletRequest request, Medium medium)
 	{
-		return "/media/medium.jsp?id="+medium.getId();
+		return request.getContextPath()+"/media/medium.jsp?id="+medium.getId();
 	}
 
-	public static String getLink(Movie movie)
+	public static String getLink(HttpServletRequest request, Movie movie)
 	{
-		return "/movies/movie.jsp?movie="+movie.getId();
+		return request.getContextPath()+"/movies/movie.jsp?movie="+movie.getId();
 	}
 
-	public static String getLink(Photo photo)
+	public static String getLink(HttpServletRequest request, Photo photo)
 	{
-		return "/picture?type=PictureFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
+		return request.getContextPath()+"/picture?type=PictureFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
 	}
 }

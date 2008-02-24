@@ -54,8 +54,7 @@ public class Book extends IDObject
 	{
 		String oldTitle=this.title;
 		this.title=title;
-		setModified();
-		firePropertyChange(TITLE, oldTitle, title);
+		setModified(TITLE, oldTitle, title);
 	}
 
 	public String getPublisher()
@@ -67,8 +66,7 @@ public class Book extends IDObject
 	{
 		String oldPublisher=this.publisher;
 		this.publisher=publisher;
-		setModified();
-		firePropertyChange(PUBLISHER, oldPublisher, publisher);
+		setModified(PUBLISHER, oldPublisher, publisher);
 	}
 
 	public String getEdition()
@@ -80,8 +78,7 @@ public class Book extends IDObject
 	{
 		String oldEdition=this.edition;
 		this.edition=edition;
-		setModified();
-		firePropertyChange(EDITION, oldEdition, edition);
+		setModified(EDITION, oldEdition, edition);
 	}
 
 	public Integer getPublishedYear()
@@ -93,8 +90,7 @@ public class Book extends IDObject
 	{
 		Integer oldPublishedYear=this.publishedYear;
 		this.publishedYear=publishedYear;
-		setModified();
-		firePropertyChange(PUBLISHED_YEAR, oldPublishedYear, publishedYear);
+		setModified(PUBLISHED_YEAR, oldPublishedYear, publishedYear);
 	}
 
 	public Integer getPageCount()
@@ -106,8 +102,7 @@ public class Book extends IDObject
 	{
 		Integer oldPageCount=this.pageCount;
 		this.pageCount=pageCount;
-		setModified();
-		firePropertyChange(PAGE_COUNT, oldPageCount, pageCount);
+		setModified(PAGE_COUNT, oldPageCount, pageCount);
 	}
 
 	public String getIsbn10()
@@ -119,8 +114,7 @@ public class Book extends IDObject
 	{
 		String oldIsbn10=this.isbn10;
 		this.isbn10=isbn10;
-		setModified();
-		firePropertyChange(ISBN_10, oldIsbn10, isbn10);
+		setModified(ISBN_10, oldIsbn10, isbn10);
 	}
 
 	public String getIsbn13()
@@ -132,8 +126,7 @@ public class Book extends IDObject
 	{
 		String oldIsbn13=this.isbn13;
 		this.isbn13=isbn13;
-		setModified();
-		firePropertyChange(ISBN_13, oldIsbn13, isbn13);
+		setModified(ISBN_13, oldIsbn13, isbn13);
 	}
 
 	public String getBinding()
@@ -145,8 +138,7 @@ public class Book extends IDObject
 	{
 		String oldBinding=this.binding;
 		this.binding=binding;
-		setModified();
-		firePropertyChange(BINDING, oldBinding, binding);
+		setModified(BINDING, oldBinding, binding);
 	}
 
 	public Language getLanguage()

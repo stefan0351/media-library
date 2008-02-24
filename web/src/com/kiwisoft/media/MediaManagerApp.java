@@ -31,23 +31,43 @@ import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.app.Application;
+import com.kiwisoft.utils.StringUtils;
 
 public class MediaManagerApp
 {
 	private static MediaManagerApp instance;
 
-	public synchronized static MediaManagerApp getInstance(ServletContext context)
+	public synchronized static MediaManagerApp getInstance()
 	{
-		if (instance==null) instance=new MediaManagerApp(context);
+		if (instance==null) instance=new MediaManagerApp();
 		return instance;
 	}
 
-	private MediaManagerApp(ServletContext context)
+	private MediaManagerApp()
 	{
 		new Application("media");
-		String path=context.getRealPath("WEB-INF/config.xml");
-		new SimpleConfiguration().loadDefaultsFromFile(new File(path));
-//		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
+		String root=System.getProperty("catalina.home");
+		SimpleConfiguration configuration=new SimpleConfiguration();
+		File configFile;
+		if (StringUtils.isEmpty(root))
+		{
+			System.err.println("catalina.home not found. Using user.dir instead");
+			configFile=new File("conf", "config.xml");
+		}
+		else
+		{
+			configFile=new File(root, ".."+File.separator+"conf"+File.separator+"config.xml");
+		}
+		System.out.println("Loading configuration from "+configFile.getAbsolutePath());
+		configuration.loadDefaultsFromFile(configFile);
+		try
+		{
+			configuration.loadUserValues("media"+File.separator+"profile.xml");
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		initializeFormats();
 		initializeRenderers();
 	}

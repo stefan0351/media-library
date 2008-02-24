@@ -30,6 +30,13 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>resource</servlet-name>
+		<display-name>ResourceServlet</display-name>
+		<description>Streams resources from file system</description>
+		<servlet-class>com.kiwisoft.media.ResourceServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>search</servlet-name>
 		<display-name>Search Servlet</display-name>
 		<description>Search for all type of objects</description>
@@ -66,6 +73,11 @@
 	<servlet-mapping>
 		<servlet-name>picture</servlet-name>
 		<url-pattern>/picture</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>resource</servlet-name>
+		<url-pattern>/resource</url-pattern>
 	</servlet-mapping>
 
 	<taglib>

@@ -17,8 +17,8 @@
 
 <head>
 <title>Movies</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
 		<!--Navigation Start-->
 
 		<jsp:include page="_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 
 		<!--Navigation End-->
 	</td>
@@ -58,7 +58,7 @@
 								{
 									Character letter=(Character)it.next();
 							%>
-							<a class=link href="/movies/index.jsp?letter=<%=letter%>"><%=letter%>
+							<a class=link href="<%=request.getContextPath()%>/movies/index.jsp?letter=<%=letter%>"><%=letter%>
 							</a>
 							<%
 									if (it.hasNext()) out.print("|");
@@ -80,7 +80,7 @@
 							{
 								Movie movie=(Movie)itMovies.next();
 						%>
-						<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%>
+						<li><b><a class="link" href="<%=Navigation.getLink(request, movie)%>"><%=movie.getTitle()%>
 						</a></b>
 							<%
 

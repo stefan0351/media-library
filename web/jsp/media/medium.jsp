@@ -14,8 +14,8 @@
 
 <head>
 <title>Medium - <%=medium.getFullKey()+": "+medium.getName()%></title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -27,15 +27,14 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_media_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="<%="Medium "+medium.getFullKey()+": "+medium.getName()%>">
 			<table>
-			<tr><td class="content2"><b>Medium:</b></td><td class="content2"><%=JspUtils.render(medium.getType())%></td></tr>
+			<tr><td class="content2"><b>Medium:</b></td><td class="content2"><%=JspUtils.render(request, medium.getType())%></td></tr>
 			<tr><td class="content2"><b>Length:</b></td><td class="content2"><%=medium.getLength()%></td></tr>
 			<tr><td class="content2"><b>Storage:</b></td><td class="content2"><%=medium.getStorage()%></td></tr>
-			<tr><td class="content2"><b>Cover:</b></td><td class="content2"><a href="/create.pdf?xml.source=com.kiwisoft.media.medium.DVDCoverXML&xsl=/media/dvd_cover.xsl&medium=<%=medium.getId()%>">PDF</a></tr>
 			</table>
 			<br>
 			<media:table model="tracksTable" alternateRows="true"/>

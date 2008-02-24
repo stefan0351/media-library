@@ -17,6 +17,6 @@ public class NewPersonAction extends ContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		PersonDetailsView.create(null, true);
+		PersonDetailsView.create(null);
 	}
 }

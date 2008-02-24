@@ -27,10 +27,10 @@
 <head>
 <title>Movies - <%=movie.getTitle()%>
 </title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -49,7 +49,7 @@
 
 	<jsp:include page="_movie_nav.jsp"/>
 	<jsp:include page="_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 	<!--Navigation End-->
 </td>
@@ -68,16 +68,16 @@
 		if (!StringUtils.isEmpty(englishSummary))
 		{
 			out.print("<p>");
-			out.print(JspUtils.render(englishSummary, "preformatted"));
+			out.print(JspUtils.render(request, englishSummary, "preformatted"));
 			out.println("</p>");
 		}
 		if (!StringUtils.isEmpty(germanSummary))
 		{
 			if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
 			out.print("<p>");
-			out.print(JspUtils.render(german, "icon only"));
+			out.print(JspUtils.render(request, german, "icon only"));
 			out.print(" ");
-			out.print(JspUtils.render(germanSummary, "preformatted"));
+			out.print(JspUtils.render(request, germanSummary, "preformatted"));
 			out.println("</p>");
 		}
 %>
@@ -105,13 +105,13 @@
 					if (!StringUtils.isEmpty(movie.getGermanTitle()))
 					{
 						out.print(StringEscapeUtils.escapeHtml(movie.getGermanTitle()));
-						out.println(" ("+JspUtils.render(CountryManager.getInstance().getCountryBySymbol("DE"))+")<br>");
+						out.println(" ("+JspUtils.render(request, CountryManager.getInstance().getCountryBySymbol("DE"))+")<br>");
 					}
 					for (Iterator it=names.iterator(); it.hasNext();)
 					{
 						Name name=(Name)it.next();
 						out.print(StringEscapeUtils.escapeHtml(name.getName()));
-						out.println(" ("+JspUtils.render(name.getLanguage())+")<br>");
+						out.println(" ("+JspUtils.render(request, name.getLanguage())+")<br>");
 					}
 				%>
 			</td>
@@ -135,7 +135,7 @@
 		%>
 		<tr valign="top">
 			<td class="content2"><b>Language:</b></td>
-			<td class="content2"><%=JspUtils.sortAndRenderSet(languages)%>
+			<td class="content2"><%=JspUtils.sortAndRenderSet(request, languages)%>
 			</td>
 		</tr>
 		<%
@@ -146,7 +146,7 @@
 		%>
 		<tr valign="top">
 			<td class="content2"><b>Country:</b></td>
-			<td class="content2"><%=JspUtils.sortAndRenderSet(countries)%>
+			<td class="content2"><%=JspUtils.sortAndRenderSet(request, countries)%>
 			</td>
 		</tr>
 		<%
@@ -180,7 +180,7 @@
 	{
 		Medium medium=(Medium)it.next();
 		if (medium.isObsolete()) out.print("<strike>");
-		out.print(JspUtils.render(medium, "Full"));
+		out.print(JspUtils.render(request, medium, "Full"));
 		if (medium.isObsolete()) out.print("</strike>");
 		out.print("<br>");
 	}
@@ -216,7 +216,7 @@
 				Person actor=castMember.getActor();
 		%>
 		<tr valign="top">
-			<td class="content2"><a class="link" href="<%=Navigation.getLink(actor)%>"><%=JspUtils.prepare(actor)%>
+			<td class="content2"><a class="link" href="<%=Navigation.getLink(request, actor)%>"><%=JspUtils.prepare(actor)%>
 			</a></td>
 			<td class="content2">...</td>
 			<td class="content2"><%=JspUtils.prepareString(castMember.getCharacterName())%>
@@ -236,7 +236,7 @@
 	Set crew=movie.getCrewMembers();
 	if (!crew.isEmpty())
 	{
-		SortedSetMap sortedCrew=new com.kiwisoft.collection.SortedSetMap(null, new Comparator()
+		SortedSetMap sortedCrew=new SortedSetMap(null, new Comparator()
 		{
 			public int compare(Object o1, Object o2)
 			{
@@ -271,11 +271,11 @@
 					for (Iterator it2=sortedCrew.get(type).iterator(); it2.hasNext();)
 					{
 						Credit crewMember=(Credit)it2.next();
-						out.print(JspUtils.render(crewMember.getPerson()));
+						out.print(JspUtils.render(request, crewMember.getPerson()));
 						if (!StringUtils.isEmpty(crewMember.getSubType()))
 						{
 							out.print(" (");
-							out.print(JspUtils.render(crewMember.getSubType()));
+							out.print(JspUtils.render(request, crewMember.getSubType()));
 							out.print(" )");
 						}
 						out.println("<br>");

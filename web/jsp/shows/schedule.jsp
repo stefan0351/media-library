@@ -21,8 +21,8 @@
 
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Schedule</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 <!--Navigation End-->
 </td>
@@ -70,7 +70,7 @@
 			if (episode!=null)
 			{
 %>
-				<a class="link" href="<%=Navigation.getLink(episode)%>"><%=episode.getTitleWithKey(airdate.getLanguage())%></a>
+				<a class="link" href="<%=Navigation.getLink(request, episode)%>"><%=episode.getTitleWithKey(airdate.getLanguage())%></a>
 <%
 			}
 			else

@@ -30,8 +30,9 @@ public class Genre extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public String toString()

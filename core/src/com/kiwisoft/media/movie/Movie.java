@@ -69,8 +69,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setImdbKey(String imdbKey)
 	{
+		String oldImdbKey=this.imdbKey;
 		this.imdbKey=imdbKey;
-		setModified();
+		setModified("imdbKey", oldImdbKey, this.imdbKey);
 	}
 
 	public String getTitle()
@@ -80,8 +81,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setTitle(String title)
 	{
+		String oldTitle=this.title;
 		this.title=title;
-		setModified();
+		setModified("title", oldTitle, this.title);
 	}
 
 	public String getGermanTitle()
@@ -91,8 +93,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setGermanTitle(String germanTitle)
 	{
+		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
-		setModified();
+		setModified("germanTitle", oldTitle, this.germanTitle);
 	}
 
 	public String getTitle(Language language)
@@ -169,7 +172,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setIndexBy(String indexBy)
 	{
+		String oldIndexBy=this.indexBy;
 		this.indexBy=indexBy;
+		setModified("indexBy", oldIndexBy, this.indexBy);
 	}
 
 	public Show getShow()
@@ -189,8 +194,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setRecord(boolean record)
 	{
+		boolean oldRecord=this.record;
 		this.record=record;
-		setModified();
+		setModified("record", oldRecord, this.record);
 	}
 
 	public Picture getPoster()
@@ -210,8 +216,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setJavaScript(String javaScript)
 	{
+		String oldJavaScript=this.javaScript;
 		this.javaScript=javaScript;
-		setModified();
+		setModified("javaScript", oldJavaScript, this.javaScript);
 	}
 
 	public String getWebScriptFile()
@@ -221,8 +228,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setWebScriptFile(String webScriptFile)
 	{
+		String oldValue=this.webScriptFile;
 		this.webScriptFile=webScriptFile;
-		setModified();
+		setModified("webScriptFile", oldValue, this.webScriptFile);
 	}
 
 	public boolean isUsed()
@@ -278,8 +286,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setYear(Integer year)
 	{
+		Integer oldYear=this.year;
 		this.year=year;
-		setModified();
+		setModified("year", oldYear, this.year);
 	}
 
 	public Integer getRuntime()
@@ -289,8 +298,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setRuntime(Integer runtime)
 	{
+		Integer oldRuntime=this.runtime;
 		this.runtime=runtime;
-		setModified();
+		setModified("runtime", oldRuntime, this.runtime);
 	}
 
 	public void addGenre(Genre genre)

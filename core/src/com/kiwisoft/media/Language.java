@@ -11,6 +11,9 @@ import com.kiwisoft.persistence.DBDummy;
 
 public class Language extends IDObject implements Comparable
 {
+	public static final String NAME="name";
+	public static final String SYMBOL="symbol";
+
 	private String symbol;
 	private String name;
 
@@ -30,8 +33,9 @@ public class Language extends IDObject implements Comparable
 
 	public void setSymbol(String symbol)
 	{
+		String oldSymbol=this.symbol;
 		this.symbol=symbol;
-		setModified();
+		setModified(SYMBOL, oldSymbol, this.symbol);
 	}
 
 	public String getName()
@@ -41,8 +45,9 @@ public class Language extends IDObject implements Comparable
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified(NAME, oldName, this.name);
 	}
 
 	public String toString()

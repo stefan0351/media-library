@@ -49,8 +49,9 @@ public class FanFicPart extends IDObject implements ChainLink
 
 	public void setSource(String source)
 	{
+		String oldSource=this.source;
 		this.source=source;
-		setModified();
+		setModified("source", oldSource, this.source);
 	}
 
 	public long getSize()
@@ -76,8 +77,7 @@ public class FanFicPart extends IDObject implements ChainLink
 	{
 		int oldSequence=getSequence();
 		this.sequence=sequence;
-		setModified();
-		firePropertyChange(SEQUENCE, oldSequence, sequence);
+		setModified(SEQUENCE, oldSequence, sequence);
 	}
 
 	public void setChainPosition(int position)

@@ -2,6 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -21,7 +23,11 @@ public class GenreHTMLRenderer extends DefaultHTMLRenderer
 		{
 			Genre genre=(Genre)value;
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"/shows/genre.jsp?genre=").append(genre.getId()).append("\">");
+			buffer.append("<a class=\"link\" href=\"");
+			buffer.append(((HttpServletRequest)context.get("request")).getContextPath());
+			buffer.append("/shows/genre.jsp?genre=");
+			buffer.append(genre.getId());
+			buffer.append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(genre.getName()));
 			buffer.append("</a>");
 			return buffer.toString();

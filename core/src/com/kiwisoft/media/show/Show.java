@@ -230,8 +230,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setUserKey(String userKey)
 	{
+		String oldKey=this.userKey;
 		this.userKey=userKey;
-		setModified();
+		setModified("userKey", oldKey, this.userKey);
 	}
 
 	public boolean isInternet()
@@ -241,8 +242,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setInternet(boolean internet)
 	{
+		boolean oldInternet=this.internet;
 		this.internet=internet;
-		setModified();
+		setModified("internet", oldInternet, this.internet);
 	}
 
 	public int getDefaultEpisodeLength()
@@ -252,8 +254,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setDefaultEpisodeLength(int defaultEpisodeLength)
 	{
+		int oldLength=this.defaultEpisodeLength;
 		this.defaultEpisodeLength=defaultEpisodeLength;
-		setModified();
+		setModified("defaultEpisodeLength", oldLength, this.defaultEpisodeLength);
 	}
 
 	public String getWebDatesFile()
@@ -263,8 +266,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setWebDatesFile(String webDatesFile)
 	{
+		String oldFile=this.webDatesFile;
 		this.webDatesFile=webDatesFile;
-		setModified();
+		setModified("webDatesFile", oldFile, this.webDatesFile);
 	}
 
 	public boolean isUsed()
@@ -407,8 +411,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setGermanTitle(String title)
 	{
+		String oldTitle=this.germanTitle;
 		this.germanTitle=title;
-		setModified();
+		setModified("germanTitle", oldTitle, this.germanTitle);
 	}
 
 	public Picture getLogo()
@@ -469,8 +474,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setStartYear(Integer startYear)
 	{
+		Integer oldYear=this.startYear;
 		this.startYear=startYear;
-		setModified();
+		setModified("startYear", oldYear, this.startYear);
 	}
 
 	public Integer getEndYear()
@@ -480,8 +486,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setEndYear(Integer endYear)
 	{
+		Integer oldYear=this.endYear;
 		this.endYear=endYear;
-		setModified();
+		setModified("endYear", oldYear, this.endYear);
 	}
 
 	public String getYearString()
@@ -500,8 +507,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 
 	public void setIndexBy(String indexBy)
 	{
+		String oldIndexBy=this.indexBy;
 		this.indexBy=indexBy;
-		setModified();
+		setModified("indexBy", oldIndexBy, this.indexBy);
 	}
 
 	public LinkGroup getLinkGroup()

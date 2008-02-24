@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kiwisoft.collection.ObjectCache;
 import com.kiwisoft.utils.xml.CopyingTagHandler;
 import com.kiwisoft.utils.xml.ReplacingTagHandler;
@@ -28,26 +30,25 @@ public class XPLoader
 	private static boolean USE_CACHE=true;
 	private static boolean RELOAD=true;
 
-	private static ObjectCache<String, CacheEntry> fileCache=new ObjectCache<String, CacheEntry>(100);
+	private static ObjectCache<File, CacheEntry> fileCache=new ObjectCache<File, CacheEntry>(100);
 
 	private static ResourceBundle resourceBundle=ResourceBundle.getBundle("com/kiwisoft/xp/tags");
 	private static Map<String, XMLTagHandler> tagHandlers;
 
-	public static XMLObject loadXMLFile(String absolutPath, String path)
+	public static XMLObject loadXMLFile(HttpServletRequest request, File file)
 	{
-		absolutPath=getNormalizedPath(absolutPath);
-		CacheEntry cacheEntry=fileCache.get(absolutPath);
+		CacheEntry cacheEntry=fileCache.get(file);
 		if (cacheEntry==null)
 		{
-			return loadFile(absolutPath, path);
+			return loadFile(request, file);
 		}
 		else
 		{
 			if (RELOAD)
 			{
-				if (new File(absolutPath).lastModified()>cacheEntry.getLastModified())
+				if (file.lastModified()>cacheEntry.getLastModified())
 				{
-					return loadFile(absolutPath, path);
+					return loadFile(request, file);
 				}
 				else
 				{
@@ -55,7 +56,7 @@ public class XPLoader
 					while (it.hasNext())
 					{
 						IncludedXPBean includedBean=(IncludedXPBean) it.next();
-						includedBean.reload();
+						includedBean.reload(request);
 					}
 				}
 			}
@@ -63,11 +64,12 @@ public class XPLoader
 		}
 	}
 
-	private static XMLObject loadFile(String absolutPath, String path)
+	private static XMLObject loadFile(HttpServletRequest request, File file)
 	{
-		System.out.println("Loading file: "+path);
+		System.out.println("Loading file: "+file.getAbsolutePath());
 		XMLHandler xmlHandler=new XMLHandler();
-		xmlHandler.getContext().setAttribute("path", path);
+		xmlHandler.getContext().setAttribute("request", request);
+		xmlHandler.getContext().setAttribute("contextPath", request.getContextPath());
 		xmlHandler.addTagMapping("*", DefaultXPBean.class);
 		xmlHandler.addTagMapping("include", new IncludeFactory());
 
@@ -78,14 +80,14 @@ public class XPLoader
 			xmlHandler.addTagHandler(key, (XMLTagHandler)getTagHandlers().get(key));
 		}
 
-		xmlHandler.loadFile(absolutPath);
+		xmlHandler.loadFile(file);
 		XMLObject rootElement=xmlHandler.getRootElement();
 		if (USE_CACHE)
 		{
 			Set includes=(Set) xmlHandler.getContext().getAttribute("includes");
 			if (includes==null) includes=Collections.EMPTY_SET;
-			CacheEntry cacheEntry=new CacheEntry(rootElement, includes, new File(absolutPath).lastModified());
-			fileCache.put(absolutPath, cacheEntry);
+			CacheEntry cacheEntry=new CacheEntry(rootElement, includes, file.lastModified());
+			fileCache.put(file, cacheEntry);
 		}
 		return rootElement;
 	}
@@ -108,6 +110,7 @@ public class XPLoader
 					    resourceBundle.getString(key+".start"), resourceBundle.getString(key+".end")));
 				}
 			}
+			tagHandlers.put("img", new ImageTagHandler());
 			tagHandlers.put("space", new SpaceTagHandler());
 			tagHandlers.put("link", new LinkTagHandler());
 		}
@@ -140,18 +143,6 @@ public class XPLoader
 		public Set getIncludes()
 		{
 			return includes;
-		}
-	}
-
-	private static String getNormalizedPath(String realPath)
-	{
-		try
-		{
-			return new File(realPath).getCanonicalPath();
-		}
-		catch (IOException e)
-		{
-			return realPath;
 		}
 	}
 

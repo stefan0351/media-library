@@ -15,24 +15,24 @@
 <html>
 
 <head>
-<title>Book - <%=JspUtils.render(book.getTitle())%>
+<title>Book - <%=JspUtils.render(request, book.getTitle())%>
 </title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
 <div id="overDiv" class="over_lib"></div>
 <a name="top"></a>
 
-<media:title><%=JspUtils.render(book.getTitle())%>
+<media:title><%=JspUtils.render(request, book.getTitle())%>
 </media:title>
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_book_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Details">
@@ -42,28 +42,28 @@
 				if (!authors.isEmpty())
 				{
 %>
-					<dt><b>Author:</b> <dd><%=JspUtils.renderSet(authors)%></dd>
+					<dt><b>Author:</b> <dd><%=JspUtils.renderSet(request, authors)%></dd>
 <%
 				}
 				Collection translators=book.getTranslators();
 				if (!translators.isEmpty())
 				{
 %>
-					<dt><b>Translated by:</b> <dd><%=JspUtils.renderSet(translators)%></dd>
+					<dt><b>Translated by:</b> <dd><%=JspUtils.renderSet(request, translators)%></dd>
 <%
 				}
 				Language language=book.getLanguage();
 				if (language!=null)
 				{
 %>
-					<dt><b>Language</b> <dd><%=JspUtils.render(language)%></dd>
+					<dt><b>Language</b> <dd><%=JspUtils.render(request, language)%></dd>
 <%
 				}
 				String publisher=book.getPublisher();
 				if (!StringUtils.isEmpty(publisher))
 				{
 %>
-					<dt><b>Published by:</b> <dd><%=JspUtils.render(publisher)%></dd>
+					<dt><b>Published by:</b> <dd><%=JspUtils.render(request, publisher)%></dd>
 <%
 				}
 				Integer publishedYear=book.getPublishedYear();
@@ -72,21 +72,21 @@
 				{
 %>
 					<dt><b>Edition:</b>
-						<dd><%=JspUtils.render(edition)%> <%=JspUtils.render(publishedYear)%></dd>
+						<dd><%=JspUtils.render(request, edition)%> <%=JspUtils.render(request, publishedYear)%></dd>
 <%
 				}
 				String binding=book.getBinding();
 				if (!StringUtils.isEmpty(binding))
 				{
 %>
-					<dt><b>Binding:</b> <dd><%=JspUtils.render(binding)%></dd>
+					<dt><b>Binding:</b> <dd><%=JspUtils.render(request, binding)%></dd>
 <%
 				}
 				Integer pageCount=book.getPageCount();
 				if (pageCount!=null)
 				{
 %>
-					<dt><b>Pages:</b> <dd><%=JspUtils.render(pageCount)%></dd>
+					<dt><b>Pages:</b> <dd><%=JspUtils.render(request, pageCount)%></dd>
 <%
 				}
 				String isbn=book.getIsbn13();
@@ -94,7 +94,7 @@
 				if (!StringUtils.isEmpty(isbn))
 				{
 %>
-					<dt><b>ISBN:</b> <dd><%=JspUtils.render(isbn)%></dd>
+					<dt><b>ISBN:</b> <dd><%=JspUtils.render(request, isbn)%></dd>
 <%
 				}
 %>

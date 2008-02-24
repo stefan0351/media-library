@@ -107,8 +107,9 @@ public class CastMember extends IDObject
 
 	public void setCreditOrder(Integer creditOrder)
 	{
+		Integer oldCreditOrder=this.creditOrder;
 		this.creditOrder=creditOrder;
-		setModified();
+		setModified("creditOrder", oldCreditOrder, this.creditOrder);
 	}
 
 	public String getCharacterName()
@@ -120,8 +121,7 @@ public class CastMember extends IDObject
 	{
 		String oldCharacterName=getCharacterName();
 		this.characterName=characterName;
-		setModified();
-		firePropertyChange(CHARACTER_NAME, oldCharacterName, characterName);
+		setModified(CHARACTER_NAME, oldCharacterName, characterName);
 	}
 
 	public String getVoice()
@@ -133,8 +133,7 @@ public class CastMember extends IDObject
 	{
 		String oldVoice=getVoice();
 		this.voice=voice;
-		setModified();
-		firePropertyChange(VOICE, oldVoice, voice);
+		setModified(VOICE, oldVoice, voice);
 	}
 
 	public String getDescription()
@@ -144,8 +143,9 @@ public class CastMember extends IDObject
 
 	public void setDescription(String description)
 	{
+		String oldDescription=this.description;
 		this.description=description;
-		setModified();
+		setModified("description", oldDescription, this.description);
 	}
 
 	public String toString()

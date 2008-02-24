@@ -24,8 +24,9 @@ public class Country extends IDObject implements Comparable
 
 	public void setSymbol(String symbol)
 	{
+		String oldSymbol=this.symbol;
 		this.symbol=symbol;
-		setModified();
+		setModified("symbol", oldSymbol, this.symbol);
 	}
 
 	public String getName()
@@ -35,8 +36,9 @@ public class Country extends IDObject implements Comparable
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public String toString()

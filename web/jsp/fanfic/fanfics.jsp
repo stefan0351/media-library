@@ -69,8 +69,8 @@
 
 <head>
 <title>Fan Fiction - <%=container.getFanFicGroupName()%></title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -93,7 +93,7 @@
 	}
 %>
 		<jsp:include page="_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</td>
 	<td width="800">
 		<table class="contenttable" width="790">
@@ -226,7 +226,7 @@ else if (container instanceof FanDom)
     	{
 			FanFic fanfic=(FanFic) itFanfics.next();
 %>
-					<li><a class="link" href="authors/<%=fanfic.getSource()%>">"<%=fanfic.getTitle()%>"</a>
+					<li><a class="link" href="<%=request.getContextPath()%>/resource?file=fanfic/authors/<%=fanfic.getSource()%>">"<%=fanfic.getTitle()%>"</a>
 <%
 			if (!fanfic.isFinished()) out.print(" (unfinished)");
 						%> by <%
@@ -251,7 +251,7 @@ else if (container instanceof FanDom)
 				{
 					FanFicPart part=(FanFicPart)itParts.next();
 %>
-							<a class="link" href="authors/<%=part.getSource()%>"><%=i%></a>
+							<a class="link" href="<%=request.getContextPath()%>/resource?file=fanfic/authors/<%=part.getSource()%>"><%=i%></a>
 <%
 					i++;
 					if (itParts.hasNext()) out.print(" | ");

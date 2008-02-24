@@ -46,8 +46,9 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 
 	public void setName(String name)
 	{
+		String oldName=getName();
 		this.name=name;
-		setModified();
+		setModified("name", oldName, getName());
 	}
 
 	public String getPath()
@@ -57,7 +58,9 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 
 	public void setPath(String path)
 	{
+		String oldPath=getPath();
 		this.path=path;
+		setModified("path", oldPath, getPath());
 	}
 
 	public boolean isUsed()

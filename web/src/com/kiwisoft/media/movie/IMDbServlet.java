@@ -14,8 +14,6 @@ import javax.servlet.RequestDispatcher;
 import com.kiwisoft.media.dataImport.IMDbComLoader;
 import com.kiwisoft.media.dataImport.MovieData;
 import com.kiwisoft.media.dataImport.CreateMovieTx;
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.MediaManagerApp;
 import com.kiwisoft.media.Navigation;
 import com.kiwisoft.persistence.DBSession;
@@ -50,7 +48,7 @@ public class IMDbServlet extends HttpServlet
 	{
 		HttpSession session=request.getSession();
 		ServletContext servletContext=session.getServletContext();
-		MediaManagerApp.getInstance(servletContext);
+		MediaManagerApp.getInstance();
 
 		try
 		{
@@ -69,7 +67,7 @@ public class IMDbServlet extends HttpServlet
 						}
 					};
 					boolean success=DBSession.execute(createMovieTx);
-					if (success) forward(request, response, Navigation.getLink(createMovieTx.getMovie()));
+					if (success) forward(request, response, Navigation.getLink(request, createMovieTx.getMovie()));
 					else forward(request, response, "/error.jsp");
 				}
 				else forward(request, response, "/movies/import.jsp");

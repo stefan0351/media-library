@@ -1,5 +1,7 @@
 package com.kiwisoft.xp;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.xml.sax.Attributes;
 
 import com.kiwisoft.media.show.*;
@@ -8,11 +10,7 @@ import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLTagHandler;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 21.05.2004
- * Time: 15:06:27
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class LinkTagHandler implements XMLTagHandler
 {
@@ -27,7 +25,7 @@ public class LinkTagHandler implements XMLTagHandler
 				Episode episode=ShowManager.getInstance().getEpisode(showKey, episodeKey);
 				if (episode!=null)
 				{
-					return "<a class=\"link\" href=\""+Navigation.getLink(episode)+"\">";
+					return "<a class=\"link\" href=\""+Navigation.getLink((HttpServletRequest)context.getAttribute("request"), episode)+"\">";
 				}
 			}
 			else
@@ -35,7 +33,7 @@ public class LinkTagHandler implements XMLTagHandler
 				Show show=ShowManager.getInstance().getShow(showKey);
 				if (show!=null)
 				{
-					return "<a class=\"link\" href=\""+Navigation.getLink(show)+"\">";
+					return "<a class=\"link\" href=\""+Navigation.getLink((HttpServletRequest)context.getAttribute("request"), show)+"\">";
 				}
 			}
 		}

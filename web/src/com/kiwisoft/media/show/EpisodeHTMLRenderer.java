@@ -2,6 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -22,7 +24,7 @@ public class EpisodeHTMLRenderer extends DefaultHTMLRenderer
 			Episode episode=(Episode)value;
 			Language language=(Language)context.get(Language.class.getName());
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(episode)).append("\">");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), episode)).append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(episode.getTitleWithKey(language)));
 			buffer.append("</a>");
 			return buffer.toString();

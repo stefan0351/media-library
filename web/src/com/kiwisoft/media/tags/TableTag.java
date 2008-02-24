@@ -72,6 +72,7 @@ public class TableTag extends TagSupport
 	private void renderRows(SortableWebTable table) throws IOException
 	{
 		JspWriter out=pageContext.getOut();
+		HttpServletRequest request=(HttpServletRequest)pageContext.getRequest();
 		Map<String, Object> context=new HashMap<String, Object>();
 		for (int rowIndex=0;rowIndex<table.getRowCount();rowIndex++)
 		{
@@ -82,6 +83,8 @@ public class TableTag extends TagSupport
 			for (int columnIndex=0;columnIndex<table.getColumnCount();columnIndex++)
 			{
 				context.clear();
+				context.put("request", request);
+				context.put("contextPath", request.getContextPath());
 				Object value=table.getValueAt(rowIndex, columnIndex);
 				Class cellClass=table.getCellClass(rowIndex, columnIndex);
 				if (cellClass==null)
@@ -146,9 +149,9 @@ public class TableTag extends TagSupport
 			if (sortDescription!=null)
 			{
 				if (TableConstants.ASCEND.equals(sortDescription.getDirection()))
-					out.print("<img src=\"/clipart/ascend.gif\" border=0 hspace=3>");
+					out.print("<img src=\"" +request.getContextPath()+"/clipart/ascend.gif\" border=0 hspace=3>");
 				else
-					out.print("<img src=\"/clipart/descend.gif\" border=0 hspace=3>");
+					out.print("<img src=\""+request.getContextPath()+"/clipart/descend.gif\" border=0 hspace=3>");
 			}
 			if (table.isResortable()) out.print("</a>");
 			out.print("</td>");

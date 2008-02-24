@@ -17,10 +17,10 @@
 
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Episodes</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 <style type="text/css">
 </style>
 </head>
@@ -41,7 +41,7 @@
 
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 <!--Navigation End-->
 </td>
@@ -67,12 +67,12 @@
 				Episode episode=(Episode)itEpisodes.next();
 				episodes.remove(episode);
 				out.print("<li><b>");
-				out.print(JspUtils.render(episode));
+				out.print(JspUtils.render(request, episode));
 				out.print("</b>");
 				if (!StringUtils.isEmpty(episode.getGermanTitle()))
 				{
 					out.print(" (");
-					out.print(JspUtils.render(episode.getGermanTitle()));
+					out.print(JspUtils.render(request, episode.getGermanTitle()));
 					out.print(")");
 				}
 			}
@@ -97,12 +97,12 @@
 		{
 			Episode episode=(Episode)it.next();
 			out.print("<li><b>");
-			out.print(JspUtils.render(episode));
+			out.print(JspUtils.render(request, episode));
 			out.print("</b>");
 			if (!StringUtils.isEmpty(episode.getGermanTitle()))
 			{
 				out.print(" (");
-				out.print(JspUtils.render(episode.getGermanTitle()));
+				out.print(JspUtils.render(request, episode.getGermanTitle()));
 				out.print(")");
 			}
 		}
@@ -127,7 +127,7 @@
 		{
 			Movie movie=(Movie)itMovies.next();
 %>
-			<li><b><a class="link" href="<%=Navigation.getLink(movie)%>"><%=movie.getTitle()%></a></b>
+			<li><b><a class="link" href="<%=Navigation.getLink(request, movie)%>"><%=movie.getTitle()%></a></b>
 <%
 		}
 %>

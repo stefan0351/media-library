@@ -62,7 +62,6 @@ public class Summary extends IDObject
 	{
 		String oldSummary=getSummary();
 		this.summary=value;
-		setModified();
-		firePropertyChange(SUMMARY, oldSummary, summary);
+		setModified(SUMMARY, oldSummary, summary);
 	}
 }

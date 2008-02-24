@@ -36,7 +36,7 @@
 
 <head>
 <title>Schedule - <%=title%></title>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<link rel="StyleSheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -47,7 +47,7 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_schedule_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="<%="Schedule - "+title%>">

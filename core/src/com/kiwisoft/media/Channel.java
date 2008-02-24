@@ -37,8 +37,9 @@ public class Channel extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public Name createAltName()
@@ -68,8 +69,9 @@ public class Channel extends IDObject
 
 	public void setLogo(String logo)
 	{
+		String oldLogo=this.logo;
 		this.logo=logo;
-		setModified();
+		setModified("logo", oldLogo, this.logo);
 	}
 
 	public boolean isReceivable()
@@ -79,8 +81,9 @@ public class Channel extends IDObject
 
 	public void setReceivable(boolean receivable)
 	{
+		boolean oldReceivable=this.receivable;
 		this.receivable=receivable;
-		setModified();
+		setModified("receivable", oldReceivable, this.receivable);
 	}
 
 	public Language getLanguage()

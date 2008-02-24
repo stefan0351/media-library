@@ -20,7 +20,7 @@ public class CountryHTMLRenderer extends DefaultHTMLRenderer
 			Country country=(Country)value;
 			String icon=getIcon(country.getSymbol());
 			StringBuilder output=new StringBuilder();
-			if (icon!=null) output.append("<img src=\"").append(icon).append("\"> ");
+			if (icon!=null) output.append("<img src=\"").append(context.get("contextPath")).append("/resource?file=").append(icon).append("\"> ");
 			output.append(StringEscapeUtils.escapeHtml(country.getName()));
 			return output.toString();
 		}

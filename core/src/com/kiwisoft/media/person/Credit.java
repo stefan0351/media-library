@@ -83,8 +83,9 @@ public class Credit extends IDObject
 
 	public void setSubType(String subType)
 	{
+		String oldSubType=this.subType;
 		this.subType=subType;
-		setModified();
+		setModified("subType", oldSubType, this.subType);
 	}
 
 	public Identifyable loadReference(String name, Object referenceId)

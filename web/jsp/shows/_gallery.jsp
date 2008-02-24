@@ -54,7 +54,7 @@
 				String size=(String)image.getValue("size");
 				if (size!=null) colspan=Integer.parseInt(size);
 %>
-				<td align=center style="background:url(/clipart/trans10.png)" colspan="<%=colspan%>">
+				<td align=center style="background:url(<%=request.getContextPath()%>/clipart/trans10.png)" colspan="<%=colspan%>">
 				<a name="image<%=i++%>" <%=image.getValue("source")!=null ? "href=\""+image.getValue("source")+"\"" : ""%>><img src="<%=image.getValue("preview")%>" border=0 hspace=5 vspace=5></a>
 <%
 				if (size==null)

@@ -8,26 +8,29 @@ package com.kiwisoft.xp;
 
 import java.util.Collection;
 import java.util.List;
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class IncludedXPBean implements XPBean
 {
 	private XPBean include;
-	private String path;
-	private String urlPath;
+	private File file;
 
-	public IncludedXPBean(XPBean include, String path, String urlPath)
+	public IncludedXPBean(XPBean include, File file)
 	{
 		this.include=include;
-		this.path=path;
-		this.urlPath=urlPath;
+		this.file=file;
 	}
 
-	public void reload()
+	public void reload(HttpServletRequest request)
 	{
-		include=(XPBean)XPLoader.loadXMLFile(path, urlPath);
+		include=(XPBean)XPLoader.loadXMLFile(request, file);
 	}
 
 	public String getName()
@@ -43,11 +46,6 @@ public class IncludedXPBean implements XPBean
 	public Collection getValues(String name)
 	{
 		return include.getValues(name);
-	}
-
-	public String getBasePath()
-	{
-		return include.getBasePath();
 	}
 
 	public List getChildren()
@@ -89,5 +87,4 @@ public class IncludedXPBean implements XPBean
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 	}
-
 }

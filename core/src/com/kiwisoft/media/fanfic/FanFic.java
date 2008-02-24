@@ -52,8 +52,9 @@ public class FanFic extends IDObject
 
 	public void setTitle(String title)
 	{
+		String oldTitle=this.title;
 		this.title=title;
-		setModified();
+		setModified("title", oldTitle, this.title);
 	}
 
 	public String getRating()
@@ -63,8 +64,9 @@ public class FanFic extends IDObject
 
 	public void setRating(String rating)
 	{
+		String oldRating=this.rating;
 		this.rating=rating;
-		setModified();
+		setModified("rating", oldRating, this.rating);
 	}
 
 	public String getDescription()
@@ -74,8 +76,9 @@ public class FanFic extends IDObject
 
 	public void setDescription(String description)
 	{
+		String oldDescription=this.description;
 		this.description=description;
-		setModified();
+		setModified("description", oldDescription, this.description);
 	}
 
 	public String getSource()
@@ -92,8 +95,9 @@ public class FanFic extends IDObject
 
 	public void setFinished(boolean finished)
 	{
+		boolean oldFinished=this.finished;
 		this.finished=finished;
-		setModified();
+		setModified("finished", oldFinished, this.finished);
 	}
 
 	public String getSpoiler()
@@ -103,8 +107,9 @@ public class FanFic extends IDObject
 
 	public void setSpoiler(String spoiler)
 	{
+		String oldSpoiler=this.spoiler;
 		this.spoiler=spoiler;
-		setModified();
+		setModified("spoiler", oldSpoiler, this.spoiler);
 	}
 
 	public String getUrl()
@@ -114,8 +119,9 @@ public class FanFic extends IDObject
 
 	public void setUrl(String url)
 	{
+		String oldUrl=this.url;
 		this.url=url;
-		setModified();
+		setModified("url", oldUrl, this.url);
 	}
 
 	public FanFic getSequel()

@@ -1,6 +1,7 @@
 package com.kiwisoft.xp;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.ResourceBundle;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -42,11 +43,11 @@ public class XPServlet extends HttpServlet
 		HttpSession session=request.getSession();
 		ServletContext servletContext=session.getServletContext();
 		String realPath=servletContext.getRealPath(fileName);
-		MediaManagerApp.getInstance(servletContext);
+		MediaManagerApp.getInstance();
 
 		try
 		{
-			Object bean=XPLoader.loadXMLFile(realPath, fileName);
+			Object bean=XPLoader.loadXMLFile(request, new File(realPath));
 			XPBean xmlBean=(XPBean) bean;
 			request.setAttribute("xp", xmlBean);
 			String templateFile=(String)xmlBean.getValue("template");

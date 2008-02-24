@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+
+<project name="MediaLib - Web" default="web.compile" basedir=".">
+
+	<property name="root.dir" value="${basedir}/.."/>
+	<property name="web.module.dir" value="${root.dir}/web"/>
+
+	<import file="${root.dir}/build-properties.xml"/>
+
+	<target name="web.clean">
+		<delete dir="${classes.dir}/web"/>
+	</target>
+
+	<target name="web.compile" depends="web.clean">
+		<mkdir dir="${classes.dir}/web"/>
+		<javac srcdir="${web.module.dir}/src" destdir="${classes.dir}/web" deprecation="off">
+			<classpath>
+				<pathelement location="${root.dir}/media-core.jar"/>
+				<pathelement location="${root.dir}/tomcat/common/lib/servlet-api.jar"/>
+				<pathelement location="${root.dir}/tomcat/common/lib/jasper-runtime.jar"/>
+				<pathelement location="${root.dir}/tomcat/common/lib/jsp-api.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-collections.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-swing.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-formats.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-xml.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-configuration.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-application.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-web.jar"/>
+				<pathelement location="${lib.dir}/commons-lang.jar"/>
+				<pathelement location="${lib.dir}/commons-io.jar"/>
+				<pathelement location="${lib.dir}/fop.jar"/>
+			</classpath>
+		</javac>
+		<copy todir="${classes.dir}/web">
+			<fileset dir="${web.module.dir}/src">
+				<patternset refid="resource.pattern"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="web.jar" depends="web.compile">
+		<tstamp>
+			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
+		</tstamp>
+		<jar file="${root.dir}/media-web.jar" update="off">
+			<manifest>
+				<attribute name="Built-By" value="KiwiSoft"/>
+				<attribute name="Built-Date" value="${build.date}"/>
+				<section name="common">
+					<attribute name="Implementation-Title" value="MediaLib/Web"/>
+					<attribute name="Implementation-Vendor" value="KiwiSoft"/>
+				</section>
+			</manifest>
+			<fileset dir="${classes.dir}/web"/>
+		</jar>
+	</target>
+
+	<target name="web.deploy">
+		<tstamp>
+			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
+		</tstamp>
+		<copy todir="${root.dir}/tomcat/webapps/media">
+			<fileset dir="${web.module.dir}">
+				<include name="WEB-INF/**/*.*"/>
+			</fileset>
+			<fileset dir="${web.module.dir}/jsp"/>
+		</copy>
+		<copy todir="${root.dir}/tomcat/webapps/media/WEB-INF/lib">
+			<fileset dir="${lib.dir}">
+				<include name="commons-io.jar"/>
+				<include name="commons-lang.jar"/>
+				<include name="avalon-framework.jar"/>
+				<include name="batik-all.jar"/>
+				<include name="xmlgraphics-commons.jar"/>
+				<include name="fop.jar"/>
+				<include name="mysql.jar"/>
+				<include name="kiwisoft_utils-application.jar"/>
+				<include name="kiwisoft_utils-base.jar"/>
+				<include name="kiwisoft_utils-collections.jar"/>
+				<include name="kiwisoft_utils-configuration.jar"/>
+				<include name="kiwisoft_utils-database.jar"/>
+				<include name="kiwisoft_utils-formats.jar"/>
+				<include name="kiwisoft_utils-web.jar"/>
+				<include name="kiwisoft_utils-xml.jar"/>
+				<include name="kiwisoft_utils-swing.jar"/>
+			</fileset>
+			<fileset dir="${root.dir}">
+				<include name="media-core.jar"/>
+				<include name="media-web.jar"/>
+			</fileset>
+		</copy>
+	</target>
+</project>

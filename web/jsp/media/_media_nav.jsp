@@ -6,7 +6,7 @@
 </tr>
 
 <tr>
-	<td class="menuitem"><a class="menulink" href="/media/index.jsp">Index</a></td>
+	<td class="menuitem"><a class="menulink" href="index.jsp">Index</a></td>
 </tr>
 
 <tr>
@@ -16,7 +16,7 @@
 </tr>
 
 <tr>
-	<td class="menuitem"><a class="menulink" href="/create.pdf?xml.source=com.kiwisoft.media.medium.MediaByKeyXML&xsl=/media/mediaByKey.xsl">
-		<img src="/icons/printer.png" border="0"> Print Version</a></td>
+	<td class="menuitem"><a class="menulink" href="../create.pdf?xml.source=com.kiwisoft.media.medium.MediaByKeyXML&xsl=/media/mediaByKey.xsl">
+		<img src="../icons/printer.png" border="0"> Print Version</a></td>
 </tr>
 </table>

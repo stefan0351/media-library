@@ -5,29 +5,29 @@
 	<td class="menuheader">Main</td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/books/index.jsp">Books</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/books/index.jsp">Books</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/fanfic/fandoms.jsp">Fan Fiction</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/fanfic/fandoms.jsp">Fan Fiction</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/media/index.jsp">Media</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/media/index.jsp">Media</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/movies/index.jsp">Movies</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/movies/index.jsp">Movies</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/photos/index.jsp">Photos</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/photos/index.jsp">Photos</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/schedule.jsp">Schedule</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/schedule.jsp">Schedule</a></td>
 </tr>
 <tr>
-	<td class="menuitem"><a class="menulink" href="/shows/index.jsp">Shows</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/shows/index.jsp">Shows</a></td>
 </tr>
 </table>
 
-<form action="/search" method="post">
+<form action="<%=request.getContextPath()%>/search" method="post">
 	<table class="menutable">
 	<tr>
 		<td class="menuheader">Search</td>

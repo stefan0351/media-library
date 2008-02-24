@@ -43,8 +43,9 @@ public class ContactMedium extends IDObject
 
 	public void setValue(String value)
 	{
+		String oldValue=this.value;
 		this.value=value;
-		setModified();
+		setModified("value", oldValue, this.value);
 	}
 
 	public Author getAuthor()

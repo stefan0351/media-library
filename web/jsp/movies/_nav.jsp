@@ -6,7 +6,7 @@
 </tr>
 
 <tr>
-	<td class="menuitem"><a class="menulink" href="/movies/index.jsp">Index</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/movies/index.jsp">Index</a></td>
 </tr>
 
 <tr>
@@ -16,7 +16,7 @@
 </tr>
 
 <tr>
-	<td class="menuitem"><a class="menulink" href="/create.pdf?xml.source=com.kiwisoft.media.medium.MediaByMovieXML&xsl=/media/mediaByMovie.xsl">
-		<img src="/icons/printer.png" border="0"> DVD's List</a></td>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/create.pdf?xml.source=com.kiwisoft.media.medium.MediaByMovieXML&xsl=/media/mediaByMovie.xsl">
+		<img src="<%=request.getContextPath()%>/icons/printer.png" border="0"> DVD's List</a></td>
 </tr>
 </table>

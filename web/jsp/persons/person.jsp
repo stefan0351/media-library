@@ -27,9 +27,9 @@
 <head>
 <title><%=person.getName()%>
 </title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -47,7 +47,7 @@
 	<!--Navigation Start-->
 
 	<jsp:include page="_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 	<!--Navigation End-->
 </td>
@@ -80,7 +80,7 @@
 				Production production=(Production)it.next();
 				Set mainCredits=actingCredits.getCredits(production);
 				out.print("<li><b>");
-				out.print(JspUtils.render(production));
+				out.print(JspUtils.render(request, production));
 				out.print("</b>");
 				if (production instanceof Movie)
 				{
@@ -127,7 +127,7 @@
 						else
 						{
 							out.print("<br>- ");
-							out.print(JspUtils.render(subProduction, "Show"));
+							out.print(JspUtils.render(request, subProduction, "Show"));
 							out.print(" ... ");
 							Set subCredits=actingCredits.getCredits(subProduction);
 							boolean first=true;
@@ -177,7 +177,7 @@
 				Production production=(Production)it.next();
 				Set mainCredits=crewCredits.getCredits(production);
 				out.print("<li><b>");
-				out.print(JspUtils.render(production));
+				out.print(JspUtils.render(request, production));
 				out.print("</b>");
 				if (production instanceof Movie)
 				{
@@ -216,7 +216,7 @@
 						else
 						{
 							out.print("<br>- ");
-							out.print(JspUtils.render(subProduction, "Show"));
+							out.print(JspUtils.render(request, subProduction, "Show"));
 							Set subCredits=crewCredits.getCredits(subProduction);
 							boolean first=true;
 							for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
@@ -226,7 +226,7 @@
 								{
 									if (first) out.print(" (");
 									else out.print(", ");
-									out.print(JspUtils.render(crewMember.getSubType()));
+									out.print(JspUtils.render(request, crewMember.getSubType()));
 									first=false;
 								}
 							}

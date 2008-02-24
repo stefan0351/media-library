@@ -173,7 +173,7 @@ public class CastDetailsView extends DetailsView
 		public Person createObject(LookupField<Person> lookupField)
 		{
 			Container window=getTopLevelAncestor();
-			if (window instanceof JFrame) return PersonDetailsView.createDialog((JFrame)window, lookupField.getText(), true);
+			if (window instanceof JFrame) return PersonDetailsView.createDialog((JFrame)window, lookupField.getText());
 			return null;
 		}
 
@@ -185,7 +185,7 @@ public class CastDetailsView extends DetailsView
 		public void editObject(Person value)
 		{
 			Container window=getTopLevelAncestor();
-			if (window instanceof JFrame) PersonDetailsView.createDialog((JFrame)window, value, true);
+			if (window instanceof JFrame) PersonDetailsView.createDialog((JFrame)window, value);
 		}
 	}
 

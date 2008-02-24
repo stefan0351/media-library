@@ -20,6 +20,7 @@ public class MediaConfiguration
 	public static final String PATH_SCHEDULE_RECENT="path.schedule.recent";
 	public static final String PATH_PICTURES_RECENT="path.pictures.recent";
 	public static final String PATH_ROOT="path.root";
+	public static final String PATH_CDDBIDGEN_EXE="path.cddbidgen.exe";
 	public static final String PATH_PHOTOS_THUMBNAILS="path.photos.thumbnails";
 	public static final String PATH_BOOKS_COVERS="path.books.covers";
 	public static final String PATH_FANFICS="path.fanfics";
@@ -31,6 +32,8 @@ public class MediaConfiguration
 	public static final String PATH_WEB_DATES="path.web.dates";
 	public static final String PATH_LOGOS_CHANNELS_WEB="path.logos.channels.web";
 	public static final String PATH_DOWNLOADS="path.downloads";
+
+	public static final String URL_CDDB="url.cddb";
 
 	private MediaConfiguration()
 	{
@@ -183,5 +186,15 @@ public class MediaConfiguration
 	public static void setDownloadPath(String path)
 	{
 		Configuration.getInstance().setString(PATH_DOWNLOADS, path);
+	}
+
+	public static String getCDDBIdGeneratorPath()
+	{
+		return Configuration.getInstance().getString(PATH_CDDBIDGEN_EXE);
+	}
+
+	public static String getCDDBUrl()
+	{
+		return Configuration.getInstance().getString(URL_CDDB);
 	}
 }

@@ -40,8 +40,9 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	@SuppressWarnings({"unchecked"})
@@ -60,12 +61,12 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		return DBAssociation.getAssociation(Pairing.class, FANFICS).isExistsAssociation(this, fanFic);
 	}
 
-	public SortedSet getFanFicLetters()
+	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
-	public Set getFanFics(char ch)
+	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
 	}

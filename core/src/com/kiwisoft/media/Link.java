@@ -42,8 +42,9 @@ public class Link extends IDObject implements Comparable
 
 	public void setUrl(String url)
 	{
+		String oldUrl=this.url;
 		this.url=url;
-		setModified();
+		setModified("url", oldUrl, this.url);
 	}
 
 	public String getUrl()

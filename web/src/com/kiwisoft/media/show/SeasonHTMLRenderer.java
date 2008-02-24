@@ -2,6 +2,8 @@ package com.kiwisoft.media.show;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -32,7 +34,7 @@ public class SeasonHTMLRenderer extends DefaultHTMLRenderer
 		{
 			Season season=(Season)value;
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"").append(linkClass).append("\" href=\"").append(Navigation.getLink(season)).append("\">");
+			buffer.append("<a class=\"").append(linkClass).append("\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), season)).append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(season.getSeasonName()));
 			String yearString=season.getYearString();
 			if (yearString!=null) buffer.append(" <small>(").append(StringEscapeUtils.escapeHtml(yearString)).append(")</small>");

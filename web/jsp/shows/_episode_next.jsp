@@ -15,7 +15,7 @@
 			if (prev!=null)
 			{
 		%>
-		<a class=link href="<%=Navigation.getLink(prev)%>">&laquo; Previous Episode &laquo;</a>
+		<a class=link href="<%=Navigation.getLink(request, prev)%>">&laquo; Previous Episode &laquo;</a>
 		<%
 			}
 		%>
@@ -26,7 +26,7 @@
 			if (next!=null)
 			{
 		%>
-		<a class=link href="<%=Navigation.getLink(next)%>">&raquo; Next Episode &raquo;</a>
+		<a class=link href="<%=Navigation.getLink(request, next)%>">&raquo; Next Episode &raquo;</a>
 		<%
 			}
 		%>

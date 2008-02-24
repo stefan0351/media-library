@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+
+<project name="MediaLib - Core" default="core.compile" basedir=".">
+
+	<property name="root.dir" value="${basedir}/.."/>
+	<property name="core.module.dir" value="${root.dir}/core"/>
+
+	<import file="${root.dir}/build-properties.xml"/>
+
+	<target name="core.clean">
+		<delete dir="${classes.dir}/core"/>
+	</target>
+
+	<target name="core.compile" depends="core.clean">
+		<mkdir dir="${classes.dir}/core"/>
+		<javac srcdir="${core.module.dir}/src" destdir="${classes.dir}/core" deprecation="off">
+			<classpath>
+				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-collections.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-swing.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-formats.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-xml.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-configuration.jar"/>
+				<pathelement location="${lib.dir}/commons-lang.jar"/>
+				<pathelement location="${lib.dir}/commons-io.jar"/>
+				<pathelement location="${lib.dir}/velocity.jar"/>
+			</classpath>
+		</javac>
+		<copy todir="${classes.dir}/core">
+			<fileset dir="${core.module.dir}/src">
+				<patternset refid="resource.pattern"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="core.jar" depends="core.compile">
+		<tstamp>
+			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
+		</tstamp>
+		<jar file="${root.dir}/media-core.jar" update="off">
+			<manifest>
+				<attribute name="Built-By" value="KiwiSoft"/>
+				<attribute name="Built-Date" value="${build.date}"/>
+				<section name="common">
+					<attribute name="Implementation-Title" value="MediaLib/Core"/>
+					<attribute name="Implementation-Vendor" value="KiwiSoft"/>
+				</section>
+			</manifest>
+			<fileset dir="${classes.dir}/core"/>
+		</jar>
+	</target>
+</project>

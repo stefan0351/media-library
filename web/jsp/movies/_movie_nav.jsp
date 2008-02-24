@@ -25,22 +25,22 @@
 %>
 <tr><td class="menuitem" align="center">
 <%
-		out.println(renderPicture("Poster", poster, thumbnail, null));
+		out.println(renderPicture(request, "Poster", poster, thumbnail, null));
 %>
 	</td></tr>
 <tr><td><hr size=1 color=black></td></tr>
 <%
 	}
 %>
-<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#summary">Summary</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#details">Details</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#cast">Cast</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(movie)%>#crew">Crew</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(request, movie)%>#summary">Summary</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(request, movie)%>#details">Details</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(request, movie)%>#cast">Cast</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(request, movie)%>#crew">Crew</a></td></tr>
 <%
 	if (show!=null)
 	{
 %>
-<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(show)%>">TV Show</a></td></tr>
+<tr><td class="menuitem"><a class="menulink" href="<%=Navigation.getLink(request, show)%>">TV Show</a></td></tr>
 <%
 	}
 %>

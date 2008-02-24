@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
@@ -25,12 +27,9 @@ public class IncludeFactory implements XMLObjectFactory
 	public XMLObject createElement(XMLContext context, String name, Attributes attributes)
 	{
 		String src=attributes.getValue("src");
-		String dir=new File(context.getFileName()).getParent();
-		String urlDir=new File((String)context.getAttribute("path")).getParent();
-		String path=new File(dir, src).getPath();
-		String urlPath=WebUtils.getPath(urlDir, src);
-		XPBean bean=(XPBean)XPLoader.loadXMLFile(path,urlPath);
-		IncludedXPBean include=new IncludedXPBean(bean, path, urlPath);
+		File includedFile=new File(new File(context.getFileName()).getParentFile(), src);
+		XPBean bean=(XPBean)XPLoader.loadXMLFile((HttpServletRequest)context.getAttribute("request"), includedFile);
+		IncludedXPBean include=new IncludedXPBean(bean, includedFile);
 		Set set=(Set) context.getAttribute("includes");
 		if (set==null)
 		{

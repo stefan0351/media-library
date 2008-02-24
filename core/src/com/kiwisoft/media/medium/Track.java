@@ -116,8 +116,9 @@ public class Track extends IDObject implements ChainLink, Recordable
 
 	public void setEvent(String event)
 	{
+		String oldEvent=this.event;
 		this.event=event;
-		setModified();
+		setModified("event", oldEvent, this.event);
 	}
 
 	public boolean isLongPlay()
@@ -127,8 +128,9 @@ public class Track extends IDObject implements ChainLink, Recordable
 
 	public void setLongPlay(boolean longPlay)
 	{
+		boolean oldLongPlay=this.longPlay;
 		this.longPlay=longPlay;
-		setModified();
+		setModified("longPlay", oldLongPlay, this.longPlay);
 	}
 
 	public Medium getMedium()
@@ -160,8 +162,7 @@ public class Track extends IDObject implements ChainLink, Recordable
 	{
 		int oldSequence=getSequence();
 		this.sequence=sequence;
-		setModified();
-		firePropertyChange(SEQUENCE, oldSequence, sequence);
+		setModified(SEQUENCE, oldSequence, sequence);
 	}
 
 	public void setChainPosition(int position)

@@ -36,7 +36,6 @@ public class Person extends IDObject
 	private String name;
 	private String imdbKey;
 	private String tvcomKey;
-	private boolean actor;
 
 	public Person()
 	{
@@ -55,8 +54,9 @@ public class Person extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified(NAME, oldName, this.name);
 	}
 
 	public String getFirstName()
@@ -66,8 +66,9 @@ public class Person extends IDObject
 
 	public void setFirstName(String firstName)
 	{
+		String oldFirstName=this.firstName;
 		this.firstName=firstName;
-		setModified();
+		setModified(FIRST_NAME, oldFirstName, this.firstName);
 	}
 
 	public String getMiddleName()
@@ -77,8 +78,9 @@ public class Person extends IDObject
 
 	public void setMiddleName(String middleName)
 	{
+		String oldMiddleName=this.middleName;
 		this.middleName=middleName;
-		setModified();
+		setModified(MIDDLE_NAME, oldMiddleName, this.middleName);
 	}
 
 	public String getSurname()
@@ -88,8 +90,9 @@ public class Person extends IDObject
 
 	public void setSurname(String surname)
 	{
+		String oldSurname=this.surname;
 		this.surname=surname;
-		setModified();
+		setModified(SURNAME, oldSurname, this.surname);
 	}
 
 	public Gender getGender()
@@ -112,18 +115,6 @@ public class Person extends IDObject
 		setReference(PICTURE, picture);
 	}
 
-	public boolean isActor()
-	{
-		return actor;
-	}
-
-	public void setActor(boolean actor)
-	{
-		this.actor=actor;
-		setModified();
-	}
-
-
 	public String getImdbKey()
 	{
 		return imdbKey;
@@ -131,8 +122,9 @@ public class Person extends IDObject
 
 	public void setImdbKey(String imdbKey)
 	{
+		String oldImdbKey=this.imdbKey;
 		this.imdbKey=imdbKey;
-		setModified();
+		setModified("imdbKey", oldImdbKey, this.imdbKey);
 	}
 
 	public String getTvcomKey()
@@ -142,8 +134,9 @@ public class Person extends IDObject
 
 	public void setTvcomKey(String tvcomKey)
 	{
+		String oldTvcomKey=this.tvcomKey;
 		this.tvcomKey=tvcomKey;
-		setModified();
+		setModified("tvcomKey", oldTvcomKey, this.tvcomKey);
 	}
 
 	public String toString()

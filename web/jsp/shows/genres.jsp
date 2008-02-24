@@ -1,21 +1,18 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.util.Collections,
-				 java.util.Iterator,
-				 java.util.SortedSet,
-				 java.util.TreeSet,
-				 com.kiwisoft.media.Genre,
+<%@ page import="com.kiwisoft.media.Genre,
 				 com.kiwisoft.media.GenreManager,
 				 com.kiwisoft.utils.StringUtils,
 				 com.kiwisoft.web.HTMLRenderer" %>
 <%@ page import="com.kiwisoft.web.HTMLRendererManager" %>
+<%@ page import="java.util.*" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <html>
 
 <head>
 <title>Shows - Genres</title>
-<link type="text/css" rel="stylesheet" href="/style.css"/>
-<script language="JavaScript" src="/overlib.js"></script>
+<link type="text/css" rel="stylesheet" href="../style.css"/>
+<script language="JavaScript" src="../overlib.js"></script>
 </head>
 
 <body>
@@ -26,7 +23,7 @@
 <media:body>
 	<media:sidebar>
 		<jsp:include page="_shows_nav.jsp"/>
-		<jsp:include page="/_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
 		<media:panel title="Genres">
@@ -39,7 +36,7 @@
 				{
 					Genre genre=(Genre)it.next();
 					out.print("<li>");
-					out.print(renderer.getContent(genre, Collections.EMPTY_MAP, 0, 0));
+					out.print(renderer.getContent(genre, Collections.singletonMap("request", (Object)request), 0, 0));
 					out.println("</li>");
 				}
 			%>

@@ -31,10 +31,10 @@
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - <%=StringEscapeUtils.escapeHtml(episode.getTitle())%>
 </title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -54,7 +54,7 @@
 	<jsp:include page="_episode_nav.jsp"/>
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 	<!--Navigation End-->
 </td>
@@ -87,7 +87,7 @@
 			if (!StringUtils.isEmpty(englishSummary))
 			{
 				out.print("<p>");
-				out.print(JspUtils.render(englishSummary, "preformatted"));
+				out.print(JspUtils.render(request, englishSummary, "preformatted"));
 				out.println("</p>");
 				hr=true;
 			}
@@ -95,9 +95,9 @@
 			{
 				if (hr) out.println("<hr size=\"1\" color=\"black\">");
 				out.print("<p>");
-				out.print(JspUtils.render(german, "icon only"));
+				out.print(JspUtils.render(request, german, "icon only"));
 				out.print(" ");
-				out.print(JspUtils.render(germanSummary, "preformatted"));
+				out.print(JspUtils.render(request, germanSummary, "preformatted"));
 				out.println("</p>");
 			}
 		%>
@@ -130,14 +130,14 @@
 					{
 						out.print(StringEscapeUtils.escapeHtml(episode.getGermanTitle()));
 						out.print(" (");
-						out.print(JspUtils.render(CountryManager.getInstance().getCountryBySymbol("DE")));
+						out.print(JspUtils.render(request, CountryManager.getInstance().getCountryBySymbol("DE")));
 						out.print(")<br>");
 					}
 					for (Iterator it=names.iterator(); it.hasNext();)
 					{
 						Name name=(Name)it.next();
 						out.print(StringEscapeUtils.escapeHtml(name.getName()));
-						out.println(" ("+JspUtils.render(name.getLanguage())+")<br>");
+						out.println(" ("+JspUtils.render(request, name.getLanguage())+")<br>");
 					}
 				%>
 			</dd>
@@ -169,7 +169,7 @@
 	{
 		Medium medium=(Medium)it.next();
 		if (medium.isObsolete()) out.print("<strike>");
-		out.print(JspUtils.render(medium, "Full"));
+		out.print(JspUtils.render(request, medium, "Full"));
 		if (medium.isObsolete()) out.print("</strike>");
 		out.print("<br>");
 	}
@@ -211,7 +211,7 @@
 			for (Iterator it=writers.iterator(); it.hasNext();)
 			{
 				Credit crew=(Credit)it.next();
-				out.print(JspUtils.render(crew.getPerson()));
+				out.print(JspUtils.render(request, crew.getPerson()));
 				if (!StringUtils.isEmpty(crew.getSubType())) out.print(" ("+crew.getSubType()+")");
 				if (it.hasNext()) out.println(",");
 			}
@@ -229,7 +229,7 @@
 			for (Iterator it=directors.iterator(); it.hasNext();)
 			{
 				Credit crew=(Credit)it.next();
-				out.print(JspUtils.render(crew.getPerson()));
+				out.print(JspUtils.render(request, crew.getPerson()));
 				if (it.hasNext()) out.println(",");
 			}
 		%>
@@ -250,7 +250,7 @@
 				Person actor=castMember.getActor();
 		%>
 		<tr>
-			<td class="content2"><%=JspUtils.render(actor)%></td>
+			<td class="content2"><%=JspUtils.render(request, actor)%></td>
 			<td class="content2">...</td>
 			<td class="content2"><%=castMember.getCharacterName()%>
 			</td>
@@ -286,7 +286,7 @@
 				Person actor=castMember.getActor();
 		%>
 		<tr>
-			<td class="content2"><%=JspUtils.render(actor)%></td>
+			<td class="content2"><%=JspUtils.render(request, actor)%></td>
 			<td class="content2">...</td>
 			<td class="content2"><%=castMember.getCharacterName()%>
 			</td>
@@ -322,7 +322,7 @@
 				Person actor=castMember.getActor();
 		%>
 		<tr>
-			<td class="content2"><%=JspUtils.render(actor)%></td>
+			<td class="content2"><%=JspUtils.render(request, actor)%></td>
 			<td class="content2">...</td>
 			<td class="content2"><%=castMember.getCharacterName()%>
 			</td>

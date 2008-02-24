@@ -29,8 +29,9 @@ public abstract class WebInfo extends IDObject
 
 	public void setName(String name)
 	{
+		String oldName=this.name;
 		this.name=name;
-		setModified();
+		setModified("name", oldName, this.name);
 	}
 
 	public Language getLanguage()
@@ -50,8 +51,9 @@ public abstract class WebInfo extends IDObject
 
 	public void setPath(String path)
 	{
+		String oldPath=this.path;
 		this.path=path;
-		setModified();
+		setModified("path", oldPath, this.path);
 	}
 
 	public abstract boolean isDefault();

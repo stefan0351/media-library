@@ -1,73 +1,77 @@
 <?xml version="1.0" ?>
 
-<project name="Media Manager" default="build" basedir=".">
+<project name="MediaLib" default="build" basedir=".">
 
-	<property name="java.dir" value="c:/java"/>
-	<property name="build.compiler" value="jikes"/>
-	<property name="build.compiler.emacs" value="true"/>
+	<property name="root.dir" value="${basedir}"/>
+	<import file="${root.dir}/build-properties.xml"/>
+	<import file="${root.dir}/core/build.xml"/>
+	<import file="${root.dir}/gui/build.xml"/>
+	<import file="${root.dir}/web/build.xml"/>
 
-	<!-- Application Directories -->
-
-	<property name="sources" value="${basedir}/src"/>
-	<property name="lib.dir" value="${basedir}/lib"/>
-	<property name="webapp" value="d:/Webpages/local"/>
-	<property name="webapp.classes" value="${webapp}/WEB-INF/classes"/>
-	<property name="webapp.lib" value="${webapp}/WEB-INF/lib"/>
-	<property name="jsp.sources" value="${basedir}/pages"/>
-	<property name="utils.builds" value="d:/Projects/Java/utils/builds"/>
-
-	<path id="classpath">
-		<fileset dir="${lib.dir}">
-			<include name="*.jar"/>
-			<exclude name="*src.jar"/>
-		</fileset>
-	</path>
-
-	<target name="prepare">
-		<delete dir="${webapp.classes}"/>
-		<mkdir dir="${webapp.lib}"/>                                              		
-		<mkdir dir="${webapp.classes}"/>
-	</target>
-
-	<target name="clean">
-		<delete dir="${webapp.classes}"/>
-		<delete dir="${webapp.lib}"/>
-	</target>
-
-	<target name="compile" depends="prepare">
-		<javac srcdir="${sources}" destdir="${webapp.classes}" deprecation="off">
-			<classpath refid="classpath"/>
-		</javac>
-	</target>
-
-	<target name="build" depends="compile">
-		<copy todir="${webapp.lib}">
-			<fileset dir="${lib}">
-				<exclude name="servlet.jar"/>
-			</fileset>
-		</copy>
-		<copy todir="${webapp}">
-			<fileset dir="${jsp.sources}">
-				<include name="*.jsp"/>
-				<include name="*.xml"/>
-				<include name="*.xp"/>
+	<target name="upgrade.utils">
+		<copy todir="${lib.dir}" preservelastmodified="true">
+			<fileset dir="${utils.builds.dir}">
+				<include name="*.jar"/>
+				<exclude name="*math*.jar"/>
+				<exclude name="*syntax*.jar"/>
 			</fileset>
 		</copy>
 	</target>
+
+	<target name="jar" depends="core.jar, gui.jar, web.jar"/>
+
+	<target name="package">
+		<zip file="media.zip" update="false">
+			<fileset dir="${root.dir}">
+				<include name="lib/*.jar"/>
+				<exclude name="lib/*src.jar"/>
+				<exclude name="lib/*doc.jar"/>
+				<exclude name="lib/*.version"/>
+				<include name="conf/**"/>
+				<include name="bin/**"/>
+				<include name="tomcat/**"/>
+				<exclude name="tomcat/work/**"/>
+				<exclude name="tomcat/temp/**"/>
+				<include name="media-core.jar"/>
+				<include name="media-gui.jar"/>
+				<include name="media*.bat"/>
+			</fileset>
+		</zip>
+	</target>
+
+	<target name="build" depends="jar, web.deploy, package"/>
 
 	<property name="dump.dir" value="${basedir}/db/dumps"/>
 
 	<target name="dump">
 		<input message="Password" addproperty="password" />
 		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/media.sql">
-			<arg line="--user=stefan --password=${password} --skip-extended-insert --skip-quote-names --opt --routines media"/>
+			<arg value="--user=stefan"/>
+			<arg value="--password=${password}"/>
+			<arg value="--skip-extended-insert"/>
+			<arg value="--skip-quote-names"/>
+			<arg value="--opt"/>
+			<arg value="--routines"/>
+			<arg value="--ignore-table=media.sequences"/>
+			<arg value="media"/>
+		</exec>
+		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/sequences.sql">
+			<arg value="--user=stefan"/>
+			<arg value="--password=${password}"/>
+			<arg value="--skip-extended-insert"/>
+			<arg value="--skip-quote-names"/>
+			<arg value="--opt"/>
+			<arg value="media"/>
+			<arg value="sequences"/>
 		</exec>
 		<zip file="${dump.dir}/dump.zip" update="false">
 			<fileset dir="${dump.dir}">
 				<include name="media.sql"/>
+				<include name="sequences.sql"/>
 			</fileset>
 		</zip>
 		<delete file="${dump.dir}/media.sql"/>
+		<delete file="${dump.dir}/sequences.sql"/>
 	</target>
 
 	<target name="dump.structure">
@@ -75,16 +79,6 @@
 		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/structure.sql">
 			<arg line="--user=stefan --password=${password} --no-data --skip-quote-names --routines media"/>
 		</exec>
-	</target>
-
-	<target name="refresh_utils">
-		<copy todir="${lib.dir}" preservelastmodified="true">
-			<fileset dir="${utils.builds}">
-				<include name="*.jar"/>
-				<exclude name="*math*.jar"/>
-				<exclude name="*syntax*.jar"/>
-			</fileset>
-		</copy>
 	</target>
 
 </project>

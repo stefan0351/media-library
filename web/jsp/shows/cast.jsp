@@ -20,10 +20,10 @@
 
 <head>
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Cast</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<script language="JavaScript" src="/window.js"></script>
-<script language="JavaScript" src="/popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="../overlib.js"></script>
+<script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
+<link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 
 	<jsp:include page="_show_nav.jsp"/>
 	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="../_nav.jsp"/>
 
 <!--Navigation End-->
 </td>
@@ -70,13 +70,13 @@
 			if (picture==null && actor!=null) picture=actor.getPicture();
 			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
-				out.print(renderPicture(actor!=null ? actor.getName() : castMember.getCharacterName(), 
+				out.print(renderPicture(request, actor!=null ? actor.getName() : castMember.getCharacterName(),
 										picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><%=JspUtils.render(actor)%></td>
+		<td class="tcell2"><%=JspUtils.render(request, actor)%></td>
 		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
 		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>
@@ -116,14 +116,14 @@
 			{
 %>
 				<img src="/<%=picture.getThumbnail50x50().getFile().replace('\\', '/')%>" border="0" vspace="5" hspace="5"
-					onMouseOver="imagePopup('<%=JspUtils.render(actor!=null ? actor.getName() : castMember.getCharacterName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
+					onMouseOver="imagePopup('<%=JspUtils.render(request, actor!=null ? actor.getName() : castMember.getCharacterName())%>', '/<%=picture.getFile().replace('\\', '/')%>')"
 					onMouseOut="nd()">
 <%
 			}
 			row=!row;
 %>
 		</td>
-		<td class="tcell2"><%=JspUtils.render(castMember.getActor())%></td>
+		<td class="tcell2"><%=JspUtils.render(request, castMember.getActor())%></td>
 		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
 		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
 	</tr>

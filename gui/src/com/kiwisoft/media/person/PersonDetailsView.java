@@ -32,23 +32,23 @@ import com.kiwisoft.app.DetailsFrame;
 
 public class PersonDetailsView extends DetailsView
 {
-	public static void create(Person person, boolean actor)
+	public static void create(Person person)
 	{
-		new DetailsFrame(new PersonDetailsView(person, actor)).show();
+		new DetailsFrame(new PersonDetailsView(person)).show();
 	}
 
-	public static Person createDialog(JFrame owner, Person person, boolean actor)
+	public static Person createDialog(JFrame owner, Person person)
 	{
-		PersonDetailsView view=new PersonDetailsView(person, actor);
+		PersonDetailsView view=new PersonDetailsView(person);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.person;
 		return null;
 	}
 
-	public static Person createDialog(JFrame owner, String text, boolean actor)
+	public static Person createDialog(JFrame owner, String text)
 	{
-		PersonDetailsView view=new PersonDetailsView(text, actor);
+		PersonDetailsView view=new PersonDetailsView(text);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.person;
@@ -63,20 +63,19 @@ public class PersonDetailsView extends DetailsView
 	private JTextField middleNameField;
 	private JTextField surnameField;
 	private LookupField<Gender> genderField;
-	private JCheckBox actorField;
 	private DialogLookupField patternField;
 	private LookupField<Picture> pictureField;
 
-	private PersonDetailsView(Person person, boolean actor)
+	private PersonDetailsView(Person person)
 	{
 		createContentPanel();
-		setPerson(person, actor);
+		setPerson(person);
 	}
 
-	private PersonDetailsView(String text, boolean actor)
+	private PersonDetailsView(String text)
 	{
 		createContentPanel();
-		setPerson(null, actor);
+		setPerson(null);
 		List<String> names=new ArrayList<String>();
 		nameField.setText(text);
 		for (StringTokenizer tokens=new StringTokenizer(text, " "); tokens.hasMoreTokens();) names.add(tokens.nextToken());
@@ -110,7 +109,6 @@ public class PersonDetailsView extends DetailsView
 		surnameField=new JTextField(15);
 		patternField=new DialogLookupField(new TVTVPatternLookup());
 		genderField=new LookupField<Gender>(new GenderLookup());
-		actorField=new JCheckBox();
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
 		pictureField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
@@ -144,10 +142,6 @@ public class PersonDetailsView extends DetailsView
 		add(genderField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Actor/Actress:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(actorField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
 		add(new JLabel("Search Pattern:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(patternField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
@@ -160,7 +154,7 @@ public class PersonDetailsView extends DetailsView
 		new PicturePreviewUpdater(pictureField, picturePreview);
 	}
 
-	private void setPerson(Person person, boolean actor)
+	private void setPerson(Person person)
 	{
 		this.person=person;
 		if (person!=null)
@@ -170,14 +164,12 @@ public class PersonDetailsView extends DetailsView
 			middleNameField.setText(person.getMiddleName());
 			surnameField.setText(person.getSurname());
 			genderField.setValue(person.getGender());
-			actorField.setSelected(person.isActor());
 			String pattern=person.getSearchPattern(SearchPattern.TVTV);
 			if (pattern!=null) patternField.setText(pattern);
 			pictureField.setValue(person.getPicture());
 		}
 		else
 		{
-			actorField.setSelected(actor);
 			genderField.setValue(Gender.FEMALE);
 		}
 	}
@@ -207,7 +199,6 @@ public class PersonDetailsView extends DetailsView
 
 		Gender gender=genderField.getValue();
 		String tvtvPattern=patternField.getText();
-		boolean actor=actorField.isSelected();
 		Picture picture=pictureField.getValue();
 
 		Transaction transaction=null;
@@ -221,7 +212,6 @@ public class PersonDetailsView extends DetailsView
 			person.setSurname(surname);
 			person.setSex(gender);
 			person.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
-			person.setActor(actor);
 			person.setPicture(picture);
 			transaction.close();
 			return true;

@@ -1,22 +1,21 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.util.Collections,
-				 java.util.Iterator" %>
+<%@ page import="java.util.Iterator,
+				 java.util.Map" %>
 <%@ page import="java.util.Set" %>
+<%@ page import="com.kiwisoft.collection.SetMap" %>
 <%@ page import="com.kiwisoft.media.movie.Movie" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.media.show.Episode" %>
 <%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.collection.SetMap" %>
-<%@ page import="com.kiwisoft.web.HTMLRenderer" %>
-<%@ page import="com.kiwisoft.web.HTMLRendererManager" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <html>
 
 <head>
 <title>Media Manager - Search Result</title>
-<script language="JavaScript" src="/overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="/style.css">
+<script language="JavaScript" src="overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="style.css">
 </head>
 
 <body>
@@ -28,7 +27,7 @@
 
 <media:body>
 <media:sidebar>
-	<jsp:include page="/_nav.jsp"/>
+	<jsp:include page="_nav.jsp"/>
 </media:sidebar>
 <media:content>
 <media:panel title="Search Result">
@@ -37,18 +36,16 @@
 	%>
 	<p><b><%=shows!=null ? shows.size() : 0%> Show(s) found</b>
 		<%
-			HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 			if (shows!=null && !shows.isEmpty())
 			{
 		%>
 		<ol>
 		<%
-			HTMLRenderer renderer=rendererManager.getRenderer(Show.class);
 			for (Iterator it=shows.iterator(); it.hasNext();)
 			{
 				Show show=(Show)it.next();
 				out.print("<li>");
-				out.print(renderer.getContent(show, Collections.EMPTY_MAP, 0, 0));
+				out.print(JspUtils.render(request, show));
 				out.println("</li>");
 			}
 		%>
@@ -67,18 +64,16 @@
 		%>
 		<ol>
 		<%
-			HTMLRenderer showRenderer=rendererManager.getRenderer(Show.class);
-			HTMLRenderer episodeRenderer=rendererManager.getRenderer(Episode.class);
 			for (Iterator itShows=episodes.keySet().iterator(); itShows.hasNext();)
 			{
 				Show show=(Show)itShows.next();
 				out.print("<li>");
-				out.println(showRenderer.getContent(show, Collections.EMPTY_MAP, 0, 0));
+				out.println(JspUtils.render(request, show));
 				for (Iterator itEpisodes=episodes.get(show).iterator(); itEpisodes.hasNext();)
 				{
 					Episode episode=(Episode)itEpisodes.next();
 					out.print("<br>- ");
-					out.print(episodeRenderer.getContent(episode, Collections.EMPTY_MAP, 0, 0));
+					out.print(JspUtils.render(request, episode));
 				}
 				out.println("</li>");
 			}
@@ -98,12 +93,11 @@
 		%>
 		<ol>
 		<%
-			HTMLRenderer renderer=rendererManager.getRenderer(Movie.class);
 			for (Iterator it=movies.iterator(); it.hasNext();)
 			{
 				Movie movie=(Movie)it.next();
 				out.print("<li>");
-				out.print(renderer.getContent(movie, Collections.EMPTY_MAP, 0, 0));
+				out.print(JspUtils.render(request, movie));
 				Integer year=movie.getYear();
 				if (year!=null)
 				{
@@ -129,12 +123,11 @@
 		%>
 		<ol>
 		<%
-			HTMLRenderer renderer=rendererManager.getRenderer(Person.class);
 			for (Iterator it=persons.iterator(); it.hasNext();)
 			{
 				Person person=(Person)it.next();
 				out.print("<li>");
-				out.print(renderer.getContent(person, Collections.EMPTY_MAP, 0, 0));
+				out.print(JspUtils.render(request, person));
 				out.println("</li>");
 			}
 		%>

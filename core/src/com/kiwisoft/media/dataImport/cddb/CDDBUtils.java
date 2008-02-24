@@ -7,27 +7,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.Utils;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
  */
 public class CDDBUtils
 {
+	private static final String HELLO_STRING="hello=stefan+localhost+MediaLib+2";
+
 	private CDDBUtils()
 	{
 	}
 
 	public static Map<String, List<DiscInfo>> getDiscInfos() throws IOException, InterruptedException
 	{
-		File logFile=runDiscIdGenerator();
-		Map<String, String> cddbQueries=parseLogFile(logFile);
-		logFile.delete();
+		Map<String, String> cddbQueries=runDiscIdGenerator();
 		Map<String, List<DiscInfo>> infos=new LinkedHashMap<String, List<DiscInfo>>();
 		for (Map.Entry<String, String> entry : cddbQueries.entrySet())
 		{
 			List<DiscInfo> infoList=new ArrayList<DiscInfo>();
-			String data=WebUtils.loadURL(
-				"http://freedb.freedb.org/~cddb/cddb.cgi?cmd="+URLEncoder.encode(entry.getValue(), "UTF-8")+"&hello=stefan+localhost+MediaLib+2&proto=5");
+			String data=cddbCommand(entry.getValue());
 			int returnCode=Integer.parseInt(data.substring(0, 3));
 			data=data.substring(4);
 			switch (returnCode)
@@ -57,6 +59,13 @@ public class CDDBUtils
 		return infos;
 	}
 
+	private static String cddbCommand(String command) throws IOException
+	{
+		String url=MediaConfiguration.getCDDBUrl();
+		if (StringUtils.isEmpty(url)) url="http://freedb.freedb.org/~cddb/cddb.cgi";
+		return WebUtils.loadURL(url+"?cmd="+URLEncoder.encode(command, "UTF-8")+"&" +HELLO_STRING+"&proto=5");
+	}
+
 	private static DiscInfo parseSearchResult(String data)
 	{
 		Matcher matcher=Pattern.compile("([a-zA-Z]*) ([a-fA-F0-9]{8}) (.*)").matcher(data);
@@ -71,40 +80,19 @@ public class CDDBUtils
 		}
 	}
 
-	private static File runDiscIdGenerator() throws IOException, InterruptedException
+	private static Map<String, String> runDiscIdGenerator() throws IOException, InterruptedException
 	{
-		File batchFile=new File("D:\\Downloads\\Software\\cddbidgen.bat");
-		final File logFile=new File(batchFile.getParentFile(), "cddbidgen.log");
-		logFile.delete();
-		Runtime.getRuntime().exec("cmd /c start \"DISCID\" \""+batchFile.getAbsolutePath()+"\"", null, batchFile.getParentFile());
-		Thread logFileWatcher=new Thread()
-		{
-			@Override
-			public void run()
-			{
-				try
-				{
-					while (true)
-					{
-						Thread.sleep(100);
-						if (logFile.exists() && logFile.length()>0) break;
-					}
-				}
-				catch (InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-
-			}
-		};
-		logFileWatcher.start();
-		logFileWatcher.join();
-		return logFile;
+		String path=MediaConfiguration.getCDDBIdGeneratorPath();
+		if (StringUtils.isEmpty(path)) path="bin"+File.separator+"cddbidgen.exe";
+		StringBuilder output=new StringBuilder();
+		Utils.run("cmd /c \""+path+"\"", output, null);
+		System.out.println(output);
+		return parseDiscIdGeneratorOutput(new StringReader(output.toString()));
 	}
 
-	private static Map<String, String> parseLogFile(File logFile) throws IOException
+	private static Map<String, String> parseDiscIdGeneratorOutput(Reader reader) throws IOException
 	{
-		BufferedReader logReader=new BufferedReader(new InputStreamReader(new FileInputStream(logFile)));
+		BufferedReader logReader=new BufferedReader(reader);
 		String line;
 		String unit=null;
 		Map<String, String> cddbQueries=new HashMap<String, String>();
@@ -132,10 +120,8 @@ public class CDDBUtils
 		return cddbQueries;
 	}
 
-	public static void getDiscDetails(DiscInfo discInfo) throws IOException
+	public static String getDiscDetails(DiscInfo discInfo) throws IOException
 	{
-		String data=WebUtils.loadURL(
-			"http://freedb.freedb.org/~cddb/cddb.cgi?cmd=cddb+read+"+discInfo.getGenre()+"+"+discInfo.getDiscId()+"&hello=stefan+localhost+MediaLib+2&proto=5");
-		System.out.println("data = "+data);
+		return cddbCommand("cddb read "+discInfo.getGenre()+" "+discInfo.getDiscId());
 	}
 }

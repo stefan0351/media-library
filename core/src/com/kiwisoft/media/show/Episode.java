@@ -58,8 +58,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setUserKey(String userKey)
 	{
+		String oldKey=this.userKey;
 		this.userKey=userKey;
-		setModified();
+		setModified("userKey", oldKey, this.userKey);
 	}
 
 	public String getProductionCode()
@@ -69,8 +70,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setProductionCode(String productionCode)
 	{
+		String oldCode=this.productionCode;
 		this.productionCode=productionCode;
-		setModified();
+		setModified("productionCode", oldCode, this.productionCode);
 	}
 
 	public Date getAirdate()
@@ -80,8 +82,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setAirdate(Date airdate)
 	{
+		Date oldDate=this.airdate;
 		this.airdate=airdate;
-		setModified();
+		setModified("airdate", oldDate, this.airdate);
 	}
 
 	public String getTitle()
@@ -91,8 +94,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setTitle(String title)
 	{
+		String oldTitle=this.title;
 		this.title=title;
-		setModified();
+		setModified("title", oldTitle, this.title);
 	}
 
 	public Name createAltName()
@@ -127,8 +131,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setChainPosition(int position)
 	{
+		int oldSequence=this.sequence;
 		this.sequence=position;
-		setModified();
+		setModified("chainPosition", oldSequence, this.sequence);
 	}
 
 	public int getChainPosition()
@@ -143,8 +148,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setSeen(boolean seen)
 	{
+		boolean oldSeen=this.seen;
 		this.seen=seen;
-		setModified();
+		setModified("seen", oldSeen, this.seen);
 	}
 
 	public boolean isRecord()
@@ -154,8 +160,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setRecord(boolean record)
 	{
+		boolean oldRecord=this.record;
 		this.record=record;
-		setModified();
+		setModified("record", oldRecord, this.record);
 	}
 
 	public boolean isGood()
@@ -165,8 +172,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setGood(boolean good)
 	{
+		boolean oldGood=this.good;
 		this.good=good;
-		setModified();
+		setModified("good", oldGood, this.good);
 	}
 
 	public String getJavaScript()
@@ -176,8 +184,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setJavaScript(String javaScript)
 	{
+		String oldScript=this.javaScript;
 		this.javaScript=javaScript;
-		setModified();
+		setModified("javaScript", oldScript, this.javaScript);
 	}
 
 	public String getWebScriptFile()
@@ -187,8 +196,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setWebScriptFile(String webScriptFile)
 	{
+		String oldFile=this.webScriptFile;
 		this.webScriptFile=webScriptFile;
-		setModified();
+		setModified("webScriptFile", oldFile, this.webScriptFile);
 	}
 
 	public boolean isUsed()
@@ -251,8 +261,9 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void setGermanTitle(String germanTitle)
 	{
+		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
-		setModified();
+		setModified("germanTitle", oldTitle, this.germanTitle);
 	}
 
 	public Episode getNextEpisode()

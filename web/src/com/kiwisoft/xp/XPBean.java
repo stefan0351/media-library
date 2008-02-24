@@ -19,7 +19,5 @@ public interface XPBean extends XMLObject
 
 	Collection getValues(String name);
 
-	String getBasePath();
-
 	List getChildren();
 }
