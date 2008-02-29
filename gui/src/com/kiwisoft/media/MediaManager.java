@@ -2,11 +2,16 @@ package com.kiwisoft.media;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.app.Application;
 import com.kiwisoft.cfg.Configuration;
@@ -20,24 +25,29 @@ import com.sun.net.httpserver.HttpServer;
 
 public class MediaManager
 {
+	private final static Log log=LogFactory.getLog(MediaManager.class);
+
 	public static SplashWindow splashWindow;
 
 	public static void main(String[] args)
 	{
+		ExceptionHandler.init();
 		Locale.setDefault(Locale.UK);
 		new Application("media");
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 		SimpleConfiguration configuration=new SimpleConfiguration();
 		File configFile=new File("conf", "config.xml");
-		System.out.println("Loading configuration from "+configFile.getAbsolutePath());
+		log.info("Loading default configuration from "+configFile.getAbsolutePath());
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
-			configuration.loadUserValues("media"+File.separator+"profile.xml");
+			String userValuesFile="media"+File.separator+"profile.xml";
+			log.info("Loading user configuration from "+userValuesFile);
+			configuration.loadUserValues(userValuesFile);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 
 		if (configuration.getBoolean("proxy.use", false))
@@ -51,7 +61,7 @@ public class MediaManager
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			log.error(e.getMessage(), e);
 		}
 		UIManager.put("MenuItem.checkIcon", Icons.ICON_1X1);
 		UIManager.put("MenuItem.arrayIcon", Icons.ICON_1X1);
@@ -78,7 +88,7 @@ public class MediaManager
 	{
 		try
 		{
-			System.out.print("Starting listener on port 50001...");
+			log.info("Starting HTTP server on port 50001...");
 			final HttpServer httpServer=HttpServer.create(new InetSocketAddress("localhost", 50001), 0);
 			httpServer.createContext("/amazon", new AmazonHttpHandler(frame));
 			httpServer.createContext("/link", new LinkHttpHandler(frame));
@@ -93,10 +103,11 @@ public class MediaManager
 				}
 			});
 			httpServer.start();
-			System.out.println("done");
+			log.info("HTTP server started");
 		}
 		catch (IOException e)
 		{
+			log.error(e.getMessage(), e);
 			GuiUtils.handleThrowable(frame, e);
 		}
 	}
