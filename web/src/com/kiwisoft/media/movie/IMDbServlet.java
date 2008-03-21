@@ -67,7 +67,7 @@ public class IMDbServlet extends HttpServlet
 						}
 					};
 					boolean success=DBSession.execute(createMovieTx);
-					if (success) forward(request, response, Navigation.getLink(request, createMovieTx.getMovie()));
+					if (success) forward(request, response, Navigation.getLink(null, createMovieTx.getMovie()));
 					else forward(request, response, "/error.jsp");
 				}
 				else forward(request, response, "/movies/import.jsp");

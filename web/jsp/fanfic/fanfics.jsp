@@ -1,15 +1,13 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="com.kiwisoft.utils.*,
-				 com.kiwisoft.media.fanfic.*,
-				 com.kiwisoft.media.ContactMedium,
-				 com.kiwisoft.media.show.ShowManager,
-				 com.kiwisoft.media.show.Show,
+<%@ page import="java.util.*,
 				 com.kiwisoft.collection.Chain,
-				 java.util.*,
+				 com.kiwisoft.media.ContactMedium,
 				 com.kiwisoft.media.Link,
-				 com.kiwisoft.media.Language"%>
-<%@ page import="com.kiwisoft.collection.SortedSetMap" %>
-<%@ page import="com.kiwisoft.media.LinkGroup" %>
+				 com.kiwisoft.media.LinkGroup,
+				 com.kiwisoft.media.fanfic.*,
+				 com.kiwisoft.media.show.Show,
+				 com.kiwisoft.media.show.ShowManager,
+				 com.kiwisoft.utils.StringUtils"%>
 
 <%
     FanFicGroup container=null;
@@ -153,37 +151,22 @@ else if (container instanceof FanDom)
 %>
 			<table class="contenttable" width="765">
 			<tr><td class=header2>Links</td></tr>
-			<tr><td class="content">
+			<tr><td class="content"><ul>
 <%
-	com.kiwisoft.collection.SortedSetMap sortedLinks=new SortedSetMap();
-	for (Iterator itLinks=linkGroup.getLinks().iterator(); itLinks.hasNext();)
-	{
-		Link link=(Link)itLinks.next();
-		sortedLinks.add(link.getLanguage(), link);
-	}
-	for (Iterator itLanguages=sortedLinks.keySet().iterator(); itLanguages.hasNext();)
-	{
-		Language language=(Language)itLanguages.next();
+		List sortedLinks=new ArrayList(linkGroup.getLinks());
+		Collections.sort(sortedLinks);
+		for (Iterator itLinks=sortedLinks.iterator(); itLinks.hasNext();)
+		{
+			Link link=(Link)itLinks.next();
+			%><li><b><%=link.getName()%></b><br>
+				<a class="link" target="_new" href="<%=link.getUrl()%>"><%=link.getUrl()%></a></li><%
+		}
 %>
-				<p><b><u><%=language.getName()%>e Webseiten</u></b></p>
-				<ul>
-<%
-				for (Iterator itLinks=sortedLinks.get(language).iterator(); itLinks.hasNext();)
-				{
-					Link link=(Link)itLinks.next();
-					%><li><b><%=link.getName()%></b><br>
-					<a class="link" target="_new" href="<%=link.getUrl()%>"><%=link.getUrl()%></a></li><%
-				}
-%>
-				</ul>
-<%
-			}
-%>
-			</td></tr>
+			</ul></td></tr>
 			</table>
 <%
-		}
 	}
+}
 %>
 
 			<table class="contenttable" width="765">

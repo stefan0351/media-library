@@ -3,6 +3,7 @@ package com.kiwisoft.media.dataImport;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.File;
 
 import org.apache.commons.lang.WordUtils;
 
@@ -29,10 +30,12 @@ public class IMDbComLoader
 	{
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		configuration.loadDefaultsFromResource("config.xml");
+		File configFile=new File("conf", "config.xml");
+		configuration.loadDefaultsFromFile(configFile);
 
-		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0489085/", "tt0489085");
+//		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0489085/", "tt0489085");
 //		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0465407/", "tt0465407");
+		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0091455/", "tt0091455");
 		System.out.println(loader.load());
 	}
 
@@ -231,28 +234,30 @@ public class IMDbComLoader
 		}
 
 		index=page.indexOf("<table class=\"cast\">");
-		int tableEnd=page.indexOf("</table>", index);
-		int creditOrder=1;
-		while (true)
+		if (index>=0)
 		{
-			index=page.indexOf("<tr", index);
-			if (index<0 || index>tableEnd) break;
-			int index2=page.indexOf("</tr>", index);
-			if (index2<0 || index>tableEnd) break;
-			String htmlRow=page.substring(index, index2);
-			index=index2;
-			List<String> row=XMLUtils.extractCellValues(htmlRow);
-			if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) continue;
-			String actor=XMLUtils.unescapeHtml(row.get(1));
-			String imdbKey=getNameLink(actor);
-			actor=XMLUtils.removeTags(actor).trim();
-			String role=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(3))).trim();
-			if (!"Extra".equals(role) && !role.startsWith("Extra (as"))
+			int tableEnd=page.indexOf("</table>", index);
+			int creditOrder=1;
+			while (true)
 			{
-				movieData.addCast(new CastData(actor, role, creditOrder++, imdbKey));
+				index=page.indexOf("<tr", index);
+				if (index<0 || index>tableEnd) break;
+				int index2=page.indexOf("</tr>", index);
+				if (index2<0 || index>tableEnd) break;
+				String htmlRow=page.substring(index, index2);
+				index=index2;
+				List<String> row=XMLUtils.extractCellValues(htmlRow);
+				if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) continue;
+				String actor=XMLUtils.unescapeHtml(row.get(1));
+				String imdbKey=getNameLink(actor);
+				actor=XMLUtils.removeTags(actor).trim();
+				String role=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(3))).trim();
+				if (!"Extra".equals(role) && !role.startsWith("Extra (as"))
+				{
+					movieData.addCast(new CastData(actor, role, creditOrder++, imdbKey));
+				}
 			}
 		}
-
 	}
 
 	private String getNameLink(String html)

@@ -23,6 +23,7 @@ import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
+import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 
@@ -167,30 +168,40 @@ public class TrackDetailsView extends DetailsView
 
 	public boolean apply()
 	{
-		String event=eventField.getText();
-		if (StringUtils.isEmpty(event)) event=null;
-		Show show=showField.getValue();
-		Episode episode=episodeField.getValue();
-		Movie movie=movieField.getValue();
-		Language language=languageField.getValue();
-		TrackType trackType=typeField.getValue();
-		if (trackType==null)
-		{
-			typeField.requestFocus();
-			return false;
-		}
+		String event;
+		Show show;
+		Episode episode;
+		Movie movie;
+		Language language;
+		TrackType trackType;
 		int length;
+		boolean longPlay;
 		try
 		{
-			length=Integer.parseInt(lengthField.getText());
-			if (length<0 || length>500) throw new NumberFormatException();
+			event=eventField.getText();
+			if (StringUtils.isEmpty(event)) event=null;
+			show=showField.getValue();
+			episode=episodeField.getValue();
+			movie=movieField.getValue();
+			language=languageField.getValue();
+			trackType=typeField.getValue();
+			if (trackType==null) throw new InvalidDataException("Track type must not be null!", typeField);
+			try
+			{
+				length=Integer.parseInt(lengthField.getText());
+				if (length<0 || length>500) throw new NumberFormatException();
+			}
+			catch (NumberFormatException e)
+			{
+				throw new InvalidDataException(e.getMessage(), lengthField);
+			}
+			longPlay=qualityField.isSelected();
 		}
-		catch (NumberFormatException e)
+		catch (InvalidDataException e)
 		{
-			lengthField.requestFocus();
+			e.handle();
 			return false;
 		}
-		boolean longPlay=qualityField.isSelected();
 
 		Transaction transaction=null;
 		try
@@ -241,7 +252,11 @@ public class TrackDetailsView extends DetailsView
 		public void selectionChanged(LookupEvent event)
 		{
 			Movie movie=movieField.getValue();
-			if (movie!=null) showField.setValue(movie.getShow());
+			if (movie!=null)
+			{
+				if (StringUtils.isEmpty(lengthField.getText())) lengthField.setText(String.valueOf(movie.getRuntime()));
+				showField.setValue(movie.getShow());
+			}
 		}
 	}
 

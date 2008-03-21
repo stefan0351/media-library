@@ -16,8 +16,8 @@
 
 <head>
 <title>Media Manager - Import from IMDb.com</title>
-<script language="JavaScript" src="../overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="../style.css">
+<script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
+<link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
 		<table class="contenttable" width="790">
 		<tr><td class="header1">Import from IMDb.com</td></tr>
 		<tr><td class="content">
-			<form action="/import_imdb">
+			<form action="<%=request.getContextPath()%>/movies/import_imdb">
 				<input type="hidden" name="action" value="add"/>
 
 				<table border=0 cellspacing="5">

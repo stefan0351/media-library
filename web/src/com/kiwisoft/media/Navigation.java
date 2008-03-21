@@ -52,11 +52,18 @@ public class Navigation
 
 	public static String getLink(HttpServletRequest request, Movie movie)
 	{
-		return request.getContextPath()+"/movies/movie.jsp?movie="+movie.getId();
+		String link="/movies/movie.jsp?movie="+movie.getId();
+		if (request!=null) return request.getContextPath()+link;
+		return link;
 	}
 
 	public static String getLink(HttpServletRequest request, Photo photo)
 	{
 		return request.getContextPath()+"/picture?type=PictureFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
+	}
+
+	public static String getLink(HttpServletRequest request, LinkGroup linkGroup)
+	{
+		return request.getContextPath()+"/links.jsp?group="+linkGroup.getId();
 	}
 }

@@ -11,6 +11,9 @@
 	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/fanfic/fandoms.jsp">Fan Fiction</a></td>
 </tr>
 <tr>
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/links.jsp">Links</a></td>
+</tr>
+<tr>
 	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/media/index.jsp">Media</a></td>
 </tr>
 <tr>

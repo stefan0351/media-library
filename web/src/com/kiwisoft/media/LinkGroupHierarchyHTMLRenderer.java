@@ -2,6 +2,8 @@ package com.kiwisoft.media;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
@@ -21,10 +23,10 @@ public class LinkGroupHierarchyHTMLRenderer extends DefaultHTMLRenderer
 			{
 				html.insert(0, "</a>");
 				html.insert(0, StringEscapeUtils.escapeHtml(linkGroup.getName()));
-				html.insert(0, " &raquo; <a class=\"link\" href=\"/links.jsp?group="+linkGroup.getId()+"\">");
+				html.insert(0, " &raquo; <a class=\"link\" href=\""+Navigation.getLink((HttpServletRequest)context.get("request"), linkGroup)+"\">");
 				linkGroup=linkGroup.getParentGroup();
 			}
-			html.insert(0, "<a class=\"link\" href=\"/links.jsp\">Root</a>");
+			html.insert(0, "<a class=\"link\" href=\""+context.get("contextPath")+"/links.jsp\">Root</a>");
 			return html.toString();
 		}
 		return super.getContent(value, context, rowIndex, columnIndex);

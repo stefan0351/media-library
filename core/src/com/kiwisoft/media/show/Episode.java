@@ -18,6 +18,7 @@ import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
+import com.kiwisoft.media.medium.TrackType;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.persistence.IDObject;
@@ -329,6 +330,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 
 	public void initRecord(Track track)
 	{
+		track.setType(TrackType.VIDEO);
 		track.setShow(getShow());
 		track.setEpisode(this);
 	}

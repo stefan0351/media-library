@@ -246,6 +246,7 @@ public class Track extends IDObject implements ChainLink, Recordable
 
 	public void initRecord(Track track)
 	{
+		track.setType(getType());
 		track.setShow(getShow());
 		track.setEpisode(getEpisode());
 		track.setMovie(getMovie());

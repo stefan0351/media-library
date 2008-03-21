@@ -67,7 +67,7 @@
 
 	<servlet-mapping>
 		<servlet-name>import_imdb</servlet-name>
-		<url-pattern>/import_imdb</url-pattern>
+		<url-pattern>/movies/import_imdb</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

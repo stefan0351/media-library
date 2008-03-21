@@ -18,6 +18,7 @@ import com.kiwisoft.media.*;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
+import com.kiwisoft.media.medium.TrackType;
 import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.CreditType;
@@ -388,6 +389,7 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void initRecord(Track track)
 	{
+		track.setType(TrackType.VIDEO);
 		track.setMovie(this);
 	}
 

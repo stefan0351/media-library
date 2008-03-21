@@ -60,7 +60,7 @@
 	<media:content>
 		<media:panel title="<%=group!=null ? group.getName() : "Links"%>">
 			<%
-				if (group!=null) out.println("<p>"+JspUtils.render(request, group, "Hierarchy")+"</p>");
+				if (group!=null) out.println("<p>"+JspUtils.render(request, group, "hierarchy")+"</p>");
 
 				List links=new ArrayList();
 				List relatedGroups=new ArrayList();
