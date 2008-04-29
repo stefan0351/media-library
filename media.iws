@@ -18,20 +18,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/links.jsp" afterPath="$PROJECT_DIR$/web/jsp/links.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/fanfic/fanfics.jsp" afterPath="$PROJECT_DIR$/web/jsp/fanfic/fanfics.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/Navigation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/LinkGroupHTMLRenderer.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/LinkGroupHTMLRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/IMDbComLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/_nav.jsp" afterPath="$PROJECT_DIR$/web/jsp/_nav.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/movie/IMDbServlet.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/movie/IMDbServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/movies/import.jsp" afterPath="$PROJECT_DIR$/web/jsp/movies/import.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/LinkGroupHierarchyHTMLRenderer.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/LinkGroupHierarchyHTMLRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TrackDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TrackDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/media-web.iml" afterPath="$PROJECT_DIR$/web/media-web.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/dump.zip" afterPath="$PROJECT_DIR$/db/dumps/dump.zip" />
     </list>
   </component>
@@ -244,7 +231,7 @@
       <file leaf-file-name="import.jsp" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/jsp/movies/import.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="61" selection-start="1006" selection-end="1006" vertical-scroll-proportion="0.02093596">
+            <state line="29" column="61" selection-start="1006" selection-end="1006" vertical-scroll-proportion="0.020681266">
               <folding />
             </state>
           </provider>
@@ -253,7 +240,7 @@
       <file leaf-file-name="MediumDetailsView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="288" column="23" selection-start="10307" selection-end="10307" vertical-scroll-proportion="0.02093596">
+            <state line="288" column="23" selection-start="10307" selection-end="10307" vertical-scroll-proportion="0.020681266">
               <folding />
             </state>
           </provider>
@@ -262,7 +249,7 @@
       <file leaf-file-name="Track.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="248" column="0" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7623153">
+            <state line="248" column="0" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7652068">
               <folding />
             </state>
           </provider>
@@ -271,7 +258,7 @@
       <file leaf-file-name="Movie.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="392" column="0" selection-start="8575" selection-end="8609" vertical-scroll-proportion="0.5529557">
+            <state line="392" column="0" selection-start="8575" selection-end="8609" vertical-scroll-proportion="0.55839413">
               <folding />
             </state>
           </provider>
@@ -289,7 +276,7 @@
       <file leaf-file-name="Episode.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="330" column="0" selection-start="6935" selection-end="6935" vertical-scroll-proportion="0.57389164">
+            <state line="330" column="0" selection-start="6935" selection-end="6935" vertical-scroll-proportion="0.5790754">
               <folding />
             </state>
           </provider>
@@ -298,16 +285,16 @@
       <file leaf-file-name="Recordable.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Recordable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.25123152">
+            <state line="2" column="133" selection-start="71" selection-end="71" vertical-scroll-proportion="0.04136253">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TrackDetailsView.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TrackDetailsView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TrackDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="232" column="147" selection-start="8068" selection-end="8068" vertical-scroll-proportion="0.6366995">
+            <state line="212" column="39" selection-start="7629" selection-end="7629" vertical-scroll-proportion="0.22749391">
               <folding />
             </state>
           </provider>
@@ -316,16 +303,16 @@
       <file leaf-file-name="InvalidDataException.java" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/InvalidDataException.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="16" selection-start="468" selection-end="468" vertical-scroll-proportion="0.4187192">
+            <state line="26" column="16" selection-start="468" selection-end="468" vertical-scroll-proportion="0.4136253">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GuiUtils.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="GuiUtils.java" pinned="false" current="true" current-in-tab="true">
         <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/GuiUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="23" selection-start="1867" selection-end="1867" vertical-scroll-proportion="0.02093596">
+            <state line="88" column="149" selection-start="2412" selection-end="2412" vertical-scroll-proportion="0.24817519">
               <folding />
             </state>
           </provider>
@@ -609,7 +596,7 @@
       <showLibraryContents PackagesPane="true" />
       <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" ProjectPane="false" Scope="false" J2EEPane="false" PackagesPane="false" />
+      <showStructure Scope="false" ProjectPane="false" J2EEPane="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -623,15 +610,15 @@
     <property name="cvs_file_history_flatWidth2" value="294" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="cvs_file_history_flatWidth1" value="295" />
     <property name="vcs_file_view_flatWidth2" value="218" />
+    <property name="cvs_file_history_flatWidth1" value="295" />
     <property name="vcs_file_view_flatWidth5" value="145" />
-    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="vcs_file_view_flatOrder3" value="3" />
+    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatWidth4" value="169" />
-    <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir309tmp" />
     <property name="vcs_file_view_treeWidth0" value="371" />
+    <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir309tmp" />
     <property name="vcs_file_view_treeOrder0" value="0" />
     <property name="cvs_file_history_treeOrder5" value="5" />
     <property name="vcs_file_view_flatOrder4" value="4" />
@@ -741,17 +728,17 @@
         <option name="Make" value="true" />
       </method>
     </tempConfiguration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../intellij/963/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
@@ -759,36 +746,6 @@
       <option name="SHMEM_ADDRESS" value="javadebug" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CONTEXT_PATH" value="/" />
-        <option name="MODULE_NAME" value="media-web" />
-        <option name="DEPLOY" value="false" />
-      </J2EE_MODULE>
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
@@ -809,11 +766,40 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8080" />
       <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CONTEXT_PATH" value="/" />
+        <option name="MODULE_NAME" value="media-web" />
+        <option name="DEPLOY" value="false" />
+      </J2EE_MODULE>
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="/" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
@@ -835,17 +821,18 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$PROJECT_DIR$/../../intellij/963/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
     </configuration>
     <configuration default="false" name="MediaLib" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.MediaManager" />
@@ -876,7 +863,7 @@
       <option name="OPEN_IN_BROWSER" value="true" />
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/media/shows/index.jsp" />
       <option name="COMMON_VM_ARGUMENTS" value="" />
-      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="exploded">
+      <J2EE_MODULE DEPLOYMENT_SOURCE_NAME="jar">
         <option name="CONTEXT_PATH" value="media" />
         <option name="MODULE_NAME" value="media-web" />
         <option name="DEPLOY" value="true" />
@@ -956,7 +943,7 @@
         <statement>select+*+from+sequences</statement>
       </query>
       <query name="Query 2" changed="true">
-        <statement>select+*+from+movies+where+title%3D%27Lifted%27</statement>
+        <statement>alter+table+songs+add+track_number+varchar%28255%29+after+album_title%3B%0Aselect+*+from+songs</statement>
       </query>
     </queries>
   </component>
@@ -1040,10 +1027,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="1278" height="992" extended-state="0" />
+    <frame x="-4" y="-4" width="1288" height="1002" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6504065" order="8" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6509759" order="8" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3291714" order="7" />
@@ -1059,23 +1046,23 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7164179" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24979724" order="1" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3984109" order="6" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.3321719" order="8" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.33180252" order="8" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.3662457" order="8" x="23" y="356" width="1233" height="290" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46109176" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46153846" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40308192" order="3" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46715328" order="1" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
+      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5307068" order="8" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" order="5" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7340425" order="7" />
-      <window_info id="ModuleGraph" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.645857" order="8" />
       <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" order="8" />
+      <window_info id="ModuleGraph" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.645857" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="3" />
       <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -1263,28 +1250,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/jsp/movies/import.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="61" selection-start="1006" selection-end="1006" vertical-scroll-proportion="0.02093596">
+        <state line="29" column="61" selection-start="1006" selection-end="1006" vertical-scroll-proportion="0.020681266">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="288" column="23" selection-start="10307" selection-end="10307" vertical-scroll-proportion="0.02093596">
+        <state line="288" column="23" selection-start="10307" selection-end="10307" vertical-scroll-proportion="0.020681266">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Track.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="248" column="0" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7623153">
+        <state line="248" column="0" selection-start="4718" selection-end="4718" vertical-scroll-proportion="0.7652068">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="392" column="0" selection-start="8575" selection-end="8609" vertical-scroll-proportion="0.5529557">
+        <state line="392" column="0" selection-start="8575" selection-end="8609" vertical-scroll-proportion="0.55839413">
           <folding />
         </state>
       </provider>
@@ -1298,35 +1285,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="330" column="0" selection-start="6935" selection-end="6935" vertical-scroll-proportion="0.57389164">
+        <state line="330" column="0" selection-start="6935" selection-end="6935" vertical-scroll-proportion="0.5790754">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Recordable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="212" selection-end="212" vertical-scroll-proportion="0.25123152">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/InvalidDataException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="16" selection-start="468" selection-end="468" vertical-scroll-proportion="0.4187192">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/GuiUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="23" selection-start="1867" selection-end="1867" vertical-scroll-proportion="0.02093596">
+        <state line="2" column="133" selection-start="71" selection-end="71" vertical-scroll-proportion="0.04136253">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/TrackDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="232" column="147" selection-start="8068" selection-end="8068" vertical-scroll-proportion="0.6366995">
+        <state line="212" column="39" selection-start="7629" selection-end="7629" vertical-scroll-proportion="0.22749391">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/InvalidDataException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="16" selection-start="468" selection-end="468" vertical-scroll-proportion="0.4136253">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/GuiUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="88" column="149" selection-start="2412" selection-end="2412" vertical-scroll-proportion="0.24817519">
           <folding />
         </state>
       </provider>
