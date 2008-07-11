@@ -22,6 +22,6 @@ public class ShowAirdatesAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ScheduleView((Show)getObject()), true);
+		frame.setCurrentView(new ScheduleView((Show)getObject()));
 	}
 }

@@ -90,7 +90,7 @@ public class PhotosView extends ViewPanel
 	{
 		Long id=Long.valueOf(bookmark.getParameter("photoGallery.id"));
 		PhotoGallery photoGallery=PhotoManager.getInstance().getGallery(id);
-		frame.setCurrentView(new PhotosView(photoGallery), true);
+		frame.setCurrentView(new PhotosView(photoGallery));
 	}
 
 	private class PhotosCollectionListener implements CollectionChangeListener

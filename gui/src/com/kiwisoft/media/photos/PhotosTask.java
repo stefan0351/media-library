@@ -15,6 +15,6 @@ public class PhotosTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PhotoGalleriesView(), true);
+		frame.setCurrentView(new PhotoGalleriesView());
 	}
 }

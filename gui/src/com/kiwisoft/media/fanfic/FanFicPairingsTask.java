@@ -15,6 +15,6 @@ public class FanFicPairingsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PairingsView(), true);
+		frame.setCurrentView(new PairingsView());
 	}
 }

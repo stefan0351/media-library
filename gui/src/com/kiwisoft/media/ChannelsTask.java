@@ -15,6 +15,6 @@ public class ChannelsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ChannelsView(), true);
+		frame.setCurrentView(new ChannelsView());
 	}
 }

@@ -17,6 +17,6 @@ public class ScheduleTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ScheduleView(Calendar.DATE, 1), true);
+		frame.setCurrentView(new ScheduleView(Calendar.DATE, 1));
 	}
 }

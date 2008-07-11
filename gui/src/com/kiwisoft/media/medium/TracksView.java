@@ -140,7 +140,7 @@ public class TracksView extends ViewPanel
 	{
 		Long typeId=new Long(bookmark.getParameter("medium"));
 		Medium video=MediumManager.getInstance().getMedium(typeId);
-		frame.setCurrentView(new TracksView(video), true);
+		frame.setCurrentView(new TracksView(video));
 	}
 
 }

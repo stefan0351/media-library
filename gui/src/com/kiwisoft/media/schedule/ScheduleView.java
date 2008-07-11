@@ -244,13 +244,13 @@ public class ScheduleView extends ViewPanel
 		if (showId!=null)
 		{
 			Show show=ShowManager.getInstance().getShow(new Long(showId));
-			frame.setCurrentView(new ScheduleView(show), true);
+			frame.setCurrentView(new ScheduleView(show));
 		}
 		else
 		{
 			int unit=Integer.parseInt(bookmark.getParameter("unit"));
 			int quantity=Integer.parseInt(bookmark.getParameter("quantity"));
-			frame.setCurrentView(new ScheduleView(unit, quantity), true);
+			frame.setCurrentView(new ScheduleView(unit, quantity));
 		}
 	}
 }

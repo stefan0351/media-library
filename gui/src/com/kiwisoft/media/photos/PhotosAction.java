@@ -21,6 +21,6 @@ public class PhotosAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new PhotosView((PhotoGallery)getObject()), true);
+		frame.setCurrentView(new PhotosView((PhotoGallery)getObject()));
 	}
 }

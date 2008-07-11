@@ -168,6 +168,6 @@ public class FanDomsView extends ViewPanel implements Disposable
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new FanDomsView(), true);
+		frame.setCurrentView(new FanDomsView());
 	}
 }

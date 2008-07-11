@@ -173,6 +173,6 @@ public class AuthorsView extends ViewPanel implements Disposable
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		assert bookmark!=null;
-		frame.setCurrentView(new AuthorsView(), true);
+		frame.setCurrentView(new AuthorsView());
 	}
 }

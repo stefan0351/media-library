@@ -226,6 +226,6 @@ public class PairingsView extends ViewPanel implements Disposable
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PairingsView(), true);
+		frame.setCurrentView(new PairingsView());
 	}
 }

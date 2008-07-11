@@ -118,7 +118,7 @@ public class PhotoGalleriesView extends ViewPanel
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PhotoGalleriesView(), true);
+		frame.setCurrentView(new PhotoGalleriesView());
 	}
 
 }

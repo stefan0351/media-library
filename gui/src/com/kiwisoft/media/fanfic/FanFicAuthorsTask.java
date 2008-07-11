@@ -15,6 +15,6 @@ public class FanFicAuthorsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new AuthorsView(), true);
+		frame.setCurrentView(new AuthorsView());
 	}
 }

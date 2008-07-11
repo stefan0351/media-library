@@ -72,12 +72,6 @@
 	<icon key="cancel">
 		<resource url="/com/kiwisoft/media/icons/cancel.png"/>
 	</icon>
-	<icon key="view.previous">
-		<resource url="/com/kiwisoft/media/icons/page_left.gif"/>
-	</icon>
-	<icon key="view.next">
-		<resource url="/com/kiwisoft/media/icons/page_right.gif"/>
-	</icon>
 	<icon key="cast">
 		<resource url="/com/kiwisoft/media/icons/group.png"/>
 	</icon>
@@ -158,5 +152,8 @@
 	</icon>
 	<icon key="webpage.queued">
 		<resource url="/com/kiwisoft/media/icons/webpage_queued.png"/>
+	</icon>
+	<icon key="pin">
+		<resource url="/com/kiwisoft/media/icons/pin.gif"/>
 	</icon>
 </icons>

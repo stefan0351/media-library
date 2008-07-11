@@ -17,6 +17,8 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.media.Pinnable;
+import com.kiwisoft.media.PinAction;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -26,12 +28,13 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class MediaView extends ViewPanel
+public class MediaView extends ViewPanel implements Pinnable
 {
 	private MediumListener mediumListener;
 	private TableController<Medium> tableController;
 	private JLabel resultLabel;
 	private JTextField searchField;
+	private boolean pinned;
 
 	public MediaView()
 	{
@@ -54,6 +57,7 @@ public class MediaView extends ViewPanel
 				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(new TracksAction(frame));
+				actions.add(new PinAction(MediaView.this));
 				actions.add(new CDDBAction(frame));
 				return actions;
 			}
@@ -113,6 +117,16 @@ public class MediaView extends ViewPanel
 		super.dispose();
 	}
 
+	public boolean isPinned()
+	{
+		return pinned;
+	}
+
+	public void setPinned(boolean b)
+	{
+		pinned=b;
+	}
+
 	private class MediumListener implements CollectionChangeListener
 	{
 		public void collectionChanged(CollectionChangeEvent event)
@@ -159,7 +173,7 @@ public class MediaView extends ViewPanel
 	{
 		final MediaView view=new MediaView();
 		final String searchText=bookmark.getParameter("searchText");
-		frame.setCurrentView(view, true);
+		frame.setCurrentView(view);
 		if (!StringUtils.isEmpty(searchText))
 		{
 			SwingUtilities.invokeLater(new Runnable()
@@ -198,7 +212,7 @@ public class MediaView extends ViewPanel
 				media=DBLoader.getInstance().loadSet(Medium.class, null, "name like ? or userkey like ?", searchText, searchText);
 			}
 			SortableTableModel<Medium> tableModel=tableController.getModel();
-			tableModel.clear();
+			if (!pinned) tableModel.clear();
 			List<MediaTableModel.Row> rows=new ArrayList<MediaTableModel.Row>(media.size());
 			for (Medium medium : media) rows.add(new MediaTableModel.Row(medium));
 			tableModel.addRows(rows);

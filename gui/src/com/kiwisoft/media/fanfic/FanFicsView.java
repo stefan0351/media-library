@@ -150,7 +150,7 @@ public class FanFicsView extends ViewPanel
 			}
 		}
 	}
-
+	                                                                                   
 	private static class FanFicTableRow extends SortableTableRow<FanFic> implements PropertyChangeListener
 	{
 		public FanFicTableRow(FanFic fanFic)
@@ -212,7 +212,7 @@ public class FanFicsView extends ViewPanel
 		try
 		{
 			FanFicGroup group=(FanFicGroup)DBLoader.getInstance().load((Class<DBObject>)Class.forName(className), id);
-			frame.setCurrentView(new FanFicsView(group), true);
+			frame.setCurrentView(new FanFicsView(group));
 		}
 		catch (ClassNotFoundException e)
 		{

@@ -15,6 +15,6 @@ public class ConfigurationTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ConfigurationView(), true);
+		frame.setCurrentView(new ConfigurationView());
 	}
 }

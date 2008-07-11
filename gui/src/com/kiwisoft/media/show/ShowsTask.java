@@ -35,6 +35,6 @@ public class ShowsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ShowsView(null), true);
+		frame.setCurrentView(new ShowsView(null));
 	}
 }

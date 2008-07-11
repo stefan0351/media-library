@@ -187,7 +187,7 @@ public class BooksView extends ViewPanel
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		final BooksView view=new BooksView();
-		frame.setCurrentView(view, true);
+		frame.setCurrentView(view);
 		final String searchText=bookmark.getParameter("searchText");
 		if (!StringUtils.isEmpty(searchText))
 		{

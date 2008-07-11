@@ -170,6 +170,6 @@ public class ChannelsView extends ViewPanel
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ChannelsView(), true);
+		frame.setCurrentView(new ChannelsView());
 	}
 }

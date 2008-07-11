@@ -258,7 +258,7 @@ public class ConfigurationView extends ViewPanel
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ConfigurationView(), true);
+		frame.setCurrentView(new ConfigurationView());
 	}
 
 }

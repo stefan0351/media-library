@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.kiwisoft.media.Name;
+import com.kiwisoft.media.PinAction;
+import com.kiwisoft.media.Pinnable;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.media.show.Show;
@@ -26,13 +28,14 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 
-public class MoviesView extends ViewPanel
+public class MoviesView extends ViewPanel implements Pinnable
 {
 	// Dates Panel
 	private Show show;
 	private CollectionChangeObserver collectionObserver;
 	private TableController<Movie> tableController;
 	private JLabel resultLabel;
+	private boolean pinned;
 
 	public MoviesView(Show show)
 	{
@@ -60,6 +63,7 @@ public class MoviesView extends ViewPanel
 				actions.add(new MovieDetailsAction());
 				actions.add(new NewMovieAction(show));
 				actions.add(new DeleteMovieAction(frame, show));
+				actions.add(new PinAction(MoviesView.this));
 				return actions;
 			}
 
@@ -113,6 +117,16 @@ public class MoviesView extends ViewPanel
 		MovieManager.getInstance().removeCollectionListener(collectionObserver);
 		tableController.dispose();
 		super.dispose();
+	}
+
+	public boolean isPinned()
+	{
+		return pinned;
+	}
+
+	public void setPinned(boolean b)
+	{
+		pinned=b;
 	}
 
 	private class CollectionChangeObserver implements CollectionChangeListener
@@ -191,7 +205,7 @@ public class MoviesView extends ViewPanel
 		String showId=bookmark.getParameter("show");
 		Show show=null;
 		if (showId!=null) show=ShowManager.getInstance().getShow(new Long(showId));
-		frame.setCurrentView(new MoviesView(show), true);
+		frame.setCurrentView(new MoviesView(show));
 	}
 
 	private class SearchActionListener implements ActionListener
@@ -221,7 +235,7 @@ public class MoviesView extends ViewPanel
 															 "names.type=? and names.ref_id=movies.id and names.name like ?", Name.MOVIE, searchText));
 			}
 			SortableTableModel<Movie> tableModel=tableController.getModel();
-			tableModel.clear();
+			if (!pinned) tableModel.clear();
 			List<Row> rows=new ArrayList<Row>(movies.size());
 			for (Movie movie : movies) rows.add(new Row(movie));
 			tableModel.addRows(rows);

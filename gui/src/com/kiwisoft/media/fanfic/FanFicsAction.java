@@ -23,6 +23,6 @@ public class FanFicsAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new FanFicsView((FanFicGroup)getObject()), true);
+		frame.setCurrentView(new FanFicsView((FanFicGroup)getObject()));
 	}
 }

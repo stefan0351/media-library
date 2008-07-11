@@ -21,6 +21,6 @@ public class ShowCastAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ShowCastView((Show)getObject()), true);
+		frame.setCurrentView(new ShowCastView((Show)getObject()));
 	}
 }

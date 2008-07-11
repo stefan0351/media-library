@@ -20,6 +20,6 @@ public class ShowEpisodesAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new EpisodesView((Show)getObject()), true);
+		frame.setCurrentView(new EpisodesView((Show)getObject()));
 	}
 }

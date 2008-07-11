@@ -187,7 +187,7 @@ public class PersonsView extends ViewPanel
 	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PersonsView(), true);
+		frame.setCurrentView(new PersonsView());
 	}
 
 	private class SearchActionListener implements ActionListener

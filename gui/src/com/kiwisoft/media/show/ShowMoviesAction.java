@@ -22,6 +22,6 @@ public class ShowMoviesAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new MoviesView((Show)getObject()), true);
+		frame.setCurrentView(new MoviesView((Show)getObject()));
 	}
 }

@@ -86,7 +86,7 @@ public class ShowTracksView extends ViewPanel
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		Show show=ShowManager.getInstance().getShow(new Long(bookmark.getParameter("show")));
-		frame.setCurrentView(new ShowTracksView(show), true);
+		frame.setCurrentView(new ShowTracksView(show));
 	}
 
 }

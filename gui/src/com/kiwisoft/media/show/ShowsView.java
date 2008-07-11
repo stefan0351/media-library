@@ -216,6 +216,6 @@ public class ShowsView extends ViewPanel
 		String genreId=bookmark.getParameter("genre_id");
 		Genre genre=null;
 		if (genreId!=null) genre=DBLoader.getInstance().load(Genre.class, new Long(genreId));
-		frame.setCurrentView(new ShowsView(genre), true);
+		frame.setCurrentView(new ShowsView(genre));
 	}
 }

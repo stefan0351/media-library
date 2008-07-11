@@ -21,6 +21,6 @@ public class ShowTracksAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ShowTracksView((Show)getObject()), true);
+		frame.setCurrentView(new ShowTracksView((Show)getObject()));
 	}
 }

@@ -15,6 +15,6 @@ public class FanDomsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new FanDomsView(), true);
+		frame.setCurrentView(new FanDomsView());
 	}
 }

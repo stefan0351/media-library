@@ -185,7 +185,7 @@ public class PicturesView extends ViewPanel
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		final PicturesView view=new PicturesView();
-		frame.setCurrentView(view, true);
+		frame.setCurrentView(view);
 		final String searchText=bookmark.getParameter("searchText");
 		if (!StringUtils.isEmpty(searchText))
 		{

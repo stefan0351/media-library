@@ -15,6 +15,6 @@ public class MoviesTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new MoviesView(null), true);
+		frame.setCurrentView(new MoviesView(null));
 	}
 }

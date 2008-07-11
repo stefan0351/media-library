@@ -16,6 +16,6 @@ public class LinksTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new LinksView(), true);
+		frame.setCurrentView(new LinksView());
 	}
 }

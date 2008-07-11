@@ -25,6 +25,6 @@ public class ShowLinksAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new LinksView((Linkable)getObject()), true);
+		frame.setCurrentView(new LinksView((Linkable)getObject()));
 	}
 }

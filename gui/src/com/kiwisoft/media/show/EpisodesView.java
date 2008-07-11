@@ -252,13 +252,13 @@ public class EpisodesView extends ViewPanel
 		{
 			Long id=new Long(bookmark.getParameter("id"));
 			Season season=ShowManager.getInstance().getSeason(id);
-			frame.setCurrentView(new EpisodesView(season), true);
+			frame.setCurrentView(new EpisodesView(season));
 		}
 		else
 		{
 			Long id=new Long(bookmark.getParameter("id"));
 			Show show=ShowManager.getInstance().getShow(id);
-			frame.setCurrentView(new EpisodesView(show), true);
+			frame.setCurrentView(new EpisodesView(show));
 		}
 	}
 }

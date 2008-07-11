@@ -156,7 +156,7 @@ public class IMDbComLoader
 			String value=page.substring(index2+5, page.indexOf("</div>", index2)).trim();
 			if ("Runtime:".equals(type))
 			{
-				value=StringUtils.splitAndTrim(value, "/")[0];
+				value=StringUtils.splitAndTrim(value, "[/|]")[0];
 				pattern=Pattern.compile("\\w+:(\\d+) min");
 				matcher=pattern.matcher(value);
 				if (matcher.matches()) movieData.setRuntime(new Integer(matcher.group(1)));
@@ -170,12 +170,12 @@ public class IMDbComLoader
 			else if ("Country:".equals(type))
 			{
 				value=XMLUtils.removeTags(XMLUtils.unescapeHtml(value)).trim();
-				for (String country : value.split("/")) movieData.addCountry(getCountry(country.trim()));
+				for (String country : value.split("[/|]")) movieData.addCountry(getCountry(country.trim()));
 			}
 			else if ("Language:".equals(type))
 			{
 				value=XMLUtils.removeTags(XMLUtils.unescapeHtml(value)).trim();
-				for (String language : value.split("/")) movieData.addLanguage(getLanguage(language.trim()));
+				for (String language : value.split("[/|]")) movieData.addLanguage(getLanguage(language.trim()));
 			}
 			index=index2;
 		}

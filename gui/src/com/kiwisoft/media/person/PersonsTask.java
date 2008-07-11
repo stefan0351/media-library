@@ -15,6 +15,6 @@ public class PersonsTask extends MenuSidebarItem.Task
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PersonsView(), true);
+		frame.setCurrentView(new PersonsView());
 	}
 }

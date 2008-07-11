@@ -21,6 +21,6 @@ public class TracksAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new TracksView((Medium)getObject()), true);
+		frame.setCurrentView(new TracksView((Medium)getObject()));
 	}
 }

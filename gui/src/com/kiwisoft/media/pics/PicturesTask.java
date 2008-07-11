@@ -16,6 +16,6 @@ public class PicturesTask extends MenuSidebarItem.Task
 	@Override
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new PicturesView(), true);
+		frame.setCurrentView(new PicturesView());
 	}
 }
