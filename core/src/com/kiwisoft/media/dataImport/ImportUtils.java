@@ -15,11 +15,6 @@ public class ImportUtils
 {
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
 
-	static
-	{
-		DATE_FORMAT.setTimeZone(DateUtils.GMT);
-	}
-
 	private ImportUtils()
 	{
 	}

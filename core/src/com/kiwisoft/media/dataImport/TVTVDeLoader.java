@@ -14,9 +14,9 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.swing.progress.Job;
-import com.kiwisoft.swing.progress.ProgressListener;
-import com.kiwisoft.swing.progress.ProgressSupport;
+import com.kiwisoft.progress.Job;
+import com.kiwisoft.progress.ProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 public class TVTVDeLoader implements Job
@@ -27,17 +27,16 @@ public class TVTVDeLoader implements Job
 	private String path;
 	private List objects;
 	private ProgressSupport progressSupport;
-	private Set parsed;
-	private Set loaded;
+	private Set<String> parsed;
+	private Set<String> loaded;
 
 	public TVTVDeLoader(String path, List objects)
 	{
 		this.path=path;
 		this.objects=objects;
-		parsed=new HashSet();
-		loaded=new HashSet();
+		parsed=new HashSet<String>();
+		loaded=new HashSet<String>();
 		dateFormat=new SimpleDateFormat("dd. MMM HH.mm", Locale.GERMAN);
-		dateFormat.setTimeZone(DateUtils.GMT);
 	}
 
 	public String getName()
@@ -248,10 +247,8 @@ public class TVTVDeLoader implements Job
 		try
 		{
 			Calendar now=Calendar.getInstance();
-			now.setTimeZone(DateUtils.GMT);
 
 			Calendar calendar=Calendar.getInstance();
-			calendar.setTimeZone(DateUtils.GMT);
 			calendar.setTime(dateFormat.parse(dateString+" "+timeString));
 			calendar.set(Calendar.YEAR, now.get(Calendar.YEAR));
 			if (now.after(calendar)) calendar.add(Calendar.YEAR, 1);

@@ -6,8 +6,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DatabaseChangesImportJob;
 import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.progress.SmallProgressDialog;
 import com.kiwisoft.swing.actions.ContextAction;
 
 /**
@@ -33,8 +34,7 @@ public class ImportChangesAction extends ContextAction
 			File file=fileChooser.getSelectedFile();
 			try
 			{
-				DBLoader.getInstance().importChanges(file);
-				JOptionPane.showMessageDialog(frame, "Import of changes completed successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				new SmallProgressDialog(frame, new DatabaseChangesImportJob(file)).start();
 			}
 			catch (Exception e)
 			{

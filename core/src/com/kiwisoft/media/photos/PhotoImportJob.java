@@ -3,9 +3,9 @@ package com.kiwisoft.media.photos;
 import java.io.File;
 import java.io.IOException;
 
-import com.kiwisoft.swing.progress.Job;
-import com.kiwisoft.swing.progress.ProgressSupport;
-import com.kiwisoft.swing.progress.ProgressListener;
+import com.kiwisoft.progress.Job;
+import com.kiwisoft.progress.ProgressSupport;
+import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureDetails;
 import com.kiwisoft.media.pics.PictureUtils;

@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.kiwisoft.utils.DateUtils;
 import junit.framework.TestCase;
 
 /**
@@ -82,8 +81,6 @@ public class PictureUtilsTest extends TestCase
 
 	private Date getDate(String text) throws ParseException
 	{
-		SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-		dateFormat.setTimeZone(DateUtils.GMT);
-		return dateFormat.parse(text);
+		return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(text);
 	}
 }

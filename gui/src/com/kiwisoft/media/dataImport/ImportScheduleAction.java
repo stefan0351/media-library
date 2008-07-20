@@ -31,7 +31,7 @@ public class ImportScheduleAction extends AbstractAction
 			AirdateImport airdateImport=new AirdateImport(values[0], values[1]);
 			ProgressDialog dialog=new ProgressDialog(parent, airdateImport);
 			airdateImport.setDialog(dialog);
-			dialog.show();
+			dialog.start();
 		}
 	}
 }

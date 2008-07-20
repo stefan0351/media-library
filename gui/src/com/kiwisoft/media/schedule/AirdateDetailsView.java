@@ -194,7 +194,7 @@ public class AirdateDetailsView extends DetailsView
 			tfTime.requestFocus();
 			return false;
 		}
-		Date fullDate=DateUtils.merge(date, DateUtils.GMT, time);
+		Date fullDate=DateUtils.merge(date, time);
 		Channel channel=tfChannel.getValue();
 		if (channel==null)
 		{

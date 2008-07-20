@@ -8,7 +8,6 @@ import com.kiwisoft.utils.xml.XMLAdapter;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
 import com.kiwisoft.utils.xml.DefaultXMLObject;
-import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.ChannelManager;
 
@@ -19,11 +18,6 @@ import com.kiwisoft.media.ChannelManager;
 public class AiringData extends XMLAdapter
 {
 	private static final SimpleDateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yy");
-
-	static
-	{
-		DATE_FORMAT.setTimeZone(DateUtils.GMT);
-	}
 
 	private String channelName;
 	private Date time;

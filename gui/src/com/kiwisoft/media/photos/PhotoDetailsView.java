@@ -14,7 +14,6 @@ import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.DetailsView;
@@ -177,9 +176,7 @@ public class PhotoDetailsView extends DetailsView
 			Date date=photo.getCreationDate();
 			if (date!=null)
 			{
-				DateFormat dateFormat=DateFormat.getDateTimeInstance();
-				dateFormat.setTimeZone(DateUtils.GMT);
-				dateField.setText(dateFormat.format(date));
+				dateField.setText(DateFormat.getDateTimeInstance().format(date));
 			}
 			Double exposureTime=photo.getExposureTime();
 			if (exposureTime!=null) exposureTimeField.setText(new DecimalFormat("#.######").format(exposureTime));

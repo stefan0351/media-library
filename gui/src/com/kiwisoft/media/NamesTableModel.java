@@ -63,10 +63,11 @@ public class NamesTableModel extends SortableTableModel<String>
 			this.language=language;
 		}
 
-		protected boolean keepAtEnd()
+		@Override
+		public int getSortPriority()
 		{
-			if (name==null) return true;
-			return super.keepAtEnd();
+			if (name==null) return 1;
+			return 0;
 		}
 
 		public Class getCellClass(int col, String property)

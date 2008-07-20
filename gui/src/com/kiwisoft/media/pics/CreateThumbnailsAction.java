@@ -24,6 +24,6 @@ public class CreateThumbnailsAction extends ContextAction
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		new ProgressDialog(frame, new ThumbnailCreation()).setVisible(true);
+		new ProgressDialog(frame, new ThumbnailCreation()).start();
 	}
 }

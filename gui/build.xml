@@ -2,8 +2,8 @@
 
 <project name="MediaLib - GUI" default="gui.compile" basedir=".">
 
-	<property name="root.dir" value="${basedir}/.."/>
-	<property name="gui.module.dir" value="${root.dir}/gui"/>
+	<property name="root.dir" location="${basedir}/.."/>
+	<property name="gui.module.dir" location="${root.dir}/gui"/>
 
 	<import file="${root.dir}/build-properties.xml"/>
 

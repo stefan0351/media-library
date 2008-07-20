@@ -23,6 +23,6 @@ public class UpdateEpisodesAction extends MultiContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		new ProgressDialog(frame, new EpisodeUpdater(getObjects())).show();
+		new ProgressDialog(frame, new EpisodeUpdater(getObjects())).start();
 	}
 }

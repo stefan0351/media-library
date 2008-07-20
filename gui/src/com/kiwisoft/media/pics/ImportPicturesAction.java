@@ -34,7 +34,7 @@ public class ImportPicturesAction extends ContextAction
 		{
 			final File directory=fileChooser.getSelectedFile();
 			MediaConfiguration.setRecentPicturePath(directory.getParent());
-			new ProgressDialog(frame, new PicturesImport(directory)).setVisible(true);
+			new ProgressDialog(frame, new PicturesImport(directory)).start();
 		}
 	}
 }

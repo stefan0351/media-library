@@ -2,8 +2,8 @@
 
 <project name="MediaLib - Core" default="core.compile" basedir=".">
 
-	<property name="root.dir" value="${basedir}/.."/>
-	<property name="core.module.dir" value="${root.dir}/core"/>
+	<property name="root.dir" location="${basedir}/.."/>
+	<property name="core.module.dir" location="${root.dir}/core"/>
 
 	<import file="${root.dir}/build-properties.xml"/>
 

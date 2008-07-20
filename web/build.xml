@@ -2,8 +2,8 @@
 
 <project name="MediaLib - Web" default="web.compile" basedir=".">
 
-	<property name="root.dir" value="${basedir}/.."/>
-	<property name="web.module.dir" value="${root.dir}/web"/>
+	<property name="root.dir" location="${basedir}/.."/>
+	<property name="web.module.dir" location="${root.dir}/web"/>
 
 	<import file="${root.dir}/build-properties.xml"/>
 

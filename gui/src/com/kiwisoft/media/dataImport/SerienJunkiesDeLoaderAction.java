@@ -42,7 +42,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 				}
 			};
 			ProgressDialog progressDialog=new ProgressDialog(parent, process);
-			progressDialog.show();
+			progressDialog.start();
 		}
 	}
 }

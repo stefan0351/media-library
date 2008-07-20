@@ -21,7 +21,7 @@ public class ExportWebDatesAction extends AbstractAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		new ProgressDialog(null, new WebDatesExport()).show();
+		new ProgressDialog(null, new WebDatesExport()).start();
 	}
 
 }

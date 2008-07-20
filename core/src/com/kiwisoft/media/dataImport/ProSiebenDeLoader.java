@@ -14,9 +14,9 @@ import com.kiwisoft.media.show.ShowManager;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import static com.kiwisoft.utils.StringUtils.replaceStrings;
 import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.swing.progress.Job;
-import com.kiwisoft.swing.progress.ProgressListener;
-import com.kiwisoft.swing.progress.ProgressSupport;
+import com.kiwisoft.progress.Job;
+import com.kiwisoft.progress.ProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 public class ProSiebenDeLoader implements Job

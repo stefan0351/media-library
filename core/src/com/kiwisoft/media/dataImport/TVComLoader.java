@@ -18,13 +18,12 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.DateUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.swing.progress.Job;
-import com.kiwisoft.swing.progress.ProgressListener;
-import com.kiwisoft.swing.progress.ProgressSupport;
+import com.kiwisoft.progress.Job;
+import com.kiwisoft.progress.ProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.xml.XMLUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
@@ -55,7 +54,6 @@ public abstract class TVComLoader implements Job
 		this.autoCreate=autoCreate;
 		this.language=LanguageManager.getInstance().getLanguageBySymbol("en");
 		airdateFormat=new SimpleDateFormat("M/d/yyyy");
-		airdateFormat.setTimeZone(DateUtils.GMT);
 		nameLinkPattern=Pattern.compile("http://www.tv.com/.*/person/([0-9]+)/summary.html");
 		personCache=new HashMap<String, Person>();
 	}

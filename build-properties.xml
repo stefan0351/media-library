@@ -2,11 +2,11 @@
 
 <project name="MediaLib - Properties">
 
-	<property name="root.dir" value="${basedir}"/>
-	<property name="lib.dir" value="${root.dir}/lib"/>
-	<property name="build.dir" value="${root.dir}/tmp"/>
-	<property name="classes.dir" value="${build.dir}/classes"/>
-	<property name="utils.builds.dir" value="${root.dir}/../utils/builds"/>
+	<property name="root.dir" location="${basedir}"/>
+	<property name="lib.dir" location="${root.dir}/lib"/>
+	<property name="build.dir" location="${root.dir}/tmp"/>
+	<property name="classes.dir" location="${build.dir}/classes"/>
+	<property name="utils.builds.dir" location="${root.dir}/../utils/builds"/>
 
 	<patternset id="resource.pattern">
 		<include name="**/*.jpg"/>

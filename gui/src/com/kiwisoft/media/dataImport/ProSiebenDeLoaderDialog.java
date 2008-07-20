@@ -155,7 +155,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
-			new ProgressDialog((JFrame)getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).show();
+			new ProgressDialog((JFrame)getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).start();
 		}
 	}
 

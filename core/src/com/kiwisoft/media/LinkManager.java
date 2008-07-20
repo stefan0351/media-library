@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import com.kiwisoft.collection.CollectionChangeListener;
@@ -83,7 +82,7 @@ public class LinkManager implements CollectionChangeSource
 		html.startElement("h3");
 		html.setText("Links");
 		html.closeElement("h3");
-		exportLinks(html, getRootGroups(), Collections.EMPTY_SET);
+		exportLinks(html, getRootGroups(), Collections.<Link>emptySet());
 		html.closeElement("html");
 		html.close();
 	}

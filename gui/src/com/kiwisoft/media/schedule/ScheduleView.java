@@ -17,7 +17,6 @@ import com.kiwisoft.media.AirdateManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.utils.ClassObserver;
-import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.Filter;
@@ -156,7 +155,6 @@ public class ScheduleView extends ViewPanel
 		{
 			super(airdate);
 			dateFormat=DateFormat.getDateTimeInstance();
-			dateFormat.setTimeZone(DateUtils.GMT);
 		}
 
 		public void installListener()

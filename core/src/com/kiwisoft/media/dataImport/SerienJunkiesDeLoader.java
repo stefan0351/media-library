@@ -15,10 +15,9 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.swing.progress.Job;
-import com.kiwisoft.swing.progress.ProgressListener;
-import com.kiwisoft.swing.progress.ProgressSupport;
-import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.progress.Job;
+import com.kiwisoft.progress.ProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.WebUtils;
@@ -50,7 +49,6 @@ public abstract class SerienJunkiesDeLoader implements Job
 		this.autoCreate=autoCreate;
 		this.german=LanguageManager.getInstance().getLanguageBySymbol("de");
 		airdateFormat=new SimpleDateFormat("dd.MM.yyyy");
-		airdateFormat.setTimeZone(DateUtils.GMT);
 	}
 
 	public String getName()

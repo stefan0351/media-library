@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.DateUtils;
 
 public class PictureUtils
 {
@@ -143,7 +142,6 @@ public class PictureUtils
 						else if ("date".equals(key))
 						{
 							SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
-							dateFormat.setTimeZone(DateUtils.GMT);
 							imageDescriptor.setDate(dateFormat.parse(value));
 						}
 						else if ("exposuretime".equals(key)) imageDescriptor.setExposureTime(convertFractionToNumber(value));
