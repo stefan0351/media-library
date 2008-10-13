@@ -14,7 +14,7 @@ import javax.swing.*;
 
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.progress.ProgressDialog;
@@ -26,14 +26,14 @@ public class TVTVDeLoaderDialog extends JDialog
 	private DialogLookupField tfPath;
 	private List objects;
 
-	public TVTVDeLoaderDialog(JFrame owner, List objects) throws HeadlessException
+	public TVTVDeLoaderDialog(Window owner, List objects) throws HeadlessException
 	{
-		super(owner, "Load Schedule from TVTV.de", true);
+		super(owner, "Load Schedule from TVTV.de", ModalityType.APPLICATION_MODAL);
 		this.objects=objects;
 		setContentPane(createContentPanel());
 		initialize();
 		pack();
-		WindowManager.arrange(owner, this);
+		GuiUtils.centerWindow(owner, this);
 	}
 
 	private JPanel createContentPanel()
@@ -105,7 +105,7 @@ public class TVTVDeLoaderDialog extends JDialog
 				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
-			new ProgressDialog((JFrame)getOwner(), new TVTVDeLoader(pathName, objects)).start();
+			new ProgressDialog(getOwner(), new TVTVDeLoader(pathName, objects)).start();
 		}
 	}
 

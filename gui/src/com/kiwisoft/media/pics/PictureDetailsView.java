@@ -32,7 +32,7 @@ public class PictureDetailsView extends DetailsView
 		new DetailsFrame(new PictureDetailsView(picture)).show();
 	}
 
-	public static Picture createDialog(JFrame owner, Picture picture)
+	public static Picture createDialog(Window owner, Picture picture)
 	{
 		PictureDetailsView view=new PictureDetailsView(picture);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
@@ -41,7 +41,7 @@ public class PictureDetailsView extends DetailsView
 		return null;
 	}
 
-	public static Picture createDialog(JFrame owner, String name)
+	public static Picture createDialog(Window owner, String name)
 	{
 		PictureDetailsView view=new PictureDetailsView(null);
 		view.nameField.setText(name);

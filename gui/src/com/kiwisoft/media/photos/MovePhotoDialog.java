@@ -1,9 +1,6 @@
 package com.kiwisoft.media.photos;
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.*;
 import javax.swing.*;
@@ -30,15 +27,15 @@ public class MovePhotoDialog extends JDialog
 	private ListenerSupport listenerSupport=new ListenerSupport();
 	private PhotoGallery oldGallery;
 
-	public MovePhotoDialog(JFrame frame, PhotoGallery gallery)
+	public MovePhotoDialog(Window frame, PhotoGallery gallery)
 	{
-		super(frame, "Move Photo", true);
+		super(frame, "Move Photo", ModalityType.APPLICATION_MODAL);
 		this.oldGallery=gallery;
 		createContentPanel();
 		existingGalleryField.requestFocus();
 		initializeData();
 		pack();
-		WindowManager.arrange(frame, this);
+		GuiUtils.centerWindow(frame, this);
 	}
 
 	private void initializeData()

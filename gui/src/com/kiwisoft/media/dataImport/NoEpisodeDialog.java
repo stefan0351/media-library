@@ -9,7 +9,7 @@ import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupHandler;
@@ -28,16 +28,16 @@ public class NoEpisodeDialog extends JDialog
 	private DateField firstAiredField;
 	private JTextField germanTitleField;
 
-	public NoEpisodeDialog(JFrame frame, Show show, ImportEpisode episodeData)
+	public NoEpisodeDialog(Window owner, Show show, ImportEpisode episodeData)
 	{
-		super(frame, "No Episode found", true);
+		super(owner, "No Episode found", ModalityType.APPLICATION_MODAL);
 		this.show=show;
 		this.episodeData=episodeData;
 		createContentPanel();
 		episodeField.requestFocus();
 		initializeData();
 		setSize(new Dimension(500, 250));
-		WindowManager.arrange(frame, this);
+		GuiUtils.centerWindow(owner, this);
 	}
 
 	private void initializeData()
@@ -164,7 +164,7 @@ public class NoEpisodeDialog extends JDialog
 
 		public Episode createObject(LookupField<Episode> lookupField)
 		{
-			return EpisodeDetailsView.createDialog(null, show, episodeData);
+			return EpisodeDetailsView.createDialog(GuiUtils.getWindow(lookupField), show, episodeData);
 		}
 
 		public boolean isEditAllowed()
@@ -172,9 +172,9 @@ public class NoEpisodeDialog extends JDialog
 			return true;
 		}
 
-		public void editObject(Episode value)
+		public void editObject(LookupField<Episode> lookupField, Episode value)
 		{
-			EpisodeDetailsView.createDialog(NoEpisodeDialog.this, value);
+			EpisodeDetailsView.createDialog(GuiUtils.getWindow(lookupField), value);
 		}
 	}
 }

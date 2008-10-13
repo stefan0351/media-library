@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 
 public class ResolveCastStringDialog extends JDialog
 {
@@ -20,14 +20,14 @@ public class ResolveCastStringDialog extends JDialog
 	private String actor;
 	private String character;
 
-	public ResolveCastStringDialog(JFrame frame, String fullCast)
+	public ResolveCastStringDialog(Window frame, String fullCast)
 	{
-		super(frame, "Complex Cast Description found", true);
+		super(frame, "Complex Cast Description found", ModalityType.APPLICATION_MODAL);
 		this.fullCast=fullCast;
 		createContentPanel();
 		initializeData();
 		setSize(new Dimension(400, 200));
-		WindowManager.arrange(frame, this);
+		GuiUtils.centerWindow(frame, this);
 	}
 
 	private void initializeData()

@@ -1,10 +1,7 @@
 package com.kiwisoft.media.medium;
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +11,6 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.dataImport.cddb.CDDBUtils;
 import com.kiwisoft.media.dataImport.cddb.DiscInfo;
 import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.WindowManager;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 
@@ -53,12 +49,12 @@ public class CDDBAction extends ContextAction
 	{
 		private DiscInfo discInfo;
 
-		public MyDialog(JFrame frame, Map<String, List<DiscInfo>> discInfos)
+		public MyDialog(Window owner, Map<String, List<DiscInfo>> discInfos)
 		{
-			super(frame, "Select Disc", true);
+			super(owner, "Select Disc", ModalityType.APPLICATION_MODAL);
 			createContentPanel(discInfos);
 			pack();
-			WindowManager.arrange(frame, this);
+			GuiUtils.centerWindow(owner, this);
 		}
 
 		private void createContentPanel(Map<String, List<DiscInfo>> discInfos)

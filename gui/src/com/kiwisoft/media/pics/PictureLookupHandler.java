@@ -2,7 +2,7 @@ package com.kiwisoft.media.pics;
 
 import com.kiwisoft.swing.lookup.LookupHandler;
 import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.media.pics.PictureDetailsView;
+import com.kiwisoft.swing.GuiUtils;
 
 /**
  * @author Stefan Stiller
@@ -21,7 +21,7 @@ public class PictureLookupHandler implements LookupHandler<Picture>
 
 	public Picture createObject(LookupField<Picture> lookupField)
 	{
-		return PictureDetailsView.createDialog(null, getDefaultName());
+		return PictureDetailsView.createDialog(GuiUtils.getWindow(lookupField), getDefaultName());
 	}
 
 	public boolean isEditAllowed()
@@ -29,8 +29,8 @@ public class PictureLookupHandler implements LookupHandler<Picture>
 		return true;
 	}
 
-	public void editObject(Picture picture)
+	public void editObject(LookupField<Picture> lookupField, Picture picture)
 	{
-		PictureDetailsView.createDialog(null, picture);
+		PictureDetailsView.createDialog(GuiUtils.getWindow(lookupField), picture);
 	}
 }

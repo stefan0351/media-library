@@ -17,6 +17,7 @@ import javax.swing.tree.TreePath;
 
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.tree.TreeController;
@@ -37,7 +38,7 @@ public class DownloadFrame extends JFrame
 		createComponents();
 
 		WindowManager.registerFrame(this);
-		WindowManager.arrange(null, this);
+		GuiUtils.centerWindow(null, this);
 	}
 
 	private void createComponents()

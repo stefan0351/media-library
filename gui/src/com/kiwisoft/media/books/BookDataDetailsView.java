@@ -16,7 +16,6 @@ import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureManager;
-import com.kiwisoft.media.pics.PictureDetails;
 import com.kiwisoft.media.pics.PictureUtils;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.person.Person;
@@ -36,9 +35,7 @@ public class BookDataDetailsView extends DetailsView
 	public static Book createDialog(Window owner, BookData bookData)
 	{
 		BookDataDetailsView view=new BookDataDetailsView(bookData);
-		DetailsDialog dialog;
-		if (owner instanceof JFrame) dialog=new DetailsDialog((JFrame)owner, view);
-		else dialog=new DetailsDialog((JDialog)owner, view);
+		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.book;
 		return null;

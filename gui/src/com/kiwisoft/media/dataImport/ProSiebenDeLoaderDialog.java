@@ -18,7 +18,7 @@ import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;
@@ -32,14 +32,14 @@ public class ProSiebenDeLoaderDialog extends JDialog
 	private JTextField tfDays;
 	private List<Show> shows;
 
-	public ProSiebenDeLoaderDialog(JFrame owner, List<Show> shows) throws HeadlessException
+	public ProSiebenDeLoaderDialog(Window owner, List<Show> shows) throws HeadlessException
 	{
-		super(owner, "Load Pro7 Schedule", true);
+		super(owner, "Load Pro7 Schedule", ModalityType.APPLICATION_MODAL);
 		this.shows=shows;
 		setContentPane(createContentPanel());
 		initialize();
 		pack();
-		WindowManager.arrange(owner, this);
+		GuiUtils.centerWindow(owner, this);
 	}
 
 	private JPanel createContentPanel()
@@ -155,7 +155,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
-			new ProgressDialog((JFrame)getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).start();
+			new ProgressDialog(getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).start();
 		}
 	}
 

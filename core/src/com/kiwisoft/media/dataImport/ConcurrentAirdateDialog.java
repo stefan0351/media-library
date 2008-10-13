@@ -6,12 +6,7 @@
  */
 package com.kiwisoft.media.dataImport;
 
-import java.awt.Dialog;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -28,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 
 class ConcurrentAirdateDialog extends JDialog
 {
@@ -40,17 +35,17 @@ class ConcurrentAirdateDialog extends JDialog
 	private AiringData airingData;
 	private Map<JCheckBox,Airdate> checkBoxes=new HashMap<JCheckBox, Airdate>();
 
-	public ConcurrentAirdateDialog(Dialog owner, Set<Airdate> airdates, AirdateData airdateData, AiringData airingData)
+	public ConcurrentAirdateDialog(Window owner, Set<Airdate> airdates, AirdateData airdateData, AiringData airingData)
 			throws HeadlessException
 	{
-		super(owner, "Konkurrierende Sendetermine", true);
+		super(owner, "Konkurrierende Sendetermine", ModalityType.APPLICATION_MODAL);
 		this.airdates=airdates;
 		this.airdateData=airdateData;
 		this.airingData=airingData;
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		createContentPane();
 		pack();
-		WindowManager.arrange(owner, this);
+		GuiUtils.centerWindow(owner, this);
 	}
 
 	private void createContentPane()

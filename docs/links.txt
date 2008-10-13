@@ -1,8 +1,11 @@
 Links
 -----
 
+Amazon.de
+	javascript:window.location=%22http://localhost:50001/amazon?%22+encodeURIComponent(document.URL)
+
 Import Link
-	javascript:window.location=%22http://localhost:8080/add_link.jsp?name=%22+document.title+%22&url=%22+encodeURI(document.URL)
+	javascript:window.location=%22http://localhost:50001/link?name=%22+encodeURIComponent(document.title)+%22&url=%22+encodeURIComponent(document.URL)
 
 Import von IMDb
-	javascript:window.location=%22http://localhost:8080/import_imdb?url=%22+encodeURI(document.URL)
+	javascript:window.location=%22http://localhost:8080/media/movies/import_imdb?url=%22+encodeURI(document.URL)

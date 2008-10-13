@@ -29,9 +29,10 @@
 				<exclude name="lib/*.version"/>
 				<include name="conf/**"/>
 				<include name="bin/**"/>
+				<include name="docs/links.txt"/>
 				<include name="tomcat/**"/>
 				<exclude name="tomcat/work/**"/>
-				<exclude name="tomcat/temp/**"/>
+				<exclude name="tomcat/temp/**/*.*"/>
 				<include name="media-core.jar"/>
 				<include name="media-gui.jar"/>
 				<include name="media*.bat"/>

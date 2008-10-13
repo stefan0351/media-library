@@ -1,10 +1,7 @@
 package com.kiwisoft.media.person;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -37,7 +34,7 @@ public class PersonDetailsView extends DetailsView
 		new DetailsFrame(new PersonDetailsView(person)).show();
 	}
 
-	public static Person createDialog(JFrame owner, Person person)
+	public static Person createDialog(Window owner, Person person)
 	{
 		PersonDetailsView view=new PersonDetailsView(person);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
@@ -46,7 +43,7 @@ public class PersonDetailsView extends DetailsView
 		return null;
 	}
 
-	public static Person createDialog(JFrame owner, String text)
+	public static Person createDialog(Window owner, String text)
 	{
 		PersonDetailsView view=new PersonDetailsView(text);
 		DetailsDialog dialog=new DetailsDialog(owner, view);

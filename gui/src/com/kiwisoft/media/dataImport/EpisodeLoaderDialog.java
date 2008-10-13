@@ -1,10 +1,7 @@
 package com.kiwisoft.media.dataImport;
 
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
@@ -12,7 +9,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.ComponentUtils;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 
 public class EpisodeLoaderDialog extends JDialog
 {
@@ -27,13 +24,13 @@ public class EpisodeLoaderDialog extends JDialog
 	private JCheckBox autoCreateField;
 	private boolean autoCreate;
 
-	public EpisodeLoaderDialog(JFrame frame, Show show, String url)
+	public EpisodeLoaderDialog(Window frame, Show show, String url)
 	{
-		super(frame, "Load Episode from TV.com", true);
+		super(frame, "Load Episode from TV.com", ModalityType.APPLICATION_MODAL);
 		createContentPanel();
 		initializeData(show, url);
 		pack();
-		WindowManager.arrange(frame, this);
+		GuiUtils.centerWindow(frame, this);
 	}
 
 	private void initializeData(Show show, String url)

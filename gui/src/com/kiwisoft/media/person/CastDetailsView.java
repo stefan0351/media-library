@@ -162,31 +162,4 @@ public class CastDetailsView extends DetailsView
 			return false;
 		}
 	}
-
-	private class PersonLookupHandler implements LookupHandler<Person>
-	{
-		public boolean isCreateAllowed()
-		{
-			return true;
-		}
-
-		public Person createObject(LookupField<Person> lookupField)
-		{
-			Container window=getTopLevelAncestor();
-			if (window instanceof JFrame) return PersonDetailsView.createDialog((JFrame)window, lookupField.getText());
-			return null;
-		}
-
-		public boolean isEditAllowed()
-		{
-			return true;
-		}
-
-		public void editObject(Person value)
-		{
-			Container window=getTopLevelAncestor();
-			if (window instanceof JFrame) PersonDetailsView.createDialog((JFrame)window, value);
-		}
-	}
-
 }

@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.WindowManager;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;
 
@@ -24,18 +24,18 @@ public class ImportPathDialog extends JComponent
 		this.filter=filter;
 	}
 
-	public static String[] create(Frame aParent, String path, String filter)
+	public static String[] create(Window aParent, String path, String filter)
 	{
 		ImportPathDialog adapter=new ImportPathDialog(path, filter);
 		JDialog dialog=adapter.createDialog(aParent);
-		WindowManager.arrange(aParent, dialog);
+		GuiUtils.centerWindow(aParent, dialog);
 		dialog.setVisible(true);
 		return adapter.getValue();
 	}
 
-	private JDialog createDialog(Frame aParent)
+	private JDialog createDialog(Window aParent)
 	{
-		dialog=new JDialog(aParent, "Path & Filter", true);
+		dialog=new JDialog(aParent, "Path & Filter", Dialog.ModalityType.APPLICATION_MODAL);
 
 		tfPath=new DialogLookupField(new FileLookup(JFileChooser.DIRECTORIES_ONLY, true));
 		tfPath.setPreferredSize(new Dimension(300, tfPath.getPreferredSize().height));

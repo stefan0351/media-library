@@ -52,9 +52,7 @@ public class MovieDetailsView extends DetailsView
 	public static Movie createDialog(Window owner, String text)
 	{
 		MovieDetailsView view=new MovieDetailsView(text);
-		DetailsDialog dialog;
-		if (owner instanceof JFrame) dialog=new DetailsDialog((JFrame)owner, view);
-		else dialog=new DetailsDialog((JDialog)owner, view);
+		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.movie;
 		return null;

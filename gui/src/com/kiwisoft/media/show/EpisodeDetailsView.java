@@ -36,7 +36,7 @@ public class EpisodeDetailsView extends DetailsView
 		new DetailsFrame(new EpisodeDetailsView(show, null)).show();
 	}
 
-	public static Episode createDialog(JFrame owner, Show show, ImportEpisode info)
+	public static Episode createDialog(Window owner, Show show, ImportEpisode info)
 	{
 		EpisodeDetailsView view=new EpisodeDetailsView(show, info);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
@@ -45,16 +45,7 @@ public class EpisodeDetailsView extends DetailsView
 		return null;
 	}
 
-	public static Episode createDialog(JFrame owner, Episode episode)
-	{
-		EpisodeDetailsView view=new EpisodeDetailsView(episode);
-		DetailsDialog dialog=new DetailsDialog(owner, view);
-		dialog.show();
-		if (dialog.getReturnValue()==DetailsDialog.OK) return view.episode;
-		return null;
-	}
-
-	public static Episode createDialog(JDialog owner, Episode episode)
+	public static Episode createDialog(Window owner, Episode episode)
 	{
 		EpisodeDetailsView view=new EpisodeDetailsView(episode);
 		DetailsDialog dialog=new DetailsDialog(owner, view);

@@ -27,7 +27,7 @@ public class LinkDetailsView extends DetailsView
 		new DetailsFrame(new LinkDetailsView(link)).show();
 	}
 
-	public static void createDialog(JFrame frame, String name, String url)
+	public static void createDialog(Window frame, String name, String url)
 	{
 		new DetailsDialog(frame, new LinkDetailsView(name, url)).show();
 	}
