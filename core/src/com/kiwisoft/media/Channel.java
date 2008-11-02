@@ -11,13 +11,18 @@ import java.util.Set;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.media.pics.Picture;
 
 public class Channel extends IDObject
 {
 	public static final String LANGUAGE="language";
+	public static final String LOGO="logo";
+	public static final String WEB_ADDRESS="webAddress";
+	public static final String NAME="name";
+	public static final String RECEIVABLE="receivable";
 
 	private String name;
-	private String logo;
+	private String webAddress;
 	private boolean receivable;
 	private Set<Name> altNames;
 
@@ -39,7 +44,19 @@ public class Channel extends IDObject
 	{
 		String oldName=this.name;
 		this.name=name;
-		setModified("name", oldName, this.name);
+		setModified(NAME, oldName, this.name);
+	}
+
+	public String getWebAddress()
+	{
+		return webAddress;
+	}
+
+	public void setWebAddress(String webAddress)
+	{
+		String oldWebAddress=this.webAddress;
+		this.webAddress=webAddress;
+		setModified(WEB_ADDRESS, oldWebAddress, this.webAddress);
 	}
 
 	public Name createAltName()
@@ -62,16 +79,14 @@ public class Channel extends IDObject
 		return altNames;
 	}
 
-	public String getLogo()
+	public Picture getLogo()
 	{
-		return logo;
+		return (Picture)getReference(LOGO);
 	}
 
-	public void setLogo(String logo)
+	public void setLogo(Picture logo)
 	{
-		String oldLogo=this.logo;
-		this.logo=logo;
-		setModified("logo", oldLogo, this.logo);
+		setReference(LOGO, logo);
 	}
 
 	public boolean isReceivable()
@@ -83,7 +98,7 @@ public class Channel extends IDObject
 	{
 		boolean oldReceivable=this.receivable;
 		this.receivable=receivable;
-		setModified("receivable", oldReceivable, this.receivable);
+		setModified(RECEIVABLE, oldReceivable, this.receivable);
 	}
 
 	public Language getLanguage()

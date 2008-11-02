@@ -45,8 +45,9 @@
 	<mapping name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
-		<field name="logo" column="logo"/>
+		<field name="webAddress" column="web_address"/> 
 		<reference name="language" column="language_id" type="Language"/>
+		<reference name="logo" column="logo_id" type="Picture"/>
 		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 	</mapping>
@@ -196,6 +197,7 @@
 	<mapping name="Picture" class="com.kiwisoft.media.pics.Picture" table="pictures" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
+		<field name="root" column="root"/>
 		<field name="file" column="file"/>
 		<field name="width" column="width"/>
 		<field name="height" column="height"/>
@@ -206,6 +208,7 @@
 	<mapping name="PictureFile" class="com.kiwisoft.media.pics.PictureFile" table="picture_files" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="file" column="file"/>
+		<field name="root" column="root"/>
 		<field name="width" column="width"/>
 		<field name="height" column="height"/>
 		<field name="lastModified" column="lastmodified"/>

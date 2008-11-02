@@ -46,7 +46,7 @@ public class PicturesImport implements Job
 		{
 			if (progressSupport.isStoppedByUser()) return false;
 			final String relativePath=FileUtils.getRelativePath(rootPath, imageFile.getAbsolutePath());
-			Set<Picture> pictures=PictureManager.getInstance().getPictureByFile(relativePath);
+			Set<Picture> pictures=PictureManager.getInstance().getPictureByFile(MediaConfiguration.PATH_ROOT, relativePath);
 			if (pictures.isEmpty())
 			{
 				progressSupport.info("Importing picture '"+relativePath+"'.");
@@ -58,7 +58,7 @@ public class PicturesImport implements Job
 					{
 						public void run() throws Exception
 						{
-							Picture picture=PictureManager.getInstance().createPicture();
+							Picture picture=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
 							picture.setName(FileUtils.getNameWithoutExtension(imageFile));
 							picture.setFile(relativePath);
 							picture.setWidth(imageSize.width);
@@ -67,7 +67,8 @@ public class PicturesImport implements Job
 							{
 								ImageData imageData=entry.getValue();
 								Dimension size=imageData.getSize();
-								picture.setThumbnail(entry.getKey(), FileUtils.getRelativePath(rootPath, imageData.getFile().getAbsolutePath()),
+								picture.setThumbnail(entry.getKey(), MediaConfiguration.PATH_ROOT,
+													 FileUtils.getRelativePath(rootPath, imageData.getFile().getAbsolutePath()),
 													 size.width, size.height);
 							}
 						}

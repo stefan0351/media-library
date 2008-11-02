@@ -55,9 +55,9 @@
 %>
 					; <input type="checkbox" name="force_new" value="true"/> Force New
 				</td></tr>
-				<tr class="content" valign="top"><td><b>Title:</b></td><td><%=movie.getTitle()%></td></tr>
-				<tr class="content" valign="top"><td><b>German Titel:</b></td><td><%=JspUtils.prepareString(movie.getGermanTitle())%></td></tr>
-				<tr class="content" valign="top"><td><b>Summary:</b></td><td><%=JspUtils.prepareString(movie.getSummary())%></td></tr>
+				<tr class="content" valign="top"><td><b>Title:</b></td><td><%=JspUtils.render(request, movie.getTitle())%></td></tr>
+				<tr class="content" valign="top"><td><b>German Titel:</b></td><td><%=JspUtils.render(request, movie.getGermanTitle())%></td></tr>
+				<tr class="content" valign="top"><td><b>Summary:</b></td><td><%=JspUtils.render(request, movie.getSummary(), "preformatted")%></td></tr>
 				<tr class="content" valign="top"><td><b>Runtime:</b></td><td><%=movie.getRuntime()%> min</td></tr>
 				<tr class="content" valign="top"><td><b>Year:</b></td><td><%=movie.getYear()%></td></tr>
 				<tr class="content" valign="top"><td><b>Language:</b></td><td>

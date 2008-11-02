@@ -13,6 +13,7 @@ public class TrackType implements Identifyable
 	public static final TrackType AUDIO=new TrackType(1L, "Audio");
 	public static final TrackType VIDEO=new TrackType(2L, "Video");
 	public static final TrackType DATA=new TrackType(3L, "Data");
+	public static final TrackType SUBTITLES=new TrackType(4L, "Subtitles");
 
 	public static TrackType get(Long id)
 	{

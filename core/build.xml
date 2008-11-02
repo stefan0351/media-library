@@ -13,7 +13,7 @@
 
 	<target name="core.compile" depends="core.clean">
 		<mkdir dir="${classes.dir}/core"/>
-		<javac srcdir="${core.module.dir}/src" destdir="${classes.dir}/core" deprecation="off">
+		<javac srcdir="${core.module.dir}/src" destdir="${classes.dir}/core" debug="true" deprecation="off">
 			<classpath>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
@@ -22,8 +22,10 @@
 				<pathelement location="${lib.dir}/kiwisoft_utils-formats.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-xml.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-configuration.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-application.jar"/>
 				<pathelement location="${lib.dir}/commons-lang.jar"/>
 				<pathelement location="${lib.dir}/commons-io.jar"/>
+				<pathelement location="${lib.dir}/commons-logging.jar"/>
 				<pathelement location="${lib.dir}/velocity.jar"/>
 			</classpath>
 		</javac>

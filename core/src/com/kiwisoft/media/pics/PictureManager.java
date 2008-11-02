@@ -36,14 +36,14 @@ public class PictureManager implements CollectionChangeSource
 		return DBLoader.getInstance().loadSet(Picture.class);
 	}
 
-	public Set<Picture> getPictureByFile(String relativePath)
+	public Set<Picture> getPictureByFile(String root, String relativePath)
 	{
-		return DBLoader.getInstance().loadSet(Picture.class, null, "file=?", relativePath);
+		return DBLoader.getInstance().loadSet(Picture.class, null, "file=? and root=?", relativePath, root);
 	}
 
-	public Picture createPicture()
+	public Picture createPicture(String root)
 	{
-		Picture picture=new Picture();
+		Picture picture=new Picture(root);
 		fireElementAdded(PICTURES, picture);
 		return picture;
 	}

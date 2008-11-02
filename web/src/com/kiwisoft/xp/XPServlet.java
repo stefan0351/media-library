@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.media.MediaManagerApp;
+import com.kiwisoft.media.MediaWebApplication;
 
 /**
  * @author Stefan Stiller
@@ -43,7 +43,6 @@ public class XPServlet extends HttpServlet
 		HttpSession session=request.getSession();
 		ServletContext servletContext=session.getServletContext();
 		String realPath=servletContext.getRealPath(fileName);
-		MediaManagerApp.getInstance();
 
 		try
 		{

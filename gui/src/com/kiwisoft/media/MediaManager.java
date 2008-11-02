@@ -29,42 +29,13 @@ public class MediaManager
 
 	public static SplashWindow splashWindow;
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		ExceptionHandler.init();
 		Locale.setDefault(Locale.UK);
-		new Application("media");
-		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
-		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File("conf", "config.xml");
-		log.info("Loading default configuration from "+configFile.getAbsolutePath());
-		configuration.loadDefaultsFromFile(configFile);
-		try
-		{
-			String userValuesFile="media"+File.separator+"profile.xml";
-			log.info("Loading user configuration from "+userValuesFile);
-			configuration.loadUserValues(userValuesFile);
-		}
-		catch (Exception e)
-		{
-			log.error(e.getMessage(), e);
-		}
-
-		if (configuration.getBoolean("proxy.use", false))
-		{
-			System.setProperty("http.proxyHost", configuration.getString("proxy.host"));
-			System.setProperty("http.proxyPort", configuration.getString("proxy.port"));
-		}
-		try
-		{
-			UIManager.setLookAndFeel("com.incors.plaf.alloy.AlloyLookAndFeel");
-		}
-		catch (Exception e)
-		{
-			log.error(e.getMessage(), e);
-		}
-		UIManager.put("MenuItem.checkIcon", Icons.ICON_1X1);
-		UIManager.put("MenuItem.arrayIcon", Icons.ICON_1X1);
+		Application application=new MediaApplication();
+		application.configureXML();
+		application.initialize();
 
 		splashWindow=new SplashWindow(Icons.getIcon("splash"));
 		splashWindow.setStatus("MediaLib Version 3.0");

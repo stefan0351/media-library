@@ -31,7 +31,7 @@ public class PicturePreviewUpdater implements LookupSelectionListener
 		Picture picture=lookupField.getValue();
 		if (picture!=null)
 		{
-			File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
+			File file=picture.getPhysicalFile();
 			if (file.exists())
 			{
 				try

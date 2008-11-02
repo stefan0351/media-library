@@ -1,38 +1,45 @@
 package com.kiwisoft.media.pics;
 
 import java.awt.Dimension;
+import java.io.File;
 
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
  */
 public class PictureFile extends IDObject
 {
+	public static final String ROOT="root";
 	public static final String FILE="file";
 	public static final String WIDTH="width";
 	public static final String HEIGHT="height";
 
 	private String file;
+	private String root;
 	private int width;
 	private int height;
 
-	public PictureFile()
+	public PictureFile(String root)
 	{
+		setRoot(root);
 	}
 
-	public PictureFile(PictureDetails imageData)
+	public PictureFile(String root, PictureDetails imageData)
 	{
-		setFile(FileUtils.getRelativePath(MediaConfiguration.getRootPath(), imageData.getFile().getAbsolutePath()));
+		setRoot(root);
+		setFile(FileUtils.getRelativePath(Configuration.getInstance().getString(root), imageData.getFile().getAbsolutePath()));
 		setWidth(imageData.getWidth());
 		setHeight(imageData.getHeight());
 	}
 
-	public PictureFile(ImageData imageData)
+	public PictureFile(String root, ImageData imageData)
 	{
+		setRoot(root);
 		setImageData(imageData);
 	}
 
@@ -59,6 +66,18 @@ public class PictureFile extends IDObject
 		super(dummy);
 	}
 
+	public String getRoot()
+	{
+		return root;
+	}
+
+	public void setRoot(String root)
+	{
+		String oldRoot=this.root;
+		this.root=root;
+		setModified(ROOT, oldRoot, this.root);
+	}
+
 	public String getFile()
 	{
 		return file;
@@ -69,6 +88,16 @@ public class PictureFile extends IDObject
 		String oldFile=this.file;
 		this.file=file;
 		setModified(FILE, oldFile, file);
+	}
+
+	public File getPhysicalFile()
+	{
+		String file=getFile();
+		if (!StringUtils.isEmpty(file))
+		{
+			return FileUtils.getFile(Configuration.getInstance().getString(getRoot()), file);
+		}
+		return null;
 	}
 
 	public int getWidth()
@@ -98,6 +127,6 @@ public class PictureFile extends IDObject
 	public void deletePhysically()
 	{
 		super.delete();
-		FileUtils.getFile(MediaConfiguration.getRootPath(), getFile()).delete();
+		getPhysicalFile().delete();
 	}
 }

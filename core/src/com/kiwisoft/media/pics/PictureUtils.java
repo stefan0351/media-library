@@ -60,14 +60,18 @@ public class PictureUtils
 		return image;
 	}
 
+	private static int imageId=1;
+
 	public static Image loadImage(URL url)
 	{
+		System.out.println("PictureUtils.loadImage: url = "+url);
 		MediaTracker tracker=new MediaTracker(mediaTracker);
 		Image image=Toolkit.getDefaultToolkit().getImage(url);
-		tracker.addImage(image, 1);
+		int id=imageId++;
+		tracker.addImage(image, id);
 		try
 		{
-			tracker.waitForID(1);
+			tracker.waitForID(id);
 		}
 		catch (InterruptedException e)
 		{

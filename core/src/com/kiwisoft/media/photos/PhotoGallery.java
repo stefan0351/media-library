@@ -6,6 +6,7 @@ import java.util.HashSet;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
 import com.kiwisoft.media.pics.PictureDetails;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.persistence.DBDummy;
@@ -64,8 +65,8 @@ public class PhotoGallery extends IDObject
 
 	public Photo createPhoto(PictureDetails imageData, ImageData thumbnailData)
 	{
-		PictureFile picture=new PictureFile(imageData);
-		PictureFile thumbnail=new PictureFile(thumbnailData);
+		PictureFile picture=new PictureFile(MediaConfiguration.PATH_PHOTOS, imageData);
+		PictureFile thumbnail=new PictureFile(MediaConfiguration.PATH_ROOT, thumbnailData);
 
 		Photo photo=new Photo(this);
 		photo.setOriginalPicture(picture);

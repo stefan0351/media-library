@@ -49,7 +49,7 @@ public class CreateCoverAction extends SimpleContextAction
 					ODFTemplate template=new ODFTemplate(ClassLoader.getSystemResource("com/kiwisoft/media/covers/dvd_movie.odtt"));
 					template.setVariable("key", medium.getFullKey());
 					template.setVariable("title", medium.getName());
-					template.setPicture("poster", FileUtils.getFile(MediaConfiguration.getRootPath(), movie.getPoster().getFile()));
+					template.setPicture("poster", movie.getPoster().getPhysicalFile());
 					String summary=movie.getSummaryText(track.getLanguage());
 					if (StringUtils.isEmpty(summary)) summary=movie.getSummaryText(LanguageManager.getInstance().getLanguageBySymbol("de"));
 					if (StringUtils.isEmpty(summary)) summary=movie.getSummaryText(LanguageManager.getInstance().getLanguageBySymbol("en"));

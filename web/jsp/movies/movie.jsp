@@ -65,21 +65,21 @@
 	<tr><td class="header1">Summary</td></tr>
 	<tr><td class="content">
 <%
-		if (!StringUtils.isEmpty(englishSummary))
-		{
-			out.print("<p>");
-			out.print(JspUtils.render(request, englishSummary, "preformatted"));
-			out.println("</p>");
-		}
-		if (!StringUtils.isEmpty(germanSummary))
-		{
-			if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
-			out.print("<p>");
-			out.print(JspUtils.render(request, german, "icon only"));
-			out.print(" ");
-			out.print(JspUtils.render(request, germanSummary, "preformatted"));
-			out.println("</p>");
-		}
+	if (!StringUtils.isEmpty(englishSummary))
+	{
+		out.print("<p>");
+		out.print(JspUtils.render(request, englishSummary, "preformatted"));
+		out.println("</p>");
+	}
+	if (!StringUtils.isEmpty(germanSummary))
+	{
+		if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
+		out.print("<p>");
+		out.print(JspUtils.render(request, german, "icon only"));
+		out.print(" ");
+		out.print(JspUtils.render(request, germanSummary, "preformatted"));
+		out.println("</p>");
+	}
 %>
 	<p align=right><a class=link href="#top">Top</a></p>
 	</td></tr>
@@ -124,7 +124,7 @@
 		%>
 		<tr valign="top">
 			<td class="content2"><b>Genre:</b></td>
-			<td class="content2"><%=JspUtils.prepareSet(genres)%>
+			<td class="content2"><%=JspUtils.sortAndRenderSet(request, genres)%>
 			</td>
 		</tr>
 		<%
@@ -176,19 +176,31 @@
 		%>
 				<tr valign="top"><td class="content2"><b>Media:</b></td><td class="content2">
 <%
-	for (Iterator it=videos.iterator(); it.hasNext();)
-	{
-		Medium medium=(Medium)it.next();
-		if (medium.isObsolete()) out.print("<strike>");
-		out.print(JspUtils.render(request, medium, "Full"));
-		if (medium.isObsolete()) out.print("</strike>");
-		out.print("<br>");
-	}
+				for (Iterator it=videos.iterator(); it.hasNext();)
+				{
+					Medium medium=(Medium)it.next();
+					if (medium.isObsolete()) out.print("<strike>");
+					out.print(JspUtils.render(request, medium, "Full"));
+					if (medium.isObsolete()) out.print("</strike>");
+					out.print("<br>");
+				}
 %>
 				</td></tr>
 <%
 			}
-		%>
+
+			String imdbKey=movie.getImdbKey();
+			if (!StringUtils.isEmpty(imdbKey))
+			{
+%>
+				<tr valign="top"><td class="content2"><b>Links:</b></td><td class="content2">
+					<a target="_new" class="link" href="http://www.imdb.com/title/<%=imdbKey%>/">
+						<img src="<%=request.getContextPath()%>/picture?type=Icon&name=imdb" alt="IMDb" align="middle" border="0"/>
+						http://www.imdb.com/title/<%=imdbKey%>/</a>
+				</td></tr>
+<%
+			}
+%>
 		</table>
 		<p align=right><a class=link href="#top">Top</a></p>
 	</td>
@@ -216,10 +228,9 @@
 				Person actor=castMember.getActor();
 		%>
 		<tr valign="top">
-			<td class="content2"><a class="link" href="<%=Navigation.getLink(request, actor)%>"><%=JspUtils.prepare(actor)%>
-			</a></td>
+			<td class="content2"><media:render value="<%=actor%>"/></td>
 			<td class="content2">...</td>
-			<td class="content2"><%=JspUtils.prepareString(castMember.getCharacterName())%>
+			<td class="content2"><media:render value="<%=castMember.getCharacterName()%>" variant="preformatted"/>
 			</td>
 		</tr>
 		<%

@@ -37,7 +37,7 @@ public class ThumbnailCreation implements Job
 			if (progressSupport.isStoppedByUser()) return false;
 			if (picture.getWidth()>170 && picture.getThumbnailSidebar()==null)
 			{
-				File file=new File(rootPath, picture.getFile());
+				File file=picture.getPhysicalFile();
 				if (file.exists())
 				{
 					File thumbnailFile=new File(file.getParentFile(), FileUtils.getNameWithoutExtension(file)+"_sb.jpg");
@@ -52,7 +52,7 @@ public class ThumbnailCreation implements Job
 							{
 								public void run() throws Exception
 								{
-									picture.setThumbnail(Picture.THUMBNAIL_SIDEBAR, thumbnailPath, thumbnailSize.width, thumbnailSize.height);
+									picture.setThumbnail(Picture.THUMBNAIL_SIDEBAR, MediaConfiguration.PATH_ROOT, thumbnailPath, thumbnailSize.width, thumbnailSize.height);
 								}
 
 								public void handleError(Throwable throwable, boolean rollback)

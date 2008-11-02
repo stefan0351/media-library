@@ -188,7 +188,7 @@ public class MovieData
 		buffer.append("\n\tcreditsLink=").append(creditsLink);
 		buffer.append("\n\treleaseInfoLink=").append(releaseInfoLink);
 		buffer.append("\n\tsummary=").append(summary);
-		buffer.append("}");
+		buffer.append("\n}");
 		return buffer.toString();
 	}
 

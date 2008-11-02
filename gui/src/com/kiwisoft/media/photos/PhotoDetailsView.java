@@ -193,7 +193,7 @@ public class PhotoDetailsView extends DetailsView
 			galleryPhotoField.setSelected(photo.isGalleryPhoto());
 			try
 			{
-				fileField.setText(FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile()).getCanonicalPath());
+				fileField.setText(picture.getPhysicalFile().getCanonicalPath());
 			}
 			catch (IOException e)
 			{

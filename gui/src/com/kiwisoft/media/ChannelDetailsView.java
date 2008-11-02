@@ -4,27 +4,35 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.swing.DocumentAdapter;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.ImageUpdater;
-import com.kiwisoft.swing.table.SortableTable;
-import com.kiwisoft.swing.table.DefaultTableConfiguration;
-import com.kiwisoft.swing.lookup.DialogLookupField;
-import com.kiwisoft.swing.lookup.FileLookup;
-import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.swing.ActionField;
+import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.table.SortableTable;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.WebUtils;
 
 public class ChannelDetailsView extends DetailsView
 {
@@ -36,11 +44,12 @@ public class ChannelDetailsView extends DetailsView
 	private Channel channel;
 
 	// Konfigurations Panel
-	private JTextField tfName;
-	private DialogLookupField tfLogo;
+	private JTextField nameField;
+	private LookupField<Picture> logoField;
 	private LookupField<Language> languageField;
-	private JCheckBox cbReceiving;
-	private NamesTableModel tmNames;
+	private JCheckBox receivingField;
+	private NamesTableModel namesTableModel;
+	private ActionField webAddressField;
 
 	private ChannelDetailsView(Channel channel)
 	{
@@ -50,25 +59,22 @@ public class ChannelDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfName=new JTextField();
+		nameField=new JTextField();
 		languageField=new LookupField<Language>(new LanguageLookup());
-		cbReceiving=new JCheckBox();
-		tfLogo=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true)
+		webAddressField=new ActionField(new OpenWebAddressAction());
+		receivingField=new JCheckBox();
+		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
 		{
-			public String getCurrentDirectory()
+			@Override
+			public String getDefaultName()
 			{
-				return MediaConfiguration.getChannelLogoPath();
-			}
-
-			public void setCurrentDirectory(String path)
-			{
-				MediaConfiguration.setChannelLogoPath(path);
-				Configuration.getInstance().saveUserValues();
+				return nameField.getText();
 			}
 		});
-		ImagePanel imgLogo=new ImagePanel(new Dimension(50, 30));
-		tmNames=new NamesTableModel();
-		SortableTable tblNames=new SortableTable(tmNames);
+		ImagePanel logoPreview=new ImagePanel(new Dimension(50, 30));
+		logoPreview.setBorder(new EtchedBorder());
+		namesTableModel=new NamesTableModel();
+		SortableTable tblNames=new SortableTable(namesTableModel);
 		tblNames.initializeColumns(new DefaultTableConfiguration(ChannelDetailsView.class, "names"));
 
 		setLayout(new GridBagLayout());
@@ -76,39 +82,44 @@ public class ChannelDetailsView extends DetailsView
 		int row=0;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfName, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
+											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+															GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(languageField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
-												GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+												  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		row++;
+		add(new JLabel("Web Address:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(webAddressField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0,
+													GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Available:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-														   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(cbReceiving, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-												GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+															 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(receivingField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
+												   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Logo:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfLogo, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
-										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(imgLogo, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-											GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(logoField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
+											  GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(logoPreview, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+												GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Other Names:"), new GridBagConstraints(0, row, 3, 1, 0.0, 0.0,
-																	 GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
 
 		row++;
 		add(new JScrollPane(tblNames), new GridBagConstraints(0, row, 3, 1, 1.0, 1.0,
 															  GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(5, 0, 0, 0), 0, 0));
 
-		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
-		new ImageUpdater(tfLogo.getTextField(), imgLogo);
+		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+		new PicturePreviewUpdater(logoField, logoPreview);
 	}
 
 	private void setChannel(Channel channel)
@@ -116,32 +127,33 @@ public class ChannelDetailsView extends DetailsView
 		this.channel=channel;
 		if (channel!=null)
 		{
-			tfName.setText(channel.getName());
+			nameField.setText(channel.getName());
 			languageField.setValue(channel.getLanguage());
-			tfLogo.setText(channel.getLogo());
-			cbReceiving.setSelected(channel.isReceivable());
+			logoField.setValue(channel.getLogo());
+			receivingField.setSelected(channel.isReceivable());
+			webAddressField.setText(channel.getWebAddress());
 			Iterator it=channel.getAltNames().iterator();
 			while (it.hasNext())
 			{
 				Name name=(Name)it.next();
-				tmNames.addName(name.getName(), name.getLanguage());
+				namesTableModel.addName(name.getName(), name.getLanguage());
 			}
-			tmNames.sort();
+			namesTableModel.sort();
 		}
 		else
 		{
 			languageField.setValue(LanguageManager.getInstance().getLanguageBySymbol("de"));
-			cbReceiving.setSelected(true);
+			receivingField.setSelected(true);
 		}
 	}
 
 	public boolean apply()
 	{
-		String name=tfName.getText();
+		String name=nameField.getText();
 		if (StringUtils.isEmpty(name))
 		{
 			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfName.requestFocus();
+			nameField.requestFocus();
 			return false;
 		}
 		Language language=languageField.getValue();
@@ -151,10 +163,10 @@ public class ChannelDetailsView extends DetailsView
 			languageField.requestFocus();
 			return false;
 		}
-		boolean receiving=cbReceiving.isSelected();
-		String logo=tfLogo.getText();
-		if (StringUtils.isEmpty(logo)) logo=null;
-		Map names=tmNames.getNames();
+		boolean receiving=receivingField.isSelected();
+		Picture logo=logoField.getValue();
+		String webAddress=webAddressField.getText();
+		Map names=namesTableModel.getNames();
 
 		Transaction transaction=null;
 		try
@@ -165,6 +177,7 @@ public class ChannelDetailsView extends DetailsView
 			channel.setLogo(logo);
 			channel.setLanguage(language);
 			channel.setReceivable(receiving);
+			channel.setWebAddress(webAddress);
 			Iterator it=new HashSet<Name>(channel.getAltNames()).iterator();
 			while (it.hasNext())
 			{
@@ -211,9 +224,33 @@ public class ChannelDetailsView extends DetailsView
 	{
 		public void changedUpdate(DocumentEvent e)
 		{
-			String name=tfName.getText();
+			String name=nameField.getText();
 			if (StringUtils.isEmpty(name)) name="<unknown>";
 			setTitle("Channel: "+name);
+		}
+	}
+
+	private class OpenWebAddressAction extends AbstractAction
+	{
+		public OpenWebAddressAction()
+		{
+			super(null, Icons.getIcon("link.open"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			String address=webAddressField.getText();
+			if (!StringUtils.isEmpty(address))
+			{
+				try
+				{
+					WebUtils.openURL(new URL(address));
+				}
+				catch (MalformedURLException e1)
+				{
+					GuiUtils.handleThrowable(webAddressField, e1);
+				}
+			}
 		}
 	}
 }

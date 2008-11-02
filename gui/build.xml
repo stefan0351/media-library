@@ -13,7 +13,7 @@
 
 	<target name="gui.compile" depends="gui.clean">
 		<mkdir dir="${classes.dir}/gui"/>
-		<javac srcdir="${gui.module.dir}/src" destdir="${classes.dir}/gui" deprecation="off">
+		<javac srcdir="${gui.module.dir}/src" destdir="${classes.dir}/gui" debug="true" deprecation="off">
 			<classpath>
 				<pathelement location="${root.dir}/media-core.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>

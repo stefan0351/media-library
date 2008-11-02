@@ -26,7 +26,6 @@ public class ResourceServlet extends HttpServlet
 	public void init(ServletConfig servletConfig) throws ServletException
 	{
 		super.init(servletConfig);
-		MediaManagerApp.getInstance();
 		templates=ResourceBundle.getBundle("com.kiwisoft.xp.templates");
 	}
 

@@ -15,13 +15,13 @@ import javax.swing.JComponent;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.IconManager;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.media.pics.Picture;
 
 public class ChannelsView extends ViewPanel
 {
@@ -147,8 +147,8 @@ public class ChannelsView extends ViewPanel
 		{
 			if ("icon".equals(property))
 			{
-				String logo=getUserObject().getLogo();
-				if (!StringUtils.isEmpty(logo)) return IconManager.getIconFromFile(logo);
+				Picture logo=getUserObject().getLogo();
+				if (logo!=null) return IconManager.getIconFromFile(logo.getPhysicalFile().getAbsolutePath());
 				return null;
 			}
 			else if ("name".equals(property)) return getUserObject().getName();

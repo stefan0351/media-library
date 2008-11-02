@@ -182,6 +182,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" exported="" name="IntelliJ Annotations" level="application" />
     <orderEntryProperties />
   </component>
   <component name="VcsManagerConfiguration">

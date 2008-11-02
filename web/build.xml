@@ -13,7 +13,7 @@
 
 	<target name="web.compile" depends="web.clean">
 		<mkdir dir="${classes.dir}/web"/>
-		<javac srcdir="${web.module.dir}/src" destdir="${classes.dir}/web" deprecation="off">
+		<javac srcdir="${web.module.dir}/src" destdir="${classes.dir}/web" debug="true" deprecation="off">
 			<classpath>
 				<pathelement location="${root.dir}/media-core.jar"/>
 				<pathelement location="${root.dir}/tomcat/common/lib/servlet-api.jar"/>

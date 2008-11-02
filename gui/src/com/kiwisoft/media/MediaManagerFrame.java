@@ -2,40 +2,32 @@ package com.kiwisoft.media;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URL;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JFileChooser;
 
-import com.kiwisoft.media.fanfic.Author;
-import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.fanfic.*;
-import com.kiwisoft.media.show.ShowsTask;
-import com.kiwisoft.media.show.GenreLookup;
-import com.kiwisoft.media.medium.AllMediaTask;
-import com.kiwisoft.media.movie.MoviesTask;
-import com.kiwisoft.media.dataImport.*;
-import com.kiwisoft.media.person.*;
-import com.kiwisoft.media.schedule.ScheduleTask;
-import com.kiwisoft.media.photos.PhotosTask;
-import com.kiwisoft.media.photos.PhotoGallery;
-import com.kiwisoft.media.photos.PhotoGalleryFormat;
-import com.kiwisoft.media.pics.PictureFormat;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.books.BooksTask;
-import com.kiwisoft.media.links.LinksTask;
-import com.kiwisoft.media.download.WebFolderFormat;
-import com.kiwisoft.media.download.WebFolder;
-import com.kiwisoft.media.download.WebDocument;
-import com.kiwisoft.media.download.WebDocumentFormat;
-import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
-import com.kiwisoft.swing.lookup.FileLookup;
-import com.kiwisoft.swing.table.TableEditorFactory;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
-import com.kiwisoft.format.FormatManager;
-import com.kiwisoft.utils.UrlFormat;
+import com.kiwisoft.media.books.BooksTask;
+import com.kiwisoft.media.dataImport.ImportChangesAction;
+import com.kiwisoft.media.dataImport.ImportScheduleAction;
+import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
+import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
+import com.kiwisoft.media.fanfic.*;
+import com.kiwisoft.media.links.LinksTask;
+import com.kiwisoft.media.medium.AllMediaTask;
+import com.kiwisoft.media.movie.MoviesTask;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.PersonLookup;
+import com.kiwisoft.media.person.PersonsTask;
+import com.kiwisoft.media.photos.PhotosTask;
+import com.kiwisoft.media.schedule.ScheduleTask;
+import com.kiwisoft.media.show.GenreLookup;
+import com.kiwisoft.media.show.ShowsTask;
+import com.kiwisoft.swing.lookup.FileLookup;
+import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
+import com.kiwisoft.swing.table.TableEditorFactory;
 
 public class MediaManagerFrame extends ApplicationFrame
 {
@@ -64,25 +56,6 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected JPanel getIntroPanel()
 	{
 		return new IntroPanel();
-	}
-
-	@Override
-	protected void initializeFormats()
-	{
-		super.initializeFormats();
-		FormatManager formatManager=FormatManager.getInstance();
-		formatManager.setFormat(Language.class, new LanguageFormat());
-		formatManager.setFormat(Country.class, new CountryFormat());
-		formatManager.setFormat(Gender.class, new GenderFormat());
-		formatManager.setFormat(Picture.class, new PictureFormat());
-		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
-		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());
-		formatManager.setFormat(LinkGroup.class, "hierarchy", new LinkGroupHierarchyFormat());
-		formatManager.setFormat(Link.class, new LinkFormat());
-		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
-		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
-		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
-		formatManager.setFormat(URL.class, new UrlFormat());
 	}
 
 	protected void initializeTableComponents()

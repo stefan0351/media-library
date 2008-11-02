@@ -1,21 +1,23 @@
 package com.kiwisoft.media.dataImport;
 
-import java.util.*;
+import java.io.File;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.File;
 
 import org.apache.commons.lang.WordUtils;
 
+import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.media.Country;
+import com.kiwisoft.media.CountryManager;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.xml.XMLUtils;
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.Country;
-import com.kiwisoft.media.CountryManager;
-import com.kiwisoft.media.person.CreditType;
-import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -25,19 +27,6 @@ public class IMDbComLoader
 	private String url;
 	private Pattern nameLinkPattern;
 	private String key;
-
-	public static void main(String[] args) throws Exception
-	{
-		Locale.setDefault(Locale.UK);
-		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File("conf", "config.xml");
-		configuration.loadDefaultsFromFile(configFile);
-
-//		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0489085/", "tt0489085");
-//		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0465407/", "tt0465407");
-		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt0091455/", "tt0091455");
-		System.out.println(loader.load());
-	}
 
 	public IMDbComLoader(String url, String key)
 	{
@@ -50,6 +39,7 @@ public class IMDbComLoader
 	public MovieData load() throws Exception
 	{
 		String page=WebUtils.loadURL(url);
+//		System.out.println(page);
 		MovieData movieData=parseMainPage(page);
 		movieData.setImdbKey(key);
 		if (movieData.getCreditsLink()!=null)
@@ -122,7 +112,10 @@ public class IMDbComLoader
 
 		// Titel + Year
 		pattern=Pattern.compile("<div id=\"tn15title\">\n"+
-								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}\">(\\d{4})</a>(/\\w+)?\\)( \\(TV\\)| \\(mini\\)| \\(V\\))?</span></h1>\n"+
+								"<h1>(.+) <span>\\(<a href=\"/Sections/Years/\\d{4}/\">(\\d{4})</a>(/\\w+)?\\)"+
+								"( \\(TV\\)| \\(mini\\)| \\(V\\))?"+
+								"( <span class=\"pro-link\">.*</span>)?"+
+								"</span></h1>\n"+
 								"</div>");
 		matcher=pattern.matcher(page);
 		if (matcher.find(index))
@@ -269,15 +262,26 @@ public class IMDbComLoader
 
 	private void parseSummaryPage(String page, MovieData movieData)
 	{
-		int index1=page.indexOf("<p class=\"plotpar\">");
-		if (index1>=0)
+		try
 		{
-			index1=page.indexOf(">", index1)+1;
-			int index2=page.indexOf("</p>");
-			String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
-			summary=XMLUtils.removeTag(summary, "a");
-			summary=summary.replace("<", "[").replace(">", "]");
-			movieData.setSummary(summary);
+			int index1=page.indexOf("<p class=\"plotpar\">");
+			if (index1>=0)
+			{
+				index1=page.indexOf(">", index1)+1;
+				int index2=page.indexOf("</p>", index1);
+				if (index2>index1)
+				{
+					String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
+					summary=XMLUtils.removeTag(summary, "a");
+					summary=summary.replace("<", "[").replace(">", "]");
+					movieData.setSummary(summary);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println(page);
 		}
 	}
 

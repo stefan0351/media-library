@@ -141,11 +141,11 @@ public class TableTag extends TagSupport
 			out.print("<td class=\"tcell\">");
 			if (table.isResortable())
 			{
-				out.print("<a class=hiddenlink href=\""+request.getServletPath()+"?");
+				out.print("<a class=hiddenlink href=\""+request.getContextPath()+request.getServletPath()+"?");
 				if (queryString!=null && queryString.length()>0) out.print(queryString);
 				out.print("sort="+column+"&dir="+sortDir+"\">");
 			}
-			out.print(JspUtils.prepareString(table.getColumnName(column)));
+			out.print(JspUtils.render(request, table.getColumnName(column), "preformatted"));
 			if (sortDescription!=null)
 			{
 				if (TableConstants.ASCEND.equals(sortDescription.getDirection()))

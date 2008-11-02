@@ -1,6 +1,5 @@
 package com.kiwisoft.media;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.jasper.runtime.HttpJspBase;
@@ -14,12 +13,6 @@ import com.kiwisoft.web.JspUtils;
  */
 public abstract class MediaJspBase extends HttpJspBase
 {
-	public void init() throws ServletException
-	{
-		super.init();
-		MediaManagerApp.getInstance();
-	}
-
 	public String renderPicture(HttpServletRequest request, String name, Picture picture, PictureFile thumbnail, String otherAttributes)
 	{
 		name=JspUtils.render(request, name);
@@ -41,7 +34,10 @@ public abstract class MediaJspBase extends HttpJspBase
 		}
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=PictureFile&id=").append(thumbnail.getId()).append("\"");
+		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=");
+		if (thumbnail instanceof Picture) html.append("Picture");
+		else html.append("PictureFile");
+		html.append("&id=").append(thumbnail.getId()).append("\"");
 		html.append(" border=\"0\"");
 		if (thumbnail.getWidth()>0) html.append(" width=\"").append(thumbnail.getWidth()).append("\"");
 		if (thumbnail.getHeight()>0) html.append(" height=\"").append(thumbnail.getHeight()).append("\"");
@@ -57,7 +53,10 @@ public abstract class MediaJspBase extends HttpJspBase
 	{
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=PictureFile&id=").append(picture.getId()).append("\"");
+		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=");
+		if (picture instanceof Picture) html.append("Picture");
+		else html.append("PictureFile");
+		html.append("&id=").append(picture.getId()).append("\"");
 		html.append(" border=\"0\"");
 		if (picture.getWidth()>0) html.append(" width=\"").append(picture.getWidth()).append("\"");
 		if (picture.getHeight()>0) html.append(" height=\"").append(picture.getHeight()).append("\"");

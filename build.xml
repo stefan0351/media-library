@@ -40,7 +40,7 @@
 		</zip>
 	</target>
 
-	<target name="build" depends="jar, web.deploy, package"/>
+	<target name="build" depends="jar, web.deploy"/>
 
 	<property name="dump.dir" value="${basedir}/db/dumps"/>
 

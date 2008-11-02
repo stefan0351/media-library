@@ -1,7 +1,7 @@
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
 <%@ page import="com.kiwisoft.media.pics.Picture" %>
 <%@ page import="com.kiwisoft.media.pics.PictureFile" %>
-<%@ page language="java" %>
 
 <table class="menutable">
 <tr>
@@ -10,17 +10,17 @@
 <%
 	Person person=(Person)request.getAttribute("person");
 	Picture picture=person.getPicture();
+	PictureFile thumbnail=null;
 	if (picture!=null)
 	{
-		String fileName=null;
-		PictureFile thumbnail=picture.getThumbnailSidebar();
-		if (thumbnail!=null) fileName=thumbnail.getFile();
-		else if (picture.getWidth()<=170) fileName=picture.getFile();
-		if (fileName!=null)
-		{
+		thumbnail=picture.getThumbnailSidebar();
+		if (thumbnail==null && picture.getWidth()<=170) thumbnail=picture;
+	}
+	if (thumbnail!=null)
+	{
 %>
 <tr>
-	<td class="menuitem" align="center"><img style="margin-top:5px" src="/<%=fileName.replace('\\', '/')%>"></td>
+	<td class="menuitem" align="center"><%=renderPicture(request, "Photo", picture, thumbnail, null)%></td>
 </tr>
 <tr>
 	<td>
@@ -28,7 +28,6 @@
 	</td>
 </tr>
 <%
-		}
 	}
 %>
 </table>

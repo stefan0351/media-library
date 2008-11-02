@@ -3,11 +3,10 @@ package com.kiwisoft.media.photos;
 import java.io.File;
 import java.util.Date;
 
-import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.pics.ImageData;
 import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.collection.ChainLink;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 
@@ -120,13 +119,13 @@ public class Photo extends IDObject implements ChainLink
 	{
 		PictureFile picture=getOriginalPicture();
 		if (picture==null) return;
-		File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
+		File file=picture.getPhysicalFile();
 		if (!file.exists()) return;
 		ImageData thumbnailData=PhotoManager.getInstance().createThumbnail(file, rotation);
 		if (thumbnailData==null) return;
 
 		PictureFile thumbnail=getThumbnail();
-		setThumbnail(new PictureFile(thumbnailData));
+		setThumbnail(new PictureFile(MediaConfiguration.PATH_ROOT, thumbnailData));
 		if (thumbnail!=null) thumbnail.deletePhysically();
 
 		int oldRotation=this.rotation;

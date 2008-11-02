@@ -234,7 +234,7 @@ public class BookDataDetailsView extends DetailsView
 					book.setLanguage(language);
 					if (finalCoverSize!=null && !StringUtils.isEmpty(finalCoverPath))
 					{
-						Picture cover=PictureManager.getInstance().createPicture();
+						Picture cover=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
 						cover.setName(title);
 						cover.setFile(finalCoverPath);
 						cover.setWidth(finalCoverSize.width);

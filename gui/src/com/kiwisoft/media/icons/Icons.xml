@@ -36,9 +36,6 @@
 	<icon key="medium.add">
 		<resource url="/com/kiwisoft/media/icons/cd_add.png"/>
 	</icon>
-	<icon key="links">
-		<resource url="/com/kiwisoft/media/icons/world_link.png"/>
-	</icon>
 	<icon key="link">
 		<resource url="/com/kiwisoft/media/icons/link.png"/>
 	</icon>

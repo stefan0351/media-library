@@ -49,4 +49,17 @@
 			<type>boolean</type>
 		</attribute>
 	</tag>
+	<tag>
+		<name>render</name>
+		<tag-class>com.kiwisoft.web.tags.RenderTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>variant</name>
+		</attribute>
+	</tag>
 </taglib>

@@ -142,13 +142,15 @@ public class PictureDetailsView extends DetailsView
 			{
 				public void run() throws Exception
 				{
-					if (picture==null) picture=PictureManager.getInstance().createPicture();
+					if (picture==null) picture=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
 					picture.setName(name);
 					picture.setFile(imagePath);
 					picture.setWidth(imageField.getImageWidth());
 					picture.setHeight(imageField.getImageHeight());
-					picture.setThumbnail50x50(thumbnail50x50Path, thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
-					picture.setThumbnailSidebar(thumbnailSidebarPath, thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
+					picture.setThumbnail50x50(MediaConfiguration.PATH_ROOT, thumbnail50x50Path,
+											  thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
+					picture.setThumbnailSidebar(MediaConfiguration.PATH_ROOT, thumbnailSidebarPath,  
+												thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
 				}
 
 				public void handleError(Throwable throwable, boolean rollback)
@@ -294,10 +296,13 @@ public class PictureDetailsView extends DetailsView
 				{
 					try
 					{
+						System.out.println("PictureDetailsView$ImageField.setFile: file = "+file);
 						ImageIcon icon=PictureUtils.loadIcon(file.toURI().toURL());
 						imagePanel.setImage(icon);
 						width=icon.getIconWidth();
+						System.out.println("width = "+width);
 						height=icon.getIconHeight();
+						System.out.println("height = "+height);
 						toolTip.append("<b>Size:</b> ").append(width).append("x").append(height);
 					}
 					catch (Exception e)

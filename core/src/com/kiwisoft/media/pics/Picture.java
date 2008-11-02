@@ -14,8 +14,9 @@ public class Picture extends PictureFile
 
 	private String name;
 
-	public Picture()
+	public Picture(String root)
 	{
+		super(root);
 	}
 
 	public Picture(DBDummy dummy)
@@ -36,7 +37,7 @@ public class Picture extends PictureFile
 		setModified(NAME, oldName, name);
 	}
 
-	public void setThumbnail(String property, String path, int imageWidth, int imageHeight)
+	public void setThumbnail(String property, String root, String path, int imageWidth, int imageHeight)
 	{
 		PictureFile thumbnail=(PictureFile)getReference(property);
 		if (path==null)
@@ -51,7 +52,7 @@ public class Picture extends PictureFile
 		{
 			if (thumbnail==null)
 			{
-				thumbnail=new PictureFile();
+				thumbnail=new PictureFile(root);
 				setReference(property, thumbnail);
 			}
 			thumbnail.setFile(path);
@@ -70,9 +71,9 @@ public class Picture extends PictureFile
 		setReference(THUMBNAIL_50x50, thumbnail);
 	}
 
-	public void setThumbnail50x50(String path, int imageWidth, int imageHeight)
+	public void setThumbnail50x50(String root, String path, int imageWidth, int imageHeight)
 	{
-		setThumbnail(THUMBNAIL_50x50, path, imageWidth, imageHeight);
+		setThumbnail(THUMBNAIL_50x50, root, path, imageWidth, imageHeight);
 	}
 
 	public PictureFile getThumbnailSidebar()
@@ -85,8 +86,8 @@ public class Picture extends PictureFile
 		setReference(THUMBNAIL_SIDEBAR, thumbnail);
 	}
 
-	public void setThumbnailSidebar(String path, int imageWidth, int imageHeight)
+	public void setThumbnailSidebar(String root, String path, int imageWidth, int imageHeight)
 	{
-		setThumbnail(THUMBNAIL_SIDEBAR, path, imageWidth, imageHeight);
+		setThumbnail(THUMBNAIL_SIDEBAR, root, path, imageWidth, imageHeight);
 	}
 }

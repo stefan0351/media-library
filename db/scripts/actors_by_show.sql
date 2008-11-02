@@ -5,4 +5,4 @@ select s.id, s.name, count(*) from
 			left join episodes on episodes.id=cast.episode_id
 		where cast.show_id is not null or cast.episode_id is not null) s
 group by s.id, s.name
-having count(*)>2
+having count(*)>4

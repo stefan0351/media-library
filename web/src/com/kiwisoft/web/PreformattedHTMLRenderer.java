@@ -38,6 +38,7 @@ public class PreformattedHTMLRenderer extends DefaultHTMLRenderer
 	{
 		line=line.replace("["+name+"]", "<"+name+">");
 		line=line.replace("[/"+name+"]", "</"+name+">");
+		line=line.replace("["+name+"/]", "<"+name+"/>");
 		return line;
 	}
 }

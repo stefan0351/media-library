@@ -20,6 +20,7 @@ public class MediaConfiguration
 	public static final String PATH_SCHEDULE_RECENT="path.schedule.recent";
 	public static final String PATH_PICTURES_RECENT="path.pictures.recent";
 	public static final String PATH_ROOT="path.root";
+	public static final String PATH_PHOTOS="path.photos";
 	public static final String PATH_CDDBIDGEN_EXE="path.cddbidgen.exe";
 	public static final String PATH_PHOTOS_THUMBNAILS="path.photos.thumbnails";
 	public static final String PATH_BOOKS_COVERS="path.books.covers";
@@ -27,7 +28,6 @@ public class MediaConfiguration
 	public static final String PATH_FANFICS_RECENT="path.fanfics.recent";
 	public static final String PATH_EXPORTS_RECENT="path.exports.recent";
 	public static final String PATH_WEB_RECENT="path.web.recent";
-	public static final String PATH_LOGOS_CHANNELS="path.logos.channels";
 	public static final String PATH_IMAGE_EDITOR="path.image.editor";
 	public static final String PATH_WEB_DATES="path.web.dates";
 	public static final String PATH_LOGOS_CHANNELS_WEB="path.logos.channels.web";
@@ -128,16 +128,6 @@ public class MediaConfiguration
 		Configuration.getInstance().setString(PATH_WEB_RECENT, path);
 	}
 
-	public static void setChannelLogoPath(String path)
-	{
-		Configuration.getInstance().setString(PATH_LOGOS_CHANNELS, path);
-	}
-
-	public static String getChannelLogoPath()
-	{
-		return Configuration.getInstance().getString(PATH_LOGOS_CHANNELS, null);
-	}
-
 	public static int getRecentPro7Offset()
 	{
 		return Configuration.getInstance().getLong(DOWNLOAD_P7_OFFSET, 7L).intValue();
@@ -186,6 +176,16 @@ public class MediaConfiguration
 	public static void setDownloadPath(String path)
 	{
 		Configuration.getInstance().setString(PATH_DOWNLOADS, path);
+	}
+
+	public static String getPhotosPath()
+	{
+		return Configuration.getInstance().getString(PATH_PHOTOS);
+	}
+
+	public static void setPhotosPath(String path)
+	{
+		Configuration.getInstance().setString(PATH_PHOTOS, path);
 	}
 
 	public static String getCDDBIdGeneratorPath()

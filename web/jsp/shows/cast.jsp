@@ -77,8 +77,8 @@
 %>
 		</td>
 		<td class="tcell2"><%=JspUtils.render(request, actor)%></td>
-		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
-		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
+		<td class="tcell2">... <%=JspUtils.render(request, castMember.getCharacterName(), "preformatted")%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.render(request, castMember.getVoice(), "preformatted")%></td>
 	</tr>
 <%
 		}
@@ -124,8 +124,8 @@
 %>
 		</td>
 		<td class="tcell2"><%=JspUtils.render(request, castMember.getActor())%></td>
-		<td class="tcell2">... <%=JspUtils.prepareString(castMember.getCharacterName())%>&nbsp;</td>
-		<td class="tcell2"><%=JspUtils.prepareString(castMember.getVoice())%></td>
+		<td class="tcell2">... <%=JspUtils.render(request, castMember.getCharacterName(), "preformatted")%>&nbsp;</td>
+		<td class="tcell2"><%=JspUtils.render(request, castMember.getVoice(), "preformatted")%></td>
 	</tr>
 <%
 		}

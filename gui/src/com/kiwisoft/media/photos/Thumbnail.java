@@ -57,7 +57,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 		PictureFile thumbnail=photo.getThumbnail();
 		if (thumbnail!=null)
 		{
-			File file=FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnail.getFile());
+			File file=thumbnail.getPhysicalFile();
 			if (file.exists())
 			{
 				try

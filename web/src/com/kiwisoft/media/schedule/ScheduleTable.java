@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.Channel;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
 import com.kiwisoft.web.TableConstants;
@@ -43,10 +44,21 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 			super(airdate);
 		}
 
+		@Override
+		public Comparable getSortValue(int column, String property)
+		{
+			if (CHANNEL.equals(property)) return getUserObject().getChannelName();
+			return super.getSortValue(column, property);
+		}
+
 		public Object getDisplayValue(int column, String property)
 		{
 			if (TIME.equals(property)) return getUserObject().getDate();
-			else if (CHANNEL.equals(property)) return getUserObject().getChannelName();
+			else if (CHANNEL.equals(property))
+			{
+				Channel channel=getUserObject().getChannel();
+				return channel!=null ? channel : getUserObject().getChannelName();
+			}
 			else if (EVENT.equals(property)) return getUserObject();
 			return "";
 		}

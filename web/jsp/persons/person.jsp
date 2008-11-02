@@ -29,6 +29,7 @@
 </title>
 <script language="JavaScript" src="../overlib.js"></script>
 <script language="JavaScript" src="../window.js"></script>
+<script language="JavaScript" src="../popup.js"></script>
 <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
 
@@ -107,7 +108,7 @@
 						if (!StringUtils.isEmpty(castMember.getCharacterName()))
 						{
 							if (!first) out.print(" / ");
-							out.print(JspUtils.prepareString(castMember.getCharacterName()));
+							out.print(JspUtils.render(request, castMember.getCharacterName(), "preformatted"));
 							first=false;
 						}
 					}
@@ -137,7 +138,7 @@
 								if (!StringUtils.isEmpty(castMember.getCharacterName()))
 								{
 									if (!first) out.print(" / ");
-									out.print(JspUtils.prepareString(castMember.getCharacterName()));
+									out.print(JspUtils.render(request, castMember.getCharacterName(), "preformatted"));
 									first=false;
 								}
 							}
@@ -195,7 +196,7 @@
 						{
 							if (first) out.print(" (");
 							else out.print(", ");
-							out.print(JspUtils.prepareString(crewMember.getSubType()));
+							out.print(JspUtils.render(request, crewMember.getSubType(), "preformatted"));
 							first=false;
 						}
 					}

@@ -26,7 +26,7 @@
 		<servlet-name>picture</servlet-name>
 		<display-name>PictureServlet</display-name>
 		<description>Streams pictures from file system</description>
-		<servlet-class>com.kiwisoft.media.PictureServlet</servlet-class>
+		<servlet-class>com.kiwisoft.media.pics.PictureServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -48,6 +48,12 @@
 		<display-name>Import IMDb</display-name>
 		<description>Servlet import movie data</description>
 		<servlet-class>com.kiwisoft.media.movie.IMDbServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>StartupServlet</servlet-name>
+		<display-name>Media Manager Web Application Initializer</display-name>
+		<servlet-class>com.kiwisoft.media.web.StartupServlet</servlet-class>
+		<load-on-startup>0</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>

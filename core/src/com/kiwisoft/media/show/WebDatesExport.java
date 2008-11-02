@@ -9,6 +9,7 @@ import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.AirdateComparator;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -154,11 +155,11 @@ public class WebDatesExport implements Job
 		Channel channel=date.getChannel();
 		if (channel!=null)
 		{
-			String logo=channel.getLogo();
+			Picture logo=channel.getLogo();
 			String nameText=XMLUtils.toXMLString(channel.getName());
 			if (logo!=null)
 			{
-				File logoFile=new File(logo);
+				File logoFile=logo.getPhysicalFile();
 				if (logoFile.exists())
 				{
 					FileUtils.syncFiles(logoFile, new File(MediaConfiguration.getWebChannelLogoPath()));

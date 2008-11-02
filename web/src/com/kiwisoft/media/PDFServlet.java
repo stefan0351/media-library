@@ -18,13 +18,6 @@ import com.kiwisoft.utils.xml.XMLWriter;
 
 public class PDFServlet extends HttpServlet
 {
-
-	public void init(ServletConfig servletConfig) throws ServletException
-	{
-		super.init(servletConfig);
-		MediaManagerApp.getInstance();
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		process(request, response);

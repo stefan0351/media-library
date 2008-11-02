@@ -147,7 +147,7 @@
 			if (airdate!=null)
 			{
 		%>
-		<dt><b>First Aired:</b><dd><%=JspUtils.prepareDate(airdate)%></dd></dt>
+		<dt><b>First Aired:</b><dd><%=JspUtils.render(request, airdate, "Date only")%></dd></dt>
 		<%
 			}
 			if (!StringUtils.isEmpty(productionCode))

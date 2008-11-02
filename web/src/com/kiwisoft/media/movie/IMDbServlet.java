@@ -14,7 +14,7 @@ import javax.servlet.RequestDispatcher;
 import com.kiwisoft.media.dataImport.IMDbComLoader;
 import com.kiwisoft.media.dataImport.MovieData;
 import com.kiwisoft.media.dataImport.CreateMovieTx;
-import com.kiwisoft.media.MediaManagerApp;
+import com.kiwisoft.media.MediaWebApplication;
 import com.kiwisoft.media.Navigation;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.StringUtils;
@@ -48,7 +48,6 @@ public class IMDbServlet extends HttpServlet
 	{
 		HttpSession session=request.getSession();
 		ServletContext servletContext=session.getServletContext();
-		MediaManagerApp.getInstance();
 
 		try
 		{

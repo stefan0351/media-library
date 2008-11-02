@@ -31,7 +31,7 @@ public class ShowPhotoAction extends SimpleContextAction
 			PictureFile picture=photo.getOriginalPicture();
 			if (picture!=null)
 			{
-				File file=FileUtils.getFile(MediaConfiguration.getRootPath(), picture.getFile());
+				File file=picture.getPhysicalFile();
 				if (file.exists()) PictureViewer.create(file, photo.getRotation());
 				else showMessageDialog(frame, "File '"+file.getAbsolutePath()+"' is currently not available!", "Error", ERROR_MESSAGE);
 			}

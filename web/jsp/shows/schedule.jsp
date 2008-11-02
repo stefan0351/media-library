@@ -11,6 +11,8 @@
 				   com.kiwisoft.media.show.ShowManager" %>
 <%@ page import="com.kiwisoft.media.Navigation"%>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
+<%@ page import="com.kiwisoft.media.Channel" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
@@ -63,7 +65,12 @@
 			Airdate airdate=(Airdate)itAirdates.next();
 %>
 			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell" align="right"><%=dateFormat.format(airdate.getDate())%></td>
-				<td class="tcell"><%=airdate.getChannelName()%></td>
+				<td class="tcell">
+<%
+			Channel channel=airdate.getChannel();
+			if (channel!=null) out.println(JspUtils.render(request, channel));
+			else out.println(JspUtils.render(request, airdate.getChannelName()));
+%>
 				<td class="tcell">
 <%
 			Episode episode=airdate.getEpisode();
