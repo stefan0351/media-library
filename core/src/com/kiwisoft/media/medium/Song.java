@@ -13,10 +13,10 @@ import com.kiwisoft.media.person.Credit;
 public class Song extends IDObject implements Production
 {
 	public static final String TITLE="title";
-	public static final String VERSION="version";
+	public static final String VERSION="songVersion";
 
 	private String title;
-	private String version;
+	private String songVersion;
 
 	public String getTitle()
 	{
@@ -30,16 +30,16 @@ public class Song extends IDObject implements Production
 		setModified(TITLE, oldTitle, title);
 	}
 
-	public String getVersion()
+	public String getSongVersion()
 	{
-		return version;
+		return songVersion;
 	}
 
-	public void setVersion(String version)
+	public void setSongVersion(String songVersion)
 	{
-		String oldVersion=this.version;
-		this.version=version;
-		setModified(VERSION, oldVersion, version);
+		String oldVersion=this.songVersion;
+		this.songVersion=songVersion;
+		setModified(VERSION, oldVersion, songVersion);
 	}
 
 	public Set<CastMember> getCastMembers(CreditType type)

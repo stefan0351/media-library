@@ -1,42 +1,40 @@
 package com.kiwisoft.media.dataImport;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.text.ParseException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.kiwisoft.media.Channel;
+import com.kiwisoft.media.ChannelManager;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.progress.Job;
 import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 public class TVTVDeLoader implements Job
 {
-	public static final String BASE_URL="http://www.tvtv.de";
+	private static final String BASE_URL="http://www.tvtv.de/tvtv/";
+	private static final String SEARCH_URL=BASE_URL
+										   +"index.vm?mainTemplate=web/search_result.vm&search_input={0}&x=0&y=0&lang=de"
+										   +"&search_psel=display_all&as_rgrp=progStartTime&as_rsort=progStart";
 
-	public final SimpleDateFormat dateFormat;
-	private String path;
 	private List objects;
-	private ProgressSupport progressSupport;
-	private Set<String> parsed;
-	private Set<String> loaded;
+	private ProgressSupport progressSupport=new ProgressSupport(this, null);
 
-	public TVTVDeLoader(String path, List objects)
+	public TVTVDeLoader(List objects)
 	{
-		this.path=path;
 		this.objects=objects;
-		parsed=new HashSet<String>();
-		loaded=new HashSet<String>();
-		dateFormat=new SimpleDateFormat("dd. MMM HH.mm", Locale.GERMAN);
 	}
 
 	public String getName()
@@ -47,38 +45,10 @@ public class TVTVDeLoader implements Job
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
-		progressSupport.startStep("Load main page...");
 
-		// Load index page
-		String content=WebUtils.loadURL(BASE_URL);
-		XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-		// Load main frame
-		content=WebUtils.loadURL(url);
-		tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-		// Load nav frame
-		content=WebUtils.loadURL(url);
-		tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-		url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-		// Load nav bottom
-		content=WebUtils.loadURL(url);
-		tag=XMLUtils.getNextTag(content, 0, "FORM");
-		String searchUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?2.1=";
-
-		// Load dates main frame
-		progressSupport.startStep("Load search patterns...");
 		if (objects==null)
 		{
+			progressSupport.startStep("Load search patterns...");
 			Collection patterns=SearchManager.getInstance().getSearchPatterns(SearchPattern.TVTV, Show.class);
 
 			Iterator it=patterns.iterator();
@@ -88,7 +58,7 @@ public class TVTVDeLoader implements Job
 			{
 				SearchPattern pattern=(SearchPattern)it.next();
 				Show show=pattern.getShow();
-				if (show!=null) loadShowDates(show, searchUrl, pattern.getPattern());
+				if (show!=null) loadDates(show.getTitle(), pattern.getPattern());
 				progressSupport.progress(1, true);
 			}
 		}
@@ -104,16 +74,23 @@ public class TVTVDeLoader implements Job
 				{
 					Show show=(Show)object;
 					String pattern=show.getSearchPattern(SearchPattern.TVTV);
-					loadShowDates(show, searchUrl, pattern);
+					if (!StringUtils.isEmpty(pattern))
+					{
+						loadDates(show.getTitle(), pattern);
+					}
+					else progressSupport.warning("No pattern for "+show+" found.");
 				}
 				else if (object instanceof Person)
 				{
 					Person person=(Person)object;
 					String pattern=person.getSearchPattern(SearchPattern.TVTV);
-					loadPersonDates(person, searchUrl, pattern);
+					if (!StringUtils.isEmpty(pattern))
+					{
+						loadDates(person.getName(), pattern);
+					}
+					else progressSupport.warning("No pattern for "+person+" found.");
 				}
-				else
-					progressSupport.warning("Unhandled object class "+object.getClass());
+				else progressSupport.warning("Unhandled object class "+object.getClass());
 				progressSupport.progress(1, true);
 			}
 		}
@@ -124,274 +101,227 @@ public class TVTVDeLoader implements Job
 	{
 	}
 
-	private void loadShowDates(Show show, String searchUrl, String patternString)
+	private List<AirdateData> loadDates(String name, String patternString)
 	{
-		progressSupport.startStep("Load schedule for "+show.getTitle()+"...");
-		String content=null;
+		List<AirdateData> airdates=new ArrayList<AirdateData>();
+
+		progressSupport.startStep("Load schedule for "+name+"...");
+		String resultPage=null;
 		try
 		{
-			content=WebUtils.loadURL(searchUrl+patternString);
-			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
+			resultPage=WebUtils.loadURL(MessageFormat.format(SEARCH_URL, patternString), "UTF-8");
 
-			// Load dates list frame
-			content=WebUtils.loadURL(url);
-//			FileUtils.saveToFile(content, new File(path, show.getUserKey()+".html"));
-			parseListing(content);
-			progressSupport.info("Loaded schedule for "+show.getTitle()+".");
+			SimpleDateFormat dayFormat=new SimpleDateFormat("d. MMMM yyyy");
+			TimeZone timeZone=TimeZone.getTimeZone("Europe/Berlin");
+			dayFormat.setTimeZone(timeZone);
+			SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
+			timeFormat.setTimeZone(timeZone);
+			Pattern dayPattern=Pattern.compile("<td id=\"date-box\"  class=\"fb-w13\" >(\\d{1,2}\\. \\w+ \\d{4})</td>");
+			Matcher dayMatcher=dayPattern.matcher(resultPage);
+			Pattern timePattern=Pattern.compile("<td class=\"pitime-box\\d\" nowrap=\"nowrap\" style='width:80px;'>(\\d\\d:\\d\\d)</td>");
+			Pattern channelPattern=Pattern.compile("<td class=\"pisicon-box\\d\" nowrap style=\"width:40px\"><img title=\"([^\"]+)\"");
+			Pattern titlePattern=Pattern.compile("<td class=\"pititle-box\\d\"");
+
+			int dayPosition=0;
+			boolean dayFound=dayMatcher.find(dayPosition);
+			while (dayFound)
+			{
+				String dayString=dayMatcher.group(1);
+				Date day=dayFormat.parse(dayString);
+				int dayStart=dayMatcher.end();
+				dayFound=dayMatcher.find(dayStart);
+				int dayEnd=dayFound ? dayMatcher.start() : resultPage.length();
+
+				String daySubPage=resultPage.substring(dayStart, dayEnd);
+				Matcher timeMatcher=timePattern.matcher(daySubPage);
+				boolean timeFound=timeMatcher.find();
+				while (timeFound)
+				{
+					AirdateData airdate=new AirdateData();
+					String timeString=timeMatcher.group(1);
+
+					airdate.time=mergeDayAndTime(day, timeFormat.parse(timeString), timeZone);
+					int timeStart=timeMatcher.end();
+					timeFound=timeMatcher.find(timeMatcher.end(0));
+					int timeEnd=timeFound ? timeMatcher.start() : daySubPage.length();
+					String timeSubPage=daySubPage.substring(timeStart, timeEnd);
+
+					Matcher channelMatcher=channelPattern.matcher(timeSubPage);
+					if (channelMatcher.find())
+					{
+						airdate.channelName=channelMatcher.group(1);
+					}
+					Matcher titleMatcher=titlePattern.matcher(timeSubPage);
+					if (titleMatcher.find())
+					{
+						int titleStart=timeSubPage.indexOf(">", titleMatcher.end());
+						int titleEnd=timeSubPage.indexOf("</td>", titleStart);
+						String title=timeSubPage.substring(titleStart, titleEnd);
+						XMLUtils.Tag linkTag=XMLUtils.getNextTag(title, 0, "a");
+						if (linkTag!=null)
+						{
+							airdate.detailLink=XMLUtils.getAttribute(linkTag.text, "href");
+						}
+						airdate.title=XMLUtils.removeTags(title).trim();
+					}
+					airdates.add(airdate);
+				}
+			}
+
+			for (AirdateData airdate : airdates)
+			{
+				loadDetails(airdate);
+				System.out.println("TVTVDeLoader.loadDates: airdate = "+airdate);
+			}
+
+			progressSupport.info("Loaded schedule for "+name+".");
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("content = "+content);
-			progressSupport.error("Loading of schedule for "+show.getTitle()+" failed.");
+			System.out.println("content = "+resultPage);
+			progressSupport.error("Loading of schedule for "+name+" failed.");
 		}
+		return airdates;
 	}
 
-	private void loadPersonDates(Person person, String searchUrl, String patternString) throws IOException
+	private void loadDetails(AirdateData airdate)
 	{
-		if (!StringUtils.isEmpty(patternString))
+		airdate.channel=ChannelManager.getInstance().getChannelByName(airdate.channelName);
+		airdate.show=ShowManager.getInstance().getShowByName(airdate.title);
+		if (airdate.show!=null)
 		{
-			progressSupport.startStep("Load schedule for "+person.getName()+"...");
-			String content=WebUtils.loadURL(searchUrl+patternString);
-			XMLUtils.Tag tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-			String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-			// Load dates list frame
-			content=WebUtils.loadURL(url);
-
-			String fileName=URLEncoder.encode(person.getName(), "UTF-8");
-			int number=2;
-			File file=new File(path+File.separator+fileName+".html");
-			while (file.exists()) file=new File(path+File.separator+fileName+"."+(number++)+".html");
-
-			FileWriter fw=new FileWriter(file);
-			fw.write(content);
-			fw.close();
-
-			parsePersonListing(content);
-
-			progressSupport.info("Loaded schedule for "+person.getName()+".");
-		}
-	}
-
-	private void parseListing(String listing) throws IOException
-	{
-		XMLUtils.Tag tag=XMLUtils.getNextTag(listing, 0, "FORM");
-		String infoUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?sendung=";
-
-		int index=tag.end;
-
-		while (index>=0)
-		{
-			index=listing.indexOf("<SPAN class=\"pititle-anker1\"", index);
-			if (index<0) break;
-			tag=XMLUtils.getNextTag(listing, index, "a");
-			index=tag.end;
-			String ref=XMLUtils.getAttribute(tag.text, "href");
-			String id=StringUtils.getTextBetween(ref, "(", ")");
-
-			// Load dates list frame
-			if (!parsed.contains(id))
+			if (!StringUtils.isEmpty(airdate.detailLink))
 			{
-				// Load details
-				String content=WebUtils.loadURL(infoUrl+id);
-//				FileUtils.saveToFile(content, new File(path, "frame"+id+".html"));
-				tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAMESET");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-				content=WebUtils.loadURL(url);
-				FileUtils.saveToFile(content, new File(path+File.separator+(id+".html")));
-				parsed.add(id);
+				String detailPage=null;
 				try
 				{
-					parseDetails(content, id);
+					detailPage=WebUtils.loadURL(BASE_URL+airdate.detailLink, "UTF-8");
+					int episodeStart=detailPage.indexOf("<span class=\"fb-b9\">");
+					if (episodeStart>0)
+					{
+						episodeStart=detailPage.indexOf(">", episodeStart)+1;
+						int episodeEnd=detailPage.indexOf("</span>", episodeStart);
+						airdate.episodeTitle=detailPage.substring(episodeStart, episodeEnd).trim();
+						airdate.episodeTitle=trimQuotes(airdate.episodeTitle);
+						if (airdate.episodeTitle.endsWith(")"))
+						{
+							int matchingBrace=findMatchingBrace(airdate.episodeTitle, airdate.episodeTitle.length()-1);
+							if (matchingBrace>0)
+							{
+								String originalTitle=airdate.episodeTitle.substring(matchingBrace+1, airdate.episodeTitle.length()-1).trim();
+								Episode episode1=findEpisode(airdate.show, originalTitle);
+								String germanTitle=airdate.episodeTitle.substring(0, matchingBrace).trim();
+								Episode episode2=findEpisode(airdate.show, germanTitle);
+								if (episode1==null) airdate.episode=episode2;
+								else if (episode2==null) airdate.episode=episode1;
+								else if (episode1==episode2) airdate.episode=episode1;
+							}
+							else airdate.episode=findEpisode(airdate.show, airdate.episodeTitle);
+						}
+						else airdate.episode=findEpisode(airdate.show, airdate.episodeTitle);
+					}
 				}
 				catch (Exception e)
 				{
-					progressSupport.error("Error parsing details: "+id+" ("+e.getMessage()+")");
+					e.printStackTrace();
+					System.out.println("content = "+detailPage);
+					progressSupport.error("Error while loading details for "+airdate.time+" "+airdate.title);
 				}
 			}
 		}
+		else
+		{
+			airdate.movie=MovieManager.getInstance().getMovieByTitle(airdate.title);
+		}
 	}
 
-	private void parseDetails(String content, String id) throws IOException
+	private Episode findEpisode(Show show, String title)
 	{
-		int index=content.indexOf("id=\"detail-box-station\"");
-		index=content.indexOf(">", index);
-		int index2=content.indexOf("</td>", index);
-		String channel=content.substring(index+1, index2);
-		channel=XMLUtils.unescapeHtml(XMLUtils.removeTags(channel)).trim();
-
-		index=content.indexOf("id=\"detail-box-time\"", index);
-		index=content.indexOf(">", index);
-		index2=content.indexOf("</td>", index);
-		String timeString=content.substring(index+1, index2);
-		timeString=XMLUtils.unescapeHtml(XMLUtils.removeTags(timeString)).trim();
-
-		index=content.indexOf("id=\"fb-b10\"", index);
-		index=content.indexOf(">", index);
-		index2=content.indexOf("</td>", index);
-		String dateString=content.substring(index+1, index2);
-		dateString=XMLUtils.unescapeHtml(XMLUtils.removeTags(dateString)).trim();
-
-		Date date=null;
+		Episode episode1=null;
 		try
 		{
-			Calendar now=Calendar.getInstance();
-
-			Calendar calendar=Calendar.getInstance();
-			calendar.setTime(dateFormat.parse(dateString+" "+timeString));
-			calendar.set(Calendar.YEAR, now.get(Calendar.YEAR));
-			if (now.after(calendar)) calendar.add(Calendar.YEAR, 1);
-			date=calendar.getTime();
+			episode1=ShowManager.getInstance().getEpisodeByName(show, title);
 		}
-		catch (ParseException e)
+		catch (Exception e)
 		{
-			e.printStackTrace();
+			progressSupport.error(e);
 		}
-
-		index=content.indexOf("id=\"fb-b15\"", index);
-		index=content.indexOf(">", index);
-		index2=content.indexOf("</span>", index);
-		String showName=content.substring(index+1, index2);
-		showName=XMLUtils.unescapeHtml(XMLUtils.removeTags(showName)).trim();
-		int lastIndex=index;
-
-		index=content.indexOf("id=\"fb-b9\"", lastIndex);
-		String title=null;
-		String otitle=null;
-		if (index>=lastIndex)
-		{
-			index=content.indexOf(">", index);
-			index2=content.indexOf("</span>", index);
-			title=content.substring(index+1, index2);
-			title=XMLUtils.unescapeHtml(XMLUtils.removeTags(title)).trim();
-			if (title.endsWith("\""))
-			{
-				title=StringUtils.getTextBetween(title, "\"", "\"");
-				if (title.endsWith(")"))
-				{
-					otitle=StringUtils.getTextBetween(title, "(", ")");
-					title=title.substring(0, title.indexOf("(")).trim();
-				}
-			}
-			lastIndex=index;
-		}
-
-		index=content.indexOf("id=\"fn-b10\"", lastIndex);
-		String description=null;
-		if (index>=lastIndex)
-		{
-			index=content.indexOf(">", index);
-			index2=content.indexOf("</span>", index);
-			description=content.substring(index+1, index2);
-			description=XMLUtils.unescapeHtml(description).trim();
-			description=StringUtils.replaceStrings(description, "<br>\n<br>\n", "\n");
-			description=StringUtils.replaceStrings(description, "<br>\n", " ");
-			lastIndex=index;
-		}
-
-		index=content.indexOf(">Darsteller:<", lastIndex);
-		String cast=null;
-		if (index>=lastIndex)
-		{
-			index=content.indexOf("id=\"fn-b8\"", index);
-			index=content.indexOf(">", index);
-			index2=content.indexOf("</span>", index);
-			cast=content.substring(index+1, index2);
-			cast=XMLUtils.unescapeHtml(cast).trim();
-			lastIndex=index;
-		}
-
-		index=content.indexOf(">Buch:<", lastIndex);
-		String writer=null;
-		if (index>=lastIndex)
-		{
-			index=content.indexOf("id=\"fn-b8\"", index);
-			index=content.indexOf(">", index);
-			index2=content.indexOf("</span>", index);
-			writer=content.substring(index+1, index2);
-			writer=XMLUtils.unescapeHtml(writer).trim();
-			lastIndex=index;
-		}
-
-		index=content.indexOf(">Regie:<", lastIndex);
-		String director=null;
-		if (index>=lastIndex)
-		{
-			index=content.indexOf("id=\"fn-b8\"", index);
-			index=content.indexOf(">", index);
-			index2=content.indexOf("</span>", index);
-			director=content.substring(index+1, index2);
-			director=XMLUtils.unescapeHtml(director).trim();
-		}
-
-		String fileName=path+File.separator+URLEncoder.encode(showName, "UTF-8");
-		File file=new File(fileName+".xml");
-		int i=1;
-		while (file.exists()) file=new File(fileName+"_"+(i++)+".xml");
-
-		FileWriter fw=new FileWriter(file);
-		fw.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n");
-		fw.write("<!-- "+id+"-->\n");
-		fw.write("<Listing>\n");
-		fw.write("<Details>\n");
-		fw.write("<DataSource>");
-		fw.write(DataSource.TVTV.getKey());
-		fw.write("</DataSource>\n");
-		fw.write("<Sendetermin><Sender>"+XMLUtils.toXMLString(channel)+"</Sender><Datum>"+ImportUtils.DATE_FORMAT.format(date)+"</Datum></Sendetermin>\n");
-		fw.write("<Show>"+XMLUtils.toXMLString(showName)+"</Show>\n");
-		if (!StringUtils.isEmpty(title)) fw.write("<Episode>"+XMLUtils.toXMLString(title)+"</Episode>\n");
-		if (!StringUtils.isEmpty(otitle)) fw.write("<Originaltitel>"+XMLUtils.toXMLString(otitle)+"</Originaltitel>\n");
-		if (!StringUtils.isEmpty(director)) fw.write("<Regie>"+XMLUtils.toXMLString(director)+"</Regie>\n");
-		if (!StringUtils.isEmpty(writer)) fw.write("<Drehbuch>"+XMLUtils.toXMLString(writer)+"</Drehbuch>\n");
-		if (!StringUtils.isEmpty(cast)) fw.write("<Darsteller>"+XMLUtils.toXMLString(cast)+"</Darsteller>\n");
-		if (!StringUtils.isEmpty(description)) fw.write("<Inhalt>"+XMLUtils.toXMLString(description)+"</Inhalt>\n");
-		fw.write("</Details>\n");
-		fw.write("</Listing>\n");
-		fw.close();
+		return episode1;
 	}
 
-	private void parsePersonListing(String listing) throws IOException
+	private int findMatchingBrace(String episodeTitle, int index)
 	{
-		XMLUtils.Tag tag=XMLUtils.getNextTag(listing, 0, "FORM");
-		String infoUrl=BASE_URL+XMLUtils.getAttribute(tag.text, "action")+"?sendung=";
-
-		int index=tag.end;
-
-		while (index>=0)
+		char ch=episodeTitle.charAt(index);
+		if (ch==')')
 		{
-			index=listing.indexOf("<SPAN class=\"pititle-anker1\"", index);
-			if (index<0) break;
-			tag=XMLUtils.getNextTag(listing, index, "a");
-			index=tag.end;
-			String ref=XMLUtils.getAttribute(tag.text, "href");
-			String id=StringUtils.getTextBetween(ref, "(", ")");
-
-			// Load dates list frame
-			if (!loaded.contains(id))
+			int level=0;
+			int pos=index;
+			while (pos>=0)
 			{
-				// Load details
-				String content=WebUtils.loadURL(infoUrl+id);
-				tag=XMLUtils.getNextTag(content, 0, "FRAMESET");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				tag=XMLUtils.getNextTag(content, tag.end, "FRAME");
-				String url=BASE_URL+XMLUtils.getAttribute(tag.text, "src");
-
-				content=WebUtils.loadURL(url);
-				FileUtils.saveToFile(content, new File(path+File.separator+(id+".html")));
-				loaded.add(id);
+				ch=episodeTitle.charAt(pos);
+				if (ch==')') level--;
+				else if (ch=='(') level++;
+				if (level==0) return pos;
+				pos--;
 			}
+			return -1;
+		}
+		else throw new UnsupportedOperationException();
+	}
+
+	private String trimQuotes(String episodeTitle)
+	{
+		if (episodeTitle!=null && episodeTitle.startsWith("\"") && episodeTitle.endsWith("\""))
+		{
+			return episodeTitle.substring(1, episodeTitle.length()-1).trim();
+		}
+		return episodeTitle;
+	}
+
+	private static Date mergeDayAndTime(Date day, Date time, TimeZone timeZone)
+	{
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTimeZone(timeZone);
+		calendar.setTime(day);
+		Calendar calendar2=Calendar.getInstance();
+		calendar2.setTimeZone(timeZone);
+		calendar2.setTime(time);
+		calendar.set(Calendar.HOUR_OF_DAY, calendar2.get(Calendar.HOUR_OF_DAY));
+		calendar.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
+		calendar.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
+		calendar.set(Calendar.MILLISECOND, calendar2.get(Calendar.MILLISECOND));
+		return calendar.getTime();
+	}
+
+	private static class AirdateData
+	{
+		private Date time;
+		private String title;
+		private String channelName;
+		private String detailLink;
+		private String episodeTitle;
+		public Show show;
+		public Movie movie;
+		public Episode episode;
+		public Channel channel;
+
+		public String toString()
+		{
+			StringBuilder text=new StringBuilder("Airdate(");
+			text.append("time=").append(time);
+			if (channel!=null) text.append("; channel=").append(channel);
+			else text.append("; channelName=").append(channelName);
+			if (movie!=null) text.append("; movie=").append(movie);
+			else if (show!=null)
+			{
+				text.append("; show=").append(show);
+				if (episode!=null) text.append("; episode=").append(episode);
+				else text.append("; episodeTitle=").append(episodeTitle);
+			}
+			else text.append("; title=").append(title);
+			text.append(")");
+			return text.toString();
 		}
 	}
 }

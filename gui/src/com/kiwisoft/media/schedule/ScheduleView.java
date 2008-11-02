@@ -80,6 +80,7 @@ public class ScheduleView extends ViewPanel
 				actions.add(new CreateEpisodeFromAirdateAction());
 				actions.add(new UpdateEpisodesAction(frame));
 				actions.add(new SplitAirdateAction(frame));
+				actions.add(new PurgeAirdatesAction(frame));
 				return actions;
 			}
 

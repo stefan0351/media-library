@@ -64,7 +64,6 @@ public class PictureUtils
 
 	public static Image loadImage(URL url)
 	{
-		System.out.println("PictureUtils.loadImage: url = "+url);
 		MediaTracker tracker=new MediaTracker(mediaTracker);
 		Image image=Toolkit.getDefaultToolkit().getImage(url);
 		int id=imageId++;

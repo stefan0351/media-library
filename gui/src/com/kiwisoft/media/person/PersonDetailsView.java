@@ -269,7 +269,7 @@ public class PersonDetailsView extends DetailsView
 		{
 			try
 			{
-				field.setText(URLEncoder.encode(buildName(), "UTF-8"));
+				field.setText(URLEncoder.encode(nameField.getText(), "UTF-8"));
 			}
 			catch (Exception e)
 			{

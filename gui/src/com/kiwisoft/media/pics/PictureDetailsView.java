@@ -296,13 +296,10 @@ public class PictureDetailsView extends DetailsView
 				{
 					try
 					{
-						System.out.println("PictureDetailsView$ImageField.setFile: file = "+file);
 						ImageIcon icon=PictureUtils.loadIcon(file.toURI().toURL());
 						imagePanel.setImage(icon);
 						width=icon.getIconWidth();
-						System.out.println("width = "+width);
 						height=icon.getIconHeight();
-						System.out.println("height = "+height);
 						toolTip.append("<b>Size:</b> ").append(width).append("x").append(height);
 					}
 					catch (Exception e)

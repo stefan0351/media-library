@@ -33,6 +33,7 @@ CREATE TABLE airdates (
   reminder tinyint(1) default NULL,
   source_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -54,6 +55,7 @@ CREATE TABLE books (
   isbn10 varchar(20) default NULL,
   isbn13 varchar(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -75,6 +77,7 @@ CREATE TABLE cast (
   character_name varchar(400) default NULL,
   credit_order int(11) default NULL,
   picture_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id),
   KEY ix_cast_actor (movie_id),
   KEY ix_cast_show (show_id),
@@ -90,10 +93,12 @@ DROP TABLE IF EXISTS channels;
 CREATE TABLE channels (
   id bigint(20) NOT NULL default '0',
   `name` varchar(50) NOT NULL default '',
-  logo varchar(200) default NULL,
+  web_address varchar(300) default NULL,
+  logo_id bigint(20) default NULL,
   language_id bigint(20) default NULL,
   receivable tinyint(1) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -108,6 +113,7 @@ CREATE TABLE contactmedia (
   `value` varchar(200) default NULL,
   author_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -137,6 +143,7 @@ CREATE TABLE credit (
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   sub_type varchar(200) default NULL,
   movie_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id),
   KEY ix_crew_episode (episode_id),
   KEY ix_crew_movie (movie_id),
@@ -175,6 +182,7 @@ CREATE TABLE episodes (
   title varchar(200) default NULL,
   production_code varchar(20) default NULL,
   airdate date default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id),
   KEY ix_episode_show (show_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -205,6 +213,7 @@ CREATE TABLE fanfic_parts (
   source varchar(200) default NULL,
   sequence int(11) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -218,6 +227,7 @@ CREATE TABLE fanficauthors (
   `name` varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   path varchar(50) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -237,6 +247,7 @@ CREATE TABLE fanfics (
   spoiler text,
   url varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -274,6 +285,7 @@ CREATE TABLE linkgroups (
   `name` varchar(200) default NULL,
   parentgroup_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -289,6 +301,7 @@ CREATE TABLE links (
   url varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   linkgroup_id bigint(20) NOT NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -404,6 +417,7 @@ CREATE TABLE media (
   type_id bigint(20) default NULL,
   `storage` varchar(50) default NULL,
   obsolete tinyint(1) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -426,6 +440,7 @@ CREATE TABLE movies (
   index_by varchar(200) NOT NULL,
   imdb_key varchar(20) default NULL,
   poster_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -440,6 +455,7 @@ CREATE TABLE `names` (
   `type` int(11) default NULL,
   `name` varchar(200) default NULL,
   language_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -452,6 +468,7 @@ CREATE TABLE pairings (
   id bigint(20) NOT NULL default '0',
   `name` varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -472,6 +489,7 @@ CREATE TABLE persons (
   imdb_key varchar(20) default NULL,
   tvcom_key varchar(20) default NULL,
   picture_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -485,6 +503,7 @@ CREATE TABLE photogalleries (
   `name` varchar(200) default NULL,
   creation_date date default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -513,6 +532,7 @@ CREATE TABLE photos (
   focal_length double default NULL,
   iso_speed int(11) default NULL,
   exposure_time double default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -523,10 +543,12 @@ CREATE TABLE photos (
 DROP TABLE IF EXISTS picture_files;
 CREATE TABLE picture_files (
   id bigint(20) NOT NULL,
+  root varchar(100) default NULL,
   `file` varchar(200) NOT NULL,
   width int(11) NOT NULL,
   height int(11) NOT NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -538,12 +560,14 @@ DROP TABLE IF EXISTS pictures;
 CREATE TABLE pictures (
   id bigint(20) NOT NULL,
   `name` varchar(200) NOT NULL,
+  root varchar(100) default NULL,
   `file` varchar(200) NOT NULL,
   width int(11) NOT NULL,
   height int(11) NOT NULL,
   thumbnail_50x50_id bigint(20) default NULL,
   thumbnail_sidebar_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -570,6 +594,7 @@ CREATE TABLE searchpatterns (
   pattern varchar(200) default NULL,
   movie_id bigint(20) default NULL,
   actor_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -588,6 +613,7 @@ CREATE TABLE seasons (
   endYear int(11) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   `name` varchar(50) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -599,6 +625,8 @@ DROP TABLE IF EXISTS sequences;
 CREATE TABLE sequences (
   `name` varchar(10) NOT NULL default '',
   `value` bigint(20) default NULL,
+  increment bigint(20) NOT NULL default '1',
+  `cache` bigint(20) NOT NULL default '1',
   PRIMARY KEY  (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -614,6 +642,7 @@ CREATE TABLE showinfos (
   `name` varchar(50) default NULL,
   path varchar(200) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -638,6 +667,7 @@ CREATE TABLE shows (
   start_year int(11) default NULL,
   end_year int(11) default NULL,
   linkgroup_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -649,8 +679,16 @@ DROP TABLE IF EXISTS songs;
 CREATE TABLE songs (
   id bigint(20) NOT NULL,
   title varchar(200) default NULL,
-  version varchar(200) default NULL,
+  album_interpret varchar(255) default NULL,
+  other_interprets varchar(255) default NULL,
+  album_title varchar(255) default NULL,
+  track_number varchar(255) default NULL,
+  composer varchar(255) default NULL,
+  genre varchar(255) default NULL,
+  `year` varchar(255) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  song_version varchar(200) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -666,6 +704,7 @@ CREATE TABLE summary (
   summary mediumtext,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   movie_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -688,6 +727,7 @@ CREATE TABLE tracks (
   sequence int(11) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   movie_id bigint(20) default NULL,
+  version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -699,20 +739,13 @@ DELIMITER ;;
 /*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
 /*!50003 CREATE*/ /*!50020 DEFINER=root@localhost*/ /*!50003 FUNCTION sort_letter(name varchar(200)) RETURNS char(1) CHARSET utf8
     DETERMINISTIC
-begin
-
-	declare letter char(1);
-
-	set letter=upper(left(name, 1));	
-
-	if (letter>='0' and letter<='9') then
-
-		set letter='0';
-
-	end if;
-
-	return letter;
-
+begin
+	declare letter char(1);
+	set letter=upper(left(name, 1));
+	if (letter>='0' and letter<='9') then
+		set letter='0';
+	end if;
+	return letter;
 end */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
@@ -726,4 +759,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-02-03 13:54:05
+-- Dump completed on 2008-11-02 19:15:02

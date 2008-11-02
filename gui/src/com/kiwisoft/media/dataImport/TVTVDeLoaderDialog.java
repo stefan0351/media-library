@@ -105,7 +105,7 @@ public class TVTVDeLoaderDialog extends JDialog
 				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
-			new ProgressDialog(getOwner(), new TVTVDeLoader(pathName, objects)).start();
+			new ProgressDialog(getOwner(), new TVTVDeLoader(objects)).start();
 		}
 	}
 
