@@ -249,7 +249,7 @@ public class BookDetailsView extends DetailsView
 		@Override
 		public String getDefaultName()
 		{
-			return titleField.getText();
+			return titleField.getText()+" - Cover";
 		}
 	}
 

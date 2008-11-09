@@ -2,10 +2,8 @@ package com.kiwisoft.media.download;
 
 import java.awt.event.ActionEvent;
 import java.util.*;
-import javax.swing.AbstractAction;
 
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.actions.MultiContextAction;
 
 public class StartDownloadAction extends MultiContextAction
@@ -14,7 +12,7 @@ public class StartDownloadAction extends MultiContextAction
 
 	public StartDownloadAction(DownloadProject project)
 	{
-		super(null, "Download", Icons.getIcon("play"));
+		super((Class[])null, "Download", Icons.getIcon("play"));
 		this.project=project;
 	}
 

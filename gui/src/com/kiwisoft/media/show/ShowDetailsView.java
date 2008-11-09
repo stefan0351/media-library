@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -19,7 +18,6 @@ import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureLookup;
 import com.kiwisoft.media.pics.PictureLookupHandler;
 import com.kiwisoft.media.pics.PicturePreviewUpdater;
-import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
@@ -51,7 +49,6 @@ public class ShowDetailsView extends DetailsView
 	private DialogLookupField indexByField;
 	private LookupField<Language> languageField;
 	private JTextField episodeLengthField;
-	private DialogLookupField patternField;
 	private JCheckBox webShowField;
 	private NamesTableModel tmNames;
 	private LookupField<Picture> logoField;
@@ -73,7 +70,7 @@ public class ShowDetailsView extends DetailsView
 			@Override
 			public String getDefaultName()
 			{
-				return titleField.getText();
+				return titleField.getText()+" Logo";
 			}
 		});
 		ImagePanel logoPreview=new ImagePanel(new Dimension(150, 150));
@@ -83,9 +80,8 @@ public class ShowDetailsView extends DetailsView
 		episodeLengthField=new JTextField();
 		episodeLengthField.setHorizontalAlignment(JTextField.TRAILING);
 		scheduleFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		patternField=new DialogLookupField(new TVTVPatternLookup());
 		languageField=new LookupField<Language>(new LanguageLookup());
-		tmNames=new NamesTableModel();
+		tmNames=new NamesTableModel(true);
 		SortableTable tblNames=new SortableTable(tmNames);
 		tblNames.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "names"));
 		webShowField=new JCheckBox();
@@ -131,9 +127,6 @@ public class ShowDetailsView extends DetailsView
 		add(new JLabel("Internet:"), new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(webShowField, new GridBagConstraints(4, row, 1, 1, 0.3, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
-		add(new JLabel("Search Parameter:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(patternField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0,WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
-		row++;
 		add(new JLabel("Schedule File:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(scheduleFileField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
@@ -176,8 +169,6 @@ public class ShowDetailsView extends DetailsView
 			episodeLengthField.setText(String.valueOf(show.getDefaultEpisodeLength()));
 			for (Genre genre : show.getGenres()) genresModel.addObject(genre);
 			genresModel.addSortColumn(0, false);
-			String pattern=show.getSearchPattern(SearchPattern.TVTV);
-			if (pattern!=null) patternField.setText(pattern);
 			Iterator it=show.getAltNames().iterator();
 			while (it.hasNext())
 			{
@@ -250,8 +241,7 @@ public class ShowDetailsView extends DetailsView
 			languageField.requestFocus();
 			return false;
 		}
-		final String tvtvPattern=patternField.getText();
-		final Map<String, Language> names=tmNames.getNames();
+		final Map<String, Language> names=tmNames.getNameMap();
 		final Collection<Genre> genres=genresModel.getObjects();
 		final Picture logo=logoField.getValue();
 		final List<WebInfosTableModel<ShowInfo>.Row> infoRows=new ArrayList<WebInfosTableModel<ShowInfo>.Row>();
@@ -295,7 +285,6 @@ public class ShowDetailsView extends DetailsView
 				show.setDefaultEpisodeLength(length);
 				show.setInternet(webShowField.isSelected());
 				show.setWebDatesFile(scheduleFileField.getText());
-				show.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 				show.setLanguage(language);
 				show.setLogo(logo);
 				show.setGenres(genres);
@@ -353,27 +342,6 @@ public class ShowDetailsView extends DetailsView
 		}
 	}
 
-	private class TVTVPatternLookup implements DialogLookup
-	{
-		public void open(JTextField field)
-		{
-			try
-			{
-				field.setText(URLEncoder.encode(germanTitleField.getText(), "UTF-8"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(field, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-		public Icon getIcon()
-		{
-			return Icons.getIcon("lookup.create");
-		}
-	}
-
 	private class NewInfoAction extends ContextAction
 	{
 		public NewInfoAction()
@@ -404,7 +372,9 @@ public class ShowDetailsView extends DetailsView
 	{
 		public void open(JTextField field)
 		{
-			field.setText(IndexByUtils.createIndexBy(titleField.getText()));
+			String title=titleField.getText();
+			if (StringUtils.isEmpty(title)) title=germanTitleField.getText();
+			field.setText(IndexByUtils.createIndexBy(title));
 		}
 
 		public Icon getIcon()

@@ -13,6 +13,7 @@
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
 <%@ page import="com.kiwisoft.media.medium.Medium" %>
 <%@ page import="com.kiwisoft.media.medium.MediumManager" %>
+<%@ page import="com.kiwisoft.media.pics.Picture" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -214,37 +215,39 @@
 		Collections.sort(cast, new CastMember.CreditComparator());
 %>
 <a name="cast"></a>
-<table class="contenttable" width="790">
-<tr>
-	<td class="header1">Cast</td>
-</tr>
-<tr>
-	<td class="content">
-		<table>
-		<%
-			for (Iterator it=cast.iterator(); it.hasNext();)
+<media:panel title="Cast">
+	<table class="table1">
+	<tr class="thead"><td class="tcell2">&nbsp;</td><td class="tcell2">Actor</td><td class="tcell2">Role</td></tr>
+<%
+		boolean row=false;
+		for (Iterator it=cast.iterator(); it.hasNext();)
+		{
+			CastMember castMember=(CastMember)it.next();
+%>
+			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
+<%
+			Picture picture=castMember.getPicture();
+			Person actor=castMember.getActor();
+			if (picture==null && actor!=null) picture=actor.getPicture();
+			if (picture!=null && picture.getThumbnail50x50()!=null)
 			{
-				CastMember castMember=(CastMember)it.next();
-				Person actor=castMember.getActor();
-		%>
-		<tr valign="top">
-			<td class="content2"><media:render value="<%=actor%>"/></td>
-			<td class="content2">...</td>
-			<td class="content2"><media:render value="<%=castMember.getCharacterName()%>" variant="preformatted"/>
-			</td>
-		</tr>
-		<%
+				out.print(renderPicture(request, actor!=null ? actor.getName() : castMember.getCharacterName(), picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
 			}
-		%>
-		</table>
-		<p align=right><a class=link href="#top">Top</a></p>
-	</td>
-</tr>
-</table>
+			row=!row;
+%>
+			</td>
+			<td class="tcell2"><media:render value="<%=actor%>"/></td>
+			<td class="tcell2">... <media:render value="<%=castMember.getCharacterName()%>" variant="preformatted"/></td>
+			</tr>
+<%
+		}
+%>
+	</table>
+</media:panel>
 <%
 	}
 
-	Set crew=movie.getCrewMembers();
+	Set crew=movie.getCredits();
 	if (!crew.isEmpty())
 	{
 		SortedSetMap sortedCrew=new SortedSetMap(null, new Comparator()

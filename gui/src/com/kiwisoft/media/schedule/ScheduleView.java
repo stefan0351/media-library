@@ -2,70 +2,85 @@ package com.kiwisoft.media.schedule;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.app.ApplicationListenerSupport;
 import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.DateRange;
 import com.kiwisoft.media.AirdateManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.utils.ClassObserver;
-import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.utils.Filter;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.*;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.swing.lookup.DateField;
+import com.kiwisoft.swing.lookup.TimeField;
 
 public class ScheduleView extends ViewPanel
 {
 	private Show show;
+	private DateRange range;
+	private Date startDate;
+	private Date endDate;
 
-	private Collection airdates;
-	private Filter filter;
-	private AirdatesListener airdatesListener;
-	private int unit;
-	private int quantity;
+	private Filter<Airdate> filter;
 	private TableController<Airdate> tableController;
+	private JComboBox dateRangeField;
+	private DateField startDateField;
+	private DateField endDateField;
+	private TimeField startTimeField;
+	private TimeField endTimeField;
+
+	public ScheduleView()
+	{
+		this(null, null, null, null);
+	}
 
 	public ScheduleView(Show show)
 	{
-		this.show=show;
-		setTitle("Schedule for "+show.getTitle());
-		this.airdates=show.getAirdates();
-		this.filter=new ShowFilter(show);
+		this(show, null, null, null);
 	}
 
-	public ScheduleView(int unit, int quantity)
+	public ScheduleView(Show show, DateRange range, Date startDate, Date endDate)
 	{
-		this.unit=unit;
-		this.quantity=quantity;
-		this.airdates=AirdateManager.getInstance().getAirdates(unit, quantity);
-		setTitle("Current Schedule");
+		this.show=show;
+		this.range=range;
+		this.startDate=startDate;
+		this.endDate=endDate;
+		if (show!=null)
+		{
+			setTitle("TV Schedule for "+show.getTitle());
+			filter=new ShowFilter(show);
+		}
+		else setTitle("TV Schedule");
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
+		dateRangeField=new JComboBox(DateRange.values().toArray());
+		startDateField=new DateField();
+		startTimeField=new TimeField();
+		endDateField=new DateField();
+		endTimeField=new TimeField();
+
 		SortableTableModel<Airdate> model=new DefaultSortableTableModel<Airdate>("time", "channel", "event");
-		Iterator it=airdates.iterator();
-		while (it.hasNext())
-		{
-			Airdate date=(Airdate)it.next();
-			model.addRow(new AirdatesTableRow(date));
-		}
-		model.sort();
-		airdates=null;
 
 		if (filter!=null)
 		{
-			airdatesListener=new AirdatesListener();
-			DBObject.addClassObserver(airdatesListener, Airdate.class);
+			getModelListenerList().installClassListener(Airdate.class, new AirdatesListener());
 		}
 
 		tableController=new TableController<Airdate>(model, new DefaultTableConfiguration(ScheduleView.class, "airdates"))
@@ -75,12 +90,13 @@ public class ScheduleView extends ViewPanel
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AirdateDetailsAction());
-				actions.add(new NewAirdateAction());
+				actions.add(new CreateAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
 				actions.add(new CreateEpisodeFromAirdateAction());
 				actions.add(new UpdateEpisodesAction(frame));
 				actions.add(new SplitAirdateAction(frame));
 				actions.add(new PurgeAirdatesAction(frame));
+				actions.add(new ScheduleUpdateManagerAction(frame));
 				return actions;
 			}
 
@@ -90,7 +106,7 @@ public class ScheduleView extends ViewPanel
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new AirdateDetailsAction());
 				actions.add(null);
-				actions.add(new NewAirdateAction());
+				actions.add(new CreateAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
 				actions.add(null);
 				actions.add(new CreateEpisodeFromAirdateAction());
@@ -105,13 +121,109 @@ public class ScheduleView extends ViewPanel
 				return new AirdateDetailsAction();
 			}
 		};
-		return tableController.createComponent();
+
+		JPanel parameterPanel=new JPanel(new FlowLayout(FlowLayout.LEADING));
+		parameterPanel.add(new JLabel("Date Range:"));
+		parameterPanel.add(dateRangeField);
+		parameterPanel.add(new JLabel("From:"));
+		parameterPanel.add(startDateField);
+		parameterPanel.add(startTimeField);
+		parameterPanel.add(new JLabel("To:"));
+		parameterPanel.add(endDateField);
+		parameterPanel.add(endTimeField);
+
+		JPanel panel=new JPanel(new BorderLayout());
+		panel.add(parameterPanel, BorderLayout.NORTH);
+		panel.add(tableController.createComponent(), BorderLayout.CENTER);
+		return panel;
+	}
+
+
+	@Override
+	protected void initializeData()
+	{
+		super.initializeData();
+		if (startDate!=null)
+		{
+			startDateField.setDate(startDate);
+			startTimeField.setTime(DateUtils.getTime(startDate, true));
+		}
+		if (startDate!=null)
+		{
+			endDateField.setDate(endDate);
+			endTimeField.setTime(DateUtils.getTime(endDate, true));
+		}
+		dateRangeField.setSelectedItem(range!=null ? range : DateRange.NEXT_24_HOURS);
+		selectDateRange((DateRange)dateRangeField.getSelectedItem());
+		search();
 	}
 
 	protected void installComponentListeners()
 	{
+		ApplicationListenerSupport listeners=getComponentListenerList();
+		listeners.installActionListener(dateRangeField, new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				selectDateRange((DateRange)dateRangeField.getSelectedItem());
+				search();
+			}
+		});
+		ActionListener rangeFieldListener=new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				search();
+			}
+		};
+		listeners.installActionListener(startDateField, rangeFieldListener);
+		listeners.installActionListener(startTimeField, rangeFieldListener);
+		listeners.installActionListener(endDateField, rangeFieldListener);
+		listeners.installActionListener(endTimeField, rangeFieldListener);
+
 		tableController.installListeners();
 		super.installComponentListeners();
+	}
+
+	private void selectDateRange(DateRange range)
+	{
+		if (range!=null)
+		{
+			Date[] dates=range.calculateDates();
+			boolean editable=dates==null;
+			startDateField.setEditable(editable);
+			startTimeField.setEditable(editable);
+			endDateField.setEditable(editable);
+			endTimeField.setEditable(editable);
+			if (dates!=null)
+			{
+				startDateField.setDate(dates[0]);
+				startTimeField.setTime(DateUtils.getTime(dates[0], true));
+				endDateField.setDate(dates[1]);
+				endTimeField.setTime(DateUtils.getTime(dates[1], true));
+			}
+		}
+	}
+
+	private void search()
+	{
+		Date startDay=startDateField.getDate();
+		Time startTime=startTimeField.getTime();
+		Date endDay=endDateField.getDate();
+		Time endTime=endTimeField.getTime();
+		if (startDay!=null && endDay!=null && startTime!=null && endTime!=null)
+		{
+			Date startDate=DateUtils.merge(startDay, startTime);
+			Date endDate=DateUtils.merge(endDay, endTime);
+			Set<Airdate> dates;
+			if (show!=null)
+				dates=DBLoader.getInstance().loadSet(Airdate.class, null, "show_id=? and viewdate between ? and ?", show.getId(), startDate, endDate);
+			else dates=AirdateManager.getInstance().getAirdates(startDate, endDate);
+			SortableTableModel<Airdate> tableModel=tableController.getModel();
+			tableModel.clear();
+			for (Airdate date : dates) tableModel.addRow(new AirdatesTableRow(date));
+			tableModel.sort();
+		}
 	}
 
 	protected void removeComponentListeners()
@@ -122,12 +234,11 @@ public class ScheduleView extends ViewPanel
 
 	public void dispose()
 	{
-		if (airdatesListener!=null) IDObject.removeClassObserver(airdatesListener);
 		tableController.dispose();
 		super.dispose();
 	}
 
-	private class AirdatesListener implements ClassObserver
+	private class AirdatesListener implements ClassListener
 	{
 		public void instanceCreated(Object dbObject)
 		{
@@ -150,12 +261,9 @@ public class ScheduleView extends ViewPanel
 
 	private static class AirdatesTableRow extends SortableTableRow<Airdate> implements PropertyChangeListener
 	{
-		private DateFormat dateFormat;
-
 		public AirdatesTableRow(Airdate airdate)
 		{
 			super(airdate);
-			dateFormat=DateFormat.getDateTimeInstance();
 		}
 
 		public void installListener()
@@ -174,6 +282,14 @@ public class ScheduleView extends ViewPanel
 			fireRowUpdated();
 		}
 
+
+		@Override
+		public String getCellFormat(int column, String property)
+		{
+			if ("time".equals(property)) return "schedule";
+			return super.getCellFormat(column, property);
+		}
+
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0)
@@ -189,10 +305,9 @@ public class ScheduleView extends ViewPanel
 			switch (column)
 			{
 				case 0:
-					if (airdate.getDate()!=null) return dateFormat.format(airdate.getDate());
-					break;
+					return airdate.getDate();
 				case 1:
-					return airdate.getChannelName();
+					return airdate.getChannel();
 				case 2:
 					return airdate.getName();
 			}
@@ -200,7 +315,7 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
-	private static class ShowFilter implements Filter
+	private static class ShowFilter implements Filter<Airdate>
 	{
 		private Show show;
 
@@ -209,13 +324,9 @@ public class ScheduleView extends ViewPanel
 			this.show=show;
 		}
 
-		public boolean filter(Object object)
+		public boolean filter(Airdate airdate)
 		{
-			if (object instanceof Airdate)
-			{
-				Airdate airdate=(Airdate)object;
-				if (airdate.getShow()==show) return true;
-			}
+			if (airdate.getShow()==show) return true;
 			return false;
 		}
 	}
@@ -229,10 +340,24 @@ public class ScheduleView extends ViewPanel
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ScheduleView.class);
 		if (show!=null) bookmark.setParameter("show", String.valueOf(show.getId()));
-		else
+		DateRange range=(DateRange)dateRangeField.getSelectedItem();
+		if (range!=null) bookmark.setParameter("range", String.valueOf(range.getId()));
+		if (range==DateRange.CUSTOM)
 		{
-			bookmark.setParameter("unit", Integer.toString(unit));
-			bookmark.setParameter("quantity", Integer.toString(quantity));
+			Date startDay=startDateField.getDate();
+			Time startTime=startTimeField.getTime();
+			if (startDay!=null && startTime!=null)
+			{
+				Date startDate=DateUtils.merge(startDay, startTime);
+				bookmark.setParameter("startDate", String.valueOf(startDate.getTime()));
+			}
+			Date endDay=endDateField.getDate();
+			Time endTime=endTimeField.getTime();
+			if (endDay!=null && endTime!=null)
+			{
+				Date endDate=DateUtils.merge(endDay, endTime);
+				bookmark.setParameter("endDate", String.valueOf(endDate.getTime()));
+			}
 		}
 		return bookmark;
 	}
@@ -240,16 +365,16 @@ public class ScheduleView extends ViewPanel
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		String showId=bookmark.getParameter("show");
-		if (showId!=null)
-		{
-			Show show=ShowManager.getInstance().getShow(new Long(showId));
-			frame.setCurrentView(new ScheduleView(show));
-		}
-		else
-		{
-			int unit=Integer.parseInt(bookmark.getParameter("unit"));
-			int quantity=Integer.parseInt(bookmark.getParameter("quantity"));
-			frame.setCurrentView(new ScheduleView(unit, quantity));
-		}
+		Show show=null;
+		if (showId!=null) show=ShowManager.getInstance().getShow(Long.valueOf(showId));
+		String rangeId=bookmark.getParameter("range");
+		DateRange range=null;
+		if (rangeId!=null) range=DateRange.get(Long.valueOf(rangeId));
+		String startDateString=bookmark.getParameter("startDate");
+		Date startDate=startDateString!=null ? new Date(Long.valueOf(startDateString)) : null;
+		String endDateString=bookmark.getParameter("endDate");
+		Date endDate=endDateString!=null ? new Date(Long.valueOf(endDateString)) : null;
+		frame.setCurrentView(new ScheduleView(show, range, startDate, endDate));
 	}
+
 }

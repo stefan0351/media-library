@@ -33,19 +33,15 @@ public class TVTVDeLoaderTest extends TestCase
 
 	public void test_PushingDaisies() throws Exception
 	{
-		File output=new File(System.getProperty("user.home"), ".kiwisoft"+File.separator+"temp");
-		output.mkdirs();
 		Show show=DBLoader.getInstance().load(Show.class, null, "title=?", "Pushing Daisies");
-		TVTVDeLoader loader=new TVTVDeLoader(Collections.singletonList(show));
+		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(show));
 		assertTrue(loader.run(null));
 	}
 
 	public void test_KirstenDunst() throws Exception
 	{
-		File output=new File(System.getProperty("user.home"), ".kiwisoft"+File.separator+"temp");
-		output.mkdirs();
 		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Kirsten Dunst");
-		TVTVDeLoader loader=new TVTVDeLoader(Collections.singletonList(person));
+		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(person));
 		assertTrue(loader.run(null));
 	}
 }

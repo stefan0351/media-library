@@ -20,6 +20,7 @@
 <%
 	Episode episode=ShowManager.getInstance().getEpisode(new Long(request.getParameter("episode")));
 	request.setAttribute("episode", episode);
+	request.setAttribute("season", episode.getSeason());
 	Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
 	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 	Show show=episode.getShow();

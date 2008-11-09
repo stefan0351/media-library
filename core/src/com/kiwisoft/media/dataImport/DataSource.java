@@ -15,7 +15,6 @@ public class DataSource implements Identifyable
 {
 	public static final Map<Object, DataSource> map=new HashMap<Object, DataSource>();
 
-	public static final DataSource PRISMA_ONLINE=new DataSource(new Long(1), "prisma", "PrismaOnline.de");
 	public static final DataSource PRO7=new DataSource(new Long(2), "pro7", "Pro7.de");
 	public static final DataSource TVTV=new DataSource(new Long(3), "tvtv", "TVTV.de");
 	public static final DataSource INPUT=new DataSource(new Long(4), "input", "Input");

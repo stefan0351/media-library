@@ -8,9 +8,9 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewShowAction extends ContextAction
+public class CreateShowAction extends ContextAction
 {
-	public NewShowAction()
+	public CreateShowAction()
 	{
 		super("New", Icons.getIcon("add"));
 	}

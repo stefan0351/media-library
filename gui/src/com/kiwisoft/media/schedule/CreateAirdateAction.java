@@ -10,9 +10,9 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
  */
-public class NewAirdateAction extends ContextAction
+public class CreateAirdateAction extends ContextAction
 {
-	public NewAirdateAction()
+	public CreateAirdateAction()
 	{
 		super("New", Icons.getIcon("add"));
 	}

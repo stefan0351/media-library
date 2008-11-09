@@ -1,10 +1,11 @@
 package com.kiwisoft.media.schedule;
 
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.Channel;
+import com.kiwisoft.media.DateRange;
+import com.kiwisoft.media.AirdateManager;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
 import com.kiwisoft.web.TableConstants;
@@ -17,19 +18,33 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 	public static final String TIME="time";
 	public static final String CHANNEL="channel";
 	public static final String EVENT="event";
+	private Show show;
 
-	public ScheduleTable()
+	public ScheduleTable(Show show, DateRange range)
 	{
 		super(TIME, CHANNEL, EVENT);
-	}
-
-	public void addAll(Set<Airdate> airdates)
-	{
-		for (Airdate airdate : airdates)
+		this.show=show;
+		Date[] dates=range.calculateDates();
+		if (dates!=null)
 		{
-			addRow(new AirdateRow(airdate));
+			Set<Airdate> airdates;
+			if (show!=null) airdates=AirdateManager.getInstance().getAirdates(show, dates[0], dates[1]);
+			else airdates=AirdateManager.getInstance().getAirdates(dates[0], dates[1]);
+			for (Airdate airdate : airdates)
+			{
+				addRow(new AirdateRow(airdate));
+			}
 		}
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
+	}
+
+
+	@Override
+	public Map<String, Object> getContext()
+	{
+		Map<String, Object> context=new HashMap<String, Object>();
+		context.put(Show.class.getName(), show);
+		return context;
 	}
 
 	public ResourceBundle getBundle()
@@ -45,20 +60,16 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 		}
 
 		@Override
-		public Comparable getSortValue(int column, String property)
+		public String getRendererVariant(int columnIndex, String property)
 		{
-			if (CHANNEL.equals(property)) return getUserObject().getChannelName();
-			return super.getSortValue(column, property);
+			if (TIME.equals(property)) return "schedule";
+			return super.getRendererVariant(columnIndex, property);
 		}
 
 		public Object getDisplayValue(int column, String property)
 		{
 			if (TIME.equals(property)) return getUserObject().getDate();
-			else if (CHANNEL.equals(property))
-			{
-				Channel channel=getUserObject().getChannel();
-				return channel!=null ? channel : getUserObject().getChannelName();
-			}
+			else if (CHANNEL.equals(property)) return getUserObject().getChannel();
 			else if (EVENT.equals(property)) return getUserObject();
 			return "";
 		}

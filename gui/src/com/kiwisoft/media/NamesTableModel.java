@@ -8,18 +8,22 @@ package com.kiwisoft.media;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.swing.table.SortableTableModel;
 import com.kiwisoft.swing.table.SortableTableRow;
+import com.kiwisoft.swing.table.DefaultSortableTableModel;
 
-public class NamesTableModel extends SortableTableModel<String>
+public class NamesTableModel extends DefaultSortableTableModel<String>
 {
-	private static final String[] COLUMNS={"name", "language"};
+	private static final String NAME="name";
+	private static final String LANGUAGE="language";
 
-	public NamesTableModel()
+	public NamesTableModel(boolean language)
 	{
-		addRow(new Row(null, LanguageManager.getInstance().getLanguageBySymbol("de")));
+		super(language ? new String[]{NAME, LANGUAGE} : new String[]{NAME});
+		addRow(new Row(null, language ? LanguageManager.getInstance().getLanguageBySymbol("de") : null));
 		sort();
 	}
 
@@ -28,7 +32,7 @@ public class NamesTableModel extends SortableTableModel<String>
 		addRow(new Row(name, language));
 	}
 
-	public Map<String, Language> getNames()
+	public Map<String, Language> getNameMap()
 	{
 		Map<String, Language> names=new HashMap<String, Language>();
 		for (int i=0; i<getRowCount(); i++)
@@ -40,16 +44,17 @@ public class NamesTableModel extends SortableTableModel<String>
 		return names;
 	}
 
-	public int getColumnCount()
+	public Set<String> getNameSet()
 	{
-		return COLUMNS.length;
+		Set<String> names=new HashSet<String>();
+		for (int i=0; i<getRowCount(); i++)
+		{
+			Row row=(Row)getRow(i);
+			String name=row.getName();
+			if (!StringUtils.isEmpty(name)) names.add(name);
+		}
+		return names;
 	}
-
-	public String getColumnName(int column)
-	{
-		return COLUMNS[column];
-	}
-
 
 	public class Row extends SortableTableRow<String>
 	{
@@ -72,7 +77,7 @@ public class NamesTableModel extends SortableTableModel<String>
 
 		public Class getCellClass(int col, String property)
 		{
-			if (col==1) return Language.class;
+			if (LANGUAGE.equals(property)) return Language.class;
 			return String.class;
 		}
 
@@ -83,13 +88,8 @@ public class NamesTableModel extends SortableTableModel<String>
 
 		public Object getDisplayValue(int column, String property)
 		{
-			switch (column)
-			{
-				case 0:
-					return name;
-				case 1:
-					return language;
-			}
+			if (NAME.equals(property)) return name;
+			if (LANGUAGE.equals(property)) return language;
 			return null;
 		}
 
@@ -105,22 +105,23 @@ public class NamesTableModel extends SortableTableModel<String>
 
 		public int setValue(Object value, int column, String property)
 		{
-			switch (column)
+			if (NAME.equals(property))
 			{
-				case 0:
-					String oldName=name;
-					if (value instanceof String)
-					{
-						name=(String)value;
-						if (StringUtils.isEmpty(name)) name=null;
-					}
-					else name=null;
-					if (oldName==null && name!=null) addRow(new Row(null, LanguageManager.getInstance().getLanguageBySymbol("de")));
-					else if (oldName!=null && name==null) removeRow(this);
-					return ROW_UPDATE;
-				case 1:
-					if (value instanceof Language) language=(Language)value;
-					return CELL_UPDATE;
+				String oldName=name;
+				if (value instanceof String)
+				{
+					name=(String)value;
+					if (StringUtils.isEmpty(name)) name=null;
+				}
+				else name=null;
+				if (oldName==null && name!=null) addRow(new Row(null, LanguageManager.getInstance().getLanguageBySymbol("de")));
+				else if (oldName!=null && name==null) removeRow(this);
+				return ROW_UPDATE;
+			}
+			else if (LANGUAGE.equals(property))
+			{
+				if (value instanceof Language) language=(Language)value;
+				return CELL_UPDATE;
 			}
 			return NO_UPDATE;
 		}

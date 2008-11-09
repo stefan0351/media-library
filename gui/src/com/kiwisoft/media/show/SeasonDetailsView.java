@@ -2,28 +2,37 @@ package com.kiwisoft.media.show;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.*;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.swing.DocumentAdapter;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.utils.StringUtils;
 
 public class SeasonDetailsView extends DetailsView
 {
+	private PicturePreviewUpdater previewUpdater;
+
 	public static void create(Show show)
 	{
 		new DetailsFrame(new SeasonDetailsView(show)).show();
@@ -45,14 +54,15 @@ public class SeasonDetailsView extends DetailsView
 	private Episode lastEpisode;
 
 	// Konfigurations Panel
-	private JTextField tfShow;
-	private JTextField tfNumber;
-	private JTextField tfName;
-	private JTextField tfSeasonName;
-	private JTextField tfStartYear;
-	private JTextField tfEndYear;
-	private LookupField tfFirstEpisode;
-	private LookupField tfLastEpisode;
+	private JTextField showField;
+	private JTextField numberField;
+	private JTextField nameField;
+	private JTextField altNameField;
+	private JTextField startYearField;
+	private JTextField endYearField;
+	private LookupField<Episode> firstEpisodeField;
+	private LookupField<Episode> lastEpisodeField;
+	private LookupField<Picture> logoField;
 
 	private SeasonDetailsView(Show show)
 	{
@@ -80,100 +90,106 @@ public class SeasonDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfShow=new JTextField();
-		tfShow.setEditable(false);
-		tfName=new JTextField();
-		tfName.setEditable(false);
-		tfSeasonName=new JTextField();
-		tfNumber=new JTextField(5);
-		tfNumber.setHorizontalAlignment(JTextField.TRAILING);
-		tfStartYear=new JTextField(5);
-		tfStartYear.setHorizontalAlignment(JTextField.TRAILING);
-		tfEndYear=new JTextField(5);
-		tfEndYear.setHorizontalAlignment(JTextField.TRAILING);
-		tfFirstEpisode=new LookupField(new EpisodeLookup(show));
-		tfLastEpisode=new LookupField(new EpisodeLookup(show));
+		showField=new JTextField();
+		showField.setEditable(false);
+		nameField=new JTextField();
+		nameField.setEditable(false);
+		altNameField=new JTextField();
+		numberField=new JTextField(5);
+		numberField.setHorizontalAlignment(JTextField.TRAILING);
+		startYearField=new JTextField(5);
+		startYearField.setHorizontalAlignment(JTextField.TRAILING);
+		endYearField=new JTextField(5);
+		endYearField.setHorizontalAlignment(JTextField.TRAILING);
+		firstEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
+		lastEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
+		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		{
+			@Override
+			public String getDefaultName()
+			{
+				String name=altNameField.getText();
+				if (StringUtils.isEmpty(name)) name=nameField.getText();
+				return show.getTitle()+" - "+name+" - Logo";
+			}
+		});
+		ImagePanel logoPreview=new ImagePanel(new Dimension(150, 150));
+		logoPreview.setBorder(new EtchedBorder());
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 200));
+		setPreferredSize(new Dimension(550, 230));
 		int row=0;
-		add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfShow, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
+		add(logoPreview, new GridBagConstraints(0, row, 1, 7, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 10), 0, 0));
+		add(new JLabel("Show:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(showField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Number:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfNumber, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(tfName, new GridBagConstraints(2, row, 2, 1, 0.7, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Number:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(numberField, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(3, row, 2, 1, 0.7, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfSeasonName, new GridBagConstraints(1, row, 3, 1, 0.3, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Name:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(altNameField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Start Year:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfStartYear, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("End Year:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(tfEndYear, new GridBagConstraints(3, row, 1, 1, 0.3, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Start Year:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(startYearField, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("End Year:"), new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(endYearField, new GridBagConstraints(4, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("First Episode:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfFirstEpisode, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("First Episode:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(firstEpisodeField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Last Episode"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfLastEpisode, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Last Episode"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(lastEpisodeField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
-		tfNumber.getDocument().addDocumentListener(new NameUpdater());
+		row++;
+		add(new JLabel("Logo"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(logoField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
+		numberField.getDocument().addDocumentListener(new NameUpdater());
+		previewUpdater=new PicturePreviewUpdater(logoField, logoPreview);
 	}
 
 	private void initializeData()
 	{
 		if (season!=null)
 		{
-			tfName.setText(season.getSeasonName());
-			tfSeasonName.setText(season.getName());
-			if (season.getShow()!=null) tfShow.setText(season.getShow().getTitle());
-			tfNumber.setText(String.valueOf(season.getNumber()));
-			tfFirstEpisode.setValue(season.getFirstEpisode());
-			tfLastEpisode.setValue(season.getLastEpisode());
+			nameField.setText(season.getSeasonName());
+			altNameField.setText(season.getName());
+			if (season.getShow()!=null) showField.setText(season.getShow().getTitle());
+			numberField.setText(String.valueOf(season.getNumber()));
+			firstEpisodeField.setValue(season.getFirstEpisode());
+			lastEpisodeField.setValue(season.getLastEpisode());
 			int startYear=season.getStartYear();
-			if (startYear!=0) tfStartYear.setText(String.valueOf(startYear));
+			if (startYear!=0) startYearField.setText(String.valueOf(startYear));
 			int endYear=season.getEndYear();
-			if (endYear!=0) tfEndYear.setText(String.valueOf(endYear));
+			if (endYear!=0) endYearField.setText(String.valueOf(endYear));
+			logoField.setValue(season.getLogo());
+			previewUpdater.setDefaultPicture(show.getLogo());
 		}
 		else if (show!=null)
 		{
-			tfShow.setText(show.getTitle());
-			tfFirstEpisode.setValue(firstEpisode);
-			tfLastEpisode.setValue(lastEpisode);
+			showField.setText(show.getTitle());
+			firstEpisodeField.setValue(firstEpisode);
+			lastEpisodeField.setValue(lastEpisode);
 			if (firstEpisode!=null)
 			{
 				String userKey=firstEpisode.getUserKey();
 				int pos=userKey.indexOf(".");
-				if (pos>0) tfNumber.setText(userKey.substring(0, pos));
+				if (pos>0) numberField.setText(userKey.substring(0, pos));
 				Date firstAired=firstEpisode.getAirdate();
-				if (firstAired!=null) tfStartYear.setText(new SimpleDateFormat("yyyy").format(firstAired));
+				if (firstAired!=null) startYearField.setText(new SimpleDateFormat("yyyy").format(firstAired));
 			}
 			if (lastEpisode!=null)
 			{
 				Date firstAired=lastEpisode.getAirdate();
-				if (firstAired!=null) tfEndYear.setText(new SimpleDateFormat("yyyy").format(firstAired));
+				if (firstAired!=null) endYearField.setText(new SimpleDateFormat("yyyy").format(firstAired));
 			}
+			previewUpdater.setDefaultPicture(show.getLogo());
 		}
 	}
 
@@ -181,8 +197,8 @@ public class SeasonDetailsView extends DetailsView
 	{
 		try
 		{
-			String numberString=tfNumber.getText();
-			if (StringUtils.isEmpty(numberString)) throw new InvalidDataException("Number is missing!", tfNumber);
+			String numberString=numberField.getText();
+			if (StringUtils.isEmpty(numberString)) throw new InvalidDataException("Number is missing!", numberField);
 			int number;
 			try
 			{
@@ -190,11 +206,11 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Invalid number!", tfNumber);
+				throw new InvalidDataException("Invalid number!", numberField);
 			}
-			if (number<0) throw new InvalidDataException("Number<0!", tfNumber);
+			if (number<0) throw new InvalidDataException("Number<0!", numberField);
 
-			String startYearString=tfStartYear.getText();
+			String startYearString=startYearField.getText();
 			int startYear=0;
 			try
 			{
@@ -202,10 +218,10 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Invalid year!", tfStartYear);
+				throw new InvalidDataException("Invalid year!", startYearField);
 			}
-			if (startYear<0) throw new InvalidDataException("Year<0!", tfStartYear);
-			String endYearString=tfEndYear.getText();
+			if (startYear<0) throw new InvalidDataException("Year<0!", startYearField);
+			String endYearString=endYearField.getText();
 			int endYear=0;
 			try
 			{
@@ -213,19 +229,19 @@ public class SeasonDetailsView extends DetailsView
 			}
 			catch (NumberFormatException e)
 			{
-				throw new InvalidDataException("Invalid year!", tfEndYear);
+				throw new InvalidDataException("Invalid year!", endYearField);
 			}
-			if (endYear<0) throw new InvalidDataException("Year<0!", tfEndYear);
-			if (startYear==0 && endYear!=0) throw new InvalidDataException("Start year is missing !", tfStartYear);
-			if (endYear!=0 && (endYear<startYear)) throw new InvalidDataException("End year<Start year", tfStartYear);
+			if (endYear<0) throw new InvalidDataException("Year<0!", endYearField);
+			if (startYear==0 && endYear!=0) throw new InvalidDataException("Start year is missing !", startYearField);
+			if (endYear!=0 && (endYear<startYear)) throw new InvalidDataException("End year<Start year", startYearField);
 
-			Episode firstEpisode=(Episode)tfFirstEpisode.getValue();
-			Episode lastEpisode=(Episode)tfLastEpisode.getValue();
-			if (firstEpisode==null && lastEpisode!=null)
-				throw new InvalidDataException("First episode is missing!", tfFirstEpisode);
+			Episode firstEpisode=firstEpisodeField.getValue();
+			Episode lastEpisode=lastEpisodeField.getValue();
+			if (firstEpisode==null && lastEpisode!=null) throw new InvalidDataException("First episode is missing!", firstEpisodeField);
 			if (firstEpisode!=null && lastEpisode!=null && lastEpisode.getChainPosition()<firstEpisode.getChainPosition())
-				throw new InvalidDataException("Last episode<First episode", tfFirstEpisode);
-			String name=tfSeasonName.getText();
+				throw new InvalidDataException("Last episode<First episode", firstEpisodeField);
+			String name=altNameField.getText();
+			Picture logo=logoField.getValue();
 
 			Transaction transaction=null;
 			try
@@ -238,6 +254,7 @@ public class SeasonDetailsView extends DetailsView
 				season.setEndYear(endYear);
 				season.setFirstEpisode(firstEpisode);
 				season.setLastEpisode(lastEpisode);
+				season.setLogo(logo);
 				transaction.close();
 				return true;
 			}
@@ -266,7 +283,7 @@ public class SeasonDetailsView extends DetailsView
 
 	public JComponent getDefaultFocusComponent()
 	{
-		return tfNumber;
+		return numberField;
 	}
 
 	private class NameUpdater extends DocumentAdapter
@@ -281,13 +298,13 @@ public class SeasonDetailsView extends DetailsView
 			String name;
 			try
 			{
-				name=Season.getName(Integer.parseInt(tfNumber.getText()));
+				name=Season.getName(Integer.parseInt(numberField.getText()));
 			}
 			catch (NumberFormatException e1)
 			{
 				name="";
 			}
-			tfName.setText(name);
+			nameField.setText(name);
 			setTitle(name);
 		}
 	}

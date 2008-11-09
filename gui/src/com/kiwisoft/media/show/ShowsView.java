@@ -12,9 +12,9 @@ import java.util.*;
 import javax.swing.*;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.dataImport.SerienJunkiesDeLoaderAction;
-import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
 import com.kiwisoft.media.dataImport.TVComLoaderAction;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
@@ -58,7 +58,7 @@ public class ShowsView extends ViewPanel
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ShowDetailsAction());
-				actions.add(new NewShowAction());
+				actions.add(new CreateShowAction());
 				actions.add(new DeleteShowAction(frame));
 				actions.add(new ShowSeasonsAction(frame));
 				actions.add(new ShowEpisodesAction(frame));
@@ -68,7 +68,7 @@ public class ShowsView extends ViewPanel
 			public List<ContextAction> getContextActions()
 			{
 				ComplexAction downloadAction=new ComplexAction("Download");
-				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
+//				downloadAction.addAction(new ProSiebenDeLoaderAction(frame));
 				downloadAction.addAction(new TVTVDeLoaderContextAction(frame));
 				downloadAction.addSeparator();
 				downloadAction.addAction(new TVComLoaderAction(frame));
@@ -77,14 +77,14 @@ public class ShowsView extends ViewPanel
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new ShowDetailsAction());
 				actions.add(null);
-				actions.add(new NewShowAction());
+				actions.add(new CreateShowAction());
 				actions.add(new DeleteShowAction(frame));
 				actions.add(null);
 				actions.add(new ShowEpisodesAction(frame));
 				actions.add(new ShowSeasonsAction(frame));
 				actions.add(new ShowAirdatesAction(frame));
 				actions.add(new ShowMoviesAction(frame));
-				actions.add(new ShowCastAction(frame));
+				actions.add(new ShowCreditsAction(frame));
 				actions.add(new ShowTracksAction(frame));
 				actions.add(new ShowLinksAction(frame));
 				actions.add(downloadAction);

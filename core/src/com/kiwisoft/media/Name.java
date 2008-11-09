@@ -9,6 +9,7 @@ package com.kiwisoft.media;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.person.Person;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
@@ -19,6 +20,7 @@ public class Name extends IDObject
 	public static final int EPISODE=2;
 	public static final int CHANNEL=3;
 	public static final int MOVIE=4;
+	public static final int PERSON=5;
 
 	public static final String LANGUAGE="language";
 
@@ -50,6 +52,12 @@ public class Name extends IDObject
 		setType(CHANNEL);
 	}
 
+	public Name(Person person)
+	{
+		setReference(person);
+		setType(PERSON);
+	}
+
 	public Name(DBDummy dummy)
 	{
 		super(dummy);
@@ -77,6 +85,8 @@ public class Name extends IDObject
 				return DBLoader.getInstance().load(Episode.class, refId);
 			case CHANNEL:
 				return DBLoader.getInstance().load(Channel.class, refId);
+			case PERSON:
+				return DBLoader.getInstance().load(Person.class, refId);
 		}
 		return null;
 	}

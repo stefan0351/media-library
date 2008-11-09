@@ -1,26 +1,27 @@
-package com.kiwisoft.media.show;
+package com.kiwisoft.media.person;
 
 import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.media.show.Production;
 
 /**
  * @author Stefan Stiller
  */
-public class ShowCastAction extends SimpleContextAction
+public class ShowCreditsAction extends SimpleContextAction
 {
 	private ApplicationFrame frame;
 
-	public ShowCastAction(ApplicationFrame frame)
+	public ShowCreditsAction(ApplicationFrame frame)
 	{
-		super(Show.class, "Cast", Icons.getIcon("cast"));
+		super(Production.class, "Cast and Credits", Icons.getIcon("cast"));
 		this.frame=frame;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new ShowCastView((Show)getObject()));
+		frame.setCurrentView(new ProductionCreditsView((Production)getObject()));
 	}
 }

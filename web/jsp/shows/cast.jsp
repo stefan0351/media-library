@@ -9,6 +9,7 @@
 <%@ page import="com.kiwisoft.utils.Utils"%>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.person.Person" %>
+<%@ page import="com.kiwisoft.media.person.CreditType" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -47,7 +48,7 @@
 <!--Content Start-->
 
 <%
-	Set cast=show.getMainCast();
+	Set cast=show.getCastMembers(CreditType.MAIN_CAST);
 	if (!cast.isEmpty())
 	{
 		cast=Utils.toSortedSet(cast, new CastMember.Comparator());
@@ -91,7 +92,7 @@
 <%
 	}
 
-	cast=show.getRecurringCast();
+	cast=show.getCastMembers(CreditType.RECURRING_CAST);
 	if (!cast.isEmpty())
 	{
 		cast=Utils.toSortedSet(cast, new CastMember.Comparator());

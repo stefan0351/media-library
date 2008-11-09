@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 
+import com.kiwisoft.swing.progress.ProgressDialog;
+
 public class TVTVDeLoaderAction extends AbstractAction
 {
 	private JFrame frame;
@@ -16,6 +18,6 @@ public class TVTVDeLoaderAction extends AbstractAction
 
 	public void actionPerformed(final ActionEvent anEvent)
 	{
-		new TVTVDeLoaderDialog(frame, null).setVisible(true);
+		new ProgressDialog(frame, new TVTVDeLoader(null)).start();
 	}
 }

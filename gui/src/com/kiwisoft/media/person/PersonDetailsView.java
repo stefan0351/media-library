@@ -1,31 +1,34 @@
 package com.kiwisoft.media.person;
 
-import static java.awt.GridBagConstraints.*;
 import java.awt.*;
-import java.net.URLEncoder;
+import static java.awt.GridBagConstraints.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.StringTokenizer;
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.media.dataImport.SearchPattern;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
-import com.kiwisoft.swing.DocumentAdapter;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.swing.lookup.*;
-import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.pics.PictureLookup;
+import com.kiwisoft.media.pics.PictureLookupHandler;
+import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.NamesTableModel;
+import com.kiwisoft.media.Name;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.swing.table.SortableTable;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.utils.StringUtils;
 
 public class PersonDetailsView extends DetailsView
 {
@@ -60,8 +63,8 @@ public class PersonDetailsView extends DetailsView
 	private JTextField middleNameField;
 	private JTextField surnameField;
 	private LookupField<Gender> genderField;
-	private DialogLookupField patternField;
 	private LookupField<Picture> pictureField;
+	private NamesTableModel namesModel;
 
 	private PersonDetailsView(Person person)
 	{
@@ -104,7 +107,6 @@ public class PersonDetailsView extends DetailsView
 		firstNameField=new JTextField(15);
 		middleNameField=new JTextField(15);
 		surnameField=new JTextField(15);
-		patternField=new DialogLookupField(new TVTVPatternLookup());
 		genderField=new LookupField<Gender>(new GenderLookup());
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
@@ -116,6 +118,10 @@ public class PersonDetailsView extends DetailsView
 				return nameField.getText();
 			}
 		});
+		namesModel=new NamesTableModel(false);
+		SortableTable namesTable=new SortableTable(namesModel);
+		namesTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
+		namesTable.initializeColumns(new DefaultTableConfiguration(PersonDetailsView.class, "names"));
 
 		setLayout(new GridBagLayout());
 //		setPreferredSize(new Dimension(600, 220));
@@ -139,12 +145,12 @@ public class PersonDetailsView extends DetailsView
 		add(genderField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Search Pattern:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(patternField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
 		add(new JLabel("Picture:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(pictureField, new GridBagConstraints(2, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
+		row++;
+		add(new JLabel("Also known as:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(new JScrollPane(namesTable), new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		FrameTitleUpdater titleUpdater=new FrameTitleUpdater();
 		nameField.getDocument().addDocumentListener(titleUpdater);
@@ -161,9 +167,14 @@ public class PersonDetailsView extends DetailsView
 			middleNameField.setText(person.getMiddleName());
 			surnameField.setText(person.getSurname());
 			genderField.setValue(person.getGender());
-			String pattern=person.getSearchPattern(SearchPattern.TVTV);
-			if (pattern!=null) patternField.setText(pattern);
 			pictureField.setValue(person.getPicture());
+			Iterator<Name> it=person.getAltNames().iterator();
+			while (it.hasNext())
+			{
+				Name name=it.next();
+				namesModel.addName(name.getName(), name.getLanguage());
+			}
+			namesModel.sort();
 		}
 		else
 		{
@@ -193,9 +204,9 @@ public class PersonDetailsView extends DetailsView
 		String middleName=middleNameField.getText();
 		if (!StringUtils.isEmpty(middleName)) middleName=middleName.trim();
 		else middleName=null;
+		Set<String> names=namesModel.getNameSet();
 
 		Gender gender=genderField.getValue();
-		String tvtvPattern=patternField.getText();
 		Picture picture=pictureField.getValue();
 
 		Transaction transaction=null;
@@ -208,8 +219,21 @@ public class PersonDetailsView extends DetailsView
 			person.setMiddleName(middleName);
 			person.setSurname(surname);
 			person.setSex(gender);
-			person.setSearchPattern(SearchPattern.TVTV, tvtvPattern);
 			person.setPicture(picture);
+			Iterator<Name> it=new HashSet<Name>(person.getAltNames()).iterator();
+			while (it.hasNext())
+			{
+				Name altName=it.next();
+				if (names.contains(altName.getName())) names.remove(altName.getName());
+				else person.dropAltName(altName);
+			}
+			Iterator<String> itNames=names.iterator();
+			while (itNames.hasNext())
+			{
+				String text=itNames.next();
+				Name altName=person.createAltName();
+				altName.setName(text);
+			}
 			transaction.close();
 			return true;
 		}
@@ -233,26 +257,6 @@ public class PersonDetailsView extends DetailsView
 		return false;
 	}
 
-	private String buildName()
-	{
-		StringBuilder name=new StringBuilder();
-		String firstName=firstNameField.getText().trim();
-		if (!StringUtils.isEmpty(firstName)) name.append(firstName);
-		String middleName=middleNameField.getText().trim();
-		if (!StringUtils.isEmpty(middleName))
-		{
-			if (name.length()>0) name.append(" ");
-			name.append(middleName);
-		}
-		String surname=surnameField.getText().trim();
-		if (!StringUtils.isEmpty(surname))
-		{
-			if (name.length()>0) name.append(" ");
-			name.append(surname);
-		}
-		return name.toString();
-	}
-
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
 		public void changedUpdate(DocumentEvent e)
@@ -262,26 +266,4 @@ public class PersonDetailsView extends DetailsView
 			else setTitle("Person: "+name);
 		}
 	}
-
-	private class TVTVPatternLookup implements DialogLookup
-	{
-		public void open(JTextField field)
-		{
-			try
-			{
-				field.setText(URLEncoder.encode(nameField.getText(), "UTF-8"));
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(field, e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-
-		public Icon getIcon()
-		{
-			return Icons.getIcon("lookup.create");
-		}
-	}
-
 }

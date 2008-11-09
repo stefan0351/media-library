@@ -41,10 +41,11 @@ public class PictureDetailsView extends DetailsView
 		return null;
 	}
 
-	public static Picture createDialog(Window owner, String name)
+	public static Picture createDialog(Window owner, String name, File file)
 	{
 		PictureDetailsView view=new PictureDetailsView(null);
 		view.nameField.setText(name);
+		view.imageField.setFile(file);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.picture;

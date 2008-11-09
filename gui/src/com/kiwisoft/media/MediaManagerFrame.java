@@ -11,8 +11,6 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
 import com.kiwisoft.media.books.BooksTask;
 import com.kiwisoft.media.dataImport.ImportChangesAction;
-import com.kiwisoft.media.dataImport.ImportScheduleAction;
-import com.kiwisoft.media.dataImport.ProSiebenDeLoaderAction;
 import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.links.LinksTask;
@@ -42,10 +40,9 @@ public class MediaManagerFrame extends ApplicationFrame
 		JMenu menuFile=new JMenu("Import/Export");
 		menuFile.add(new ImportChangesAction(this));
 		menuFile.addSeparator();
-		menuFile.add(new ImportScheduleAction(this));
 		menuFile.add(new ExportWebDatesAction());
 		menuFile.addSeparator();
-		menuFile.add(new ProSiebenDeLoaderAction(this));
+//		menuFile.add(new ProSiebenDeLoaderAction(this));
 		menuFile.add(new TVTVDeLoaderAction(this));
 
 		JMenuBar menuBar=new JMenuBar();

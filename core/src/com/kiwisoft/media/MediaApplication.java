@@ -3,6 +3,8 @@ package com.kiwisoft.media;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import javax.swing.UIManager;
 
@@ -12,12 +14,15 @@ import org.apache.commons.logging.LogFactory;
 import com.kiwisoft.app.Application;
 import com.kiwisoft.utils.UrlFormat;
 import com.kiwisoft.format.FormatManager;
+import com.kiwisoft.format.DefaultDateFormat;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureFormat;
 import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.person.Gender;
 import com.kiwisoft.media.person.GenderFormat;
+import com.kiwisoft.media.person.CreditType;
+import com.kiwisoft.media.person.CreditTypeFormat;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanDomLinkableFormat;
 import com.kiwisoft.media.download.WebFolder;
@@ -89,10 +94,12 @@ public class MediaApplication extends Application
 		formatManager.setFormat(Language.class, new LanguageFormat());
 		formatManager.setFormat(Country.class, new CountryFormat());
 		formatManager.setFormat(Gender.class, new GenderFormat());
+		formatManager.setFormat(CreditType.class, new CreditTypeFormat());
 		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
 		formatManager.setFormat(URL.class, new UrlFormat());
+		formatManager.setFormat(Date.class, "schedule", new DefaultDateFormat(new SimpleDateFormat("EE, dd.MM.yy HH:mm")));
 		super.registerFormats();
 	}
 }

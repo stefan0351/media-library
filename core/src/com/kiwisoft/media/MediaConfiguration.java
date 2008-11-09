@@ -17,7 +17,6 @@ public class MediaConfiguration
 	private static final String DOWNLOAD_P7_DATE="download.p7.date";
 
 	public static final String PATH_PHOTOS_RECENT="path.photos.recent";
-	public static final String PATH_SCHEDULE_RECENT="path.schedule.recent";
 	public static final String PATH_PICTURES_RECENT="path.pictures.recent";
 	public static final String PATH_ROOT="path.root";
 	public static final String PATH_PHOTOS="path.photos";
@@ -80,16 +79,6 @@ public class MediaConfiguration
 	public static void setRecentPhotoPath(String path)
 	{
 		Configuration.getInstance().setString(PATH_PHOTOS_RECENT, path);
-	}
-
-	public static String getRecentSchedulePath()
-	{
-		return Configuration.getInstance().getString(PATH_SCHEDULE_RECENT, null);
-	}
-
-	public static void setRecentSchedulePath(String path)
-	{
-		Configuration.getInstance().setString(PATH_SCHEDULE_RECENT, path);
 	}
 
 	public static String getFanFicPath()

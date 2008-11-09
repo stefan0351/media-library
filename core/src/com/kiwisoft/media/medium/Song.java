@@ -42,13 +42,57 @@ public class Song extends IDObject implements Production
 		setModified(VERSION, oldVersion, songVersion);
 	}
 
+	public String getProductionTitle()
+	{
+		return getTitle();
+	}
+
+	public CreditType[] getSupportedCastTypes()
+	{
+		return new CreditType[0];
+	}
+
+	public Set<CastMember> getCastMembers()
+	{
+		return Collections.emptySet();
+	}
+
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return Collections.emptySet();
 	}
 
+
+	public CastMember createCastMember(CreditType type)
+	{
+		return null;
+	}
+
+	public void dropCastMember(CastMember cast)
+	{
+	}
+
+	public Set<Credit> getCredits()
+	{
+		return DBLoader.getInstance().loadSet(Credit.class, null, "song_id=?", getId());
+	}
+
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "song_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public Credit createCredit()
+	{
+		Credit credit=new Credit();
+		credit.setSong(this);
+		fireElementAdded(CREDITS, credit);
+		return credit;
+	}
+
+	public void dropCredit(Credit credit)
+	{
+		credit.delete();
+		fireElementRemoved(CREDITS, credit);
 	}
 }

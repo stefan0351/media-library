@@ -175,7 +175,7 @@ public class WebDatesExport implements Job
 			}
 			else buffer.append(nameText);
 		}
-		else buffer.append(XMLUtils.toXMLString(date.getChannelName()));
+		else buffer.append(XMLUtils.toXMLString(date.getChannel().getName()));
 		buffer.append(" ");
 		buffer.append(new SimpleDateFormat("EEE, d.M.yyyy H:mm", Locale.GERMANY).format(date.getDate()));
 		String href=null;

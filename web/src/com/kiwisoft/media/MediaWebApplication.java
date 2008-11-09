@@ -85,6 +85,7 @@ public class MediaWebApplication extends MediaApplication
 
 		HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 		rendererManager.setRenderer(Date.class, "Date only", new DefaultHTMLRenderer("Date only"));
+		rendererManager.setRenderer(Date.class, "schedule", new DefaultHTMLRenderer("schedule"));
 		rendererManager.setRenderer(String.class, "preformatted", new PreformattedHTMLRenderer());
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
 		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));

@@ -8,6 +8,7 @@ package com.kiwisoft.media.person;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 import com.kiwisoft.media.dataImport.SearchManager;
 import com.kiwisoft.media.dataImport.SearchPattern;
@@ -15,7 +16,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.media.Name;
 import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
@@ -34,6 +35,7 @@ public class Person extends IDObject
 	private String middleName;
 	private String surname;
 	private String name;
+	private Set<Name> altNames;
 	private String imdbKey;
 	private String tvcomKey;
 
@@ -95,6 +97,26 @@ public class Person extends IDObject
 		setModified(SURNAME, oldSurname, this.surname);
 	}
 
+	public Name createAltName()
+	{
+		Name altName=new Name(this);
+		getAltNames().add(altName);
+		return altName;
+	}
+
+	public void dropAltName(Name name)
+	{
+		if (altNames!=null) altNames.remove(name);
+		name.delete();
+	}
+
+	public Set<Name> getAltNames()
+	{
+		if (altNames==null) altNames=DBLoader.getInstance().loadSet(Name.class, null, "type=? and ref_id=?", Name.SHOW, getId());
+		return altNames;
+	}
+
+
 	public Gender getGender()
 	{
 		return (Gender)getReference(GENDER);
@@ -150,36 +172,15 @@ public class Person extends IDObject
 		return super.loadReference(name, referenceId);
 	}
 
-	public String getSearchPattern(int type)
-	{
-		SearchPattern pattern=SearchManager.getInstance().getSearchPattern(type, this);
-		if (pattern!=null) return pattern.getPattern();
-		else return null;
-	}
-
-	public void setSearchPattern(int type, String patternString)
-	{
-		SearchPattern pattern=SearchManager.getInstance().getSearchPattern(type, this);
-		if (StringUtils.isEmpty(patternString))
-		{
-			if (pattern!=null) pattern.delete();
-		}
-		else
-		{
-			if (pattern==null) pattern=new SearchPattern(this, type);
-			pattern.setPattern(patternString);
-		}
-	}
-
 	public boolean isUsed()
 	{
 		return super.isUsed() || PersonManager.getInstance().isPersonUsed(this);
 	}
 
-	public Credits<CastMember> getActingCredits()
+	public Credits<CastMember> getSortedActingCredits()
 	{
 		Credits<CastMember> credits=new Credits<CastMember>();
-		for (CastMember castMember : DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=?", getId()))
+		for (CastMember castMember : getActingCredits())
 		{
 			Movie movie=castMember.getMovie();
 			if (movie!=null)
@@ -204,10 +205,15 @@ public class Person extends IDObject
 		return credits;
 	}
 
-	public Map<CreditType, Credits<Credit>> getCrewCredits()
+	public Set<CastMember> getActingCredits()
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "actor_id=?", getId());
+	}
+
+	public Map<CreditType, Credits<Credit>> getSortedCrewCredits()
 	{
 		Map<CreditType, Credits<Credit>> creditMap=new HashMap<CreditType, Credits<Credit>>();
-		for (Credit crewMember : DBLoader.getInstance().loadSet(Credit.class, null, "person_id=?", getId()))
+		for (Credit crewMember : getCrewCredits())
 		{
 			Credits<Credit> credits=creditMap.get(crewMember.getCreditType());
 			if (credits==null) creditMap.put(crewMember.getCreditType(), credits=new Credits<Credit>());
@@ -231,6 +237,11 @@ public class Person extends IDObject
 			}
 		}
 		return creditMap;
+	}
+
+	public Set<Credit> getCrewCredits()
+	{
+		return DBLoader.getInstance().loadSet(Credit.class, null, "person_id=?", getId());
 	}
 
 }

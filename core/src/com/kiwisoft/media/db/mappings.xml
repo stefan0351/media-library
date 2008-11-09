@@ -4,16 +4,16 @@
 	<mapping name="Airdate" class="com.kiwisoft.media.Airdate" table="airdates" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="event" column="event"/>
+		<field name="reminder" column="reminder"/>
+		<field name="date" column="viewdate"/>
+		<field name="version" column="version"/>
+		<field name="lastModified" column="lastmodified"/>
+		<field name="detailsLink" column="detailslink"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
-		<field name="reminder" column="reminder"/>
-		<field name="date" column="viewdate"/>
-		<field name="version" column="version"/>
 		<reference name="channel" column="channel_id" type="Channel"/>
-		<field name="channelName" column="channel"/>
-		<field name="lastModified" column="lastmodified"/>
 		<reference name="dataSource" column="source_id"/>
 	</mapping>
 	<mapping name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified" version="version">
@@ -280,6 +280,7 @@
 		<field name="startYear" column="startyear"/>
 		<field name="endYear" column="endyear"/>
 		<field name="version" column="version"/>
+		<reference name="logo" column="logo_id" type="Picture"/>
 	</mapping>
 	<mapping name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>

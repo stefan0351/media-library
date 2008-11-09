@@ -5,6 +5,8 @@ import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 /**
  * @author Stefan Stiller
  */
@@ -20,7 +22,7 @@ public class PanelTag extends TagSupport
 			JspWriter out=pageContext.getOut();
 			out.println("<table class=\"contenttable\" width=\"790\">");
 			out.print("<tr><td class=\"header1\">");
-			out.print(title);
+			out.print(StringEscapeUtils.escapeHtml(title));
 			out.println("</td></tr>");
 			out.println("<tr><td class=\"content\">");
 			return EVAL_BODY_INCLUDE;

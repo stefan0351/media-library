@@ -37,11 +37,15 @@ public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 				Show show=airdate.getShow();
 				if (show!=null)
 				{
-					buffer.append(rendererManager.getRenderer(Show.class).getContent(show, context, rowIndex, columnIndex));
+					Object contextShow=context.get(Show.class.getName());
 					Episode episode=airdate.getEpisode();
+					if (show!=contextShow)
+					{
+						buffer.append(rendererManager.getRenderer(Show.class).getContent(show, context, rowIndex, columnIndex));
+						if (episode!=null) buffer.append(" - ");
+					}
 					if (episode!=null)
 					{
-						buffer.append(" - ");
 						buffer.append(rendererManager.getRenderer(Episode.class).getContent(episode, context, rowIndex, columnIndex));
 					}
 				}

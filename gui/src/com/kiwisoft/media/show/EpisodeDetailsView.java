@@ -165,7 +165,7 @@ public class EpisodeDetailsView extends DetailsView
 			titleField.requestFocus();
 			return false;
 		}
-		Map<String, Language> names=namesModel.getNames();
+		Map<String, Language> names=namesModel.getNameMap();
 
 		Transaction transaction=null;
 		try
@@ -250,7 +250,7 @@ public class EpisodeDetailsView extends DetailsView
 		javaScriptField=new JTextField();
 		firstAiredField=new DateField();
 		productionCodeField=new JTextField(10);
-		namesModel=new NamesTableModel();
+		namesModel=new NamesTableModel(true);
 		SortableTable tblNames=new SortableTable(namesModel);
 		tblNames.initializeColumns(new DefaultTableConfiguration(EpisodeDetailsView.class, "names"));
 		JScrollPane namesPanel=new JScrollPane(tblNames);

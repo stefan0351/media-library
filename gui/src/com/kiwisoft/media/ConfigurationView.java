@@ -73,13 +73,9 @@ public class ConfigurationView extends ViewPanel
 		super.initializeData();
 		SortableTableModel<String> tableModel=tableController.getModel();
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_ROOT, String.class, "ExistingDirectory", true));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_PHOTOS_RECENT, String.class, "Directory", false));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_SCHEDULE_RECENT, String.class, "Directory", false));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_PICTURES_RECENT, String.class, "Directory", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_PHOTOS_THUMBNAILS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_BOOKS_COVERS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_FANFICS, String.class, "ExistingDirectory", true));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_FANFICS_RECENT, String.class, "Directory", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_IMAGE_EDITOR, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_WEB_DATES, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_LOGOS_CHANNELS_WEB, String.class, "ExistingDirectory", false));

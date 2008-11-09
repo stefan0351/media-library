@@ -43,20 +43,20 @@ public class FanFicDetailsView extends DetailsView
 	private FanFicGroup group;
 
 	// Configurations Panel
-	private JTextField tfId;
-	private JTextField tfTitle;
-	private JTextField tfRating;
-	private JTextField tfUrl;
-	private JCheckBox cbFinished;
-	private JTextPane tfDescription;
-	private JTextPane tfSpoiler;
-	private LookupField<FanFic> tfPrequel;
-	private SortableTable tblFanDoms;
-	private ObjectTableModel<FanDom> tmFanDoms;
-	private SortableTable tblPairings;
-	private ObjectTableModel<Pairing> tmPairings;
-	private SortableTable tblAuthors;
-	private ObjectTableModel<Author> tmAuthors;
+	private JTextField idField;
+	private JTextField titleField;
+	private JTextField ratingField;
+	private JTextField urlField;
+	private JCheckBox finishedField;
+	private JTextPane descriptionField;
+	private JTextPane spoilerField;
+	private LookupField<FanFic> prequelField;
+	private SortableTable fandomsTable;
+	private ObjectTableModel<FanDom> fandomsModel;
+	private SortableTable pairingsTable;
+	private ObjectTableModel<Pairing> pairingsModel;
+	private SortableTable authorsTable;
+	private ObjectTableModel<Author> authorsModel;
 	private TableController<String> partsController;
 
 	private FanFicDetailsView(FanFic fanFic)
@@ -89,50 +89,50 @@ public class FanFicDetailsView extends DetailsView
 	{
 		if (fanFic!=null)
 		{
-			tfTitle.setText(fanFic.getTitle());
-			tfId.setText(fanFic.getId().toString());
-			tfUrl.setText(fanFic.getUrl());
-			tfRating.setText(fanFic.getRating());
-			cbFinished.setSelected(fanFic.isFinished());
-			tfDescription.setText(fanFic.getDescription());
-			tfSpoiler.setText(fanFic.getSpoiler());
-			tfPrequel.setValue(fanFic.getPrequel());
+			titleField.setText(fanFic.getTitle());
+			idField.setText(fanFic.getId().toString());
+			urlField.setText(fanFic.getUrl());
+			ratingField.setText(fanFic.getRating());
+			finishedField.setSelected(fanFic.isFinished());
+			descriptionField.setText(fanFic.getDescription());
+			spoilerField.setText(fanFic.getSpoiler());
+			prequelField.setValue(fanFic.getPrequel());
 			for (Iterator it=fanFic.getParts().iterator(); it.hasNext();)
 			{
 				String source=((FanFicPart)it.next()).getSource();
 				String path=FileUtils.getFile(MediaConfiguration.getFanFicPath(), source).getAbsolutePath();
 				partsController.getModel().addRow(new FanFicPartTableRow(path));
 			}
-			for (Pairing pairing : fanFic.getPairings()) tmPairings.addObject(pairing);
-			for (FanDom fanDom : fanFic.getFanDoms()) tmFanDoms.addObject(fanDom);
-			for (Author author : fanFic.getAuthors()) tmAuthors.addObject(author);
+			for (Pairing pairing : fanFic.getPairings()) pairingsModel.addObject(pairing);
+			for (FanDom fanDom : fanFic.getFanDoms()) fandomsModel.addObject(fanDom);
+			for (Author author : fanFic.getAuthors()) authorsModel.addObject(author);
 		}
 		else
 		{
-			if (group instanceof Pairing) tmPairings.addObject((Pairing)group);
-			else if (group instanceof FanDom) tmFanDoms.addObject((FanDom)group);
-			else if (group instanceof Author) tmAuthors.addObject((Author)group);
+			if (group instanceof Pairing) pairingsModel.addObject((Pairing)group);
+			else if (group instanceof FanDom) fandomsModel.addObject((FanDom)group);
+			else if (group instanceof Author) authorsModel.addObject((Author)group);
 		}
-		tmPairings.addSortColumn(0, false);
-		tmFanDoms.addSortColumn(0, false);
-		tmAuthors.addSortColumn(0, false);
+		pairingsModel.addSortColumn(0, false);
+		fandomsModel.addSortColumn(0, false);
+		authorsModel.addSortColumn(0, false);
 	}
 
 	public boolean apply()
 	{
-		String title=tfTitle.getText();
+		String title=titleField.getText();
 		if (StringUtils.isEmpty(title))
 		{
 			JOptionPane.showMessageDialog(this, "Title is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfTitle.requestFocus();
+			titleField.requestFocus();
 			return false;
 		}
-		String url=tfUrl.getText();
-		String rating=tfRating.getText();
-		boolean finished=cbFinished.isSelected();
-		String spoiler=tfSpoiler.getText();
-		String description=tfDescription.getText();
-		FanFic prequel=tfPrequel.getValue();
+		String url=urlField.getText();
+		String rating=ratingField.getText();
+		boolean finished=finishedField.isSelected();
+		String spoiler=spoilerField.getText();
+		String description=descriptionField.getText();
+		FanFic prequel=prequelField.getValue();
 		List<String> sources=new ArrayList<String>();
 		SortableTableModel<String> tmParts=partsController.getModel();
 		SortableTable tblParts=partsController.getTable();
@@ -150,25 +150,25 @@ public class FanFicDetailsView extends DetailsView
 			source=StringUtils.replaceStrings(source, "\\", "/");
 			sources.add(source);
 		}
-		Set<Author> authors=new HashSet<Author>(tmAuthors.getObjects());
+		Set<Author> authors=new HashSet<Author>(authorsModel.getObjects());
 		if (authors.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "No author selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			tblAuthors.requestFocus();
+			authorsTable.requestFocus();
 			return false;
 		}
-		Set<FanDom> fanDoms=new HashSet<FanDom>(tmFanDoms.getObjects());
+		Set<FanDom> fanDoms=new HashSet<FanDom>(fandomsModel.getObjects());
 		if (fanDoms.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "No domain selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			tblFanDoms.requestFocus();
+			fandomsTable.requestFocus();
 			return false;
 		}
-		Set<Pairing> pairings=new HashSet<Pairing>(tmPairings.getObjects());
+		Set<Pairing> pairings=new HashSet<Pairing>(pairingsModel.getObjects());
 		if (pairings.isEmpty())
 		{
 			JOptionPane.showMessageDialog(this, "No pairing selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			tblPairings.requestFocus();
+			pairingsTable.requestFocus();
 			return false;
 		}
 
@@ -209,7 +209,7 @@ public class FanFicDetailsView extends DetailsView
 			transaction=null;
 			fanFic.notifyChanged();
 			partsController.selectionChanged();
-			tfId.setText(fanFic.getId().toString());
+			idField.setText(fanFic.getId().toString());
 			return true;
 		}
 		catch (Throwable t)
@@ -230,28 +230,28 @@ public class FanFicDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfId=new JTextField(5);
-		tfId.setHorizontalAlignment(JTextField.TRAILING);
-		tfId.setEditable(false);
-		tfTitle=new JTextField();
-		tfDescription=new JTextPane();
-		tfSpoiler=new JTextPane();
-		cbFinished=new JCheckBox();
-		tfRating=new JTextField();
-		tfUrl=new JTextField();
-		tfPrequel=new LookupField<FanFic>(new FanFicLookup());
+		idField=new JTextField(5);
+		idField.setHorizontalAlignment(JTextField.TRAILING);
+		idField.setEditable(false);
+		titleField=new JTextField();
+		descriptionField=new JTextPane();
+		spoilerField=new JTextPane();
+		finishedField=new JCheckBox();
+		ratingField=new JTextField();
+		urlField=new JTextField();
+		prequelField=new LookupField<FanFic>(new FanFicLookup());
 
-		tmPairings=new ObjectTableModel<Pairing>("name", Pairing.class, null);
-		tblPairings=new SortableTable(tmPairings);
-		tblPairings.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "pairings"));
+		pairingsModel=new ObjectTableModel<Pairing>("name", Pairing.class, null);
+		pairingsTable=new SortableTable(pairingsModel);
+		pairingsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "pairings"));
 
-		tmFanDoms=new ObjectTableModel<FanDom>("name", FanDom.class, null);
-		tblFanDoms=new SortableTable(tmFanDoms);
-		tblFanDoms.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "fandoms"));
+		fandomsModel=new ObjectTableModel<FanDom>("name", FanDom.class, null);
+		fandomsTable=new SortableTable(fandomsModel);
+		fandomsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "fandoms"));
 
-		tmAuthors=new ObjectTableModel<Author>("name", Author.class, null);
-		tblAuthors=new SortableTable(tmAuthors);
-		tblAuthors.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "authors"));
+		authorsModel=new ObjectTableModel<Author>("name", Author.class, null);
+		authorsTable=new SortableTable(authorsModel);
+		authorsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "authors"));
 
 		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("name");
 		tmParts.setResortable(false);
@@ -284,13 +284,13 @@ public class FanFicDetailsView extends DetailsView
 		int row=0;
 		add(new JLabel("Id:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 													  WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfId, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
+		add(idField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,
 										 WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Title:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														 WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfTitle, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
+		add(titleField, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
 											WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -302,55 +302,55 @@ public class FanFicDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Authors:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tblAuthors), new GridBagConstraints(1, row, 1, 1, 0.5, 0.3,
+		add(new JScrollPane(authorsTable), new GridBagConstraints(1, row, 1, 1, 0.5, 0.3,
 																WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Domains:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(tblFanDoms), new GridBagConstraints(3, row, 1, 1, 0.5, 0.3,
+		add(new JScrollPane(fandomsTable), new GridBagConstraints(3, row, 1, 1, 0.5, 0.3,
 																WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Pairings:"), new GridBagConstraints(4, row, 1, 1, 0.0, 0.0,
 															GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(new JScrollPane(tblPairings), new GridBagConstraints(5, row, 1, 1, 0.5, 0.3,
+		add(new JScrollPane(pairingsTable), new GridBagConstraints(5, row, 1, 1, 0.5, 0.3,
 																 WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Rating:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														  WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfRating, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
+		add(ratingField, new GridBagConstraints(1, row, 1, 1, 0.3, 0.0,
 											 WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		add(new JLabel("Finished:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 															WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(cbFinished, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
+		add(finishedField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 											   WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Summary:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tfDescription), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
+		add(new JScrollPane(descriptionField), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
 																   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Spoiler:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														   GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tfSpoiler), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
+		add(new JScrollPane(spoilerField), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
 															   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Sequel to:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															 WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfPrequel, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
+		add(prequelField, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
 											  WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 													   WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfUrl, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
+		add(urlField, new GridBagConstraints(1, row, 5, 1, 1.0, 0.0,
 										  WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
 	public JComponent getDefaultFocusComponent()
 	{
-		return tfTitle;
+		return titleField;
 	}
 
 	public void dispose()
@@ -494,34 +494,34 @@ public class FanFicDetailsView extends DetailsView
 			else
 			{
 				Author author;
-				switch (tmAuthors.getRowCount())
+				switch (authorsModel.getRowCount())
 				{
 					case 1:
 						JOptionPane.showMessageDialog(FanFicDetailsView.this, "Author fehlt!", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
 					case 2:
-						author=tmAuthors.getObject(0);
+						author=authorsModel.getObject(0);
 						break;
 					default:
-						int row=tblAuthors.getSelectedRow();
+						int row=authorsTable.getSelectedRow();
 						if (row<0)
 						{
 							JOptionPane.showMessageDialog(FanFicDetailsView.this, "Choose an author!", "Error", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						author=tmAuthors.getObject(row);
+						author=authorsModel.getObject(row);
 				}
 				int option=JOptionPane.showOptionDialog(FanFicDetailsView.this, "Create multi-part fanfic?", "Question",
 														JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (option==JOptionPane.NO_OPTION)
 				{
-					StringBuilder path=buildFileName(author, tfTitle.getText());
+					StringBuilder path=buildFileName(author, titleField.getText());
 					path.append(".xp");
 					tmParts.addRow(new FanFicPartTableRow(path.toString()));
 				}
 				else if (option==JOptionPane.YES_OPTION)
 				{
-					StringBuilder path=buildFileName(author, tfTitle.getText());
+					StringBuilder path=buildFileName(author, titleField.getText());
 					path.append(File.separator);
 					path.append("01.xp");
 					tmParts.addRow(new FanFicPartTableRow(path.toString()));

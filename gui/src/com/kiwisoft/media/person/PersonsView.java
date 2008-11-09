@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
+import com.kiwisoft.media.Name;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.actions.ComplexAction;
@@ -61,6 +63,7 @@ public class PersonsView extends ViewPanel
 				actions.add(new PersonDetailsAction());
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
+				actions.add(new ShowPersonCreditsAction(frame));
 				return actions;
 			}
 
@@ -76,6 +79,7 @@ public class PersonsView extends ViewPanel
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
 				actions.add(null);
+				actions.add(new ShowPersonCreditsAction(frame));
 				actions.add(downloadAction);
 				return actions;
 			}
@@ -209,7 +213,14 @@ public class PersonsView extends ViewPanel
 			{
 				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
 				else searchText="%"+searchText+"%";
-				persons=DBLoader.getInstance().loadSet(Person.class, null, "name like ? limit 1001", searchText);
+				persons=new HashSet<Person>();
+				persons.addAll(DBLoader.getInstance().loadSet(Person.class, null, "name like ? limit 1001", searchText));
+				if (persons.size()<1001)
+				{
+					persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id" +
+																						 " and names.name like ? limit "+(1001-persons.size()),
+																 Name.PERSON, searchText));
+				}
 			}
 			SortableTableModel<Person> tableModel=tableController.getModel();
 			tableModel.clear();

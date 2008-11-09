@@ -117,10 +117,10 @@ public class MovieDetailsView extends DetailsView
 				Name name=it.next();
 				namesModel.addName(name.getName(), name.getLanguage());
 			}
+			namesModel.sort();
 			genresModel.setObjects(movie.getGenres());
 			languagesModel.setObjects(movie.getLanguages());
 			countriesModel.setObjects(movie.getCountries());
-			namesModel.sort();
 			posterField.setValue(movie.getPoster());
 		}
 		else if (show!=null)
@@ -151,7 +151,7 @@ public class MovieDetailsView extends DetailsView
 		if (StringUtils.isEmpty(script)) script=null;
 		String javascript=javaScriptField.getText();
 		if (StringUtils.isEmpty(javascript)) javascript=null;
-		Map<String, Language> names=namesModel.getNames();
+		Map<String, Language> names=namesModel.getNameMap();
 		Collection<Language> languages=languagesModel.getObjects();
 		Collection<Country> countries=countriesModel.getObjects();
 		Collection<Genre> genres=genresModel.getObjects();
@@ -223,7 +223,7 @@ public class MovieDetailsView extends DetailsView
 			@Override
 			public String getDefaultName()
 			{
-				return titleField.getText();
+				return titleField.getText()+" - Poster";
 			}
 		});
 		ImagePanel posterPreview=new ImagePanel(new Dimension(150, 200));
@@ -236,7 +236,7 @@ public class MovieDetailsView extends DetailsView
 		recordField=new JCheckBox("Record");
 		transcriptField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		javaScriptField=new JTextField(20);
-		namesModel=new NamesTableModel();
+		namesModel=new NamesTableModel(true);
 		yearField=ComponentUtils.createNumberField(Integer.class, 5, 1900, 2100);
 		runtimeField=ComponentUtils.createNumberField(Integer.class, 5, 0, 500);
 		SortableTable tblNames=new SortableTable(namesModel);

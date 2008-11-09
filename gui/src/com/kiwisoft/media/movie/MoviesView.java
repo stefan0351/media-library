@@ -11,6 +11,7 @@ import javax.swing.*;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.PinAction;
 import com.kiwisoft.media.Pinnable;
+import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.media.show.Show;
@@ -77,6 +78,8 @@ public class MoviesView extends ViewPanel implements Pinnable
 				actions.add(new DeleteMovieAction(frame, show));
 				actions.add(null);
 				actions.add(new CreateMediumAction());
+				actions.add(null);
+				actions.add(new ShowCreditsAction(frame));
 				return actions;
 			}
 
@@ -231,8 +234,11 @@ public class MoviesView extends ViewPanel implements Pinnable
 				movies.addAll(DBLoader.getInstance().loadSet(Movie.class, null,
 															 "title like ? or german_title like ? limit 1001",
 															 searchText, searchText));
-				movies.addAll(DBLoader.getInstance().loadSet(Movie.class, "names",
-															 "names.type=? and names.ref_id=movies.id and names.name like ?", Name.MOVIE, searchText));
+				if (movies.size()<1001)
+				{
+					movies.addAll(DBLoader.getInstance().loadSet(Movie.class, "names",
+																 "names.type=? and names.ref_id=movies.id and names.name like ?", Name.MOVIE, searchText));
+				}
 			}
 			SortableTableModel<Movie> tableModel=tableController.getModel();
 			if (!pinned) tableModel.clear();

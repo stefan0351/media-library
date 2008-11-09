@@ -9,14 +9,16 @@
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page import="com.kiwisoft.media.pics.Picture" %>
+<%@ page import="com.kiwisoft.media.person.CreditType" %>
 
 <%
 	Show show=(Show)request.getAttribute("show");
+	Season season=(Season)request.getAttribute("season");
+
 	Map links=new TreeMap(String.CASE_INSENSITIVE_ORDER);
 	links.put("Schedule", request.getContextPath()+"/shows/schedule.jsp?show="+show.getId());
-	if (show.getRecordingCount()>0)
-		links.put("Media", request.getContextPath()+"/shows/tracks.jsp?show="+show.getId());
-	if (!show.getMainCast().isEmpty() || !show.getRecurringCast().isEmpty())
+	if (show.getRecordingCount()>0) links.put("Media", request.getContextPath()+"/shows/tracks.jsp?show="+show.getId());
+	if (!show.getCastMembers(CreditType.MAIN_CAST).isEmpty() || !show.getCastMembers(CreditType.RECURRING_CAST).isEmpty())
 		links.put("Cast and Crew", request.getContextPath()+"/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkGroup()!=null && show.getLinkGroup().getLinkCount()>0)
 		links.put("Links", request.getContextPath()+"/links.jsp?show="+show.getId()+"&group="+show.getLinkGroup().getId());
@@ -33,13 +35,15 @@
 <tr><td class="menuheader">Show</td></tr>
 <%
 	PictureFile thumbnail=null;
-	Picture logo=show.getLogo();
+	Picture logo=null;
+	if (season!=null) logo=season.getLogo();
+	if (logo==null) logo=show.getLogo();
 	if (logo!=null)
 	{
 		thumbnail=logo.getThumbnailSidebar();
 		if (thumbnail==null && logo.getWidth()<=170) thumbnail=logo;
 	}
-	if (logo!=null)
+	if (logo!=null && thumbnail!=null)
 	{
 %>
 		<tr><td class="menuitem" align="center">
@@ -60,9 +64,8 @@
 	{
 		while (it.hasNext())
 		{
-			Season season=(Season)it.next();
 %>
-			<tr><td class="menuitem"><%=JspUtils.render(request, season, "Menu")%></td></tr>
+			<tr><td class="menuitem"><%=JspUtils.render(request, it.next(), "Menu")%></td></tr>
 <%
 		}
 	}

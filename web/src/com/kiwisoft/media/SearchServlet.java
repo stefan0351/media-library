@@ -90,6 +90,8 @@ public class SearchServlet extends HttpServlet
 				{
 					Set<Person> persons=new HashSet<Person>();
 					persons.addAll(DBLoader.getInstance().loadSet(Person.class, null, "name like ?", searchText));
+					persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id and names.name like ?",
+																 Name.PERSON, searchText));
 					request.setAttribute("persons", persons);
 				}
 			}

@@ -36,10 +36,10 @@ public class AuthorDetailsView extends DetailsView
 	private Author author;
 
 	// Konfigurations Panel
-	private JTextField tfName;
-	private StringTableModel tmMails;
-	private StringTableModel tmWeb;
-	private DialogLookupField tfPath;
+	private JTextField nameField;
+	private StringTableModel mailModel;
+	private StringTableModel webModel;
+	private DialogLookupField pathField;
 
 	private AuthorDetailsView(Author author)
 	{
@@ -50,20 +50,20 @@ public class AuthorDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfName=new JTextField();
-		tfName.getDocument().addDocumentListener(new DocumentAdapter()
+		nameField=new JTextField();
+		nameField.getDocument().addDocumentListener(new DocumentAdapter()
 		{
 			public void changedUpdate(DocumentEvent e)
 			{
-				if (author==null) tfPath.setText(buildPath(tfName.getText()));
+				if (author==null) pathField.setText(buildPath(nameField.getText()));
 			}
 		});
-		tfPath=new DialogLookupField(new PathLookup());
-		tmMails=new StringTableModel("address");
-		SortableTable tblMails=new SortableTable(tmMails);
+		pathField=new DialogLookupField(new PathLookup());
+		mailModel=new StringTableModel("address");
+		SortableTable tblMails=new SortableTable(mailModel);
 		tblMails.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "mail"));
-		tmWeb=new StringTableModel("address");
-		SortableTable tblWeb=new SortableTable(tmWeb);
+		webModel=new StringTableModel("address");
+		SortableTable tblWeb=new SortableTable(webModel);
 		tblWeb.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "web"));
 
 		setLayout(new GridBagLayout());
@@ -72,13 +72,13 @@ public class AuthorDetailsView extends DetailsView
 		int row=0;
 		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfName, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
+		add(nameField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Directory:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															   GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfPath, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
+		add(pathField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0,
 										   GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -94,7 +94,7 @@ public class AuthorDetailsView extends DetailsView
 															GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		FrameTitleUpdater titleUpdater=new FrameTitleUpdater();
-		tfName.getDocument().addDocumentListener(titleUpdater);
+		nameField.getDocument().addDocumentListener(titleUpdater);
 	}
 
 	private String buildPath(String name)
@@ -112,38 +112,38 @@ public class AuthorDetailsView extends DetailsView
 	{
 		if (author!=null)
 		{
-			tfName.setText(author.getName());
-			tfPath.setText(author.getPath());
+			nameField.setText(author.getName());
+			pathField.setText(author.getPath());
 			Iterator it=author.getMail().iterator();
 			while (it.hasNext())
 			{
 				ContactMedium medium=(ContactMedium)it.next();
-				tmMails.addString(medium.getValue());
+				mailModel.addString(medium.getValue());
 			}
-			tmMails.sort();
+			mailModel.sort();
 			it=author.getWeb().iterator();
 			while (it.hasNext())
 			{
 				ContactMedium medium=(ContactMedium)it.next();
-				tmWeb.addString(medium.getValue());
+				webModel.addString(medium.getValue());
 			}
-			tmWeb.sort();
+			webModel.sort();
 		}
 	}
 
 	public boolean apply()
 	{
-		String name=tfName.getText();
+		String name=nameField.getText();
 		if (StringUtils.isEmpty(name))
 		{
 			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfName.requestFocus();
+			nameField.requestFocus();
 			return false;
 		}
 		else name=name.trim();
-		Set<String> mail=tmMails.getStrings();
-		Set<String> web=tmWeb.getStrings();
-		String path=tfPath.getText();
+		Set<String> mail=mailModel.getStrings();
+		Set<String> web=webModel.getStrings();
+		String path=pathField.getText();
 
 		Transaction transaction=null;
 		try
@@ -204,7 +204,7 @@ public class AuthorDetailsView extends DetailsView
 
 		public void changedUpdate(DocumentEvent e)
 		{
-			String name=tfName.getText();
+			String name=nameField.getText();
 			if (StringUtils.isEmpty(name)) name="<Name>";
 			else name=name.trim();
 			setTitle("Author: "+name);
@@ -217,7 +217,7 @@ public class AuthorDetailsView extends DetailsView
 		{
 			try
 			{
-				field.setText(buildPath(tfName.getText()));
+				field.setText(buildPath(nameField.getText()));
 			}
 			catch (Exception e)
 			{

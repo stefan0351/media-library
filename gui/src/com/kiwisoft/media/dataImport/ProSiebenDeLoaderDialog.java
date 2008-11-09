@@ -8,7 +8,6 @@ package com.kiwisoft.media.dataImport;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import javax.swing.*;
@@ -16,20 +15,16 @@ import javax.swing.*;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DateField;
-import com.kiwisoft.swing.lookup.DialogLookupField;
-import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
 
 public class ProSiebenDeLoaderDialog extends JDialog
 {
-	private DialogLookupField tfPath;
-	private DateField tfDate;
-	private JTextField tfDays;
+	private DateField dateField;
+	private JTextField daysField;
 	private List<Show> shows;
 
 	public ProSiebenDeLoaderDialog(Window owner, List<Show> shows) throws HeadlessException
@@ -44,10 +39,9 @@ public class ProSiebenDeLoaderDialog extends JDialog
 
 	private JPanel createContentPanel()
 	{
-		tfPath=new DialogLookupField(new FileLookup(JFileChooser.DIRECTORIES_ONLY, false));
-		tfDate=new DateField();
-		tfDays=new JTextField();
-		tfDays.setHorizontalAlignment(JTextField.TRAILING);
+		dateField=new DateField();
+		daysField=new JTextField();
+		daysField.setHorizontalAlignment(JTextField.TRAILING);
 
 		JPanel pnlButtons=new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		pnlButtons.add(new JButton(new ApplyAction()));
@@ -56,19 +50,13 @@ public class ProSiebenDeLoaderDialog extends JDialog
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setPreferredSize(new Dimension(400, 150));
 		int row=0;
-		panel.add(new JLabel("Path:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
-															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		panel.add(tfPath, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
-												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
-
-		row++;
 		panel.add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		panel.add(tfDate, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
+		panel.add(dateField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
 												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(new JLabel("Days:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 															  GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-		panel.add(tfDays, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
+		panel.add(daysField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 												 GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 10), 0, 0));
 
 		row++;
@@ -79,9 +67,8 @@ public class ProSiebenDeLoaderDialog extends JDialog
 
 	private void initialize()
 	{
-		tfPath.setText(MediaConfiguration.getRecentSchedulePath());
-		tfDate.setDate(MediaConfiguration.getRecentPro7Date());
-		tfDays.setText(String.valueOf(MediaConfiguration.getRecentPro7Offset()));
+		dateField.setDate(MediaConfiguration.getRecentPro7Date());
+		daysField.setText(String.valueOf(MediaConfiguration.getRecentPro7Offset()));
 	}
 
 	private class ApplyAction extends AbstractAction
@@ -93,7 +80,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 
 		public void actionPerformed(ActionEvent e)
 		{
-			Date date=tfDate.getDate();
+			Date date=dateField.getDate();
 			if (date==null)
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
@@ -109,7 +96,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 			int days=0;
 			try
 			{
-				days=Integer.parseInt(tfDays.getText());
+				days=Integer.parseInt(daysField.getText());
 			}
 			catch (NumberFormatException e1)
 			{
@@ -120,42 +107,14 @@ public class ProSiebenDeLoaderDialog extends JDialog
 											  "Days must lie between 0 and 50.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			String pathName=tfPath.getText();
-			if (StringUtils.isEmpty(pathName))
-			{
-				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-											  "Path is missing.", "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			File path=new File(pathName);
-			if (!path.exists())
-			{
-				int option=JOptionPane.showConfirmDialog(ProSiebenDeLoaderDialog.this,
-														 "Directory '"+path+"' doesn't exists. Create?",
-														 "Verzeichnis anlegen?",
-														 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (option!=JOptionPane.YES_OPTION) return;
-			}
-			try
-			{
-				path.mkdirs();
-			}
-			catch (Exception e1)
-			{
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
-											  e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				return;
-			}
 			if (shows==null)
 			{
-				MediaConfiguration.setRecentSchedulePath(pathName);
 				MediaConfiguration.setRecentPro7Offset(days);
 				MediaConfiguration.setRecentPro7Date(date);
 				Configuration.getInstance().saveUserValues();
 			}
 			dispose();
-			new ProgressDialog(getOwner(), new ProSiebenDeLoader(pathName, date, days, shows)).start();
+			new ProgressDialog(getOwner(), new ProSiebenDeLoader(null, date, days, shows)).start();
 		}
 	}
 

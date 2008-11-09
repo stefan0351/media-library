@@ -5,11 +5,7 @@ import java.util.Comparator;
 import com.kiwisoft.media.person.CastMember;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 20.05.2004
- * Time: 14:44:35
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class CastComparator implements Comparator
 {

@@ -7,6 +7,7 @@
 <%@ page import="com.kiwisoft.media.show.ShowManager"%>
 <%@ page import="com.kiwisoft.utils.Utils"%>
 <%@ page import="com.kiwisoft.web.JspUtils"%>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
@@ -90,7 +91,7 @@
 							out.print(yearString);
 							out.println(")");
 						}
-						if (show.getLanguage()!=german)
+						if (show.getLanguage()!=german && !StringUtils.isEmpty(show.getGermanTitle()))
 						{
 							out.print("<br>a.k.a. <i>");
 							out.print(StringEscapeUtils.escapeHtml(show.getGermanTitle()));

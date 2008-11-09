@@ -6,15 +6,10 @@
  */
 package com.kiwisoft.media.show;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.*;
 
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.dataImport.SearchManager;
-import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
@@ -37,8 +32,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String EPISODES="episodes";
 	public static final String SEASONS="seasons";
 	public static final String MOVIES="movies";
-	public static final String MAIN_CAST="mainCast";
-	public static final String RECURRING_CAST="recurringCast";
 	public static final String LANGUAGE="language";
 	public static final String DEFAULT_INFO="defaultInfo";
 	public static final String GENRES="genres";
@@ -296,65 +289,9 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		super.afterReload();
 	}
 
-	public String getSearchPattern(int type)
-	{
-		SearchPattern pattern=SearchManager.getInstance().getSearchPattern(type, this);
-		if (pattern!=null)
-			return pattern.getPattern();
-		else
-			return null;
-	}
-
-	public void setSearchPattern(int type, String patternString)
-	{
-		SearchPattern pattern=SearchManager.getInstance().getSearchPattern(type, this);
-		if (StringUtils.isEmpty(patternString))
-		{
-			if (pattern!=null) pattern.delete();
-		}
-		else
-		{
-			if (pattern==null) pattern=new SearchPattern(this, type);
-			pattern.setPattern(patternString);
-		}
-	}
-
 	public Set<CastMember> getMainCast()
 	{
 		return getCastMembers(CreditType.MAIN_CAST);
-	}
-
-	public CastMember createMainCast()
-	{
-		CastMember cast=new CastMember();
-		cast.setCreditType(CreditType.MAIN_CAST);
-		cast.setShow(this);
-		fireElementAdded(MAIN_CAST, cast);
-		return cast;
-	}
-
-	public Set<CastMember> getRecurringCast()
-	{
-		return getCastMembers(CreditType.RECURRING_CAST);
-	}
-
-	public CastMember createRecurringCast()
-	{
-		CastMember cast=new CastMember();
-		cast.setCreditType(CreditType.RECURRING_CAST);
-		cast.setShow(this);
-		fireElementAdded(RECURRING_CAST, cast);
-		return cast;
-	}
-
-	public void dropCast(CastMember cast)
-	{
-		cast.delete();
-		if (cast.getCreditType()==CreditType.MAIN_CAST)
-			fireElementRemoved(MAIN_CAST, cast);
-		else if (cast.getCreditType()==CreditType.RECURRING_CAST)
-			fireElementRemoved(RECURRING_CAST, cast);
-
 	}
 
 	public Set getFanDoms()
@@ -457,14 +394,58 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setAssociations(GENRES, genres);
 	}
 
+	public Set<Credit> getCredits()
+	{
+		return Collections.emptySet();
+	}
+
 	public Set<Credit> getCredits(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(Credit.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
+		return Collections.emptySet();
+	}
+
+	public Credit createCredit()
+	{
+		return null;
+	}
+
+	public void dropCredit(Credit credit)
+	{
+	}
+
+	public String getProductionTitle()
+	{
+		return getTitle();
+	}
+
+	public CreditType[] getSupportedCastTypes()
+	{
+		return new CreditType[]{CreditType.MAIN_CAST, CreditType.RECURRING_CAST};
+	}
+
+	public Set<CastMember> getCastMembers()
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=?", getId());
 	}
 
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public CastMember createCastMember(CreditType creditType)
+	{
+		CastMember cast=new CastMember();
+		cast.setCreditType(creditType);
+		cast.setShow(this);
+		fireElementAdded(CAST_MEMBERS, cast);
+		return cast;
+	}
+
+	public void dropCastMember(CastMember cast)
+	{
+		cast.delete();
+		fireElementRemoved(CAST_MEMBERS, cast);
 	}
 
 	public Integer getStartYear()

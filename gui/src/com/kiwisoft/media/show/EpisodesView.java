@@ -15,6 +15,7 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.ChainEvent;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.medium.CreateMediumAction;
+import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.collection.ChainListener;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -47,7 +48,7 @@ public class EpisodesView extends ViewPanel
 			return show.getTitle()+" - Episodes";
 	}
 
-	public JComponent createContentPanel(ApplicationFrame frame)
+	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>("userkey", "title", "germanTitle", "firstAired");
 		createTableData(tmEpisodes);
@@ -78,6 +79,8 @@ public class EpisodesView extends ViewPanel
 				actions.add(null);
 				actions.add(new CreateSeasonAction());
 				actions.add(new CreateMediumAction());
+				actions.add(null);
+				actions.add(new ShowCreditsAction(frame));
 				return actions;
 			}
 

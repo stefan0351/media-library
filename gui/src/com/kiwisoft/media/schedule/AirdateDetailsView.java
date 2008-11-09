@@ -47,15 +47,15 @@ public class AirdateDetailsView extends DetailsView
 	private Show show;
 
 	// Konfigurations Panel
-	private DateField tfDate;
-	private TimeField tfTime;
+	private DateField dateField;
+	private TimeField timeField;
 	private LookupField<Language> languageField;
-	private LookupField<Show> tfShow;
-	private LookupField<Episode> tfEpisode;
-	private LookupField<Movie> tfMovie;
-	private JTextField tfEvent;
-	private LookupField<Channel> tfChannel;
-	private JTextField tfDataSource;
+	private LookupField<Show> showField;
+	private LookupField<Episode> episodeField;
+	private LookupField<Movie> movieField;
+	private JTextField eventField;
+	private LookupField<Channel> channelField;
+	private JTextField dataSourceField;
 
 	private AirdateDetailsView(Airdate airdate)
 	{
@@ -75,33 +75,33 @@ public class AirdateDetailsView extends DetailsView
 
 	protected void createContentPanel()
 	{
-		tfDate=new DateField();
-		tfTime=new TimeField();
+		dateField=new DateField();
+		timeField=new TimeField();
 		languageField=new LookupField<Language>(new LanguageLookup());
-		tfShow=new LookupField<Show>(new ShowLookup());
-		tfEpisode=new LookupField<Episode>(new DialogEpisodeLookup());
-		tfMovie=new LookupField<Movie>(new MovieLookup());
-		tfEvent=new JTextField();
-		tfChannel=new LookupField<Channel>(new ChannelLookup());
-		tfDataSource=new JTextField();
-		tfDataSource.setEditable(false);
+		showField=new LookupField<Show>(new ShowLookup());
+		episodeField=new LookupField<Episode>(new DialogEpisodeLookup());
+		movieField=new LookupField<Movie>(new MovieLookup());
+		eventField=new JTextField();
+		channelField=new LookupField<Channel>(new ChannelLookup());
+		dataSourceField=new JTextField();
+		dataSourceField.setEditable(false);
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 250));
 		int row=0;
 		add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfDate, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
+		add(dateField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		add(new JLabel("Time:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(tfTime, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
+		add(timeField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Channel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfChannel, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(channelField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -113,37 +113,36 @@ public class AirdateDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Event:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfEvent, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(eventField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Show:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfShow, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(showField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Episode:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfEpisode, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(episodeField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Movie:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfMovie, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(movieField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Source:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfDataSource, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(dataSourceField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
-		tfShow.addSelectionListener(new ShowSelectionListener());
-		tfMovie.addSelectionListener(new MovieSelectionListener());
+		getListenerList().installSelectionListener(showField, new ShowSelectionListener());
+		getListenerList().installSelectionListener(movieField, new MovieSelectionListener());
 	}
-
 
 	private void initializeData()
 	{
@@ -153,53 +152,53 @@ public class AirdateDetailsView extends DetailsView
 			if (date!=null)
 			{
 				Time time=DateUtils.getTime(date, true);
-				tfDate.setDate(date);
-				tfTime.setTime(time);
+				dateField.setDate(date);
+				timeField.setTime(time);
 			}
-			tfEvent.setText(airdate.getEvent());
-			tfShow.setValue(airdate.getShow());
-			tfEpisode.setValue(airdate.getEpisode());
-			tfMovie.setValue(airdate.getMovie());
-			tfChannel.setValue(airdate.getChannel());
+			eventField.setText(airdate.getEvent());
+			showField.setValue(airdate.getShow());
+			episodeField.setValue(airdate.getEpisode());
+			movieField.setValue(airdate.getMovie());
+			channelField.setValue(airdate.getChannel());
 			languageField.setValue(airdate.getLanguage());
 			DataSource dataSource=airdate.getDataSource();
-			if (dataSource!=null) tfDataSource.setText(dataSource.getName());
+			if (dataSource!=null) dataSourceField.setText(dataSource.getName());
 		}
 		else
 		{
-			if (show!=null) tfShow.setValue(show);
+			if (show!=null) showField.setValue(show);
 			languageField.setValue(LanguageManager.getInstance().getLanguageBySymbol("de"));
 		}
 	}
 
 	public boolean apply()
 	{
-		String event=tfEvent.getText();
+		String event=eventField.getText();
 		if (StringUtils.isEmpty(event)) event=null;
-		Show show=tfShow.getValue();
-		Episode episode=tfEpisode.getValue();
-		Movie movie=tfMovie.getValue();
+		Show show=showField.getValue();
+		Episode episode=episodeField.getValue();
+		Movie movie=movieField.getValue();
 		Language language=languageField.getValue();
-		Date date=tfDate.getDate();
+		Date date=dateField.getDate();
 		if (date==null)
 		{
 			JOptionPane.showMessageDialog(this, "Date is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfDate.requestFocus();
+			dateField.requestFocus();
 			return false;
 		}
-		Time time=tfTime.getTime();
+		Time time=timeField.getTime();
 		if (time==null)
 		{
 			JOptionPane.showMessageDialog(this, "Time is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfTime.requestFocus();
+			timeField.requestFocus();
 			return false;
 		}
 		Date fullDate=DateUtils.merge(date, time);
-		Channel channel=tfChannel.getValue();
+		Channel channel=channelField.getValue();
 		if (channel==null)
 		{
 			JOptionPane.showMessageDialog(this, "Channel is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			tfChannel.requestFocus();
+			channelField.requestFocus();
 			return false;
 		}
 
@@ -242,8 +241,8 @@ public class AirdateDetailsView extends DetailsView
 	{
 		public void selectionChanged(LookupEvent event)
 		{
-			Episode episode=tfEpisode.getValue();
-			if (episode!=null && episode.getShow()!=tfShow.getValue()) tfEpisode.setValue(null);
+			Episode episode=episodeField.getValue();
+			if (episode!=null && episode.getShow()!=showField.getValue()) episodeField.setValue(null);
 		}
 	}
 
@@ -251,8 +250,8 @@ public class AirdateDetailsView extends DetailsView
 	{
 		public void selectionChanged(LookupEvent event)
 		{
-			Movie movie=tfMovie.getValue();
-			if (movie!=null) tfShow.setValue(movie.getShow());
+			Movie movie=movieField.getValue();
+			if (movie!=null) showField.setValue(movie.getShow());
 		}
 	}
 
@@ -265,7 +264,7 @@ public class AirdateDetailsView extends DetailsView
 
 		protected Show getShow()
 		{
-			return tfShow.getValue();
+			return showField.getValue();
 		}
 	}
 }

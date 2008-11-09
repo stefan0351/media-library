@@ -1,72 +1,77 @@
 package com.kiwisoft.media.person;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureLookup;
 import com.kiwisoft.media.pics.PictureLookupHandler;
 import com.kiwisoft.media.pics.PicturePreviewUpdater;
-import com.kiwisoft.media.show.Show;
-import static com.kiwisoft.utils.StringUtils.isEmpty;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.swing.lookup.*;
 import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.swing.lookup.LookupEvent;
+import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.lookup.LookupSelectionListener;
+import static com.kiwisoft.utils.StringUtils.isEmpty;
 
 public class CastDetailsView extends DetailsView
 {
+	private PicturePreviewUpdater previewUpdater;
+
 	public static void create(CastMember cast)
 	{
 		new DetailsFrame(new CastDetailsView(cast)).show();
 	}
 
-	public static void create(Show show, CreditType type)
+	public static void create(Production production, CreditType type)
 	{
-		new DetailsFrame(new CastDetailsView(show, type)).show();
+		new DetailsFrame(new CastDetailsView(production, type)).show();
 	}
 
 	private CastMember cast;
-	private Show show;
+	private Production production;
 	private CreditType type;
 
 	// Konfigurations Panel
-	private JTextField tfCharacter;
-	private LookupField<Person> tfActor;
-	private JTextField tfVoice;
-	private JTextPane tfDescription;
+	private JTextField characterField;
+	private LookupField<Person> actorField;
+	private JTextField voiceField;
+	private JTextPane descriptionField;
 	private LookupField<Picture> pictureField;
 
 	private CastDetailsView(CastMember cast)
 	{
 		this.cast=cast;
-		setTitle("Darsteller");
+		setTitle("Cast");
 		createContentPanel();
 		initializeData();
 	}
 
-	private CastDetailsView(Show show, CreditType type)
+	private CastDetailsView(Production production, CreditType type)
 	{
-		this.show=show;
+		this.production=production;
 		this.type=type;
-		if (type==CreditType.MAIN_CAST) setTitle("New Main Cast");
-		else if (type==CreditType.RECURRING_CAST) setTitle("New Recurring Cast");
-		else setTitle("New Cast");
+		setTitle("New "+type.getByName());
 		createContentPanel();
 		initializeData();
 	}
 
 	protected void createContentPanel()
 	{
-		tfCharacter=new JTextField(40);
-		tfActor=new LookupField<Person>(new PersonLookup(), new PersonLookupHandler());
-		tfVoice=new JTextField();
-		tfDescription=new JTextPane();
+		characterField=new JTextField(40);
+		actorField=new LookupField<Person>(new PersonLookup(), new PersonLookupHandler());
+		voiceField=new JTextField();
+		descriptionField=new JTextPane();
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
 		pictureField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler());
@@ -79,19 +84,19 @@ public class CastDetailsView extends DetailsView
 			new GridBagConstraints(0, row, 1, 10, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 10), 0, 0));
 		add(new JLabel("Role:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(tfCharacter,
+		add(characterField,
 			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("Actor/Actress:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfActor,
+		add(actorField,
 			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		add(new JLabel("German Voice:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(tfVoice,
+		add(voiceField,
 			new GridBagConstraints(2, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -103,42 +108,39 @@ public class CastDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Summary:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(new JScrollPane(tfDescription),
+		add(new JScrollPane(descriptionField),
 			new GridBagConstraints(2, row, 2, 1, 1.0, 0.5, WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
-		new PicturePreviewUpdater(pictureField, picturePreview);
+		previewUpdater=new PicturePreviewUpdater(pictureField, picturePreview);
+		getListenerList().installSelectionListener(actorField, new ActorSelectionListener());
 	}
 
 	private void initializeData()
 	{
 		if (cast!=null)
 		{
-			tfActor.setValue(cast.getActor());
-			tfCharacter.setText(cast.getCharacterName());
-			tfVoice.setText(cast.getVoice());
+			actorField.setValue(cast.getActor());
+			characterField.setText(cast.getCharacterName());
+			voiceField.setText(cast.getVoice());
 			pictureField.setValue(cast.getPicture());
-			tfDescription.setText(cast.getDescription());
+			descriptionField.setText(cast.getDescription());
 		}
 	}
 
 	public boolean apply()
 	{
-		String character=tfCharacter.getText();
-		Person actor=tfActor.getValue();
-		String voice=tfVoice.getText();
+		String character=characterField.getText();
+		Person actor=actorField.getValue();
+		String voice=voiceField.getText();
 		if (isEmpty(voice)) voice=null;
 		Picture picture=pictureField.getValue();
-		String description=tfDescription.getText();
+		String description=descriptionField.getText();
 
 		Transaction transaction=null;
 		try
 		{
 			transaction=DBSession.getInstance().createTransaction();
-			if (cast==null)
-			{
-				if (type==CreditType.MAIN_CAST) cast=show.createMainCast();
-				else cast=show.createRecurringCast();
-			}
+			if (cast==null) cast=production.createCastMember(type);
 			cast.setActor(actor);
 			cast.setCharacterName(character);
 			cast.setVoice(voice);
@@ -160,6 +162,15 @@ public class CastDetailsView extends DetailsView
 			}
 			JOptionPane.showMessageDialog(this, t.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
+		}
+	}
+
+	private class ActorSelectionListener implements LookupSelectionListener
+	{
+		public void selectionChanged(LookupEvent event)
+		{
+			Person actor=actorField.getValue();
+			if (actor!=null) previewUpdater.setDefaultPicture(actor.getPicture());
 		}
 	}
 }

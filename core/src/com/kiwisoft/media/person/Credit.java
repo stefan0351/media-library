@@ -2,6 +2,7 @@ package com.kiwisoft.media.person;
 
 import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.medium.Song;
 import com.kiwisoft.persistence.IDObject;
@@ -92,5 +93,13 @@ public class Credit extends IDObject
 	{
 		if (CREDIT_TYPE.equals(name)) return CreditType.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
+	}
+
+	public Production getProduction()
+	{
+		Production production=getEpisode();
+		if (production==null) production=getMovie();
+		if (production==null) production=getSong();
+		return production;
 	}
 }

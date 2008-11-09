@@ -11,19 +11,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
-import com.kiwisoft.media.person.CastMember;
-import com.kiwisoft.media.person.Credit;
-import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.medium.TrackType;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.collection.ChainLink;
-import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.media.person.CastMember;
+import com.kiwisoft.media.person.Credit;
+import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.utils.StringUtils;
 
 public class Episode extends IDObject implements ChainLink, Comparable, Production, Recordable
 {
@@ -128,6 +128,14 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	public void setShow(Show show)
 	{
 		setReference(SHOW, show);
+	}
+
+	public Season getSeason()
+	{
+		return DBLoader.getInstance().load(Season.class,
+										   "_join episodes ep1 on seasons.firstepisode_id=ep1.id left outer join episodes ep2 on seasons.lastepisode_id=ep2.id",
+										   "seasons.show_id=? and ep1.sequence<=? and (ep2.sequence is null or ?<=ep2.sequence)",
+										   getReferenceId(SHOW), getChainPosition(), getChainPosition());
 	}
 
 	public void setChainPosition(int position)
@@ -307,14 +315,64 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return DBLoader.getInstance().load(Summary.class, null, "episode_id=? and language_id=?", getId(), language.getId());
 	}
 
+	public Set<Credit> getCredits()
+	{
+		return DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=?", getId());
+	}
+
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	public Credit createCredit()
+	{
+		Credit credit=new Credit();
+		credit.setEpisode(this);
+		fireElementAdded(CREDITS, credit);
+		return credit;
+	}
+
+	public void dropCredit(Credit credit)
+	{
+		credit.delete();
+		fireElementRemoved(CREDITS, credit);
+	}
+
+	public String getProductionTitle()
+	{
+		Show show=getShow();
+		return show.getTitle()+" - "+toString();
+	}
+
+	public CreditType[] getSupportedCastTypes()
+	{
+		return new CreditType[]{CreditType.MAIN_CAST, CreditType.RECURRING_CAST, CreditType.GUEST_CAST};
+	}
+
+	public Set<CastMember> getCastMembers()
+	{
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=?", getId());
+	}
+
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public CastMember createCastMember(CreditType creditType)
+	{
+		CastMember cast=new CastMember();
+		cast.setCreditType(creditType);
+		cast.setEpisode(this);
+		fireElementAdded(CAST_MEMBERS, cast);
+		return cast;
+	}
+
+	public void dropCastMember(CastMember cast)
+	{
+		cast.delete();
+		fireElementRemoved(CAST_MEMBERS, cast);
 	}
 
 	public int getRecordableLength()

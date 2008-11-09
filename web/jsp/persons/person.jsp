@@ -17,9 +17,9 @@
 	Person person=PersonManager.getInstance().getPerson(personId);
 	request.setAttribute("person", person);
 
-	Credits actingCredits=person.getActingCredits();
+	Credits actingCredits=person.getSortedActingCredits();
 	request.setAttribute("actingCredits", actingCredits);
-	Map creditMap=person.getCrewCredits();
+	Map creditMap=person.getSortedCrewCredits();
 	request.setAttribute("crewCredits", creditMap);
 %>
 <html>

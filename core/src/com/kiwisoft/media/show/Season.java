@@ -14,12 +14,14 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.media.pics.Picture;
 
 public class Season extends IDObject implements Comparable
 {
 	public static final String SHOW="show";
 	public static final String FIRST_EPISODE="firstEpisode";
 	public static final String LAST_EPISODE="lastEpisode";
+	public static final String LOGO="logo";
 
 	public static final ResourceBundle NAME_RESOURCES=ResourceBundle.getBundle("com.kiwisoft.media.show.seasons");
 
@@ -107,6 +109,16 @@ public class Season extends IDObject implements Comparable
 	public void setLastEpisode(Episode value)
 	{
 		setReference(LAST_EPISODE, value);
+	}
+
+	public Picture getLogo()
+	{
+		return (Picture)getReference(LOGO);
+	}
+
+	public void setLogo(Picture logo)
+	{
+		setReference(LOGO, logo);
 	}
 
 	public String getName()

@@ -9,6 +9,7 @@ package com.kiwisoft.media.dataImport;
 import java.awt.event.ActionEvent;
 
 import com.kiwisoft.swing.actions.MultiContextAction;
+import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.person.Person;
@@ -31,6 +32,6 @@ public class TVTVDeLoaderContextAction extends MultiContextAction
 
 	public void actionPerformed(final ActionEvent anEvent)
 	{
-		new TVTVDeLoaderDialog(frame, getObjects()).setVisible(true);
+		new ProgressDialog(frame, new TVTVDeLoader(getObjects())).start();
 	}
 }

@@ -10,6 +10,7 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.Identifyable;
@@ -157,6 +158,14 @@ public class CastMember extends IDObject
 	{
 		if (CREDIT_TYPE.equals(name)) return CreditType.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
+	}
+
+	public Production getProduction()
+	{
+		Production production=getEpisode();
+		if (production==null) production=getShow();
+		if (production==null) production=getMovie();
+		return production;
 	}
 
 	public static class Comparator implements java.util.Comparator<CastMember>

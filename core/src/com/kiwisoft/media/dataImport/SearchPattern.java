@@ -42,6 +42,10 @@ public class SearchPattern extends IDObject
 		setType(type);
 	}
 
+	public SearchPattern()
+	{
+	}
+
 	public SearchPattern(DBDummy dummy)
 	{
 		super(dummy);
@@ -99,5 +103,13 @@ public class SearchPattern extends IDObject
 	public void setActor(Person value)
 	{
 		setReference(ACTOR, value);
+	}
+
+	public IDObject getReference()
+	{
+		IDObject reference=getShow();
+		if (reference==null) reference=getMovie();
+		if (reference==null) reference=getActor();
+		return reference;
 	}
 }

@@ -1,23 +1,27 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import = "java.text.DateFormat,
-				   java.text.SimpleDateFormat,
-				   java.util.Iterator,
-				   java.util.SortedSet,
-				   java.util.TreeSet,
-				   com.kiwisoft.media.Airdate,
-				   com.kiwisoft.media.AirdateComparator,
-				   com.kiwisoft.media.show.Episode,
-				   com.kiwisoft.media.show.Show,
-				   com.kiwisoft.media.show.ShowManager" %>
-<%@ page import="com.kiwisoft.media.Navigation"%>
+
 <%@ page import="org.apache.commons.lang.StringEscapeUtils"%>
-<%@ page import="com.kiwisoft.media.Channel" %>
-<%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.*" %>
+<%@ page import="com.kiwisoft.utils.StringUtils" %>
+<%@ page import="com.kiwisoft.media.schedule.ScheduleTable" %>
+<%@ page import="com.kiwisoft.media.show.Show" %>
+<%@ page import="com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Collection" %>
+
+<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
 	Long showId=new Long(request.getParameter("show"));
 	Show show=ShowManager.getInstance().getShow(showId);
 	request.setAttribute("show", show);
+	String rangeId=request.getParameter("range");
+	DateRange range=null;
+	if (!StringUtils.isEmpty(rangeId)) range=DateRange.get(Long.valueOf(rangeId));
+	if (range==null) range=DateRange.NEXT_24_HOURS;
+	ScheduleTable table=new ScheduleTable(show, range);
+	table.sort();
+	request.setAttribute("table", table);
 %>
 <html>
 
@@ -29,78 +33,36 @@
 
 <body>
 <a name="top"></a>
-<div id="overDiv" class="over_lib"></div>
 
-<div class="title">
-	<div style="margin-left:10px; margin-top:5px;"><%=StringEscapeUtils.escapeHtml(show.getTitle())%></div>
-</div>
+<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%></media:title>
 
-<div class="main">
-<table cellspacing="0" cellpadding="5"><tr valign="top">
-<td width="200">
-<!--Navigation Start-->
-
-	<jsp:include page="_show_nav.jsp"/>
-	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="../_nav.jsp"/>
-
-<!--Navigation End-->
-</td>
-<td width="800">
-<!--Content Start-->
-
-<table class="contenttable" width="790">
-<tr><td class="header1">Schedule</td></tr>
-<tr><td class="content">
-	<table class="table1" width="765">
-	<tr class="thead"><td class="tcell" align="right">Date</td><td class="tcell">Channel</td><td class="tcell">Event</td></tr>
+<media:body>
+	<media:sidebar>
+		<jsp:include page="_show_nav.jsp"/>
+		<jsp:include page="_shows_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
+	</media:sidebar>
+	<media:content>
+		<media:panel title="Schedule">
+			Date Range: <select name="range" size="1" onChange="window.location.href='<%=request.getContextPath()%>/shows/schedule.jsp?show=<%=show.getId()%>&range='+this.value">
 <%
-		DateFormat dateFormat=new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
-		SortedSet airdates=new TreeSet(new AirdateComparator(AirdateComparator.TIME));
-		airdates.addAll(show.getAirdates());
-		Iterator itAirdates=airdates.iterator();
-		boolean row=false;
-		while (itAirdates.hasNext())
+	Collection ranges=DateRange.values();
+	for (Iterator it=ranges.iterator(); it.hasNext();)
+	{
+		DateRange r=(DateRange)it.next();
+		if (r!=DateRange.CUSTOM)
 		{
-			Airdate airdate=(Airdate)itAirdates.next();
 %>
-			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell" align="right"><%=dateFormat.format(airdate.getDate())%></td>
-				<td class="tcell">
+				<option value="<%=r.getId()%>" <%=r==range ? "selected" : ""%>><media:render value="<%=r%>"/></option>
 <%
-			Channel channel=airdate.getChannel();
-			if (channel!=null) out.println(JspUtils.render(request, channel));
-			else out.println(JspUtils.render(request, airdate.getChannelName()));
-%>
-				<td class="tcell">
-<%
-			Episode episode=airdate.getEpisode();
-			if (episode!=null)
-			{
-%>
-				<a class="link" href="<%=Navigation.getLink(request, episode)%>"><%=episode.getTitleWithKey(airdate.getLanguage())%></a>
-<%
-			}
-			else
-			{
-%>
-				<%=airdate.getName()%>
-<%
-			}
-%>
-			</td></tr>
-<%
-			row=!row;
 		}
+	}
 %>
-	</table>
-	<p align=right><a class=link href="#top">Top</a></p>
-</td></tr>
-</table>
-
-<!--Content End-->
-</td>
-</tr></table>
-</div>
+			</select><br/><br/>
+			<media:table model="table" alternateRows="true"/>
+		</media:panel>
+	</media:content>
+</media:body>
 
 </body>
 </html>

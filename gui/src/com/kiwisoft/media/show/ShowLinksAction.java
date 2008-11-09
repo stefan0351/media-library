@@ -19,7 +19,7 @@ public class ShowLinksAction extends SimpleContextAction
 
 	public ShowLinksAction(ApplicationFrame frame)
 	{
-		super(Linkable.class, "Links", Icons.getIcon("links"));
+		super(Linkable.class, "Links", Icons.getIcon("linkgroup"));
 		this.frame=frame;
 	}
 

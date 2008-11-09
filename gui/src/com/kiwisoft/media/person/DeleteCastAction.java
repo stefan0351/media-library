@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Production;
 import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.persistence.Transaction;
@@ -18,13 +18,13 @@ import com.kiwisoft.app.ApplicationFrame;
  */
 public class DeleteCastAction extends MultiContextAction
 {
-	private Show show;
 	private ApplicationFrame frame;
+	private Production production;
 
-	public DeleteCastAction(Show show, ApplicationFrame frame)
+	public DeleteCastAction(Production production, ApplicationFrame frame)
 	{
 		super(CastMember.class, "Delete", Icons.getIcon("delete"));
-		this.show=show;
+		this.production=production;
 		this.frame=frame;
 	}
 
@@ -48,7 +48,7 @@ public class DeleteCastAction extends MultiContextAction
 			try
 			{
 				transaction=DBSession.getInstance().createTransaction();
-				for (CastMember cast : casts) show.dropCast(cast);
+				for (CastMember cast : casts) production.dropCastMember(cast);
 				transaction.close();
 			}
 			catch (Exception e1)

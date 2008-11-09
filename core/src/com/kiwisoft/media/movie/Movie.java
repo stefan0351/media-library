@@ -367,14 +367,39 @@ public class Movie extends IDObject implements Recordable, Production
 		DBAssociation.getAssociation(Movie.class, COUNTRIES).setAssociations(this, countries);
 	}
 
+	public String getProductionTitle()
+	{
+		return getTitle();
+	}
+
+	public CreditType[] getSupportedCastTypes()
+	{
+		return new CreditType[]{CreditType.MAIN_CAST};
+	}
+
 	public Set<CastMember> getCastMembers()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=?", getId());
 	}
 
-	public Set<Credit> getCrewMembers()
+	public Set<CastMember> getCastMembers(CreditType type)
 	{
-		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=?", getId());
+		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+	}
+
+	public CastMember createCastMember(CreditType creditType)
+	{
+		CastMember cast=new CastMember();
+		cast.setCreditType(creditType);
+		cast.setMovie(this);
+		fireElementAdded(CAST_MEMBERS, cast);
+		return cast;
+	}
+
+	public void dropCastMember(CastMember cast)
+	{
+		cast.delete();
+		fireElementRemoved(CAST_MEMBERS, cast);
 	}
 
 	public int getRecordableLength()
@@ -393,14 +418,28 @@ public class Movie extends IDObject implements Recordable, Production
 		track.setMovie(this);
 	}
 
+	public Set<Credit> getCredits()
+	{
+		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=?", getId());
+	}
+
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
-	public Set<CastMember> getCastMembers(CreditType type)
+	public Credit createCredit()
 	{
-		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
+		Credit credit=new Credit();
+		credit.setMovie(this);
+		fireElementAdded(CREDITS, credit);
+		return credit;
+	}
+
+	public void dropCredit(Credit credit)
+	{
+		credit.delete();
+		fireElementRemoved(CREDITS, credit);
 	}
 
 	public boolean hasPoster()

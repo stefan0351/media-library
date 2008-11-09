@@ -10,7 +10,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Set;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
@@ -68,12 +68,12 @@ public class ChannelDetailsView extends DetailsView
 			@Override
 			public String getDefaultName()
 			{
-				return nameField.getText();
+				return nameField.getText()+" - Logo";
 			}
 		});
 		ImagePanel logoPreview=new ImagePanel(new Dimension(50, 30));
 		logoPreview.setBorder(new EtchedBorder());
-		namesTableModel=new NamesTableModel();
+		namesTableModel=new NamesTableModel(false);
 		SortableTable tblNames=new SortableTable(namesTableModel);
 		tblNames.initializeColumns(new DefaultTableConfiguration(ChannelDetailsView.class, "names"));
 
@@ -166,7 +166,7 @@ public class ChannelDetailsView extends DetailsView
 		boolean receiving=receivingField.isSelected();
 		Picture logo=logoField.getValue();
 		String webAddress=webAddressField.getText();
-		Map names=namesTableModel.getNames();
+		Set<String> names=namesTableModel.getNameSet();
 
 		Transaction transaction=null;
 		try
@@ -178,24 +178,15 @@ public class ChannelDetailsView extends DetailsView
 			channel.setLanguage(language);
 			channel.setReceivable(receiving);
 			channel.setWebAddress(webAddress);
-			Iterator it=new HashSet<Name>(channel.getAltNames()).iterator();
-			while (it.hasNext())
+			for (Name aName : new HashSet<Name>(channel.getAltNames()))
 			{
-				Name altName=(Name)it.next();
-				if (names.containsKey(altName.getName()))
-				{
-					altName.setLanguage((Language)names.get(altName.getName()));
-					names.remove(altName.getName());
-				}
-				else channel.dropAltName(altName);
+				if (names.contains(aName.getName())) names.remove(aName.getName());
+				else channel.dropAltName(aName);
 			}
-			it=names.keySet().iterator();
-			while (it.hasNext())
+			for (String aName : names)
 			{
-				String text=(String)it.next();
 				Name altName=channel.createAltName();
-				altName.setName(text);
-				altName.setLanguage((Language)names.get(text));
+				altName.setName(aName);
 			}
 			transaction.close();
 			return true;

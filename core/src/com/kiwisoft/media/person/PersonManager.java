@@ -12,6 +12,8 @@ import java.util.Set;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.Name;
 
 public class PersonManager
 {
@@ -81,7 +83,14 @@ public class PersonManager
 
 	public Person getPersonByName(String name, boolean binary)
 	{
-		return DBLoader.getInstance().load(Person.class, null, (binary ? "binary " : "")+"name=?", name);
+		Person person=DBLoader.getInstance().load(Person.class, null, (binary ? "binary " : "")+"name=?", name);
+		if (person==null)
+		{
+			person=DBLoader.getInstance().load(Person.class, "names", "names.type=? and names.ref_id=persons.id" +
+																	  " and " +(binary ? "binary " : "")+"names.name=?",
+											   Name.PERSON, name);
+		}
+		return person;
 	}
 
 	public Person getPerson(Long id)

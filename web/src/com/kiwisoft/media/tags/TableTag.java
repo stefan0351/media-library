@@ -74,6 +74,7 @@ public class TableTag extends TagSupport
 		JspWriter out=pageContext.getOut();
 		HttpServletRequest request=(HttpServletRequest)pageContext.getRequest();
 		Map<String, Object> context=new HashMap<String, Object>();
+		Map<String, Object> tableContext=table.getContext();
 		for (int rowIndex=0;rowIndex<table.getRowCount();rowIndex++)
 		{
 			out.print("<tr class=\"");
@@ -85,6 +86,7 @@ public class TableTag extends TagSupport
 				context.clear();
 				context.put("request", request);
 				context.put("contextPath", request.getContextPath());
+				if (tableContext!=null) context.putAll(tableContext);
 				Object value=table.getValueAt(rowIndex, columnIndex);
 				Class cellClass=table.getCellClass(rowIndex, columnIndex);
 				if (cellClass==null)

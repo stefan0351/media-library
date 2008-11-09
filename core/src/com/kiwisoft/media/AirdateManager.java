@@ -10,9 +10,11 @@ package com.kiwisoft.media;
 import java.util.Date;
 import java.util.Set;
 import java.util.Calendar;
+import java.util.Collections;
 
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.media.show.Show;
 
 public class AirdateManager
 {
@@ -33,17 +35,14 @@ public class AirdateManager
 		return DBLoader.getInstance().loadSet(Airdate.class, null, "show_id is null");
 	}
 
-	public Set<Airdate> getAirdates(int unit, int quantity)
+	public Set<Airdate> getAirdates(Date startDate, Date endDate)
 	{
-		Date now=new Date();
-		Date startTime=DateUtils.add(now, Calendar.HOUR, -2);
-		Date endTime=DateUtils.add(now, unit, quantity);
-		return DBLoader.getInstance().loadSet(Airdate.class, null, "viewdate>=? and viewdate<?", startTime, endTime);
+		return DBLoader.getInstance().loadSet(Airdate.class, null, "viewdate between ? and ?", startDate, endDate);
 	}
 
-	public Set<Airdate> getAirdatesToday()
+	public Set<Airdate> getAirdates(Show show, Date startDate, Date endDate)
 	{
-		return DBLoader.getInstance().loadSet(Airdate.class, null, "to_days(viewdate)=to_days(current_date)");
+		return DBLoader.getInstance().loadSet(Airdate.class, null, "show_id=? and viewdate between ? and ?", show.getId(), startDate, endDate);
 	}
 }
 

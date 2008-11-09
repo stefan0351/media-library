@@ -12,7 +12,6 @@ import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.dataImport.DataSource;
-import com.kiwisoft.media.dataImport.AirdateData;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
@@ -27,11 +26,12 @@ public class Airdate extends IDObject
 	public static final String MOVIE="movie";
 	public static final String LANGUAGE="language";
 	public static final String DATA_SOURCE="dataSource";
+	public static final String DETAILS_LINK="detailsLink";
 
 	private String event;
 	private boolean reminder;
 	private Date date;
-	private String channelName;
+	private String detailsLink;
 
 	public Airdate()
 	{
@@ -139,12 +139,6 @@ public class Airdate extends IDObject
 		setModified(DATE, oldDate, date);
 	}
 
-	public String getChannelName()
-	{
-		if (getChannel()!=null) return getChannel().getName();
-		return channelName;
-	}
-
 	public Channel getChannel()
 	{
 		return (Channel)getReference(CHANNEL);
@@ -152,7 +146,6 @@ public class Airdate extends IDObject
 
 	public void setChannel(Channel channel)
 	{
-		if (channel!=null) channelName=null;
 		setReference(CHANNEL, channel);
 	}
 
@@ -166,19 +159,23 @@ public class Airdate extends IDObject
 		setReference(DATA_SOURCE, dataSource);
 	}
 
+
+	public String getDetailsLink()
+	{
+		return detailsLink;
+	}
+
+	public void setDetailsLink(String detailsLink)
+	{
+		String oldDetailsLink=this.detailsLink;
+		this.detailsLink=detailsLink;
+		firePropertyChange(DETAILS_LINK, oldDetailsLink, this.detailsLink);
+	}
+
 	public Identifyable loadReference(String name, Object referenceId)
 	{
 		if (DATA_SOURCE.equals(name)) return DataSource.get((Long)referenceId);
 		return super.loadReference(name, referenceId);
-	}
-
-	public boolean equals(Date time, AirdateData airdateData)
-	{
-		if (getDate().getTime()!=time.getTime()) return false;
-		if (airdateData.getShow()!=getShow()) return false;
-		if (airdateData.getEpisode()!=null) return airdateData.getEpisode()==getEpisode();
-		else if (airdateData.getEvent()!=null) return airdateData.getEvent().equalsIgnoreCase(getEvent());
-		return true;
 	}
 
 	public static String getName(Show show, Episode episode, String event)

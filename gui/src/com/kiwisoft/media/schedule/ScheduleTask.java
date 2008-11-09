@@ -12,11 +12,11 @@ public class ScheduleTask extends MenuSidebarItem.Task
 {
 	public ScheduleTask()
 	{
-		super("Schedule");
+		super("TV Schedule");
 	}
 
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new ScheduleView(Calendar.DATE, 1));
+		frame.setCurrentView(new ScheduleView());
 	}
 }
