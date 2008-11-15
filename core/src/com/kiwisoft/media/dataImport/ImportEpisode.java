@@ -7,11 +7,11 @@ import java.util.Date;
  */
 public interface ImportEpisode
 {
-	String getEpisodeKey();
+	String getKey();
 
-	String getGermanEpisodeTitle();
+	String getGermanTitle();
 
-	String getEpisodeTitle();
+	String getTitle();
 
 	Date getFirstAirdate();
 

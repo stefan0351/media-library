@@ -8,6 +8,8 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.EmptyBorder;
@@ -59,6 +61,7 @@ public class PictureDetailsView extends DetailsView
 	private ImageField imageField;
 	private ImageField thumbnail50x50Field;
 	private ImageField thumbnailSidebarField;
+	private Set<File> filesToBeDeleted=new HashSet<File>();
 
 	private PictureDetailsView(Picture picture)
 	{
@@ -135,30 +138,51 @@ public class PictureDetailsView extends DetailsView
 			if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name is missing!", nameField);
 			File file=imageField.getFile();
 			if (file==null) throw new InvalidDataException("No image is specified!", imageField);
+			filesToBeDeleted.remove(file);
 			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
 			final String imagePath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
 			final String thumbnail50x50Path=getThumbnailPath(thumbnail50x50Field);
+			filesToBeDeleted.remove(thumbnail50x50Field.getFile());
 			final String thumbnailSidebarPath=getThumbnailPath(thumbnailSidebarField);
-			return DBSession.execute(new Transactional()
+			filesToBeDeleted.remove(thumbnailSidebarField.getFile());
+			try
 			{
-				public void run() throws Exception
+				return DBSession.execute(new Transactional()
 				{
-					if (picture==null) picture=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
-					picture.setName(name);
-					picture.setFile(imagePath);
-					picture.setWidth(imageField.getImageWidth());
-					picture.setHeight(imageField.getImageHeight());
-					picture.setThumbnail50x50(MediaConfiguration.PATH_ROOT, thumbnail50x50Path,
-											  thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
-					picture.setThumbnailSidebar(MediaConfiguration.PATH_ROOT, thumbnailSidebarPath,  
-												thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
-				}
+					public void run() throws Exception
+					{
+						if (picture==null) picture=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
+						picture.setName(name);
+						picture.setFile(imagePath);
+						picture.setWidth(imageField.getImageWidth());
+						picture.setHeight(imageField.getImageHeight());
+						picture.setThumbnail50x50(MediaConfiguration.PATH_ROOT, thumbnail50x50Path,
+												  thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
+						picture.setThumbnailSidebar(MediaConfiguration.PATH_ROOT, thumbnailSidebarPath,
+													thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
+					}
 
-				public void handleError(Throwable throwable, boolean rollback)
+					public void handleError(Throwable throwable, boolean rollback)
+					{
+						JOptionPane.showMessageDialog(PictureDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				});
+			}
+			finally
+			{
+				try
 				{
-					JOptionPane.showMessageDialog(PictureDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					for (File f : filesToBeDeleted)
+					{
+						if (f.exists() && f.isFile()) f.delete();
+					}
+					filesToBeDeleted.clear();
 				}
-			});
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
 		}
 		catch (InvalidDataException e)
 		{
@@ -193,7 +217,7 @@ public class PictureDetailsView extends DetailsView
 		}
 	}
 
-	private static class ImageField extends JPanel
+	private class ImageField extends JPanel
 	{
 		private File file;
 		private int width;
@@ -246,6 +270,7 @@ public class PictureDetailsView extends DetailsView
 			toolBar.setMargin(null);
 			toolBar.add(new OpenFileAction());
 			for (Action action : actions) toolBar.add(action);
+			toolBar.add(new RemoveAction());
 			return toolBar;
 		}
 
@@ -271,6 +296,32 @@ public class PictureDetailsView extends DetailsView
 					File file=fileChooser.getSelectedFile();
 					setFile(file);
 					MediaConfiguration.setRecentPicturePath(file.getParent());
+				}
+			}
+		}
+
+		private class RemoveAction extends AbstractAction
+		{
+			public RemoveAction()
+			{
+				super("Remove", Icons.getIcon("delete"));
+			}
+
+			public void actionPerformed(ActionEvent e)
+			{
+				if (file!=null)
+				{
+					int option=JOptionPane.showConfirmDialog(ImageField.this, "Delete file from disk?", "Delete?",
+												  JOptionPane.YES_NO_CANCEL_OPTION,
+												  JOptionPane.QUESTION_MESSAGE);
+					switch (option)
+					{
+						case JOptionPane.YES_OPTION:
+							filesToBeDeleted.add(file);
+						case JOptionPane.NO_OPTION:
+							setFile(null);
+							break;
+					}
 				}
 			}
 		}

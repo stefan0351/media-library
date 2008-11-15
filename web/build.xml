@@ -58,12 +58,10 @@
 	</target>
 
 	<target name="web.deploy">
-		<tstamp>
-			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
-		</tstamp>
 		<copy todir="${root.dir}/tomcat/webapps/media">
 			<fileset dir="${web.module.dir}">
 				<include name="WEB-INF/**/*.*"/>
+				<include name="META-INF/**/*.*"/>
 			</fileset>
 			<fileset dir="${web.module.dir}/jsp"/>
 		</copy>

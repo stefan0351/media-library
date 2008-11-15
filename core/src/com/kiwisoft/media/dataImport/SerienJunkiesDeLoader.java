@@ -1,54 +1,33 @@
 package com.kiwisoft.media.dataImport;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.progress.Job;
-import com.kiwisoft.progress.ProgressListener;
-import com.kiwisoft.progress.ProgressSupport;
-import com.kiwisoft.utils.StringUtils;
-import static com.kiwisoft.utils.StringUtils.isEmpty;
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.xml.XMLUtils;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
  */
-public abstract class SerienJunkiesDeLoader implements Job
+public abstract class SerienJunkiesDeLoader extends EpisodeDataLoader
 {
-	public static final Pattern NUMBER_PATTERN=Pattern.compile("(\\d{2})x(\\d{2})");
-
-	private ProgressSupport progress;
-
-	private Show show;
-	private String baseUrl;
-	private int startSeason;
-	private int endSeason;
-	private boolean autoCreate;
-	private Language german;
 	public SimpleDateFormat airdateFormat;
 
 	protected SerienJunkiesDeLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
-		this.show=show;
-		this.baseUrl=baseUrl;
-		this.startSeason=startSeason;
-		this.endSeason=endSeason;
-		this.autoCreate=autoCreate;
-		this.german=LanguageManager.getInstance().getLanguageBySymbol("de");
-		airdateFormat=new SimpleDateFormat("dd.MM.yyyy");
+		super(show, baseUrl, startSeason, endSeason, autoCreate);
+		Matcher matcher=Pattern.compile("(http://www.serienjunkies.de/[^/]+)/.*").matcher(baseUrl);
+		if (matcher.matches()) setBaseUrl(matcher.group(1));
+		airdateFormat=new SimpleDateFormat("dd.MM.yy");
+		airdateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 	}
 
 	public String getName()
@@ -56,221 +35,91 @@ public abstract class SerienJunkiesDeLoader implements Job
 		return "Load Episodes from SerienJunkies.de";
 	}
 
-	public boolean run(ProgressListener progressListener) throws Exception
+	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
 	{
-		progress=new ProgressSupport(this, progressListener);
-		loadMain(baseUrl);
-		return true;
-	}
+		String page=loadUrl(getBaseUrl()+"/season"+season+".html");
 
-	public void dispose() throws IOException
-	{
-	}
-
-	private void loadMain(String baseUrl) throws IOException, InterruptedException
-	{
-		progress.startStep("Load episode list...");
-		progress.initialize(false, 1, null);
-		String page=WebUtils.loadURL(baseUrl);
-//		FileUtils.saveToFile(page, new File("g:"+File.separator+"Stefan"+File.separator+"sj_episoden.html"));
-
-		int index2=0;
-		while (!progress.isStoppedByUser())
+		// Parse episode list
+		int listStart=page.indexOf("<table class=\"eplist\">");
+		int listEnd=page.indexOf("</table>", listStart);
+		List<EpisodeData> episodes=new ArrayList<EpisodeData>();
+		if (listStart>0 && listEnd>listStart)
 		{
-			int index1=page.indexOf("<tr><td class=\"ep", index2);
-			if (index1<0) break;
-			index2=page.indexOf("</tr>", index1);
-			if (index2<0) break;
-			String htmlRow=page.substring(index1+4, index2);
-			if (!htmlRow.startsWith("<td class=\"ephead\""))
+			int episodeEnd=listStart;
+			while (true)
 			{
-				List<String> values=XMLUtils.extractCellValues(htmlRow);
+				if (getProgress().isStoppedByUser()) return null;
 
-				EpisodeData episodeData=new EpisodeData();
+				int episodeStart=page.indexOf("<tr>", episodeEnd);
+				if (episodeStart==-1 || episodeStart>listEnd) break;
+				episodeEnd=page.indexOf("</tr>", episodeStart);
+				if (episodeEnd<episodeStart) break;
+				String episodeRow=page.substring(episodeStart, episodeEnd);
+				List<String> episodeCells=XMLUtils.extractCellValues(episodeRow);
 
-				episodeData.airdate=convertDate(values.get(0));
+				String key=season+"."+episodeCells.get(0).trim();
+				String title=convertHTML(episodeCells.get(2));
+				EpisodeData episodeData=new EpisodeData(key, title);
+				episodeData.setGermanTitle(convertHTML(episodeCells.get(3)));
 
-				String text=values.get(1);
-				Matcher matcher=NUMBER_PATTERN.matcher(text);
-				if (matcher.matches())
+				String airdateText=convertHTML(episodeCells.get(1));
+				if (!StringUtils.isEmpty(airdateText))
 				{
-					int season=Integer.parseInt(matcher.group(1));
-					if (season<startSeason) continue;
-					if (season>endSeason) break;
-					text=season+"."+Integer.parseInt(matcher.group(2));
+					try
+					{
+						episodeData.setFirstAirdate(airdateFormat.parse(airdateText));
+					}
+					catch (ParseException e)
+					{
+						getProgress().error(e);
+					}
 				}
-				episodeData.episodeKey=text;
 
-				String origNameAndLink=values.get(2);
-				String origName=XMLUtils.removeTags(origNameAndLink);
-				origName=XMLUtils.unescapeHtml(origName);
-				episodeData.origEpisodeName=StringUtils.trimString(origName);
-
-				String nameAndLink=values.get(3);
-				String name=XMLUtils.removeTags(nameAndLink);
-				name=XMLUtils.unescapeHtml(name);
-				episodeData.episodeName=StringUtils.trimString(name);
-				XMLUtils.Tag tag=XMLUtils.getNextTag(nameAndLink, 0, "a");
-				String link=null;
-				if (tag!=null) link=XMLUtils.getAttribute(tag.text, "href");
-
-//				Date germanFirstAired=convertDate(values.get(4));
-
-				ShowManager showManager=ShowManager.getInstance();
-				Episode episode=null;
-				if (!isEmpty(episodeData.episodeName))
-					episode=showManager.getEpisodeByName(show, episodeData.episodeName);
-				if (episode==null && !isEmpty(episodeData.origEpisodeName))
-					episode=showManager.getEpisodeByName(show, episodeData.origEpisodeName);
-				if (episode==null) episode=autoCreateEpisode(show, episodeData);
-
-				if (episode!=null)
+				XMLUtils.Tag linkTag=XMLUtils.getNextTag(episodeCells.get(6), 0, "a");
+				if (linkTag!=null)
 				{
-					if (!isEmpty(link)) loadSummary(episodeData, link);
-					saveEpisode(episode, episodeData);
+					String href=XMLUtils.getAttribute(linkTag.text, "href");
+					episodeData.setEpisodeUrl(new URL(new URL(getBaseUrl()), href).toString());
 				}
-				Thread.sleep(100); // To avoid DOS on the TV.com server
+
+				episodes.add(episodeData);
 			}
 		}
+		return episodes;
 	}
 
-	private Date convertDate(String text)
+	protected void loadDetails(EpisodeData data) throws IOException
 	{
-		if (text!=null) text=XMLUtils.unescapeHtml(text);
-		if (!StringUtils.isEmpty(text))
-		{
-			try
-			{
-				return airdateFormat.parse(text);
-			}
-			catch (ParseException e)
-			{
-				progress.error(e);
-			}
-		}
-		return null;
-	}
+		String page=loadUrl(data.getEpisodeUrl());
 
-	private Episode autoCreateEpisode(final Show show, final EpisodeData data)
-	{
-		if (autoCreate)
+		int tableStart=page.indexOf("<table id=\"epdetails\">");
+		if (tableStart<0) return;
+		int tableEnd=page.indexOf("</table>", tableStart);
+		if (tableEnd<tableStart) return;
+
+		int summaryStart=page.indexOf("<td colspan=\"2\">", tableStart);
+		if (summaryStart<0 || summaryStart>tableEnd) return;
+		summaryStart=page.indexOf(">", summaryStart)+1;
+		int summaryEnd=page.indexOf("</td>", summaryStart);
+		String summary=page.substring(summaryStart, summaryEnd);
+		summary=summary.replaceAll("<em>Exklusive Episodenbeschreibung von .* f\u00fcr Serienjunkies.de:</em><br />", "");
+		summary=XMLUtils.removeTag(summary, "img");
+		StringBuilder preformattedText=new StringBuilder();
+		boolean lineBreak=false;
+		String[] lines=summary.split("<p[^>]*>|</p\\w*>");
+		for (String line : lines)
 		{
-			MyTransactional<Episode> transactional=new MyTransactional<Episode>()
+			if (StringUtils.isEmpty(line))
 			{
-				public void run() throws Exception
-				{
-					value=show.createEpisode();
-					value.setUserKey(data.getEpisodeKey());
-					value.setGermanTitle(data.getGermanEpisodeTitle());
-					value.setTitle(data.getEpisodeTitle());
-					value.setAirdate(data.getFirstAirdate());
-					value.setProductionCode(data.getProductionCode());
-				}
-			};
-			if (DBSession.execute(transactional))
-			{
-				progress.info("Episode "+transactional.value+" created.");
-				return transactional.value;
+				if (preformattedText.length()>0) lineBreak=true;
 			}
 			else
 			{
-				progress.error("Creation of episode "+data.getEpisodeTitle()+" failed.");
-				return null;
+				if (lineBreak) preformattedText.append("[br/]\n[br/]\n");
+				lineBreak=false;
+				preformattedText.append(convertHTML(line));
 			}
 		}
-		else return createEpisode(show, data);
-	}
-
-	protected abstract Episode createEpisode(Show show, ImportEpisode info);
-
-	private void loadSummary(EpisodeData episodeData, String episodeLink) throws IOException
-	{
-		String page=WebUtils.loadURL("http://www.serienjunkies.de"+episodeLink);
-//		FileUtils.saveToFile(page, new File("g:"+File.separator+"Stefan"+File.separator+"sj_episode_"+episodeData.episodeKey+".html"));
-
-		int index1=page.indexOf("<td class=\"episodetext2");
-		index1=page.indexOf(">", index1)+1;
-		int index2=page.indexOf("</td>", index1);
-		String summary=page.substring(index1, index2).replace("\n", "").replace("<br />", "\n");
-		episodeData.summary=XMLUtils.unescapeHtml(summary).trim();
-	}
-
-	public void saveEpisode(final Episode episode, final EpisodeData data)
-	{
-		boolean success=DBSession.execute(new MyTransactional()
-		{
-			public void run()
-			{
-				String oldName=episode.getGermanTitle();
-				String newName=data.getGermanEpisodeTitle();
-				if (isEmpty(oldName) && !isEmpty(newName)) episode.setGermanTitle(newName);
-
-				String oldOrigName=episode.getTitle();
-				String newOrigName=data.getEpisodeTitle();
-				if (isEmpty(oldOrigName) && !isEmpty(newOrigName)) episode.setTitle(newOrigName);
-
-				Date oldDate=episode.getAirdate();
-				Date newDate=data.getFirstAirdate();
-				if (oldDate==null && newDate!=null)
-					episode.setAirdate(newDate);
-				else if (oldDate!=null && newDate!=null && !oldDate.equals(newDate))
-					progress.warning("Different valules for 'First Aired' found."+
-									 "\n\tDatabase: "+airdateFormat.format(oldDate)+
-									 "\n\tSerienJunkies.de: "+airdateFormat.format(newDate));
-
-				String oldSummary=episode.getSummaryText(german);
-				String newSummary=data.summary;
-				if (isEmpty(oldSummary) && !isEmpty(newSummary)) episode.setSummaryText(german, newSummary);
-			}
-		});
-		if (success) progress.info("Episode "+episode+" updated.");
-	}
-
-	private static class EpisodeData implements ImportEpisode
-	{
-		private String episodeKey;
-		private String episodeName;
-		private String origEpisodeName;
-		private Date airdate;
-		private String summary;
-
-		public EpisodeData()
-		{
-		}
-
-		public String getEpisodeKey()
-		{
-			return episodeKey;
-		}
-
-		public String getGermanEpisodeTitle()
-		{
-			return episodeName;
-		}
-
-		public String getEpisodeTitle()
-		{
-			return origEpisodeName;
-		}
-
-		public Date getFirstAirdate()
-		{
-			return airdate;
-		}
-
-		public String getProductionCode()
-		{
-			return null;
-		}
-	}
-
-	private abstract class MyTransactional<T> implements Transactional
-	{
-		public T value;
-
-		public void handleError(Throwable e, boolean rollback)
-		{
-			progress.error(e.getClass().getSimpleName()+": "+e.getMessage());
-		}
+		data.setGermanSummary(preformattedText.toString());
 	}
 }

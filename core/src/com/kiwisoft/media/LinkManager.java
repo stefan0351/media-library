@@ -114,4 +114,9 @@ public class LinkManager implements CollectionChangeSource
 		}
 		html.closeElement("ul");
 	}
+
+	public LinkGroup getRootGroup(String name)
+	{
+		return DBLoader.getInstance().load(LinkGroup.class, null, "name=? and parentgroup_id is null", name);
+	}
 }

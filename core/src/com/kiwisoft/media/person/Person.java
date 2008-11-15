@@ -9,15 +9,15 @@ package com.kiwisoft.media.person;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.HashSet;
 
-import com.kiwisoft.media.dataImport.SearchManager;
-import com.kiwisoft.media.dataImport.SearchPattern;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.utils.Identifyable;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
@@ -97,6 +97,29 @@ public class Person extends IDObject
 		setModified(SURNAME, oldSurname, this.surname);
 	}
 
+	public void addAltName(String name)
+	{
+		if (!StringUtils.isEmpty(name))
+		{
+			boolean found=false;
+			// Check if name isn't already added as alternative name
+			for (Name altName : getAltNames())
+			{
+				if (name.equals(altName.getName()))
+				{
+					found=true;
+					break;
+				}
+			}
+			if (!found)
+			{
+				// Set as alternative name
+				Name altName=createAltName();
+				altName.setName(name);
+			}
+		}
+	}
+
 	public Name createAltName()
 	{
 		Name altName=new Name(this);
@@ -112,7 +135,7 @@ public class Person extends IDObject
 
 	public Set<Name> getAltNames()
 	{
-		if (altNames==null) altNames=DBLoader.getInstance().loadSet(Name.class, null, "type=? and ref_id=?", Name.SHOW, getId());
+		if (altNames==null) altNames=DBLoader.getInstance().loadSet(Name.class, null, "type=? and ref_id=?", Name.PERSON, getId());
 		return altNames;
 	}
 
@@ -122,7 +145,7 @@ public class Person extends IDObject
 		return (Gender)getReference(GENDER);
 	}
 
-	public void setSex(Gender gender)
+	public void setGender(Gender gender)
 	{
 		setReference(GENDER, gender);
 	}
@@ -244,4 +267,11 @@ public class Person extends IDObject
 		return DBLoader.getInstance().loadSet(Credit.class, null, "person_id=?", getId());
 	}
 
+
+	@Override
+	public void delete()
+	{
+		for (Name altName : new HashSet<Name>(getAltNames())) dropAltName(altName);
+		super.delete();
+	}
 }

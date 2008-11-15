@@ -132,9 +132,9 @@ public class EpisodeDetailsView extends DetailsView
 			showField.setText(show.getTitle());
 			if (importEpisode!=null)
 			{
-				userKeyField.setText(importEpisode.getEpisodeKey());
-				titleField.setText(importEpisode.getEpisodeTitle());
-				germanTitleField.setText(importEpisode.getGermanEpisodeTitle());
+				userKeyField.setText(importEpisode.getKey());
+				titleField.setText(importEpisode.getTitle());
+				germanTitleField.setText(importEpisode.getGermanTitle());
 				firstAiredField.setDate(importEpisode.getFirstAirdate());
 				productionCodeField.setText(importEpisode.getProductionCode());
 			}

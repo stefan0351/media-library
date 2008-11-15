@@ -2,38 +2,36 @@ package com.kiwisoft.media.movie;
 
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
+import com.kiwisoft.app.DetailsDialog;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.pics.Picture;
 import com.kiwisoft.media.pics.PictureLookup;
 import com.kiwisoft.media.pics.PictureLookupHandler;
 import com.kiwisoft.media.pics.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.swing.DocumentAdapter;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.swing.*;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.lookup.DialogLookup;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.ComponentUtils;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.ObjectTableModel;
 import com.kiwisoft.swing.table.SortableTable;
-import com.kiwisoft.swing.table.DefaultTableConfiguration;
-import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.app.DetailsFrame;
-import com.kiwisoft.app.DetailsDialog;
+import com.kiwisoft.utils.StringUtils;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -76,6 +74,8 @@ public class MovieDetailsView extends DetailsView
 	private ObjectTableModel<Language> languagesModel;
 	private ObjectTableModel<Country> countriesModel;
 	private LookupField<Picture> posterField;
+	private JTextPane germanSummaryField;
+	private JTextPane englishSummaryField;
 
 	private MovieDetailsView(Show show)
 	{
@@ -122,6 +122,8 @@ public class MovieDetailsView extends DetailsView
 			languagesModel.setObjects(movie.getLanguages());
 			countriesModel.setObjects(movie.getCountries());
 			posterField.setValue(movie.getPoster());
+			germanSummaryField.setText(movie.getSummaryText(LanguageManager.GERMAN));
+			englishSummaryField.setText(movie.getSummaryText(LanguageManager.ENGLISH));
 		}
 		else if (show!=null)
 		{
@@ -129,94 +131,85 @@ public class MovieDetailsView extends DetailsView
 		}
 	}
 
-	public boolean apply()
+	public boolean apply() throws InvalidDataException
 	{
-		String name=titleField.getText();
-		if (StringUtils.isEmpty(name))
-		{
-			JOptionPane.showMessageDialog(this, "Title is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			titleField.requestFocus();
-			return false;
-		}
-		String indexBy=indexByField.getText();
-		if (StringUtils.isEmpty(indexBy))
-		{
-			JOptionPane.showMessageDialog(this, "Index by is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			titleField.requestFocus();
-			return false;
-		}
-		String germanName=germanTitleField.getText();
-		boolean record=recordField.isSelected();
-		String script=transcriptField.getText();
-		if (StringUtils.isEmpty(script)) script=null;
-		String javascript=javaScriptField.getText();
-		if (StringUtils.isEmpty(javascript)) javascript=null;
-		Map<String, Language> names=namesModel.getNameMap();
-		Collection<Language> languages=languagesModel.getObjects();
-		Collection<Country> countries=countriesModel.getObjects();
-		Collection<Genre> genres=genresModel.getObjects();
-		Picture poster=posterField.getValue();
+		final String name=titleField.getText();
+		if (StringUtils.isEmpty(name)) throw new InvalidDataException("Title is missing!", titleField);
+		final String indexBy=indexByField.getText();
+		if (StringUtils.isEmpty(indexBy)) throw new InvalidDataException("Index by is missing!", indexByField);
+		final String germanName=germanTitleField.getText();
+		final boolean record=recordField.isSelected();
+		final String script=StringUtils.empty2null(transcriptField.getText());
+		final String javascript=StringUtils.empty2null(javaScriptField.getText());
+		final Map<String, Language> names=namesModel.getNameMap();
+		final Collection<Language> languages=languagesModel.getObjects();
+		final Collection<Country> countries=countriesModel.getObjects();
+		final Collection<Genre> genres=genresModel.getObjects();
+		final Picture poster=posterField.getValue();
 
-		Transaction transaction=null;
-		try
+		return DBSession.execute(new Transactional()
 		{
-			transaction=DBSession.getInstance().createTransaction();
-			if (movie==null)
+			public void run() throws Exception
 			{
-				if (show!=null) movie=show.createMovie();
-				else movie=MovieManager.getInstance().createMovie(null);
-			}
-			movie.setTitle(name);
-			movie.setIndexBy(indexBy);
-			movie.setGermanTitle(germanName);
-			movie.setRecord(record);
-			movie.setJavaScript(javascript);
-			movie.setPoster(poster);
-			movie.setWebScriptFile(script);
-			movie.setYear((Integer)yearField.getValue());
-			movie.setRuntime((Integer)runtimeField.getValue());
-			movie.setGenres(genres);
-			movie.setLanguages(languages);
-			movie.setCountries(countries);
-			Iterator<Name> it=new HashSet<Name>(movie.getAltNames()).iterator();
-			while (it.hasNext())
-			{
-				Name altName=it.next();
-				if (names.containsKey(altName.getName()))
+				if (movie==null)
 				{
-					altName.setLanguage(names.get(altName.getName()));
-					names.remove(altName.getName());
+					if (show!=null) movie=show.createMovie();
+					else movie=MovieManager.getInstance().createMovie(null);
 				}
-				else movie.dropAltName(altName);
+				movie.setTitle(name);
+				movie.setIndexBy(indexBy);
+				movie.setGermanTitle(germanName);
+				movie.setRecord(record);
+				movie.setJavaScript(javascript);
+				movie.setPoster(poster);
+				movie.setWebScriptFile(script);
+				movie.setYear((Integer)yearField.getValue());
+				movie.setRuntime((Integer)runtimeField.getValue());
+				movie.setGenres(genres);
+				movie.setLanguages(languages);
+				movie.setCountries(countries);
+				Iterator<Name> it=new HashSet<Name>(movie.getAltNames()).iterator();
+				while (it.hasNext())
+				{
+					Name altName=it.next();
+					if (names.containsKey(altName.getName()))
+					{
+						altName.setLanguage(names.get(altName.getName()));
+						names.remove(altName.getName());
+					}
+					else movie.dropAltName(altName);
+				}
+				Iterator<String> itNames=names.keySet().iterator();
+				while (itNames.hasNext())
+				{
+					String text=itNames.next();
+					Name altName=movie.createAltName();
+					altName.setName(text);
+					altName.setLanguage(names.get(text));
+				}
+				movie.setSummaryText(LanguageManager.GERMAN, germanSummaryField.getText());
+				movie.setSummaryText(LanguageManager.ENGLISH, englishSummaryField.getText());
 			}
-			Iterator<String> itNames=names.keySet().iterator();
-			while (itNames.hasNext())
+
+			public void handleError(Throwable throwable, boolean rollback)
 			{
-				String text=itNames.next();
-				Name altName=movie.createAltName();
-				altName.setName(text);
-				altName.setLanguage(names.get(text));
+				GuiUtils.handleThrowable(MovieDetailsView.this, throwable);
 			}
-			transaction.close();
-			return true;
-		}
-		catch (Throwable t)
-		{
-			t.printStackTrace();
-			try
-			{
-				if (transaction!=null) transaction.rollback();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-			JOptionPane.showMessageDialog(this, t.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
+		});
 	}
 
 	protected void createContentPanel()
+	{
+		JTabbedPane tabs=new JTabbedPane();
+		tabs.addTab("Details", createDetailsPanel());
+		tabs.addTab("Summary", createSummaryPanel());
+
+		setLayout(new BorderLayout());
+		add(tabs, BorderLayout.CENTER);
+		titleField.getDocument().addDocumentListener(new FrameTitleUpdater());
+	}
+
+	private JPanel createDetailsPanel()
 	{
 		posterField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
 		{
@@ -252,78 +245,106 @@ public class MovieDetailsView extends DetailsView
 		SortableTable countriesTable=new SortableTable(countriesModel);
 		countriesTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "countries"));
 
-		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(800, 340));
+		JPanel panel=new JPanel(new GridBagLayout());
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panel.setPreferredSize(new Dimension(800, 340));
 		int row=0;
-		add(posterPreview,
+		panel.add(posterPreview,
 			new GridBagConstraints(0, row, 1, 6, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(new JLabel("Serie:"),
+		panel.add(new JLabel("Serie:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(showField,
+		panel.add(showField,
 			new GridBagConstraints(2, row, 5, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Title:"),
+		panel.add(new JLabel("Title:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(titleField,
+		panel.add(titleField,
 			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(genresTable),
+		panel.add(new JScrollPane(genresTable),
 			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("German Title:"),
+		panel.add(new JLabel("German Title:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(germanTitleField,
+		panel.add(germanTitleField,
 			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Index By:"),
+		panel.add(new JLabel("Index By:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(indexByField,
+		panel.add(indexByField,
 			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Year:"),
+		panel.add(new JLabel("Year:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(yearField,
+		panel.add(yearField,
 			new GridBagConstraints(2, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Runtime:"),
+		panel.add(new JLabel("Runtime:"),
 			new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(runtimeField,
+		panel.add(runtimeField,
 			new GridBagConstraints(4, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Other Titles:"),
+		panel.add(new JLabel("Other Titles:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(new JScrollPane(tblNames),
+		panel.add(new JScrollPane(tblNames),
 			new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(languagesTable),
+		panel.add(new JScrollPane(languagesTable),
 			new GridBagConstraints(5, row, 1, 1, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("JS Call:"),
+		panel.add(new JLabel("JS Call:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(javaScriptField,
+		panel.add(javaScriptField,
 			new GridBagConstraints(2, row, 1, 1, 0.2, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(recordField,
+		panel.add(recordField,
 			new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(countriesTable),
+		panel.add(new JScrollPane(countriesTable),
 			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Script File:"),
+		panel.add(new JLabel("Script File:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(transcriptField,
+		panel.add(transcriptField,
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Poster:"),
+		panel.add(new JLabel("Poster:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(posterField,
+		panel.add(posterField,
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		titleField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		new PicturePreviewUpdater(posterField, posterPreview);
+		return panel;
+	}
+
+	protected JPanel createSummaryPanel()
+	{
+		germanSummaryField=new JTextPane();
+		englishSummaryField=new JTextPane();
+		JScrollPane germanSummaryPane=new JScrollPane(germanSummaryField);
+		germanSummaryPane.setPreferredSize(new Dimension(400, 150));
+		JScrollPane englishSummaryPane=new JScrollPane(englishSummaryField);
+		englishSummaryPane.setPreferredSize(new Dimension(400, 150));
+
+		JPanel panel=new JPanel(new GridBagLayout());
+		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		int row=0;
+		panel.add(new JLabel("English:"),
+				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(englishSummaryPane,
+				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(new JLabel("German:"),
+				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
+		row++;
+		panel.add(germanSummaryPane,
+				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+		return panel;
 	}
 
 	public JComponent getDefaultFocusComponent()

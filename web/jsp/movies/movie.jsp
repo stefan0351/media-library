@@ -196,7 +196,7 @@
 %>
 				<tr valign="top"><td class="content2"><b>Links:</b></td><td class="content2">
 					<a target="_new" class="link" href="http://www.imdb.com/title/<%=imdbKey%>/">
-						<img src="<%=request.getContextPath()%>/picture?type=Icon&name=imdb" alt="IMDb" align="middle" border="0"/>
+						<img src="<%=request.getContextPath()%>/picture?type=Icon&name=imdb" alt="IMDb" border="0"/>
 						http://www.imdb.com/title/<%=imdbKey%>/</a>
 				</td></tr>
 <%

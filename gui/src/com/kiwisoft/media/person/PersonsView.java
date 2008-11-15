@@ -78,6 +78,7 @@ public class PersonsView extends ViewPanel
 				actions.add(null);
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
+				actions.add(new MergePersonsAction(frame));
 				actions.add(null);
 				actions.add(new ShowPersonCreditsAction(frame));
 				actions.add(downloadAction);

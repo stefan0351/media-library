@@ -21,8 +21,9 @@ public class MediumType implements Identifyable
 	public static final MediumType DVD=new MediumType(new Long(4), "DVD", "DVD's", "D");
 	public static final MediumType DVD_ORIGINAL=new MediumType(new Long(5), "DVD(O)", "Original DVD's", "D");
 	public static final MediumType DVD_RW=new MediumType(new Long(6), "DVD(RW)", "Rewritable DVD's", "D", true);
-	public static final MediumType HDD=new MediumType(new Long(7), "HDD", "Harddisks", "H", true);
+	public static final MediumType HDR=new MediumType(new Long(7), "HDR", "Hard Disk Recorder", "H", true);
 	public static final MediumType AUDIO_CD=new MediumType(new Long(8), "Audio-CD", "Audio-CD's", "A");
+	public static final MediumType HD=new MediumType(new Long(9), "HD", "Hard Disk", "H", true);
 
 	public static MediumType get(Long id)
 	{

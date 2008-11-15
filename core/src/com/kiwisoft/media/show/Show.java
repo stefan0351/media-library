@@ -501,7 +501,13 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();
-		if (group==null && create) setLinkGroup(group=LinkManager.getInstance().createRootGroup(getTitle()));
+		if (group==null && create)
+		{
+			LinkGroup showsGroup=LinkManager.getInstance().getRootGroup("TV Shows");
+			if (showsGroup!=null) group=showsGroup.createSubGroup(getTitle());
+			else group=LinkManager.getInstance().createRootGroup(getTitle());
+			setLinkGroup(group);
+		}
 		return group;
 	}
 

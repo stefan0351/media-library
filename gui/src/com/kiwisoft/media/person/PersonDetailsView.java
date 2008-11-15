@@ -157,6 +157,29 @@ public class PersonDetailsView extends DetailsView
 		new PicturePreviewUpdater(pictureField, picturePreview);
 	}
 
+	private void updateNames()
+	{
+		String name=nameField.getText();
+		String firstName=firstNameField.getText();
+		String middleName=middleNameField.getText();
+		String surname=surnameField.getText();
+		if (!StringUtils.isEmpty(name) && StringUtils.isEmpty(firstName) && StringUtils.isEmpty(surname) && StringUtils.isEmpty(middleName))
+		{
+			String names[]=name.split(" ");
+			if (names.length==2)
+			{
+				firstNameField.setText(names[0]);
+				surnameField.setText(names[1]);
+			}
+			else if (names.length==3)
+			{
+				firstNameField.setText(names[0]);
+				middleNameField.setText(names[1]);
+				surnameField.setText(names[2]);
+			}
+		}
+	}
+
 	private void setPerson(Person person)
 	{
 		this.person=person;
@@ -166,6 +189,7 @@ public class PersonDetailsView extends DetailsView
 			firstNameField.setText(person.getFirstName());
 			middleNameField.setText(person.getMiddleName());
 			surnameField.setText(person.getSurname());
+			updateNames();
 			genderField.setValue(person.getGender());
 			pictureField.setValue(person.getPicture());
 			Iterator<Name> it=person.getAltNames().iterator();
@@ -184,6 +208,7 @@ public class PersonDetailsView extends DetailsView
 
 	public boolean apply()
 	{
+		updateNames();
 		String name=nameField.getText();
 		if (StringUtils.isEmpty(name))
 		{
@@ -218,7 +243,7 @@ public class PersonDetailsView extends DetailsView
 			person.setFirstName(firstName);
 			person.setMiddleName(middleName);
 			person.setSurname(surname);
-			person.setSex(gender);
+			person.setGender(gender);
 			person.setPicture(picture);
 			Iterator<Name> it=new HashSet<Name>(person.getAltNames()).iterator();
 			while (it.hasNext())

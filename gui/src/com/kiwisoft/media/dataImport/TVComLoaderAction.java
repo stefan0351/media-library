@@ -5,9 +5,12 @@ import javax.swing.JFrame;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
-import com.kiwisoft.cfg.Configuration;
+import com.kiwisoft.persistence.DBLoader;
 
 public class TVComLoaderAction extends SimpleContextAction
 {
@@ -21,17 +24,28 @@ public class TVComLoaderAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Configuration configurator=Configuration.getInstance();
-		String url=configurator.getString("TVCom.url", "");
-		Show show=(Show)getObject();
-		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, url);
+		final Show show=(Show)getObject();
+		Link link=DBLoader.getInstance().load(Link.class,
+									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
+									"s.id=? and links.url like ?",
+									show.getId(), "http://www.tv.com%episode_listings.html");
+		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
+		{
+			protected String getLinkName()
+			{
+				return "TV.com - "+show.getTitle()+" - Episode List";
+			}
+
+			protected Language getLinkLanguage()
+			{
+				return LanguageManager.getInstance().getLanguageBySymbol("en");
+			}
+		};
 		dialog.setVisible(true);
 		if (dialog.isOk())
 		{
-			url=dialog.getUrl();
-			configurator.setString("TVCom.url", url);
-			configurator.saveUserValues();
-			TVComLoader process=new TVComLoader(show, url, dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
+			link=dialog.getLink();
+			EpisodeDataLoader process=new TVComLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
 				protected Episode createEpisode(Show show, ImportEpisode info)
 				{
@@ -39,15 +53,6 @@ public class TVComLoaderAction extends SimpleContextAction
 					dialog.setVisible(true);
 					if (dialog.isOk()) return dialog.getEpisode();
 					return null;
-				}
-
-				@Override
-				protected String[] resolveCastString(String cast)
-				{
-					ResolveCastStringDialog dialog=new ResolveCastStringDialog(parent, cast);
-					dialog.setVisible(true);
-					if (dialog.isOk()) return new String[]{dialog.getActor(), dialog.getCharacter()};
-					return super.resolveCastString(cast);
 				}
 			};
 			ProgressDialog progressDialog=new ProgressDialog(parent, process);

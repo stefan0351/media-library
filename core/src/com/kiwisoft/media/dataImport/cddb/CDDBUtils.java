@@ -86,7 +86,7 @@ public class CDDBUtils
 		if (StringUtils.isEmpty(path)) path="bin"+File.separator+"cddbidgen.exe";
 		StringBuilder output=new StringBuilder();
 		Utils.run("cmd /c \""+path+"\"", output, null);
-		System.out.println(output);
+//		System.out.println(output);
 		return parseDiscIdGeneratorOutput(new StringReader(output.toString()));
 	}
 

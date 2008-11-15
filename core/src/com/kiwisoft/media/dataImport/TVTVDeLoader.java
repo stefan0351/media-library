@@ -24,6 +24,7 @@ import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 public class TVTVDeLoader implements Job
@@ -36,6 +37,12 @@ public class TVTVDeLoader implements Job
 	private List<Object> objects;
 	private ProgressSupport progressSupport=new ProgressSupport(this, null);
 	private Date now;
+
+	private Pattern dayPattern=Pattern.compile("<td id=\"date-box\"  class=\"fb-w13\" >(\\d{1,2}\\. \\w+ \\d{4})</td>");
+	private Pattern timePattern=Pattern.compile("<td class=\"pitime-box\\d\" nowrap=\"nowrap\" style='width:80px;'>(\\d\\d:\\d\\d)</td>");
+	private Pattern channelPattern=Pattern.compile("<td class=\"pisicon-box\\d\" nowrap style=\"width:40px\"><img title=\"([^\"]+)\"");
+	private Pattern titlePattern=Pattern.compile("<td class=\"pititle-box\\d\"");
+	private Pattern lengthPattern=Pattern.compile("class=\"fn-w8\" id=\"box-small-light\">L\u00e4nge: (\\d+) min\\.</td>");
 
 	public TVTVDeLoader(List<Object> objects)
 	{
@@ -100,26 +107,6 @@ public class TVTVDeLoader implements Job
 			progressSupport.error(e);
 		}
 		return episode1;
-	}
-
-	private static int findMatchingBrace(String episodeTitle, int index)
-	{
-		char ch=episodeTitle.charAt(index);
-		if (ch==')')
-		{
-			int level=0;
-			int pos=index;
-			while (pos>=0)
-			{
-				ch=episodeTitle.charAt(pos);
-				if (ch==')') level--;
-				else if (ch=='(') level++;
-				if (level==0) return pos;
-				pos--;
-			}
-			return -1;
-		}
-		else throw new UnsupportedOperationException();
 	}
 
 	private static String trimQuotes(String episodeTitle)
@@ -201,16 +188,12 @@ public class TVTVDeLoader implements Job
 				{
 					resultPage=WebUtils.loadURL(MessageFormat.format(SEARCH_URL, pattern), "UTF-8");
 
-					SimpleDateFormat dayFormat=new SimpleDateFormat("d. MMMM yyyy");
+					SimpleDateFormat dayFormat=new SimpleDateFormat("d. MMMM yyyy", Locale.GERMANY);
 					TimeZone timeZone=TimeZone.getTimeZone("Europe/Berlin");
 					dayFormat.setTimeZone(timeZone);
 					SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
 					timeFormat.setTimeZone(timeZone);
-					Pattern dayPattern=Pattern.compile("<td id=\"date-box\"  class=\"fb-w13\" >(\\d{1,2}\\. \\w+ \\d{4})</td>");
 					Matcher dayMatcher=dayPattern.matcher(resultPage);
-					Pattern timePattern=Pattern.compile("<td class=\"pitime-box\\d\" nowrap=\"nowrap\" style='width:80px;'>(\\d\\d:\\d\\d)</td>");
-					Pattern channelPattern=Pattern.compile("<td class=\"pisicon-box\\d\" nowrap style=\"width:40px\"><img title=\"([^\"]+)\"");
-					Pattern titlePattern=Pattern.compile("<td class=\"pititle-box\\d\"");
 
 					int dayPosition=0;
 					boolean dayFound=dayMatcher.find(dayPosition);
@@ -281,6 +264,7 @@ public class TVTVDeLoader implements Job
 			{
 				e.printStackTrace();
 				progressSupport.error("Loading of schedule for "+getName()+" failed.");
+				progressSupport.error(e);
 				return null;
 			}
 		}
@@ -326,21 +310,32 @@ public class TVTVDeLoader implements Job
 							int episodeEnd=detailPage.indexOf("</span>", episodeStart);
 							String title=detailPage.substring(episodeStart, episodeEnd).trim();
 							title=trimQuotes(title);
+							Integer length=null;
+							Matcher lengthMatcher=lengthPattern.matcher(detailPage);
+							if (lengthMatcher.find())
+							{
+								length=Integer.parseInt(lengthMatcher.group(1));
+							}
 							if (title.endsWith(")"))
 							{
-								int matchingBrace=findMatchingBrace(title, title.length()-1);
+								int matchingBrace=StringUtils.findMatchingBrace(title, title.length()-1);
 								if (matchingBrace>0)
 								{
 									String originalTitle=title.substring(matchingBrace+1, title.length()-1).trim();
 									String germanTitle=title.substring(0, matchingBrace).trim();
-									String[] originalTitles=originalTitle.split("/");
-									String[] germanTitles=germanTitle.split("/");
-									if (germanTitles.length==originalTitles.length)
+									if (length==null || length>3*airdate.show.getDefaultEpisodeLength()/2) // Only check of Double-Episodes if length is 1.5xdefault length
 									{
-										for (int i=0; i<germanTitles.length; i++)
+										String[] originalTitles=originalTitle.split("/");
+										String[] germanTitles=germanTitle.split("/");
+										if (germanTitles.length>1 && germanTitles.length==originalTitles.length)
 										{
-											airdate.episodes.add(new EpisodeData(germanTitles[i].trim(), originalTitles[i].trim()));
+											int episodeLength=length!=null ? length/2 : airdate.show.getDefaultEpisodeLength();
+											for (int i=0; i<germanTitles.length; i++)
+											{
+												airdate.episodes.add(new EpisodeData(germanTitles[i].trim(), originalTitles[i].trim(), i*episodeLength));
+											}
 										}
+										else airdate.episodes.add(new EpisodeData(germanTitle, originalTitle));
 									}
 									else airdate.episodes.add(new EpisodeData(germanTitle, originalTitle));
 								}
@@ -383,6 +378,7 @@ public class TVTVDeLoader implements Job
 						e.printStackTrace();
 						System.out.println("content = "+detailPage);
 						progressSupport.error("Error while loading details for "+airdate.time+" "+airdate.title);
+						progressSupport.error(e);
 					}
 				}
 			}
@@ -411,6 +407,10 @@ public class TVTVDeLoader implements Job
 					for (EpisodeData episodeData : airingData.episodes)
 					{
 						Airdate airdate=createAirdate(airingData);
+						if (episodeData.timeOffset>0)
+						{
+							airdate.setDate(DateUtils.add(airdate.getDate(), Calendar.MINUTE, episodeData.timeOffset));
+						}
 						Episode episode=episodeData.episode;
 						airdate.setEpisode(episode);
 						if (episode==null) airdate.setEvent(episodeData.title);
@@ -589,6 +589,7 @@ public class TVTVDeLoader implements Job
 
 	private static class EpisodeData
 	{
+		private int timeOffset;
 		private Episode episode;
 		private String title;
 		private String germanTitle;
@@ -601,9 +602,15 @@ public class TVTVDeLoader implements Job
 
 		private EpisodeData(String germanTitle, String originalTitle)
 		{
+			this(germanTitle, originalTitle, 0);
+		}
+
+		private EpisodeData(String germanTitle, String originalTitle, int timeOffset)
+		{
 			title=germanTitle+" ("+originalTitle+")";
 			this.originalTitle=originalTitle;
 			this.germanTitle=germanTitle;
+			this.timeOffset=timeOffset;
 		}
 	}
 }

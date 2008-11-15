@@ -9,14 +9,14 @@ import com.kiwisoft.app.ApplicationFrame;
 /**
  * @author Stefan Stiller
  */
-public class CreateThumbnailsAction extends ContextAction
+public class CheckPicturesAction extends ContextAction
 {
 	private ApplicationFrame frame;
 
-	public CreateThumbnailsAction(ApplicationFrame frame)
+	public CheckPicturesAction(ApplicationFrame frame)
 	{
-		super("Create Thumbnails");
-		putValue(SHORT_DESCRIPTION, "Create sidebar thumbnails for all pictures.");
+		super("Check References");
+		putValue(SHORT_DESCRIPTION, "Check if the referenced files exist.");
 		this.frame=frame;
 	}
 
@@ -25,6 +25,6 @@ public class CreateThumbnailsAction extends ContextAction
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		new ProgressDialog(frame, new ThumbnailCreation()).start();
+		new ProgressDialog(frame, new PictureChecker()).start();
 	}
 }

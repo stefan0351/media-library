@@ -42,8 +42,8 @@ public class NoEpisodeDialog extends JDialog
 
 	private void initializeData()
 	{
-		titleField.setText(episodeData.getEpisodeTitle());
-		germanTitleField.setText(episodeData.getGermanEpisodeTitle());
+		titleField.setText(episodeData.getTitle());
+		germanTitleField.setText(episodeData.getGermanTitle());
 		firstAiredField.setDate(episodeData.getFirstAirdate());
 		productionCodeField.setText(episodeData.getProductionCode());
 	}

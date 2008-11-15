@@ -18,110 +18,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Season.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Season.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/_show_nav.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/_show_nav.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Airdate.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Airdate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Credit.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Credit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonCreditsView.properties" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\core\src\com\kiwisoft\media\dataImport\AirdateImport.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/ProductionCreditsView.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\dataImport\ImportPathDialog.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/WebDatesExport.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/WebDatesExport.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/dump.zip" afterPath="$PROJECT_DIR$/db/dumps/dump.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/index.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/index.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowLinksAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowLinksAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVTVDeLoaderAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVTVDeLoaderAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/schedule.jsp" afterPath="$PROJECT_DIR$/web/jsp/schedule.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Episode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/download/StartDownloadAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/download/StartDownloadAction.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\dataImport\TVTVDeLoaderDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\core\src\com\kiwisoft\media\dataImport\AirdateData.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/NewCastAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/NewCastAction.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\schedule\NewAirdateAction.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleUpdateManagerView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/DeleteCreditsAction.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\show\ShowCastView.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/NewCreditAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureLookupHandler.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureLookupHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/DeleteCastAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/DeleteCastAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonCreditsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVTVDeLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVTVDeLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/SeasonDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/SeasonDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/media-web.iml" afterPath="$PROJECT_DIR$/web/media-web.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/LanguageManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/LanguageManager.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/EpisodeData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/NoEpisodeDialog.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/NoEpisodeDialog.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonMergeView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ImportUtils.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ImportUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ImportEpisode.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/ImportEpisode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/persons/person.jsp" afterPath="$PROJECT_DIR$/web/jsp/persons/person.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/ProSiebenDeLoaderDialog.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/ProSiebenDeLoaderDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVComLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVComLoader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVComLoaderTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Link.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Link.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/web/PreformattedHTMLRenderer.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/web/PreformattedHTMLRenderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/LinkManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/LinkManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/cddb/CDDBUtils.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/cddb/CDDBUtils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureChecker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CheckPicturesAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SerienJunkiesDeLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SerienJunkiesDeLoader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/MergePersonsAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/SerienJunkiesDeLoaderTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Person.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Person.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CastComparator.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CastComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/schedule/AirdateHTMLRenderer.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/schedule/AirdateHTMLRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturePreviewUpdater.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturePreviewUpdater.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/CreateSearchPatternAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditDetailsAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CreditTypeFormat.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\core\src\com\kiwisoft\media\dataImport\ConcurrentAirdateDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\show\ShowCastAction.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CreditType.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CreditType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVTVDeLoaderContextAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVTVDeLoaderContextAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MoviesView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MoviesView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\show\ShowCastView.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/episode.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/episode.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManagerFrame.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManagerFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SearchManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SearchManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/NamesTableModel.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/NamesTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Production.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Production.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleUpdateManagerAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/ShowPersonCreditsAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/SearchPatternDetailsView.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\show\NewShowAction.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/ProductionCreditsView.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/CreateShowAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodesView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodesView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/PanelTag.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/PanelTag.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditTypeLookup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchServlet.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureUtils.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVTVDeLoaderTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVTVDeLoaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/CreateMovieTx.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/CreateMovieTx.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Name.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/Name.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleTask.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleTask.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" afterPath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/SearchPatternDetailsAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ConfigurationView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ConfigurationView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/AuthorDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/AuthorDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/_schedule_nav.jsp" afterPath="$PROJECT_DIR$/web/jsp/_schedule_nav.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CastMember.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/CastMember.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CastDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CastDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/cast.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Song.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/Song.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/schedule/ScheduleTable.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/schedule/ScheduleTable.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/DateRange.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/AirdateManager.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/AirdateManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/DeleteSearchPatternAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/shows/schedule.jsp" afterPath="$PROJECT_DIR$/web/jsp/shows/schedule.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/ShowCreditsAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/TableTag.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/TableTag.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/media-core.iml" afterPath="$PROJECT_DIR$/core/media-core.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CreateThumbnailsAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CreateThumbnailsAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/build.xml" afterPath="$PROJECT_DIR$/web/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturesView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturesView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/EpisodeLoaderDialog.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/EpisodeLoaderDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ChannelDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ChannelDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/CreateAirdateAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/DataSource.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/DataSource.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\media\dataImport\ImportScheduleAction.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowsView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/META-INF/context.xml" afterPath="$PROJECT_DIR$/web/META-INF/context.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/imdb.gif" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/imdb.gif" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVComLoaderAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/TVComLoaderAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/ImportPicturesAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/ImportPicturesAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" afterPath="$PROJECT_DIR$/web/jsp/movies/movie.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/SerienJunkiesDeLoaderAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/dataImport/SerienJunkiesDeLoaderAction.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/EpisodeDataLoader.java" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="true" />
@@ -194,6 +137,19 @@
   <component name="DebuggerManager">
     <line_breakpoints>
       <breakpoint url="jar://C:/Java/jdk/6.0/src.zip!/java/awt/EventDispatchThread.java" line="294" class="java.awt.EventDispatchThread" package="java.awt">
+        <option name="ENABLED" value="true" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/cddb/CDDBUtils.java" line="63" class="com.kiwisoft.media.dataImport.cddb.CDDBUtils" package="com.kiwisoft.media.dataImport.cddb">
         <option name="ENABLED" value="true" />
         <option name="SUSPEND_POLICY" value="SuspendAll" />
         <option name="LOG_ENABLED" value="false" />
@@ -291,108 +247,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PersonManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java">
+      <file leaf-file-name="CheckPicturesAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CheckPicturesAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="0" selection-start="2317" selection-end="2317" vertical-scroll-proportion="0.47445256">
+            <state line="20" column="44" selection-start="515" selection-end="515" vertical-scroll-proportion="0.33090025">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchServlet.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchServlet.java">
+      <file leaf-file-name="PictureChecker.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureChecker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="123" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.12287105">
+            <state line="49" column="54" selection-start="1928" selection-end="1928" vertical-scroll-proportion="0.31751823">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScheduleView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java">
+      <file leaf-file-name="ShowDetailsView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="56" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.16545013">
+            <state line="45" column="76" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.310219">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TVTVDeLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVTVDeLoader.java">
+      <file leaf-file-name="EpisodeDetailsView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="32" selection-start="427" selection-end="427" vertical-scroll-proportion="0.2895377">
+            <state line="260" column="0" selection-start="8370" selection-end="8470" vertical-scroll-proportion="0.80900246">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MovieDetailsView.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="222" column="108" selection-start="7163" selection-end="7163" vertical-scroll-proportion="0.310219">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#TVTVDeLoader#0;class#TVTVDeLoader#0" expanded="false" />
-                <element signature="method#getName#0;class#TVTVDeLoader#0" expanded="false" />
-                <element signature="method#run#0;class#TVTVDeLoader#0" expanded="false" />
-                <element signature="method#findEpisode#0;class#TVTVDeLoader#0" expanded="false" />
-                <element signature="class#Handler#0;class#TVTVDeLoader#0" expanded="true" />
-                <element signature="class#MyTransactional#0;class#Handler#0;class#TVTVDeLoader#0" expanded="true" />
-                <element signature="class#ShowHandler#0;class#TVTVDeLoader#0" expanded="true" />
-                <element signature="class#13934:14717" expanded="true" />
-                <element signature="class#15261:16046" expanded="true" />
-                <element signature="class#AirdateData#0;class#TVTVDeLoader#0" expanded="true" />
-                <element signature="class#EpisodeData#0;class#TVTVDeLoader#0" expanded="true" />
+                <element signature="class#4960:6484" expanded="true" />
+                <element signature="class#6914:7046" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/build.xml">
+      <file leaf-file-name="MediumType.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="421" selection-end="421" vertical-scroll-proportion="0.310219">
+            <state line="33" column="62" selection-start="1384" selection-end="1384" vertical-scroll-proportion="0.5170316">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StartDownloadAction.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/download/StartDownloadAction.java">
+      <file leaf-file-name="MediaApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="53" selection-start="582" selection-end="582" vertical-scroll-proportion="0.4756691">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MultiContextAction.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/actions/MultiContextAction.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="14" selection-start="623" selection-end="623" vertical-scroll-proportion="0.33333334">
+            <state line="48" column="46" selection-start="1487" selection-end="1487" vertical-scroll-proportion="0.37226278">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SearchManager.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SearchManager.java">
+      <file leaf-file-name="DetailsView.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-application_src.jar!/com/kiwisoft/app/DetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="46" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.56082726">
+            <state line="29" column="28" selection-start="540" selection-end="540" vertical-scroll-proportion="0.33819953">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Show.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java">
+      <file leaf-file-name="LanguageManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/LanguageManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="220" selection-end="220" vertical-scroll-proportion="0.14476885">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="19" column="103" selection-start="470" selection-end="470" vertical-scroll-proportion="0.18613139">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Person.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Person.java">
+      <file leaf-file-name="Movie.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="175" column="65" selection-start="3513" selection-end="3513" vertical-scroll-proportion="0.31265208">
+            <state line="271" column="18" selection-start="5630" selection-end="5630" vertical-scroll-proportion="0.33333334">
               <folding />
             </state>
           </provider>
@@ -570,7 +513,7 @@
         <text>TimeZone.getTimeZone%28%22Europe%2FBerlin%22%29</text>
       </scrap>
       <scrap name="Scrap 3" imports="sun.net.www.*" module="media-core">
-        <text>TimeZone.getAvailableIDs%28%29</text>
+        <text>3*4%2F2</text>
       </scrap>
     </scraps>
   </component>
@@ -746,7 +689,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com\kiwisoft\media\schedule" />
+          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com\kiwisoft\media\person" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -756,31 +699,21 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="media-gui" />
+          <option name="myItemId" value="media-core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media-core" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com\kiwisoft" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com\kiwisoft\media" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:D:\Projects\Java\media\gui\src\com\kiwisoft\media\person" />
+          <option name="myItemId" value="PsiDirectory:C:\Dokumente und Einstellungen\Stefan\.kiwisoft\media" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -797,7 +730,7 @@
       <showLibraryContents PackagesPane="true" />
       <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" ProjectPane="false" Scope="false" J2EEPane="false" PackagesPane="false" />
+      <showStructure Scope="false" ProjectPane="false" J2EEPane="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -811,15 +744,15 @@
     <property name="cvs_file_history_flatWidth2" value="294" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="cvs_file_history_flatWidth1" value="295" />
     <property name="vcs_file_view_flatWidth2" value="218" />
+    <property name="cvs_file_history_flatWidth1" value="295" />
     <property name="vcs_file_view_flatWidth5" value="145" />
-    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="vcs_file_view_flatOrder3" value="3" />
+    <property name="cvs_file_history_flatOrder2" value="2" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatWidth4" value="169" />
-    <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir309tmp" />
     <property name="vcs_file_view_treeWidth0" value="371" />
+    <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir309tmp" />
     <property name="vcs_file_view_treeOrder0" value="0" />
     <property name="cvs_file_history_treeOrder5" value="5" />
     <property name="vcs_file_view_flatOrder4" value="4" />
@@ -887,10 +820,10 @@
       <recent name="com.kiwisoft.utils.gui.table.TableSortDescription" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.media.pics" />
+      <recent name="com.kiwisoft.media.dataimport" />
       <recent name="com.kiwisoft.media.schedule" />
       <recent name="com.kiwisoft.media.person" />
-      <recent name="com.kiwisoft.media.dataimport" />
-      <recent name="com.kiwisoft.media.pics" />
       <recent name="com.kiwisoft.media" />
     </key>
     <key name="IntroduceConstantDialog.RECENTS_KEY">
@@ -908,6 +841,32 @@
   <component name="ResourceGroupPanel.TableConfiguration" />
   <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="Application.MediaLib">
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="true" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="JSP_PACKAGE" value="" />
+      <option name="VM_OPTS" value="VM_OPTS" />
+      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
+      <option name="LOCAL_PORT" value="80" />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -926,19 +885,6 @@
       <method>
         <option name="Make" value="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -959,44 +905,6 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Local">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="true" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="JSP_PACKAGE" value="" />
-      <option name="VM_OPTS" value="VM_OPTS" />
-      <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
-      <option name="LOCAL_PORT" value="80" />
-    </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="WORKING_DIRECTORY" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="8080" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER" value="true" />
-      <option name="OPEN_IN_BROWSER_URL" value="/" />
-      <option name="COMMON_VM_ARGUMENTS" value="" />
-      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
-      <option name="BASE_DIRECTORY_NAME" value="" />
-      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
-    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -1014,23 +922,27 @@
       <option name="BASE_DIRECTORY_NAME" value="" />
       <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
-    <configuration default="false" name="IMDbComLoader" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataImport.IMDbComLoader" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="WORKING_DIRECTORY" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="8080" />
+      <option name="LOCAL" value="false" />
+      <option name="OPEN_IN_BROWSER" value="true" />
+      <option name="OPEN_IN_BROWSER_URL" value="/" />
+      <option name="COMMON_VM_ARGUMENTS" value="" />
+      <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
+      <option name="BASE_DIRECTORY_NAME" value="" />
+      <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="media-core" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="1883" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
+      <module name="" />
       <method>
         <option name="Make" value="true" />
       </method>
@@ -1073,6 +985,90 @@
         <value defaultName="wholeProject" />
       </option>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="TVTVDeLoaderTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <pattern value="com.kiwisoft.media.dataimport.*" />
+      <module name="media-core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="com.kiwisoft.media.dataimport" />
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataimport.TVTVDeLoaderTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="3539" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="TVComLoaderTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <pattern value="com.kiwisoft.media.dataimport.*" />
+      <module name="media-core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.kiwisoft.media.dataimport" />
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataimport.TVComLoaderTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="1647" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="SerienJunkiesDeLoaderTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <pattern value="com.kiwisoft.media.dataimport.*" />
+      <module name="media-core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.kiwisoft.media.dataimport" />
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataimport.SerienJunkiesDeLoaderTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="1636" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />
@@ -1134,34 +1130,6 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="TVTVDeLoaderTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
-      <pattern value="com.kiwisoft.media.dataimport.*" />
-      <module name="media-core" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="PACKAGE_NAME" value="com.kiwisoft.media.dataimport" />
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.dataimport.TVTVDeLoaderTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="3539" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SQL">
     <general confirmCommit="false" confirmRollback="false" confirmClose="true" />
@@ -1182,7 +1150,10 @@
   <component name="SQLPlugin.ProjectConfiguration">
     <queries>
       <query name="Query 1" changed="true">
-        <statement>select+*+from+airdates</statement>
+        <statement>select+*+from+pictures</statement>
+      </query>
+      <query name="Query 3" changed="true">
+        <statement>select+*+from+persons+where+name%3D%27Adam+Rose%27%3B</statement>
       </query>
     </queries>
   </component>
@@ -1269,7 +1240,7 @@
     <frame x="-4" y="-4" width="1288" height="1002" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.7137891" order="8" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.8197474" order="8" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" order="0" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.543554" order="8" />
@@ -1288,19 +1259,19 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46153846" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40308192" order="3" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.51332563" order="4" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5132032" order="4" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46715328" order="1" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5459705" order="8" />
-      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
+      <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" order="3" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5307068" order="8" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" order="5" />
-      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7340425" order="7" />
       <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.42135477" order="8" />
-      <window_info id="ModuleGraph" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.645857" order="8" />
+      <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7340425" order="7" />
       <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" order="8" />
+      <window_info id="ModuleGraph" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.645857" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="3" />
       <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -1424,24 +1395,14 @@
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/web/build.xml">
-      <antCommandLine value="" />
-      <runInBackground value="false" />
-      <targetFilters>
-        <filter targetName="web.clean" isVisible="false" />
-        <filter targetName="web.compile" isVisible="true" />
-        <filter targetName="web.deploy" isVisible="true" />
-        <filter targetName="web.jar" isVisible="true" />
-        <filter targetName="web.war" isVisible="true" />
-      </targetFilters>
-      <treeView value="true" />
-      <verbose value="false" />
-      <viewClosedWhenNoErrors value="false" />
-    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/core/build.xml">
       <antCommandLine value="" />
       <runInBackground value="false" />
-      <targetFilters />
+      <targetFilters>
+        <filter targetName="core.clean" isVisible="false" />
+        <filter targetName="core.compile" isVisible="false" />
+        <filter targetName="core.jar" isVisible="true" />
+      </targetFilters>
       <treeView value="true" />
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
@@ -1454,136 +1415,138 @@
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/web/build.xml">
+      <antCommandLine value="" />
+      <runInBackground value="false" />
+      <targetFilters>
+        <filter targetName="web.clean" isVisible="false" />
+        <filter targetName="web.compile" isVisible="false" />
+        <filter targetName="web.deploy" isVisible="true" />
+        <filter targetName="web.jar" isVisible="true" />
+      </targetFilters>
+      <treeView value="true" />
+      <verbose value="true" />
+      <viewClosedWhenNoErrors value="false" />
+    </buildFile>
   </component>
   <component name="com.intellij.ide.util.scopeChooser.ScopeChooserConfigurable" proportions="" version="1">
     <option name="myLastEditedConfigurable" />
   </component>
   <component name="com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectRootMasterDetailsConfigurable" proportions="0.34949267,0.5" version="1">
     <option name="myPlainMode" value="false" />
-    <option name="myLastEditedConfigurable" value="media-core" />
+    <option name="myLastEditedConfigurable" value="media-web" />
   </component>
   <component name="com.intellij.profile.ui.ErrorOptionsConfigurable" proportions="0.16666667" version="1">
     <option name="myLastEditedConfigurable" value="Project Profiles" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.properties">
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-base_src.jar!/com/kiwisoft/progress/ProgressListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="16" selection-end="16" vertical-scroll-proportion="0.020681266">
+        <state line="42" column="16" selection-start="1224" selection-end="1224" vertical-scroll-proportion="0.8345499">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/NamesTableModel.java">
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-base_src.jar!/com/kiwisoft/progress/ProgressSupport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="69" selection-start="439" selection-end="439" vertical-scroll-proportion="0.020681266">
+        <state line="53" column="46" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.37469587">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonsView.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/pics/PictureFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="130" selection-end="130" vertical-scroll-proportion="0.020681266">
+        <state line="80" column="18" selection-start="1576" selection-end="1576" vertical-scroll-proportion="0.33333334">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MoviesView.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PicturesView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="214" column="0" selection-start="5960" selection-end="5960" vertical-scroll-proportion="0.88807786">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/ShowManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="1378" selection-end="1524" vertical-scroll-proportion="0.020681266">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/person/PersonManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="0" selection-start="2317" selection-end="2317" vertical-scroll-proportion="0.47445256">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchServlet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="123" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.12287105">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="56" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.16545013">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/SearchManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="46" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.56082726">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/show/Show.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="220" selection-end="220" vertical-scroll-proportion="0.14476885">
+        <state line="39" column="90" selection-start="1242" selection-end="1242" vertical-scroll-proportion="0.2055961">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="class#1478:2421" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/person/Person.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CreateThumbnailsAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="175" column="65" selection-start="3513" selection-end="3513" vertical-scroll-proportion="0.31265208">
+        <state line="11" column="22" selection-start="269" selection-end="269" vertical-scroll-proportion="0.14476885">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataImport/TVTVDeLoader.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/CheckPicturesAction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="32" selection-start="427" selection-end="427" vertical-scroll-proportion="0.2895377">
+        <state line="20" column="44" selection-start="515" selection-end="515" vertical-scroll-proportion="0.33090025">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="45" column="76" selection-start="1458" selection-end="1458" vertical-scroll-proportion="0.310219">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/movie/Movie.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="271" column="18" selection-start="5630" selection-end="5630" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/LanguageManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="103" selection-start="470" selection-end="470" vertical-scroll-proportion="0.18613139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-application_src.jar!/com/kiwisoft/app/DetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="28" selection-start="540" selection-end="540" vertical-scroll-proportion="0.33819953">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="260" column="0" selection-start="8370" selection-end="8470" vertical-scroll-proportion="0.80900246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/medium/MediumType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="62" selection-start="1384" selection-end="1384" vertical-scroll-proportion="0.5170316">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="46" selection-start="1487" selection-end="1487" vertical-scroll-proportion="0.37226278">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/pics/PictureChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="54" selection-start="1928" selection-end="1928" vertical-scroll-proportion="0.31751823">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="108" selection-start="7163" selection-end="7163" vertical-scroll-proportion="0.310219">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#TVTVDeLoader#0;class#TVTVDeLoader#0" expanded="false" />
-            <element signature="method#getName#0;class#TVTVDeLoader#0" expanded="false" />
-            <element signature="method#run#0;class#TVTVDeLoader#0" expanded="false" />
-            <element signature="method#findEpisode#0;class#TVTVDeLoader#0" expanded="false" />
-            <element signature="class#Handler#0;class#TVTVDeLoader#0" expanded="true" />
-            <element signature="class#MyTransactional#0;class#Handler#0;class#TVTVDeLoader#0" expanded="true" />
-            <element signature="class#ShowHandler#0;class#TVTVDeLoader#0" expanded="true" />
-            <element signature="class#13934:14717" expanded="true" />
-            <element signature="class#15261:16046" expanded="true" />
-            <element signature="class#AirdateData#0;class#TVTVDeLoader#0" expanded="true" />
-            <element signature="class#EpisodeData#0;class#TVTVDeLoader#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="421" selection-end="421" vertical-scroll-proportion="0.310219">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/actions/MultiContextAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="14" selection-start="623" selection-end="623" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/download/StartDownloadAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="53" selection-start="582" selection-end="582" vertical-scroll-proportion="0.4756691">
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="class#4960:6484" expanded="true" />
+            <element signature="class#6914:7046" expanded="true" />
           </folding>
         </state>
       </provider>

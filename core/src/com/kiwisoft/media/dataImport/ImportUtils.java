@@ -28,14 +28,16 @@ public class ImportUtils
 		text=replaceTags(text, "sup");
 		text=replaceTags(text, "sub");
 		text=replaceTags(text, "em");
+		text=replaceTags(text, "br");
 		return text;
 	}
 
 
 	private static String replaceTags(String line, String name)
 	{
-		line=line.replace("<"+name+">", "["+name+"]");
-		line=line.replace("</"+name+">", "[/"+name+"]");
+		line=line.replaceAll("<"+name+" *>", "["+name+"]");
+		line=line.replaceAll("</"+name+">", "[/"+name+"]");
+		line=line.replaceAll("<"+name+" */>", "["+name+"/]");
 		return line;
 	}
 

@@ -19,6 +19,7 @@ public class ImportPicturesAction extends ContextAction
 	public ImportPicturesAction(ApplicationFrame frame)
 	{
 		super("Import Pictures");
+		putValue(SHORT_DESCRIPTION, "Import picture files from a specific directory.");
 		this.frame=frame;
 	}
 

@@ -5,9 +5,13 @@ import javax.swing.JFrame;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
+import com.kiwisoft.persistence.DBLoader;
 
 public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 {
@@ -21,17 +25,29 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Configuration configurator=Configuration.getInstance();
-		String url=configurator.getString("SerienJunkiesDe.url", "");
-		Show show=(Show)getObject();
-		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, url);
+		final Show show=(Show)getObject();
+		Link link=DBLoader.getInstance().load(Link.class,
+									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
+									"s.id=? and links.url like ?",
+									show.getId(), "http://www.serienjunkies.de/%/%");
+		final Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
+		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
+		{
+			protected String getLinkName()
+			{
+				return "SerienJunkies.de - "+show.getTitle(german);
+			}
+
+			protected Language getLinkLanguage()
+			{
+				return german;
+			}
+		};
 		dialog.setVisible(true);
 		if (dialog.isOk())
 		{
-			url=dialog.getUrl();
-			configurator.setString("SerienJunkiesDe.url", url);
-			configurator.saveUserValues();
-			SerienJunkiesDeLoader process=new SerienJunkiesDeLoader(show, url, dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
+			link=dialog.getLink();
+			EpisodeDataLoader process=new SerienJunkiesDeLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
 				protected Episode createEpisode(Show show, ImportEpisode info)
 				{

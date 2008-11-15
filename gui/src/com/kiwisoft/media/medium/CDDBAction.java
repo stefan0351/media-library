@@ -5,6 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import javax.swing.*;
 
 import com.kiwisoft.app.ApplicationFrame;
@@ -36,7 +40,36 @@ public class CDDBAction extends ContextAction
 			dialog.setVisible(true);
 			if (dialog.getDiscInfo()!=null)
 			{
-				CDDBUtils.getDiscDetails(dialog.getDiscInfo());
+				String details=CDDBUtils.getDiscDetails(dialog.getDiscInfo());
+				System.out.println("CDDBAction.actionPerformed: details = "+details);
+				BufferedReader reader=new BufferedReader(new StringReader(details));
+				Pattern discTitlePattern=Pattern.compile("DTITLE=(.*)");
+				Pattern discYearPattern=Pattern.compile("DYEAR=(.*)");
+				Pattern trackTitlePattern=Pattern.compile("TTITLE(\\d+)=(.*)");
+				String line;
+				while ((line=reader.readLine())!=null)
+				{
+					Matcher matcher=trackTitlePattern.matcher(line);
+					if (matcher.matches())
+					{
+						int number=Integer.parseInt(matcher.group(1));
+						String title=matcher.group(2).trim();
+						System.out.println("CDDBAction.actionPerformed: number = "+number);
+						System.out.println("CDDBAction.actionPerformed: title = "+title);
+					}
+					matcher=discTitlePattern.matcher(line);
+					if (matcher.matches())
+					{
+						String discTitle=matcher.group(1);
+						System.out.println("CDDBAction.actionPerformed: discTitle = "+discTitle);
+					}
+					matcher=discYearPattern.matcher(line);
+					if (matcher.matches())
+					{
+						int discYear=Integer.parseInt(matcher.group(1));
+						System.out.println("CDDBAction.actionPerformed: discYear = "+discYear);
+					}
+				}
 			}
 		}
 		catch (Exception e1)

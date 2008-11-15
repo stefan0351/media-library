@@ -377,11 +377,11 @@
 	</association>
 	<association table="map_book_author">
 		<element name="authors" column="book_id" type="Book"/>
-		<element name="books" column="author_id" type="Person"/>
+		<element name="writtenBooks" column="author_id" type="Person"/>
 	</association>
 	<association table="map_book_translator">
 		<element name="translators" column="book_id" type="Book"/>
-		<element name="books" column="translator_id" type="Person"/>
+		<element name="translatedBooks" column="translator_id" type="Person"/>
 	</association>
 	<association table="relatedlinkgroups">
 		<element type="LinkGroup" name="relatedGroups" column="linkgroup_id"/>

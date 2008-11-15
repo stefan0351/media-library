@@ -55,6 +55,7 @@ public class PicturesView extends ViewPanel
 				actions.add(new NewPictureAction());
 				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
 											  new ImportPicturesAction(frame),
+											  new CheckPicturesAction(frame),
 											  new CreateThumbnailsAction(frame)));
 				return actions;
 			}

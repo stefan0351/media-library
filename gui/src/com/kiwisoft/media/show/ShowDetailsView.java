@@ -70,7 +70,7 @@ public class ShowDetailsView extends DetailsView
 			@Override
 			public String getDefaultName()
 			{
-				return titleField.getText()+" Logo";
+				return titleField.getText()+" - Logo";
 			}
 		});
 		ImagePanel logoPreview=new ImagePanel(new Dimension(150, 150));
@@ -117,7 +117,7 @@ public class ShowDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Index By:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(indexByField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JScrollPane(tblGenres), new GridBagConstraints(5, row, 1, 4, 0.5, 0.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JScrollPane(tblGenres), new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Language:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(languageField, new GridBagConstraints(2, row, 3, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));

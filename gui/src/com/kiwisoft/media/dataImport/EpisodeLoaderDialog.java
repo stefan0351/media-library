@@ -3,40 +3,50 @@ package com.kiwisoft.media.dataImport;
 import static java.awt.GridBagConstraints.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URL;
+import java.net.MalformedURLException;
 import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.Language;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.ComponentUtils;
 import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 
-public class EpisodeLoaderDialog extends JDialog
+public abstract class EpisodeLoaderDialog extends JDialog
 {
 	private JTextField showField;
 	private JTextField urlField;
 	private JFormattedTextField firstSeasonField;
 	private JFormattedTextField lastSeasonField;
 	private boolean returnValue;
-	private String url;
 	private Integer lastSeason;
 	private Integer firstSeason;
 	private JCheckBox autoCreateField;
 	private boolean autoCreate;
+	private Show show;
+	private Link link;
 
-	public EpisodeLoaderDialog(Window frame, Show show, String url)
+	protected EpisodeLoaderDialog(Window frame, Show show, Link link)
 	{
 		super(frame, "Load Episode from TV.com", ModalityType.APPLICATION_MODAL);
+		this.show=show;
+		this.link=link;
 		createContentPanel();
-		initializeData(show, url);
+		initializeData();
 		pack();
 		GuiUtils.centerWindow(frame, this);
 	}
 
-	private void initializeData(Show show, String url)
+	private void initializeData()
 	{
 		showField.setText(show.getTitle());
-		urlField.setText(url);
+		if (link!=null) urlField.setText(link.getUrl());
 	}
 
 	private void createContentPanel()
@@ -56,7 +66,7 @@ public class EpisodeLoaderDialog extends JDialog
 		pnlContent.add(showField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
 		row++;
-		pnlContent.add(new JLabel("TV.com URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
+		pnlContent.add(new JLabel("URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(urlField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
 		row++;
@@ -88,18 +98,56 @@ public class EpisodeLoaderDialog extends JDialog
 		return returnValue;
 	}
 
-	private boolean apply()
+	private boolean apply() throws InvalidDataException
 	{
-		url=urlField.getText();
+		final String url=urlField.getText();
+		if (StringUtils.isEmpty(url)) throw new InvalidDataException("Missing URL!", urlField);
+		try
+		{
+			new URL(url);
+		}
+		catch (MalformedURLException e)
+		{
+			throw new InvalidDataException(e.getMessage(), urlField);
+		}
 		firstSeason=(Integer)firstSeasonField.getValue();
+		if (firstSeason==null) throw new InvalidDataException("Missing season from!", firstSeasonField);
 		lastSeason=(Integer)lastSeasonField.getValue();
+		if (lastSeason==null) throw new InvalidDataException("Missing season to!", lastSeasonField);
+		if (lastSeason<firstSeason) throw new InvalidDataException("Season from must be greater or equal than season to!", lastSeasonField);
 		autoCreate=autoCreateField.isSelected();
-		return firstSeason!=null && lastSeason!=null && firstSeason<=lastSeason && !StringUtils.isEmpty(url);
+
+		if (link==null || !url.equals(link.getUrl()))
+		{
+			return DBSession.execute(new Transactional()
+			{
+				public void run() throws Exception
+				{
+					if (link==null)
+					{
+						link=show.getLinkGroup(true).createLink();
+						link.setName(getLinkName());
+						link.setLanguage(getLinkLanguage());
+					}
+					link.setUrl(url);
+				}
+
+				public void handleError(Throwable throwable, boolean rollback)
+				{
+					GuiUtils.handleThrowable(EpisodeLoaderDialog.this, throwable);
+				}
+			});
+		}
+		return true;
 	}
 
-	public String getUrl()
+	protected abstract String getLinkName();
+
+	protected abstract Language getLinkLanguage();
+
+	public Link getLink()
 	{
-		return url;
+		return link;
 	}
 
 	public Integer getLastSeason()
@@ -126,10 +174,21 @@ public class EpisodeLoaderDialog extends JDialog
 
 		public void actionPerformed(ActionEvent e)
 		{
-			if (apply())
+			try
 			{
-				returnValue=true;
-				dispose();
+				if (apply())
+				{
+					returnValue=true;
+					dispose();
+				}
+			}
+			catch (InvalidDataException e1)
+			{
+				e1.handle();
+			}
+			catch (Exception e1)
+			{
+				GuiUtils.handleThrowable(EpisodeLoaderDialog.this, e1);
 			}
 		}
 	}

@@ -17,6 +17,9 @@ public class LanguageManager
 {
 	private static LanguageManager instance;
 
+	public static final Language GERMAN=DBLoader.getInstance().load(Language.class, null, "symbol=?", "de");
+	public static final Language ENGLISH=DBLoader.getInstance().load(Language.class, null, "symbol=?", "en");
+
 	public synchronized static LanguageManager getInstance()
 	{
 		if (instance==null) instance=new LanguageManager();

@@ -82,7 +82,7 @@
     <setting name="EXPLODED_URL" value="file://$WEB_ROOT_MEDIA$" />
     <setting name="EXPLODED_ENABLED" value="false" />
     <setting name="JAR_URL" value="file://$MODULE_DIR$/../media-web.war" />
-    <setting name="JAR_ENABLED" value="true" />
+    <setting name="JAR_ENABLED" value="false" />
     <setting name="SYNC_EXPLODED_DIR" value="false" />
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
@@ -197,6 +197,10 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/xmlgraphics-commons.jar" />
       <url>jar://$MODULE_DIR$/../lib/xmlgraphics-commons.jar!/</url>
+    </containerElement>
+    <containerElement type="library" name="IntelliJ Annotations" level="application">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib" />
     </containerElement>
     <containerElement type="library" name="Tomcat 5 (Media)" level="application_server_libraries">
       <attribute name="method" value="0" />

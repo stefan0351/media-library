@@ -16,14 +16,6 @@
       <maximumHeapSize value="128" />
       <properties />
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/web/build.xml">
-      <additionalClassPath />
-      <antReference projectDefault="true" />
-      <customJdkName value="" />
-      <maximumHeapSize value="128" />
-      <properties />
-      <executeOn event="compositeTask" target="[web.jar,web.deploy]" presentableName="[web.jar,web.deploy]" />
-    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/core/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
@@ -37,6 +29,14 @@
       <customJdkName value="" />
       <maximumHeapSize value="128" />
       <properties />
+    </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/web/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="" />
+      <maximumHeapSize value="128" />
+      <properties />
+      <executeOn event="compositeTask" target="[web.jar,web.deploy]" presentableName="[web.jar,web.deploy]" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">

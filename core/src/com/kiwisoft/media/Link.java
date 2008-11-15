@@ -77,4 +77,8 @@ public class Link extends IDObject implements Comparable
 		Link link2=(Link)o;
 		return name.compareToIgnoreCase(link2.name);
 	}
+
+	public void setName(Object linkName)
+	{
+	}
 }

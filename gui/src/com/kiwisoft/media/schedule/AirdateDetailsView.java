@@ -4,11 +4,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.Date;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import java.net.URL;
+import java.net.MalformedURLException;
+import javax.swing.*;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.*;
@@ -21,6 +22,7 @@ import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Time;
+import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.lookup.DateField;
@@ -28,6 +30,9 @@ import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.swing.lookup.TimeField;
+import com.kiwisoft.swing.ActionField;
+import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 
@@ -56,6 +61,7 @@ public class AirdateDetailsView extends DetailsView
 	private JTextField eventField;
 	private LookupField<Channel> channelField;
 	private JTextField dataSourceField;
+	private ActionField linkField;
 
 	private AirdateDetailsView(Airdate airdate)
 	{
@@ -85,9 +91,11 @@ public class AirdateDetailsView extends DetailsView
 		channelField=new LookupField<Channel>(new ChannelLookup());
 		dataSourceField=new JTextField();
 		dataSourceField.setEditable(false);
+		linkField=new ActionField(new OpenLinkAction());
+		linkField.setEditable(false);
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 250));
+		setPreferredSize(new Dimension(400, 275));
 		int row=0;
 		add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -140,6 +148,12 @@ public class AirdateDetailsView extends DetailsView
 		add(dataSourceField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
+		row++;
+		add(new JLabel("Link:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(linkField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
 		getListenerList().installSelectionListener(showField, new ShowSelectionListener());
 		getListenerList().installSelectionListener(movieField, new MovieSelectionListener());
 	}
@@ -163,6 +177,7 @@ public class AirdateDetailsView extends DetailsView
 			languageField.setValue(airdate.getLanguage());
 			DataSource dataSource=airdate.getDataSource();
 			if (dataSource!=null) dataSourceField.setText(dataSource.getName());
+			linkField.setText(airdate.getDetailsLink());
 		}
 		else
 		{
@@ -265,6 +280,30 @@ public class AirdateDetailsView extends DetailsView
 		protected Show getShow()
 		{
 			return showField.getValue();
+		}
+	}
+
+	private class OpenLinkAction extends AbstractAction
+	{
+		public OpenLinkAction()
+		{
+			super(null, Icons.getIcon("link.open"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			String link=linkField.getText();
+			if (!StringUtils.isEmpty(link))
+			{
+				try
+				{
+					WebUtils.openURL(new URL(link));
+				}
+				catch (MalformedURLException e1)
+				{
+					GuiUtils.handleThrowable(linkField, e1);
+				}
+			}
 		}
 	}
 }
