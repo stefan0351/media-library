@@ -25,7 +25,6 @@ CREATE TABLE airdates (
   event varchar(200) default NULL,
   viewdate timestamp NULL default NULL,
   channel_id bigint(20) default NULL,
-  channel varchar(100) default NULL,
   show_id bigint(20) default NULL,
   episode_id bigint(20) default NULL,
   movie_id bigint(20) default NULL,
@@ -34,6 +33,7 @@ CREATE TABLE airdates (
   source_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   version bigint(20) NOT NULL default '1',
+  detailsLink varchar(500) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -264,6 +264,22 @@ CREATE TABLE genres (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `imagefiles`
+--
+
+DROP TABLE IF EXISTS imagefiles;
+CREATE TABLE imagefiles (
+  id bigint(20) NOT NULL,
+  root varchar(100) default NULL,
+  `file` varchar(200) NOT NULL,
+  width int(11) NOT NULL,
+  height int(11) NOT NULL,
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `languages`
 --
 
@@ -422,6 +438,27 @@ CREATE TABLE media (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `mediafiles`
+--
+
+DROP TABLE IF EXISTS mediafiles;
+CREATE TABLE mediafiles (
+  id bigint(20) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  description mediumtext,
+  mediatype int(11) NOT NULL,
+  root varchar(100) default NULL,
+  `file` varchar(200) NOT NULL,
+  width int(11) NOT NULL,
+  height int(11) NOT NULL,
+  thumbnail_50x50_id bigint(20) default NULL,
+  thumbnail_sidebar_id bigint(20) default NULL,
+  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
+  version bigint(20) NOT NULL default '1',
+  PRIMARY KEY  (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `movies`
 --
 
@@ -537,41 +574,6 @@ CREATE TABLE photos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `picture_files`
---
-
-DROP TABLE IF EXISTS picture_files;
-CREATE TABLE picture_files (
-  id bigint(20) NOT NULL,
-  root varchar(100) default NULL,
-  `file` varchar(200) NOT NULL,
-  width int(11) NOT NULL,
-  height int(11) NOT NULL,
-  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  version bigint(20) NOT NULL default '1',
-  PRIMARY KEY  (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `pictures`
---
-
-DROP TABLE IF EXISTS pictures;
-CREATE TABLE pictures (
-  id bigint(20) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  root varchar(100) default NULL,
-  `file` varchar(200) NOT NULL,
-  width int(11) NOT NULL,
-  height int(11) NOT NULL,
-  thumbnail_50x50_id bigint(20) default NULL,
-  thumbnail_sidebar_id bigint(20) default NULL,
-  lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
-  version bigint(20) NOT NULL default '1',
-  PRIMARY KEY  (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
 -- Table structure for table `relatedlinkgroups`
 --
 
@@ -614,6 +616,7 @@ CREATE TABLE seasons (
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   `name` varchar(50) default NULL,
   version bigint(20) NOT NULL default '1',
+  logo_id bigint(20) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -739,13 +742,20 @@ DELIMITER ;;
 /*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
 /*!50003 CREATE*/ /*!50020 DEFINER=root@localhost*/ /*!50003 FUNCTION sort_letter(name varchar(200)) RETURNS char(1) CHARSET utf8
     DETERMINISTIC
-begin
-	declare letter char(1);
-	set letter=upper(left(name, 1));
-	if (letter>='0' and letter<='9') then
-		set letter='0';
-	end if;
-	return letter;
+begin
+
+	declare letter char(1);
+
+	set letter=upper(left(name, 1));	
+
+	if (letter>='0' and letter<='9') then
+
+		set letter='0';
+
+	end if;
+
+	return letter;
+
 end */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
@@ -759,4 +769,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-11-02 19:15:02
+-- Dump completed on 2008-11-19 20:47:07
