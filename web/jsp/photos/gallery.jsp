@@ -3,10 +3,10 @@
 <%@ page import="com.kiwisoft.media.photos.Photo" %>
 <%@ page import="com.kiwisoft.media.photos.PhotoGallery" %>
 <%@ page import="com.kiwisoft.media.photos.PhotoManager" %>
-<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.Navigation" %>
+<%@ page import="com.kiwisoft.media.files.ImageFile" %>
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 <html>
@@ -43,10 +43,10 @@
 					for (Iterator itPhotos=row.iterator(); itPhotos.hasNext();)
 					{
 						Photo photo=(Photo)itPhotos.next();
-						PictureFile thumbnail=photo.getThumbnail();
+						ImageFile thumbnail=photo.getThumbnail();
 			%>
 			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/clipart/trans10.png);">
-				<a href="<%=Navigation.getLink(request, photo)%>"><%=renderPicture(request, thumbnail, null)%></a>
+				<a href="<%=Navigation.getLink(request, photo)%>"><%=renderImage(request, thumbnail, null)%></a>
 			</td>
 			<%
 						if (itPhotos.hasNext()) out.print("<td width=\"10\"></td>");

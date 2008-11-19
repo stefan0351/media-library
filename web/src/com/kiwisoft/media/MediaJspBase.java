@@ -4,8 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.jasper.runtime.HttpJspBase;
 
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.web.JspUtils;
 
 /**
@@ -13,10 +13,10 @@ import com.kiwisoft.web.JspUtils;
  */
 public abstract class MediaJspBase extends HttpJspBase
 {
-	public String renderPicture(HttpServletRequest request, String name, Picture picture, PictureFile thumbnail, String otherAttributes)
+	public String renderMedia(HttpServletRequest request, String name, MediaFile picture, ImageFile thumbnail, String otherAttributes)
 	{
 		name=JspUtils.render(request, name);
-		String url=request.getContextPath()+"/picture?type=Picture&id="+picture.getId();
+		String url=request.getContextPath()+"/file?type=Image&id="+picture.getId();
 		int width=picture.getWidth();
 		int height=picture.getHeight();
 		if (width>500 || height>500)
@@ -34,9 +34,9 @@ public abstract class MediaJspBase extends HttpJspBase
 		}
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=");
-		if (thumbnail instanceof Picture) html.append("Picture");
-		else html.append("PictureFile");
+		html.append(" src=\"").append(request.getContextPath()).append("/file?type=");
+		if (thumbnail instanceof MediaFile) html.append("Image");
+		else html.append("ImageFile");
 		html.append("&id=").append(thumbnail.getId()).append("\"");
 		html.append(" border=\"0\"");
 		if (thumbnail.getWidth()>0) html.append(" width=\"").append(thumbnail.getWidth()).append("\"");
@@ -49,17 +49,17 @@ public abstract class MediaJspBase extends HttpJspBase
 		return html.toString();
 	}
 
-	public String renderPicture(HttpServletRequest request, PictureFile picture, String otherAttributes)
+	public String renderImage(HttpServletRequest request, ImageFile imageFile, String otherAttributes)
 	{
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/picture?type=");
-		if (picture instanceof Picture) html.append("Picture");
-		else html.append("PictureFile");
-		html.append("&id=").append(picture.getId()).append("\"");
+		html.append(" src=\"").append(request.getContextPath()).append("/file?type=");
+		if (imageFile instanceof MediaFile) html.append("Image");
+		else html.append("ImageFile");
+		html.append("&id=").append(imageFile.getId()).append("\"");
 		html.append(" border=\"0\"");
-		if (picture.getWidth()>0) html.append(" width=\"").append(picture.getWidth()).append("\"");
-		if (picture.getHeight()>0) html.append(" height=\"").append(picture.getHeight()).append("\"");
+		if (imageFile.getWidth()>0) html.append(" width=\"").append(imageFile.getWidth()).append("\"");
+		if (imageFile.getHeight()>0) html.append(" height=\"").append(imageFile.getHeight()).append("\"");
 		if (otherAttributes!=null) html.append(" ").append(otherAttributes);
 		html.append(">");
 		return html.toString();

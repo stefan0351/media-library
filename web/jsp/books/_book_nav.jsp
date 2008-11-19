@@ -1,12 +1,12 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="com.kiwisoft.media.books.Book,
-				 com.kiwisoft.media.pics.Picture" %>
-<%@ page import="com.kiwisoft.media.pics.PictureFile"%>
+<%@ page import="com.kiwisoft.media.books.Book" %>
+<%@ page import="com.kiwisoft.media.files.ImageFile" %>
+<%@ page import="com.kiwisoft.media.files.MediaFile" %>
 
 <%
 	Book book=(Book)request.getAttribute("book");
-	Picture cover=book.getCover();
-	PictureFile thumbnail=null;
+	MediaFile cover=book.getCover();
+	ImageFile thumbnail=null;
 	if (cover!=null)
 	{
 		thumbnail=cover.getThumbnailSidebar();
@@ -20,7 +20,7 @@
 %>
 <table class="menutable">
 <tr><td class="menuheader">Book</td></tr>
-<tr><td class="menuitem" align="center"><%=renderPicture(request, "Cover", cover, thumbnail, null)%></td></tr>
+<tr><td class="menuitem" align="center"><%=renderMedia(request, "Cover", cover, thumbnail, null)%></td></tr>
 </table>
 <%
 	}

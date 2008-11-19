@@ -85,7 +85,7 @@ public class TVTVDeLoader implements Job
 			Object object=it.next();
 			if (object instanceof Show) new ShowHandler((Show)object).loadSchedule();
 			else if (object instanceof Movie) new MovieHandler((Movie)object).loadSchedule();
-			else progressSupport.warning("Unhandled object class "+object.getClass());
+			else progressSupport.warning("Unhandled object "+object.getClass());
 			progressSupport.progress(1, true);
 		}
 		return true;

@@ -19,7 +19,7 @@ public class DataSource implements Identifyable
 	public static final DataSource TVTV=new DataSource(new Long(3), "tvtv", "TVTV.de");
 	public static final DataSource INPUT=new DataSource(new Long(4), "input", "Input");
 
-	public static DataSource get(Long id)
+	public static DataSource valueOf(Long id)
 	{
 		return map.get(id);
 	}

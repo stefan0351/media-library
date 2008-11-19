@@ -24,13 +24,17 @@ import com.kiwisoft.media.movie.MovieHTMLRenderer;
 import com.kiwisoft.media.schedule.AirdateHTMLRenderer;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonHTMLRenderer;
-import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.media.pics.PictureFileHTMLRenderer;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.pics.ImageFileHTMLRenderer;
 import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.app.Application;
 import com.kiwisoft.swing.icons.Icons;
 
+/**
+ * @author Stefan Stiller
+ * @todo Integrate media files
+ */
 public class MediaWebApplication extends MediaApplication
 {
 	public synchronized static void checkInstance()
@@ -105,7 +109,7 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(Season.class, "Menu", new SeasonHTMLRenderer("menulink"));
 		rendererManager.setRenderer(LinkGroup.class, new LinkGroupHTMLRenderer());
 		rendererManager.setRenderer(LinkGroup.class, "hierarchy", new LinkGroupHierarchyHTMLRenderer());
-		rendererManager.setRenderer(PictureFile.class, new PictureFileHTMLRenderer());
+		rendererManager.setRenderer(ImageFile.class, new ImageFileHTMLRenderer());
 		rendererManager.setRenderer(Channel.class, new ChannelHTMLRenderer());
 	}
 }

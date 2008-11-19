@@ -17,10 +17,10 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.ActionField;
@@ -45,7 +45,7 @@ public class ChannelDetailsView extends DetailsView
 
 	// Konfigurations Panel
 	private JTextField nameField;
-	private LookupField<Picture> logoField;
+	private LookupField<MediaFile> logoField;
 	private LookupField<Language> languageField;
 	private JCheckBox receivingField;
 	private NamesTableModel namesTableModel;
@@ -63,7 +63,7 @@ public class ChannelDetailsView extends DetailsView
 		languageField=new LookupField<Language>(new LanguageLookup());
 		webAddressField=new ActionField(new OpenWebAddressAction());
 		receivingField=new JCheckBox();
-		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -164,7 +164,7 @@ public class ChannelDetailsView extends DetailsView
 			return false;
 		}
 		boolean receiving=receivingField.isSelected();
-		Picture logo=logoField.getValue();
+		MediaFile logo=logoField.getValue();
 		String webAddress=webAddressField.getText();
 		Set<String> names=namesTableModel.getNameSet();
 

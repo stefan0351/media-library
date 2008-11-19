@@ -3,7 +3,7 @@
 				   java.util.Set,
 				   org.apache.commons.lang.StringEscapeUtils,
 				   com.kiwisoft.media.person.CastMember,
-				   com.kiwisoft.media.pics.Picture,
+				   com.kiwisoft.media.files.MediaFile,
 				   com.kiwisoft.media.show.Show" %>
 <%@ page import="com.kiwisoft.media.show.ShowManager"%>
 <%@ page import="com.kiwisoft.utils.Utils"%>
@@ -66,15 +66,15 @@
 %>
 			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			Picture picture=castMember.getPicture();
-			Person actor=castMember.getActor();
-			if (picture==null && actor!=null) picture=actor.getPicture();
-			if (picture!=null && picture.getThumbnail50x50()!=null)
-			{
-				out.print(renderPicture(request, actor!=null ? actor.getName() : castMember.getCharacterName(),
-										picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
-			}
-			row=!row;
+	MediaFile picture=castMember.getPicture();
+	Person actor=castMember.getActor();
+	if (picture==null && actor!=null) picture=actor.getPicture();
+	if (picture!=null && picture.getThumbnail50x50()!=null)
+	{
+		out.print(renderMedia(request, actor!=null ? actor.getName() : castMember.getCharacterName(),
+							  picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
+	}
+	row=!row;
 %>
 		</td>
 		<td class="tcell2"><%=JspUtils.render(request, actor)%></td>
@@ -110,15 +110,15 @@
 %>
 	<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			Picture picture=castMember.getPicture();
-			Person actor=castMember.getActor();
-			if (picture==null && actor!=null) picture=actor.getPicture();
-			if (picture!=null && picture.getThumbnail50x50()!=null)
-			{
-				out.print(renderPicture(request, actor!=null ? actor.getName() : castMember.getCharacterName(),
-										picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
-			}
-			row=!row;
+	MediaFile picture=castMember.getPicture();
+	Person actor=castMember.getActor();
+	if (picture==null && actor!=null) picture=actor.getPicture();
+	if (picture!=null && picture.getThumbnail50x50()!=null)
+	{
+		out.print(renderMedia(request, actor!=null ? actor.getName() : castMember.getCharacterName(),
+							  picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
+	}
+	row=!row;
 %>
 		</td>
 		<td class="tcell2"><%=JspUtils.render(request, castMember.getActor())%></td>

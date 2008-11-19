@@ -3,14 +3,11 @@ package com.kiwisoft.media.dataImport;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
-import java.util.HashMap;
-import java.net.URI;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.media.links.LinkDetailsView;
-import com.kiwisoft.media.books.BookDataDetailsView;
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.swing.GuiUtils;

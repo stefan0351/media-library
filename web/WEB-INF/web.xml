@@ -23,10 +23,10 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>picture</servlet-name>
-		<display-name>PictureServlet</display-name>
-		<description>Streams pictures from file system</description>
-		<servlet-class>com.kiwisoft.media.pics.PictureServlet</servlet-class>
+		<servlet-name>file</servlet-name>
+		<display-name>MediaFileServlet</display-name>
+		<description>Streams images and other resources from file system</description>
+		<servlet-class>com.kiwisoft.media.pics.MediaFileServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -77,8 +77,8 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>picture</servlet-name>
-		<url-pattern>/picture</url-pattern>
+		<servlet-name>file</servlet-name>
+		<url-pattern>/file</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

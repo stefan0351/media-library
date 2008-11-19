@@ -12,12 +12,10 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.collection.ChainLink;
-import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.swing.ImagePanel;
+import com.kiwisoft.utils.Disposable;
 
 /**
  * @author Stefan Stiller
@@ -54,7 +52,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 
 	private void updateThumbnail()
 	{
-		PictureFile thumbnail=photo.getThumbnail();
+		ImageFile thumbnail=photo.getThumbnail();
 		if (thumbnail!=null)
 		{
 			File file=thumbnail.getPhysicalFile();

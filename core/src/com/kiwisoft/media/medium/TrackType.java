@@ -15,7 +15,7 @@ public class TrackType implements Identifyable
 	public static final TrackType DATA=new TrackType(3L, "Data");
 	public static final TrackType SUBTITLES=new TrackType(4L, "Subtitles");
 
-	public static TrackType get(Long id)
+	public static TrackType valueOf(Long id)
 	{
 		return map.get(id);
 	}

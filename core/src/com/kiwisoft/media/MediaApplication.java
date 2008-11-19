@@ -15,8 +15,8 @@ import com.kiwisoft.app.Application;
 import com.kiwisoft.utils.UrlFormat;
 import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.format.DefaultDateFormat;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureFormat;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileFormat;
 import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.photos.PhotoGalleryFormat;
 import com.kiwisoft.media.person.Gender;
@@ -85,7 +85,7 @@ public class MediaApplication extends Application
 	protected void registerFormats()
 	{
 		FormatManager formatManager=FormatManager.getInstance();
-		formatManager.setFormat(Picture.class, new PictureFormat());
+		formatManager.setFormat(MediaFile.class, new MediaFileFormat());
 		formatManager.setFormat(PhotoGallery.class, new PhotoGalleryFormat());
 		formatManager.setFormat(LinkGroup.class, "hierarchy", new LinkGroupHierarchyFormat());
 		formatManager.setFormat(LinkGroup.class, new LinkGroupFormat());

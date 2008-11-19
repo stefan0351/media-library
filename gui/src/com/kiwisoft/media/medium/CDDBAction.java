@@ -20,6 +20,7 @@ import com.kiwisoft.swing.icons.Icons;
 
 /**
  * @author Stefan Stiller
+ * @todo finish
  */
 public class CDDBAction extends ContextAction
 {

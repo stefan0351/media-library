@@ -91,7 +91,7 @@ public class Credit extends IDObject
 
 	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (CREDIT_TYPE.equals(name)) return CreditType.get((Long)referenceId);
+		if (CREDIT_TYPE.equals(name)) return CreditType.valueOf((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

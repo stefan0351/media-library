@@ -1,23 +1,24 @@
 package com.kiwisoft.media.photos;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.media.files.ImageFile;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.swing.GuiUtils;
 
 public class PhotoDetailsView extends DetailsView
 {
@@ -187,13 +188,13 @@ public class PhotoDetailsView extends DetailsView
 			Double focalLength=photo.getFocalLength();
 			if (focalLength!=null) focalLengthField.setText(new DecimalFormat("#.##").format(focalLength));
 			colorDepthField.setText(photo.getColorDepth()+" bit");
-			PictureFile picture=photo.getOriginalPicture();
-			sizeField.setText(picture.getWidth()+"x"+picture.getHeight());
+			ImageFile imageFile=photo.getOriginalPicture();
+			sizeField.setText(imageFile.getWidth()+"x"+imageFile.getHeight());
 			resolutionField.setText(photo.getXResolution()+"x"+photo.getYResolution());
 			galleryPhotoField.setSelected(photo.isGalleryPhoto());
 			try
 			{
-				fileField.setText(picture.getPhysicalFile().getCanonicalPath());
+				fileField.setText(imageFile.getPhysicalFile().getCanonicalPath());
 			}
 			catch (IOException e)
 			{

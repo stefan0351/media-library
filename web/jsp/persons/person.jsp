@@ -35,6 +35,7 @@
 
 <body>
 <a name="top"></a>
+<div id="overDiv"></div>
 
 <media:title><media:render value="<%=person.getName()%>"/></media:title>
 
@@ -72,7 +73,7 @@
 		{
 %>
 				<dd><a target="_new" class="link" href="http://www.imdb.com/name/<%=imdbKey%>/">
-					<img src="<%=request.getContextPath()%>/picture?type=Icon&name=imdb" alt="IMDb" border="0"/>
+					<img src="<%=request.getContextPath()%>/file?type=Icon&name=imdb" alt="IMDb" border="0"/>
 					http://www.imdb.com/name/<%=imdbKey%>/</a></dd>
 <%
 		}

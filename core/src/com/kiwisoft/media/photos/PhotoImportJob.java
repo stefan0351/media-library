@@ -6,9 +6,9 @@ import java.io.IOException;
 import com.kiwisoft.progress.Job;
 import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.progress.ProgressListener;
-import com.kiwisoft.media.pics.ImageData;
-import com.kiwisoft.media.pics.PictureDetails;
-import com.kiwisoft.media.pics.PictureUtils;
+import com.kiwisoft.media.files.ImageFileInfo;
+import com.kiwisoft.media.files.PhotoFileInfo;
+import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 
@@ -38,11 +38,11 @@ public class PhotoImportJob implements Job
 			{
 				if (file.isFile())
 				{
-					final PictureDetails descriptor=PictureUtils.getImageFormat(file);
+					final PhotoFileInfo descriptor=MediaFileUtils.getPhotoFileInfo(file);
 					String type=descriptor.getType();
 					if ("PNG".equals(type) || "JPEG".equals(type) || "GIF".equals(type))
 					{
-						ImageData thumbnail=PhotoManager.getInstance().createThumbnail(file, 0);
+						ImageFileInfo thumbnail=PhotoManager.getInstance().createThumbnail(file, 0);
 						if (thumbnail==null)
 						{
 							progressSupport.error("Faild to create thumbnail for file '"+file+"'.");
@@ -74,10 +74,10 @@ public class PhotoImportJob implements Job
 
 	private class CreatePhotoTx implements Transactional
 	{
-		private PictureDetails picture;
-		private ImageData thumbnail;
+		private PhotoFileInfo picture;
+		private ImageFileInfo thumbnail;
 
-		public CreatePhotoTx(PictureDetails picture, ImageData thumbnail)
+		public CreatePhotoTx(PhotoFileInfo picture, ImageFileInfo thumbnail)
 		{
 			this.picture=picture;
 			this.thumbnail=thumbnail;

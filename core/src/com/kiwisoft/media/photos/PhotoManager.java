@@ -7,8 +7,8 @@ import java.text.DecimalFormat;
 import java.awt.Dimension;
 
 import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.media.pics.ImageData;
-import com.kiwisoft.media.pics.PictureUtils;
+import com.kiwisoft.media.files.ImageFileInfo;
+import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
@@ -68,7 +68,7 @@ public class PhotoManager implements CollectionChangeSource
 		collectionChangeSupport.removeListener(listener);
 	}
 
-	public ImageData createThumbnail(File file, int rotation)
+	public ImageFileInfo createThumbnail(File file, int rotation)
 	{
 		NumberFormat numberFormat=new DecimalFormat("000000");
 		File thumbnailFile;
@@ -77,9 +77,9 @@ public class PhotoManager implements CollectionChangeSource
 			thumbnailFile=new File(MediaConfiguration.getPhotoThumbnailPath(), numberFormat.format(MediaConfiguration.nextThumbnailId())+".jpg");
 		}
 		while (thumbnailFile.exists());
-		PictureUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
-		Dimension size=PictureUtils.getImageSize(thumbnailFile);
-		if (size!=null) return new ImageData(thumbnailFile, size);
+		MediaFileUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
+		Dimension size=MediaFileUtils.getImageSize(thumbnailFile);
+		if (size!=null) return new ImageFileInfo(thumbnailFile, size);
 		return null;
 	}
 }

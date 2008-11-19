@@ -1,27 +1,29 @@
 package com.kiwisoft.media.medium;
 
-import java.util.Collection;
+import java.util.*;
+import java.util.regex.Pattern;
 
 import com.kiwisoft.swing.lookup.ListLookup;
+import com.kiwisoft.swing.lookup.LookupUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.medium.MediumType;
+import com.kiwisoft.media.person.Gender;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 24.04.2004
- * Time: 17:14:29
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class MediumTypeLookup extends ListLookup<MediumType>
 {
 	public Collection<MediumType> getValues(String text, MediumType currentValue, boolean lookup)
 	{
-		if (StringUtils.isEmpty(text)) return MediumType.getAll();
-		else
+		if (lookup) return MediumType.values();
+		if (text==null) return Collections.emptySet();
+		Set<MediumType> values=new HashSet<MediumType>();
+		Pattern pattern=LookupUtils.createPattern(text);
+		for (MediumType type : MediumType.values())
 		{
-			if (!text.contains("*")) text=text+"*";
-			return MediumType.getAll(text);
+			if (pattern.matcher(type.getId().toString()).matches() || pattern.matcher(type.getName()).matches()) values.add(type);
 		}
+		return values;
 	}
 }

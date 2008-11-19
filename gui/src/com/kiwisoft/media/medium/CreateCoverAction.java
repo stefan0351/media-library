@@ -9,13 +9,11 @@ import java.util.List;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.utils.ODFTemplate;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.CastMember;
@@ -76,7 +74,7 @@ public class CreateCoverAction extends SimpleContextAction
 					File file=File.createTempFile("cover", ".odt");
 					file.deleteOnExit();
 					template.createDocument(file);
-					Utils.run("cmd /c start \"Cover\" \""+file.getAbsolutePath()+"\"", null, null);
+					Utils.run("cmd /c start \"Cover\" \""+file.getAbsolutePath()+"\"");
 				}
 			}
 		}

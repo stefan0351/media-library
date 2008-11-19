@@ -1,9 +1,8 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="com.kiwisoft.media.Navigation,
-				 com.kiwisoft.media.movie.Movie" %>
-<%@ page import="com.kiwisoft.media.pics.Picture"%>
-<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
+<%@ page import="com.kiwisoft.media.Navigation" %>
+<%@ page import="com.kiwisoft.media.files.MediaFile"%>
 <%@ page import="com.kiwisoft.media.show.Show" %>
+<%@ page import="com.kiwisoft.media.movie.Movie" %>
 
 <%
 	Movie movie=(Movie)request.getAttribute("movie");
@@ -13,8 +12,8 @@
 <table class="menutable">
 <tr><td class="menuheader">Movie</td></tr>
 <%
-	PictureFile thumbnail=null;
-	Picture poster=movie.getPoster();
+	com.kiwisoft.media.files.ImageFile thumbnail=null;
+	MediaFile poster=movie.getPoster();
 	if (poster!=null)
 	{
 		thumbnail=poster.getThumbnailSidebar();
@@ -25,7 +24,7 @@
 %>
 <tr><td class="menuitem" align="center">
 <%
-		out.println(renderPicture(request, "Poster", poster, thumbnail, null));
+	out.println(renderMedia(request, "Poster", poster, thumbnail, null));
 %>
 	</td></tr>
 <tr><td><hr size=1 color=black></td></tr>

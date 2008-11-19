@@ -15,10 +15,10 @@ import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
@@ -73,7 +73,7 @@ public class MovieDetailsView extends DetailsView
 	private ObjectTableModel<Genre> genresModel;
 	private ObjectTableModel<Language> languagesModel;
 	private ObjectTableModel<Country> countriesModel;
-	private LookupField<Picture> posterField;
+	private LookupField<MediaFile> posterField;
 	private JTextPane germanSummaryField;
 	private JTextPane englishSummaryField;
 
@@ -145,7 +145,7 @@ public class MovieDetailsView extends DetailsView
 		final Collection<Language> languages=languagesModel.getObjects();
 		final Collection<Country> countries=countriesModel.getObjects();
 		final Collection<Genre> genres=genresModel.getObjects();
-		final Picture poster=posterField.getValue();
+		final MediaFile poster=posterField.getValue();
 
 		return DBSession.execute(new Transactional()
 		{
@@ -211,7 +211,7 @@ public class MovieDetailsView extends DetailsView
 
 	private JPanel createDetailsPanel()
 	{
-		posterField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		posterField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()

@@ -6,12 +6,10 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.media.pics.PictureViewer;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.ImageViewer;
 import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.icons.Icons;
 
 public class ShowPhotoAction extends SimpleContextAction
 {
@@ -28,11 +26,11 @@ public class ShowPhotoAction extends SimpleContextAction
 		Photo photo=(Photo)getObject();
 		if (photo!=null)
 		{
-			PictureFile picture=photo.getOriginalPicture();
+			ImageFile picture=photo.getOriginalPicture();
 			if (picture!=null)
 			{
 				File file=picture.getPhysicalFile();
-				if (file.exists()) PictureViewer.create(file, photo.getRotation());
+				if (file.exists()) ImageViewer.create(file, photo.getRotation());
 				else showMessageDialog(frame, "File '"+file.getAbsolutePath()+"' is currently not available!", "Error", ERROR_MESSAGE);
 			}
 		}

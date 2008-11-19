@@ -5,8 +5,6 @@ import java.io.PrintStream;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-import com.kiwisoft.media.dataImport.BookData;
-import com.kiwisoft.media.dataImport.AmazonDeLoader;
 import com.kiwisoft.media.books.BookDataDetailsView;
 import com.kiwisoft.media.MediaManagerFrame;
 import com.kiwisoft.utils.Utils;

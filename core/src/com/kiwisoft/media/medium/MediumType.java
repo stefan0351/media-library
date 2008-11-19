@@ -25,27 +25,14 @@ public class MediumType implements Identifyable
 	public static final MediumType AUDIO_CD=new MediumType(new Long(8), "Audio-CD", "Audio-CD's", "A");
 	public static final MediumType HD=new MediumType(new Long(9), "HD", "Hard Disk", "H", true);
 
-	public static MediumType get(Long id)
+	public static MediumType valueOf(Long id)
 	{
 		return map.get(id);
 	}
 
-	public static Collection<MediumType> getAll()
+	public static Collection<MediumType> values()
 	{
 		return map.values();
-	}
-
-	public static Collection<MediumType> getAll(String pattern)
-	{
-		Set<MediumType> result=new HashSet<MediumType>();
-		Iterator<MediumType> it=map.values().iterator();
-		while (it.hasNext())
-		{
-			MediumType type=it.next();
-			if (StringUtils.matchExpression(type.getName(), pattern)) result.add(type);
-			else if ((type.getId().toString()+"*").equals(pattern)) result.add(type);
-		}
-		return result;
 	}
 
 	private Long id;

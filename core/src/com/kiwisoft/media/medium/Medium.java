@@ -169,7 +169,7 @@ public class Medium extends IDObject
 
 	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (TYPE.equals(name)) return MediumType.get((Long)referenceId);
+		if (TYPE.equals(name)) return MediumType.valueOf((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

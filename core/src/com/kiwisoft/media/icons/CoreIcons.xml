@@ -9,4 +9,13 @@
 	<icon key="imdb">
 		<resource url="/com/kiwisoft/media/icons/imdb.gif"/>
 	</icon>
+	<icon key="file.image">
+		<resource url="/com/kiwisoft/media/icons/image-16x16.png"/>
+	</icon>
+	<icon key="file.video">
+		<resource url="/com/kiwisoft/media/icons/movie-track-16x16.png"/>
+	</icon>
+	<icon key="file.audio">
+		<resource url="/com/kiwisoft/media/icons/sound-16x16.png"/>
+	</icon>
 </icons>

@@ -3,9 +3,9 @@ package com.kiwisoft.media.photos;
 import java.util.Date;
 import java.util.HashSet;
 
-import com.kiwisoft.media.pics.ImageData;
-import com.kiwisoft.media.pics.PictureFile;
-import com.kiwisoft.media.pics.PictureDetails;
+import com.kiwisoft.media.files.ImageFileInfo;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.PhotoFileInfo;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.collection.Chain;
@@ -63,14 +63,14 @@ public class PhotoGallery extends IDObject
 		return photos;
 	}
 
-	public Photo createPhoto(PictureDetails imageData, ImageData thumbnailData)
+	public Photo createPhoto(PhotoFileInfo imageData, ImageFileInfo thumbnailData)
 	{
-		PictureFile picture=new PictureFile(MediaConfiguration.PATH_PHOTOS, imageData);
-		PictureFile thumbnail=new PictureFile(MediaConfiguration.PATH_ROOT, thumbnailData);
+		ImageFile photoFile=new ImageFile(MediaConfiguration.PATH_PHOTOS, imageData);
+		ImageFile thumbnailFile=new ImageFile(MediaConfiguration.PATH_ROOT, thumbnailData);
 
 		Photo photo=new Photo(this);
-		photo.setOriginalPicture(picture);
-		photo.setThumbnail(thumbnail);
+		photo.setOriginalPicture(photoFile);
+		photo.setThumbnail(thumbnailFile);
 		photo.setXResolution(imageData.getXResolution());
 		photo.setYResolution(imageData.getYResolution());
 		photo.setColorDepth(imageData.getColorDepth());
@@ -141,7 +141,7 @@ public class PhotoGallery extends IDObject
 		if (photo!=null) photo.setGalleryPhoto(true);
 	}
 
-	public PictureFile getThumbnail()
+	public ImageFile getThumbnail()
 	{
 		Photo photo=getGalleryPhoto();
 		if (photo==null) photo=DBLoader.getInstance().load(Photo.class, null, "photogallery_id=?"+

@@ -16,6 +16,10 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 
+/**
+ * @author Stefan Stiller
+ * @todo handle person schedules
+ */
 public class Airdate extends IDObject
 {
 	public static final String CHANNEL="channel";
@@ -174,7 +178,7 @@ public class Airdate extends IDObject
 
 	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (DATA_SOURCE.equals(name)) return DataSource.get((Long)referenceId);
+		if (DATA_SOURCE.equals(name)) return DataSource.valueOf((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

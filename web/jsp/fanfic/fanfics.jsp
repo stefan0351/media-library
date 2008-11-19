@@ -8,6 +8,7 @@
 				 com.kiwisoft.media.show.Show,
 				 com.kiwisoft.media.show.ShowManager,
 				 com.kiwisoft.utils.StringUtils"%>
+<%@ page import="com.kiwisoft.media.IndexByUtils" %>
 
 <%
     FanFicGroup container=null;
@@ -196,8 +197,8 @@ else if (container instanceof FanDom)
 		{
 			public int compare(Object o1, Object o2)
 			{
-				String title1=StringUtils.buildSortTitle(((FanFic)o1).getTitle());
-				String title2=StringUtils.buildSortTitle(((FanFic)o2).getTitle());
+				String title1=IndexByUtils.createIndexBy(((FanFic)o1).getTitle());
+				String title2=IndexByUtils.createIndexBy(((FanFic)o2).getTitle());
 				return title1.compareToIgnoreCase(title2);
 			}
 		});

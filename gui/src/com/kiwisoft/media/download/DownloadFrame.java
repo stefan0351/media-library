@@ -23,6 +23,10 @@ import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.tree.TreeController;
 import com.kiwisoft.utils.WebUtils;
 
+/**
+ * @author Stefan Stiller
+ * @todo check and finish
+ */
 public class DownloadFrame extends JFrame
 {
 	private TreeController treeController;

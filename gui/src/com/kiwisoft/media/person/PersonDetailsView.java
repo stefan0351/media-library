@@ -7,27 +7,27 @@ import java.util.*;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
-import com.kiwisoft.media.NamesTableModel;
 import com.kiwisoft.media.Name;
+import com.kiwisoft.media.NamesTableModel;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.table.SortableTable;
-import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.swing.table.DefaultTableConfiguration;
+import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.utils.StringUtils;
 
 public class PersonDetailsView extends DetailsView
@@ -63,7 +63,7 @@ public class PersonDetailsView extends DetailsView
 	private JTextField middleNameField;
 	private JTextField surnameField;
 	private LookupField<Gender> genderField;
-	private LookupField<Picture> pictureField;
+	private LookupField<MediaFile> pictureField;
 	private NamesTableModel namesModel;
 
 	private PersonDetailsView(Person person)
@@ -110,7 +110,7 @@ public class PersonDetailsView extends DetailsView
 		genderField=new LookupField<Gender>(new GenderLookup());
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
-		pictureField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -232,7 +232,7 @@ public class PersonDetailsView extends DetailsView
 		Set<String> names=namesModel.getNameSet();
 
 		Gender gender=genderField.getValue();
-		Picture picture=pictureField.getValue();
+		MediaFile picture=pictureField.getValue();
 
 		Transaction transaction=null;
 		try

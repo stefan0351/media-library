@@ -14,7 +14,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 
 public class Season extends IDObject implements Comparable
 {
@@ -111,12 +111,12 @@ public class Season extends IDObject implements Comparable
 		setReference(LAST_EPISODE, value);
 	}
 
-	public Picture getLogo()
+	public MediaFile getLogo()
 	{
-		return (Picture)getReference(LOGO);
+		return (MediaFile)getReference(LOGO);
 	}
 
-	public void setLogo(Picture logo)
+	public void setLogo(MediaFile logo)
 	{
 		setReference(LOGO, logo);
 	}

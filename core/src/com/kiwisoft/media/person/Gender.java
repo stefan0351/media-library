@@ -20,7 +20,7 @@ public class Gender implements Identifyable
 	public static final Gender MALE=new Gender(2L, "Male");
 	public static final Gender UNKNOWN=new Gender(3L, "Unknown");
 
-	public static Gender get(Long id)
+	public static Gender valueOf(Long id)
 	{
 		return map.get(id);
 	}

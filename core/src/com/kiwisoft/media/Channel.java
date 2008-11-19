@@ -11,7 +11,7 @@ import java.util.Set;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 
 public class Channel extends IDObject
 {
@@ -79,12 +79,12 @@ public class Channel extends IDObject
 		return altNames;
 	}
 
-	public Picture getLogo()
+	public MediaFile getLogo()
 	{
-		return (Picture)getReference(LOGO);
+		return (MediaFile)getReference(LOGO);
 	}
 
-	public void setLogo(Picture logo)
+	public void setLogo(MediaFile logo)
 	{
 		setReference(LOGO, logo);
 	}

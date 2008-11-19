@@ -1,6 +1,6 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.media.pics.PicturesTask;
+import com.kiwisoft.media.files.MediaFilesTask;
 import com.kiwisoft.app.MenuSidebarItem;
 
 /**
@@ -13,6 +13,6 @@ public class DataTask extends MenuSidebarItem.Task
 		super("Data");
 		add(new ChannelsTask());
 		add(new ConfigurationTask());
-		add(new PicturesTask());
+		add(new MediaFilesTask());
 	}
 }

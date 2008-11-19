@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.HTMLRenderer;
 import com.kiwisoft.web.HTMLRendererManager;
@@ -27,10 +27,10 @@ public class ChannelHTMLRenderer extends DefaultHTMLRenderer
 			{
 				output.append("<a target=\"_new\" class=\"link\" href=\"").append(webAddress).append("\">");
 			}
-			Picture logo=channel.getLogo();
+			MediaFile logo=channel.getLogo();
 			if (logo!=null)
 			{
-				HTMLRenderer pictureRenderer=HTMLRendererManager.getInstance().getRenderer(Picture.class);
+				HTMLRenderer pictureRenderer=HTMLRendererManager.getInstance().getRenderer(MediaFile.class);
 				Map<String, Object> pictureContext=new HashMap<String, Object>(context);
 				pictureContext.put("name", channel.getName());
 				output.append(pictureRenderer.getContent(logo, pictureContext, rowIndex, columnIndex));

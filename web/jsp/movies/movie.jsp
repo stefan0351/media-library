@@ -1,6 +1,5 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.util.*,
-				 org.apache.commons.lang.StringEscapeUtils" %>
+<%@ page import="java.util.*" %>
 <%@ page import="com.kiwisoft.media.*" %>
 <%@ page import="com.kiwisoft.media.movie.Movie" %>
 <%@ page import="com.kiwisoft.media.movie.MovieManager" %>
@@ -13,7 +12,7 @@
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
 <%@ page import="com.kiwisoft.media.medium.Medium" %>
 <%@ page import="com.kiwisoft.media.medium.MediumManager" %>
-<%@ page import="com.kiwisoft.media.pics.Picture" %>
+<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -196,7 +195,7 @@
 %>
 				<tr valign="top"><td class="content2"><b>Links:</b></td><td class="content2">
 					<a target="_new" class="link" href="http://www.imdb.com/title/<%=imdbKey%>/">
-						<img src="<%=request.getContextPath()%>/picture?type=Icon&name=imdb" alt="IMDb" border="0"/>
+						<img src="<%=request.getContextPath()%>/file?type=Icon&name=imdb" alt="IMDb" border="0"/>
 						http://www.imdb.com/title/<%=imdbKey%>/</a>
 				</td></tr>
 <%
@@ -226,14 +225,15 @@
 %>
 			<tr class="<%=row ? "trow1" : "trow2"%>"><td class="tcell2">
 <%
-			Picture picture=castMember.getPicture();
-			Person actor=castMember.getActor();
-			if (picture==null && actor!=null) picture=actor.getPicture();
-			if (picture!=null && picture.getThumbnail50x50()!=null)
-			{
-				out.print(renderPicture(request, actor!=null ? actor.getName() : castMember.getCharacterName(), picture, picture.getThumbnail50x50(), " vspace=\"5\" hspace=\"5\""));
-			}
-			row=!row;
+	com.kiwisoft.media.files.MediaFile picture=castMember.getPicture();
+	Person actor=castMember.getActor();
+	if (picture==null && actor!=null) picture=actor.getPicture();
+	if (picture!=null && picture.getThumbnail50x50()!=null)
+	{
+		out.print(renderMedia(request, actor!=null ? actor.getName() : castMember.getCharacterName(), picture, picture.getThumbnail50x50(),
+							  " vspace=\"5\" hspace=\"5\""));
+	}
+	row=!row;
 %>
 			</td>
 			<td class="tcell2"><media:render value="<%=actor%>"/></td>

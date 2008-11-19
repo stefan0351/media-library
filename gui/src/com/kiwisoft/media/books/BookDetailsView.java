@@ -13,10 +13,10 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
@@ -49,7 +49,7 @@ public class BookDetailsView extends DetailsView
 	private JFormattedTextField pageCountField;
 	private JFormattedTextField publishedYearField;
 	private LookupField<Language> languageField;
-	private LookupField<Picture> coverField;
+	private LookupField<MediaFile> coverField;
 	private JTextField isbn10Field;
 	private JTextField isbn13Field;
 
@@ -80,7 +80,7 @@ public class BookDetailsView extends DetailsView
 		pageCountField=GuiUtils.createNumberField(Integer.class, 5, 0, null);
 		publishedYearField=GuiUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
 		languageField=new LookupField<Language>(new LanguageLookup());
-		coverField=new LookupField<Picture>(new PictureLookup(), new MyPictureLookupHandler());
+		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new MyImageLookupHandler());
 		ImagePanel coverPreview=new ImagePanel(new Dimension(150, 200));
 		coverPreview.setBorder(new EtchedBorder());
 
@@ -195,7 +195,7 @@ public class BookDetailsView extends DetailsView
 			final Language language=languageField.getValue();
 			final Integer publishedYear=(Integer)publishedYearField.getValue();
 			final Integer pageCount=(Integer)pageCountField.getValue();
-			final Picture cover=coverField.getValue();
+			final MediaFile cover=coverField.getValue();
 
 			return DBSession.execute(new Transactional()
 			{
@@ -244,7 +244,7 @@ public class BookDetailsView extends DetailsView
 		}
 	}
 
-	private class MyPictureLookupHandler extends PictureLookupHandler
+	private class MyImageLookupHandler extends ImageLookupHandler
 	{
 		@Override
 		public String getDefaultName()

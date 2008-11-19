@@ -1,11 +1,13 @@
+<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+
 <%@ page import="com.kiwisoft.media.photos.PhotoGallery" %>
 <%@ page import="com.kiwisoft.media.photos.PhotoManager" %>
-<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
 <%@ page import="com.kiwisoft.utils.Utils" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="java.util.*" %>
-<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
+
 <html>
 
 <head>
@@ -38,10 +40,10 @@
 					for (Iterator itGalleries=row.iterator(); itGalleries.hasNext();)
 					{
 						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
-						PictureFile thumbnail=gallery.getThumbnail();
+						com.kiwisoft.media.files.ImageFile thumbnail=gallery.getThumbnail();
 			%>
 			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/clipart/trans10.png);">
-				<a href="<%=request.getContextPath()%>/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderPicture(request, thumbnail, null)%></a>
+				<a href="<%=request.getContextPath()%>/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderImage(request, thumbnail, null)%></a>
 			</td>
 			<%
 						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");

@@ -21,7 +21,7 @@ import com.kiwisoft.swing.table.*;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 
 public class ChannelsView extends ViewPanel
 {
@@ -147,7 +147,7 @@ public class ChannelsView extends ViewPanel
 		{
 			if ("icon".equals(property))
 			{
-				Picture logo=getUserObject().getLogo();
+				MediaFile logo=getUserObject().getLogo();
 				if (logo!=null) return IconManager.getIconFromFile(logo.getPhysicalFile().getAbsolutePath());
 				return null;
 			}

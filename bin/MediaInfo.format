@@ -1,0 +1,4 @@
+General;general.format=%Format%\ngeneral.format.info=%Format/Info%\ngeneral.duration=%Duration%\ngeneral.videoFormat=%Video_Format_WithHint_List%\ngeneral.audioFormat=%Audio_Format_WithHint_List%\n
+Image;image.streams=%StreamCount%\n
+Audio;audio.streams=%StreamCount%\n
+Video;video.streams=%StreamCount%\nvideo.width=%Width%\nvideo.height=%Height%\n

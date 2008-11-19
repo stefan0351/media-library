@@ -14,10 +14,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
@@ -51,7 +51,7 @@ public class ShowDetailsView extends DetailsView
 	private JTextField episodeLengthField;
 	private JCheckBox webShowField;
 	private NamesTableModel tmNames;
-	private LookupField<Picture> logoField;
+	private LookupField<MediaFile> logoField;
 	private TableController<ShowInfo> infosController;
 	private ObjectTableModel<Genre> genresModel;
 
@@ -65,7 +65,7 @@ public class ShowDetailsView extends DetailsView
 	{
 		indexByField=new DialogLookupField(new IndexByLookup());
 		keyField=new JTextField();
-		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -243,7 +243,7 @@ public class ShowDetailsView extends DetailsView
 		}
 		final Map<String, Language> names=tmNames.getNameMap();
 		final Collection<Genre> genres=genresModel.getObjects();
-		final Picture logo=logoField.getValue();
+		final MediaFile logo=logoField.getValue();
 		final List<WebInfosTableModel<ShowInfo>.Row> infoRows=new ArrayList<WebInfosTableModel<ShowInfo>.Row>();
 		SortableTableModel<ShowInfo> infosModel=infosController.getModel();
 		for (int i=0; i<infosModel.getRowCount(); i++)

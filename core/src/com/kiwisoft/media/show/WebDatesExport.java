@@ -9,7 +9,7 @@ import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.AirdateComparator;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
@@ -56,7 +56,6 @@ public class WebDatesExport implements Job
 	{
 	}
 
-	// todo reruns
 	private void exportCurrentWebDates(Show show)
 	{
 		File file=new File(MediaConfiguration.getWebSchedulePath());
@@ -155,7 +154,7 @@ public class WebDatesExport implements Job
 		Channel channel=date.getChannel();
 		if (channel!=null)
 		{
-			Picture logo=channel.getLogo();
+			MediaFile logo=channel.getLogo();
 			String nameText=XMLUtils.toXMLString(channel.getName());
 			if (logo!=null)
 			{

@@ -27,7 +27,7 @@
 		<field name="isbn10" column="isbn10"/>
 		<field name="isbn13" column="isbn13"/>
 		<field name="version" column="version"/>
-		<reference name="cover" column="cover_id" type="Picture"/>
+		<reference name="cover" column="cover_id" type="MediaFile"/>
 		<reference name="language" column="language_id" type="Language"/>
 	</mapping>
 	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified" version="version">
@@ -42,7 +42,7 @@
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
-		<reference name="picture" column="picture_id" type="Picture"/>
+		<reference name="picture" column="picture_id" type="MediaFile"/>
 		<reference name="creditType" column="credit_type_id"/>
 	</mapping>
 	<mapping name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified" version="version">
@@ -50,7 +50,7 @@
 		<field name="name" column="name"/>
 		<field name="webAddress" column="web_address"/> 
 		<reference name="language" column="language_id" type="Language"/>
-		<reference name="logo" column="logo_id" type="Picture"/>
+		<reference name="logo" column="logo_id" type="MediaFile"/>
 		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
@@ -136,6 +136,15 @@
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 	</mapping>
+	<mapping name="ImageFile" class="com.kiwisoft.media.files.ImageFile" table="imagefiles" primaryKey="id" lastModified="lastmodified" version="version">
+		<field name="id" column="id"/>
+		<field name="file" column="file"/>
+		<field name="root" column="root"/>
+		<field name="width" column="width"/>
+		<field name="height" column="height"/>
+		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
+	</mapping>
 	<mapping name="Language" class="com.kiwisoft.media.Language" table="languages" primaryKey="id">
 		<field name="id" column="id"/>
 		<field name="symbol" column="symbol"/>
@@ -154,6 +163,20 @@
 		<field name="name" column="name"/>
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="parentGroup" column="parentgroup_id" type="LinkGroup"/>
+		<field name="version" column="version"/>
+	</mapping>
+	<mapping name="MediaFile" class="com.kiwisoft.media.files.MediaFile" table="mediafiles" primaryKey="id" lastModified="lastmodified" version="version">
+		<field name="id" column="id"/>
+		<field name="name" column="name"/>
+		<field name="description" column="description"/>
+		<field name="mediaType" column="mediatype"/>
+		<field name="root" column="root"/>
+		<field name="file" column="file"/>
+		<field name="width" column="width"/>
+		<field name="height" column="height"/>
+		<field name="lastModified" column="lastmodified"/>
+		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="ImageFile"/>
+		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="ImageFile"/>
 		<field name="version" column="version"/>
 	</mapping>
 	<mapping name="Medium" class="com.kiwisoft.media.medium.Medium" table="media" primaryKey="id" lastModified="lastmodified" version="version">
@@ -182,7 +205,7 @@
 		<field name="imdbKey" column="imdb_key"/>
 		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
-		<reference name="poster" column="poster_id" type="Picture"/>
+		<reference name="poster" column="poster_id" type="MediaFile"/>
 	</mapping>
 	<mapping name="Name" class="com.kiwisoft.media.Name" table="names" primaryKey="id" version="version">
 		<field name="id" column="id"/>
@@ -208,28 +231,7 @@
 		<field name="imdbKey" column="imdb_key"/>
 		<field name="tvcomKey" column="tvcom_key"/>
 		<reference name="gender" column="gender_id"/>
-		<reference name="picture" column="picture_id" type="Picture"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Picture" class="com.kiwisoft.media.pics.Picture" table="pictures" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="root" column="root"/>
-		<field name="file" column="file"/>
-		<field name="width" column="width"/>
-		<field name="height" column="height"/>
-		<field name="lastModified" column="lastmodified"/>
-		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="PictureFile"/>
-		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="PictureFile"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="PictureFile" class="com.kiwisoft.media.pics.PictureFile" table="picture_files" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="file" column="file"/>
-		<field name="root" column="root"/>
-		<field name="width" column="width"/>
-		<field name="height" column="height"/>
-		<field name="lastModified" column="lastmodified"/>
+		<reference name="picture" column="picture_id" type="MediaFile"/>
 		<field name="version" column="version"/>
 	</mapping>
 	<mapping name="Photo" class="com.kiwisoft.media.photos.Photo" table="photos" primaryKey="id" lastModified="lastmodified" version="version">
@@ -249,8 +251,8 @@
 		<field name="isoSpeed" column="iso_speed"/>
 		<field name="galleryPhoto" column="gallery_photo"/>
 		<reference name="gallery" column="photogallery_id" type="PhotoGallery"/>
-		<reference name="originalPicture" column="original_pic_id" type="PictureFile"/>
-		<reference name="thumbnail" column="thumbnail_id" type="PictureFile"/>
+		<reference name="originalPicture" column="original_pic_id" type="ImageFile"/>
+		<reference name="thumbnail" column="thumbnail_id" type="ImageFile"/>
 		<field name="version" column="version"/>
 	</mapping>
 	<mapping name="PhotoGallery" class="com.kiwisoft.media.photos.PhotoGallery" table="photogalleries" primaryKey="id" lastModified="lastmodified" version="version">
@@ -280,7 +282,7 @@
 		<field name="startYear" column="startyear"/>
 		<field name="endYear" column="endyear"/>
 		<field name="version" column="version"/>
-		<reference name="logo" column="logo_id" type="Picture"/>
+		<reference name="logo" column="logo_id" type="MediaFile"/>
 	</mapping>
 	<mapping name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>
@@ -301,7 +303,7 @@
 		<field name="indexBy" column="index_by"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="defaultInfo" column="defaultinfo_id" type="ShowInfo"/>
-		<reference name="logo" column="logo_id" type="Picture"/>
+		<reference name="logo" column="logo_id" type="MediaFile"/>
 		<reference name="linkGroup" column="linkgroup_id" type="LinkGroup"/>
 		<field name="version" column="version"/>
 	</mapping>

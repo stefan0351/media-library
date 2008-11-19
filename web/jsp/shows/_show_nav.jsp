@@ -1,15 +1,15 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase"%>
-<%@ page import="java.util.Iterator,
-				 java.util.Map,
-				 java.util.TreeMap,
-				 java.util.TreeSet,
-				 com.kiwisoft.media.show.Season,
-				 com.kiwisoft.media.show.Show,
-				 com.kiwisoft.media.show.ShowInfo"%>
-<%@ page import="com.kiwisoft.web.JspUtils" %>
-<%@ page import="com.kiwisoft.media.pics.PictureFile" %>
-<%@ page import="com.kiwisoft.media.pics.Picture" %>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.TreeMap" %>
+<%@ page import="java.util.TreeSet" %>
+<%@ page import="com.kiwisoft.media.files.MediaFile" %>
+<%@ page import="com.kiwisoft.media.files.ImageFile" %>
 <%@ page import="com.kiwisoft.media.person.CreditType" %>
+<%@ page import="com.kiwisoft.media.show.Season" %>
+<%@ page import="com.kiwisoft.media.show.Show" %>
+<%@ page import="com.kiwisoft.media.show.ShowInfo" %>
+<%@ page import="com.kiwisoft.web.JspUtils" %>
 
 <%
 	Show show=(Show)request.getAttribute("show");
@@ -34,8 +34,8 @@
 <table class="menutable">
 <tr><td class="menuheader">Show</td></tr>
 <%
-	PictureFile thumbnail=null;
-	Picture logo=null;
+	ImageFile thumbnail=null;
+	MediaFile logo=null;
 	if (season!=null) logo=season.getLogo();
 	if (logo==null) logo=show.getLogo();
 	if (logo!=null)
@@ -48,7 +48,7 @@
 %>
 		<tr><td class="menuitem" align="center">
 <%
-			out.println(renderPicture(request, "Logo", logo, thumbnail, null));
+			out.println(renderMedia(request, "Logo", logo, thumbnail, null));
 %>
 		<tr><td><hr size=1 color=black></td></tr>
 <%

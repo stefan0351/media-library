@@ -14,9 +14,9 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureManager;
-import com.kiwisoft.media.pics.PictureUtils;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileUtils;
+import com.kiwisoft.media.files.MediaFileManager;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.dataImport.BookData;
@@ -193,7 +193,7 @@ public class BookDataDetailsView extends DetailsView
 			{
 				File coverFile=new File(coverPath);
 				if (!coverFile.exists()) throw new InvalidDataException("Cover file doesn't exist!", coverFileField);
-				coverSize=PictureUtils.getImageSize(coverFile);
+				coverSize=MediaFileUtils.getImageSize(coverFile);
 				if (coverSize==null) throw new InvalidDataException("Cover file is no image!", coverFileField);
 				coverPath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(),coverPath);
 			}
@@ -234,7 +234,7 @@ public class BookDataDetailsView extends DetailsView
 					book.setLanguage(language);
 					if (finalCoverSize!=null && !StringUtils.isEmpty(finalCoverPath))
 					{
-						Picture cover=PictureManager.getInstance().createPicture(MediaConfiguration.PATH_ROOT);
+						MediaFile cover=MediaFileManager.getInstance().createImage(MediaConfiguration.PATH_ROOT);
 						cover.setName(title);
 						cover.setFile(finalCoverPath);
 						cover.setWidth(finalCoverSize.width);
@@ -297,7 +297,7 @@ public class BookDataDetailsView extends DetailsView
 				if (!coverFile.exists()) return;
 				try
 				{
-					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+coverFile.getAbsolutePath()+"\"", null, null);
+					Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+coverFile.getAbsolutePath()+"\"");
 					coverPreview.setImage(new ImageIcon(coverFile.toURI().toURL()));
 				}
 				catch (Exception e1)

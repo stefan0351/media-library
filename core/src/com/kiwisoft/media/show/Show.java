@@ -9,7 +9,7 @@ package com.kiwisoft.media.show;
 import java.util.*;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
@@ -353,12 +353,12 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setModified("germanTitle", oldTitle, this.germanTitle);
 	}
 
-	public Picture getLogo()
+	public MediaFile getLogo()
 	{
-		return (Picture)getReference(LOGO);
+		return (MediaFile)getReference(LOGO);
 	}
 
-	public void setLogo(Picture logo)
+	public void setLogo(MediaFile logo)
 	{
 		setReference(LOGO, logo);
 	}

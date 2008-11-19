@@ -16,7 +16,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import sun.net.www.MimeEntry;
 import sun.net.www.MimeTable;
-import com.kiwisoft.media.pics.PictureUtils;
+import com.kiwisoft.media.files.MediaFileUtils;
 
 /**
  * @author Stefan Stiller
@@ -52,7 +52,7 @@ public class ODFTemplate
 		pictureVariables.put("filename", fileName);
 		MimeEntry mimeEntry=MimeTable.getDefaultTable().findByFileName(fileName);
 		if (mimeEntry!=null) pictureVariables.put("mimetype", mimeEntry.getType());
-		Dimension size=PictureUtils.getImageSize(file);
+		Dimension size=MediaFileUtils.getImageSize(file);
 		double scale=Math.min(maxWidth/size.width, maxHeight/size.height);
 		pictureVariables.put("width", size.width*scale);
 		pictureVariables.put("height", size.height*scale);

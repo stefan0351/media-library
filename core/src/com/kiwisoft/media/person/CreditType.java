@@ -21,7 +21,7 @@ public class CreditType implements Identifyable, Comparable<CreditType>
 	public static final CreditType GUEST_CAST=new CreditType(10L, "Guest Gast", "Guest Cast", true);
 	public static final CreditType INTERPRET=new CreditType(11L, "Interpret", "Interpret", false);
 
-	public static CreditType get(Long id)
+	public static CreditType valueOf(Long id)
 	{
 		return map.get(id);
 	}

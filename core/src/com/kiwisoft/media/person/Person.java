@@ -14,7 +14,7 @@ import java.util.HashSet;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.utils.StringUtils;
@@ -150,12 +150,12 @@ public class Person extends IDObject
 		setReference(GENDER, gender);
 	}
 
-	public Picture getPicture()
+	public MediaFile getPicture()
 	{
-		return (Picture)getReference(PICTURE);
+		return (MediaFile)getReference(PICTURE);
 	}
 
-	public void setPicture(Picture picture)
+	public void setPicture(MediaFile picture)
 	{
 		setReference(PICTURE, picture);
 	}
@@ -191,7 +191,7 @@ public class Person extends IDObject
 
 	public Identifyable loadReference(String name, Object referenceId)
 	{
-		if (GENDER.equals(name)) return Gender.get((Long)referenceId);
+		if (GENDER.equals(name)) return Gender.valueOf((Long)referenceId);
 		return super.loadReference(name, referenceId);
 	}
 

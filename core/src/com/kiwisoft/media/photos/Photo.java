@@ -3,8 +3,8 @@ package com.kiwisoft.media.photos;
 import java.io.File;
 import java.util.Date;
 
-import com.kiwisoft.media.pics.ImageData;
-import com.kiwisoft.media.pics.PictureFile;
+import com.kiwisoft.media.files.ImageFileInfo;
+import com.kiwisoft.media.files.ImageFile;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.persistence.DBDummy;
@@ -78,24 +78,24 @@ public class Photo extends IDObject implements ChainLink
 		return (Long)getReferenceId(ORIGINAL_PICTURE);
 	}
 
-	public PictureFile getOriginalPicture()
+	public ImageFile getOriginalPicture()
 	{
-		return (PictureFile)getReference(ORIGINAL_PICTURE);
+		return (ImageFile)getReference(ORIGINAL_PICTURE);
 	}
 
-	public void setOriginalPicture(PictureFile pictureFile)
+	public void setOriginalPicture(ImageFile imageFile)
 	{
-		setReference(ORIGINAL_PICTURE, pictureFile);
+		setReference(ORIGINAL_PICTURE, imageFile);
 	}
 
-	public PictureFile getThumbnail()
+	public ImageFile getThumbnail()
 	{
-		return (PictureFile)getReference(THUMBNAIL);
+		return (ImageFile)getReference(THUMBNAIL);
 	}
 
-	public void setThumbnail(PictureFile pictureFile)
+	public void setThumbnail(ImageFile imageFile)
 	{
-		setReference(THUMBNAIL, pictureFile);
+		setReference(THUMBNAIL, imageFile);
 	}
 
 	public Date getCreationDate()
@@ -117,15 +117,15 @@ public class Photo extends IDObject implements ChainLink
 
 	public void setRotation(int rotation)
 	{
-		PictureFile picture=getOriginalPicture();
+		ImageFile picture=getOriginalPicture();
 		if (picture==null) return;
 		File file=picture.getPhysicalFile();
 		if (!file.exists()) return;
-		ImageData thumbnailData=PhotoManager.getInstance().createThumbnail(file, rotation);
+		ImageFileInfo thumbnailData=PhotoManager.getInstance().createThumbnail(file, rotation);
 		if (thumbnailData==null) return;
 
-		PictureFile thumbnail=getThumbnail();
-		setThumbnail(new PictureFile(MediaConfiguration.PATH_ROOT, thumbnailData));
+		ImageFile thumbnail=getThumbnail();
+		setThumbnail(new ImageFile(MediaConfiguration.PATH_ROOT, thumbnailData));
 		if (thumbnail!=null) thumbnail.deletePhysically();
 
 		int oldRotation=this.rotation;
@@ -135,7 +135,7 @@ public class Photo extends IDObject implements ChainLink
 
 	public int getWidth()
 	{
-		PictureFile picture=getOriginalPicture();
+		ImageFile picture=getOriginalPicture();
 		if (picture!=null)
 		{
 			if (rotation==90 || rotation==270) return picture.getHeight();
@@ -146,7 +146,7 @@ public class Photo extends IDObject implements ChainLink
 
 	public int getHeight()
 	{
-		PictureFile picture=getOriginalPicture();
+		ImageFile picture=getOriginalPicture();
 		if (picture!=null)
 		{
 			if (rotation==90 || rotation==270) return picture.getWidth();
@@ -290,9 +290,9 @@ public class Photo extends IDObject implements ChainLink
 	@Override
 	public void delete()
 	{
-		PictureFile picture=getOriginalPicture();
+		ImageFile picture=getOriginalPicture();
 		if (picture!=null) picture.delete();
-		PictureFile thumbnail=getThumbnail();
+		ImageFile thumbnail=getThumbnail();
 		if (thumbnail!=null) thumbnail.deletePhysically();
 		super.delete();
 	}

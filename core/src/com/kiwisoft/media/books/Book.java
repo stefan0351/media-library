@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 
@@ -151,12 +151,12 @@ public class Book extends IDObject
 		setReference(LANGUAGE, language);
 	}
 
-	public Picture getCover()
+	public MediaFile getCover()
 	{
-		return (Picture)getReference(COVER);
+		return (MediaFile)getReference(COVER);
 	}
 
-	public void setCover(Picture cover)
+	public void setCover(MediaFile cover)
 	{
 		setReference(COVER, cover);
 	}

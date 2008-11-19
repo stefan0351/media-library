@@ -59,7 +59,7 @@ public class Navigation
 
 	public static String getLink(HttpServletRequest request, Photo photo)
 	{
-		return request.getContextPath()+"/picture?type=PictureFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
+		return request.getContextPath()+"/file?type=ImageFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
 	}
 
 	public static String getLink(HttpServletRequest request, LinkGroup linkGroup)

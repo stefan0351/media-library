@@ -17,10 +17,10 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.DocumentAdapter;
@@ -62,7 +62,7 @@ public class SeasonDetailsView extends DetailsView
 	private JTextField endYearField;
 	private LookupField<Episode> firstEpisodeField;
 	private LookupField<Episode> lastEpisodeField;
-	private LookupField<Picture> logoField;
+	private LookupField<MediaFile> logoField;
 
 	private SeasonDetailsView(Show show)
 	{
@@ -103,7 +103,7 @@ public class SeasonDetailsView extends DetailsView
 		endYearField.setHorizontalAlignment(JTextField.TRAILING);
 		firstEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
 		lastEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
-		logoField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -241,7 +241,7 @@ public class SeasonDetailsView extends DetailsView
 			if (firstEpisode!=null && lastEpisode!=null && lastEpisode.getChainPosition()<firstEpisode.getChainPosition())
 				throw new InvalidDataException("Last episode<First episode", firstEpisodeField);
 			String name=altNameField.getText();
-			Picture logo=logoField.getValue();
+			MediaFile logo=logoField.getValue();
 
 			Transaction transaction=null;
 			try

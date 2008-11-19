@@ -15,7 +15,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.pics.Picture;
+import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.medium.TrackType;
@@ -200,12 +200,12 @@ public class Movie extends IDObject implements Recordable, Production
 		setModified("record", oldRecord, this.record);
 	}
 
-	public Picture getPoster()
+	public MediaFile getPoster()
 	{
-		return (Picture)getReference(POSTER);
+		return (MediaFile)getReference(POSTER);
 	}
 
-	public void setPoster(Picture picture)
+	public void setPoster(MediaFile picture)
 	{
 		setReference(POSTER, picture);
 	}

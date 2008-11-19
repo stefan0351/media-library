@@ -17,7 +17,7 @@ public class MediaConfiguration
 	private static final String DOWNLOAD_P7_DATE="download.p7.date";
 
 	public static final String PATH_PHOTOS_RECENT="path.photos.recent";
-	public static final String PATH_PICTURES_RECENT="path.pictures.recent";
+	public static final String PATH_MEDIA_RECENT="path.media.recent";
 	public static final String PATH_ROOT="path.root";
 	public static final String PATH_PHOTOS="path.photos";
 	public static final String PATH_CDDBIDGEN_EXE="path.cddbidgen.exe";
@@ -61,14 +61,14 @@ public class MediaConfiguration
 		return (int)id;
 	}
 
-	public static String getRecentPicturePath()
+	public static String getRecentMediaPath()
 	{
-		return Configuration.getInstance().getString(PATH_PICTURES_RECENT, null);
+		return Configuration.getInstance().getString(PATH_MEDIA_RECENT, null);
 	}
 
-	public static void setRecentPicturePath(String path)
+	public static void setRecentMediaPath(String path)
 	{
-		Configuration.getInstance().setString(PATH_PICTURES_RECENT, path);
+		Configuration.getInstance().setString(PATH_MEDIA_RECENT, path);
 	}
 
 	public static String getRecentPhotoPath()

@@ -1,21 +1,18 @@
 package com.kiwisoft.media.person;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import static java.awt.GridBagConstraints.*;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.pics.Picture;
-import com.kiwisoft.media.pics.PictureLookup;
-import com.kiwisoft.media.pics.PictureLookupHandler;
-import com.kiwisoft.media.pics.PicturePreviewUpdater;
+import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Production;
+import com.kiwisoft.media.files.MediaFileLookup;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.ImagePanel;
@@ -47,7 +44,7 @@ public class CastDetailsView extends DetailsView
 	private LookupField<Person> actorField;
 	private JTextField voiceField;
 	private JTextPane descriptionField;
-	private LookupField<Picture> pictureField;
+	private LookupField<MediaFile> pictureField;
 
 	private CastDetailsView(CastMember cast)
 	{
@@ -74,7 +71,7 @@ public class CastDetailsView extends DetailsView
 		descriptionField=new JTextPane();
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
-		pictureField=new LookupField<Picture>(new PictureLookup(), new PictureLookupHandler());
+		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler());
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(600, 300));
@@ -133,7 +130,7 @@ public class CastDetailsView extends DetailsView
 		Person actor=actorField.getValue();
 		String voice=voiceField.getText();
 		if (isEmpty(voice)) voice=null;
-		Picture picture=pictureField.getValue();
+		MediaFile picture=pictureField.getValue();
 		String description=descriptionField.getText();
 
 		Transaction transaction=null;
