@@ -81,7 +81,7 @@
 		<reference name="creditType" column="credit_type_id" type="CreditType"/>
 	</type>
 	<transient-type name="CreditType" class="com.kiwisoft.media.person.CreditType" primaryKey="id"/>
-	<transient-type name="DataSource" class="com.kiwisoft.media.dataImport.DataSource" primaryKey="id"/>
+	<transient-type name="DataSource" class="com.kiwisoft.media.dataimport.DataSource" primaryKey="id"/>
 	<type name="Episode" class="com.kiwisoft.media.show.Episode" table="episodes" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
@@ -271,7 +271,7 @@
 		<field name="creationDate" column="creation_date"/>
 		<field name="version" column="version"/>
 	</type>
-	<type name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
+	<type name="SearchPattern" class="com.kiwisoft.media.dataimport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="pattern" column="pattern"/>

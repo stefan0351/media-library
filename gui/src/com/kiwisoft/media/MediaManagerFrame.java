@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
 import com.kiwisoft.media.books.BooksTask;
-import com.kiwisoft.media.dataImport.ImportChangesAction;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderAction;
+import com.kiwisoft.media.dataimport.ImportChangesAction;
+import com.kiwisoft.media.dataimport.TVTVDeLoaderAction;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.links.LinksTask;
 import com.kiwisoft.media.medium.AllMediaTask;
@@ -32,7 +32,7 @@ public class MediaManagerFrame extends ApplicationFrame
 	public MediaManagerFrame()
 	{
 		super();
-		setTitle("MediaManager v2.0");
+		setTitle("MediaManager v3.0");
 	}
 
 	protected JMenuBar createMenu()

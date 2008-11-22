@@ -2,25 +2,20 @@ package com.kiwisoft.media;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Locale;
-import javax.swing.UIManager;
-import javax.swing.SwingUtilities;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.app.Application;
 import com.kiwisoft.cfg.Configuration;
-import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.media.dataImport.AmazonHttpHandler;
-import com.kiwisoft.media.dataImport.LinkHttpHandler;
+import com.kiwisoft.media.dataimport.AmazonHttpHandler;
+import com.kiwisoft.media.dataimport.LinkHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class MediaManager

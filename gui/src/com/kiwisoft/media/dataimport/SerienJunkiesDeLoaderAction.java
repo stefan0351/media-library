@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
@@ -10,7 +10,6 @@ import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
-import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.persistence.DBLoader;
 
 public class SerienJunkiesDeLoaderAction extends SimpleContextAction
@@ -49,7 +48,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 			link=dialog.getLink();
 			EpisodeDataLoader process=new SerienJunkiesDeLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
-				protected Episode createEpisode(Show show, ImportEpisode info)
+				protected Episode createEpisode(Show show, EpisodeData info)
 				{
 					NoEpisodeDialog dialog=new NoEpisodeDialog(parent, show, info);
 					dialog.setVisible(true);

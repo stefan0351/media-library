@@ -13,9 +13,9 @@ import javax.swing.*;
 
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.person.ShowCreditsAction;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
-import com.kiwisoft.media.dataImport.SerienJunkiesDeLoaderAction;
-import com.kiwisoft.media.dataImport.TVComLoaderAction;
+import com.kiwisoft.media.dataimport.TVTVDeLoaderContextAction;
+import com.kiwisoft.media.dataimport.SerienJunkiesDeLoaderAction;
+import com.kiwisoft.media.dataimport.TVComLoaderAction;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;

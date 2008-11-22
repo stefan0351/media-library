@@ -3,9 +3,9 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.kiwisoft.media.Country" %>
 <%@ page import="com.kiwisoft.media.Language" %>
-<%@ page import="com.kiwisoft.media.dataImport.CastData" %>
-<%@ page import="com.kiwisoft.media.dataImport.CrewData" %>
-<%@ page import="com.kiwisoft.media.dataImport.MovieData" %>
+<%@ page import="com.kiwisoft.media.dataimport.CastData" %>
+<%@ page import="com.kiwisoft.media.dataimport.CrewData" %>
+<%@ page import="com.kiwisoft.media.dataimport.MovieData" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="org.apache.commons.lang.StringUtils"%>
 

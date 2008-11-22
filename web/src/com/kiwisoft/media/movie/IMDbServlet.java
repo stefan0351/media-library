@@ -11,10 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletContext;
 import javax.servlet.RequestDispatcher;
 
-import com.kiwisoft.media.dataImport.IMDbComLoader;
-import com.kiwisoft.media.dataImport.MovieData;
-import com.kiwisoft.media.dataImport.CreateMovieTx;
-import com.kiwisoft.media.MediaWebApplication;
+import com.kiwisoft.media.dataimport.IMDbComLoader;
+import com.kiwisoft.media.dataimport.MovieData;
+import com.kiwisoft.media.dataimport.CreateMovieTx;
 import com.kiwisoft.media.Navigation;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.StringUtils;

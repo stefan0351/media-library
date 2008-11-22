@@ -4,7 +4,7 @@
  * Date: Oct 26, 2003
  * Time: 12:16:53 PM
  */
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.awt.event.ActionEvent;
 

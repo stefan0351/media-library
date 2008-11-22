@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;

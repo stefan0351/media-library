@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
@@ -47,7 +47,7 @@ public class TVComLoaderAction extends SimpleContextAction
 			link=dialog.getLink();
 			EpisodeDataLoader process=new TVComLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
-				protected Episode createEpisode(Show show, ImportEpisode info)
+				protected Episode createEpisode(Show show, EpisodeData info)
 				{
 					NoEpisodeDialog dialog=new NoEpisodeDialog(parent, show, info);
 					dialog.setVisible(true);
