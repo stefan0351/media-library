@@ -19,7 +19,7 @@ import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.files.MediaFileManager;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.dataImport.BookData;
+import com.kiwisoft.media.dataimport.BookData;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;

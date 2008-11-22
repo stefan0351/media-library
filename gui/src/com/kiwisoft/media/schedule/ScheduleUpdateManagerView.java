@@ -10,7 +10,7 @@ import javax.swing.JComponent;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.media.dataImport.SearchPattern;
+import com.kiwisoft.media.dataimport.SearchPattern;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.show.Show;

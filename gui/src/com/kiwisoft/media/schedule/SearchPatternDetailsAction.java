@@ -2,7 +2,7 @@ package com.kiwisoft.media.schedule;
 
 import java.awt.event.ActionEvent;
 
-import com.kiwisoft.media.dataImport.SearchPattern;
+import com.kiwisoft.media.dataimport.SearchPattern;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
 

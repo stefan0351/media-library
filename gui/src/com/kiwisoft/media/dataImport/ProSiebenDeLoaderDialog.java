@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.dataimport.ProSiebenDeLoader;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;

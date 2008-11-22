@@ -12,8 +12,8 @@ import java.io.StringReader;
 import javax.swing.*;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.dataImport.cddb.CDDBUtils;
-import com.kiwisoft.media.dataImport.cddb.DiscInfo;
+import com.kiwisoft.media.dataimport.cddb.CDDBUtils;
+import com.kiwisoft.media.dataimport.cddb.DiscInfo;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;

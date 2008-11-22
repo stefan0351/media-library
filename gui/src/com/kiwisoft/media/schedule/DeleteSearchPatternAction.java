@@ -7,7 +7,7 @@ import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.dataImport.SearchPattern;
+import com.kiwisoft.media.dataimport.SearchPattern;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 

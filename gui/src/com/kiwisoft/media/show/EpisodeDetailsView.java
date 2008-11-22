@@ -15,7 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.dataImport.ImportEpisode;
+import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.lookup.DialogLookupField;
@@ -36,7 +36,7 @@ public class EpisodeDetailsView extends DetailsView
 		new DetailsFrame(new EpisodeDetailsView(show, null)).show();
 	}
 
-	public static Episode createDialog(Window owner, Show show, ImportEpisode info)
+	public static Episode createDialog(Window owner, Show show, EpisodeData info)
 	{
 		EpisodeDetailsView view=new EpisodeDetailsView(show, info);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
@@ -84,7 +84,7 @@ public class EpisodeDetailsView extends DetailsView
 	private JTextPane germanSummaryField;
 	private JTextPane englishSummaryField;
 
-	private EpisodeDetailsView(Show show, ImportEpisode info)
+	private EpisodeDetailsView(Show show, EpisodeData info)
 	{
 		this.show=show;
 		createContentPanel();
@@ -106,7 +106,7 @@ public class EpisodeDetailsView extends DetailsView
 		initializeData(null);
 	}
 
-	private void initializeData(ImportEpisode importEpisode)
+	private void initializeData(EpisodeData importEpisode)
 	{
 		if (episode!=null)
 		{

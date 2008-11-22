@@ -3,7 +3,6 @@ package com.kiwisoft.media.schedule;
 import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.dataImport.DataSource;
 import com.kiwisoft.swing.actions.ContextAction;
 
 /**

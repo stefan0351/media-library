@@ -8,6 +8,7 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.lookup.DateField;
@@ -17,7 +18,7 @@ import com.kiwisoft.swing.lookup.LookupHandler;
 public class NoEpisodeDialog extends JDialog
 {
 	private Show show;
-	private ImportEpisode episodeData;
+	private EpisodeData episodeData;
 	private Episode episode;
 
 	private boolean returnValue;
@@ -28,7 +29,7 @@ public class NoEpisodeDialog extends JDialog
 	private DateField firstAiredField;
 	private JTextField germanTitleField;
 
-	public NoEpisodeDialog(Window owner, Show show, ImportEpisode episodeData)
+	public NoEpisodeDialog(Window owner, Show show, EpisodeData episodeData)
 	{
 		super(owner, "No Episode found", ModalityType.APPLICATION_MODAL);
 		this.show=show;

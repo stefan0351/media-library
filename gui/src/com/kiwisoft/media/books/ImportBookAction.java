@@ -5,8 +5,8 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.dataImport.AmazonDeLoader;
-import com.kiwisoft.media.dataImport.BookData;
+import com.kiwisoft.media.dataimport.BookData;
+import com.kiwisoft.media.dataimport.AmazonDeLoader;
 import com.kiwisoft.swing.actions.ContextAction;
 
 /**
