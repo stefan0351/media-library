@@ -6,7 +6,6 @@ import java.io.File;
 
 import junit.framework.TestCase;
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.dataImport.TVTVDeLoader;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.persistence.DBLoader;

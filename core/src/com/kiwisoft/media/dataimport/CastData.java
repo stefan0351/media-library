@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Person;

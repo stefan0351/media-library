@@ -1,10 +1,4 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Oct 16, 2003
- * Time: 11:16:36 PM
- */
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.util.HashMap;
 import java.util.Map;

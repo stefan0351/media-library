@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.io.IOException;
 import java.util.*;
@@ -115,7 +115,7 @@ public abstract class EpisodeDataLoader implements Job
 
 	protected abstract void loadDetails(EpisodeData data) throws IOException;
 
-	protected abstract Episode createEpisode(Show show, ImportEpisode info);
+	protected abstract Episode createEpisode(Show show, EpisodeData info);
 
 	private Episode createEpisode(final EpisodeData data)
 	{

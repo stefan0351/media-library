@@ -10,9 +10,6 @@ import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.dataImport.ImportEpisode;
-import com.kiwisoft.media.dataImport.SerienJunkiesDeLoader;
-import com.kiwisoft.media.dataImport.EpisodeData;
 import com.kiwisoft.progress.ConsoleProgressListener;
 
 /**
@@ -43,7 +40,7 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
 		SerienJunkiesDeLoader loader=new SerienJunkiesDeLoader(show, "http://www.serienjunkies.de/drwho/episoden.html", 3, 3, false)
 		{
-			protected Episode createEpisode(Show show, ImportEpisode info)
+			protected Episode createEpisode(Show show, EpisodeData info)
 			{
 				return null;
 			}

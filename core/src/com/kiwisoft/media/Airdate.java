@@ -10,7 +10,7 @@ import java.util.Date;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.dataImport.DataSource;
+import com.kiwisoft.media.dataimport.DataSource;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;

@@ -4,7 +4,7 @@
  * Date: Mar 29, 2003
  * Time: 12:21:05 AM
  */
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;

@@ -8,10 +8,6 @@ import java.text.SimpleDateFormat;
 
 import junit.framework.TestCase;
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.dataImport.TVComLoader;
-import com.kiwisoft.media.dataImport.ImportEpisode;
-import com.kiwisoft.media.dataImport.EpisodeDataLoader;
-import com.kiwisoft.media.dataImport.EpisodeData;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.show.Episode;
@@ -45,7 +41,7 @@ public class TVComLoaderTest extends TestCase
 		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
 		EpisodeDataLoader loader=new TVComLoader(show, "http://www.tv.com/pushing-daisies/show/68663/episode_listings.html", 1, 2, false)
 		{
-			protected Episode createEpisode(Show show, ImportEpisode info)
+			protected Episode createEpisode(Show show, EpisodeData info)
 			{
 				return null;
 			}

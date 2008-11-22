@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport.cddb;
+package com.kiwisoft.media.dataimport.cddb;
 
 /**
  * @author Stefan Stiller

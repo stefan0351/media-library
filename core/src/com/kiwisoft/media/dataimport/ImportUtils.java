@@ -4,7 +4,7 @@
  * Date: Oct 12, 2003
  * Time: 6:51:02 PM
  */
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

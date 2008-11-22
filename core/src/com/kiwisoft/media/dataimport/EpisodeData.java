@@ -1,4 +1,4 @@
-package com.kiwisoft.media.dataImport;
+package com.kiwisoft.media.dataimport;
 
 import java.util.Date;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * @author Stefan Stiller
 */
-public class EpisodeData implements ImportEpisode
+public class EpisodeData
 {
 	private String key;
 	private String title;

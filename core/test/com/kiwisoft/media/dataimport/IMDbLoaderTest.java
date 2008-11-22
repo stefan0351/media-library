@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.io.File;
 
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.dataImport.IMDbComLoader;
-import com.kiwisoft.media.dataImport.MovieData;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.CountryManager;
 import junit.framework.TestCase;
