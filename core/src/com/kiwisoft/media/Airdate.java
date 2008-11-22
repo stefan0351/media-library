@@ -8,7 +8,6 @@ package com.kiwisoft.media;
 
 import java.util.Date;
 
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.dataImport.DataSource;
@@ -174,12 +173,6 @@ public class Airdate extends IDObject
 		String oldDetailsLink=this.detailsLink;
 		this.detailsLink=detailsLink;
 		firePropertyChange(DETAILS_LINK, oldDetailsLink, this.detailsLink);
-	}
-
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (DATA_SOURCE.equals(name)) return DataSource.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public static String getName(Show show, Episode episode, String event)

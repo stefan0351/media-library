@@ -17,10 +17,7 @@ import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.NamesTableModel;
-import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.DocumentAdapter;
@@ -110,7 +107,7 @@ public class PersonDetailsView extends DetailsView
 		genderField=new LookupField<Gender>(new GenderLookup());
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
-		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
+		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -245,6 +242,7 @@ public class PersonDetailsView extends DetailsView
 			person.setSurname(surname);
 			person.setGender(gender);
 			person.setPicture(picture);
+			if (picture!=null) picture.addPerson(person);
 			Iterator<Name> it=new HashSet<Name>(person.getAltNames()).iterator();
 			while (it.hasNext())
 			{

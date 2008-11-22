@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="d:\Projects\Java\utils\database\src\com\kiwisoft\persistence\mappings.xsd">
-	<mapping name="Airdate" class="com.kiwisoft.media.Airdate" table="airdates" primaryKey="id" lastModified="lastmodified" version="version">
+	<type name="Airdate" class="com.kiwisoft.media.Airdate" table="airdates" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="event" column="event"/>
 		<field name="reminder" column="reminder"/>
@@ -14,9 +14,9 @@
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="channel" column="channel_id" type="Channel"/>
-		<reference name="dataSource" column="source_id"/>
-	</mapping>
-	<mapping name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="dataSource" column="source_id" type="DataSource"/>
+	</type>
+	<type name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
 		<field name="binding" column="binding"/>
@@ -29,8 +29,8 @@
 		<field name="version" column="version"/>
 		<reference name="cover" column="cover_id" type="MediaFile"/>
 		<reference name="language" column="language_id" type="Language"/>
-	</mapping>
-	<mapping name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="voice" column="voice"/>
 		<field name="lastModified" column="lastmodified"/>
@@ -43,43 +43,46 @@
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="picture" column="picture_id" type="MediaFile"/>
-		<reference name="creditType" column="credit_type_id"/>
-	</mapping>
-	<mapping name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="creditType" column="credit_type_id" type="CreditType"/>
+	</type>
+	<type name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="webAddress" column="web_address"/> 
-		<reference name="language" column="language_id" type="Language"/>
-		<reference name="logo" column="logo_id" type="MediaFile"/>
 		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="language" column="language_id" type="Language"/>
+		<reference name="logo" column="logo_id" type="MediaFile"/>
+	</type>
+	<type name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
 		<field name="value" column="value"/>
-		<reference name="author" column="author_id" type="FanFicAuthor"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Country" class="com.kiwisoft.media.Country" table="countries" primaryKey="id">
+		<reference name="author" column="author_id" type="FanFicAuthor"/>
+	</type>
+	<transient-type name="ContentType" class="com.kiwisoft.media.files.ContentType" primaryKey="id"/>
+	<type name="Country" class="com.kiwisoft.media.Country" table="countries" primaryKey="id">
 		<field name="id" column="id"/>
 		<field name="symbol" column="symbol"/>
 		<field name="name" column="name"/>
-	</mapping>
-	<mapping name="Credit" class="com.kiwisoft.media.person.Credit" primaryKey="id" table="credit" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Credit" class="com.kiwisoft.media.person.Credit" primaryKey="id" table="credit" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="subType" column="sub_type"/>
+		<field name="version" column="version"/>
 		<reference name="person" column="person_id" type="Person"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="song" column="song_id" type="Song"/>
-		<reference name="creditType" column="credit_type_id"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Episode" class="com.kiwisoft.media.show.Episode" table="episodes" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="creditType" column="credit_type_id" type="CreditType"/>
+	</type>
+	<transient-type name="CreditType" class="com.kiwisoft.media.person.CreditType" primaryKey="id"/>
+	<transient-type name="DataSource" class="com.kiwisoft.media.dataImport.DataSource" primaryKey="id"/>
+	<type name="Episode" class="com.kiwisoft.media.show.Episode" table="episodes" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
 		<field name="sequence" column="sequence"/>
@@ -93,18 +96,18 @@
 		<field name="airdate" column="airdate"/>
 		<field name="productionCode" column="production_code"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="show" column="show_id" type="Show"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="FanDom" class="com.kiwisoft.media.fanfic.FanDom" table="fandoms" primaryKey="id" lastModified="lastmodified">
+		<reference name="show" column="show_id" type="Show"/>
+	</type>
+	<type name="FanDom" class="com.kiwisoft.media.fanfic.FanDom" table="fandoms" primaryKey="id" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="lastModified" column="lastmodified"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="linkGroup" column="linkgroup_id" type="LinkGroup"/>
-	</mapping>
-	<mapping name="FanFic" class="com.kiwisoft.media.fanfic.FanFic" table="fanfics" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="FanFic" class="com.kiwisoft.media.fanfic.FanFic" table="fanfics" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
 		<field name="rating" column="rating"/>
@@ -113,30 +116,31 @@
 		<field name="spoiler" column="spoiler"/>
 		<field name="url" column="url"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
 		<reference name="sequel" column="sequel_id" type="FanFic"/>
 		<reference name="prequel" column="prequel_id" type="FanFic"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="FanFicAuthor" class="com.kiwisoft.media.fanfic.Author" table="fanficauthors" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="FanFicAuthor" class="com.kiwisoft.media.fanfic.Author" table="fanficauthors" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="path" column="path"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="FanFicPart" class="com.kiwisoft.media.fanfic.FanFicPart" table="fanfic_parts" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="FanFicPart" class="com.kiwisoft.media.fanfic.FanFicPart" table="fanfic_parts" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="sequence" column="sequence"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="source" column="source"/>
-		<reference name="fanFic" column="fanfic_id" type="FanFic"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Genre" class="com.kiwisoft.media.Genre" primaryKey="id" table="genres" lastModified="lastmodified">
+		<reference name="fanFic" column="fanfic_id" type="FanFic"/>
+	</type>
+	<transient-type name="Gender" class="com.kiwisoft.media.person.Gender" primaryKey="id"/>
+	<type name="Genre" class="com.kiwisoft.media.Genre" primaryKey="id" table="genres" lastModified="lastmodified">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
-	</mapping>
-	<mapping name="ImageFile" class="com.kiwisoft.media.files.ImageFile" table="imagefiles" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="ImageFile" class="com.kiwisoft.media.files.ImageFile" table="imagefiles" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="file" column="file"/>
 		<field name="root" column="root"/>
@@ -144,42 +148,46 @@
 		<field name="height" column="height"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Language" class="com.kiwisoft.media.Language" table="languages" primaryKey="id">
+	</type>
+	<type name="Language" class="com.kiwisoft.media.Language" table="languages" primaryKey="id">
 		<field name="id" column="id"/>
 		<field name="symbol" column="symbol"/>
 		<field name="name" column="name"/>
-	</mapping>
-	<mapping name="Link" class="com.kiwisoft.media.Link" table="links" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Link" class="com.kiwisoft.media.Link" table="links" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
 		<field name="url" column="url"/>
-		<reference name="group" column="linkgroup_id" type="LinkGroup"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="LinkGroup" class="com.kiwisoft.media.LinkGroup" table="linkgroups" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="group" column="linkgroup_id" type="LinkGroup"/>
+	</type>
+	<type name="LinkGroup" class="com.kiwisoft.media.LinkGroup" table="linkgroups" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="lastModified" column="lastmodified"/>
-		<reference name="parentGroup" column="parentgroup_id" type="LinkGroup"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="MediaFile" class="com.kiwisoft.media.files.MediaFile" table="mediafiles" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="parentGroup" column="parentgroup_id" type="LinkGroup"/>
+	</type>
+	<type name="MediaFile" class="com.kiwisoft.media.files.MediaFile" table="mediafiles" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="description" column="description"/>
-		<field name="mediaType" column="mediatype"/>
 		<field name="root" column="root"/>
 		<field name="file" column="file"/>
 		<field name="width" column="width"/>
 		<field name="height" column="height"/>
+		<field name="duration" column="duration"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
+		<reference name="mediaType" column="mediatype_id" type="MediaType"/>
+		<reference name="contentType" column="contenttype_id" type="ContentType"/>
+		<reference name="thumbnail" column="thumbnail_id" type="ImageFile"/>
 		<reference name="thumbnail50x50" column="thumbnail_50x50_id" type="ImageFile"/>
 		<reference name="thumbnailSidebar" column="thumbnail_sidebar_id" type="ImageFile"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Medium" class="com.kiwisoft.media.medium.Medium" table="media" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<transient-type name="MediaType" class="com.kiwisoft.media.files.MediaType" primaryKey="id"/>
+	<type name="Medium" class="com.kiwisoft.media.medium.Medium" table="media" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
 		<field name="name" column="name"/>
@@ -188,10 +196,11 @@
 		<field name="lastModified" column="lastmodified"/>
 		<field name="storage" column="storage"/>
 		<field name="obsolete" column="obsolete"/>
-		<reference name="type" column="type_id"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Movie" class="com.kiwisoft.media.movie.Movie" table="movies" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="type" column="type_id" type="MediumType"/>
+	</type>
+	<transient-type name="MediumType" class="com.kiwisoft.media.medium.MediumType" primaryKey="id"/>
+	<type name="Movie" class="com.kiwisoft.media.movie.Movie" table="movies" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
 		<field name="indexBy" column="index_by"/>
@@ -206,22 +215,22 @@
 		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="poster" column="poster_id" type="MediaFile"/>
-	</mapping>
-	<mapping name="Name" class="com.kiwisoft.media.Name" table="names" primaryKey="id" version="version">
+	</type>
+	<type name="Name" class="com.kiwisoft.media.Name" table="names" primaryKey="id" version="version">
 		<field name="id" column="id"/>
 		<field name="refId" column="ref_id"/>
 		<field name="type" column="type"/>
 		<field name="name" column="name"/>
-		<reference name="language" column="language_id" type="Language"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Pairing" class="com.kiwisoft.media.fanfic.Pairing" table="pairings" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="language" column="language_id" type="Language"/>
+	</type>
+	<type name="Pairing" class="com.kiwisoft.media.fanfic.Pairing" table="pairings" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Person" class="com.kiwisoft.media.person.Person" table="persons" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Person" class="com.kiwisoft.media.person.Person" table="persons" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="firstName" column="firstname"/>
 		<field name="middleName" column="middlename"/>
@@ -230,11 +239,11 @@
 		<field name="lastModified" column="lastmodified"/>
 		<field name="imdbKey" column="imdb_key"/>
 		<field name="tvcomKey" column="tvcom_key"/>
-		<reference name="gender" column="gender_id"/>
-		<reference name="picture" column="picture_id" type="MediaFile"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Photo" class="com.kiwisoft.media.photos.Photo" table="photos" primaryKey="id" lastModified="lastmodified" version="version">
+		<reference name="picture" column="picture_id" type="MediaFile"/>
+		<reference name="gender" column="gender_id" type="Gender"/>
+	</type>
+	<type name="Photo" class="com.kiwisoft.media.photos.Photo" table="photos" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="creationDate" column="creation_date"/>
 		<field name="rotation" column="rotation"/>
@@ -250,46 +259,46 @@
 		<field name="focalLength" column="focal_length"/>
 		<field name="isoSpeed" column="iso_speed"/>
 		<field name="galleryPhoto" column="gallery_photo"/>
+		<field name="version" column="version"/>
 		<reference name="gallery" column="photogallery_id" type="PhotoGallery"/>
 		<reference name="originalPicture" column="original_pic_id" type="ImageFile"/>
 		<reference name="thumbnail" column="thumbnail_id" type="ImageFile"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="PhotoGallery" class="com.kiwisoft.media.photos.PhotoGallery" table="photogalleries" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="PhotoGallery" class="com.kiwisoft.media.photos.PhotoGallery" table="photogalleries" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
 		<field name="creationDate" column="creation_date"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
+	</type>
+	<type name="SearchPattern" class="com.kiwisoft.media.dataImport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
 		<field name="id" column="id"/>
 		<field name="type" column="type"/>
+		<field name="pattern" column="pattern"/>
+		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="actor" column="actor_id" type="Person"/>
-		<field name="pattern" column="pattern"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Season" class="com.kiwisoft.media.show.Season" table="seasons" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Season" class="com.kiwisoft.media.show.Season" table="seasons" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="number" column="number"/>
 		<field name="name" column="name"/>
-		<reference name="show" column="show_id" type="Show"/>
-		<reference name="firstEpisode" column="firstepisode_id" type="Episode"/>
-		<reference name="lastEpisode" column="lastepisode_id" type="Episode"/>
 		<field name="startYear" column="startyear"/>
 		<field name="endYear" column="endyear"/>
 		<field name="version" column="version"/>
+		<reference name="show" column="show_id" type="Show"/>
+		<reference name="firstEpisode" column="firstepisode_id" type="Episode"/>
+		<reference name="lastEpisode" column="lastepisode_id" type="Episode"/>
 		<reference name="logo" column="logo_id" type="MediaFile"/>
-	</mapping>
-	<mapping name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
+	</type>
+	<type name="Sequence" class="com.kiwisoft.persistence.Sequence" table="sequences" primaryKey="name">
 		<field name="name" column="name"/>
 		<field name="value" column="value"/>
 		<field name="increment" column="increment"/>
-	</mapping>
-	<mapping name="Show" class="com.kiwisoft.media.show.Show" table="shows" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Show" class="com.kiwisoft.media.show.Show" table="shows" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="userKey" column="userkey"/>
 		<field name="title" column="title"/>
@@ -301,53 +310,54 @@
 		<field name="startYear" column="start_year"/>
 		<field name="endYear" column="end_year"/>
 		<field name="indexBy" column="index_by"/>
+		<field name="version" column="version"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="defaultInfo" column="defaultinfo_id" type="ShowInfo"/>
 		<reference name="logo" column="logo_id" type="MediaFile"/>
 		<reference name="linkGroup" column="linkgroup_id" type="LinkGroup"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="ShowInfo" class="com.kiwisoft.media.show.ShowInfo" table="showinfos" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="ShowInfo" class="com.kiwisoft.media.show.ShowInfo" table="showinfos" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
 		<field name="path" column="path"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="language" column="language_id" type="Language"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Song" class="com.kiwisoft.media.medium.Song" table="songs" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Song" class="com.kiwisoft.media.medium.Song" table="songs" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
 		<field name="songVersion" column="song_version"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Summary" class="com.kiwisoft.media.show.Summary" primaryKey="id" table="summary" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Summary" class="com.kiwisoft.media.show.Summary" primaryKey="id" table="summary" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="summary" column="summary"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="language" column="language_id" type="Language"/>
-		<field name="version" column="version"/>
-	</mapping>
-	<mapping name="Track" class="com.kiwisoft.media.medium.Track" table="tracks" primaryKey="id" lastModified="lastmodified" version="version">
+	</type>
+	<type name="Track" class="com.kiwisoft.media.medium.Track" table="tracks" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="longPlay" column="longplay"/>
 		<field name="length" column="length"/>
 		<field name="event" column="event"/>
+		<field name="sequence" column="sequence"/>
+		<field name="lastModified" column="lastmodified"/>
+		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="medium" column="medium_id" type="Medium"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="song" column="song_id" type="Song"/>
-		<reference name="type" column="type_id"/>
-		<field name="sequence" column="sequence"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="version" column="version"/>
-	</mapping>
+		<reference name="type" column="type_id" type="TrackType"/>
+	</type>
+	<transient-type name="TrackType" class="com.kiwisoft.media.medium.TrackType" primaryKey="id"/>
 
 	<association table="map_fanfic_pairing">
 		<element type="FanFic" name="pairings" column="fanfic_id"/>
@@ -388,5 +398,21 @@
 	<association table="relatedlinkgroups">
 		<element type="LinkGroup" name="relatedGroups" column="linkgroup_id"/>
 		<element type="LinkGroup" name="alternateGroups" column="relatedgroup_id"/>
+	</association>
+	<association table="mediafile_shows">
+		<element name="shows" column="mediafile_id" type="MediaFile"/>
+		<element name="mediaFiles" column="show_id" type="Show"/>
+	</association>
+	<association table="mediafile_episodes">
+		<element name="episodes" column="mediafile_id" type="MediaFile"/>
+		<element name="mediaFiles" column="episode_id" type="Episode"/>
+	</association>
+	<association table="mediafile_movies">
+		<element name="movies" column="mediafile_id" type="MediaFile"/>
+		<element name="mediaFiles" column="movie_id" type="Movie"/>
+	</association>
+	<association table="mediafile_persons">
+		<element name="persons" column="mediafile_id" type="MediaFile"/>
+		<element name="mediaFiles" column="person_id" type="Person"/>
 	</association>
 </mappings>

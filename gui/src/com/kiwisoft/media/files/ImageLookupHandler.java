@@ -8,13 +8,17 @@ import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.persistence.IDObject;
 
 /**
  * @author Stefan Stiller
  */
 public class ImageLookupHandler implements LookupHandler<MediaFile>
 {
+	public ImageLookupHandler()
+	{
+	}
+
 	public boolean isCreateAllowed()
 	{
 		return true;

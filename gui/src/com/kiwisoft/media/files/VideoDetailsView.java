@@ -1,11 +1,19 @@
 package com.kiwisoft.media.files;
 
+import static java.awt.GridBagConstraints.NORTHWEST;
+import static java.awt.GridBagConstraints.BOTH;
+import static java.awt.GridBagConstraints.HORIZONTAL;
+import static java.awt.GridBagConstraints.NONE;
+import static java.awt.GridBagConstraints.WEST;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
+import java.util.Collection;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
@@ -15,15 +23,15 @@ import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.InvalidDataException;
-import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
- * @todo all editing of description
  */
 public class VideoDetailsView extends DetailsView
 {
@@ -56,8 +64,11 @@ public class VideoDetailsView extends DetailsView
 
 	// Konfigurations Panel
 	private JTextField nameField;
+	private LookupField<ContentType> contentTypeField;
+	private JTextPane descriptionField;
 	private VideoField videoField;
 	private ImageField thumbnailField;
+	private MediaFileReferencesController referencesController;
 
 	private VideoDetailsView(MediaFile picture)
 	{
@@ -69,50 +80,78 @@ public class VideoDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		nameField=new JTextField(40);
+		contentTypeField=new LookupField<ContentType>(new ContentTypeLookup(MediaType.VIDEO));
 		videoField=new VideoField("Video");
-		thumbnailField=new ImageField("Thumbnail", new Dimension(160, 120), new CreateThumbnailAction());
+		videoField.setPreferredSize(new Dimension(400, videoField.getPreferredSize().height));
+		thumbnailField=new ThumbnailField("Thumbnail", new Dimension(160, 120), MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, "thb", null)
+		{
+			@Override
+			protected void createThumbnail(int width, int height, String suffix)
+			{
+				File file=getFile();
+				if (file==null || !file.exists())
+				{
+					File videoFile=videoField.getFile();
+					if (videoFile!=null && videoFile.exists())
+					{
+						String name=FileUtils.getNameWithoutExtension(videoFile);
+						file=new File(videoFile.getParentFile(), name+"_"+suffix+".jpg");
+						MediaFileUtils.createVideoThumbnail(videoFile, width, height, file);
+					}
+				}
+				if (file!=null && file.exists())
+				{
+					setFile(file);
+				}
+			}
+		};
+		descriptionField=new JTextPane();
+		JScrollPane descriptionPane=new JScrollPane(descriptionField);
+		descriptionPane.setPreferredSize(new Dimension(400, 50));
+		referencesController=new MediaFileReferencesController();
+		JComponent referenceField=referencesController.createComponent();
+		referenceField.setPreferredSize(new Dimension(200, 150));
 
 		setLayout(new GridBagLayout());
 		int row=0;
-		add(new JLabel("Name:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-		add(nameField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-
+		add(new JLabel("Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		add(nameField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		row++;
-		add(new JLabel("Files:"),
-			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(videoField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Content Type:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(contentTypeField, new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
-		add(thumbnailField,
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("Description:"),
+			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(descriptionPane, new GridBagConstraints(1, row, 2, 1, 1.0, 1.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		row++;
+		add(new JLabel("Files:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
+		add(videoField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(thumbnailField, new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+		row++;
+		add(referenceField, new GridBagConstraints(1, row, 2, 1, 1.0, 1.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
-		nameField.getDocument().addDocumentListener(new VideoDetailsView.FrameTitleUpdater());
-//		videoField.addPropertyChangeListener("file", new PropertyChangeListener()
-//		{
-//			public void propertyChange(PropertyChangeEvent evt)
-//			{
-//				File file=imageField.getFile();
-//				if (file!=null && file.exists())
-//				{
-//					File thumbnailMini=thumbnail50x50Field.getFile();
-//					File thumbnailSide=thumbnailSidebarField.getFile();
-//					if (thumbnailMini==null || !thumbnailMini.exists() || thumbnailSide==null || !thumbnailSide.exists())
-//					{
-//						Map<String, ImageFileInfo> thumbnails=MediaFileUtils.getThumbnails(file);
-//						ImageFileInfo imageData=thumbnails.get(MediaFile.THUMBNAIL_50x50);
-//						if (imageData!=null && (thumbnailMini==null || !thumbnailMini.exists()))
-//						{
-//							thumbnail50x50Field.setFile(imageData.getFile());
-//						}
-//						imageData=thumbnails.get(MediaFile.THUMBNAIL_SIDEBAR);
-//						if (imageData!=null && (thumbnailSide==null || !thumbnailSide.exists()))
-//						{
-//							thumbnailSidebarField.setFile(imageData.getFile());
-//						}
-//					}
-//				}
-//			}
-//		});
+		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
+		videoField.addPropertyChangeListener("file", new PropertyChangeListener()
+		{
+			public void propertyChange(PropertyChangeEvent evt)
+			{
+				File file=videoField.getFile();
+				if (file!=null && file.exists())
+				{
+					File thumbnail=thumbnailField.getFile();
+					if (thumbnail==null || !thumbnail.exists())
+					{
+						Map<String, ImageFileInfo> thumbnails=MediaFileUtils.getThumbnails(file);
+						ImageFileInfo imageFileInfo=thumbnails.get(MediaFile.THUMBNAIL);
+						if (imageFileInfo!=null)
+						{
+							thumbnailField.setFile(imageFileInfo.getFile());
+						}
+					}
+				}
+			}
+		});
+		referencesController.installListeners();
 	}
 
 	private void initializeData()
@@ -120,12 +159,20 @@ public class VideoDetailsView extends DetailsView
 		if (video!=null)
 		{
 			nameField.setText(video.getName());
-			ImageFile thumbnail=video.getThumbnailSidebar();
-			if (thumbnail!=null) thumbnailField.setFileName(thumbnail.getFile());
-			thumbnail=video.getThumbnailSidebar();
-			if (thumbnail!=null) thumbnailField.setFileName(thumbnail.getFile());
+			thumbnailField.setImageFile(video.getThumbnail());
 			videoField.setFileName(video.getFile());
+			descriptionField.setText(video.getDescription());
+			referencesController.addReferences(video.getReferences());
+			contentTypeField.setValue(video.getContentType());
 		}
+	}
+
+
+	@Override
+	public void dispose()
+	{
+		referencesController.dispose();
+		super.dispose();
 	}
 
 	public boolean apply() throws InvalidDataException
@@ -150,6 +197,8 @@ public class VideoDetailsView extends DetailsView
 			throw new RuntimeException(e);
 		}
 		filesToBeDeleted.remove(thumbnailField.getFile());
+		final Collection<IDObject> references=referencesController.getReferences();
+
 		try
 		{
 			return DBSession.execute(new Transactional()
@@ -158,11 +207,14 @@ public class VideoDetailsView extends DetailsView
 				{
 					if (video==null) video=MediaFileManager.getInstance().createVideo(MediaConfiguration.PATH_ROOT);
 					video.setName(name);
+					video.setContentType(contentTypeField.getValue());
+					video.setDescription(descriptionField.getText());
 					video.setFile(videoPath);
 					video.setWidth(videoField.getImageWidth());
 					video.setHeight(videoField.getImageHeight());
-					video.setThumbnailSidebar(MediaConfiguration.PATH_ROOT, thumbnailPath,
-											  thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
+					video.setDuration(videoField.getDuration());
+					video.setThumbnail(MediaConfiguration.PATH_ROOT, thumbnailPath, thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
+					video.setReferences(references);
 				}
 
 				public void handleError(Throwable throwable, boolean rollback)
@@ -205,35 +257,8 @@ public class VideoDetailsView extends DetailsView
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();
-			if (StringUtils.isEmpty(name)) setTitle("Picture: <unknown>");
-			else setTitle("Picture: "+name);
-		}
-	}
-
-	public class CreateThumbnailAction extends AbstractAction
-	{
-		public CreateThumbnailAction()
-		{
-			super("Create", Icons.getIcon("add"));
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			File file=thumbnailField.getFile();
-			if (file==null || !file.exists())
-			{
-				File videoFile=videoField.getFile();
-				if (videoFile!=null && videoFile.exists())
-				{
-					String name=FileUtils.getNameWithoutExtension(videoFile);
-					file=new File(videoFile.getParentFile(), name+"_thb.jpg");
-					MediaFileUtils.createVideoThumbnail(videoFile, 160, 120, file);
-				}
-			}
-			if (file!=null && file.exists())
-			{
-				thumbnailField.setFile(file);
-			}
+			if (StringUtils.isEmpty(name)) setTitle("Video: <unknown>");
+			else setTitle("Video: "+name);
 		}
 	}
 }

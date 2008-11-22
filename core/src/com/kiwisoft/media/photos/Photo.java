@@ -19,9 +19,6 @@ public class Photo extends IDObject implements ChainLink
 	public static final String THUMBNAIL="thumbnail";
 	public static final String GALLERY_PHOTO="galleryPhoto";
 
-	public static final int THUMBNAIL_WIDTH=160;
-	public static final int THUMBNAIL_HEIGHT=120;
-
 	private int rotation;
 	private int sequence;
 	private int colorDepth;

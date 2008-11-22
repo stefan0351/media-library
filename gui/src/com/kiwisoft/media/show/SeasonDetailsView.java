@@ -17,10 +17,7 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
-import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.DocumentAdapter;
@@ -103,7 +100,7 @@ public class SeasonDetailsView extends DetailsView
 		endYearField.setHorizontalAlignment(JTextField.TRAILING);
 		firstEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
 		lastEpisodeField=new LookupField<Episode>(new EpisodeLookup(show));
-		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -255,6 +252,7 @@ public class SeasonDetailsView extends DetailsView
 				season.setFirstEpisode(firstEpisode);
 				season.setLastEpisode(lastEpisode);
 				season.setLogo(logo);
+				if (logo!=null) logo.addShow(show);
 				transaction.close();
 				return true;
 			}

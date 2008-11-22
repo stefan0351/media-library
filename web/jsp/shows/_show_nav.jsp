@@ -10,20 +10,28 @@
 <%@ page import="com.kiwisoft.media.show.Show" %>
 <%@ page import="com.kiwisoft.media.show.ShowInfo" %>
 <%@ page import="com.kiwisoft.web.JspUtils" %>
+<%@ page import="com.kiwisoft.media.files.MediaFileManager" %>
+<%@ page import="com.kiwisoft.media.files.MediaType" %>
 
 <%
 	Show show=(Show)request.getAttribute("show");
 	Season season=(Season)request.getAttribute("season");
 
 	Map links=new TreeMap(String.CASE_INSENSITIVE_ORDER);
+
 	links.put("Schedule", request.getContextPath()+"/shows/schedule.jsp?show="+show.getId());
 	if (show.getRecordingCount()>0) links.put("Media", request.getContextPath()+"/shows/tracks.jsp?show="+show.getId());
+	if (MediaFileManager.getInstance().getNumberOfMediaFiles(show, MediaType.VIDEO)>0)
+		links.put("Videos", request.getContextPath()+"/shows/videos.jsp?show="+show.getId());
+	if (MediaFileManager.getInstance().getNumberOfMediaFiles(show, MediaType.IMAGE)>0)
+		links.put("Images", request.getContextPath()+"/shows/images.jsp?show="+show.getId());
 	if (!show.getCastMembers(CreditType.MAIN_CAST).isEmpty() || !show.getCastMembers(CreditType.RECURRING_CAST).isEmpty())
 		links.put("Cast and Crew", request.getContextPath()+"/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkGroup()!=null && show.getLinkGroup().getLinkCount()>0)
 		links.put("Links", request.getContextPath()+"/links.jsp?show="+show.getId()+"&group="+show.getLinkGroup().getId());
 	if (show.getFanFicCount()>0)
 		links.put("Fan Fiction", request.getContextPath()+"/fanfic/fanfics.jsp?show="+show.getId());
+
 	for (Iterator it=show.getInfos().iterator(); it.hasNext();)
 	{
 		ShowInfo info=(ShowInfo)it.next();

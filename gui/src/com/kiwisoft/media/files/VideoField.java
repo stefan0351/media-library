@@ -15,17 +15,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.kiwisoft.media.MediaConfiguration;
+import static com.kiwisoft.media.files.MediaFileUtils.DURATION_FORMAT;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.TimeFormat;
-import com.kiwisoft.utils.Time;
+import com.kiwisoft.utils.*;
 
 /**
  * @author Stefan Stiller
- * @todo add play action
  */
 class VideoField extends JPanel
 {
@@ -39,7 +36,7 @@ class VideoField extends JPanel
 	private JLabel sizeField;
 	private JLabel videoField;
 	private JLabel audioField;
-	private TimeFormat timeFormat=new TimeFormat("H:mm:ss");
+	private long duration;
 
 	public VideoField(String name, Action... actions)
 	{
@@ -103,7 +100,8 @@ class VideoField extends JPanel
 		};
 		toolBar.setFloatable(false);
 		toolBar.setMargin(null);
-		toolBar.add(new OpenFileAction());
+		toolBar.add(new SelectFileAction());
+		toolBar.add(new PlayFileAction());
 		for (Action action : actions) toolBar.add(action);
 		toolBar.add(new RemoveAction());
 		return toolBar;
@@ -114,11 +112,11 @@ class VideoField extends JPanel
 		return filesToBeDeleted;
 	}
 
-	private class OpenFileAction extends AbstractAction
+	private class SelectFileAction extends AbstractAction
 	{
-		public OpenFileAction()
+		public SelectFileAction()
 		{
-			super("Open File", Icons.getIcon("open.file"));
+			super("Select File", Icons.getIcon("open.file"));
 		}
 
 		public void actionPerformed(ActionEvent e)
@@ -140,6 +138,29 @@ class VideoField extends JPanel
 				File file=fileChooser.getSelectedFile();
 				setFile(file);
 				MediaConfiguration.setRecentMediaPath(file.getParent());
+			}
+		}
+	}
+
+	private class PlayFileAction extends AbstractAction
+	{
+		public PlayFileAction()
+		{
+			super("Play the selected file", Icons.getIcon("play"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			if (file!=null)
+			{
+				try
+				{
+					Utils.start(file);
+				}
+				catch (Exception ex)
+				{
+					GuiUtils.handleThrowable(VideoField.this, ex);
+				}
 			}
 		}
 	}
@@ -198,7 +219,8 @@ class VideoField extends JPanel
 				width=info.getWidth()!=null ? info.getWidth() : -1;
 				height=info.getHeight()!=null ? info.getHeight() : -1;
 				size.append("; ").append(width>=0 ? width : "?").append("x").append(height>=0 ? height : "?");
-				if (info.getDuration()!=null) size.append("; ").append(timeFormat.format(new Time(info.getDuration())));
+				duration=info.getDuration()!=null ? info.getDuration() : -1;
+				if (duration>0) size.append("; ").append(DURATION_FORMAT.format(new Time(duration)));
 				audioField.setText(info.getAudioFormat());
 				videoField.setText(info.getVideoFormat());
 			}
@@ -227,5 +249,10 @@ class VideoField extends JPanel
 	public int getImageHeight()
 	{
 		return height;
+	}
+
+	public long getDuration()
+	{
+		return duration;
 	}
 }

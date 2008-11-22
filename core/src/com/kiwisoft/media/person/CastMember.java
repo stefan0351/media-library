@@ -13,7 +13,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.utils.StringUtils;
 
 public class CastMember extends IDObject
@@ -152,12 +151,6 @@ public class CastMember extends IDObject
 	public String toString()
 	{
 		return getCharacterName()+" ("+getActor()+")";
-	}
-
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (CREDIT_TYPE.equals(name)) return CreditType.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public Production getProduction()

@@ -17,10 +17,7 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
-import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.ActionField;
@@ -63,7 +60,7 @@ public class ChannelDetailsView extends DetailsView
 		languageField=new LookupField<Language>(new LanguageLookup());
 		webAddressField=new ActionField(new OpenWebAddressAction());
 		receivingField=new JCheckBox();
-		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()

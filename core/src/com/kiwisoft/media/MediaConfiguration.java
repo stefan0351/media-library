@@ -28,6 +28,7 @@ public class MediaConfiguration
 	public static final String PATH_EXPORTS_RECENT="path.exports.recent";
 	public static final String PATH_WEB_RECENT="path.web.recent";
 	public static final String PATH_IMAGE_EDITOR="path.image.editor";
+	public static final String PATH_VLC_MEDIA_PLAYER="path.player.vlc";
 	public static final String PATH_WEB_DATES="path.web.dates";
 	public static final String PATH_LOGOS_CHANNELS_WEB="path.logos.channels.web";
 	public static final String PATH_DOWNLOADS="path.downloads";
@@ -94,6 +95,11 @@ public class MediaConfiguration
 	public static String getImageEditorPath()
 	{
 		return Configuration.getInstance().getString(PATH_IMAGE_EDITOR);
+	}
+
+	public static String getVLCMediaPlayerPath()
+	{
+		return Configuration.getInstance().getString(PATH_VLC_MEDIA_PLAYER, "vlc.exe");
 	}
 
 	public static String getRecentFanFicPath()

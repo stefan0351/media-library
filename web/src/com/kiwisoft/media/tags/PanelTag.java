@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class PanelTag extends TagSupport
 {
 	private String title;
+	private String id;
 
 	@Override
 	public int doStartTag() throws JspException
@@ -20,6 +21,7 @@ public class PanelTag extends TagSupport
 		try
 		{
 			JspWriter out=pageContext.getOut();
+			if (id!=null) out.println("<a name=\""+id+"\"/>");
 			out.println("<table class=\"contenttable\" width=\"790\">");
 			out.print("<tr><td class=\"header1\">");
 			out.print(StringEscapeUtils.escapeHtml(title));
@@ -55,10 +57,18 @@ public class PanelTag extends TagSupport
 		this.title=title;
 	}
 
+	public void setId(String id)
+	{
+		this.id=id;
+	}
+
 	@Override
 	public void release()
 	{
+		id=null;
 		title=null;
 		super.release();
 	}
+
+
 }

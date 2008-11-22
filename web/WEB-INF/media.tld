@@ -28,6 +28,10 @@
 		<name>panel</name>
 		<tag-class>com.kiwisoft.media.tags.PanelTag</tag-class>
 		<attribute>
+			<name>id</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
 			<name>title</name>
 			<rtexprvalue>true</rtexprvalue>
 			<required>true</required>

@@ -2,7 +2,6 @@ package com.kiwisoft.media.medium;
 
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.show.Show;
@@ -213,13 +212,6 @@ public class Track extends IDObject implements ChainLink, Recordable
 	public String toString()
 	{
 		return getName();
-	}
-
-	@Override
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (TYPE.equals(name)) return TrackType.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public static class Comparator implements java.util.Comparator

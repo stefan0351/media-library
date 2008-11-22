@@ -25,12 +25,9 @@ public class MediaFileFormat extends DefaultObjectFormat
 		if (value instanceof MediaFile)
 		{
 			MediaFile mediaFile=(MediaFile)value;
-			switch (mediaFile.getMediaType())
-			{
-				case MediaFile.IMAGE: return "file.image";
-				case MediaFile.AUDIO: return "file.audio";
-				case MediaFile.VIDEO: return "file.video";
-			}
+			if (mediaFile.getMediaType()==MediaType.IMAGE) return "file.image";
+			else if (mediaFile.getMediaType()==MediaType.AUDIO) return "file.audio";
+			else if (mediaFile.getMediaType()==MediaType.VIDEO) return "file.video";
 		}
 		return super.getIconName(value);
 	}

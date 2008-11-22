@@ -3,7 +3,6 @@ package com.kiwisoft.media.files;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.MediaConfiguration;
@@ -14,6 +13,7 @@ import com.kiwisoft.utils.FileUtils;
 
 /**
  * @author Stefan Stiller
+ * @todo Detect root path
  */
 public class NewMediaFileAction extends ContextAction
 {
@@ -28,7 +28,8 @@ public class NewMediaFileAction extends ContextAction
 	public void actionPerformed(ActionEvent e)
 	{
 		ImageFileChooser fileChooser=new ImageFileChooser();
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Video Files", "avi", "mp4", "mpg", "mpeg", "mov", "flv", "mkv"));
+		fileChooser.addChoosableFileFilter(MediaFileUtils.getVideoFileFilter());
+		fileChooser.addChoosableFileFilter(MediaFileUtils.getAudioFileFilter());
 		fileChooser.setAcceptAllFileFilterUsed(true); // This selects the all files filter and moves it to the end
 		String path=MediaConfiguration.getRecentMediaPath();
 		if (path==null) path=MediaConfiguration.getRootPath();
@@ -40,6 +41,7 @@ public class NewMediaFileAction extends ContextAction
 			MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
 			if (fileInfo.isImage()) ImageDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
 			else if (fileInfo.isVideo()) VideoDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
+			else if (fileInfo.isAudio()) AudioDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
 		}
 	}
 }

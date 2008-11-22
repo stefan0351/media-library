@@ -28,7 +28,6 @@
 <head>
 <title><%=person.getName()%></title>
 <script language="JavaScript" src="../overlib.js"></script>
-<script language="JavaScript" src="../window.js"></script>
 <script language="JavaScript" src="../popup.js"></script>
 <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>
@@ -45,7 +44,7 @@
 		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="Details">
+		<media:panel id="details" title="Details">
 			<dl>
 <%
 	Set names=person.getAltNames();
@@ -94,7 +93,7 @@
 			</dl>
 		</media:panel>
 
-		<media:panel title="Filmography">
+		<media:panel id="filmography" title="Filmography">
 		<%
 			if (!actingCredits.isEmpty())
 			{

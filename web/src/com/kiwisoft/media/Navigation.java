@@ -11,6 +11,8 @@ import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.medium.Medium;
 import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.photos.Photo;
+import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.MediaFile;
 
 public class Navigation
 {
@@ -59,11 +61,17 @@ public class Navigation
 
 	public static String getLink(HttpServletRequest request, Photo photo)
 	{
-		return request.getContextPath()+"/file?type=ImageFile&id="+photo.getOriginalPictureId()+"&rotate="+photo.getRotation();
+		ImageFile picture=photo.getOriginalPicture();
+		return request.getContextPath()+"/file/"+picture.getFileName()+"/?type=ImageFile&id="+picture.getId()+"&rotate="+photo.getRotation();
 	}
 
 	public static String getLink(HttpServletRequest request, LinkGroup linkGroup)
 	{
 		return request.getContextPath()+"/links.jsp?group="+linkGroup.getId();
+	}
+
+	public static String getLink(HttpServletRequest request, MediaFile mediaFile)
+	{
+		return request.getContextPath()+"/file/"+mediaFile.getFileName()+"?type=Media&id="+mediaFile.getId();
 	}
 }

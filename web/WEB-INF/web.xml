@@ -78,7 +78,7 @@
 
 	<servlet-mapping>
 		<servlet-name>file</servlet-name>
-		<url-pattern>/file</url-pattern>
+		<url-pattern>/file/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

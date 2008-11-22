@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.utils.Disposable;
 
@@ -32,7 +33,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 		super(new BorderLayout(0, 0));
 		this.photo=photo;
 
-		photoComponent=new ImagePanel(new Dimension(Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT));
+		photoComponent=new ImagePanel(new Dimension(MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT));
 		photoComponent.setOpaque(false);
 		infoLabel=new JLabel();
 		infoLabel.setOpaque(true);

@@ -77,7 +77,7 @@ public class PhotoManager implements CollectionChangeSource
 			thumbnailFile=new File(MediaConfiguration.getPhotoThumbnailPath(), numberFormat.format(MediaConfiguration.nextThumbnailId())+".jpg");
 		}
 		while (thumbnailFile.exists());
-		MediaFileUtils.rotateAndResize(file, rotation, Photo.THUMBNAIL_WIDTH, Photo.THUMBNAIL_HEIGHT, thumbnailFile);
+		MediaFileUtils.rotateAndResize(file, rotation, MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, thumbnailFile);
 		Dimension size=MediaFileUtils.getImageSize(thumbnailFile);
 		if (size!=null) return new ImageFileInfo(thumbnailFile, size);
 		return null;

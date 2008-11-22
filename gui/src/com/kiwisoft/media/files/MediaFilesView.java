@@ -26,6 +26,10 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.Bookmark;
 
+/**
+ * @author Stefan Stiller
+ * @todo Add wallpapers
+ */
 public class MediaFilesView extends ViewPanel
 {
 	private TableController<MediaFile> tableController;
@@ -38,12 +42,12 @@ public class MediaFilesView extends ViewPanel
 
 	public String getTitle()
 	{
-		return "Pictures";
+		return "Media Files";
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<MediaFile> tableModel=new DefaultSortableTableModel<MediaFile>("name", "file", "width", "height");
+		SortableTableModel<MediaFile> tableModel=new DefaultSortableTableModel<MediaFile>("name", "file", "width", "height", "duration");
 
 		tableController=new TableController<MediaFile>(tableModel, new DefaultTableConfiguration(MediaFilesView.class, "table.files"))
 		{
@@ -53,6 +57,7 @@ public class MediaFilesView extends ViewPanel
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MediaFileDetailsAction());
 				actions.add(new NewMediaFileAction(frame));
+				actions.add(new DeleteMediaFileAction(frame));
 				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
 											  new CheckPicturesAction(frame),
 											  new CreateThumbnailsAction(frame)));
@@ -66,6 +71,7 @@ public class MediaFilesView extends ViewPanel
 				actions.add(new MediaFileDetailsAction());
 				actions.add(null);
 				actions.add(new NewMediaFileAction(frame));
+				actions.add(new DeleteMediaFileAction(frame));
 				return actions;
 			}
 
@@ -113,14 +119,14 @@ public class MediaFilesView extends ViewPanel
 	{
 		public void collectionChanged(CollectionChangeEvent event)
 		{
-			if (MediaFileManager.IMAGES.equals(event.getPropertyName()))
+			if (MediaFileManager.MEDIA_FILES.equals(event.getPropertyName()))
 			{
 				SortableTableModel<MediaFile> model=tableController.getModel();
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						MediaFile picture=(MediaFile)event.getElement();
-						model.addRow(new MyRow(picture));
+						MediaFile mediaFile=(MediaFile)event.getElement();
+						model.addRow(new MyRow(mediaFile));
 						model.sort();
 						break;
 					case CollectionChangeEvent.REMOVED:
@@ -154,13 +160,32 @@ public class MediaFilesView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
+		public String getCellFormat(int column, String property)
+		{
+			if ("duration".equals(property)) return "mediafile";
+			return super.getCellFormat(column, property);
+		}
+
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("name".equals(property)) return getUserObject();
 			else if ("file".equals(property)) return getUserObject().getFile();
-			else if ("width".equals(property)) return getUserObject().getWidth();
-			else if ("height".equals(property)) return getUserObject().getHeight();
+			else if ("width".equals(property))
+				return getUserObject().getMediaType()!=MediaType.AUDIO ? getUserObject().getWidth() : null;
+			else if ("height".equals(property))
+				return getUserObject().getMediaType()!=MediaType.AUDIO ? getUserObject().getHeight() : null;
+			else if ("duration".equals(property))
+				return getUserObject().getMediaType()!=MediaType.IMAGE ? getUserObject().getDurationTime() : null;
 			return null;
+		}
+
+
+		@Override
+		public Comparable getSortValue(int column, String property)
+		{
+			if ("name".equals(property)) return getUserObject().getName();
+			return super.getSortValue(column, property);
 		}
 	}
 

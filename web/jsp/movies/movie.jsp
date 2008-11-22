@@ -28,7 +28,6 @@
 <title>Movies - <%=movie.getTitle()%>
 </title>
 <script language="JavaScript" src="../overlib.js"></script>
-<script language="JavaScript" src="../window.js"></script>
 <script language="JavaScript" src="../popup.js"></script>
 <link rel="StyleSheet" type="text/css" href="../style.css">
 </head>

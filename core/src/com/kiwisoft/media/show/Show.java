@@ -37,6 +37,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String GENRES="genres";
 	public static final String LOGO="logo";
 	public static final String TITLE="title";
+	public static final String MEDIA_FILES="mediaFiles";
 
 	private String userKey;
 	private String title;

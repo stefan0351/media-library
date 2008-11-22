@@ -37,7 +37,7 @@ public class MediaFileServlet extends HttpServlet
 			InputStream inputStream=null;
 			String contentType=null;
 			String type=request.getParameter("type");
-			if ("ImageFile".equals(type) || "Image".equals(type) || "Video".equals(type) || "Audio".equals(type))
+			if ("ImageFile".equals(type) || "Image".equals(type) || "Media".equals(type))
 			{
 				Long id=new Long(request.getParameter("id"));
 				String rotate=request.getParameter("rotate");
@@ -66,7 +66,8 @@ public class MediaFileServlet extends HttpServlet
 						}
 					}
 					inputStream=new FileInputStream(file);
-					contentType="image/"+extension;
+					contentType=FileUtils.getMimeType(file);
+					if (contentType==null) contentType=type.toLowerCase()+"/"+extension;
 				}
 				else
 				{
@@ -81,6 +82,7 @@ public class MediaFileServlet extends HttpServlet
 			}
 			if (inputStream!=null)
 			{
+				System.out.println("MediaFileServlet.process: type = "+contentType);
 				response.setContentType(contentType);
 				ServletOutputStream outputStream=response.getOutputStream();
 				IOUtils.copy(inputStream, outputStream);

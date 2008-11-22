@@ -16,7 +16,6 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.Name;
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
@@ -187,12 +186,6 @@ public class Person extends IDObject
 	public String toString()
 	{
 		return getName();
-	}
-
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (GENDER.equals(name)) return Gender.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public boolean isUsed()

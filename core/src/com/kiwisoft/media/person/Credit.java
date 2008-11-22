@@ -1,6 +1,5 @@
 package com.kiwisoft.media.person;
 
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.movie.Movie;
@@ -87,12 +86,6 @@ public class Credit extends IDObject
 		String oldSubType=this.subType;
 		this.subType=subType;
 		setModified("subType", oldSubType, this.subType);
-	}
-
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (CREDIT_TYPE.equals(name)) return CreditType.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public Production getProduction()

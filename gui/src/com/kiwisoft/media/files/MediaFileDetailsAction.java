@@ -18,7 +18,8 @@ public class MediaFileDetailsAction extends SimpleContextAction
 	public void actionPerformed(ActionEvent e)
 	{
 		MediaFile mediaFile=(MediaFile)getObject();
-		if (mediaFile.getMediaType()==MediaFile.IMAGE) ImageDetailsView.create(mediaFile);
-		else if (mediaFile.getMediaType()==MediaFile.VIDEO) VideoDetailsView.create(mediaFile);
+		if (mediaFile.getMediaType()==MediaType.IMAGE) ImageDetailsView.create(mediaFile);
+		else if (mediaFile.getMediaType()==MediaType.VIDEO) VideoDetailsView.create(mediaFile);
+		else if (mediaFile.getMediaType()==MediaType.AUDIO) AudioDetailsView.create(mediaFile);
 	}
 }

@@ -14,10 +14,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
@@ -65,7 +62,7 @@ public class ShowDetailsView extends DetailsView
 	{
 		indexByField=new DialogLookupField(new IndexByLookup());
 		keyField=new JTextField();
-		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
+		logoField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()
@@ -322,6 +319,7 @@ public class ShowDetailsView extends DetailsView
 				{
 					show.dropInfo(info);
 				}
+				if (logo!=null) logo.addShow(show);
 			}
 
 			public void handleError(Throwable throwable, boolean rollback)

@@ -8,7 +8,6 @@ package com.kiwisoft.media.medium;
 
 import java.util.Iterator;
 
-import com.kiwisoft.utils.Identifyable;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.SequenceManager;
@@ -165,12 +164,6 @@ public class Medium extends IDObject
 		super.delete();
 		Iterator<Track> it=getTracks().iterator();
 		while (it.hasNext()) it.next().delete();
-	}
-
-	public Identifyable loadReference(String name, Object referenceId)
-	{
-		if (TYPE.equals(name)) return MediumType.valueOf((Long)referenceId);
-		return super.loadReference(name, referenceId);
 	}
 
 	public void afterReload()

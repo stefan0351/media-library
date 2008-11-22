@@ -21,9 +21,17 @@ import org.apache.commons.io.FileUtils;
 
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.TimeFormat;
+import com.kiwisoft.media.MediaConfiguration;
 
 public class MediaFileUtils
 {
+	public static final int THUMBNAIL_WIDTH=160;
+	public static final int THUMBNAIL_SIDEBAR_WIDTH=170;
+	public static final int THUMBNAIL_HEIGHT=120;
+
+	public static final TimeFormat DURATION_FORMAT=new TimeFormat("H:mm:ss");
+
 	private static Component mediaTracker=new JLabel();
 
 	private MediaFileUtils()
@@ -291,6 +299,15 @@ public class MediaFileUtils
 		return null;
 	}
 
+	/**
+	 * Opens VLC Media Player to make allow the user to make a snapshot. If the user makes a snapshot it is automatically used
+	 * as thumbnail after the player is closed.
+	 *
+	 * @param videoFile The video file to create the thumbnail for.
+	 * @param width The maximal width of thumbnail
+	 * @param height The maximal height of the thumbnail
+	 * @param thumbnailFile The thumbnail file.
+	 */
 	public static void createVideoThumbnail(File videoFile, int width, int height, File thumbnailFile)
 	{
 		if (videoFile!=null && videoFile.exists())
@@ -307,9 +324,7 @@ public class MediaFileUtils
 					prefix="snap-"+Long.toString(counter, 36)+"-";
 				}
 				while (new File(directory, prefix+"00001.png").exists());
-				System.out.println("MediaFileManager.createThumbnail: directory = "+directory.getAbsolutePath());
-				System.out.println("MediaFileManager.createThumbnail: prefix = "+prefix);
-				String command="C:\\Programme\\VideoLAN\\VLC\\vlc.exe"
+				String command="\""+MediaConfiguration.getVLCMediaPlayerPath()+"\""
 							   +" --no-video-title-show"
 							   +" --snapshot-format png --snapshot-sequential"+
 							   " --snapshot-path \""+directory.getAbsolutePath()+"\" --snapshot-prefix "+prefix
@@ -346,7 +361,7 @@ public class MediaFileUtils
 		}
 	}
 
-	public final static String[] THUMBNAIL_SUFFIXES={"mini", "small", "sb"};
+	public final static String[] THUMBNAIL_SUFFIXES={"mini", "small", "sb", "thb"};
 
 	public static Map<String, ImageFileInfo> getThumbnails(File imageFile)
 	{
@@ -366,7 +381,18 @@ public class MediaFileUtils
 					{
 						map.put(MediaFile.THUMBNAIL_50x50, new ImageFileInfo(file, size));
 					}
-					else if (size.width<=170)
+					if (size.width==THUMBNAIL_WIDTH || size.height==THUMBNAIL_HEIGHT) // Image must be either 160 wide or 120 high but not wider or higher
+					{
+						if (size.width<=THUMBNAIL_WIDTH && size.height<=THUMBNAIL_HEIGHT)
+						{
+							ImageFileInfo currentData=map.get(MediaFile.THUMBNAIL);
+							if (currentData==null || currentData.getSize().width*currentData.getSize().height<size.width*size.height)
+							{
+								map.put(MediaFile.THUMBNAIL, new ImageFileInfo(file, size));
+							}
+						}
+					}
+					if (size.width==THUMBNAIL_SIDEBAR_WIDTH)
 					{
 						ImageFileInfo currentData=map.get(MediaFile.THUMBNAIL_SIDEBAR);
 						if (currentData==null || currentData.getSize().width<size.width)
@@ -378,6 +404,13 @@ public class MediaFileUtils
 			}
 		}
 		return map;
+	}
+
+	public static boolean isThumbnailSize(int imageWidth, int imageHeight, int thumbnailWidth, int thumbnailHeight)
+	{
+		if (thumbnailWidth>0 && thumbnailWidth<imageWidth) return false;
+		if (thumbnailHeight>0 && thumbnailHeight<imageHeight) return false;
+		return true;
 	}
 
 	public static FileFilter getVideoFileFilter()

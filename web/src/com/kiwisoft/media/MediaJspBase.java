@@ -16,7 +16,7 @@ public abstract class MediaJspBase extends HttpJspBase
 	public String renderMedia(HttpServletRequest request, String name, MediaFile picture, ImageFile thumbnail, String otherAttributes)
 	{
 		name=JspUtils.render(request, name);
-		String url=request.getContextPath()+"/file?type=Image&id="+picture.getId();
+		String url=request.getContextPath()+"/file/"+picture.getFileName()+"?type=Image&id="+picture.getId();
 		int width=picture.getWidth();
 		int height=picture.getHeight();
 		if (width>500 || height>500)
@@ -34,7 +34,7 @@ public abstract class MediaJspBase extends HttpJspBase
 		}
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/file?type=");
+		html.append(" src=\"").append(request.getContextPath()).append("/file/").append(thumbnail.getFileName()).append("?type=");
 		if (thumbnail instanceof MediaFile) html.append("Image");
 		else html.append("ImageFile");
 		html.append("&id=").append(thumbnail.getId()).append("\"");
@@ -53,14 +53,21 @@ public abstract class MediaJspBase extends HttpJspBase
 	{
 		StringBuilder html=new StringBuilder();
 		html.append("<img");
-		html.append(" src=\"").append(request.getContextPath()).append("/file?type=");
-		if (imageFile instanceof MediaFile) html.append("Image");
-		else html.append("ImageFile");
-		html.append("&id=").append(imageFile.getId()).append("\"");
-		html.append(" border=\"0\"");
-		if (imageFile.getWidth()>0) html.append(" width=\"").append(imageFile.getWidth()).append("\"");
-		if (imageFile.getHeight()>0) html.append(" height=\"").append(imageFile.getHeight()).append("\"");
-		if (otherAttributes!=null) html.append(" ").append(otherAttributes);
+		if (imageFile!=null)
+		{
+			html.append(" src=\"").append(request.getContextPath()).append("/file/").append(imageFile.getFileName()).append("?type=");
+			if (imageFile instanceof MediaFile) html.append("Image");
+			else html.append("ImageFile");
+			html.append("&id=").append(imageFile.getId()).append("\"");
+			html.append(" border=\"0\"");
+			if (imageFile.getWidth()>0) html.append(" width=\"").append(imageFile.getWidth()).append("\"");
+			if (imageFile.getHeight()>0) html.append(" height=\"").append(imageFile.getHeight()).append("\"");
+			if (otherAttributes!=null) html.append(" ").append(otherAttributes);
+		}
+		else
+		{
+			html.append(" src=\"").append(request.getContextPath()).append("/file?type=Icon&name=no-photo-available\" border=\"0\"");
+		}
 		html.append(">");
 		return html.toString();
 	}

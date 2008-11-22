@@ -15,7 +15,6 @@
 <title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Images</title>
 <link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
 <script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
-<script language="JavaScript" src="<%=request.getContextPath()%>/window.js"></script>
 <script language="JavaScript" src="<%=request.getContextPath()%>/popup.js"></script>
 </head>
 

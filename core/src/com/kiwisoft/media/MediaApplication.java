@@ -13,8 +13,11 @@ import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.app.Application;
 import com.kiwisoft.utils.UrlFormat;
+import com.kiwisoft.utils.Time;
+import com.kiwisoft.utils.TimeFormat;
 import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.format.DefaultDateFormat;
+import com.kiwisoft.format.DefaultTimeFormat;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.files.MediaFileFormat;
 import com.kiwisoft.media.photos.PhotoGallery;
@@ -29,6 +32,8 @@ import com.kiwisoft.media.download.WebFolder;
 import com.kiwisoft.media.download.WebDocument;
 import com.kiwisoft.media.download.WebFolderFormat;
 import com.kiwisoft.media.download.WebDocumentFormat;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.EpisodeFormat;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.cfg.SimpleConfiguration;
 
@@ -99,6 +104,9 @@ public class MediaApplication extends Application
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
 		formatManager.setFormat(URL.class, new UrlFormat());
 		formatManager.setFormat(Date.class, "schedule", new DefaultDateFormat(new SimpleDateFormat("EE, dd.MM.yy HH:mm")));
+		formatManager.setFormat(Time.class, "mediafile", new DefaultTimeFormat(new TimeFormat("H:mm:ss")));
+		formatManager.setFormat(Episode.class, new EpisodeFormat(false));
+		formatManager.setFormat(Episode.class, "full", new EpisodeFormat(true));
 		super.registerFormats();
 	}
 }

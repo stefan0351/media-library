@@ -11,8 +11,11 @@ import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.files.ImageLookupHandler;
 import com.kiwisoft.media.files.PicturePreviewUpdater;
 import com.kiwisoft.media.show.Production;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.files.MediaFileLookup;
 import com.kiwisoft.media.files.*;
+import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.ImagePanel;
@@ -71,7 +74,7 @@ public class CastDetailsView extends DetailsView
 		descriptionField=new JTextPane();
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
-		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler());
+		pictureField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler());
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(600, 300));
@@ -142,6 +145,13 @@ public class CastDetailsView extends DetailsView
 			cast.setCharacterName(character);
 			cast.setVoice(voice);
 			cast.setPicture(picture);
+			if (picture!=null)
+			{
+				if (production instanceof Movie) picture.addMovie((Movie)production);
+				if (production instanceof Show) picture.addShow((Show)production);
+				if (production instanceof Episode) picture.addEpisode((Episode)production);
+				if (actor!=null) picture.addPerson(actor);
+			}
 			cast.setDescription(description);
 			transaction.close();
 			return true;

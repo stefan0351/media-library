@@ -25,7 +25,8 @@ public class MediaFileChecker implements Job
 	{
 		final ProgressSupport progress=new ProgressSupport(this, progressListener);
 		progress.startStep("Initializing...");
-		List<Object> mediaFileIds=DBLoader.getInstance().loadKeys(MediaFile.class, null, "root=? and mediatype=?", MediaConfiguration.PATH_ROOT, MediaFile.IMAGE);
+		List<Object> mediaFileIds=DBLoader.getInstance().loadKeys(MediaFile.class, null, "root=? and mediatype_id=?",
+																  MediaConfiguration.PATH_ROOT, MediaType.IMAGE.getId());
 		List<Object> imageFileIds=DBLoader.getInstance().loadKeys(ImageFile.class, null, "root=?", MediaConfiguration.PATH_ROOT);
 		progress.startStep("Checking media files...");
 		progress.initialize(true, mediaFileIds.size(), null);

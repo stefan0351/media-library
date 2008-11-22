@@ -15,10 +15,7 @@ import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.media.*;
-import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
@@ -162,6 +159,7 @@ public class MovieDetailsView extends DetailsView
 				movie.setRecord(record);
 				movie.setJavaScript(javascript);
 				movie.setPoster(poster);
+				if (poster!=null) poster.addMovie(movie);
 				movie.setWebScriptFile(script);
 				movie.setYear((Integer)yearField.getValue());
 				movie.setRuntime((Integer)runtimeField.getValue());
@@ -211,7 +209,7 @@ public class MovieDetailsView extends DetailsView
 
 	private JPanel createDetailsPanel()
 	{
-		posterField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new ImageLookupHandler()
+		posterField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
 		{
 			@Override
 			public String getDefaultName()

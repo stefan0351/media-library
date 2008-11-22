@@ -21,7 +21,7 @@ public class ImageFileHTMLRenderer extends DefaultHTMLRenderer
 			ImageFile pictureFile=(ImageFile)value;
 			StringBuilder output=new StringBuilder();
 			output.append("<img");
-			output.append(" src=\"").append(context.get("contextPath")).append("/file?type=");
+			output.append(" src=\"").append(context.get("contextPath")).append("/file/").append(pictureFile.getFileName()).append("?type=");
 			if (pictureFile instanceof MediaFile) output.append("Image");
 			else output.append("ImageFile");
 			output.append("&id=").append(pictureFile.getId()).append("\"");

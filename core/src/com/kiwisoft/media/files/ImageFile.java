@@ -100,6 +100,18 @@ public class ImageFile extends IDObject
 		return null;
 	}
 
+	public String getFileName()
+	{
+		String file=getFile();
+		if (file!=null)
+		{
+			int index=Math.max(file.lastIndexOf("/"), file.lastIndexOf("\\"));
+			if (index>=0) return file.substring(index+1);
+			return file;
+		}
+		return null;
+	}
+
 	public int getWidth()
 	{
 		return width;

@@ -13,10 +13,7 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.person.Person;
-import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.media.files.MediaFileLookup;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
+import com.kiwisoft.media.files.*;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
@@ -80,7 +77,7 @@ public class BookDetailsView extends DetailsView
 		pageCountField=GuiUtils.createNumberField(Integer.class, 5, 0, null);
 		publishedYearField=GuiUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
 		languageField=new LookupField<Language>(new LanguageLookup());
-		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaFile.IMAGE), new MyImageLookupHandler());
+		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new MyImageLookupHandler());
 		ImagePanel coverPreview=new ImagePanel(new Dimension(150, 200));
 		coverPreview.setBorder(new EtchedBorder());
 

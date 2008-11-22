@@ -11,11 +11,13 @@ import javax.swing.border.EmptyBorder;
 
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.swing.ImageFileChooser;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.Utils;
 
 /**
  * @author Stefan Stiller
@@ -29,14 +31,14 @@ class ImageField extends JPanel
 
 	private ImagePanel imagePanel;
 
-	public ImageField(String name, Dimension size, Action... actions)
+	public ImageField(String name, Dimension size)
 	{
 		super(new GridBagLayout());
 		setBorder(new LineBorder(Color.BLACK));
 
 		add(createTitleBar(name),
 			new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		add(createToolBar(actions),
+		add(createToolBar(),
 			new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 		add(createImagePanel(size),
 			new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -58,7 +60,7 @@ class ImageField extends JPanel
 		return label;
 	}
 
-	private JToolBar createToolBar(Action[] actions)
+	private JToolBar createToolBar()
 	{
 		JToolBar toolBar=new JToolBar()
 		{
@@ -73,9 +75,14 @@ class ImageField extends JPanel
 		toolBar.setFloatable(false);
 		toolBar.setMargin(null);
 		toolBar.add(new OpenFileAction());
-		for (Action action : actions) toolBar.add(action);
+		for (Action action : getActions()) toolBar.add(action);
 		toolBar.add(new RemoveAction());
 		return toolBar;
+	}
+
+	protected Action[] getActions()
+	{
+		return new Action[]{new EditAction()};
 	}
 
 	private class OpenFileAction extends AbstractAction
@@ -128,6 +135,12 @@ class ImageField extends JPanel
 				}
 			}
 		}
+	}
+
+	public void setImageFile(ImageFile imageFile)
+	{
+		if (imageFile!=null) setFileName(imageFile.getFile());
+		else setFileName(null);
 	}
 
 	public void setFileName(String fileName)
@@ -189,5 +202,34 @@ class ImageField extends JPanel
 	public int getImageHeight()
 	{
 		return height;
+	}
+
+	protected void edit()
+	{
+		if (this.file!=null && this.file.exists())
+		{
+			try
+			{
+				Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+this.file.getAbsolutePath()+"\"");
+				setFile(this.file);
+			}
+			catch (Exception e1)
+			{
+				GuiUtils.handleThrowable(this, e1);
+			}
+		}
+	}
+
+	private class EditAction extends AbstractAction
+	{
+		public EditAction()
+		{
+			super("Edit", Icons.getIcon("edit"));
+		}
+
+		public void actionPerformed(ActionEvent e)
+		{
+			edit();
+		}
 	}
 }
