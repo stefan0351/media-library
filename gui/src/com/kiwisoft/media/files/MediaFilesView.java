@@ -28,7 +28,6 @@ import com.kiwisoft.app.Bookmark;
 
 /**
  * @author Stefan Stiller
- * @todo Add wallpapers
  */
 public class MediaFilesView extends ViewPanel
 {

@@ -8,9 +8,9 @@ import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 
-public class DownloadProjectNode extends GenericTreeNode<DownloadProject> implements PropertyChangeListener, CollectionChangeListener
+public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implements PropertyChangeListener, CollectionChangeListener
 {
-	public DownloadProjectNode(DownloadProject project)
+	public GrabberProjectNode(GrabberProject project)
 	{
 		super(project);
 	}
@@ -18,7 +18,7 @@ public class DownloadProjectNode extends GenericTreeNode<DownloadProject> implem
 	@Override
 	protected void installListeners()
 	{
-		getListeners().installPropertyChangeListener(getUserObject(), DownloadProject.STATE, this);
+		getListeners().installPropertyChangeListener(getUserObject(), GrabberProject.STATE, this);
 		getListeners().addDisposable(getUserObject().addListener(this));
 		super.installListeners();
 	}
@@ -42,7 +42,7 @@ public class DownloadProjectNode extends GenericTreeNode<DownloadProject> implem
 
 	public void collectionChanged(CollectionChangeEvent event)
 	{
-		if (DownloadProject.FOLDERS.equals(event.getPropertyName()))
+		if (GrabberProject.FOLDERS.equals(event.getPropertyName()))
 		{
 			if (CollectionChangeEvent.ADDED==event.getType())
 			{

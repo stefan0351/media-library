@@ -30,7 +30,7 @@ public class SearchManager
 		if (refClass==Movie.class) return DBLoader.getInstance().loadSet(SearchPattern.class, null,
 				"type=? and movie_id is not null", type);
 		if (refClass==Person.class) return DBLoader.getInstance().loadSet(SearchPattern.class, null,
-						"type=? and actor_id is not null", type);
+						"type=? and person_id is not null", type);
 		return Collections.emptySet();
 	}
 
@@ -49,9 +49,14 @@ public class SearchManager
 		return DBLoader.getInstance().loadSet(SearchPattern.class, null, "type=? and movie_id=?", type, movie.getId());
 	}
 
+	public Set<SearchPattern> getSearchPattern(Movie movie)
+	{
+		return DBLoader.getInstance().loadSet(SearchPattern.class, null, "movie_id=?", movie.getId());
+	}
+
 	public Set<SearchPattern> getSearchPattern(int type, Person person)
 	{
-		return DBLoader.getInstance().loadSet(SearchPattern.class, null, "type=? and actor_id=?", type, person.getId());
+		return DBLoader.getInstance().loadSet(SearchPattern.class, null, "type=? and person_id=?", type, person.getId());
 	}
 
 }

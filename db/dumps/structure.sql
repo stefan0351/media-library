@@ -438,6 +438,50 @@ CREATE TABLE media (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `mediafile_episodes`
+--
+
+DROP TABLE IF EXISTS mediafile_episodes;
+CREATE TABLE mediafile_episodes (
+  mediafile_id bigint(20) NOT NULL,
+  episode_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_mediafile_episodes (mediafile_id,episode_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `mediafile_movies`
+--
+
+DROP TABLE IF EXISTS mediafile_movies;
+CREATE TABLE mediafile_movies (
+  mediafile_id bigint(20) NOT NULL,
+  movie_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_mediafile_movies (mediafile_id,movie_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `mediafile_persons`
+--
+
+DROP TABLE IF EXISTS mediafile_persons;
+CREATE TABLE mediafile_persons (
+  mediafile_id bigint(20) NOT NULL,
+  person_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_mediafile_persons (mediafile_id,person_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `mediafile_shows`
+--
+
+DROP TABLE IF EXISTS mediafile_shows;
+CREATE TABLE mediafile_shows (
+  mediafile_id bigint(20) NOT NULL,
+  show_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_mediafile_shows (mediafile_id,show_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `mediafiles`
 --
 
@@ -446,13 +490,16 @@ CREATE TABLE mediafiles (
   id bigint(20) NOT NULL,
   `name` varchar(200) NOT NULL,
   description mediumtext,
-  mediatype int(11) NOT NULL,
+  mediatype_id bigint(20) NOT NULL,
   root varchar(100) default NULL,
   `file` varchar(200) NOT NULL,
   width int(11) NOT NULL,
   height int(11) NOT NULL,
+  duration bigint(20) default NULL,
+  thumbnail_id bigint(20) default NULL,
   thumbnail_50x50_id bigint(20) default NULL,
   thumbnail_sidebar_id bigint(20) default NULL,
+  contenttype_id bigint(20) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
@@ -769,4 +816,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-11-19 20:47:07
+-- Dump completed on 2008-11-22 20:10:58

@@ -25,8 +25,8 @@ import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.media.dataImport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.Name;
+import com.kiwisoft.media.dataimport.TVTVDeLoaderContextAction;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.actions.ComplexAction;
@@ -64,6 +64,7 @@ public class PersonsView extends ViewPanel
 				actions.add(new NewPersonAction());
 				actions.add(new DeletePersonAction(frame));
 				actions.add(new ShowPersonCreditsAction(frame));
+				actions.add(new PersonAirdatesAction(frame));
 				return actions;
 			}
 
@@ -81,6 +82,7 @@ public class PersonsView extends ViewPanel
 				actions.add(new MergePersonsAction(frame));
 				actions.add(null);
 				actions.add(new ShowPersonCreditsAction(frame));
+				actions.add(new PersonAirdatesAction(frame));
 				actions.add(downloadAction);
 				return actions;
 			}

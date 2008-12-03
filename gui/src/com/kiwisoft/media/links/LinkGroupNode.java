@@ -7,7 +7,6 @@ import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.Link;
 import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 
 /**
@@ -45,12 +44,6 @@ public class LinkGroupNode extends GenericTreeNode<LinkGroup>
 		Set<LinkGroup> relatedGroups=getUserObject().getRelatedGroups();
 		for (LinkGroup group : relatedGroups) treeNodes.add(new RelatedLinkGroupNode(group));
 		return treeNodes;
-	}
-
-	@Override
-	public ContextAction getDoubleClickAction()
-	{
-		return new LinkDetailsAction();
 	}
 
 	private class ChildListener implements CollectionChangeListener

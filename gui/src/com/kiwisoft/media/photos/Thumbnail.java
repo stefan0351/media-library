@@ -13,10 +13,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import com.kiwisoft.collection.ChainLink;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.files.ImageFile;
+import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.MediaFileUtils;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.JobQueue;
 
 /**
  * @author Stefan Stiller
@@ -54,19 +59,25 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 	private void updateThumbnail()
 	{
 		ImageFile thumbnail=photo.getThumbnail();
-		if (thumbnail!=null)
+		File file=null;
+		if (thumbnail!=null) file=thumbnail.getPhysicalFile();
+		if (file!=null && file.exists())
 		{
-			File file=thumbnail.getPhysicalFile();
-			if (file.exists())
+			try
 			{
-				try
-				{
-					photoComponent.setImage(new ImageIcon(file.toURI().toURL()));
-				}
-				catch (MalformedURLException e)
-				{
-					e.printStackTrace();
-				}
+				photoComponent.setImage(MediaFileUtils.loadIcon(file.toURI().toURL()));
+			}
+			catch (MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			File photoFile=photo.getOriginalPicture().getPhysicalFile();
+			if (photoFile.exists())
+			{
+				JobQueue.getDefaultQueue().addJob(new ThumbnailCreationJob(photo));
 			}
 		}
 	}
@@ -114,5 +125,56 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 	public int getChainPosition()
 	{
 		return photo.getChainPosition();
+	}
+
+	private class ThumbnailCreationJob implements Runnable
+	{
+		private Photo photo;
+
+		public ThumbnailCreationJob(Photo photo)
+		{
+			this.photo=photo;
+		}
+
+		public void run()
+		{
+			File photoFile=photo.getOriginalPicture().getPhysicalFile();
+			final ImageFileInfo thumbnailInfo=PhotoManager.getInstance().createThumbnail(photoFile, photo.getRotation());
+			if (thumbnailInfo!=null)
+			{
+				boolean success=DBSession.execute(new Transactional()
+				{
+					public void run() throws Exception
+					{
+						ImageFile oldThumbnail=photo.getThumbnail();
+						ImageFile newThumbnail=new ImageFile(MediaConfiguration.PATH_ROOT, thumbnailInfo);
+						photo.setThumbnail(newThumbnail);
+						if (oldThumbnail!=null) oldThumbnail.delete();
+					}
+
+					public void handleError(Throwable throwable, boolean rollback)
+					{
+						throwable.printStackTrace();
+					}
+				});
+				if (success)
+				{
+					SwingUtilities.invokeLater(new Runnable()
+					{
+						public void run()
+						{
+							try
+							{
+								photoComponent.setImage(MediaFileUtils.loadIcon(photo.getThumbnail().getPhysicalFile().toURI().toURL()));
+							}
+							catch (MalformedURLException e)
+							{
+								e.printStackTrace();
+							}
+						}
+					});
+				}
+			}
+		}
 	}
 }

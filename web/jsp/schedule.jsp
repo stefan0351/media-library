@@ -1,7 +1,5 @@
 <%@ page language="java" extends="com.kiwisoft.media.MediaJspBase"%>
 
-<%@ page import="java.util.Calendar" %>
-<%@ page import="com.kiwisoft.media.AirdateManager" %>
 <%@ page import="com.kiwisoft.media.schedule.ScheduleTable" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
 <%@ page import="com.kiwisoft.media.DateRange" %>
@@ -13,7 +11,7 @@
 	DateRange range=null;
 	if (!StringUtils.isEmpty(rangeId)) range=DateRange.get(Long.valueOf(rangeId));
 	if (range==null) range=DateRange.NEXT_24_HOURS;
-	ScheduleTable table=new ScheduleTable(null, range);
+	ScheduleTable table=new ScheduleTable(range);
 	table.sort();
 	request.setAttribute("table", table);
 %>
@@ -22,10 +20,13 @@
 <head>
 <title>Schedule - <media:render value="<%=range%>"/></title>
 <link rel="StyleSheet" type="text/css" href="style.css">
+<script language="JavaScript" src="overlib.js"></script>
+<script language="JavaScript" src="popup.js"></script>
 </head>
 
 <body>
 <a name="top"></a>
+<div id="overDiv"></div>
 
 <media:title>Schedule - <media:render value="<%=range%>"/></media:title>
 

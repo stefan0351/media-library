@@ -90,5 +90,9 @@ public class ChannelManager
 		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
+	public Channel getChannelByTvtvKey(String key)
+	{
+		return DBLoader.getInstance().load(Channel.class, null, "tvtv_key=?", key);
+	}
 }
 

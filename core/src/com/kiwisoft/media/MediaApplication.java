@@ -39,7 +39,6 @@ import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
- * @todo Check movie by imdb_key
  */
 public class MediaApplication extends Application
 {

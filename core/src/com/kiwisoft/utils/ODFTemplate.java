@@ -14,8 +14,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.commons.io.*;
 import org.apache.commons.lang.StringEscapeUtils;
 
-import sun.net.www.MimeEntry;
-import sun.net.www.MimeTable;
 import com.kiwisoft.media.files.MediaFileUtils;
 
 /**
@@ -28,15 +26,13 @@ public class ODFTemplate
 	private Map<String, File> pictures=new HashMap<String, File>();
 	public double maxWidth=12.7;
 	public double maxHeight=18.0;
-	private static File file;
 
 	public static void main(String[] args) throws Exception
 	{
 		ODFTemplate template=new ODFTemplate(ClassLoader.getSystemResource("com/kiwisoft/media/covers/dvd_movie.odtt"));
 		template.setVariable("title", "The Last Mimzy");
 		template.setPicture("poster", new File("D:\\Webpages\\local\\movies\\posters\\last_mimzy.jpg"));
-		file=new File("d:\\temp\\test.odt");
-		template.createDocument(file);
+		template.createDocument(new File("d:\\temp\\test.odt"));
 	}
 
 	public ODFTemplate(URL resource) throws IOException
@@ -50,8 +46,8 @@ public class ODFTemplate
 		Map<String, Object> pictureVariables=new HashMap<String, Object>();
 		String fileName=file.getName();
 		pictureVariables.put("filename", fileName);
-		MimeEntry mimeEntry=MimeTable.getDefaultTable().findByFileName(fileName);
-		if (mimeEntry!=null) pictureVariables.put("mimetype", mimeEntry.getType());
+		String mimeType=FileUtils.getMimeType(file);
+		if (!StringUtils.isEmpty(mimeType)) pictureVariables.put("mimetype", mimeType);
 		Dimension size=MediaFileUtils.getImageSize(file);
 		double scale=Math.min(maxWidth/size.width, maxHeight/size.height);
 		pictureVariables.put("width", size.width*scale);

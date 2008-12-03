@@ -22,9 +22,9 @@
 	links.put("Schedule", request.getContextPath()+"/shows/schedule.jsp?show="+show.getId());
 	if (show.getRecordingCount()>0) links.put("Media", request.getContextPath()+"/shows/tracks.jsp?show="+show.getId());
 	if (MediaFileManager.getInstance().getNumberOfMediaFiles(show, MediaType.VIDEO)>0)
-		links.put("Videos", request.getContextPath()+"/shows/videos.jsp?show="+show.getId());
+		links.put("Videos", request.getContextPath()+"/shows/mediafiles_show.jsp?show="+show.getId()+"&type="+MediaType.VIDEO.getId());
 	if (MediaFileManager.getInstance().getNumberOfMediaFiles(show, MediaType.IMAGE)>0)
-		links.put("Images", request.getContextPath()+"/shows/images.jsp?show="+show.getId());
+		links.put("Images", request.getContextPath()+"/shows/mediafiles_show.jsp?show="+show.getId()+"&type="+MediaType.IMAGE.getId());
 	if (!show.getCastMembers(CreditType.MAIN_CAST).isEmpty() || !show.getCastMembers(CreditType.RECURRING_CAST).isEmpty())
 		links.put("Cast and Crew", request.getContextPath()+"/shows/cast.jsp?show="+show.getId());
 	if (show.getLinkGroup()!=null && show.getLinkGroup().getLinkCount()>0)

@@ -18,4 +18,7 @@
 	<icon key="file.audio">
 		<resource url="/com/kiwisoft/media/icons/sound-16x16.png"/>
 	</icon>
+	<icon key="details">
+		<resource url="/com/kiwisoft/media/icons/document-16x16.png"/>
+	</icon>
 </icons>

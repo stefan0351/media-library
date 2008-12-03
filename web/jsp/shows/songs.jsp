@@ -96,7 +96,7 @@
 		%>
 		<tr>
 			<td class="content2"><b>File:</b></td>
-			<td class="content2"><a href="<%=source%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" border="0"></a> (<%=theme.getValue("length")%>)</td>
+			<td class="content2"><a href="<%=source%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" alt="Sound" border="0"></a> (<%=theme.getValue("length")%>)</td>
 		</tr>
 		<%
 			}
@@ -160,7 +160,7 @@
 		if (song.getValue("source")!=null)
 		{
 	%>
-	<tr><td class="content2"><b>File:</b></td><td class="content2"><a href="<%=song.getValue("source")%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" border="0"></a> (<%=song.getValue("length")%>)</td></tr>
+	<tr><td class="content2"><b>File:</b></td><td class="content2"><a href="<%=song.getValue("source")%>"><img src="<%=request.getContextPath()%>/icons/sound.gif" alt="Sound" border="0"></a> (<%=song.getValue("length")%>)</td></tr>
 	<%
 		}
 		if (song.getValue("lyrics")!=null)

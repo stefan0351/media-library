@@ -8,6 +8,7 @@ import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.Time;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Season;
@@ -79,7 +80,7 @@ public class MediaFile extends ImageFile
 	public void setThumbnail(String property, String root, String path, int imageWidth, int imageHeight)
 	{
 		ImageFile thumbnail=(ImageFile)getReference(property);
-		if (path==null)
+		if (StringUtils.isEmpty(path))
 		{
 			if (thumbnail!=null)
 			{
@@ -94,6 +95,7 @@ public class MediaFile extends ImageFile
 				thumbnail=new ImageFile(root);
 				setReference(property, thumbnail);
 			}
+			thumbnail.setRoot(root);
 			thumbnail.setFile(path);
 			thumbnail.setWidth(imageWidth);
 			thumbnail.setHeight(imageHeight);

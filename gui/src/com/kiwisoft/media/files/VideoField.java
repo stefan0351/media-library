@@ -20,6 +20,7 @@ import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.utils.*;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
@@ -37,6 +38,8 @@ class VideoField extends JPanel
 	private JLabel videoField;
 	private JLabel audioField;
 	private long duration;
+	private String root;
+	private String path;
 
 	public VideoField(String name, Action... actions)
 	{
@@ -136,8 +139,13 @@ class VideoField extends JPanel
 			if (fileChooser.showOpenDialog(VideoField.this)==JFileChooser.APPROVE_OPTION)
 			{
 				File file=fileChooser.getSelectedFile();
-				setFile(file);
-				MediaConfiguration.setRecentMediaPath(file.getParent());
+				String root=MediaFileUtils.getRootPath(file);
+				if (root!=null)
+				{
+					setFile(root, FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath()));
+					MediaConfiguration.setRecentMediaPath(file.getParent());
+				}
+				else JOptionPane.showMessageDialog(VideoField.this, "File is not located in a configured directory.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -184,17 +192,11 @@ class VideoField extends JPanel
 					case JOptionPane.YES_OPTION:
 						filesToBeDeleted.add(file);
 					case JOptionPane.NO_OPTION:
-						setFile(null);
+						setFile(null, null);
 						break;
 				}
 			}
 		}
-	}
-
-	public void setFileName(String fileName)
-	{
-		if (StringUtils.isEmpty(fileName)) setFile(null);
-		else setFile(FileUtils.getFile(MediaConfiguration.getRootPath(), fileName));
 	}
 
 	public File getFile()
@@ -202,10 +204,13 @@ class VideoField extends JPanel
 		return file;
 	}
 
-	public void setFile(File file)
+	public void setFile(String root, String path)
 	{
+		this.root=root;
+		this.path=path;
 		File oldFile=this.file;
-		this.file=file;
+		if (!StringUtils.isEmpty(path)) file=FileUtils.getFile(Configuration.getInstance().getString(root), path);
+		else file=null;
 		if (file!=null)
 		{
 			fileNameField.setText(file.getName());
@@ -254,5 +259,15 @@ class VideoField extends JPanel
 	public long getDuration()
 	{
 		return duration;
+	}
+
+	public String getPath()
+	{
+		return path;
+	}
+
+	public String getRoot()
+	{
+		return root;
 	}
 }

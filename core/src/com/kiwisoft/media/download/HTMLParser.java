@@ -4,68 +4,64 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import com.kiwisoft.utils.xml.XMLUtils;
+import org.htmlparser.visitors.NodeVisitor;
+import org.htmlparser.util.ParserException;
+
+import com.kiwisoft.utils.StringUtils;
 
 public class HTMLParser implements Parser
 {
-	private static Map<String, Tag> tagMap;
+	private static Map<String, TagProperties> tagMap;
 
-	public void parse(File file, URL url, List<URL> contained, List<URL> linked) throws IOException
+	public void parse(File file, final URL url, final List<URL> contained, final List<URL> linked) throws IOException
 	{
-		InputStream is=new FileInputStream(file);
-		String tag;
-		while ((tag=XMLUtils.getNextTag(is))!=null)
+		final Map<String, TagProperties> tagMap=getTagMap();
+		try
 		{
-			String tagName=XMLUtils.getTagName(tag);
-			Tag tagDef=(Tag) getTagMap().get(tagName.toLowerCase());
-			if (tagDef!=null)
+			org.htmlparser.Parser parser=new org.htmlparser.Parser();
+			parser.setResource(file.toURI().toString());
+			parser.visitAllNodesWith(new NodeVisitor()
 			{
-				for (String parameter : tagDef.parameters)
+				@Override
+				public void visitTag(org.htmlparser.Tag tag)
 				{
-					String value=XMLUtils.getAttribute(tag, parameter);
-					if (value!=null)
+					TagProperties tagProperties=tagMap.get(tag.getTagName().toLowerCase());
+					if (tagProperties!=null)
 					{
-						URL newURL=getURL(url, value);
-						if (newURL!=null && !ExcludeFilter.getInstance().match(newURL.toString()))
+						for (String attribute : tagProperties.attributes)
 						{
-							if (tagDef.isLink)
+							String value=tag.getAttribute(attribute);
+							if (!StringUtils.isEmpty(value))
 							{
-								if (linked!=null) linked.add(newURL);
-							}
-							else
-							{
-								if (contained!=null) contained.add(newURL);
+								URL newURL=GrabberUtils.getRelativeURL(url, value);
+								if (newURL!=null && !ExcludeFilter.getInstance().match(newURL.toString()))
+								{
+									if (tagProperties.isLink)
+									{
+										if (linked!=null) linked.add(newURL);
+									}
+									else
+									{
+										if (contained!=null) contained.add(newURL);
+									}
+								}
 							}
 						}
 					}
 				}
-			}
+			});
 		}
-		is.close();
-	}
-
-	private URL getURL(URL url, String path)
-	{
-		try
+		catch (ParserException e)
 		{
-			URL newURL=new URL(url, path);
-			if ("http".equalsIgnoreCase(newURL.getProtocol()))
-				return newURL;
-			else
-				return null;
-		}
-		catch (Exception e)
-		{
-//			System.out.println(e.getMessage());
-			return null;
+			e.printStackTrace();
 		}
 	}
 
-	private synchronized Map getTagMap() throws IOException
+	private synchronized Map<String, TagProperties> getTagMap() throws IOException
 	{
 		if (tagMap==null)
 		{
-			tagMap=new HashMap<String, Tag>();
+			tagMap=new HashMap<String, TagProperties>();
 
 			Properties properties=new Properties();
 			properties.load(getClass().getResourceAsStream("tags.properties"));
@@ -77,7 +73,7 @@ public class HTMLParser implements Parser
 				{
 					String tagName=tokens.nextToken().trim();
 					String tagParams=properties.getProperty(tagName);
-					Tag tag=new Tag(tagName, tagParams, false);
+					TagProperties tag=new TagProperties(tagName, tagParams, false);
 					tagMap.put(tag.name, tag);
 				}
 			}
@@ -89,7 +85,7 @@ public class HTMLParser implements Parser
 				{
 					String tagName=tokens.nextToken().trim();
 					String tagParams=properties.getProperty(tagName);
-					Tag tag=new Tag(tagName, tagParams, true);
+					TagProperties tag=new TagProperties(tagName, tagParams, true);
 					tagMap.put(tag.name, tag);
 				}
 			}
@@ -97,18 +93,18 @@ public class HTMLParser implements Parser
 		return tagMap;
 	}
 
-	private static class Tag
+	private static class TagProperties
 	{
 		public String name;
-		public Set<String> parameters;
+		public Set<String> attributes;
 		public boolean isLink;
 
-		public Tag(String aName, String aParameters, boolean link)
+		public TagProperties(String aName, String aParameters, boolean link)
 		{
 			name=aName.toLowerCase();
-			parameters=new HashSet<String>();
+			attributes=new HashSet<String>();
 			StringTokenizer tokens=new StringTokenizer(aParameters, ",");
-			while (tokens.hasMoreTokens()) parameters.add(tokens.nextToken().trim().toLowerCase());
+			while (tokens.hasMoreTokens()) attributes.add(tokens.nextToken().trim().toLowerCase());
 			isLink=link;
 		}
 	}

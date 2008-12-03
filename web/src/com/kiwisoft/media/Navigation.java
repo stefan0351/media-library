@@ -1,5 +1,6 @@
 package com.kiwisoft.media;
 
+import java.net.URLEncoder;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.media.show.Show;
@@ -62,7 +63,7 @@ public class Navigation
 	public static String getLink(HttpServletRequest request, Photo photo)
 	{
 		ImageFile picture=photo.getOriginalPicture();
-		return request.getContextPath()+"/file/"+picture.getFileName()+"/?type=ImageFile&id="+picture.getId()+"&rotate="+photo.getRotation();
+		return request.getContextPath()+"/file/"+picture.getFileName()+"?type=ImageFile&id="+picture.getId()+"&rotate="+photo.getRotation();
 	}
 
 	public static String getLink(HttpServletRequest request, LinkGroup linkGroup)
@@ -72,6 +73,6 @@ public class Navigation
 
 	public static String getLink(HttpServletRequest request, MediaFile mediaFile)
 	{
-		return request.getContextPath()+"/file/"+mediaFile.getFileName()+"?type=Media&id="+mediaFile.getId();
+		return request.getContextPath()+"/file/"+URLEncoder.encode(mediaFile.getFileName())+"?type=Media&id="+mediaFile.getId();
 	}
 }

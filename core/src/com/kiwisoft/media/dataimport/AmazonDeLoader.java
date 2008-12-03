@@ -58,7 +58,8 @@ public class AmazonDeLoader
 			int index=0;
 			do
 			{
-				file=new File(MediaConfiguration.getBookCoverPath(), createFileName(bookData.getTitle(), index++, extension));
+				file=new File(MediaConfiguration.getRootPath(),
+							  "books"+File.separator+"covers"+File.separator+createFileName(bookData.getTitle(), index++, extension));
 			}
 			while (file.exists());
 			file.getParentFile().mkdirs();

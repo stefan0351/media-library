@@ -27,9 +27,6 @@ import com.kiwisoft.swing.tree.TreeUtils;
 
 /**
  * @author Stefan Stiller
- * @todo import from html
- * @todo export to html
- * @todo check active
  */
 public class LinksView extends ViewPanel
 {
@@ -47,7 +44,7 @@ public class LinksView extends ViewPanel
 		setTitle("Links");
 	}
 
-	protected JComponent createContentPanel(final ApplicationFrame applicationFrame)
+	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		treeController=new TreeController()
 		{
@@ -57,10 +54,31 @@ public class LinksView extends ViewPanel
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new LinkDetailsAction());
 				actions.add(new ComplexAction("Add", Icons.getIcon("add"), new NewLinkAction(), new NewLinkGroupAction()));
-				actions.add(new DeleteLinkAction(applicationFrame));
-				actions.add(new ExportLinksAction(applicationFrame));
-				actions.add(new DownloadAction(applicationFrame));
+				actions.add(new DeleteLinkAction(frame));
+				actions.add(new ExportLinksAction(frame));
+				actions.add(new ImportLinksAction(frame));
+				actions.add(new WebpageGrabberAction());
 				return actions;
+			}
+
+			@Override
+			public List<ContextAction> getContextActions(GenericTreeNode node)
+			{
+				List<ContextAction> actions=new ArrayList<ContextAction>();
+				if (node instanceof LinkNode)
+				{
+					actions.add(new OpenLinkAction(frame));
+					actions.add(new GrabPageAction(frame));
+				}
+				return actions;
+			}
+
+			@Override
+			public ContextAction getDoubleClickAction(GenericTreeNode node)
+			{
+				if (node instanceof LinkNode) return new LinkDetailsAction();
+				else if (node instanceof LinkGroupNode) return new LinkDetailsAction();
+				return null;
 			}
 
 			@Override

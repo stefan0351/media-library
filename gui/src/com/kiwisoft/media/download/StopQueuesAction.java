@@ -8,20 +8,15 @@ import com.kiwisoft.swing.icons.Icons;
 /**
  * @author Stefan Stiller
 */
-class StopDownloadAction extends ContextAction
+class StopQueuesAction extends ContextAction
 {
-	private DownloadProject project;
-
-	public StopDownloadAction(DownloadProject project
-	)
+	public StopQueuesAction()
 	{
 		super("Stop", Icons.getIcon("stop"));
-		this.project=project;
-		setEnabled(false);
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-		project.stop();
+		GrabberUtils.stopAllQueues();
 	}
 }

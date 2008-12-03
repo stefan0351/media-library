@@ -3,23 +3,24 @@
 <%@ page import="java.util.Set" %>
 <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
 <%@ page import="com.kiwisoft.media.files.MediaFileManager" %>
-<%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.media.show.ShowManager" %>
+<%@ page import="com.kiwisoft.media.person.Person" %>
+<%@ page import="com.kiwisoft.media.person.PersonManager" %>
 <%@ page import="com.kiwisoft.media.files.MediaType" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <%
-	Long showId=new Long(request.getParameter("show"));
-	Show show=ShowManager.getInstance().getShow(showId);
-	request.setAttribute("show", show);
-	Set mediaFiles=MediaFileManager.getInstance().getMediaFiles(show, MediaType.VIDEO);
+	Long personId=new Long(request.getParameter("person"));
+	Person person=PersonManager.getInstance().getPerson(personId);
+	request.setAttribute("person", person);
+	MediaType mediaType=MediaType.valueOf(new Long(request.getParameter("type")));
+	Set mediaFiles=MediaFileManager.getInstance().getMediaFiles(person, mediaType);
 	request.setAttribute("mediaFiles", mediaFiles);
 %>
 <html>
 
 <head>
-<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - Videos</title>
+<title><%=StringEscapeUtils.escapeHtml(person.getName())%> - <%=StringEscapeUtils.escapeHtml(mediaType.getPluralName())%></title>
 <link rel="StyleSheet" type="text/css" href="<%=request.getContextPath()%>/style.css">
 <script language="JavaScript" src="<%=request.getContextPath()%>/overlib.js"></script>
 <script language="JavaScript" src="<%=request.getContextPath()%>/popup.js"></script>
@@ -29,16 +30,15 @@
 <a name="top"></a>
 <div id="overDiv" class="over_lib"></div>
 
-<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%></media:title>
+<media:title><%=StringEscapeUtils.escapeHtml(person.getName())%></media:title>
 
 <media:body>
 	<media:sidebar>
-		<jsp:include page="_show_nav.jsp" />
-		<jsp:include page="_shows_nav.jsp"/>
-		<jsp:include page="../_nav.jsp" />
+		<jsp:include page="_nav.jsp"/>
+		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="Videos">
+		<media:panel title="<%=StringEscapeUtils.escapeHtml(mediaType.getPluralName())%>">
 			<jsp:include page="/_mediagallery.jsp"/>
 		</media:panel>
 	</media:content>

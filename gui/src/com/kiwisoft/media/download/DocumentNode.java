@@ -5,15 +5,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.swing.actions.ContextAction;
 
-public class DocumentNode extends GenericTreeNode<WebDocument> implements PropertyChangeListener, CollectionChangeListener
+public class DocumentNode extends GenericTreeNode<WebDocument> implements PropertyChangeListener
 {
 	public DocumentNode(WebDocument document)
 	{
 		super(document);
-		setNameProperties("url", "state");
+		setNameProperties(WebDocument.STATE);
 	}
 
 	@Override
@@ -25,55 +24,59 @@ public class DocumentNode extends GenericTreeNode<WebDocument> implements Proper
 	@Override
 	protected void installListeners()
 	{
-		getListeners().installPropertyChangeListener(getUserObject(), WebDocument.STATE, this);
-		getListeners().addDisposable(getUserObject().addCollectionListener(this));
+		getListeners().installPropertyChangeListener(getUserObject(), WebDocument.CONTENT_TYPE, this);
 		super.installListeners();
 	}
 
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> nodes=super.loadChildren();
-		for (WebDocument document : getUserObject().getContainedDocuments()) nodes.add(new DocumentNode(document));
+		if (getUserObject().isParsable())
+		{
+			nodes.add(new DocumentElementsNode(getUserObject()));
+			nodes.add(new DocumentLinksNode(getUserObject()));
+		}
 		return nodes;
 	}
 
 	public boolean isLeaf()
 	{
-		return getUserObject().getLinkedDocuments().isEmpty();
+		return !getUserObject().isParsable();
 	}
 
-	public String getText()
+	@Override
+	public String getToolTip()
 	{
-		if (getParent() instanceof FolderNode)
-		{
-			//noinspection unchecked
-			WebFolder folder=((FolderNode)getParent()).getUserObject();
-			return folder.getDocumentName(getUserObject());
-		}
-		return getUserObject().getURL().toString();
+		StringBuilder toolTip=new StringBuilder("<html>");
+		toolTip.append("<b>Address:</b> ").append(getUserObject().getURL());
+		if (getUserObject().getFile()!=null)
+			toolTip.append("<br/><b>File:</b> ").append(getUserObject().getFile().getAbsolutePath());
+		toolTip.append("<br/><b>State:</b> ").append(getUserObject().getState());
+		if (getUserObject().getState()==WebDocument.FAILED) toolTip.append("<br/><b>Error:</b> ").append(getUserObject().getError());
+		toolTip.append("</html>");
+		return toolTip.toString();
 	}
-
-//	public JComponent[] getPopupMenu()
-//	{
-//		return new JComponent[]{
-//			new JMenuItem(new EditDocumentAction(getUserObject())),
-//			new JSeparator(),
-//			new JMenuItem(new StartDownloadAction(getUserObject()))
-//		};
-//	}
 
 	public void propertyChange(PropertyChangeEvent evt)
 	{
-		fireNodeChanged();
-	}
-
-	public void collectionChanged(CollectionChangeEvent event)
-	{
-		if (WebDocument.CONTAINED_DOCUMENTS.equals(event.getPropertyName()))
+		if (WebDocument.CONTENT_TYPE.equals(evt.getPropertyName()))
 		{
-			if (CollectionChangeEvent.ADDED==event.getType())
+			boolean parsableOld=ParserFactory.isParsable((String)evt.getOldValue());
+			boolean parsableNew=ParserFactory.isParsable((String)evt.getNewValue());
+			if (parsableNew!=parsableOld)
 			{
-				addChild(new DocumentNode((WebDocument)event.getElement()));
+				if (isChildrenLoaded())
+				{
+					if (parsableNew)
+					{
+						addChild(new DocumentElementsNode(getUserObject()));
+						addChild(new DocumentLinksNode(getUserObject()));
+					}
+					else
+					{
+						removeAllChildren();
+					}
+				}
 			}
 		}
 	}

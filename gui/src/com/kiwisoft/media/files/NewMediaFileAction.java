@@ -3,6 +3,7 @@ package com.kiwisoft.media.files;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.MediaConfiguration;
@@ -10,10 +11,10 @@ import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
- * @todo Detect root path
  */
 public class NewMediaFileAction extends ContextAction
 {
@@ -38,10 +39,16 @@ public class NewMediaFileAction extends ContextAction
 		{
 			File file=fileChooser.getSelectedFile();
 			MediaConfiguration.setRecentMediaPath(file.getParent());
-			MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
-			if (fileInfo.isImage()) ImageDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
-			else if (fileInfo.isVideo()) VideoDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
-			else if (fileInfo.isAudio()) AudioDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), file);
+			String root=MediaFileUtils.getRootPath(file);
+			if (root!=null)
+			{
+				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
+				String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
+				if (fileInfo.isImage()) ImageDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
+				else if (fileInfo.isVideo()) VideoDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
+				else if (fileInfo.isAudio()) AudioDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
+			}
+			else JOptionPane.showMessageDialog(frame, "File is not located in a configured directory.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

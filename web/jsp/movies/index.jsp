@@ -87,7 +87,7 @@
 				   Integer year=movie.getYear();
 				   if (year!=null) out.print(" ("+year+")");
 				   String germanTitle=movie.getGermanTitle();
-				   if (!StringUtils.isEmpty(germanTitle)) out.print("<br>a.k.a. <i>&quot;"+germanTitle+"&quot;</i>");
+				   if (!StringUtils.isEmpty(germanTitle) && !germanTitle.equals(movie.getTitle())) out.print("<br>a.k.a. <i>&quot;"+germanTitle+"&quot;</i>");
 			   }
 
 							%>

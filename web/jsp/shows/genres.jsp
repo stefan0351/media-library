@@ -5,6 +5,7 @@
 				 com.kiwisoft.web.HTMLRenderer" %>
 <%@ page import="com.kiwisoft.web.HTMLRendererManager" %>
 <%@ page import="java.util.*" %>
+<%@ page import="com.kiwisoft.web.WebContext" %>
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
 <html>
@@ -36,7 +37,7 @@
 				{
 					Genre genre=(Genre)it.next();
 					out.print("<li>");
-					out.print(renderer.getContent(genre, Collections.singletonMap("request", (Object)request), 0, 0));
+					out.print(renderer.getContent(genre, new WebContext(request), 0, 0));
 					out.println("</li>");
 				}
 			%>

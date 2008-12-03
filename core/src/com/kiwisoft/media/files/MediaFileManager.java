@@ -13,6 +13,7 @@ import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.person.Person;
 
 /**
@@ -117,27 +118,42 @@ public class MediaFileManager implements CollectionChangeSource
 
 	public int getNumberOfMediaFiles(Show show, MediaType mediaType)
 	{
-		return getNumberOfMediaFiles("mediafile_shows", "show_id", show.getId(), mediaType);
+		return getNumberOfMediaFiles("mediafile_shows", "show_id", show.getId(), mediaType, null);
+	}
+
+	public int getNumberOfMediaFiles(Episode episode, MediaType mediaType)
+	{
+		return getNumberOfMediaFiles("mediafile_episodes", "episode_id", episode.getId(), mediaType, null);
 	}
 
 	public int getNumberOfMediaFiles(Person person, MediaType mediaType)
 	{
-		return getNumberOfMediaFiles("mediafile_persons", "person_id", person.getId(), mediaType);
+		return getNumberOfMediaFiles("mediafile_persons", "person_id", person.getId(), mediaType, null);
 	}
 
-	private int getNumberOfMediaFiles(String associationTable, String ownerColumn, Long ownerId, MediaType mediaType)
+	public int getNumberOfMediaFiles(Person person, ContentType contentType)
+	{
+		return getNumberOfMediaFiles("mediafile_persons", "person_id", person.getId(), null, contentType);
+	}
+
+	private int getNumberOfMediaFiles(String associationTable, String ownerColumn, Long ownerId, MediaType mediaType, ContentType contentType)
 	{
 		try
 		{
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("select count(*) " +
-																	"from " +associationTable+
-																	" map join mediafiles mf on mf.id=map.mediafile_id " +
-																	"where map." +ownerColumn+"=? and mf.mediatype_id=?");
+			StringBuilder sql=new StringBuilder("select count(*)");
+			sql.append(" from ").append(associationTable);
+			sql.append(" map join mediafiles mf on mf.id=map.mediafile_id");
+			sql.append(" where map.").append(ownerColumn).append("=?");
+			if (mediaType!=null) sql.append(" and mf.mediatype_id=?");
+			if (contentType!=null) sql.append(" and mf.contenttype_id=?");
+			PreparedStatement statement=connection.prepareStatement(sql.toString());
 			try
 			{
-				statement.setLong(1, ownerId);
-				statement.setLong(2, mediaType.getId());
+				int index=1;
+				statement.setLong(index++, ownerId);
+				if (mediaType!=null) statement.setLong(index++, mediaType.getId());
+				if (contentType!=null) statement.setLong(index, contentType.getId());
 				ResultSet resultSet=statement.executeQuery();
 				if (resultSet.next())
 				{
@@ -162,6 +178,14 @@ public class MediaFileManager implements CollectionChangeSource
 									   "_ join mediafile_shows map on map.mediafile_id=mediafiles.id",
 									   "mediafiles.mediatype_id=? and map.show_id=?",
 									   mediaType.getId(), show.getId());
+	}
+
+	public Set<MediaFile> getMediaFiles(Episode episode, MediaType mediaType)
+	{
+		return DBLoader.getInstance().loadSet(MediaFile.class,
+									   "_ join mediafile_episodes map on map.mediafile_id=mediafiles.id",
+									   "mediafiles.mediatype_id=? and map.episode_id=?",
+									   mediaType.getId(), episode.getId());
 	}
 
 	public Set<MediaFile> getMediaFiles(Person person, MediaType mediaType)

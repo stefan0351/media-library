@@ -58,7 +58,7 @@ public class MediaView extends ViewPanel implements Pinnable
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(new TracksAction(frame));
 				actions.add(new PinAction(MediaView.this));
-				actions.add(new CDDBAction(frame));
+//				actions.add(new CDDBAction(frame));
 				return actions;
 			}
 

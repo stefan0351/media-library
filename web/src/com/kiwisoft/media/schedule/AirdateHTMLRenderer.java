@@ -1,16 +1,16 @@
 package com.kiwisoft.media.schedule;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
+import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.HTMLRendererManager;
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.web.WebContext;
 
 /**
  * @author Stefan Stiller
@@ -22,14 +22,14 @@ public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 	}
 
 	@Override
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Airdate)
 		{
 			Airdate airdate=(Airdate)value;
 			StringBuilder buffer=new StringBuilder();
 			Movie movie=airdate.getMovie();
-			context.put(Language.class.getName(), airdate.getLanguage());
+			context.setProperty(Language.class.getName(), airdate.getLanguage());
 			HTMLRendererManager rendererManager=HTMLRendererManager.getInstance();
 			if (movie!=null) buffer.append(rendererManager.getRenderer(Movie.class).getContent(movie, context, rowIndex, columnIndex));
 			else
@@ -37,7 +37,7 @@ public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 				Show show=airdate.getShow();
 				if (show!=null)
 				{
-					Object contextShow=context.get(Show.class.getName());
+					Object contextShow=context.getProperty(Show.class.getName());
 					Episode episode=airdate.getEpisode();
 					if (show!=contextShow)
 					{
@@ -55,6 +55,19 @@ public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 			{
 				if (buffer.length()>0) buffer.append(" - ");
 				buffer.append(StringEscapeUtils.escapeHtml(event));
+			}
+			if (!StringUtils.isEmpty(airdate.getDetailsLink()))
+			{
+				buffer.append(" ");
+//				buffer.append(" <a target=\"_new\" href=\"");
+//				buffer.append(airdate.getDetailsLink());
+//				buffer.append("\">");
+				buffer.append("<img");
+				buffer.append(" src=\"").append(context.getContextPath()).append("/file?type=Icon&name=details\"");
+				buffer.append(" onClick=\"newWindow('Details', '").append(airdate.getDetailsLink()).append("', 500, 500);\"");
+				buffer.append(" alt=\"Details\"");
+				buffer.append(" border=\"0\">");
+//				buffer.append("</a>");
 			}
 			return buffer.toString();
 		}

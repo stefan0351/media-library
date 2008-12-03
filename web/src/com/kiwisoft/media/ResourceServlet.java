@@ -11,13 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.FilenameUtils;
 
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.xp.XPLoader;
 import com.kiwisoft.xp.XPBean;
-import sun.net.www.MimeEntry;
-import sun.net.www.MimeTable;
 
 public class ResourceServlet extends HttpServlet
 {
@@ -67,17 +65,9 @@ public class ResourceServlet extends HttpServlet
 				}
 				else
 				{
-					String contentType=null;
-					MimeEntry mimeEntry=MimeTable.getDefaultTable().findByFileName(file.getName());
-					if (mimeEntry!=null) contentType=mimeEntry.getType();
-					else
-					{
-						String extension=FilenameUtils.getExtension(file.getName()).toLowerCase();
-						if ("mp3".equals(extension)) contentType="audio/mp3";
-						else System.err.println("Mimetype not found for "+extension);
-					}
 					if (file.exists())
 					{
+						String contentType=FileUtils.getMimeType(file);
 						InputStream inputStream=new FileInputStream(file);
 						response.setContentType(contentType);
 						ServletOutputStream outputStream=response.getOutputStream();

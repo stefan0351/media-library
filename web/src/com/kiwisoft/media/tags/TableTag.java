@@ -1,7 +1,6 @@
 package com.kiwisoft.media.tags;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Enumeration;
 import java.net.URLEncoder;
@@ -73,7 +72,6 @@ public class TableTag extends TagSupport
 	{
 		JspWriter out=pageContext.getOut();
 		HttpServletRequest request=(HttpServletRequest)pageContext.getRequest();
-		Map<String, Object> context=new HashMap<String, Object>();
 		Map<String, Object> tableContext=table.getContext();
 		for (int rowIndex=0;rowIndex<table.getRowCount();rowIndex++)
 		{
@@ -83,10 +81,6 @@ public class TableTag extends TagSupport
 			out.print("\">");
 			for (int columnIndex=0;columnIndex<table.getColumnCount();columnIndex++)
 			{
-				context.clear();
-				context.put("request", request);
-				context.put("contextPath", request.getContextPath());
-				if (tableContext!=null) context.putAll(tableContext);
 				Object value=table.getValueAt(rowIndex, columnIndex);
 				Class cellClass=table.getCellClass(rowIndex, columnIndex);
 				if (cellClass==null)
@@ -103,7 +97,7 @@ public class TableTag extends TagSupport
 				String attributes=renderer.getAttributes(value, rowIndex, columnIndex);
 				if (attributes!=null) out.print(attributes);
 				out.print(">");
-				String content=renderer.getContent(value, context, rowIndex, columnIndex);
+				String content=renderer.getContent(value, new WebContext(request, tableContext), rowIndex, columnIndex);
 				if (StringUtils.isEmpty(content)) content="&nbsp;";
 				out.print(content);
 				out.print("</td>");

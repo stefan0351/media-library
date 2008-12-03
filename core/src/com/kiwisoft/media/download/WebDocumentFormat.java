@@ -13,7 +13,7 @@ public class WebDocumentFormat extends DefaultObjectFormat
 		if (value instanceof WebDocument)
 		{
 			WebDocument document=(WebDocument)value;
-			return	document.getURL().toString();
+			return	document.getFileName();
 		}
 		return super.format(value);
 	}
@@ -24,6 +24,7 @@ public class WebDocumentFormat extends DefaultObjectFormat
 		if (value instanceof WebDocument)
 		{
 			WebDocument document=(WebDocument)value;
+			if (document.isQueued()) return "webpage.processing";
 			return document.getState().getIcon();
 		}
 		return super.getIconName(value);

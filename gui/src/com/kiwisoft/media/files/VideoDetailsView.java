@@ -7,7 +7,6 @@ import static java.awt.GridBagConstraints.NONE;
 import static java.awt.GridBagConstraints.WEST;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Map;
@@ -49,11 +48,11 @@ public class VideoDetailsView extends DetailsView
 		return null;
 	}
 
-	public static MediaFile createDialog(Window owner, String name, File file)
+	public static MediaFile createDialog(Window owner, String name, String root, String path)
 	{
 		VideoDetailsView view=new VideoDetailsView(null);
 		view.nameField.setText(name);
-		view.videoField.setFile(file);
+		view.videoField.setFile(root, path);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.video;
@@ -88,20 +87,18 @@ public class VideoDetailsView extends DetailsView
 			@Override
 			protected void createThumbnail(int width, int height, String suffix)
 			{
-				File file=getFile();
-				if (file==null || !file.exists())
+				File videoFile=videoField.getFile();
+				if (videoFile!=null && videoFile.exists())
 				{
-					File videoFile=videoField.getFile();
-					if (videoFile!=null && videoFile.exists())
+					String thumbnailPath="videos"+File.separator+MediaFileUtils.getThumbnailPath(videoField.getPath(), suffix, "jpg");
+					System.out.println("VideoDetailsView.createThumbnail: thumbnailPath = "+thumbnailPath);
+					File file=FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath);
+					System.out.println("VideoDetailsView.createThumbnail: file.getAbsolutePath() = "+file.getAbsolutePath());
+					MediaFileUtils.createVideoThumbnail(videoFile, width, height, file);
+					if (file.exists())
 					{
-						String name=FileUtils.getNameWithoutExtension(videoFile);
-						file=new File(videoFile.getParentFile(), name+"_"+suffix+".jpg");
-						MediaFileUtils.createVideoThumbnail(videoFile, width, height, file);
+						setFile(MediaConfiguration.PATH_ROOT, thumbnailPath);
 					}
-				}
-				if (file!=null && file.exists())
-				{
-					setFile(file);
 				}
 			}
 		};
@@ -145,7 +142,8 @@ public class VideoDetailsView extends DetailsView
 						ImageFileInfo imageFileInfo=thumbnails.get(MediaFile.THUMBNAIL);
 						if (imageFileInfo!=null)
 						{
-							thumbnailField.setFile(imageFileInfo.getFile());
+							thumbnailField.setFile(MediaConfiguration.PATH_ROOT,
+												   FileUtils.getRelativePath(MediaConfiguration.getRootPath(), imageFileInfo.getFile().getAbsolutePath()));
 						}
 					}
 				}
@@ -160,7 +158,7 @@ public class VideoDetailsView extends DetailsView
 		{
 			nameField.setText(video.getName());
 			thumbnailField.setImageFile(video.getThumbnail());
-			videoField.setFileName(video.getFile());
+			videoField.setFile(video.getRoot(), video.getFile());
 			descriptionField.setText(video.getDescription());
 			referencesController.addReferences(video.getReferences());
 			contentTypeField.setValue(video.getContentType());
@@ -186,16 +184,10 @@ public class VideoDetailsView extends DetailsView
 		if (file==null) throw new InvalidDataException("No video is specified!", videoField);
 		filesToBeDeleted.remove(file);
 		if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", videoField);
-		final String videoPath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
-		final String thumbnailPath;
-		try
-		{
-			thumbnailPath=getThumbnailPath(thumbnailField);
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		final String videoRoot=videoField.getRoot();
+		if (videoRoot==null) throw new InvalidDataException("File is not located in a configured directory.", videoField);
+		final String videoPath=videoField.getPath();
+		thumbnailField.assertIsRoot();
 		filesToBeDeleted.remove(thumbnailField.getFile());
 		final Collection<IDObject> references=referencesController.getReferences();
 
@@ -205,7 +197,8 @@ public class VideoDetailsView extends DetailsView
 			{
 				public void run() throws Exception
 				{
-					if (video==null) video=MediaFileManager.getInstance().createVideo(MediaConfiguration.PATH_ROOT);
+					if (video==null) video=MediaFileManager.getInstance().createVideo(videoRoot);
+					else video.setRoot(videoRoot);
 					video.setName(name);
 					video.setContentType(contentTypeField.getValue());
 					video.setDescription(descriptionField.getText());
@@ -213,7 +206,7 @@ public class VideoDetailsView extends DetailsView
 					video.setWidth(videoField.getImageWidth());
 					video.setHeight(videoField.getImageHeight());
 					video.setDuration(videoField.getDuration());
-					video.setThumbnail(MediaConfiguration.PATH_ROOT, thumbnailPath, thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
+					video.setThumbnail(thumbnailField.getRoot(), thumbnailField.getPath(), thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
 					video.setReferences(references);
 				}
 
@@ -238,18 +231,6 @@ public class VideoDetailsView extends DetailsView
 				e.printStackTrace();
 			}
 		}
-	}
-
-	private String getThumbnailPath(ImageField imageField) throws InvalidDataException, IOException
-	{
-		File file=imageField.getFile();
-		String path=null;
-		if (file!=null)
-		{
-			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
-			path=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
-		}
-		return path;
 	}
 
 	private class FrameTitleUpdater extends DocumentAdapter

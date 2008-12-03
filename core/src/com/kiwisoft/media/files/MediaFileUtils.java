@@ -1,5 +1,7 @@
 package com.kiwisoft.media.files;
 
+import static com.kiwisoft.utils.FileUtils.isRelative;
+
 import java.awt.*;
 import java.net.URL;
 import java.io.File;
@@ -23,6 +25,7 @@ import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.TimeFormat;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.cfg.Configuration;
 
 public class MediaFileUtils
 {
@@ -334,6 +337,7 @@ public class MediaFileUtils
 				if (files!=null && files.length>0)
 				{
 					File file=files[files.length-1];
+					thumbnailFile.getParentFile().mkdirs();
 					MediaFileUtils.resize(file, width, height, thumbnailFile);
 				}
 				FileUtils.cleanDirectory(directory);
@@ -343,6 +347,21 @@ public class MediaFileUtils
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static String getRootPath(File file)
+	{
+		if (isRelativeToRoot(MediaConfiguration.PATH_ROOT, file)) return MediaConfiguration.PATH_ROOT;
+		if (isRelativeToRoot(MediaConfiguration.PATH_PHOTOS, file)) return MediaConfiguration.PATH_PHOTOS;
+		if (isRelativeToRoot(MediaConfiguration.PATH_VIDEOS, file)) return MediaConfiguration.PATH_VIDEOS;
+		return null;
+	}
+
+	private static boolean isRelativeToRoot(String root, File file)
+	{
+		String rootPath=Configuration.getInstance().getString(root);
+		if (!StringUtils.isEmpty(rootPath)) return isRelative(new File(rootPath), file);
+		return false;
 	}
 
 	private static class PrefixFilter implements FilenameFilter
@@ -366,8 +385,11 @@ public class MediaFileUtils
 	public static Map<String, ImageFileInfo> getThumbnails(File imageFile)
 	{
 		Map<String, ImageFileInfo> map=new HashMap<String, ImageFileInfo>();
+		String root=getRootPath(imageFile);
+		if (root==null) return map;
+		String imagePath=com.kiwisoft.utils.FileUtils.getRelativePath(Configuration.getInstance().getString(root), imageFile.getAbsolutePath());
 		String extension=com.kiwisoft.utils.FileUtils.getExtension(imageFile);
-		String basePath=imageFile.getAbsolutePath();
+		String basePath=MediaConfiguration.getRootPath()+File.separator+imagePath;
 		basePath=basePath.substring(0, basePath.length()-extension.length()-1);
 		for (String suffix : THUMBNAIL_SUFFIXES)
 		{
@@ -420,6 +442,29 @@ public class MediaFileUtils
 
 	public static FileFilter getAudioFileFilter() 
 	{
-		return new FileNameExtensionFilter("Video Files", "mp3", "wma", "wav");
+		return new FileNameExtensionFilter("Sound Files", "mp3", "wma", "wav");
 	}
+
+	public static String getThumbnailPath(String sourcePath, String suffix, String extension)
+	{
+		File file=new File(sourcePath);
+		return file.getParent()+File.separator+com.kiwisoft.utils.FileUtils.getNameWithoutExtension(file)+"_"+suffix+"."+extension;
+	}
+
+	public static String createThumbnail(String root, String path, int width, int height, String suffix)
+	{
+		if (!StringUtils.isEmpty(path))
+		{
+			File imageFile=com.kiwisoft.utils.FileUtils.getFile(Configuration.getInstance().getString(root), path);
+			if (imageFile!=null && imageFile.exists())
+			{
+				String thumbnailPath=getThumbnailPath(path, suffix, "jpg");
+				File file=com.kiwisoft.utils.FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath);
+				MediaFileUtils.resize(imageFile, width, height, file);
+				if (file.exists()) return thumbnailPath;
+			}
+		}
+		return null;
+	}
+
 }

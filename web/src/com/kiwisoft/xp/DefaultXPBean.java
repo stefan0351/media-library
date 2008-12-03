@@ -21,12 +21,14 @@ public class DefaultXPBean implements XPBean
 	private final static List<String> SOURCE_ATTRIBUTES=Arrays.asList("image.preview",
 																	  "image.source",
 																	  "theme.source",
+																	  "song.source",
 																	  "fanfic.next");
 	private Map<String, Object> map;
 	private List<Object> list;
 	private String name;
 	private String content;
 
+	@SuppressWarnings({"UnusedDeclaration"})
 	public DefaultXPBean(XMLContext context, String name)
 	{
 		this.name=name;

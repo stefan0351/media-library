@@ -5,6 +5,7 @@ import java.util.*;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.DateRange;
 import com.kiwisoft.media.AirdateManager;
+import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
@@ -18,17 +19,38 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 	public static final String TIME="time";
 	public static final String CHANNEL="channel";
 	public static final String EVENT="event";
+
 	private Show show;
+	private Person person;
+
+	public ScheduleTable(DateRange range)
+	{
+		super(TIME, CHANNEL, EVENT);
+		init(range);
+	}
 
 	public ScheduleTable(Show show, DateRange range)
 	{
 		super(TIME, CHANNEL, EVENT);
 		this.show=show;
+		init(range);
+	}
+
+	public ScheduleTable(Person person, DateRange range)
+	{
+		super(TIME, CHANNEL, EVENT);
+		this.person=person;
+		init(range);
+	}
+
+	private void init(DateRange range)
+	{
 		Date[] dates=range.calculateDates();
 		if (dates!=null)
 		{
 			Set<Airdate> airdates;
 			if (show!=null) airdates=AirdateManager.getInstance().getAirdates(show, dates[0], dates[1]);
+			else if (person!=null) airdates=AirdateManager.getInstance().getAirdates(person, dates[0], dates[1]);
 			else airdates=AirdateManager.getInstance().getAirdates(dates[0], dates[1]);
 			for (Airdate airdate : airdates)
 			{
@@ -43,7 +65,7 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 	public Map<String, Object> getContext()
 	{
 		Map<String, Object> context=new HashMap<String, Object>();
-		context.put(Show.class.getName(), show);
+		if (show!=null) context.put(Show.class.getName(), show);
 		return context;
 	}
 
@@ -74,6 +96,4 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 			return "";
 		}
 	}
-
-
 }

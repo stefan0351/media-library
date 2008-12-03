@@ -7,20 +7,22 @@
 package com.kiwisoft.media;
 
 import java.util.Date;
+import java.util.Set;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.dataimport.DataSource;
 import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.IDObject;
 
 /**
  * @author Stefan Stiller
- * @todo handle person schedules
  */
 public class Airdate extends IDObject
 {
+	public static final String PERSONS="persons";
 	public static final String CHANNEL="channel";
 	public static final String DATE="date";
 	public static final String EPISODE="episode";
@@ -100,7 +102,7 @@ public class Airdate extends IDObject
 			if (episode!=null)
 			{
 				if (event!=null) return show.getTitle(language)+" - "+episode.getTitleWithKey(language)+" "+event;
-				else  return show.getTitle(language)+" - "+episode.getTitleWithKey(getLanguage());
+				else return show.getTitle(language)+" - "+episode.getTitleWithKey(getLanguage());
 			}
 			else if (event!=null) return show.getTitle(language)+" - "+event;
 			else return show.getTitle(language);
@@ -162,7 +164,6 @@ public class Airdate extends IDObject
 		setReference(DATA_SOURCE, dataSource);
 	}
 
-
 	public String getDetailsLink()
 	{
 		return detailsLink;
@@ -184,5 +185,20 @@ public class Airdate extends IDObject
 			else return show.toString();
 		}
 		return event;
+	}
+
+	public Set<Person> getPersons()
+	{
+		return getAssociations(PERSONS);
+	}
+
+	public void setPersons(Set<Person> persons)
+	{
+		setAssociations(PERSONS, persons);
+	}
+
+	public void addPerson(Person person)
+	{
+		if (!containsAssociation(PERSONS, person)) createAssociation(PERSONS, person);
 	}
 }

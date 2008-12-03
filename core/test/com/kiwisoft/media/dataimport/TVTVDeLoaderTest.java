@@ -9,6 +9,7 @@ import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.progress.ConsoleProgressListener;
 
 /**
  * @author Stefan Stiller
@@ -34,13 +35,20 @@ public class TVTVDeLoaderTest extends TestCase
 	{
 		Show show=DBLoader.getInstance().load(Show.class, null, "title=?", "Pushing Daisies");
 		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(show));
-		assertTrue(loader.run(null));
+		assertTrue(loader.run(new ConsoleProgressListener()));
 	}
 
-	public void test_KirstenDunst() throws Exception
+	public void test_AlexisBledel() throws Exception
 	{
-		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Kirsten Dunst");
+		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Alexis Bledel");
 		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(person));
-		assertTrue(loader.run(null));
+		assertTrue(loader.run(new ConsoleProgressListener()));
+	}
+
+	public void test_AlysonStoner() throws Exception
+	{
+		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Alyson Stoner");
+		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(person));
+		assertTrue(loader.run(new ConsoleProgressListener()));
 	}
 }

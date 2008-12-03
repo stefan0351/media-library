@@ -20,11 +20,13 @@ public class Channel extends IDObject
 	public static final String WEB_ADDRESS="webAddress";
 	public static final String NAME="name";
 	public static final String RECEIVABLE="receivable";
+	public static final String TVTV_KEY="tvtvKey";
 
 	private String name;
 	private String webAddress;
 	private boolean receivable;
 	private Set<Name> altNames;
+	private String tvtvKey;
 
 	public Channel()
 	{
@@ -45,6 +47,18 @@ public class Channel extends IDObject
 		String oldName=this.name;
 		this.name=name;
 		setModified(NAME, oldName, this.name);
+	}
+
+	public String getTvtvKey()
+	{
+		return tvtvKey;
+	}
+
+	public void setTvtvKey(String tvtvKey)
+	{
+		String oldKey=this.tvtvKey;
+		this.tvtvKey=tvtvKey;
+		setModified(TVTV_KEY, oldKey, this.tvtvKey);
 	}
 
 	public String getWebAddress()

@@ -1,16 +1,18 @@
 package com.kiwisoft.media.person;
 
+import static com.kiwisoft.utils.StringUtils.trimString;
+
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
@@ -55,10 +57,10 @@ public class PersonDetailsView extends DetailsView
 	private Person person;
 
 	// Konfigurations Panel
-	private JTextField nameField;
-	private JTextField firstNameField;
-	private JTextField middleNameField;
-	private JTextField surnameField;
+	private NameField nameField;
+	private NameField firstNameField;
+	private NameField middleNameField;
+	private NameField surnameField;
 	private LookupField<Gender> genderField;
 	private LookupField<MediaFile> pictureField;
 	private NamesTableModel namesModel;
@@ -73,37 +75,16 @@ public class PersonDetailsView extends DetailsView
 	{
 		createContentPanel();
 		setPerson(null);
-		List<String> names=new ArrayList<String>();
-		nameField.setText(text);
-		for (StringTokenizer tokens=new StringTokenizer(text, " "); tokens.hasMoreTokens();) names.add(tokens.nextToken());
-		int nameCount=names.size();
-		if (nameCount>0)
-		{
-			firstNameField.setText(names.get(0));
-			if (nameCount>1)
-			{
-				if (nameCount==2) surnameField.setText(names.get(1));
-				else
-				{
-					StringBuilder middleName=new StringBuilder();
-					for (int i=1; i<nameCount-1; i++)
-					{
-						if (i>1) middleName.append(" ");
-						middleName.append(names.get(i));
-					}
-					middleNameField.setText(middleName.toString());
-					surnameField.setText(names.get(nameCount-1));
-				}
-			}
-		}
+		nameField.setValue(text);
+		updateSplitNames();
 	}
 
 	protected void createContentPanel()
 	{
-		nameField=new JTextField(30);
-		firstNameField=new JTextField(15);
-		middleNameField=new JTextField(15);
-		surnameField=new JTextField(15);
+		nameField=new NameField(30, true);
+		firstNameField=new NameField(15, false);
+		middleNameField=new NameField(15, false);
+		surnameField=new NameField(15, false);
 		genderField=new LookupField<Gender>(new GenderLookup());
 		ImagePanel picturePreview=new ImagePanel(new Dimension(150, 200));
 		picturePreview.setBorder(new EtchedBorder());
@@ -154,39 +135,16 @@ public class PersonDetailsView extends DetailsView
 		new PicturePreviewUpdater(pictureField, picturePreview);
 	}
 
-	private void updateNames()
-	{
-		String name=nameField.getText();
-		String firstName=firstNameField.getText();
-		String middleName=middleNameField.getText();
-		String surname=surnameField.getText();
-		if (!StringUtils.isEmpty(name) && StringUtils.isEmpty(firstName) && StringUtils.isEmpty(surname) && StringUtils.isEmpty(middleName))
-		{
-			String names[]=name.split(" ");
-			if (names.length==2)
-			{
-				firstNameField.setText(names[0]);
-				surnameField.setText(names[1]);
-			}
-			else if (names.length==3)
-			{
-				firstNameField.setText(names[0]);
-				middleNameField.setText(names[1]);
-				surnameField.setText(names[2]);
-			}
-		}
-	}
-
 	private void setPerson(Person person)
 	{
 		this.person=person;
 		if (person!=null)
 		{
-			nameField.setText(person.getName());
-			firstNameField.setText(person.getFirstName());
-			middleNameField.setText(person.getMiddleName());
-			surnameField.setText(person.getSurname());
-			updateNames();
+			nameField.setValue(person.getName());
+			firstNameField.setValue(person.getFirstName());
+			middleNameField.setValue(person.getMiddleName());
+			surnameField.setValue(person.getSurname());
+			updateSplitNames();
 			genderField.setValue(person.getGender());
 			pictureField.setValue(person.getPicture());
 			Iterator<Name> it=person.getAltNames().iterator();
@@ -197,15 +155,10 @@ public class PersonDetailsView extends DetailsView
 			}
 			namesModel.sort();
 		}
-		else
-		{
-			genderField.setValue(Gender.FEMALE);
-		}
 	}
 
 	public boolean apply()
 	{
-		updateNames();
 		String name=nameField.getText();
 		if (StringUtils.isEmpty(name))
 		{
@@ -280,6 +233,66 @@ public class PersonDetailsView extends DetailsView
 		return false;
 	}
 
+	private void updateFullName()
+	{
+		String name=trimString(nameField.getValue());
+
+		StringBuilder oldCombinedName=new StringBuilder();
+		if (!StringUtils.isEmpty(firstNameField.getValue()))
+			oldCombinedName.append(firstNameField.getValue().trim());
+		if (!StringUtils.isEmpty(middleNameField.getValue()))
+			StringUtils.appendSpace(oldCombinedName).append(middleNameField.getValue().trim());
+		if (!StringUtils.isEmpty(surnameField.getValue()))
+			StringUtils.appendSpace(oldCombinedName).append(surnameField.getValue().trim());
+
+		if (StringUtils.isEmpty(name) || name.equals(oldCombinedName.toString()))
+		{
+			StringBuilder newCombinedName=new StringBuilder();
+			if (!StringUtils.isEmpty(firstNameField.getText()))
+				newCombinedName.append(firstNameField.getText().trim());
+			if (!StringUtils.isEmpty(middleNameField.getText()))
+				StringUtils.appendSpace(newCombinedName).append(middleNameField.getText().trim());
+			if (!StringUtils.isEmpty(surnameField.getText()))
+				StringUtils.appendSpace(newCombinedName).append(surnameField.getText().trim());
+			nameField.setValue(newCombinedName.toString());
+		}
+	}
+
+	private void updateSplitNames()
+	{
+		String oldName=trimString(nameField.getValue());
+		String newName=nameField.getText();
+		StringBuilder oldCombinedName=new StringBuilder();
+		if (!StringUtils.isEmpty(firstNameField.getValue()))
+			oldCombinedName.append(firstNameField.getValue().trim());
+		if (!StringUtils.isEmpty(middleNameField.getValue()))
+			StringUtils.appendSpace(oldCombinedName).append(middleNameField.getValue().trim());
+		if (!StringUtils.isEmpty(surnameField.getValue()))
+			StringUtils.appendSpace(oldCombinedName).append(surnameField.getValue().trim());
+		if (StringUtils.isEmpty(oldCombinedName.toString()) || oldCombinedName.toString().equals(oldName))
+		{
+			String names[]=newName.split(" ");
+			if (names.length==1)
+			{
+				firstNameField.setValue(names[0]);
+				middleNameField.setValue(null);
+				surnameField.setValue(null);
+			}
+			else if (names.length==2)
+			{
+				firstNameField.setValue(names[0]);
+				middleNameField.setValue(null);
+				surnameField.setValue(names[1]);
+			}
+			else if (names.length==3)
+			{
+				firstNameField.setValue(names[0]);
+				middleNameField.setValue(names[1]);
+				surnameField.setValue(names[2]);
+			}
+		}
+	}
+
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
 		public void changedUpdate(DocumentEvent e)
@@ -287,6 +300,64 @@ public class PersonDetailsView extends DetailsView
 			String name=nameField.getText();
 			if (StringUtils.isEmpty(name)) setTitle("Person: <unknown>");
 			else setTitle("Person: "+name);
+		}
+	}
+
+	private class NameField extends JTextField implements DocumentListener
+	{
+		private String value;
+		private boolean listen=true;
+		private boolean fullName;
+
+		public NameField(int columns, boolean fullName)
+		{
+			super(columns);
+			this.fullName=fullName;
+			getDocument().addDocumentListener(this);
+		}
+
+		public void setValue(String value)
+		{
+			this.value=value;
+			listen=false;
+			try
+			{
+				setText(value);
+			}
+			finally
+			{
+				listen=true;
+			}
+		}
+
+		public String getValue()
+		{
+			return value;
+		}
+
+		public void setListen(boolean listen)
+		{
+			this.listen=listen;
+		}
+
+		public void insertUpdate(DocumentEvent e)
+		{
+			changedUpdate(e);
+		}
+
+		public void removeUpdate(DocumentEvent e)
+		{
+			changedUpdate(e);
+		}
+
+		public void changedUpdate(DocumentEvent e)
+		{
+			if (listen)
+			{
+				if (fullName) updateSplitNames();
+				else updateFullName();
+			}
+			value=getText();
 		}
 	}
 }

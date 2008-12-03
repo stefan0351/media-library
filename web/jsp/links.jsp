@@ -87,7 +87,7 @@
 				{
 					Link link=(Link)itLinks.next();
 			%>
-			<li><b><%=link.getName()%>
+			<li><b><media:render value="<%=link.getName()%>"/>
 			</b><br>
 				<a class="link" target="_new" href="<%=link.getUrl()%>"><%=link.getUrl()%>
 				</a></li>

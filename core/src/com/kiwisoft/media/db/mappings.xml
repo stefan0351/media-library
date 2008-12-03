@@ -48,7 +48,8 @@
 	<type name="Channel" class="com.kiwisoft.media.Channel" table="channels" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
-		<field name="webAddress" column="web_address"/> 
+		<field name="tvtvKey" column="tvtv_key"/>
+		<field name="webAddress" column="web_address"/>
 		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
@@ -278,7 +279,7 @@
 		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
-		<reference name="actor" column="actor_id" type="Person"/>
+		<reference name="person" column="person_id" type="Person"/>
 	</type>
 	<type name="Season" class="com.kiwisoft.media.show.Season" table="seasons" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
@@ -414,5 +415,9 @@
 	<association table="mediafile_persons">
 		<element name="persons" column="mediafile_id" type="MediaFile"/>
 		<element name="mediaFiles" column="person_id" type="Person"/>
+	</association>
+	<association table="airdate_persons">
+		<element type="Airdate" name="persons" column="airdate_id"/>
+		<element type="Person" name="airdates" column="person_id"/>
 	</association>
 </mappings>

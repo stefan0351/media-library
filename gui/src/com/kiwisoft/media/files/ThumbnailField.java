@@ -9,6 +9,7 @@ import javax.swing.Action;
 
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.media.MediaConfiguration;
 
 /**
  * @author Stefan Stiller
@@ -38,17 +39,10 @@ public class ThumbnailField extends ImageField
 	{
 		if (imageField!=null)
 		{
-			File file=getFile();
-			File imageFile=imageField.getFile();
-			if (imageFile!=null && imageFile.exists())
+			String path=MediaFileUtils.createThumbnail(imageField.getRoot(), imageField.getPath(), width, height, suffix);
+			if (path!=null)
 			{
-				String name=FileUtils.getNameWithoutExtension(imageFile);
-				file=new File(imageFile.getParentFile(), name+"_"+suffix+".jpg");
-				MediaFileUtils.resize(imageFile, width, height, file);
-			}
-			if (file!=null && file.exists())
-			{
-				setFile(file);
+				setFile(MediaConfiguration.PATH_ROOT, path);
 			}
 		}
 	}
@@ -83,12 +77,13 @@ public class ThumbnailField extends ImageField
 					File imageFile=imageField.getFile();
 					if (imageFile!=null && imageFile.exists())
 					{
-						String name=FileUtils.getNameWithoutExtension(imageFile);
-						file=new File(imageFile.getParentFile(), name+"_"+suffix+".jpg");
+						String imagePath=imageField.getPath();
+						String thumbnailPath=MediaFileUtils.getThumbnailPath(imagePath, suffix, "jpg");
+						file=FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath);
 						MediaFileUtils.convert(imageFile, file);
 						if (file.exists())
 						{
-							setFile(file);
+							setFile(MediaConfiguration.PATH_ROOT, FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()));
 						}
 					}
 				}

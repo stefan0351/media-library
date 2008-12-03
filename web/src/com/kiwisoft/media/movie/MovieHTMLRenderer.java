@@ -1,15 +1,11 @@
 package com.kiwisoft.media.movie;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.kiwisoft.web.DefaultHTMLRenderer;
-import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Navigation;
+import com.kiwisoft.web.DefaultHTMLRenderer;
+import com.kiwisoft.web.WebContext;
 
 /**
  * @author Stefan Stiller
@@ -17,14 +13,14 @@ import com.kiwisoft.media.Navigation;
 public class MovieHTMLRenderer extends DefaultHTMLRenderer
 {
 	@Override
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Movie)
 		{
 			Movie movie=(Movie)value;
-			Language language=(Language)context.get(Language.class.getName());
+			Language language=(Language)context.getProperty(Language.class.getName());
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), movie)).append("\">");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(context.getRequest(), movie)).append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(movie.getTitle(language)));
 			buffer.append("</a>");
 			return buffer.toString();

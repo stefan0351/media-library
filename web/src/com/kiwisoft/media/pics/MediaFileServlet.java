@@ -1,9 +1,6 @@
 package com.kiwisoft.media.pics;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +34,7 @@ public class MediaFileServlet extends HttpServlet
 			InputStream inputStream=null;
 			String contentType=null;
 			String type=request.getParameter("type");
-			if ("ImageFile".equals(type) || "Image".equals(type) || "Media".equals(type))
+			if ("ImageFile".equalsIgnoreCase(type) || "Image".equalsIgnoreCase(type) || "Media".equalsIgnoreCase(type))
 			{
 				Long id=new Long(request.getParameter("id"));
 				String rotate=request.getParameter("rotate");
@@ -82,7 +79,6 @@ public class MediaFileServlet extends HttpServlet
 			}
 			if (inputStream!=null)
 			{
-				System.out.println("MediaFileServlet.process: type = "+contentType);
 				response.setContentType(contentType);
 				ServletOutputStream outputStream=response.getOutputStream();
 				IOUtils.copy(inputStream, outputStream);

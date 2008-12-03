@@ -1,7 +1,5 @@
 package com.kiwisoft.web;
 
-import java.util.Map;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -9,7 +7,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class PreformattedHTMLRenderer extends DefaultHTMLRenderer
 {
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof String)
 		{

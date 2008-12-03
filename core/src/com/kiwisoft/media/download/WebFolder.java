@@ -2,33 +2,41 @@ package com.kiwisoft.media.download;
 
 import java.util.*;
 import java.net.URL;
+import java.io.IOException;
 
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.xml.XMLWriter;
+import com.kiwisoft.utils.xml.XMLAdapter;
+import com.kiwisoft.utils.xml.XMLContext;
+import com.kiwisoft.utils.xml.XMLObject;
 
 /**
  * @author Stefan Stiller
  */
-public class WebFolder
+public class WebFolder extends XMLAdapter
 {
-	private WebFolder parent;
-	private String name;
-	private Set<WebDocument> documents;
-	private Map<String, WebFolder> folders;
-
-	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
 	public static final String DOCUMENTS="documents";
 	public static final String SUB_FOLDERS="subFolders";
 
-	public WebFolder(WebFolder parent, String name)
+	private WebFolder parent;
+	private String name;
+	private Set<WebDocument> documents=new HashSet<WebDocument>();
+	private Map<String, WebFolder> folders=new Hashtable<String, WebFolder>();
+
+	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
+
+	public WebFolder(String name)
 	{
-		this.parent=parent;
 		this.name=name;
-		documents=new HashSet<WebDocument>();
-		folders=new HashMap<String, WebFolder>();
 	}
 
+	private void setParent(WebFolder parent)
+	{
+		this.parent=parent;
+	}
 
 	public WebFolder getParent()
 	{
@@ -56,7 +64,8 @@ public class WebFolder
 
 	public WebFolder createSubFolder(String name)
 	{
-		WebFolder folder=new WebFolder(this, name);
+		WebFolder folder=new WebFolder(name);
+		folder.setParent(this);
 		folders.put(name, folder);
 		collectionSupport.fireElementAdded(SUB_FOLDERS, folder);
 		return folder;
@@ -129,5 +138,52 @@ public class WebFolder
 	public void removeListener(CollectionChangeListener listener)
 	{
 		collectionSupport.removeListener(listener);
+	}
+
+	public WebFolder getFolder(String name, boolean create)
+	{
+		WebFolder folder=getFolder(name);
+		if (folder==null && create) folder=createSubFolder(name);
+		return folder;
+	}
+
+	// XML Interface methods 
+
+	public WebFolder(XMLContext context, String aName)
+	{
+		super(context, aName);
+	}
+
+	@Override
+	public void setXMLAttribute(XMLContext context, String name, String value)
+	{
+		if ("name".equalsIgnoreCase(name)) this.name=value;
+	}
+
+	@Override
+	public void addXMLElement(XMLContext context, XMLObject element)
+	{
+		if (element instanceof WebFolder)
+		{
+			WebFolder folder=(WebFolder)element;
+			if (!StringUtils.isEmpty(folder.getName()))
+			{
+				folder.setParent(this);
+				folders.put(folder.getName(), folder);
+			}
+		}
+		else if (element instanceof WebDocument)
+		{
+			documents.add((WebDocument)element);
+		}
+	}
+
+	public void writeXML(XMLWriter writer) throws IOException
+	{
+		writer.startElement("folder");
+		writer.setAttribute("name", name);
+		for (WebFolder folder : folders.values()) folder.writeXML(writer);
+		for (WebDocument document : documents) document.writeXML(writer);
+		writer.closeElement("folder");
 	}
 }

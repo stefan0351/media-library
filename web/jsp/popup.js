@@ -6,3 +6,9 @@ function imagePopup(name, img, width, height)
 	content+=">";
 	return overlib(content,CAPTION,name,FGCOLOR,"white",BGCOLOR,"#005500",CAPCOLOR,"white",VAUTO);
 }
+
+function newWindow(title, src, width, height)
+{
+	var wnd=window.open(src, title, "width="+width+",height="+height+",toolbar=no,menubar=no,scrollbars=yes,statusbar=yes,resizable=yes")
+	wnd.focus();
+}

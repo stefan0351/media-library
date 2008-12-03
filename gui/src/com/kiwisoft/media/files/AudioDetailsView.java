@@ -11,14 +11,12 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 
 /**
@@ -40,11 +38,11 @@ public class AudioDetailsView extends DetailsView
 		return null;
 	}
 
-	public static MediaFile createDialog(Window owner, String name, File file)
+	public static MediaFile createDialog(Window owner, String name, String root, String path)
 	{
 		AudioDetailsView view=new AudioDetailsView(null);
 		view.nameField.setText(name);
-		view.audioField.setFile(file);
+		view.audioField.setFile(root, path);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.audio;
@@ -109,7 +107,7 @@ public class AudioDetailsView extends DetailsView
 		if (audio!=null)
 		{
 			nameField.setText(audio.getName());
-			audioField.setFileName(audio.getFile());
+			audioField.setFile(audio.getRoot(), audio.getFile());
 			descriptionField.setText(audio.getDescription());
 			referencesController.addReferences(audio.getReferences());
 			contentTypeField.setValue(audio.getContentType());
@@ -130,10 +128,12 @@ public class AudioDetailsView extends DetailsView
 		final String name=nameField.getText();
 		if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name is missing!", nameField);
 		File file=audioField.getFile();
-		if (file==null) throw new InvalidDataException("No audio is specified!", audioField);
 		filesToBeDeleted.remove(file);
+		if (file==null) throw new InvalidDataException("No audio is specified!", audioField);
 		if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", audioField);
-		final String videoPath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
+		final String root=audioField.getRoot();
+		if (root==null) throw new InvalidDataException("File is not located in a configured directory.", audioField);
+		final String path=audioField.getPath();
 		final Collection<IDObject> references=referencesController.getReferences();
 
 		try
@@ -142,11 +142,12 @@ public class AudioDetailsView extends DetailsView
 			{
 				public void run() throws Exception
 				{
-					if (audio==null) audio=MediaFileManager.getInstance().createAudio(MediaConfiguration.PATH_ROOT);
+					if (audio==null) audio=MediaFileManager.getInstance().createAudio(root);
+					else audio.setRoot(root);
 					audio.setName(name);
 					audio.setContentType(contentTypeField.getValue());
 					audio.setDescription(descriptionField.getText());
-					audio.setFile(videoPath);
+					audio.setFile(path);
 					audio.setDuration(audioField.getDuration());
 					audio.setReferences(references);
 				}

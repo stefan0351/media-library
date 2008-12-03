@@ -16,7 +16,7 @@ public class SearchPattern extends IDObject
 {
 	public static final String SHOW="show";
 	public static final String MOVIE="movie";
-	public static final String ACTOR="actor";
+	public static final String PERSON="person";
 	public static final String TYPE="type";
 
 	public static final int TVTV=2;
@@ -38,7 +38,7 @@ public class SearchPattern extends IDObject
 
 	public SearchPattern(Person person, int type)
 	{
-		setActor(person);
+		setPerson(person);
 		setType(type);
 	}
 
@@ -95,21 +95,21 @@ public class SearchPattern extends IDObject
 		setReference(MOVIE, value);
 	}
 
-	public Person getActor()
+	public Person getPerson()
 	{
-		return (Person)getReference(ACTOR);
+		return (Person)getReference(PERSON);
 	}
 
-	public void setActor(Person value)
+	public void setPerson(Person value)
 	{
-		setReference(ACTOR, value);
+		setReference(PERSON, value);
 	}
 
 	public IDObject getReference()
 	{
 		IDObject reference=getShow();
 		if (reference==null) reference=getMovie();
-		if (reference==null) reference=getActor();
+		if (reference==null) reference=getPerson();
 		return reference;
 	}
 }

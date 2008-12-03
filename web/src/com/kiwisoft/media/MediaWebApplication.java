@@ -33,7 +33,6 @@ import com.kiwisoft.swing.icons.Icons;
 
 /**
  * @author Stefan Stiller
- * @todo Integrate media files
  */
 public class MediaWebApplication extends MediaApplication
 {

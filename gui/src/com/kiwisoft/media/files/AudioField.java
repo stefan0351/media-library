@@ -20,6 +20,7 @@ import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
@@ -34,6 +35,8 @@ class AudioField extends JPanel
 	private JLabel sizeField;
 	private JLabel audioField;
 	private long duration;
+	private String root;
+	private String path;
 
 	public AudioField(String name, Action... actions)
 	{
@@ -129,8 +132,17 @@ class AudioField extends JPanel
 			if (fileChooser.showOpenDialog(AudioField.this)==JFileChooser.APPROVE_OPTION)
 			{
 				File file=fileChooser.getSelectedFile();
-				setFile(file);
 				MediaConfiguration.setRecentMediaPath(file.getParent());
+				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
+				if (fileInfo.isAudio())
+				{
+					String root=MediaFileUtils.getRootPath(file);
+					if (root!=null)
+					{
+						String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
+						setFile(root, filePath);
+					}
+				}
 			}
 		}
 	}
@@ -177,17 +189,11 @@ class AudioField extends JPanel
 					case JOptionPane.YES_OPTION:
 						filesToBeDeleted.add(file);
 					case JOptionPane.NO_OPTION:
-						setFile(null);
+						setFile(null, null);
 						break;
 				}
 			}
 		}
-	}
-
-	public void setFileName(String fileName)
-	{
-		if (StringUtils.isEmpty(fileName)) setFile(null);
-		else setFile(FileUtils.getFile(MediaConfiguration.getRootPath(), fileName));
 	}
 
 	public File getFile()
@@ -195,10 +201,13 @@ class AudioField extends JPanel
 		return file;
 	}
 
-	public void setFile(File file)
+	public void setFile(String root, String path)
 	{
-		File oldFile=this.file;
-		this.file=file;
+		this.root=root;
+		this.path=path;
+		File oldFile=file;
+		if (!StringUtils.isEmpty(path)) file=FileUtils.getFile(Configuration.getInstance().getString(root), path);
+		else file=null;
 		if (file!=null)
 		{
 			fileNameField.setText(file.getName());
@@ -231,5 +240,15 @@ class AudioField extends JPanel
 	public long getDuration()
 	{
 		return duration;
+	}
+
+	public String getPath()
+	{
+		return path;
+	}
+
+	public String getRoot()
+	{
+		return root;
 	}
 }

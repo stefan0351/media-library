@@ -9,12 +9,16 @@ package com.kiwisoft.media.movie;
 import java.util.Set;
 import java.util.Iterator;
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.dataimport.SearchManager;
+import com.kiwisoft.media.dataimport.SearchPattern;
+import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
@@ -236,7 +240,15 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public boolean isUsed()
 	{
-		return super.isUsed() || MovieManager.getInstance().isMovieUsed(this);
+		if (!super.isUsed())
+		{
+			DBLoader dbLoader=DBLoader.getInstance();
+			if (dbLoader.count(FanDom.class, null, "movie_id=?", getId())>0) return true;
+			if (dbLoader.count(Airdate.class, null, "movie_id=?", getId())>0) return true;
+			if (dbLoader.count(Track.class, null, "movie_id=?", getId())>0) return true;
+			return false;
+		}
+		return true;
 	}
 
 	public String toString()
@@ -445,5 +457,15 @@ public class Movie extends IDObject implements Recordable, Production
 	public boolean hasPoster()
 	{
 		return getReferenceId(POSTER)!=null;
+	}
+
+	@Override
+	public void delete()
+	{
+		for (Credit credit : new HashSet<Credit>(getCredits())) dropCredit(credit);
+		for (CastMember credit : new HashSet<CastMember>(getCastMembers())) dropCastMember(credit);
+		for (SearchPattern pattern : SearchManager.getInstance().getSearchPattern(this)) pattern.delete();
+		for (Summary summary : DBLoader.getInstance().loadSet(Summary.class, null, "movie_id=?", getId())) summary.delete();
+		super.delete();
 	}
 }

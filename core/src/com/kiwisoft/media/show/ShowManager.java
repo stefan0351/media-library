@@ -62,6 +62,14 @@ public class ShowManager
 		return show;
 	}
 
+	public Set<Show> getShowsByName(String name)
+	{
+		DBLoader dbLoader=DBLoader.getInstance();
+		Set<Show> shows=dbLoader.loadSet(Show.class, null, "title=? or german_title=?", name, name);
+		shows.addAll(dbLoader.loadSet(Show.class, "names", "names.type=? and names.ref_id=shows.id and names.name=?", Name.SHOW, name));
+		return shows;
+	}
+
 	public Episode getEpisodeByName(Show show, String name)
 	{
 		DBLoader dbLoader=DBLoader.getInstance();

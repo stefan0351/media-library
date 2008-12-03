@@ -62,16 +62,17 @@ public class MovieManager
 		return movie;
 	}
 
+	public Set<Movie> getMoviesByTitle(String title)
+	{
+		DBLoader dbLoader=DBLoader.getInstance();
+		Set<Movie> movies=dbLoader.loadSet(Movie.class, null, "title=? or german_title=?", title, title);
+		movies.addAll(dbLoader.loadSet(Movie.class, "names", "names.type=? and names.ref_id=movies.id and names.name=?", Name.MOVIE, title));
+		return movies;
+	}
+
 	public Movie getMovieByIMDbKey(String key)
 	{
 		return DBLoader.getInstance().load(Movie.class, null, "imdb_key=?", key);
-	}
-
-	public boolean isMovieUsed(Movie movie)
-	{
-		DBLoader dbLoader=DBLoader.getInstance();
-		return (dbLoader.count(Movie.class, null, "movie_id=?", movie.getId())>0)
-			   || (dbLoader.count(Airdate.class, null, "movie_id=?", movie.getId())>0);
 	}
 
 	public Movie createMovie(Show show)

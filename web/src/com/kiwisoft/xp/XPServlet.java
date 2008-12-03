@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.media.MediaWebApplication;
 
 /**
  * @author Stefan Stiller

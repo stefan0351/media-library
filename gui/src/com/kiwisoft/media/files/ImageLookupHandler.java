@@ -2,13 +2,15 @@ package com.kiwisoft.media.files;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.kiwisoft.swing.lookup.LookupHandler;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
@@ -39,8 +41,14 @@ public class ImageLookupHandler implements LookupHandler<MediaFile>
 		{
 			File file=fileChooser.getSelectedFile();
 			MediaConfiguration.setRecentMediaPath(file.getParent());
-			MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
-			if (fileInfo.isImage()) return ImageDetailsView.createDialog(GuiUtils.getWindow(lookupField), getDefaultName(), file);
+			String root=MediaFileUtils.getRootPath(file);
+			if (root!=null)
+			{
+				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
+				String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
+				if (fileInfo.isImage()) return ImageDetailsView.createDialog(GuiUtils.getWindow(lookupField), getDefaultName(), root, filePath);
+			}
+			else JOptionPane.showMessageDialog(lookupField, "File is not located in a configured directory.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return null;
 	}

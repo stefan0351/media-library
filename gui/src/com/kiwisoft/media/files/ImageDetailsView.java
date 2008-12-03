@@ -5,24 +5,25 @@ import static java.awt.GridBagConstraints.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
-import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
-import java.util.Collection;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 
-import com.kiwisoft.utils.*;
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
+import com.kiwisoft.app.DetailsView;
+import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.swing.*;
+import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.swing.lookup.LookupField;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -43,11 +44,11 @@ public class ImageDetailsView extends DetailsView
 		return null;
 	}
 
-	public static MediaFile createDialog(Window owner, String name, File file)
+	public static MediaFile createDialog(Window owner, String name, String root, String path)
 	{
 		ImageDetailsView view=new ImageDetailsView(null);
 		view.nameField.setText(name);
-		view.imageField.setFile(file);
+		view.imageField.setFile(root, path);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.image;
@@ -78,7 +79,8 @@ public class ImageDetailsView extends DetailsView
 		nameField=new JTextField(40);
 		imageField=new ImageField("Original", new Dimension(250, 250));
 		contentTypeField=new LookupField<ContentType>(new ContentTypeLookup(MediaType.IMAGE));
-		thumbnailField=new ThumbnailField("Thumbnail", new Dimension(160, 120), MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, "thb", imageField);
+		thumbnailField=
+			new ThumbnailField("Thumbnail", new Dimension(160, 120), MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, "thb", imageField);
 		thumbnail50x50Field=new ThumbnailField("50x50", new Dimension(50, 50), 50, 50, "mini", imageField);
 		thumbnailSidebarField=new ThumbnailField("SideBar", new Dimension(170, 170), 170, -1, "sb", imageField);
 		descriptionField=new JTextPane();
@@ -98,7 +100,8 @@ public class ImageDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Description:"),
 			new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(descriptionPane, new GridBagConstraints(1, row, 3, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(descriptionPane,
+			new GridBagConstraints(1, row, 3, 1, 1.0, 1.0, GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Images:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 		add(imageField, new GridBagConstraints(1, row, 1, 2, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
@@ -123,21 +126,27 @@ public class ImageDetailsView extends DetailsView
 					{
 						thumbnails=MediaFileUtils.getThumbnails(file);
 						ImageFileInfo imageData=thumbnails.get(MediaFile.THUMBNAIL);
-						if (imageData!=null) thumbnailField.setFile(imageData.getFile());
+						if (imageData!=null) thumbnailField.setFile(MediaConfiguration.PATH_ROOT,
+																	FileUtils.getRelativePath(MediaConfiguration.getRootPath(),
+																							  imageData.getFile().getAbsolutePath()));
 					}
 					thumbnail=thumbnail50x50Field.getFile();
 					if (thumbnail==null || !thumbnail.exists())
 					{
 						if (thumbnails==null) thumbnails=MediaFileUtils.getThumbnails(file);
 						ImageFileInfo imageData=thumbnails.get(MediaFile.THUMBNAIL_50x50);
-						if (imageData!=null) thumbnail50x50Field.setFile(imageData.getFile());
+						if (imageData!=null) thumbnail50x50Field.setFile(MediaConfiguration.PATH_ROOT,
+																		 FileUtils.getRelativePath(MediaConfiguration.getRootPath(),
+																								   imageData.getFile().getAbsolutePath()));
 					}
 					thumbnail=thumbnailSidebarField.getFile();
 					if (thumbnail==null || !thumbnail.exists())
 					{
 						if (thumbnails==null) thumbnails=MediaFileUtils.getThumbnails(file);
 						ImageFileInfo imageData=thumbnails.get(MediaFile.THUMBNAIL_SIDEBAR);
-						if (imageData!=null) thumbnailSidebarField.setFile(imageData.getFile());
+						if (imageData!=null) thumbnailSidebarField.setFile(MediaConfiguration.PATH_ROOT,
+																		   FileUtils.getRelativePath(MediaConfiguration.getRootPath(),
+																									 imageData.getFile().getAbsolutePath()));
 					}
 				}
 			}
@@ -183,12 +192,14 @@ public class ImageDetailsView extends DetailsView
 			if (file==null) throw new InvalidDataException("No image is specified!", imageField);
 			filesToBeDeleted.remove(file);
 			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
-			final String imagePath=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
-			final String thumbnailPath=getThumbnailPath(thumbnailField);
+			final String imageRoot=imageField.getRoot();
+			if (imageRoot==null) throw new InvalidDataException("File is not located in a configured directory.", imageField);
+			final String imagePath=imageField.getPath();
+			thumbnailField.assertIsRoot();
+			thumbnail50x50Field.assertIsRoot();
+			thumbnailSidebarField.assertIsRoot();
 			filesToBeDeleted.remove(thumbnailField.getFile());
-			final String thumbnail50x50Path=getThumbnailPath(thumbnail50x50Field);
 			filesToBeDeleted.remove(thumbnail50x50Field.getFile());
-			final String thumbnailSidebarPath=getThumbnailPath(thumbnailSidebarField);
 			filesToBeDeleted.remove(thumbnailSidebarField.getFile());
 			final Collection<IDObject> references=referencesController.getReferences();
 
@@ -198,19 +209,20 @@ public class ImageDetailsView extends DetailsView
 				{
 					public void run() throws Exception
 					{
-						if (image==null) image=MediaFileManager.getInstance().createImage(MediaConfiguration.PATH_ROOT);
+						if (image==null) image=MediaFileManager.getInstance().createImage(imageField.getRoot());
+						else image.setRoot(imageField.getRoot());
 						image.setName(name);
 						image.setContentType(contentTypeField.getValue());
 						image.setDescription(descriptionField.getText());
 						image.setFile(imagePath);
 						image.setWidth(imageField.getImageWidth());
 						image.setHeight(imageField.getImageHeight());
-						image.setThumbnail(MediaConfiguration.PATH_ROOT, thumbnailPath,
-												  thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
-						image.setThumbnail50x50(MediaConfiguration.PATH_ROOT, thumbnail50x50Path,
-												  thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
-						image.setThumbnailSidebar(MediaConfiguration.PATH_ROOT, thumbnailSidebarPath,
-													thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
+						image.setThumbnail(thumbnailField.getRoot(), thumbnailField.getPath(),
+										   thumbnailField.getImageWidth(), thumbnailField.getImageHeight());
+						image.setThumbnail50x50(thumbnail50x50Field.getRoot(), thumbnail50x50Field.getPath(),
+												thumbnail50x50Field.getImageWidth(), thumbnail50x50Field.getImageHeight());
+						image.setThumbnailSidebar(thumbnailSidebarField.getRoot(), thumbnailSidebarField.getPath(),
+												  thumbnailSidebarField.getImageWidth(), thumbnailSidebarField.getImageHeight());
 						image.setReferences(references);
 					}
 
@@ -245,18 +257,6 @@ public class ImageDetailsView extends DetailsView
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		return false;
-	}
-
-	private String getThumbnailPath(ImageField imageField) throws InvalidDataException, IOException
-	{
-		File file=imageField.getFile();
-		String path=null;
-		if (file!=null)
-		{
-			if (!file.exists()) throw new InvalidDataException("File '"+file.getAbsolutePath()+"' doesn't exist!", imageField);
-			path=FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath());
-		}
-		return path;
 	}
 
 	private class FrameTitleUpdater extends DocumentAdapter

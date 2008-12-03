@@ -73,8 +73,6 @@ public class ConfigurationView extends ViewPanel
 		super.initializeData();
 		SortableTableModel<String> tableModel=tableController.getModel();
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_ROOT, String.class, "ExistingDirectory", true));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_PHOTOS_THUMBNAILS, String.class, "ExistingDirectory", true));
-		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_BOOKS_COVERS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_FANFICS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_IMAGE_EDITOR, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_VLC_MEDIA_PLAYER, String.class, "ExistingFile", false));
@@ -83,6 +81,7 @@ public class ConfigurationView extends ViewPanel
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_DOWNLOADS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_CDDBIDGEN_EXE, String.class, "ExistingFile", false));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_PHOTOS, String.class, "ExistingDirectory", true));
+		tableModel.addRow(new ConfigRow(MediaConfiguration.PATH_VIDEOS, String.class, "ExistingDirectory", true));
 		tableModel.addRow(new ConfigRow(MediaConfiguration.URL_CDDB, String.class, "URL", false));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_URL, String.class, true));
 		tableModel.addRow(new ConfigRow(DatabaseConfiguration.DB_USER, String.class, true));

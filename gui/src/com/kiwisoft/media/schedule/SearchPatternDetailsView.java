@@ -166,7 +166,7 @@ public class SearchPatternDetailsView extends DetailsView
 				}
 				pattern.setMovie(movie);
 				pattern.setShow(show);
-				pattern.setActor(person);
+				pattern.setPerson(person);
 				pattern.setType(SearchPattern.TVTV);
 				pattern.setPattern(patternString);
 			}

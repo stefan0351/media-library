@@ -1,14 +1,11 @@
 package com.kiwisoft.media.medium;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.media.Navigation;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.web.DefaultHTMLRenderer;
+import com.kiwisoft.web.WebContext;
 
 /**
  * @author Stefan Stiller
@@ -26,13 +23,13 @@ public class MediumHTMLRenderer extends DefaultHTMLRenderer
 	}
 
 	@Override
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Medium)
 		{
 			Medium video=(Medium)value;
 			StringBuilder buffer=new StringBuilder();
-			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink((HttpServletRequest)context.get("request"), video)).append("\">");
+			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(context.getRequest(), video)).append("\">");
 			String key=video.getFullKey();
 			if (FULL.equals(variant))
 			{

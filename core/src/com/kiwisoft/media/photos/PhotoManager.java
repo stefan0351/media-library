@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.awt.Dimension;
 
 import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.MediaConfiguration;
@@ -70,13 +71,10 @@ public class PhotoManager implements CollectionChangeSource
 
 	public ImageFileInfo createThumbnail(File file, int rotation)
 	{
-		NumberFormat numberFormat=new DecimalFormat("000000");
-		File thumbnailFile;
-		do
-		{
-			thumbnailFile=new File(MediaConfiguration.getPhotoThumbnailPath(), numberFormat.format(MediaConfiguration.nextThumbnailId())+".jpg");
-		}
-		while (thumbnailFile.exists());
+		String photoPath=FileUtils.getRelativePath(MediaConfiguration.getPhotosPath(), file.getAbsolutePath());
+		String thumbnailPath=MediaFileUtils.getThumbnailPath(photoPath, "thb", "jpg");
+		File thumbnailFile=FileUtils.getFile(MediaConfiguration.getRootPath(), "photos", "thumbnails", thumbnailPath);
+		thumbnailFile.getParentFile().mkdirs();
 		MediaFileUtils.rotateAndResize(file, rotation, MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, thumbnailFile);
 		Dimension size=MediaFileUtils.getImageSize(thumbnailFile);
 		if (size!=null) return new ImageFileInfo(thumbnailFile, size);

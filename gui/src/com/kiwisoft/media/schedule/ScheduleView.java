@@ -19,10 +19,11 @@ import com.kiwisoft.app.ApplicationListenerSupport;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.DateRange;
 import com.kiwisoft.media.AirdateManager;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -32,6 +33,7 @@ import com.kiwisoft.swing.lookup.TimeField;
 public class ScheduleView extends ViewPanel
 {
 	private Show show;
+	private Person person;
 	private DateRange range;
 	private Date startDate;
 	private Date endDate;
@@ -46,26 +48,45 @@ public class ScheduleView extends ViewPanel
 
 	public ScheduleView()
 	{
-		this(null, null, null, null);
+		this(null, null, null);
 	}
 
 	public ScheduleView(Show show)
 	{
-		this(show, null, null, null);
+		this(null, null, null);
+		setShow(show);
 	}
 
-	public ScheduleView(Show show, DateRange range, Date startDate, Date endDate)
+	public ScheduleView(Person person)
 	{
-		this.show=show;
+		this(null, null, null);
+		setPerson(person);
+	}
+
+	private void setPerson(Person person)
+	{
+		this.person=person;
+		setTitle("TV Schedule for "+person.getName());
+		filter=new PersonFilter(person);
+	}
+
+	public ScheduleView(DateRange range, Date startDate, Date endDate)
+	{
 		this.range=range;
 		this.startDate=startDate;
 		this.endDate=endDate;
 		if (show!=null)
 		{
 			setTitle("TV Schedule for "+show.getTitle());
-			filter=new ShowFilter(show);
 		}
 		else setTitle("TV Schedule");
+	}
+
+	private void setShow(Show show)
+	{
+		setTitle("TV Schedule for "+show.getTitle());
+		this.show=show;
+		filter=new ShowFilter(show);
 	}
 
 	public JComponent createContentPanel(final ApplicationFrame frame)
@@ -216,8 +237,8 @@ public class ScheduleView extends ViewPanel
 			Date startDate=DateUtils.merge(startDay, startTime);
 			Date endDate=DateUtils.merge(endDay, endTime);
 			Set<Airdate> dates;
-			if (show!=null)
-				dates=DBLoader.getInstance().loadSet(Airdate.class, null, "show_id=? and viewdate between ? and ?", show.getId(), startDate, endDate);
+			if (show!=null) dates=AirdateManager.getInstance().getAirdates(show, startDate, endDate);
+			else if (person!=null) dates=AirdateManager.getInstance().getAirdates(person, startDate, endDate);
 			else dates=AirdateManager.getInstance().getAirdates(startDate, endDate);
 			SortableTableModel<Airdate> tableModel=tableController.getModel();
 			tableModel.clear();
@@ -331,6 +352,22 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
+	private static class PersonFilter implements Filter<Airdate>
+	{
+		private Person person;
+
+		public PersonFilter(Person person)
+		{
+			this.person=person;
+		}
+
+		public boolean filter(Airdate airdate)
+		{
+			if (airdate.getPersons().contains(person)) return true;
+			return false;
+		}
+	}
+
 	public boolean isBookmarkable()
 	{
 		return true;
@@ -340,6 +377,7 @@ public class ScheduleView extends ViewPanel
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ScheduleView.class);
 		if (show!=null) bookmark.setParameter("show", String.valueOf(show.getId()));
+		if (person!=null) bookmark.setParameter("person", String.valueOf(person.getId()));
 		DateRange range=(DateRange)dateRangeField.getSelectedItem();
 		if (range!=null) bookmark.setParameter("range", String.valueOf(range.getId()));
 		if (range==DateRange.CUSTOM)
@@ -367,6 +405,9 @@ public class ScheduleView extends ViewPanel
 		String showId=bookmark.getParameter("show");
 		Show show=null;
 		if (showId!=null) show=ShowManager.getInstance().getShow(Long.valueOf(showId));
+		String personId=bookmark.getParameter("person");
+		Person person=null;
+		if (personId!=null) person=PersonManager.getInstance().getPerson(Long.valueOf(personId));
 		String rangeId=bookmark.getParameter("range");
 		DateRange range=null;
 		if (rangeId!=null) range=DateRange.get(Long.valueOf(rangeId));
@@ -374,7 +415,10 @@ public class ScheduleView extends ViewPanel
 		Date startDate=startDateString!=null ? new Date(Long.valueOf(startDateString)) : null;
 		String endDateString=bookmark.getParameter("endDate");
 		Date endDate=endDateString!=null ? new Date(Long.valueOf(endDateString)) : null;
-		frame.setCurrentView(new ScheduleView(show, range, startDate, endDate));
+		ScheduleView view=new ScheduleView(range, startDate, endDate);
+		if (show!=null) view.setShow(show);
+		if (person!=null) view.setPerson(person);
+		frame.setCurrentView(view);
 	}
 
 }

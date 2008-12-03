@@ -12,18 +12,22 @@ import javax.swing.border.EmptyBorder;
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.Utils;
+import com.kiwisoft.cfg.Configuration;
 
 /**
  * @author Stefan Stiller
 */
 class ImageField extends JPanel
 {
+	private String root;
+	private String path;
 	private File file;
 	private int width;
 	private int height;
@@ -85,6 +89,17 @@ class ImageField extends JPanel
 		return new Action[]{new EditAction()};
 	}
 
+	public File getFile()
+	{
+		return file;
+	}
+
+	public void assertIsRoot() throws InvalidDataException
+	{
+		if (!StringUtils.isEmpty(path) && !MediaConfiguration.PATH_ROOT.equals(root))
+			throw new InvalidDataException("Thumbnail must always be in the configured root directory.", this);
+	}
+
 	private class OpenFileAction extends AbstractAction
 	{
 		public OpenFileAction()
@@ -105,8 +120,17 @@ class ImageField extends JPanel
 			if (fileChooser.showOpenDialog(ImageField.this)==JFileChooser.APPROVE_OPTION)
 			{
 				File file=fileChooser.getSelectedFile();
-				setFile(file);
 				MediaConfiguration.setRecentMediaPath(file.getParent());
+				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
+				if (fileInfo.isImage())
+				{
+					String root=MediaFileUtils.getRootPath(file);
+					if (root!=null)
+					{
+						String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
+						setFile(root, filePath);
+					}
+				}
 			}
 		}
 	}
@@ -130,7 +154,7 @@ class ImageField extends JPanel
 					case JOptionPane.YES_OPTION:
 						filesToBeDeleted.add(file);
 					case JOptionPane.NO_OPTION:
-						setFile(null);
+						setFile(null, null);
 						break;
 				}
 			}
@@ -139,14 +163,8 @@ class ImageField extends JPanel
 
 	public void setImageFile(ImageFile imageFile)
 	{
-		if (imageFile!=null) setFileName(imageFile.getFile());
-		else setFileName(null);
-	}
-
-	public void setFileName(String fileName)
-	{
-		if (StringUtils.isEmpty(fileName)) setFile(null);
-		else setFile(FileUtils.getFile(MediaConfiguration.getRootPath(), fileName));
+		if (imageFile!=null) setFile(imageFile.getRoot(), imageFile.getFile());
+		else setFile(null, null);
 	}
 
 	public Set<File> getFilesToBeDeleted()
@@ -154,15 +172,23 @@ class ImageField extends JPanel
 		return filesToBeDeleted;
 	}
 
-	public File getFile()
+	public String getRoot()
 	{
-		return file;
+		return root;
 	}
 
-	public void setFile(File file)
+	public String getPath()
 	{
-		File oldFile=this.file;
-		this.file=file;
+		return path;
+	}
+
+	public void setFile(String root, String path)
+	{
+		this.root=root;
+		this.path=path;
+		File oldFile=file;
+		if (!StringUtils.isEmpty(path)) file=FileUtils.getFile(Configuration.getInstance().getString(root), path);
+		else file=null;
 		if (file!=null)
 		{
 			StringBuilder toolTip=new StringBuilder("<html><b>File:</b> "+file.getAbsolutePath()+"<br>");
@@ -211,7 +237,7 @@ class ImageField extends JPanel
 			try
 			{
 				Utils.run("\""+MediaConfiguration.getImageEditorPath()+"\" \""+this.file.getAbsolutePath()+"\"");
-				setFile(this.file);
+				setFile(root, path);
 			}
 			catch (Exception e1)
 			{

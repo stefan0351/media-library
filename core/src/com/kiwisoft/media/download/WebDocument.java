@@ -12,173 +12,46 @@ import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeListener;
 
-public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
+public class WebDocument extends XMLAdapter implements PropertyChangeSource
 {
-	private int id;
+	public final static State NEW=new NewState();
+	public final static State DOWNLOADED=new DownloadedState();
+	public final static State PARSED=new ParsedState();
+	public final static State COMPLETED=new CompletedState();
+	public final static State FAILED=new FailedState();
+
+	public static final String STATE="state";
+	public static final String ELEMENTS="elements";
+	public static final String LINKS="links";
+	public static final String CONTENT_TYPE="contentType";
+
 	private URL url;
 	private File file;
-
-	private List<WebDocument> containedDocuments=new ArrayList<WebDocument>();
-	private List<WebDocument> linkedDocuments=new ArrayList<WebDocument>();
-
 	private String contentType;
 	private long expiration=-1;
 	private long lastModified=-1;
 	private long size=-1;
 	private State state=NEW;
-
 	private String error;
-
-	private final static State NEW=new NewState();
-	public final static State DOWNLOADING=new DownloadingState();
-	private final static State DOWNLOADED=new DownloadedState();
-	public final static State PARSING=new ParsingState();
-	private final static State PARSED=new ParsedState();
-	private final static State COMPLETED=new CompletedState();
-	private final static State FAILED=new FailedState();
+	private GrabberProject project;
+	private String fileName;
+	private List<URL> elements=new ArrayList<URL>();
+	private List<URL> links=new ArrayList<URL>();
+	private boolean queued;
 
 	private PropertyChangeSupport changeSupport=new PropertyChangeSupport(this);
 	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
 
-	public static final String STATE="state";
-	public static final String CONTAINED_DOCUMENTS="containedDocuments";
-	public static final String LINKED_DOCUMENTS="linkedDocuments";
-
-	private DownloadProject project;
-
-	public WebDocument(DownloadProject project, URL aURL)
+	public WebDocument(GrabberProject project, String fileName, URL aURL)
 	{
 		this.project=project;
-		id=project.getId();
+		this.fileName=fileName;
 		url=aURL;
-	}
-
-	@SuppressWarnings({"UnusedDeclaration"})
-	public WebDocument(XMLContext context, String name)
-	{
-	}
-
-	public void setXMLAttribute(XMLContext context, String name, String value)
-	{
-		if ("url".equalsIgnoreCase(name))
-		{
-			try
-			{
-				url=new URL(value);
-			}
-			catch (MalformedURLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else if ("id".equalsIgnoreCase(name))
-		{
-			try
-			{
-				id=Integer.parseInt(value);
-				project.initId(id);
-			}
-			catch (NumberFormatException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else if ("file".equalsIgnoreCase(name))
-		{
-			file=new File(Configuration.getInstance().getString("path.downloads"), value);
-		}
-		else if ("state".equalsIgnoreCase(name))
-		{
-			if (value.equals(NEW.toString())) state=NEW;
-			else if (value.equals(DOWNLOADED.toString())) state=DOWNLOADED;
-			else if (value.equals(DOWNLOADING.toString())) state=DOWNLOADING;
-			else if (value.equals(PARSED.toString())) state=PARSED;
-			else if (value.equals(PARSING.toString())) state=PARSING;
-			else if (value.equals(COMPLETED.toString())) state=COMPLETED;
-			else if (value.equals(FAILED.toString())) state=FAILED;
-		}
-	}
-
-	public void setXMLReference(XMLContext context, String name, Object value)
-	{
-		if ("links".equalsIgnoreCase(name)) addLinkedDocument((WebDocument)value);
-		else if ("objects".equalsIgnoreCase(name)) addContainedDocument((WebDocument)value);
-	}
-
-	public void setXMLContent(XMLContext context, String value)
-	{
-	}
-
-	public void addXMLElement(XMLContext context, XMLObject element)
-	{
-	}
-
-	public void writeXML(XMLWriter writer) throws IOException
-	{
-		writer.startElement("document");
-		writer.setAttribute("id", Integer.toString(id));
-		writer.setAttribute("url", getURL().toString());
-		if (file!=null)
-		{
-			try
-			{
-				String relativePath=FileUtils.getRelativePath(Configuration.getInstance().getString("path.downloads"), file.getAbsolutePath());
-				writer.setAttribute("file", relativePath);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		writer.setAttribute("state", state.toString());
-		Iterator it=getLinkedDocuments().iterator();
-		if (it.hasNext())
-		{
-			StringBuilder buffer=new StringBuilder();
-			while (it.hasNext())
-			{
-				WebDocument document=(WebDocument)it.next();
-				buffer.append(document.getId());
-				if (it.hasNext()) buffer.append(",");
-			}
-			writer.setAttribute("links", buffer.toString());
-		}
-		it=getContainedDocuments().iterator();
-		if (it.hasNext())
-		{
-			StringBuilder buffer=new StringBuilder();
-			while (it.hasNext())
-			{
-				WebDocument document=(WebDocument)it.next();
-				buffer.append(document.getId());
-				if (it.hasNext()) buffer.append(",");
-			}
-			writer.setAttribute("objects", buffer.toString());
-		}
-		writer.closeElement("document");
-	}
-
-	public int getId()
-	{
-		return id;
 	}
 
 	public URL getURL()
 	{
 		return url;
-	}
-
-	public void setURL(URL newURL)
-	{
-		URL oldURL=url;
-		url=newURL;
-		project.changeDocumentURL(this, oldURL, newURL);
-	}
-
-	public String[] getPathElements()
-	{
-		String path=url.getHost()+url.getPath();
-		return path.split("/");
 	}
 
 	public void setFile(File file)
@@ -189,6 +62,11 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 	public File getFile()
 	{
 		return file;
+	}
+
+	public String getFileName()
+	{
+		return fileName;
 	}
 
 	public State getState()
@@ -206,6 +84,16 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 	public boolean isEditable()
 	{
 		return getState().isEditable();
+	}
+
+	public boolean isQueued()
+	{
+		return queued;
+	}
+
+	public void setQueued(boolean queued)
+	{
+		this.queued=queued;
 	}
 
 	public void enqueueForDownload()
@@ -262,7 +150,9 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 	public void setContentType(String value)
 	{
+		String oldContentType=this.contentType;
 		contentType=value;
+		changeSupport.firePropertyChange(CONTENT_TYPE, oldContentType, contentType);
 	}
 
 	public void setExpiration(long value)
@@ -285,7 +175,7 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 		return lastModified;
 	}
 
-	public boolean needsParsing()
+	public boolean isParsable()
 	{
 		return ParserFactory.isParsable(contentType);
 	}
@@ -321,36 +211,35 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 		WebUtils.openURL(url);
 	}
 
-	public void addContainedDocument(WebDocument document)
+	public void addElement(URL url)
 	{
-		if (!containedDocuments.contains(document))
+		if (!elements.contains(url))
 		{
-			containedDocuments.add(document);
-			collectionSupport.fireElementAdded(CONTAINED_DOCUMENTS, document);
+			elements.add(url);
+			collectionSupport.fireElementAdded(ELEMENTS, url);
 		}
 	}
 
-	public List<WebDocument> getContainedDocuments()
+	public List<URL> getElements()
 	{
-		return Collections.unmodifiableList(containedDocuments);
+		return Collections.unmodifiableList(elements);
 	}
 
-	public void addLinkedDocument(WebDocument document)
+	public void addLink(URL url)
 	{
-		if (!linkedDocuments.contains(document))
+		if (!links.contains(url))
 		{
-			linkedDocuments.add(document);
-			collectionSupport.fireElementAdded(LINKED_DOCUMENTS, document);
-			project.addRootDocument(document);
+			links.add(url);
+			collectionSupport.fireElementAdded(LINKS, url);
 		}
 	}
 
-	public List getLinkedDocuments()
+	public List<URL> getLinks()
 	{
-		return Collections.unmodifiableList(linkedDocuments);
+		return Collections.unmodifiableList(links);
 	}
 
-	public DownloadProject getProject()
+	public GrabberProject getProject()
 	{
 		return project;
 	}
@@ -414,8 +303,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForDownload(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(DOWNLOADING, document);
-			document.setState(DOWNLOADING);
+			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
+			document.setQueued(true);
 		}
 
 		public String toString()
@@ -429,122 +318,6 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 		}
 	}
 
-	private static File buildFile(URL url) throws UnsupportedEncodingException
-	{
-		String host=url.getHost();
-		String path=url.getPath();
-		String query=url.getQuery();
-		if ("".equals(path)) path="/index.html";
-		if (path.endsWith("/")) path=path+"index.html";
-		if (query!=null)
-		{
-			int indexName=path.lastIndexOf("/");
-			int indexExt=path.lastIndexOf(".");
-			if (indexExt>0 && indexExt>indexName)
-			{
-				path=path.substring(0, indexExt)+"_"+URLEncoder.encode(query, "UTF-8")+path.substring(indexExt, path.length());
-				path=path.replace('%', '_');
-			}
-		}
-		return new File(Configuration.getInstance().getString("path.downloads"), host+File.separator+path);
-	}
-
-	public void checkCache()
-	{
-		try
-		{
-			File oldFile=buildFile(url);
-			if (oldFile.exists() && oldFile.isFile())
-			{
-				file=oldFile;
-				String fileName=file.getName().toLowerCase();
-				if (fileName.endsWith(".html") || fileName.endsWith(".htm")) contentType="text/html";
-				else if (fileName.endsWith(".txt")) contentType="text";
-				else contentType="unknown";
-				state=DOWNLOADED;
-				size=file.length();
-				enqueueForParsing();
-			}
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private static class DownloadingState extends State
-	{
-		public void download(WebDocument document)
-		{
-			try
-			{
-				HttpURLConnection connection=(HttpURLConnection)document.getURL().openConnection();
-				connection.connect();
-				URL url=connection.getURL();
-				document.setURL(url);
-				int responseCode=connection.getResponseCode();
-				if (responseCode<400)
-				{
-					document.setContentType(connection.getContentType());
-					document.setSize(connection.getContentLength());
-					document.setExpiration(connection.getExpiration());
-					document.setLastModified(connection.getLastModified());
-
-					// Build name for local file
-					File file=buildFile(url);
-					document.setFile(file);
-					file.getParentFile().mkdirs();
-
-					// Download document
-//					long time1=System.currentTimeMillis();
-					InputStream is=connection.getInputStream();
-					FileOutputStream fos=new FileOutputStream(file);
-					byte[] buffer=new byte[Configuration.getInstance().getLong("buffer.download", 4096L).intValue()];
-					int bytesRead;
-					while ((bytesRead=is.read(buffer))!=-1)
-					{
-						fos.write(buffer, 0, bytesRead);
-					}
-					if ("text/html".equals(document.getContentType())) fos.write(("<!-- saved form url="+url+"-->").getBytes());
-					fos.flush();
-					fos.close();
-					is.close();
-//					long time2=System.currentTimeMillis();
-//					System.out.println("\tDownload Time: "+(time2-time1));
-					document.setState(DOWNLOADED);
-					document.enqueueForParsing();
-
-					// Close connection
-					connection.disconnect();
-					return;
-				}
-				else
-				{
-					document.setState(FAILED);
-					document.setError("HTTP Error: "+responseCode);
-					connection.disconnect();
-					return;
-				}
-			}
-			catch (Exception e)
-			{
-				document.setState(FAILED);
-				document.setError("Exception: "+e.getClass()+": "+e.getMessage());
-				return;
-			}
-		}
-
-		public String toString()
-		{
-			return "Downloading";
-		}
-
-		public String getIcon()
-		{
-			return "webpage.processing";
-		}
-	}
-
 	private static class DownloadedState extends State
 	{
 		public boolean isDownloadable()
@@ -554,8 +327,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForDownload(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(DOWNLOADING, document);
-			document.setState(DOWNLOADING);
+			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
+			document.setQueued(true);
 		}
 
 		public boolean isDownloaded()
@@ -565,8 +338,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForParsing(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(PARSING, document);
-			document.setState(PARSING);
+			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
+			document.setQueued(true);
 		}
 
 		public String toString()
@@ -580,81 +353,6 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 		}
 	}
 
-	private static class ParsingState extends State
-	{
-		public void parse(WebDocument document)
-		{
-			if (document.needsParsing())
-			{
-				List<URL> containedURLs=new ArrayList<URL>();
-				List<URL> linkedURLs=new ArrayList<URL>();
-				boolean result;
-				Parser parser=ParserFactory.getParser(document.contentType);
-				if (parser!=null)
-				{
-					try
-					{
-						parser.parse(document.file, document.url, containedURLs, linkedURLs);
-						document.setState(COMPLETED);
-						result=true;
-					}
-					catch (Exception e)
-					{
-						document.setState(FAILED);
-						document.setError("Exception: "+e.getClass()+": "+e.getMessage());
-						result=false;
-					}
-				}
-				else
-				{
-					document.setError("No parser found.");
-					document.setState(FAILED);
-					result=false;
-				}
-				if (result)
-				{
-					WebDocument newDocument;
-					DownloadProject project=document.getProject();
-					for (URL containedURL : containedURLs)
-					{
-						newDocument=project.getDocumentForURL(containedURL);
-						if (newDocument==null)
-						{
-							newDocument=new WebDocument(project, containedURL);
-							project.addNewDocument(newDocument);
-							if (newDocument.getState()==NEW) newDocument.enqueueForDownload();
-						}
-						document.addContainedDocument(newDocument);
-					}
-					for (URL linkedURL : linkedURLs)
-					{
-						newDocument=project.getDocumentForURL(linkedURL);
-						if (newDocument==null)
-						{
-							newDocument=new WebDocument(project, linkedURL);
-							project.addNewDocument(newDocument);
-						}
-						document.addLinkedDocument(newDocument);
-					}
-				}
-			}
-			else
-			{
-				document.setState(COMPLETED);
-			}
-		}
-
-		public String toString()
-		{
-			return "Parsing";
-		}
-
-		public String getIcon()
-		{
-			return "webpage.processing";
-		}
-	}
-
 	private static class ParsedState extends State
 	{
 		public boolean isDownloadable()
@@ -664,8 +362,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForDownload(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(DOWNLOADING, document);
-			document.setState(DOWNLOADING);
+			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
+			document.setQueued(true);
 		}
 
 		public boolean isDownloaded()
@@ -675,8 +373,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForParsing(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(PARSING, document);
-			document.setState(PARSING);
+			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
+			document.setQueued(true);
 		}
 
 		public String toString()
@@ -699,8 +397,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForDownload(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(DOWNLOADING, document);
-			document.setState(DOWNLOADING);
+			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
+			document.setQueued(true);
 		}
 
 		public boolean isDownloaded()
@@ -710,8 +408,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForParsing(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(PARSING, document);
-			document.setState(PARSING);
+			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
+			document.setQueued(true);
 		}
 
 		public String toString()
@@ -739,8 +437,8 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 
 		public void enqueueForDownload(WebDocument document)
 		{
-			document.getProject().addDocumentToQueue(DOWNLOADING, document);
-			document.setState(DOWNLOADING);
+			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
+			document.setQueued(true);
 		}
 
 		public String toString()
@@ -782,5 +480,101 @@ public class WebDocument implements XMLObject, XMLWritable, PropertyChangeSource
 	public void removeCollectionListener(CollectionChangeListener listener)
 	{
 		collectionSupport.removeListener(listener);
+	}
+
+	// XML interface methods
+
+	public WebDocument(XMLContext context, String name)
+	{
+		super(context, name);
+		project=(GrabberProject)context.getAttribute("project");
+	}
+
+	public void setXMLAttribute(XMLContext context, String name, String value)
+	{
+		if ("fileName".equalsIgnoreCase(name)) this.fileName=value;
+		else if ("error".equalsIgnoreCase(name)) this.error=value;
+		else if ("file".equalsIgnoreCase(name)) file=new File(Configuration.getInstance().getString("path.downloads"), value);
+		else if ("size".equalsIgnoreCase(name)) size=Long.parseLong(value);
+		else if ("expiration".equalsIgnoreCase(name)) expiration=Long.parseLong(value);
+		else if ("lastModified".equalsIgnoreCase(name)) lastModified=Long.parseLong(value);
+		else if ("url".equalsIgnoreCase(name))
+		{
+			try
+			{
+				url=new URL(value);
+				project.registerDocument(this);
+			}
+			catch (MalformedURLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if ("state".equalsIgnoreCase(name))
+		{
+			if (value.equals(NEW.toString())) state=NEW;
+			else if (value.equals(DOWNLOADED.toString())) state=DOWNLOADED;
+			else if (value.equals(PARSED.toString())) state=PARSED;
+			else if (value.equals(COMPLETED.toString())) state=COMPLETED;
+			else if (value.equals(FAILED.toString())) state=FAILED;
+		}
+	}
+
+	public void addXMLElement(XMLContext context, XMLObject element)
+	{
+		if (element instanceof DefaultXMLObject)
+		{
+			DefaultXMLObject xmlObject=(DefaultXMLObject)element;
+			if ("element".equalsIgnoreCase(xmlObject.getName()))
+			{
+				try
+				{
+					elements.add(new URL(xmlObject.getContent()));
+				}
+				catch (MalformedURLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+			else if ("link".equalsIgnoreCase(xmlObject.getName()))
+			{
+				try
+				{
+					links.add(new URL(xmlObject.getContent()));
+				}
+				catch (MalformedURLException e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void writeXML(XMLWriter writer) throws IOException
+	{
+		writer.startElement("document");
+		writer.setAttribute("fileName", fileName);
+		writer.setAttribute("url", getURL().toString());
+		writer.setAttribute(STATE, state.toString());
+		if (file!=null)
+		{
+			try
+			{
+				String relativePath=FileUtils.getRelativePath(Configuration.getInstance().getString("path.downloads"), file.getAbsolutePath());
+				writer.setAttribute("file", relativePath);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		writer.setAttribute(CONTENT_TYPE, contentType);
+		if (size!=-1) writer.setAttribute("size", size);
+		if (expiration!=-1) writer.setAttribute("expiration", expiration);
+		if (lastModified!=-1) writer.setAttribute("lastModified", lastModified);
+		writer.setAttribute("error", error);
+		for (URL element : elements) writer.addElement("element", element.toString());
+		for (URL link : links) writer.addElement("link", link.toString());
+		writer.closeElement("document");
 	}
 }

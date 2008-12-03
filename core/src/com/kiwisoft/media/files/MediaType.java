@@ -3,12 +3,13 @@ package com.kiwisoft.media.files;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 
 import com.kiwisoft.utils.Identifyable;
 
 public class MediaType implements Identifyable
 {
-	public static final Map<Long, MediaType> map=new HashMap<Long, MediaType>(3);
+	public static final Map<Long, MediaType> map=new LinkedHashMap<Long, MediaType>(3);
 
 	public static final MediaType IMAGE=new MediaType(1L, "Image", "Images");
 	public static final MediaType AUDIO=new MediaType(2L, "Sound", "Sounds");

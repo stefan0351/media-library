@@ -123,7 +123,7 @@ public class Photo extends IDObject implements ChainLink
 
 		ImageFile thumbnail=getThumbnail();
 		setThumbnail(new ImageFile(MediaConfiguration.PATH_ROOT, thumbnailData));
-		if (thumbnail!=null) thumbnail.deletePhysically();
+		if (thumbnail!=null) thumbnail.delete();
 
 		int oldRotation=this.rotation;
 		this.rotation=rotation;

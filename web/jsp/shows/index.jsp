@@ -35,7 +35,6 @@
 		shows.addAll(ShowManager.getInstance().getShowsByLetter(selectedLetter));
 		letterString=String.valueOf(selectedLetter);
 	}
-	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 %>
 
 <html>
@@ -91,7 +90,7 @@
 							out.print(yearString);
 							out.println(")");
 						}
-						if (show.getLanguage()!=german && !StringUtils.isEmpty(show.getGermanTitle()))
+						if (show.getLanguage()!=LanguageManager.GERMAN && !StringUtils.isEmpty(show.getGermanTitle()) && !show.getGermanTitle().equals(show.getTitle()))
 						{
 							out.print("<br>a.k.a. <i>");
 							out.print(StringEscapeUtils.escapeHtml(show.getGermanTitle()));

@@ -1,12 +1,12 @@
 package com.kiwisoft.media;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
+import com.kiwisoft.web.WebContext;
 
 /**
  * @author Stefan Stiller
@@ -25,14 +25,14 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 		this.withText=withText;
 	}
 
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Language)
 		{
 			Language language=(Language)value;
 			String icon=getIcon(language.getSymbol());
 			StringBuilder output=new StringBuilder();
-			if (icon!=null) output.append("<img src=\"").append(context.get("contextPath")).append("/resource?file=").append(icon).append("\"> ");
+			if (icon!=null) output.append("<img src=\"").append(context.getContextPath()).append("/resource?file=").append(icon).append("\"> ");
 			if (withText || icon==null) output.append(StringEscapeUtils.escapeHtml(language.getName()));
 			return output.toString();
 		}

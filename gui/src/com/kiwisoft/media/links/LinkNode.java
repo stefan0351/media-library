@@ -1,10 +1,6 @@
 package com.kiwisoft.media.links;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.kiwisoft.media.Link;
-import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 
 /**
@@ -34,19 +30,5 @@ public class LinkNode extends GenericTreeNode<Link>
 	public String getToolTip()
 	{
 		return getUserObject().getUrl();
-	}
-
-	@Override
-	public List<ContextAction> getContextActions()
-	{
-		List<ContextAction> actions=new ArrayList<ContextAction>(1);
-		actions.add(new OpenLinkAction(null));
-		return actions;
-	}
-
-	@Override
-	public ContextAction getDoubleClickAction()
-	{
-		return new LinkDetailsAction();
 	}
 }

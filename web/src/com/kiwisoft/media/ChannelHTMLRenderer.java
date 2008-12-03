@@ -1,22 +1,20 @@
 package com.kiwisoft.media;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.HTMLRenderer;
 import com.kiwisoft.web.HTMLRendererManager;
-import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.web.WebContext;
 
 /**
  * @author Stefan Stiller
  */
 public class ChannelHTMLRenderer extends DefaultHTMLRenderer
 {
-	public String getContent(Object value, Map<String, Object> context, int rowIndex, int columnIndex)
+	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Channel)
 		{
@@ -31,9 +29,8 @@ public class ChannelHTMLRenderer extends DefaultHTMLRenderer
 			if (logo!=null)
 			{
 				HTMLRenderer pictureRenderer=HTMLRendererManager.getInstance().getRenderer(MediaFile.class);
-				Map<String, Object> pictureContext=new HashMap<String, Object>(context);
-				pictureContext.put("name", channel.getName());
-				output.append(pictureRenderer.getContent(logo, pictureContext, rowIndex, columnIndex));
+				context.setProperty("name", channel.getName());
+				output.append(pictureRenderer.getContent(logo, context, rowIndex, columnIndex));
 			}
 			else
 			{

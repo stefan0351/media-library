@@ -9,8 +9,6 @@ import com.kiwisoft.cfg.Configuration;
  */
 public class MediaConfiguration
 {
-	private static final String THUMBNAIL_ID="thumbnail.id";
-
 	private static final String FANFICS_ENABLED="fanfics.enabled";
 
 	private static final String DOWNLOAD_P7_OFFSET="download.p7.offset";
@@ -20,9 +18,8 @@ public class MediaConfiguration
 	public static final String PATH_MEDIA_RECENT="path.media.recent";
 	public static final String PATH_ROOT="path.root";
 	public static final String PATH_PHOTOS="path.photos";
+	public static final String PATH_VIDEOS="path.videos";
 	public static final String PATH_CDDBIDGEN_EXE="path.cddbidgen.exe";
-	public static final String PATH_PHOTOS_THUMBNAILS="path.photos.thumbnails";
-	public static final String PATH_BOOKS_COVERS="path.books.covers";
 	public static final String PATH_FANFICS="path.fanfics";
 	public static final String PATH_FANFICS_RECENT="path.fanfics.recent";
 	public static final String PATH_EXPORTS_RECENT="path.exports.recent";
@@ -39,27 +36,9 @@ public class MediaConfiguration
 	{
 	}
 
-	public static String getBookCoverPath()
-	{
-		return Configuration.getInstance().getString(PATH_BOOKS_COVERS);
-	}
-
-	public static String getPhotoThumbnailPath()
-	{
-		return Configuration.getInstance().getString(PATH_PHOTOS_THUMBNAILS);
-	}
-
 	public static String getRootPath()
 	{
 		return Configuration.getInstance().getString(PATH_ROOT);
-	}
-
-	public static int nextThumbnailId()
-	{
-		Configuration configuration=Configuration.getInstance();
-		long id=configuration.getLong(THUMBNAIL_ID, 1L);
-		configuration.setLong(THUMBNAIL_ID, id+1);
-		return (int)id;
 	}
 
 	public static String getRecentMediaPath()
@@ -181,6 +160,16 @@ public class MediaConfiguration
 	public static void setPhotosPath(String path)
 	{
 		Configuration.getInstance().setString(PATH_PHOTOS, path);
+	}
+
+	public static String getVideosPath()
+	{
+		return Configuration.getInstance().getString(PATH_VIDEOS);
+	}
+
+	public static void setVideosPath(String path)
+	{
+		Configuration.getInstance().setString(PATH_VIDEOS, path);
 	}
 
 	public static String getCDDBIdGeneratorPath()
