@@ -29,6 +29,7 @@
 				<exclude name="lib/*.version"/>
 				<include name="conf/**"/>
 				<include name="bin/**"/>
+				<exclude name="bin/MediaInfo.parameters"/>
 				<include name="docs/links.txt"/>
 				<include name="tomcat/**"/>
 				<exclude name="tomcat/work/**"/>

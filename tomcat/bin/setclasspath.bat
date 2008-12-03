@@ -4,8 +4,6 @@ rem
 rem $Id: setclasspath.bat,v 1.7 2004/07/26 15:34:31 yoavs Exp $
 rem ---------------------------------------------------------------------------
 
-set JAVA_HOME=c:\java\jdk\6.0
-
 rem Make sure prerequisite environment variables are set
 if not "%JAVA_HOME%" == "" goto gotJavaHome
 echo The JAVA_HOME environment variable is not defined
