@@ -89,7 +89,7 @@ public class IMDbLoaderTest extends TestCase
 		MovieData movieData=loader.load();
 		System.out.println(movieData);
 		assertEquals("Luxo Jr.", movieData.getTitle());
-		assertEquals("Kleine Lampe, Die", movieData.getGermanTitle());
+		assertEquals("Die Kleine Lampe", movieData.getGermanTitle());
 		assertEquals(new Integer(1986), movieData.getYear());
 		assertEquals(new Integer(2), movieData.getRuntime());
 		assertEquals(1, movieData.getLanguages().size());

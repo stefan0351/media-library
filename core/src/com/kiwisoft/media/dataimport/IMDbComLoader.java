@@ -1,15 +1,14 @@
 package com.kiwisoft.media.dataimport;
 
-import java.io.File;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.WordUtils;
 
-import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.media.Country;
 import com.kiwisoft.media.CountryManager;
 import com.kiwisoft.media.Language;
@@ -27,6 +26,7 @@ public class IMDbComLoader
 	private String url;
 	private Pattern nameLinkPattern;
 	private String key;
+	private Map<String, String> connectionProperties;
 
 	public IMDbComLoader(String url, String key)
 	{
@@ -34,33 +34,35 @@ public class IMDbComLoader
 		if (!url.endsWith("/")) url=url+"/";
 		this.url=url;
 		nameLinkPattern=Pattern.compile("/name/(nm[0-9]+)/");
+		connectionProperties=new HashMap<String, String>();
+		connectionProperties.put(WebUtils.USER_AGENT, WebUtils.MOZILLA_5_0);
 	}
 
 	public MovieData load() throws Exception
 	{
-		String page=WebUtils.loadURL(url);
+		String page=WebUtils.loadURL(url, connectionProperties);
 //		System.out.println(page);
 		MovieData movieData=parseMainPage(page);
 		movieData.setImdbKey(key);
 		if (movieData.getCreditsLink()!=null)
 		{
-			page=WebUtils.loadURL(url+movieData.getCreditsLink());
+			page=WebUtils.loadURL(url+movieData.getCreditsLink(), connectionProperties);
 			parseCreditsPage(page, movieData);
 		}
 		if (movieData.getPlotSynopsisLink()!=null)
 		{
-			page=WebUtils.loadURL(url+movieData.getPlotSynopsisLink());
+			page=WebUtils.loadURL(url+movieData.getPlotSynopsisLink(), connectionProperties);
 			parseSynopsisPage(page, movieData);
 		}
 		if (StringUtils.isEmpty(movieData.getSummary()) && movieData.getPlotSummaryLink()!=null)
 		{
-			page=WebUtils.loadURL(url+movieData.getPlotSummaryLink());
+			page=WebUtils.loadURL(url+movieData.getPlotSummaryLink(), connectionProperties);
 			parseSummaryPage(page, movieData);
 		}
 		if (StringUtils.isEmpty(movieData.getSummary())) movieData.setSummary(movieData.getOutline());
 		if (movieData.getReleaseInfoLink()!=null)
 		{
-			page=WebUtils.loadURL(url+movieData.getReleaseInfoLink());
+			page=WebUtils.loadURL(url+movieData.getReleaseInfoLink(), connectionProperties);
 			parseReleaseInfoPage(page, movieData);
 		}
 		return movieData;
