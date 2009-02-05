@@ -1,8 +1,5 @@
 package com.kiwisoft.media.person;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 import javax.swing.JComponent;
@@ -10,7 +7,6 @@ import javax.swing.JTabbedPane;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.show.Production;

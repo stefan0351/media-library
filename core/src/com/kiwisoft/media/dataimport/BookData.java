@@ -1,11 +1,9 @@
 package com.kiwisoft.media.dataimport;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.io.File;
 
 import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
 
 /**
  * @author Stefan Stiller
@@ -13,19 +11,20 @@ import com.kiwisoft.media.LanguageManager;
 public class BookData
 {
 	private String title;
-	private Set<String> authors=new HashSet<String>();
-	private Set<String> translators=new HashSet<String>();
+	private Set<String> authors=new LinkedHashSet<String>();
+	private Set<String> translators=new LinkedHashSet<String>();
 	private String binding;
 	private int pageCount;
 	private String publisher;
 	private int publishedYear;
-	private Language language=LanguageManager.getInstance().getLanguageBySymbol("de");
+	private Language language;
 	private String isbn10;
 	private String isbn13;
 	private String edition;
 	private File imageFile;
+    private String summary;
 
-	public void setTitle(String title)
+    public void setTitle(String title)
 	{
 		this.title=title;
 	}
@@ -38,6 +37,11 @@ public class BookData
 	public void addAuthor(String author)
 	{
 		authors.add(author);
+	}
+
+	public void addAuthors(Collection<String> authors)
+	{
+		authors.addAll(authors);
 	}
 
 	public void addTranslator(String translator)
@@ -81,6 +85,7 @@ public class BookData
 			   "\tisbn-10="+isbn10+"\n"+
 			   "\tisbn-13="+isbn13+"\n"+
 			   "\timage="+(imageFile!=null ? imageFile.getAbsolutePath() : null)+"\n"+
+			   "\tsummary="+summary+"\n"+
 			   "]";
 	}
 
@@ -163,4 +168,14 @@ public class BookData
 	{
 		return imageFile;
 	}
+
+    public void setSummary(String summary)
+    {
+        this.summary=summary;
+    }
+
+    public String getSummary()
+    {
+        return summary;
+    }
 }

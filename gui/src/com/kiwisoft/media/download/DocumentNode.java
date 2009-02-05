@@ -5,7 +5,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;
-import com.kiwisoft.swing.actions.ContextAction;
 
 public class DocumentNode extends GenericTreeNode<WebDocument> implements PropertyChangeListener
 {

@@ -4,10 +4,13 @@ import java.util.Set;
 import java.util.Collection;
 
 import com.kiwisoft.media.Language;
+import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -200,4 +203,35 @@ public class Book extends IDObject
 	{
 		setAssociations(TRANSLATORS, translators);
 	}
+
+    public void setSummaryText(Language language, String text)
+    {
+        Summary summary=getSummary(language);
+        if (!StringUtils.isEmpty(text))
+        {
+            if (summary==null)
+            {
+                summary=new Summary();
+                summary.setBook(this);
+                summary.setLanguage(language);
+            }
+            summary.setSummary(text);
+        }
+        else
+        {
+            if (summary!=null) summary.delete();
+        }
+    }
+
+    public String getSummaryText(Language language)
+    {
+        Summary summary=getSummary(language);
+        return summary!=null ? summary.getSummary() : null;
+    }
+
+    private Summary getSummary(Language language)
+    {
+        return DBLoader.getInstance().load(Summary.class, null, "book_id=? and language_id=?", getId(), language.getId());
+    }
+
 }

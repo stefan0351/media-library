@@ -1,0 +1,15 @@
+Requirements
+============
+
+Mandatory
+---------
+
+- MySQL 5.x
+- Java 1.6.x
+
+Optional
+--------
+
+- ImageMagick (required for working with Images)
+- Image Editor (required for working with Images)
+- VLC Player (required for creating video thumbnails)

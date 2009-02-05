@@ -341,7 +341,8 @@
 		<reference name="episode" column="episode_id" type="Episode"/>
 		<reference name="movie" column="movie_id" type="Movie"/>
 		<reference name="language" column="language_id" type="Language"/>
-	</type>
+        <reference name="book" column="book_id" type="Book"/>
+    </type>
 	<type name="Track" class="com.kiwisoft.media.medium.Track" table="tracks" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="longPlay" column="longplay"/>

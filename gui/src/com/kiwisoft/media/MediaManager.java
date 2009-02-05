@@ -14,7 +14,6 @@ import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.media.dataimport.AmazonHttpHandler;
 import com.kiwisoft.media.dataimport.LinkHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -56,7 +55,6 @@ public class MediaManager
 		{
 			log.info("Starting HTTP server on port 50001...");
 			final HttpServer httpServer=HttpServer.create(new InetSocketAddress("localhost", 50001), 0);
-			httpServer.createContext("/amazon", new AmazonHttpHandler(frame));
 			httpServer.createContext("/link", new LinkHttpHandler(frame));
 			Runtime.getRuntime().addShutdownHook(new Thread()
 			{

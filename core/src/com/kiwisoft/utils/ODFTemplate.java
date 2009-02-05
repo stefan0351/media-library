@@ -35,7 +35,7 @@ public class ODFTemplate
 		template.createDocument(new File("d:\\temp\\test.odt"));
 	}
 
-	public ODFTemplate(URL resource) throws IOException
+	public ODFTemplate(URL resource)
 	{
 		this.resource=resource;
 	}

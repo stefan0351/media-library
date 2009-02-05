@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.app.DetailsDialog;
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.InvalidDataException;

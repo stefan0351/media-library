@@ -7,6 +7,9 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.WebContext;
+import com.kiwisoft.swing.icons.Icons;
+
+import javax.swing.*;
 
 /**
  * @author Stefan Stiller
@@ -30,9 +33,10 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 		if (value instanceof Language)
 		{
 			Language language=(Language)value;
-			String icon=getIcon(language.getSymbol());
-			StringBuilder output=new StringBuilder();
-			if (icon!=null) output.append("<img src=\"").append(context.getContextPath()).append("/resource?file=").append(icon).append("\"> ");
+            String iconName="language."+language.getSymbol().toLowerCase();
+            Icon icon=Icons.getIcon(iconName);
+            StringBuilder output=new StringBuilder();
+			if (icon!=null) output.append("<img src=\"").append(context.getContextPath()).append("/file?type=Icon&name=").append(iconName).append("\"> ");
 			if (withText || icon==null) output.append(StringEscapeUtils.escapeHtml(language.getName()));
 			return output.toString();
 		}

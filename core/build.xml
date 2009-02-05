@@ -28,7 +28,8 @@
 				<pathelement location="${lib.dir}/commons-logging.jar"/>
 				<pathelement location="${lib.dir}/velocity.jar"/>
 				<pathelement location="${lib.dir}/htmlparser.jar"/>
-			</classpath>
+                <pathelement location="${lib.dir}/amazon.jar"/>
+            </classpath>
 		</javac>
 		<copy todir="${classes.dir}/core">
 			<fileset dir="${core.module.dir}/src">

@@ -19,8 +19,6 @@
 <%
 	Movie movie=MovieManager.getInstance().getMovie(new Long(request.getParameter("movie")));
 	request.setAttribute("movie", movie);
-	Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
-	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 %>
 <html>
 
@@ -58,8 +56,8 @@
 <a name="summary"></a>
 <table class="contenttable" width="790">
 <%
-	String englishSummary=movie.getSummaryText(english);
-	String germanSummary=movie.getSummaryText(german);
+	String englishSummary=movie.getSummaryText(LanguageManager.ENGLISH);
+	String germanSummary=movie.getSummaryText(LanguageManager.GERMAN);
 %>
 	<tr><td class="header1">Summary</td></tr>
 	<tr><td class="content">
@@ -74,7 +72,7 @@
 	{
 		if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
 		out.print("<p>");
-		out.print(JspUtils.render(request, german, "icon only"));
+		out.print(JspUtils.render(request, LanguageManager.GERMAN, "icon only"));
 		out.print(" ");
 		out.print(JspUtils.render(request, germanSummary, "preformatted"));
 		out.println("</p>");

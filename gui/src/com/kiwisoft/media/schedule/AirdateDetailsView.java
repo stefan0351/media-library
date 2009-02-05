@@ -4,15 +4,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.Date;
-import java.net.URL;
-import java.net.MalformedURLException;
 import javax.swing.*;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.links.OpenLinkFieldAction;
 import com.kiwisoft.media.dataimport.DataSource;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
@@ -22,7 +20,6 @@ import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Time;
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.lookup.DateField;
@@ -31,8 +28,6 @@ import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.swing.lookup.TimeField;
 import com.kiwisoft.swing.ActionField;
-import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 
@@ -91,7 +86,7 @@ public class AirdateDetailsView extends DetailsView
 		channelField=new LookupField<Channel>(new ChannelLookup());
 		dataSourceField=new JTextField();
 		dataSourceField.setEditable(false);
-		linkField=new ActionField(new OpenLinkAction());
+		linkField=new ActionField(new OpenLinkFieldAction());
 		linkField.setEditable(false);
 
 		setLayout(new GridBagLayout());
@@ -283,27 +278,4 @@ public class AirdateDetailsView extends DetailsView
 		}
 	}
 
-	private class OpenLinkAction extends AbstractAction
-	{
-		public OpenLinkAction()
-		{
-			super(null, Icons.getIcon("link.open"));
-		}
-
-		public void actionPerformed(ActionEvent e)
-		{
-			String link=linkField.getText();
-			if (!StringUtils.isEmpty(link))
-			{
-				try
-				{
-					WebUtils.openURL(new URL(link));
-				}
-				catch (MalformedURLException e1)
-				{
-					GuiUtils.handleThrowable(linkField, e1);
-				}
-			}
-		}
-	}
 }

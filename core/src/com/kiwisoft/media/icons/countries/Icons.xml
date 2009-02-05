@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!-- Copyright (c) 2002-2006, Stefan Stiller. -->
+<icons>
+    <icon key="country.ar">
+        <resource url="/com/kiwisoft/media/icons/countries/ar.png"/>
+    </icon>
+    <icon key="country.at">
+        <resource url="/com/kiwisoft/media/icons/countries/at.png"/>
+    </icon>
+    <icon key="country.au">
+        <resource url="/com/kiwisoft/media/icons/countries/au.png"/>
+    </icon>
+    <icon key="country.be">
+        <resource url="/com/kiwisoft/media/icons/countries/be.png"/>
+    </icon>
+    <icon key="country.bg">
+        <resource url="/com/kiwisoft/media/icons/countries/bg.png"/>
+    </icon>
+    <icon key="country.bs">
+        <resource url="/com/kiwisoft/media/icons/countries/bs.png"/>
+    </icon>
+    <icon key="country.ca">
+        <resource url="/com/kiwisoft/media/icons/countries/ca.png"/>
+    </icon>
+    <icon key="country.ch">
+        <resource url="/com/kiwisoft/media/icons/countries/ch.png"/>
+    </icon>
+    <icon key="country.cn">
+        <resource url="/com/kiwisoft/media/icons/countries/cn.png"/>
+    </icon>
+    <icon key="country.cs">
+        <resource url="/com/kiwisoft/media/icons/countries/cs.png"/>
+    </icon>
+    <icon key="country.cz">
+        <resource url="/com/kiwisoft/media/icons/countries/cz.png"/>
+    </icon>
+    <icon key="country.dd">
+        <resource url="/com/kiwisoft/media/icons/countries/dd.png"/>
+    </icon>
+    <icon key="country.de">
+        <resource url="/com/kiwisoft/media/icons/countries/de.png"/>
+    </icon>
+    <icon key="country.dew">
+        <resource url="/com/kiwisoft/media/icons/countries/dew.png"/>
+    </icon>
+    <icon key="country.dk">
+        <resource url="/com/kiwisoft/media/icons/countries/dk.png"/>
+    </icon>
+    <icon key="country.es">
+        <resource url="/com/kiwisoft/media/icons/countries/es.png"/>
+    </icon>
+    <icon key="country.fi">
+        <resource url="/com/kiwisoft/media/icons/countries/fi.png"/>
+    </icon>
+    <icon key="country.fr">
+        <resource url="/com/kiwisoft/media/icons/countries/fr.png"/>
+    </icon>
+    <icon key="country.gb">
+        <resource url="/com/kiwisoft/media/icons/countries/gb.png"/>
+    </icon>
+    <icon key="country.hk">
+        <resource url="/com/kiwisoft/media/icons/countries/hk.png"/>
+    </icon>
+    <icon key="country.hu">
+        <resource url="/com/kiwisoft/media/icons/countries/hu.png"/>
+    </icon>
+    <icon key="country.ie">
+        <resource url="/com/kiwisoft/media/icons/countries/ie.png"/>
+    </icon>
+    <icon key="country.is">
+        <resource url="/com/kiwisoft/media/icons/countries/is.png"/>
+    </icon>
+    <icon key="country.it">
+        <resource url="/com/kiwisoft/media/icons/countries/it.png"/>
+    </icon>
+    <icon key="country.jp">
+        <resource url="/com/kiwisoft/media/icons/countries/jp.png"/>
+    </icon>
+    <icon key="country.lu">
+        <resource url="/com/kiwisoft/media/icons/countries/lu.png"/>
+    </icon>
+    <icon key="country.mx">
+        <resource url="/com/kiwisoft/media/icons/countries/mx.png"/>
+    </icon>
+    <icon key="country.nl">
+        <resource url="/com/kiwisoft/media/icons/countries/nl.png"/>
+    </icon>
+    <icon key="country.no">
+        <resource url="/com/kiwisoft/media/icons/countries/no.png"/>
+    </icon>
+    <icon key="country.nz">
+        <resource url="/com/kiwisoft/media/icons/countries/nz.png"/>
+    </icon>
+    <icon key="country.pr">
+        <resource url="/com/kiwisoft/media/icons/countries/pr.png"/>
+    </icon>
+    <icon key="country.ro">
+        <resource url="/com/kiwisoft/media/icons/countries/ro.png"/>
+    </icon>
+    <icon key="country.ru">
+        <resource url="/com/kiwisoft/media/icons/countries/ru.png"/>
+    </icon>
+    <icon key="country.se">
+        <resource url="/com/kiwisoft/media/icons/countries/se.png"/>
+    </icon>
+    <icon key="country.us">
+        <resource url="/com/kiwisoft/media/icons/countries/us.png"/>
+    </icon>
+    <icon key="country.za">
+        <resource url="/com/kiwisoft/media/icons/countries/za.png"/>
+    </icon>
+</icons>

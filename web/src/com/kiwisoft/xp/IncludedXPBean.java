@@ -14,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.media.MediaConfiguration;
 
 public class IncludedXPBean implements XPBean
 {

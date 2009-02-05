@@ -2,8 +2,6 @@ package com.kiwisoft.media.photos;
 
 import java.util.Set;
 import java.io.File;
-import java.text.NumberFormat;
-import java.text.DecimalFormat;
 import java.awt.Dimension;
 
 import com.kiwisoft.utils.Disposable;

@@ -2,13 +2,10 @@ package com.kiwisoft.media.links;
 
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.net.URL;
-import java.io.IOException;
 
-import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;

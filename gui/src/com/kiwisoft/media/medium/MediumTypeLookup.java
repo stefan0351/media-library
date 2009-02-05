@@ -5,9 +5,7 @@ import java.util.regex.Pattern;
 
 import com.kiwisoft.swing.lookup.ListLookup;
 import com.kiwisoft.swing.lookup.LookupUtils;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.medium.MediumType;
-import com.kiwisoft.media.person.Gender;
 
 /**
  * @author Stefan Stiller

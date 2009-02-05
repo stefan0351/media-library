@@ -1,8 +1,5 @@
 package com.kiwisoft.media.download;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.util.Vector;
 import java.net.URL;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;

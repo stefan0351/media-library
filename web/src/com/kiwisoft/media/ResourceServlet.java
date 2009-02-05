@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;
@@ -19,7 +21,9 @@ import com.kiwisoft.xp.XPBean;
 
 public class ResourceServlet extends HttpServlet
 {
-	private ResourceBundle templates;
+    private final static Log log=LogFactory.getLog(ResourceServlet.class);
+
+    private ResourceBundle templates;
 
 	public void init(ServletConfig servletConfig) throws ServletException
 	{
@@ -42,8 +46,8 @@ public class ResourceServlet extends HttpServlet
 		try
 		{
 			String resource=request.getParameter("file");
-			System.out.println("Loading resource "+resource);
-			if (!StringUtils.isEmpty(resource) && !resource.startsWith("/") && !resource.startsWith("\\") && !resource.startsWith(".."))
+            log.debug("resource="+resource);
+            if (!StringUtils.isEmpty(resource) && !resource.startsWith("/") && !resource.startsWith("\\") && !resource.startsWith(".."))
 			{
 				File file=new File(MediaConfiguration.getRootPath(), resource);
 				if (resource.endsWith(".xp"))

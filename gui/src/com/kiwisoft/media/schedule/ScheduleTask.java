@@ -1,7 +1,5 @@
 package com.kiwisoft.media.schedule;
 
-import java.util.Calendar;
-
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
 

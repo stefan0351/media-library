@@ -9,8 +9,6 @@ package com.kiwisoft.media.dataimport;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import com.kiwisoft.utils.DateUtils;
-
 public class ImportUtils
 {
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
@@ -22,7 +20,9 @@ public class ImportUtils
 	public static String replaceHtmlFormatTags(String text)
 	{
 		if (text==null) return null;
-		text=replaceTags(text, "i");
+        text=text.replaceAll("<p *>", "[br/][br/]");
+        text=text.replaceAll("</p>", "");
+        text=replaceTags(text, "i");
 		text=replaceTags(text, "u");
 		text=replaceTags(text, "b");
 		text=replaceTags(text, "sup");

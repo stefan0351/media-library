@@ -1,9 +1,5 @@
 package com.kiwisoft.media;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;

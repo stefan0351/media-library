@@ -14,6 +14,7 @@ public class ContentType implements Identifyable
 	public static final ContentType POSTER=new ContentType(104L, "Poster", "Posters" , MediaType.IMAGE);
 	public static final ContentType LOGO=new ContentType(105L, "Logo", "Logos", MediaType.IMAGE);
 	public static final ContentType PHOTO=new ContentType(106L, "Photo", "Photos", MediaType.IMAGE);
+	public static final ContentType COVER=new ContentType(107L, "Cover", "Covers", MediaType.IMAGE);
 
 	public static final ContentType SONG=new ContentType(201L, "Song", "Songs", MediaType.AUDIO);
 	public static final ContentType THEME=new ContentType(202L, "Theme", "Themes", MediaType.AUDIO);

@@ -16,6 +16,7 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.Name;
+import com.kiwisoft.media.books.Book;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
@@ -29,6 +30,8 @@ public class Person extends IDObject
 	public static final String NAME="name";
 	public static final String GENDER="gender";
 	public static final String PICTURE="picture";
+	public static final String WRITTEN_BOOKS="writtenBooks";
+	public static final String TRANSLATED_BOOKS="translatedBooks";
 
 	private String firstName;
 	private String middleName;
@@ -267,4 +270,14 @@ public class Person extends IDObject
 		for (Name altName : new HashSet<Name>(getAltNames())) dropAltName(altName);
 		super.delete();
 	}
+
+    public Set<Book> getWrittenBooks()
+    {
+        return getAssociations(WRITTEN_BOOKS);
+    }
+
+    public Set<Book> getTranslatedBooks()
+    {
+        return getAssociations(TRANSLATED_BOOKS);
+    }
 }

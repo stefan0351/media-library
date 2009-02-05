@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.show.Production;
 
 /**
  * @author Stefan Stiller

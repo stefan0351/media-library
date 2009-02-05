@@ -3,12 +3,11 @@ package com.kiwisoft.media.dataimport;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.persistence.DatabaseChangesImportJob;
 import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.progress.SmallProgressDialog;
+import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.swing.actions.ContextAction;
 
 /**
@@ -34,7 +33,7 @@ public class ImportChangesAction extends ContextAction
 			File file=fileChooser.getSelectedFile();
 			try
 			{
-				new SmallProgressDialog(frame, new DatabaseChangesImportJob(file)).start();
+				new ProgressDialog(frame, new DatabaseChangesImportJob(file)).start();
 			}
 			catch (Exception e)
 			{

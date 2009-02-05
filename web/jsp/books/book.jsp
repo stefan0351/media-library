@@ -5,6 +5,7 @@
 <%@ page import="com.kiwisoft.web.JspUtils" %>
 <%@ page import="com.kiwisoft.media.Language" %>
 <%@ page import="com.kiwisoft.utils.StringUtils" %>
+<%@ page import="com.kiwisoft.media.LanguageManager" %>
 
 <%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
 
@@ -34,7 +35,35 @@
 		<jsp:include page="../_nav.jsp"/>
 	</media:sidebar>
 	<media:content>
-		<media:panel title="Details">
+<%
+    String germanSummary=book.getSummaryText(LanguageManager.GERMAN);
+    String englishSummary=book.getSummaryText(LanguageManager.ENGLISH);
+    if (!StringUtils.isEmpty(germanSummary) || !StringUtils.isEmpty(englishSummary))
+    {
+%>
+        <media:panel title="Summary">
+<%
+        if (!StringUtils.isEmpty(englishSummary))
+        {
+%>
+            <p><media:render value="<%=LanguageManager.GERMAN%>" variant="icon only"/>
+                <media:render value="<%=germanSummary%>" variant="preformatted"/></p>
+<%
+        }
+        if (!StringUtils.isEmpty(germanSummary))
+        {
+            if (!StringUtils.isEmpty(englishSummary)) out.println("<hr size=\"1\" color=\"black\">");
+%>
+            <p><media:render value="<%=LanguageManager.GERMAN%>" variant="icon only"/>
+                <media:render value="<%=germanSummary%>" variant="preformatted"/></p>
+<%
+        }
+%>
+        </media:panel>
+<%
+    }
+%>
+        <media:panel title="Details">
 			<dl>
 <%
 				Collection authors=book.getAuthors();
@@ -55,7 +84,7 @@
 				if (language!=null)
 				{
 %>
-					<dt><b>Language</b> <dd><%=JspUtils.render(request, language)%></dd>
+					<dt><b>Language:</b> <dd><%=JspUtils.render(request, language)%></dd>
 <%
 				}
 				String publisher=book.getPublisher();

@@ -2,19 +2,17 @@
 <%@ page import="com.kiwisoft.media.books.Book" %>
 <%@ page import="com.kiwisoft.media.files.ImageFile" %>
 <%@ page import="com.kiwisoft.media.files.MediaFile" %>
+<%@ page import="com.kiwisoft.media.files.MediaFileUtils" %>
 
 <%
-	Book book=(Book)request.getAttribute("book");
-	MediaFile cover=book.getCover();
-	ImageFile thumbnail=null;
-	if (cover!=null)
-	{
-		thumbnail=cover.getThumbnailSidebar();
-		if (thumbnail==null && cover.getWidth()<=170) thumbnail=cover;
-	}
-%>
-
-<%
+    Book book=(Book) request.getAttribute("book");
+    MediaFile cover=book.getCover();
+    ImageFile thumbnail=null;
+    if (cover!=null)
+    {
+        thumbnail=cover.getThumbnailSidebar();
+        if (thumbnail==null && cover.getWidth()<=MediaFileUtils.THUMBNAIL_SIDEBAR_WIDTH) thumbnail=cover;
+    }
 	if (thumbnail!=null)
 	{
 %>

@@ -5,7 +5,6 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.*;
 
 import com.kiwisoft.swing.progress.ProgressDialog;

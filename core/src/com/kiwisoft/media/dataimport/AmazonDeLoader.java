@@ -1,248 +1,193 @@
 package com.kiwisoft.media.dataimport;
 
+import com.amazonaws.a2s.AmazonA2S;
+import com.amazonaws.a2s.AmazonA2SClient;
+import com.amazonaws.a2s.AmazonA2SException;
+import com.amazonaws.a2s.AmazonA2SLocale;
+import com.amazonaws.a2s.model.*;
+import static com.kiwisoft.media.dataimport.ImportUtils.replaceHtmlFormatTags;
+import com.kiwisoft.media.books.BookManager;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.WebUtils;
+import static com.kiwisoft.utils.xml.XMLUtils.removeTags;
+import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.ResourceBundle;
-import java.net.URLEncoder;
-
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.xml.XMLUtils;
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
 
 /**
  * @author Stefan Stiller
+ *
+ * http://docs.amazonwebservices.com/AWSECommerceService/2008-08-19/DG/
  */
 public class AmazonDeLoader
 {
-	private String url;
+    private static final String ASSOCIATE_TAG="nurbjoern";
+    private static final String AWS_ACCESS_KEY_ID="0701HTDSBK2MTTZ94W82";
 
-	public AmazonDeLoader(String url)
-	{
-		this.url=url;
-	}
+    private String isbn;
 
-	public BookData load() throws IOException
-	{
-		BookData bookData=new BookData();
+    public AmazonDeLoader(String isbn)
+    {
+        this.isbn=isbn;
+    }
 
-		System.out.print("Loading main page...");
-		String page=WebUtils.loadURL(url);
-		System.out.println("done");
+    public BookData load() throws IOException, AmazonA2SException
+    {
+        AmazonA2S service=new AmazonA2SClient(AWS_ACCESS_KEY_ID, ASSOCIATE_TAG, AmazonA2SLocale.DE);
 
-		System.out.print("Analyzing main page...");
-		String imagePageURL=extractImagePageURL(page);
-		extractTitleAndAuthor(page, bookData);
-		extractProductInformation(page, bookData);
-		System.out.println("done");
+        String isbn=BookManager.filterIsbn(this.isbn);
 
-		if (imagePageURL!=null)
-		{
-			System.out.print("Loading image page...");
-			String imagePage=WebUtils.loadURL(imagePageURL);
-			System.out.println("done");
+        ItemLookupRequest request=new ItemLookupRequest();
+        request.setSearchIndex("Books");
+        if (isbn.length()==13) request.setIdType("EAN");
+        else request.setIdType("ISBN");
+        request.setItemId(Collections.singletonList(isbn));
+        request.setResponseGroup(Arrays.asList("Medium"));
 
-			System.out.print("Analyzing image page...");
-			String imageURL=extractImageURL(imagePage);
-			String extension=imageURL.substring(imageURL.lastIndexOf("."));
-			System.out.println("done");
+        ItemLookupResponse response;
+        try
+        {
+            response=service.itemLookup(request);
+        }
+        catch (AmazonA2SException e)
+        {
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e1)
+            {
+                e1.printStackTrace();
+            }
+            response=service.itemLookup(request.withSearchIndex("ForeignBooks"));
+        }
 
-			System.out.print("Loading image...");
-			byte[] image=WebUtils.loadBytesFromURL(imageURL);
-			File file;
-			int index=0;
-			do
-			{
-				file=new File(MediaConfiguration.getRootPath(),
-							  "books"+File.separator+"covers"+File.separator+createFileName(bookData.getTitle(), index++, extension));
-			}
-			while (file.exists());
-			file.getParentFile().mkdirs();
-			FileUtils.saveToFile(image, file);
-			bookData.setImageFile(file);
-			System.out.println("done");
-		}
+        for (Items items : response.getItems())
+        {
+            for (Item item : items.getItem())
+            {
+                ItemAttributes itemAttributes=item.getItemAttributes();
 
-		return bookData;
-	}
+                BookData bookData=new BookData();
+                bookData.setTitle(itemAttributes.getTitle());
+                List<Creator> creators=itemAttributes.getCreator();
+                if (creators!=null)
+                {
+                    for (Creator creator : creators)
+                    {
+                        if ("Autor".equals(creator.getRole())) bookData.addAuthor(creator.getValue());
+                        else
+                            if ("\u00dcbersetzer".equals(creator.getRole())) bookData.addTranslator(creator.getValue());
+                    }
+                }
+                bookData.addAuthors(itemAttributes.getAuthor());
+                bookData.setPublisher(itemAttributes.getPublisher());
+                String publicationDate=itemAttributes.getPublicationDate();
+                if (!StringUtils.isEmpty(publicationDate)) bookData.setPublishedYear(getYear(publicationDate));
+                bookData.setBinding(itemAttributes.getBinding());
+                bookData.setEdition(itemAttributes.getEdition());
+                bookData.setIsbn10(itemAttributes.getISBN());
+                bookData.setIsbn13(itemAttributes.getEAN());
+                if (itemAttributes.getNumberOfPages()!=null) bookData.setPageCount(itemAttributes.getNumberOfPages().intValue());
+                if (itemAttributes.getLanguages()!=null)
+                {
+                    for (com.amazonaws.a2s.model.Language language : itemAttributes.getLanguages().getLanguage())
+                    {
+                        System.out.println("AmazonDeLoader.load: language = "+language.getName());
+                    }
+                }
+                if (item.getLargeImage()!=null)
+                {
+                    byte[] coverData=WebUtils.loadBytesFromURL(item.getLargeImage().getURL());
+                    File tempDir=new File("tmp", "books");
+                    tempDir.mkdirs();
+                    File coverFile=File.createTempFile("cover", ".jpg", tempDir);
+                    coverFile.deleteOnExit();
+                    FileUtils.saveToFile(coverData, coverFile);
+                    bookData.setImageFile(coverFile);
+                }
+                if (item.getEditorialReviews()!=null)
+                {
+                    for (EditorialReview review : item.getEditorialReviews().getEditorialReview())
+                    {
+                        if ("Aus der Amazon.de-Redaktion".equalsIgnoreCase(review.getSource())
+                                || "Amazon.co.uk".equalsIgnoreCase(review.getSource()))
+                        {
+                            String summary=trimLines(unescapeHtml(removeTags(replaceHtmlFormatTags(review.getContent()))));
+                            bookData.setSummary(summary);
+                        }
+                    }
+                }
+                if (StringUtils.isEmpty(bookData.getSummary()))
+                {
+                    String detailPage=WebUtils.loadURL(item.getDetailPageURL());
+                    bookData.setSummary(getDescription(detailPage, "Kurzbeschreibung"));
+                }
+                return bookData;
+            }
+        }
+        return null;
+    }
 
-	private static String createFileName(String title, int index, String extension)
-	{
-		title=title.toLowerCase();
-		title=title.replaceAll("[\\.\\?\\!\\:\\,]", "");
-		title=title.replaceAll("\\s+", "_");
-		title=title.replaceAll("\u00E4", "ae");
-		title=title.replaceAll("\u00FC", "ue");
-		title=title.replaceAll("\u00F6", "oe");
-		title=title.replaceAll("\u00DF", "ss");
-		while (title.endsWith("_")) title=title.substring(0, title.length()-1);
-		while (title.startsWith("_")) title=title.substring(1);
-		try
-		{
-			title=URLEncoder.encode(title, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			throw new RuntimeException(e);
-		}
-		if (index==0) return title+extension;
-		else return title+"_"+index+extension;
-	}
+    private int getYear(String dateString)
+    {
+        for (String pattern : new String[]{"yyyy-MM-dd", "yyyy-MM"})
+        {
+            try
+            {
+                Date date=new SimpleDateFormat(pattern).parse(dateString);
+                Calendar calendar=Calendar.getInstance();
+                calendar.setTime(date);
+                return calendar.get(Calendar.YEAR);
+            }
+            catch (ParseException e)
+            {
+            }
+        }
+        return 0;
+    }
 
-	private static void extractProductInformation(String page, BookData bookData)
-	{
-		int ulStart=page.indexOf("<b class=\"h1\">Produktinformation</b>");
-		ulStart=page.indexOf("<ul>", ulStart);
-		int ulEnd=page.indexOf("</ul>", ulStart);
+    private String getDescription(String detailPage, String title)
+    {
+        Matcher matcher=Pattern.compile("<div[^>]*id=\"productDescription\"").matcher(detailPage);
+        if (matcher.find())
+        {
+            String header="<b>"+title+"</b><br />";
+            int start=detailPage.indexOf(header, matcher.start());
+            if (start>0)
+            {
+                start+=header.length();
+                int end=detailPage.indexOf("<br /><br />", start);
+                int end2=detailPage.indexOf("</div>", start);
+                if (end<0 || (end2>0 && end2<end)) end=end2;
+                String description=detailPage.substring(start, end);
+                description=trimLines(unescapeHtml(removeTags(replaceHtmlFormatTags(description))));
+                return description;
+            }
+        }
+        return null;
+    }
 
-		int liEnd=ulStart;
-		while (true)
-		{
-			int liStart=page.indexOf("<li>", liEnd)+4;
-			if (liStart<0 || liStart>ulEnd) break;
-			liEnd=page.indexOf("</li>", liStart);
-			if (liEnd<0 || liEnd>ulEnd) liEnd=ulEnd;
-			String liContent=page.substring(liStart, liEnd).trim();
-			Matcher matcher=Pattern.compile("<b>(.+):</b> (\\d+) Seiten").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setBinding(matcher.group(1));
-				bookData.setPageCount(Integer.parseInt(matcher.group(2)));
-				continue;
-			}
-			matcher=Pattern.compile("<b>Taschenbuch</b>").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setBinding("Taschenbuch");
-				continue;
-			}
-			matcher=Pattern.compile("<b>Verlag:</b> (.+); Auflage: (.*) \\([a-zA-Z\\.]*\\s*(\\d+)\\)").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setPublisher(matcher.group(1));
-				bookData.setEdition(matcher.group(2));
-				bookData.setPublishedYear(Integer.parseInt(matcher.group(3)));
-				continue;
-			}
-			matcher=Pattern.compile("<b>Verlag:</b> (.+) \\([a-zA-Z\\.]*\\s*(\\d+)\\)").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setPublisher(matcher.group(1));
-				bookData.setPublishedYear(Integer.parseInt(matcher.group(2)));
-				continue;
-			}
-			matcher=Pattern.compile("<b>Verlag:</b> (.+) \\(.*\\s*(\\d{4})\\)").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setPublisher(matcher.group(1));
-				bookData.setPublishedYear(Integer.parseInt(matcher.group(2)));
-				continue;
-			}
-			matcher=Pattern.compile("<b>Sprache:</b> (.+)").matcher(liContent);
-			if (matcher.matches())
-			{
-				String languageName=matcher.group(1);
-				Language language=mapLanguage(languageName);
-				bookData.setLanguage(language);
-				continue;
-			}
-			matcher=Pattern.compile("<b>ISBN-10:</b> (.+)").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setIsbn10(matcher.group(1));
-				continue;
-			}
-			matcher=Pattern.compile("<b>ISBN-13:</b> (.+)").matcher(liContent);
-			if (matcher.matches())
-			{
-				bookData.setIsbn13(matcher.group(1));
-				continue;
-			}
-			if (liContent.startsWith("<b>\nProduktma&szlig;e: \n</b>")) continue;
-			if (liContent.startsWith("<b>Durchschnittliche Kundenbewertung:</b>")) continue;
-			if (liContent.startsWith("<b>Amazon.de Verkaufsrang:</b>")) continue;
-			if (liContent.startsWith("<b>Weitere Ausgaben:</b>")) continue;
-			System.err.println("Unhandled product information: "+liContent);
-		}
-	}
-
-	private static Language mapLanguage(String languageName)
-	{
-		String code=ResourceBundle.getBundle(AmazonDeLoader.class.getName()).getString(languageName);
-		return LanguageManager.getInstance().getLanguageBySymbol(code);
-	}
-
-	private static void extractTitleAndAuthor(String page, BookData bookData)
-	{
-		int index=page.indexOf("<b class=\"sans\">")+16;
-		int index2=page.indexOf("</b>", index);
-		String title=page.substring(index, index2).trim();
-		title=removeTitleSuffix(title).trim();
-		bookData.setTitle(title);
-
-		index=page.indexOf("<br />", index)+6;
-		index2=page.indexOf("<br />", index);
-		String authorString=page.substring(index, index2).trim();
-		authorString=XMLUtils.removeTags(authorString);
-		if (authorString.startsWith("von ")) authorString=authorString.substring(4);
-		index=0;
-		while ((index2=authorString.indexOf("),", index))>0)
-		{
-			addAuthor(authorString.substring(index, index2+1).trim(), bookData);
-			index=index2+2;
-		}
-		addAuthor(authorString.substring(index).trim(), bookData);
-	}
-
-	private static void addAuthor(String author, BookData bookData)
-	{
-		Matcher matcher=Pattern.compile("(.*)\\s*\\((Autor|\u00DCbersetzer)\\)").matcher(author);
-		if (matcher.matches())
-		{
-			String name=matcher.group(1).trim();
-			String type=matcher.group(2);
-			if ("Autor".equals(type)) bookData.addAuthor(name);
-			else if ("\u00DCbersetzer".equals(type)) bookData.addTranslator(name);
-		}
-		else bookData.addAuthor(author);
-	}
-
-	private static String removeTitleSuffix(String title)
-	{
-		Pattern pattern=Pattern.compile("(.+)\\s*\\((Gebundene Ausgabe|Taschenbuch|Broschiert)\\)\\s*");
-		Matcher matcher=pattern.matcher(title);
-		if (matcher.matches()) title=matcher.group(1);
-		pattern=Pattern.compile("(.+)\\s*\\((\\s*Fantasy)\\).\\s*");
-		matcher=pattern.matcher(title);
-		if (matcher.matches()) title=matcher.group(1);
-		pattern=Pattern.compile("(.+)\\s*(Roman).\\s*");
-		matcher=pattern.matcher(title);
-		if (matcher.matches()) title=matcher.group(1);
-		return title;
-	}
-
-	private static String extractImageURL(String page)
-	{
-		int index=page.indexOf("<div id=\"imageViewerDiv\">");
-		index=page.indexOf("<img", index);
-		int index2=page.indexOf(">", index);
-		return XMLUtils.getAttribute(page.substring(index, index2), "src");
-	}
-
-	private static String extractImagePageURL(String page)
-	{
-		int index=page.indexOf("<td id=\"prodImageCell\"");
-		if (index<0) return null;
-		int indexEnd=page.indexOf("</td>", index);
-		index=page.indexOf("<a", index);
-		if (index<0 || index>indexEnd) return null;
-		int index2=page.indexOf(">", index);
-		if (index2<0) return null;
-		return XMLUtils.getAttribute(page.substring(index, index2), "href");
-	}
+    private static String trimLines(String text)
+    {
+        if (text==null) return text;
+        String[] lines=text.split("\\[br/\\]");
+        StringBuilder builder=new StringBuilder();
+        for (String line : lines)
+        {
+            line=line.trim();
+            if (builder.length()>0) builder.append("[br/]\n");
+            builder.append(line);
+        }
+        return builder.toString();
+    }
 }

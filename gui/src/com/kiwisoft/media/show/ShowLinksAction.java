@@ -3,12 +3,10 @@ package com.kiwisoft.media.show;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.media.links.LinksView;
-import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.app.ApplicationFrame;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
 
 /**
  * @author Stefan Stiller

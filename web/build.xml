@@ -30,6 +30,7 @@
 				<pathelement location="${lib.dir}/kiwisoft_utils-web.jar"/>
 				<pathelement location="${lib.dir}/commons-lang.jar"/>
 				<pathelement location="${lib.dir}/commons-io.jar"/>
+				<pathelement location="${lib.dir}/commons-logging.jar"/>
 				<pathelement location="${lib.dir}/fop.jar"/>
 			</classpath>
 		</javac>

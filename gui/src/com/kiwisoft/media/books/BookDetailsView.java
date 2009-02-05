@@ -12,6 +12,7 @@ import javax.swing.event.DocumentEvent;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageLookup;
+import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.files.*;
 import com.kiwisoft.swing.GuiUtils;
@@ -29,7 +30,7 @@ import com.kiwisoft.app.DetailsFrame;
 
 public class BookDetailsView extends DetailsView
 {
-	public static void create(Book book)
+    public static void create(Book book)
 	{
 		new DetailsFrame(new BookDetailsView(book)).show();
 	}
@@ -49,6 +50,8 @@ public class BookDetailsView extends DetailsView
 	private LookupField<MediaFile> coverField;
 	private JTextField isbn10Field;
 	private JTextField isbn13Field;
+    private JTextPane germanSummaryField;
+    private JTextPane englishSummaryField;
 
 	private BookDetailsView(Book book)
 	{
@@ -80,8 +83,14 @@ public class BookDetailsView extends DetailsView
 		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new MyImageLookupHandler());
 		ImagePanel coverPreview=new ImagePanel(new Dimension(150, 200));
 		coverPreview.setBorder(new EtchedBorder());
+        germanSummaryField=new JTextPane();
+        englishSummaryField=new JTextPane();
+        JTabbedPane summaryField=new JTabbedPane(JTabbedPane.BOTTOM);
+        summaryField.setPreferredSize(new Dimension(400, 100));
+        summaryField.addTab("German", new JScrollPane(germanSummaryField));
+        summaryField.addTab("English", new JScrollPane(englishSummaryField));
 
-		setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
 		int row=0;
 		add(coverPreview,
 			new GridBagConstraints(0, row, 1, 6, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -100,7 +109,13 @@ public class BookDetailsView extends DetailsView
 		add(translatorsField,
 			new GridBagConstraints(4, row, 1, 1, 0.5, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
-		row++;
+        row++;
+        add(new JLabel("Summary:"),
+                new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+        add(summaryField,
+                new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
+
+        row++;
 		add(new JLabel("Binding:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(bindingField,
@@ -163,8 +178,10 @@ public class BookDetailsView extends DetailsView
 			publisherField.setText(book.getPublisher());
 			editionField.setText(book.getEdition());
 			bindingField.setText(book.getBinding());
-			int publishedYear=book.getPublishedYear();
-			if (publishedYear>0) publishedYearField.setValue(publishedYear);
+            if (book.getPublishedYear()!=null)
+            {
+                publishedYearField.setValue(book.getPublishedYear());
+            }
 			coverField.setValue(book.getCover());
 			isbn10Field.setText(book.getIsbn10());
 			isbn13Field.setText(book.getIsbn13());
@@ -173,7 +190,9 @@ public class BookDetailsView extends DetailsView
 			authorsModel.sort();
 			translatorsModel.setObjects(book.getTranslators());
 			translatorsModel.sort();
-		}
+            germanSummaryField.setText(book.getSummaryText(LanguageManager.GERMAN));
+            englishSummaryField.setText(book.getSummaryText(LanguageManager.ENGLISH));
+        }
 	}
 
 	public boolean apply()
@@ -211,7 +230,7 @@ public class BookDetailsView extends DetailsView
 					book.setIsbn13(isbn13);
 					book.setLanguage(language);
 					book.setCover(cover);
-				}
+                }
 
 				public void handleError(Throwable throwable, boolean rollback)
 				{

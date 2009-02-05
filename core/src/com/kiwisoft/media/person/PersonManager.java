@@ -76,7 +76,7 @@ public class PersonManager
 	{
 		return DBLoader.getInstance().count(CastMember.class, null, "actor_id=?", person.getId())>0
 			   || DBLoader.getInstance().count(Credit.class, null, "person_id=?", person.getId())>0
-			   || DBLoader.getInstance().count(Book.class, "_ join map_book_author m on m.book_id=books.id", "m.person_id=?", person.getId())>0
+			   || DBLoader.getInstance().count(Book.class, "_ join map_book_author m on m.book_id=books.id", "m.author_id=?", person.getId())>0
 			   || DBLoader.getInstance().count(Book.class, "_ join map_book_translator m on m.book_id=books.id", "m.translator_id=?", person.getId())>0;
 	}
 

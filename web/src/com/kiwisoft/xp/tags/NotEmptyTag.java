@@ -8,11 +8,7 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.xp.XPBean;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: 19.06.2004
- * Time: 11:09:01
- * To change this template use File | Settings | File Templates.
+ * @author Stefan Stiller
  */
 public class NotEmptyTag extends TagSupport
 {

@@ -3,8 +3,6 @@ package com.kiwisoft.media.books;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -115,7 +113,7 @@ public class BooksView extends ViewPanel
 				{
 					case CollectionChangeEvent.ADDED:
 						Book book=(Book)event.getElement();
-						model.addRow(new MyRow(book));
+						model.addRow(new BookTableRow(book));
 						model.sort();
 						break;
 					case CollectionChangeEvent.REMOVED:
@@ -127,46 +125,7 @@ public class BooksView extends ViewPanel
 		}
 	}
 
-	private static class MyRow extends SortableTableRow<Book> implements PropertyChangeListener
-	{
-		public MyRow(Book book)
-		{
-			super(book);
-		}
-
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
-		}
-
-		public Object getDisplayValue(int column, String property)
-		{
-			if ("title".equals(property)) return getUserObject().getTitle();
-			if ("author".equals(property)) return StringUtils.formatAsEnumeration(getUserObject().getAuthors(), "; ");
-			else if ("publisher".equals(property)) return getUserObject().getPublisher();
-			else if ("pageCount".equals(property)) return getUserObject().getPageCount();
-			else if ("binding".equals(property)) return getUserObject().getBinding();
-			else if ("isbn".equals(property))
-			{
-				String isbn=getUserObject().getIsbn13();
-				if (StringUtils.isEmpty(isbn)) isbn=getUserObject().getIsbn10();
-				return isbn;
-			}
-			return null;
-		}
-	}
-
-	public boolean isBookmarkable()
+    public boolean isBookmarkable()
 	{
 		return true;
 	}
@@ -233,8 +192,8 @@ public class BooksView extends ViewPanel
 			}
 			SortableTableModel<Book> tableModel=tableController.getModel();
 			tableModel.clear();
-			List<MyRow> rows=new ArrayList<MyRow>(books.size());
-			for (Book book : books) rows.add(new MyRow(book));
+			List<BookTableRow> rows=new ArrayList<BookTableRow>(books.size());
+			for (Book book : books) rows.add(new BookTableRow(book));
 			tableModel.addRows(rows);
 			tableModel.sort();
 			int rowCount=rows.size();

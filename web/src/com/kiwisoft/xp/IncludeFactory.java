@@ -12,7 +12,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
 import com.kiwisoft.utils.xml.XMLObjectFactory;

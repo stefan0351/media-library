@@ -113,4 +113,15 @@ public class BookManager implements CollectionChangeSource
 	{
 		return DBLoader.getInstance().load(Book.class, id);
 	}
+
+    public static String filterIsbn(String id)
+    {
+        StringBuilder filteredId=new StringBuilder();
+        for (int i=0;i<id.length();i++)
+        {
+            char ch=id.charAt(i);
+            if (Character.isDigit(ch)) filteredId.append(ch);
+        }
+        return filteredId.toString();
+    }
 }

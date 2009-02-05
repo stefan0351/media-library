@@ -1,0 +1,146 @@
+<?xml version="1.0" ?>
+
+<!-- Copyright (c) 2002-2006, Stefan Stiller. -->
+<icons>
+    <icon key="language.af">
+        <resource url="/com/kiwisoft/media/icons/languages/af.png"/>
+    </icon>
+    <icon key="language.ang">
+        <resource url="/com/kiwisoft/media/icons/languages/ang.png"/>
+    </icon>
+    <icon key="language.ar">
+        <resource url="/com/kiwisoft/media/icons/languages/ar.png"/>
+    </icon>
+    <icon key="language.aus">
+        <resource url="/com/kiwisoft/media/icons/languages/aus.png"/>
+    </icon>
+    <icon key="language.bg">
+        <resource url="/com/kiwisoft/media/icons/languages/bg.png"/>
+    </icon>
+    <icon key="language.bo">
+        <resource url="/com/kiwisoft/media/icons/languages/bo.png"/>
+    </icon>
+    <icon key="language.cmn">
+        <resource url="/com/kiwisoft/media/icons/languages/cmn.png"/>
+    </icon>
+    <icon key="language.cs">
+        <resource url="/com/kiwisoft/media/icons/languages/cs.png"/>
+    </icon>
+    <icon key="language.da">
+        <resource url="/com/kiwisoft/media/icons/languages/da.png"/>
+    </icon>
+    <icon key="language.de">
+        <resource url="/com/kiwisoft/media/icons/languages/de.png"/>
+    </icon>
+    <icon key="language.el">
+        <resource url="/com/kiwisoft/media/icons/languages/el.png"/>
+    </icon>
+    <icon key="language.en">
+        <resource url="/com/kiwisoft/media/icons/languages/en.png"/>
+    </icon>
+    <icon key="language.es">
+        <resource url="/com/kiwisoft/media/icons/languages/es.png"/>
+    </icon>
+    <icon key="language.fi">
+        <resource url="/com/kiwisoft/media/icons/languages/fi.png"/>
+    </icon>
+    <icon key="language.fr">
+        <resource url="/com/kiwisoft/media/icons/languages/fr.png"/>
+    </icon>
+    <icon key="language.gd">
+        <resource url="/com/kiwisoft/media/icons/languages/gd.png"/>
+    </icon>
+    <icon key="language.gsw">
+        <resource url="/com/kiwisoft/media/icons/languages/gsw.png"/>
+    </icon>
+    <icon key="language.haw">
+        <resource url="/com/kiwisoft/media/icons/languages/haw.png"/>
+    </icon>
+    <icon key="language.hbs">
+        <resource url="/com/kiwisoft/media/icons/languages/hbs.png"/>
+    </icon>
+    <icon key="language.he">
+        <resource url="/com/kiwisoft/media/icons/languages/he.png"/>
+    </icon>
+    <icon key="language.hi">
+        <resource url="/com/kiwisoft/media/icons/languages/hi.png"/>
+    </icon>
+    <icon key="language.hu">
+        <resource url="/com/kiwisoft/media/icons/languages/hu.png"/>
+    </icon>
+    <icon key="language.ieg">
+        <resource url="/com/kiwisoft/media/icons/languages/ieg.png"/>
+    </icon>
+    <icon key="language.is">
+        <resource url="/com/kiwisoft/media/icons/languages/is.png"/>
+    </icon>
+    <icon key="language.it">
+        <resource url="/com/kiwisoft/media/icons/languages/it.png"/>
+    </icon>
+    <icon key="language.ja">
+        <resource url="/com/kiwisoft/media/icons/languages/ja.png"/>
+    </icon>
+    <icon key="language.ko">
+        <resource url="/com/kiwisoft/media/icons/languages/ko.png"/>
+    </icon>
+    <icon key="language.mi">
+        <resource url="/com/kiwisoft/media/icons/languages/mi.png"/>
+    </icon>
+    <icon key="language.ne">
+        <resource url="/com/kiwisoft/media/icons/languages/ne.png"/>
+    </icon>
+    <icon key="language.nl">
+        <resource url="/com/kiwisoft/media/icons/languages/nl.png"/>
+    </icon>
+    <icon key="language.no">
+        <resource url="/com/kiwisoft/media/icons/languages/no.png"/>
+    </icon>
+    <icon key="language.pa">
+        <resource url="/com/kiwisoft/media/icons/languages/pa.png"/>
+    </icon>
+    <icon key="language.pl">
+        <resource url="/com/kiwisoft/media/icons/languages/pl.png"/>
+    </icon>
+    <icon key="language.pt">
+        <resource url="/com/kiwisoft/media/icons/languages/pt.png"/>
+    </icon>
+    <icon key="language.ro">
+        <resource url="/com/kiwisoft/media/icons/languages/ro.png"/>
+    </icon>
+    <icon key="language.ru">
+        <resource url="/com/kiwisoft/media/icons/languages/ru.png"/>
+    </icon>
+    <icon key="language.scy">
+        <resource url="/com/kiwisoft/media/icons/languages/scy.png"/>
+    </icon>
+    <icon key="language.si">
+        <resource url="/com/kiwisoft/media/icons/languages/si.png"/>
+    </icon>
+    <icon key="language.sv">
+        <resource url="/com/kiwisoft/media/icons/languages/sv.png"/>
+    </icon>
+    <icon key="language.th">
+        <resource url="/com/kiwisoft/media/icons/languages/th.png"/>
+    </icon>
+    <icon key="language.tr">
+        <resource url="/com/kiwisoft/media/icons/languages/tr.png"/>
+    </icon>
+    <icon key="language.vi">
+        <resource url="/com/kiwisoft/media/icons/languages/vi.png"/>
+    </icon>
+    <icon key="language.wuu">
+        <resource url="/com/kiwisoft/media/icons/languages/wuu.png"/>
+    </icon>
+    <icon key="language.zh">
+        <resource url="/com/kiwisoft/media/icons/languages/zh.png"/>
+    </icon>
+    <icon key="language.sgn_de">
+        <resource url="/com/kiwisoft/media/icons/countries/de.png"/>
+    </icon>
+    <icon key="language.sgn_uk">
+        <resource url="/com/kiwisoft/media/icons/countries/gb.png"/>
+    </icon>
+    <icon key="language.sgn_us">
+        <resource url="/com/kiwisoft/media/icons/countries/us.png"/>
+    </icon>
+</icons>

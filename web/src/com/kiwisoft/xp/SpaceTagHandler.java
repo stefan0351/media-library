@@ -19,7 +19,7 @@ public class SpaceTagHandler implements XMLTagHandler
 		{
 			try
 			{
-				StringBuffer buffer=new StringBuffer();
+				StringBuilder buffer=new StringBuilder();
 				int count=Integer.parseInt(s);
 				for (int i=0;i<count;i++) buffer.append("&nbsp;");
 				return buffer.toString();

@@ -8,7 +8,6 @@ package com.kiwisoft.media.medium;
 
 import java.util.*;
 
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Identifyable;
 
 public class MediumType implements Identifyable

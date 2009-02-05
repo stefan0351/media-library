@@ -39,6 +39,7 @@
 
 	links.put("Details", request.getContextPath()+"/persons/person.jsp?id="+person.getId()+"#details");
 	links.put("Filmography", request.getContextPath()+"/persons/person.jsp?id="+person.getId()+"#filmography");
+    links.put("Books", request.getContextPath()+"/persons/person.jsp?id="+person.getId()+"#books");
 	links.put("Schedule", request.getContextPath()+"/persons/schedule.jsp?person="+person.getId());
 	if (MediaFileManager.getInstance().getNumberOfMediaFiles(person, MediaType.VIDEO)>0)
 		links.put("Videos", request.getContextPath()+"/persons/mediafiles.jsp?person="+person.getId()+"&type="+MediaType.VIDEO.getId());

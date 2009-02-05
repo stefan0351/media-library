@@ -7,6 +7,9 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.web.DefaultHTMLRenderer;
 import com.kiwisoft.web.WebContext;
+import com.kiwisoft.swing.icons.Icons;
+
+import javax.swing.*;
 
 /**
  * @author Stefan Stiller
@@ -18,9 +21,10 @@ public class CountryHTMLRenderer extends DefaultHTMLRenderer
 		if (value instanceof Country)
 		{
 			Country country=(Country)value;
-			String icon=getIcon(country.getSymbol());
+            String iconName="country."+country.getSymbol().toLowerCase();
+            Icon icon=Icons.getIcon(iconName);
 			StringBuilder output=new StringBuilder();
-			if (icon!=null) output.append("<img src=\"").append(context.getContextPath()).append("/resource?file=").append(icon).append("\"> ");
+			if (icon!=null) output.append("<img src=\"").append(context.getContextPath()).append("/file?type=Icon&name=").append(iconName).append("\"> ");
 			output.append(StringEscapeUtils.escapeHtml(country.getName()));
 			return output.toString();
 		}

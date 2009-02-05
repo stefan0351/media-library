@@ -1,6 +1,7 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.media.Language;
+import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
@@ -10,11 +11,12 @@ public class Summary extends IDObject
 	public static final String MOVIE="movie";
 	public static final String EPISODE="episode";
 	public static final String LANGUAGE="language";
-	public static final String SUMMARY="summary";
+    public static final String BOOK="book";
+    public static final String SUMMARY="summary";
 
-	private String summary;
+    private String summary;
 
-	public Summary()
+    public Summary()
 	{
 	}
 
@@ -43,7 +45,18 @@ public class Summary extends IDObject
 		setReference(MOVIE, value);
 	}
 
-	public Language getLanguage()
+    public Book getBook()
+    {
+        return (Book) getReference(BOOK);
+    }
+
+    public void setBook(Book book)
+    {
+        setReference(BOOK, book);
+    }
+
+
+    public Language getLanguage()
 	{
 		return (Language)getReference(LANGUAGE);
 	}

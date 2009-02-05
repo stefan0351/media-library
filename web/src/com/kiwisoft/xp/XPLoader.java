@@ -7,7 +7,6 @@
 package com.kiwisoft.xp;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;

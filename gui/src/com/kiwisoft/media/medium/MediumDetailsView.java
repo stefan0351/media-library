@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -19,13 +18,15 @@ import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.collection.DoubleKeyMap;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.SequenceManager;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
@@ -201,7 +202,7 @@ public class MediumDetailsView extends DetailsView
 
 		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		lengthField.addMouseListener(new LengthFieldListener());
-	}
+    }
 
 	private void setVideo(Medium video)
 	{
@@ -226,22 +227,12 @@ public class MediumDetailsView extends DetailsView
 		}
 	}
 
-	public boolean apply()
-	{
-		String name=nameField.getText();
-		if (StringUtils.isEmpty(name))
-		{
-			JOptionPane.showMessageDialog(this, "Name fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			nameField.requestFocus();
-			return false;
-		}
-		MediumType type=typeField.getValue();
-		if (type==null)
-		{
-			JOptionPane.showMessageDialog(this, "Typ fehlt!", "Fehler", JOptionPane.ERROR_MESSAGE);
-			typeField.requestFocus();
-			return false;
-		}
+	public boolean apply() throws InvalidDataException
+    {
+		final String name=nameField.getText();
+		if (StringUtils.isEmpty(name)) throw new InvalidDataException("Name must not be empty!", nameField);
+		final MediumType type=typeField.getValue();
+		if (type==null) throw new InvalidDataException("Type must not be empty!", typeField);
 		int length=0;
 		int remain=0;
 		if (type.isRewritable())
@@ -249,73 +240,64 @@ public class MediumDetailsView extends DetailsView
 			try
 			{
 				length=Integer.parseInt(lengthField.getText());
-				if (length<=0) throw new NumberFormatException();
+				if (length<=0) throw new NumberFormatException("Length must be greater than 0.");
 			}
 			catch (NumberFormatException e)
-			{
-				JOptionPane.showMessageDialog(this, "Fehlerhafte Längenangabe!", "Fehler", JOptionPane.ERROR_MESSAGE);
-				lengthField.requestFocus();
-				return false;
-			}
+            {
+                lengthField.setEditable(true);
+                throw new InvalidDataException("Invalid length value ("+e.getMessage()+")", lengthField);
+            }
 			try
 			{
 				remain=Integer.parseInt(remainingField.getText());
-				if (remain<0 || remain>length) throw new NumberFormatException();
+				if (remain<0 || remain>length) throw new NumberFormatException("Remaining length must be greater 0 and less or equal than length.");
 			}
 			catch (NumberFormatException e)
-			{
-				JOptionPane.showMessageDialog(this, "Fehlerhafte Restlängenangabe!", "Fehler", JOptionPane.ERROR_MESSAGE);
-				remainingField.requestFocus();
-				return false;
-			}
+            {
+                remainingField.setEditable(false);
+                throw new InvalidDataException("Invalid remaining length value ("+e.getMessage()+")", remainingField);
+            }
 		}
+        final int length1=length;
+        final int remain1=remain;
+        return DBSession.execute(new Transactional()
+        {
+            public void run() throws Exception
+            {
+                if (video==null) video=MediumManager.getInstance().createMedium();
+                else if (video.getUserKey()==null) video.setUserKey((int)SequenceManager.getSequence("medium").next());
+                video.setLength(length1);
+                video.setRemainingLength(remain1);
+                video.setName(name);
+                video.setType(type);
+                video.setStorage(storageField.getText());
+                if (recordables!=null)
+                {
+                    for (Iterator it=recordables.iterator(); it.hasNext();)
+                    {
+                        RecordableTableRow row=(RecordableTableRow)it.next();
+                        Track track=video.createTrack();
+                        row.getUserObject().initRecord(track);
+                        track.setLength(row.getLength());
+                        track.setLanguage(row.getLanguage());
+                    }
+                    recordables=null;
+                }
+                SwingUtilities.invokeLater(new Runnable()
+                {
+                    public void run()
+                    {
+                        MediumManager.getInstance().fireElementChanged(video);
+                        keyField.setText(video.getFullKey());
+                    }
+                });
+            }
 
-		Transaction transaction=null;
-		try
-		{
-			transaction=DBSession.getInstance().createTransaction();
-			if (video==null) video=MediumManager.getInstance().createMedium();
-			else if (video.getUserKey()==null) video.setUserKey((int)SequenceManager.getSequence("medium").next());
-			video.setLength(length);
-			video.setRemainingLength(remain);
-			video.setName(name);
-			video.setType(type);
-			video.setStorage(storageField.getText());
-			if (recordables!=null)
-			{
-				for (Iterator it=recordables.iterator(); it.hasNext();)
-				{
-					RecordableTableRow row=(RecordableTableRow)it.next();
-					Track track=video.createTrack();
-					row.getUserObject().initRecord(track);
-					track.setLength(row.getLength());
-					track.setLanguage(row.getLanguage());
-				}
-				recordables=null;
-			}
-			transaction.close();
-			MediumManager.getInstance().fireElementChanged(video);
-			keyField.setText(video.getFullKey());
-			return true;
-		}
-		catch (Exception e)
-		{
-			if (transaction!=null)
-			{
-				try
-				{
-					transaction.rollback();
-				}
-				catch (SQLException e1)
-				{
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return false;
+            public void handleError(Throwable throwable, boolean rollback)
+            {
+                GuiUtils.handleThrowable(MediumDetailsView.this, throwable);
+            }
+        });
 	}
 
 	private class LengthFieldListener extends MouseAdapter
@@ -326,7 +308,7 @@ public class MediumDetailsView extends DetailsView
 		}
 	}
 
-	private class RemainingUpdater extends DocumentAdapter
+    private class RemainingUpdater extends DocumentAdapter
 	{
 		public void changedUpdate(DocumentEvent e)
 		{

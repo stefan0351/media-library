@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.format.FormatUtils;
 import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.Linkable;
