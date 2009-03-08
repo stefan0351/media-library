@@ -25,7 +25,6 @@ public class MediaManager
 
 	public static void main(String[] args) throws IOException
 	{
-		ExceptionHandler.init();
 		Locale.setDefault(Locale.UK);
 		Application application=new MediaApplication();
 		application.configureXML();

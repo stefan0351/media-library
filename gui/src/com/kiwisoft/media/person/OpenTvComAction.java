@@ -1,12 +1,12 @@
 package com.kiwisoft.media.person;
 
 import com.kiwisoft.swing.TextFieldAction;
+import com.kiwisoft.swing.ActionField;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,9 +21,9 @@ public class OpenTvComAction extends TextFieldAction
         super(Icons.getIcon("link.open"), "Open TV.com");
     }
 
-    public void actionPerformed(JTextComponent textComponent, ActionEvent event)
+    public void actionPerformed(ActionField actionField, ActionEvent event)
     {
-        String key=textComponent.getText();
+        String key=actionField.getText();
         if (!StringUtils.isEmpty(key))
         {
             try
@@ -32,7 +32,7 @@ public class OpenTvComAction extends TextFieldAction
             }
             catch (MalformedURLException e1)
             {
-                JOptionPane.showMessageDialog(textComponent, "Invalid key!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(actionField, "Invalid key!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

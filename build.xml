@@ -30,7 +30,7 @@
 				<include name="conf/**"/>
 				<include name="bin/**"/>
 				<exclude name="bin/MediaInfo.parameters"/>
-				<include name="docs/links.txt"/>
+				<include name="docs/**"/>
 				<include name="tomcat/**"/>
 				<exclude name="tomcat/work/**"/>
 				<exclude name="tomcat/temp/**/*.*"/>

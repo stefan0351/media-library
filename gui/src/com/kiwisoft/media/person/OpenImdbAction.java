@@ -1,11 +1,11 @@
 package com.kiwisoft.media.person;
 
 import com.kiwisoft.swing.TextFieldAction;
+import com.kiwisoft.swing.ActionField;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
 
-import javax.swing.text.JTextComponent;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.net.URL;
@@ -21,9 +21,9 @@ public class OpenImdbAction extends TextFieldAction
         super(Icons.getIcon("link.open"), "Open Imdb.com");
     }
 
-    public void actionPerformed(JTextComponent textComponent, ActionEvent event)
+    public void actionPerformed(ActionField actionField, ActionEvent event)
     {
-        String key=textComponent.getText();
+        String key=actionField.getText();
         if (!StringUtils.isEmpty(key))
         {
             try
@@ -32,7 +32,7 @@ public class OpenImdbAction extends TextFieldAction
             }
             catch (MalformedURLException e1)
             {
-                JOptionPane.showMessageDialog(textComponent, "Invalid key!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(actionField, "Invalid key!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

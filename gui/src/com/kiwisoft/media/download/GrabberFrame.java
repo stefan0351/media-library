@@ -22,8 +22,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreePath;
 
 import com.kiwisoft.app.Application;
+import com.kiwisoft.app.ExceptionHandler;
 import com.kiwisoft.cfg.Configuration;
-import com.kiwisoft.media.ExceptionHandler;
 import com.kiwisoft.media.MediaApplication;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.PanelController;
@@ -265,7 +265,6 @@ public class GrabberFrame extends JFrame
 
 	public static void main(String[] args) throws IOException
 	{
-		ExceptionHandler.init();
 		Locale.setDefault(Locale.UK);
 		Application application=new MediaApplication();
 		application.configureXML();
