@@ -22,12 +22,12 @@ import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Time;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
-import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.swing.lookup.TimeField;
 import com.kiwisoft.swing.ActionField;
+import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 

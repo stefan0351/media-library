@@ -43,12 +43,12 @@ public class PersonCreditsView extends CreditsView
 
 	protected DefaultTableConfiguration getCastTableConfiguration()
 	{
-		return new DefaultTableConfiguration(PersonCreditsView.class, "cast");
+		return new DefaultTableConfiguration("PersonCreditsView.cast", PersonCreditsView.class, "cast");
 	}
 
 	protected DefaultTableConfiguration getCreditsTableConfiguration()
 	{
-		return new DefaultTableConfiguration(PersonCreditsView.class, "credits");
+		return new DefaultTableConfiguration("PersonCreditsView.credits", PersonCreditsView.class, "credits");
 	}
 
 	@Override

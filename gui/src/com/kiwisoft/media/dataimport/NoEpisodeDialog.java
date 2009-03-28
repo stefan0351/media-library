@@ -8,10 +8,9 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.EpisodeDetailsView;
 import com.kiwisoft.media.show.EpisodeLookup;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.lookup.DateField;
+import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupHandler;
 

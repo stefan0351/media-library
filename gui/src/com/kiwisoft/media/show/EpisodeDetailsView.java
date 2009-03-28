@@ -17,10 +17,10 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.swing.DocumentAdapter;
+import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.lookup.DialogLookupField;
 import com.kiwisoft.swing.lookup.FileLookup;
-import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.app.DetailsDialog;
@@ -252,7 +252,7 @@ public class EpisodeDetailsView extends DetailsView
 		productionCodeField=new JTextField(10);
 		namesModel=new NamesTableModel(true);
 		SortableTable tblNames=new SortableTable(namesModel);
-		tblNames.initializeColumns(new DefaultTableConfiguration(EpisodeDetailsView.class, "names"));
+		tblNames.configure(new DefaultTableConfiguration("EpisodeDetailsView.names", EpisodeDetailsView.class, "names"));
 		JScrollPane namesPanel=new JScrollPane(tblNames);
 		namesPanel.setPreferredSize(new Dimension(300, 100));
 

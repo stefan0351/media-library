@@ -27,8 +27,8 @@ import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.*;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
-import com.kiwisoft.swing.lookup.DateField;
 import com.kiwisoft.swing.lookup.TimeField;
+import com.kiwisoft.swing.date.DateField;
 
 public class ScheduleView extends ViewPanel
 {
@@ -104,7 +104,7 @@ public class ScheduleView extends ViewPanel
 			getModelListenerList().installClassListener(Airdate.class, new AirdatesListener());
 		}
 
-		tableController=new TableController<Airdate>(model, new DefaultTableConfiguration(ScheduleView.class, "airdates"))
+		tableController=new TableController<Airdate>(model, new DefaultTableConfiguration("ScheduleView.airdates", ScheduleView.class, "airdates"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()

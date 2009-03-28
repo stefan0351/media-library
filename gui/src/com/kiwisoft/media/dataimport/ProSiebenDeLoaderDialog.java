@@ -11,7 +11,7 @@ import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.lookup.DateField;
+import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.cfg.Configuration;
 
