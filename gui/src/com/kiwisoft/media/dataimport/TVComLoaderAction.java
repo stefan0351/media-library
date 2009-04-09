@@ -28,7 +28,7 @@ public class TVComLoaderAction extends SimpleContextAction
 		Link link=DBLoader.getInstance().load(Link.class,
 									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
 									"s.id=? and links.url like ?",
-									show.getId(), "http://www.tv.com%episode_listings.html");
+									show.getId(), "http://www.tv.com/%/show/%/%");
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
 		{
 			protected String getLinkName()
@@ -45,7 +45,7 @@ public class TVComLoaderAction extends SimpleContextAction
 		if (dialog.isOk())
 		{
 			link=dialog.getLink();
-			EpisodeDataLoader process=new TVComLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
+            EpisodeDataLoader process=new TVComLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
 				protected Episode createEpisode(Show show, EpisodeData info)
 				{

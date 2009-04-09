@@ -23,7 +23,9 @@ public abstract class TVComLoader extends EpisodeDataLoader
 	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
 		super(show, baseUrl, startSeason, endSeason, autoCreate);
-		airdateFormat=new SimpleDateFormat("M/d/yyyy");
+        Matcher matcher = Pattern.compile(("(http://www.tv.com/.*/show/[0-9]+/).*")).matcher(baseUrl);
+        if (matcher.matches()) setBaseUrl(matcher.group(1));
+        airdateFormat=new SimpleDateFormat("M/d/yyyy");
 		nameLinkPattern=Pattern.compile("http://www.tv.com/.*/person/([0-9]+)/summary.html");
 	}
 
@@ -34,17 +36,17 @@ public abstract class TVComLoader extends EpisodeDataLoader
 
 	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
 	{
-		String page=loadUrl(getBaseUrl()+"?season="+season);
-
-		// Parse episode list
+		String page=loadUrl(getBaseUrl()+"episode.html?shv=list&season="+season);
+        System.out.println("page = " + page);
+        // Parse episode list
 		int index1;
-		int index2=page.indexOf("<th class=\"ep_title\"><div>episode</div></th>", 0);
+		int index2=page.indexOf("<div id=\"episode_listing\">", 0);
 		int episodeIndex=1;
 		List<EpisodeData> episodes=new ArrayList<EpisodeData>();
 		while (true)
 		{
 			if (getProgress().isStoppedByUser()) return null;
-			index1=page.indexOf("<tr", index2);
+			index1=page.indexOf("<tr class=\"episode\"", index2);
 			if (index1<0) break;
 			index1=page.indexOf(">", index1);
 			index2=page.indexOf("</tr>", index1);
