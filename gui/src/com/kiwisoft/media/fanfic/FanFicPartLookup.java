@@ -15,17 +15,20 @@ public class FanFicPartLookup extends FileLookup
 		super(JFileChooser.FILES_ONLY, false);
 	}
 
+	@Override
 	public String getCurrentDirectory()
 	{
 		return MediaConfiguration.getRecentFanFicPath();
 	}
 
+	@Override
 	public void setCurrentDirectory(String path)
 	{
 		MediaConfiguration.setRecentFanFicPath(path);
 		Configuration.getInstance().saveUserValues();
 	}
 
+	@Override
 	public Icon getIcon()
 	{
 		return Icons.getIcon("lookup.table");

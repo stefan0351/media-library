@@ -44,6 +44,7 @@ public class LinksView extends ViewPanel
 		setTitle("Links");
 	}
 
+	@Override
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		treeController=new TreeController()
@@ -154,6 +155,7 @@ public class LinksView extends ViewPanel
 
 	private class MyTransferHandler extends TransferHandler
 	{
+		@Override
 		public int getSourceActions(JComponent c)
 		{
 			GenericTree tree=(GenericTree)c;

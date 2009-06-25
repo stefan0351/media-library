@@ -84,6 +84,7 @@ public class ContentType implements Identifyable
 		return mediaType;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

@@ -30,6 +30,7 @@ public class ThumbnailField extends ImageField
 		this.imageField=imageField;
 	}
 
+	@Override
 	protected Action[] getActions()
 	{
 		return new Action[]{new CreateThumbnailAction(), new EditAction()};

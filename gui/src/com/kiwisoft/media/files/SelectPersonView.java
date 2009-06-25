@@ -55,6 +55,7 @@ public class SelectPersonView extends DetailsView
 	}
 
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		person=personField.getValue();

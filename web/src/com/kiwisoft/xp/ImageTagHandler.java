@@ -15,9 +15,9 @@ import com.kiwisoft.utils.xml.XMLTagHandler;
  */
 public class ImageTagHandler implements XMLTagHandler
 {
-	public String startTag(XMLContext context, String uri, String localName, String rawName, Attributes attributes)
+	public String startTag(XMLContext context, String tagName, Attributes attributes)
 	{
-		StringBuilder builder=new StringBuilder("<"+rawName);
+		StringBuilder builder=new StringBuilder("<"+tagName);
 		for (int i=0; i<attributes.getLength(); i++)
 		{
 			String name=attributes.getLocalName(i);
@@ -41,7 +41,7 @@ public class ImageTagHandler implements XMLTagHandler
 		return builder.toString();
 	}
 
-	public String endTag(XMLContext context, String uri, String localName, String rawName)
+	public String endTag(XMLContext context, String name)
 	{
 		return null;
 	}

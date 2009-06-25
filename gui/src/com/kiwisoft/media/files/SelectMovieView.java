@@ -55,6 +55,7 @@ public class SelectMovieView extends DetailsView
 	}
 
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		movie=movieField.getValue();

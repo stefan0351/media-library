@@ -227,6 +227,7 @@ public class FanFic extends IDObject
 		DBAssociation.getAssociation(FanFic.class, PAIRINGS).removeAssociation(this, pairing);
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTitle();

@@ -168,6 +168,7 @@ public class PhotoFileInfo
 		this.yResolution=yResolution;
 	}
 
+	@Override
 	public String toString()
 	{
 		return "ImageDescriptor{"+

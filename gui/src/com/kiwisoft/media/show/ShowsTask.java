@@ -33,6 +33,7 @@ public class ShowsTask extends MenuSidebarItem.Task
 		}
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ShowsView(null));

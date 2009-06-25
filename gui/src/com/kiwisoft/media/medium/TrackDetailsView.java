@@ -139,6 +139,7 @@ public class TrackDetailsView extends DetailsView
 		movieField.addSelectionListener(new MovieSelectionListener());
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return showField;
@@ -166,6 +167,7 @@ public class TrackDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String event;
@@ -267,6 +269,7 @@ public class TrackDetailsView extends DetailsView
 			super(null);
 		}
 
+		@Override
 		protected Show getShow()
 		{
 			return showField.getValue();

@@ -3,7 +3,9 @@ package com.kiwisoft.media.dataimport;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Date;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import junit.framework.TestCase;
@@ -12,6 +14,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.progress.ConsoleProgressListener;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -41,16 +44,18 @@ public class TVComLoaderTest extends TestCase
 		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
 		EpisodeDataLoader loader=new TVComLoader(show, "http://www.tv.com/pushing-daisies/show/68663/episode_listings.html", 1, 2, false)
 		{
-			protected Episode createEpisode(Show show, EpisodeData info)
-			{
-				return null;
-			}
-
 			@Override
-			public void saveEpisode(final Episode episode, final EpisodeData data)
+			protected void saveEpisode(EpisodeData data) throws IOException, InterruptedException
 			{
+				if (data.getFirstAirdate()==null || data.getFirstAirdate().before(new Date()))
+				{
+					if (!StringUtils.isEmpty(data.getEpisodeUrl()))
+					{
+						loadDetails(data);
+					}
+					Thread.sleep(300); // To avoid DOS on the server
+				}
 				episodesMap.put(data.getKey(), data);
-				System.out.println("episode = "+episode);
 				System.out.println("data.episodeKey = "+data.getKey());
 				System.out.println("data.episodeTitle = "+data.getTitle());
 				System.out.println("data.firstAirdate = "+data.getFirstAirdate());
@@ -62,10 +67,21 @@ public class TVComLoaderTest extends TestCase
 				System.out.println("data.recurringCast = "+data.getRecurringCast());
 				System.out.println("data.guestCast = "+data.getGuestCast());
 			}
+
+			@Override
+			protected Episode createEpisode(Show show, EpisodeData info)
+			{
+				return null;
+			}
+
+			@Override
+			public void saveEpisode(final Episode episode, final EpisodeData data)
+			{
+			}
 		};
 		loader.run(new ConsoleProgressListener());
 
-		assertEquals(14, episodesMap.size());
+		assertEquals(22, episodesMap.size());
 		for (int i=1;i<=9;i++) assertTrue(episodesMap.containsKey("1."+i));
 
 		EpisodeData episode=episodesMap.get("1.1");

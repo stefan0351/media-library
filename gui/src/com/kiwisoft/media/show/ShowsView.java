@@ -43,6 +43,7 @@ public class ShowsView extends ViewPanel
 		this.genre=genre;
 	}
 
+	@Override
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Show> tmShows=new DefaultSortableTableModel<Show>("title", "germanTitle", "type");
@@ -52,8 +53,9 @@ public class ShowsView extends ViewPanel
 		for (Show show : shows) tmShows.addRow(new ShowTableRow(show));
 		tmShows.sort();
 
-		tableController=new TableController<Show>(tmShows, new DefaultTableConfiguration(ShowsView.class, "shows"))
+		tableController=new TableController<Show>(tmShows, new DefaultTableConfiguration("shows.list", ShowsView.class, "shows"))
 		{
+			@Override
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -65,6 +67,7 @@ public class ShowsView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public List<ContextAction> getContextActions()
 			{
 				ComplexAction downloadAction=new ComplexAction("Download");
@@ -91,6 +94,7 @@ public class ShowsView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public ContextAction getDoubleClickAction()
 			{
 				return new ShowEpisodesAction(frame);
@@ -103,22 +107,26 @@ public class ShowsView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	public String getTitle()
 	{
 		if (genre==null) return "Shows";
 		else return "Shows - "+genre.getName();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		ShowManager.getInstance().removeCollectionListener(showListener);
@@ -155,6 +163,7 @@ public class ShowsView extends ViewPanel
 			super(show);
 		}
 
+		@Override
 		public void installListener()
 		{
 			try
@@ -168,12 +177,14 @@ public class ShowsView extends ViewPanel
 			}
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
 			getUserObject().removeCollectionListener(this);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -199,11 +210,13 @@ public class ShowsView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ShowsView.class);

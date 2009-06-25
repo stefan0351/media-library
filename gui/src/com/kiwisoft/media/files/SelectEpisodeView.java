@@ -69,6 +69,7 @@ public class SelectEpisodeView extends DetailsView
 	}
 
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		episode=episodeField.getValue();

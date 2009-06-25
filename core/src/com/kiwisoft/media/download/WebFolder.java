@@ -155,7 +155,7 @@ public class WebFolder extends XMLAdapter
 	}
 
 	@Override
-	public void setXMLAttribute(XMLContext context, String name, String value)
+	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 		if ("name".equalsIgnoreCase(name)) this.name=value;
 	}

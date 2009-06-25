@@ -56,6 +56,7 @@ public class DataSource implements Identifyable
 		return name;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

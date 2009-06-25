@@ -7,6 +7,7 @@ import com.kiwisoft.format.DefaultObjectFormat;
  */
 public class GenderFormat extends DefaultObjectFormat
 {
+	@Override
 	public String format(Object value)
 	{
 		if (value instanceof Gender)
@@ -17,6 +18,7 @@ public class GenderFormat extends DefaultObjectFormat
 		return super.format(value);
 	}
 
+	@Override
 	public String getIconName(Object value)
 	{
 		if (value instanceof Gender)

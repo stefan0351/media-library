@@ -30,6 +30,7 @@ public class DocumentLinksNode extends GenericTreeNode<String> implements Collec
 		super.installListeners();
 	}
 
+	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> nodes=super.loadChildren();
@@ -37,6 +38,7 @@ public class DocumentLinksNode extends GenericTreeNode<String> implements Collec
 		return nodes;
 	}
 
+	@Override
 	public boolean isLeaf()
 	{
 		return document.getLinks().isEmpty();

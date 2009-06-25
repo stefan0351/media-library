@@ -17,6 +17,7 @@ public class ShowGenreTask extends MenuSidebarItem.Task
 		this.genre=genre;
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ShowsView(genre));

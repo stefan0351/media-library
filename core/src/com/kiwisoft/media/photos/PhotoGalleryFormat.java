@@ -4,6 +4,7 @@ import com.kiwisoft.format.DefaultObjectFormat;
 
 public class PhotoGalleryFormat extends DefaultObjectFormat
 {
+	@Override
 	public String format(Object value)
 	{
 		if (value instanceof PhotoGallery)

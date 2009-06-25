@@ -32,11 +32,13 @@ public class ChannelsView extends ViewPanel
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Channels";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>("icon", "name", "receiving");
@@ -48,7 +50,7 @@ public class ChannelsView extends ViewPanel
 		channelListener=new ChannelListener();
 		ChannelManager.getInstance().addCollectionChangeListener(channelListener);
 
-		tableController=new TableController<Channel>(tmChannels, new DefaultTableConfiguration(ChannelsView.class, "channels"))
+		tableController=new TableController<Channel>(tmChannels, new DefaultTableConfiguration("channels.list", ChannelsView.class, "channels"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -80,18 +82,21 @@ public class ChannelsView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		ChannelManager.getInstance().removeCollectionListener(channelListener);
@@ -128,11 +133,13 @@ public class ChannelsView extends ViewPanel
 			super(channel);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -143,6 +150,7 @@ public class ChannelsView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("icon".equals(property))
@@ -157,11 +165,13 @@ public class ChannelsView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), ChannelsView.class);

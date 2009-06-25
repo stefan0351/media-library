@@ -55,6 +55,7 @@ public class SelectShowView extends DetailsView
 	}
 
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		show=showField.getValue();

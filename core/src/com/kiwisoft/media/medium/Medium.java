@@ -155,10 +155,12 @@ public class Medium extends IDObject
 
 	public void setRemainingLength(int remainingLength)
 	{
+		int oldRemainingLength=this.remainingLength;
 		this.remainingLength=remainingLength;
-		setModified();
+		setModified("remainingLength", oldRemainingLength, this.remainingLength);
 	}
 
+	@Override
 	public void delete()
 	{
 		super.delete();
@@ -166,6 +168,7 @@ public class Medium extends IDObject
 		while (it.hasNext()) it.next().delete();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		tracks=null;

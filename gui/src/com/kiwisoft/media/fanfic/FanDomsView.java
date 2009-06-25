@@ -34,11 +34,13 @@ public class FanDomsView extends ViewPanel implements Disposable
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Fan Fiction - Domains";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<FanDom> tableModel=new DefaultSortableTableModel<FanDom>("name");
@@ -47,7 +49,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		tableController=new TableController<FanDom>(tableModel, new DefaultTableConfiguration(FanDomsView.class, "domains"))
+		tableController=new TableController<FanDom>(tableModel, new DefaultTableConfiguration("fandoms.list", FanDomsView.class, "domains"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -83,18 +85,21 @@ public class FanDomsView extends ViewPanel implements Disposable
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		super.installComponentListeners();
 		tableController.installListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		super.removeComponentListeners();
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(updateListener);
@@ -129,11 +134,13 @@ public class FanDomsView extends ViewPanel implements Disposable
 			super(domain);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -144,6 +151,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -155,11 +163,13 @@ public class FanDomsView extends ViewPanel implements Disposable
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), FanDomsView.class);

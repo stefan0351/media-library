@@ -29,16 +29,18 @@ public class BooksView extends ViewPanel
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Books";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>("title", "author", "publisher", "binding", "pageCount", "isbn");
 
-		tableController=new TableController<Book>(tableModel, new DefaultTableConfiguration(BooksView.class, "books"))
+		tableController=new TableController<Book>(tableModel, new DefaultTableConfiguration("books.list", BooksView.class, "books"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -84,18 +86,21 @@ public class BooksView extends ViewPanel
 		return panel;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
@@ -125,11 +130,13 @@ public class BooksView extends ViewPanel
 		}
 	}
 
-    public boolean isBookmarkable()
+    @Override
+	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), BooksView.class);

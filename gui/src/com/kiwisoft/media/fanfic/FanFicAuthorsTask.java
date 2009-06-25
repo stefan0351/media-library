@@ -13,6 +13,7 @@ public class FanFicAuthorsTask extends MenuSidebarItem.Task
 		super("Authors");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new AuthorsView());

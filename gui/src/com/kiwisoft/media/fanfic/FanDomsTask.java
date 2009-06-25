@@ -13,6 +13,7 @@ public class FanDomsTask extends MenuSidebarItem.Task
 		super("Domains");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new FanDomsView());

@@ -175,6 +175,7 @@ public class Season extends IDObject implements Comparable
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		String yearString=getYearString();
@@ -182,6 +183,7 @@ public class Season extends IDObject implements Comparable
 		else return getSeasonName();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		super.afterReload();

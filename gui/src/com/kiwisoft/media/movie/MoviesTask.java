@@ -13,6 +13,7 @@ public class MoviesTask extends MenuSidebarItem.Task
 		super("Movies");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new MoviesView(null));

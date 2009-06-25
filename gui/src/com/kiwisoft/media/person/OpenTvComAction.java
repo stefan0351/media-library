@@ -21,7 +21,8 @@ public class OpenTvComAction extends TextFieldAction
         super(Icons.getIcon("link.open"), "Open TV.com");
     }
 
-    public void actionPerformed(ActionField actionField, ActionEvent event)
+    @Override
+	public void actionPerformed(ActionField actionField, ActionEvent event)
     {
         String key=actionField.getText();
         if (!StringUtils.isEmpty(key))

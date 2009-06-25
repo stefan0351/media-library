@@ -58,6 +58,7 @@ public abstract class WebInfo extends IDObject
 
 	public abstract boolean isDefault();
 
+	@Override
 	public String toString()
 	{
 		return name;

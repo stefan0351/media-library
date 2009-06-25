@@ -13,6 +13,7 @@ public abstract class DateRange
 
 	public static final DateRange TODAY=new DateRange(1L, "Today")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -25,6 +26,7 @@ public abstract class DateRange
 	};
 	public static final DateRange NEXT_24_HOURS=new DateRange(2L, "Next 24 Hours")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -36,6 +38,7 @@ public abstract class DateRange
 	};
 	public static final DateRange NEXT_3_DAYS=new DateRange(3L, "Next 3 Days")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -47,6 +50,7 @@ public abstract class DateRange
 	};
 	public static final DateRange NEXT_7_DAYS=new DateRange(4L, "Next 7 Days")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -58,6 +62,7 @@ public abstract class DateRange
 	};
 	public static final DateRange CURRENT_WEEK=new DateRange(5L, "Current Week")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -70,6 +75,7 @@ public abstract class DateRange
 	};
 	public static final DateRange NEXT_WEEK=new DateRange(6L, "Next Week")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			Calendar calendar=Calendar.getInstance();
@@ -82,6 +88,7 @@ public abstract class DateRange
 	};
 	public static final DateRange CUSTOM=new DateRange(100L, "Custom")
 	{
+		@Override
 		public Date[] calculateDates()
 		{
 			return null;

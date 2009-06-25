@@ -33,6 +33,7 @@ public class ShowInfo extends WebInfo
 		setReference(SHOW, show);
 	}
 
+	@Override
 	public boolean isDefault()
 	{
 		return getShow().getDefaultInfo()==this;

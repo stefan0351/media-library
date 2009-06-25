@@ -69,6 +69,7 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 		return context;
 	}
 
+	@Override
 	public ResourceBundle getBundle()
 	{
 		return ResourceBundle.getBundle(ScheduleTable.class.getName());
@@ -88,6 +89,7 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 			return super.getRendererVariant(columnIndex, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if (TIME.equals(property)) return getUserObject().getDate();

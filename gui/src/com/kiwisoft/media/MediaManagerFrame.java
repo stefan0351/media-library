@@ -35,6 +35,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		setTitle("MediaManager v3.0");
 	}
 
+	@Override
 	protected JMenuBar createMenu()
 	{
 		JMenu menuFile=new JMenu("Import/Export");
@@ -50,11 +51,13 @@ public class MediaManagerFrame extends ApplicationFrame
 		return menuBar;
 	}
 
+	@Override
 	protected JPanel getIntroPanel()
 	{
 		return new IntroPanel();
 	}
 
+	@Override
 	protected void initializeTableComponents()
 	{
 		super.initializeTableComponents();
@@ -73,6 +76,7 @@ public class MediaManagerFrame extends ApplicationFrame
 		editorFactory.setEditor(String.class, "ExistingDirectory", new TableDialogLookupEditor(new FileLookup(JFileChooser.DIRECTORIES_ONLY, true)));
 	}
 
+	@Override
 	protected List<MenuSidebarItem.Task> getTasks()
 	{
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);

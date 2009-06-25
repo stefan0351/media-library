@@ -63,6 +63,7 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		setModified("path", oldPath, getPath());
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		return FanFicManager.getInstance().isAuthorUsed(this);
@@ -142,6 +143,7 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		return "author="+getId();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		mail=null;
@@ -149,6 +151,7 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		super.afterReload();
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

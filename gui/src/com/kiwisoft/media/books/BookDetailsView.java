@@ -195,6 +195,7 @@ public class BookDetailsView extends DetailsView
         }
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try
@@ -245,6 +246,7 @@ public class BookDetailsView extends DetailsView
 		return false;
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return titleField;
@@ -252,6 +254,7 @@ public class BookDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String title=titleField.getText();

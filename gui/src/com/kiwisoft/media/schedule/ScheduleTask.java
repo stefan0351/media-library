@@ -13,6 +13,7 @@ public class ScheduleTask extends MenuSidebarItem.Task
 		super("TV Schedule");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ScheduleView());

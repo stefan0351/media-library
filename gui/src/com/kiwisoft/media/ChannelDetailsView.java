@@ -64,7 +64,7 @@ public class ChannelDetailsView extends DetailsView
         logoPreview.setBorder(new EtchedBorder());
         namesTableModel=new NamesTableModel(false);
         SortableTable tblNames=new SortableTable(namesTableModel);
-        tblNames.initializeColumns(new DefaultTableConfiguration(ChannelDetailsView.class, "names"));
+        tblNames.configure(new DefaultTableConfiguration("channel.names", ChannelDetailsView.class, "names"));
 
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(400, 250));
@@ -136,7 +136,8 @@ public class ChannelDetailsView extends DetailsView
         }
     }
 
-    public boolean apply()
+    @Override
+	public boolean apply()
     {
         String name=nameField.getText();
         if (StringUtils.isEmpty(name))
@@ -202,7 +203,8 @@ public class ChannelDetailsView extends DetailsView
 
     private class FrameTitleUpdater extends DocumentAdapter
     {
-        public void changedUpdate(DocumentEvent e)
+        @Override
+		public void changedUpdate(DocumentEvent e)
         {
             String name=nameField.getText();
             if (StringUtils.isEmpty(name)) name="<unknown>";

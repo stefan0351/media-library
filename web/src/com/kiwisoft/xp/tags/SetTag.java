@@ -14,6 +14,7 @@ public class SetTag extends TagSupport
 	private String name;
 	private String value;
 
+	@Override
 	public int doStartTag() throws JspException
 	{
 		XPBean xpBean;
@@ -40,6 +41,7 @@ public class SetTag extends TagSupport
 		this.value=value;
 	}
 
+	@Override
 	public void release()
 	{
 		name=null;

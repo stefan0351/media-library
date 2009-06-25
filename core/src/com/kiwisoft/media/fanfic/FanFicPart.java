@@ -90,6 +90,7 @@ public class FanFicPart extends IDObject implements ChainLink
 		return getSequence();
 	}
 
+	@Override
 	public String toString()
 	{
 		return source;

@@ -21,16 +21,19 @@ class TvTvDeShowHandler extends TvTvDeHandler<Show>
 		super(loader, object);
 	}
 
+	@Override
 	protected String getName()
 	{
 		return getObject().getTitle();
 	}
 
+	@Override
 	protected Set<SearchPattern> getSearchPatterns()
 	{
 		return SearchManager.getInstance().getSearchPattern(SearchPattern.TVTV, getObject());
 	}
 
+	@Override
 	protected boolean deleteAirdates()
 	{
 		return DBSession.execute(new DeleteAirdatesTransaction());
@@ -52,6 +55,7 @@ class TvTvDeShowHandler extends TvTvDeHandler<Show>
 		return false;
 	}
 
+	@Override
 	protected boolean analyze(TvTvDeAirdateData airdate)
 	{
 		if (super.analyze(airdate))

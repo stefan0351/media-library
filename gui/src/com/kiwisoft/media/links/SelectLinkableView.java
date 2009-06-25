@@ -54,6 +54,7 @@ public class SelectLinkableView extends DetailsView
 	}
 
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		linkable=linkableField.getValue();

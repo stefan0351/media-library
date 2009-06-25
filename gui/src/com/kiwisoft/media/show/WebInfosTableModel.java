@@ -31,6 +31,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 		return COLUMNS.length;
 	}
 
+	@Override
 	public String getColumnName(int column)
 	{
 		return COLUMNS[column];
@@ -96,12 +97,14 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 			return null;
 		}
 
+		@Override
 		public String getCellFormat(int column, String property)
 		{
 			if (column==1) return "ExistingFile";
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Class getCellClass(int col, String property)
 		{
 			switch (col)
@@ -117,6 +120,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 			return super.getCellClass(col, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -133,6 +137,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 			return null;
 		}
 
+		@Override
 		public boolean isEditable(int column, String property)
 		{
 			switch (column)
@@ -147,6 +152,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 			return false;
 		}
 
+		@Override
 		public int setValue(Object value, int column, String property)
 		{
 			switch (column)

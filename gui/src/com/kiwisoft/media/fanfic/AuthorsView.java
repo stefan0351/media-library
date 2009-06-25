@@ -37,11 +37,13 @@ public class AuthorsView extends ViewPanel implements Disposable
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Fan Fiction - Authors";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Author> tableModel=new DefaultSortableTableModel<Author>("name");
@@ -50,7 +52,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		tableController=new TableController<Author>(tableModel, new DefaultTableConfiguration(AuthorsView.class, "authors"))
+		tableController=new TableController<Author>(tableModel, new DefaultTableConfiguration("authors.list", AuthorsView.class, "authors"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -85,18 +87,21 @@ public class AuthorsView extends ViewPanel implements Disposable
 		return tableController.createComponent();
 	}
 
+	@Override
 	public void installComponentListeners()
 	{
 		super.installComponentListeners();
 		tableController.installListeners();
 	}
 
+	@Override
 	public void removeComponentListeners()
 	{
 		super.removeComponentListeners();
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(updateListener);
@@ -134,11 +139,13 @@ public class AuthorsView extends ViewPanel implements Disposable
 			super(author);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -149,6 +156,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -160,11 +168,13 @@ public class AuthorsView extends ViewPanel implements Disposable
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), AuthorsView.class);

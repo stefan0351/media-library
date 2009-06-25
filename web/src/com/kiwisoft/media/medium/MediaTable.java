@@ -35,6 +35,7 @@ public class MediaTable extends SortableWebTable<Medium>
 		sort();
 	}
 
+	@Override
 	public ResourceBundle getBundle()
 	{
 		return ResourceBundle.getBundle(MediaTable.class.getName());
@@ -71,6 +72,7 @@ public class MediaTable extends SortableWebTable<Medium>
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if (ID.equals(property))

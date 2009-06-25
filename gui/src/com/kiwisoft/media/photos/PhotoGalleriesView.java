@@ -22,16 +22,19 @@ public class PhotoGalleriesView extends ViewPanel
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Photo Galleries";
 	}
 
+	@Override
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		PhotoGalleriesTableModel tableModel=new PhotoGalleriesTableModel();
 		tableController=new TableController<PhotoGallery>(tableModel, new DefaultTableConfiguration(PhotoGalleriesTableModel.class))
 		{
+			@Override
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -42,6 +45,7 @@ public class PhotoGalleriesView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public List<ContextAction> getContextActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -54,6 +58,7 @@ public class PhotoGalleriesView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public ContextAction getDoubleClickAction()
 			{
 				return new PhotosAction(frame);
@@ -65,18 +70,21 @@ public class PhotoGalleriesView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
@@ -105,11 +113,13 @@ public class PhotoGalleriesView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), PhotoGalleriesView.class);

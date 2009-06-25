@@ -59,6 +59,7 @@ public class PersonMergeView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		person=null;

@@ -20,6 +20,7 @@ public class FolderNode extends GenericTreeNode<WebFolder> implements Collection
 		super.installListeners();
 	}
 
+	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		WebFolder folder=getUserObject();

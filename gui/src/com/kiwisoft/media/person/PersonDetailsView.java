@@ -96,7 +96,7 @@ public class PersonDetailsView extends DetailsView
 		namesModel=new NamesTableModel(false);
 		SortableTable namesTable=new SortableTable(namesModel);
 		namesTable.setPreferredScrollableViewportSize(new Dimension(300, 100));
-		namesTable.initializeColumns(new DefaultTableConfiguration(PersonDetailsView.class, "names"));
+		namesTable.configure(new DefaultTableConfiguration("person.names", PersonDetailsView.class, "names"));
         imdbField=new ActionField(new OpenImdbAction());
         tvcomField=new ActionField(new OpenTvComAction());
 
@@ -164,6 +164,7 @@ public class PersonDetailsView extends DetailsView
         }
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
     {
 		String name=nameField.getText();
@@ -291,6 +292,7 @@ public class PersonDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();

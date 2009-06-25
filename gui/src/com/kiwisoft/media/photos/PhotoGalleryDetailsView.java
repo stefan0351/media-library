@@ -75,6 +75,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try
@@ -111,6 +112,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();

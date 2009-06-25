@@ -29,11 +29,12 @@ public class ScheduleUpdateManagerView extends ViewPanel
 		setTitle("TV Schedule Update Manager");
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<SearchPattern> model=new DefaultSortableTableModel<SearchPattern>("type", "object", "pattern");
 
-		tableController=new TableController<SearchPattern>(model, new DefaultTableConfiguration(ScheduleUpdateManagerView.class, "patterns"))
+		tableController=new TableController<SearchPattern>(model, new DefaultTableConfiguration("schedule.patterns", ScheduleUpdateManagerView.class, "patterns"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -93,18 +94,21 @@ public class ScheduleUpdateManagerView extends ViewPanel
 		tableModel.sort();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
@@ -118,11 +122,13 @@ public class ScheduleUpdateManagerView extends ViewPanel
 			super(pattern);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -134,6 +140,7 @@ public class ScheduleUpdateManagerView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			IDObject object=getUserObject().getReference();
@@ -149,16 +156,19 @@ public class ScheduleUpdateManagerView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), ScheduleUpdateManagerView.class);
 	}
 
+	@SuppressWarnings({"UnusedDeclaration"})
 	public static void open(Bookmark bookmark, ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ScheduleUpdateManagerView());

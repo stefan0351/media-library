@@ -193,7 +193,7 @@ public class MediumDetailsView extends DetailsView
 			setPreferredSize(new Dimension(600, 300));
 			recordablesModel=new RecordablesTableModel();
 			recordablesTable=new SortableTable(recordablesModel);
-			recordablesTable.initializeColumns(new DefaultTableConfiguration(MediumDetailsView.class, "recordables"));
+			recordablesTable.configure(new DefaultTableConfiguration("medium.recordables", MediumDetailsView.class, "recordables"));
 			row++;
 			add(new JLabel("Records:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
 			add(new JScrollPane(recordablesTable), new GridBagConstraints(1, row, 3, 1, 1.0, 1.0, WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
@@ -227,6 +227,7 @@ public class MediumDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
     {
 		final String name=nameField.getText();
@@ -302,6 +303,7 @@ public class MediumDetailsView extends DetailsView
 
 	private class LengthFieldListener extends MouseAdapter
 	{
+		@Override
 		public void mouseClicked(MouseEvent e)
 		{
 			if (e.getClickCount()>1) lengthField.setEditable(true);
@@ -310,6 +312,7 @@ public class MediumDetailsView extends DetailsView
 
     private class RemainingUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			try
@@ -325,6 +328,7 @@ public class MediumDetailsView extends DetailsView
 
 	private class EpisodesMouseListener extends MouseAdapter
 	{
+		@Override
 		public void mouseClicked(MouseEvent e)
 		{
 			if (e.isPopupTrigger() || e.getButton()==MouseEvent.BUTTON3)
@@ -398,6 +402,7 @@ public class MediumDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			if (nameField.hasFocus()) manualName=true;
@@ -421,16 +426,19 @@ public class MediumDetailsView extends DetailsView
 			return COLUMNS.length;
 		}
 
+		@Override
 		public String getColumnName(int column)
 		{
 			return COLUMNS[column];
 		}
 
+		@Override
 		public boolean isResortable()
 		{
 			return false;
 		}
 
+		@Override
 		@SuppressWarnings({"unchecked"})
 		public void sort()
 		{
@@ -452,6 +460,7 @@ public class MediumDetailsView extends DetailsView
 			language=LanguageManager.getInstance().getLanguageBySymbol("de");
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("event".equals(property))

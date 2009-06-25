@@ -13,6 +13,7 @@ public class PersonsTask extends MenuSidebarItem.Task
 		super("Persons");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PersonsView());

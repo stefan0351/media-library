@@ -210,11 +210,13 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		setModified("webScriptFile", oldFile, this.webScriptFile);
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		return super.isUsed() || ShowManager.getInstance().isEpisodeUsed(this);
 	}
 
+	@Override
 	public String toString()
 	{
 		if (userKey!=null && title!=null) return userKey+": \""+title+"\"";
@@ -249,6 +251,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return getTitle();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		altNames=null;
@@ -393,6 +396,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		track.setEpisode(this);
 	}
 
+	@Override
 	public void delete()
 	{
 		for (Name name : new HashSet<Name>(getAltNames())) dropAltName(name);

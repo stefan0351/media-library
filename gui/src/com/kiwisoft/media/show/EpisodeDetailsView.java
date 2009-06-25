@@ -147,6 +147,7 @@ public class EpisodeDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String number=userKeyField.getText();
@@ -325,6 +326,7 @@ public class EpisodeDetailsView extends DetailsView
 		return panel;
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return userKeyField;
@@ -332,6 +334,7 @@ public class EpisodeDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=titleField.getText();

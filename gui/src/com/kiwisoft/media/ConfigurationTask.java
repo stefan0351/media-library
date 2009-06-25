@@ -13,6 +13,7 @@ public class ConfigurationTask extends MenuSidebarItem.Task
 		super("Configuration");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ConfigurationView());

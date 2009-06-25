@@ -50,11 +50,13 @@ public class MediaTableModel extends MutableSortableTableModel<Medium>
 			return null;
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -82,6 +84,7 @@ public class MediaTableModel extends MutableSortableTableModel<Medium>
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if (ID.equals(property))

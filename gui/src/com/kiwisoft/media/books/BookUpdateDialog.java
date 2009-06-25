@@ -45,7 +45,7 @@ public class BookUpdateDialog extends JDialog
         tableModel=new DefaultSortableTableModel<Book>("title", "author", "isbn", "publisher");
         for (Book book : books) tableModel.addRow(new BookTableRow(book));
         table=new SortableTable(tableModel);
-        table.initializeColumns(new DefaultTableConfiguration(BookUpdateDialog.class, "books"));
+        table.configure(new DefaultTableConfiguration("books.update", BookUpdateDialog.class, "books"));
         table.sizeColumnsToFit(true, true);
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableModel.sort();

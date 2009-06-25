@@ -181,6 +181,7 @@ public class AirdateDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String event=eventField.getText();
@@ -272,6 +273,7 @@ public class AirdateDetailsView extends DetailsView
 			super(null);
 		}
 
+		@Override
 		protected Show getShow()
 		{
 			return showField.getValue();

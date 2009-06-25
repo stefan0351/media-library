@@ -30,11 +30,13 @@ public class PhotosView extends ViewPanel
 		this.photoGallery=photoGallery;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Photos - "+photoGallery.getName();
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		thumbnailPanel=new ThumbnailPanel();
@@ -74,11 +76,13 @@ public class PhotosView extends ViewPanel
 		return GuiUtils.createToolBar(toolBarActions);
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), PhotosView.class);

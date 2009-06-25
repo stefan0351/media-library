@@ -10,6 +10,7 @@ import com.kiwisoft.web.WebContext;
  */
 public class LinkGroupHTMLRenderer extends DefaultHTMLRenderer
 {
+	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof LinkGroup)

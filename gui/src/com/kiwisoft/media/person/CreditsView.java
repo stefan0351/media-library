@@ -124,6 +124,7 @@ public abstract class CreditsView extends ViewPanel
 		return actions;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		castTableController.installListeners();
@@ -131,6 +132,7 @@ public abstract class CreditsView extends ViewPanel
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		castTableController.removeListeners();
@@ -138,6 +140,7 @@ public abstract class CreditsView extends ViewPanel
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		castTableController.dispose();
@@ -145,6 +148,7 @@ public abstract class CreditsView extends ViewPanel
 		super.dispose();
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
@@ -166,11 +170,13 @@ public abstract class CreditsView extends ViewPanel
 			super(cast);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -191,6 +197,7 @@ public abstract class CreditsView extends ViewPanel
 			return 4;
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			CastMember cast=getUserObject();
@@ -215,11 +222,13 @@ public abstract class CreditsView extends ViewPanel
 			super(credit);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -230,6 +239,7 @@ public abstract class CreditsView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Credit credit=getUserObject();

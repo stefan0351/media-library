@@ -14,6 +14,7 @@ import com.kiwisoft.web.WebContext;
  */
 public class ChannelHTMLRenderer extends DefaultHTMLRenderer
 {
+	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Channel)

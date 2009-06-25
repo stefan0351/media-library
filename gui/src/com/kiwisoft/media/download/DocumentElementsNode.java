@@ -30,6 +30,7 @@ public class DocumentElementsNode extends GenericTreeNode<String> implements Col
 		super.installListeners();
 	}
 
+	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> nodes=super.loadChildren();
@@ -37,6 +38,7 @@ public class DocumentElementsNode extends GenericTreeNode<String> implements Col
 		return nodes;
 	}
 
+	@Override
 	public boolean isLeaf()
 	{
 		return document.getElements().isEmpty();

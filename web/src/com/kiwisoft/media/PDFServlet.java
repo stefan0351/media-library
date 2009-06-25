@@ -17,11 +17,13 @@ import com.kiwisoft.utils.xml.XMLWriter;
 
 public class PDFServlet extends HttpServlet
 {
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		process(request, response);
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		process(request, response);

@@ -29,6 +29,7 @@ class TvTvDeAirdateData
 	private String channelKey;
 	private String channelLogo;
 
+	@Override
 	public boolean equals(Object o)
 	{
 		if (this==o) return true;
@@ -43,6 +44,7 @@ class TvTvDeAirdateData
 		return true;
 	}
 
+	@Override
 	public int hashCode()
 	{
 		int result;

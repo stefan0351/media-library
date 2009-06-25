@@ -27,11 +27,13 @@ public class ProductionCreditsView extends CreditsView
 		this.production=production;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return production.getProductionTitle()+" - Credits";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		JTabbedPane tabs=new JTabbedPane();
@@ -43,19 +45,22 @@ public class ProductionCreditsView extends CreditsView
 		return tabs;
 	}
 
+	@Override
 	protected String[] getCastTableColumns()
 	{
 		return new String[]{"type", "character", "actor", "voice"};
 	}
 
+	@Override
 	protected DefaultTableConfiguration getCastTableConfiguration()
 	{
-		return new DefaultTableConfiguration(ProductionCreditsView.class, "cast");
+		return new DefaultTableConfiguration("production.cast", ProductionCreditsView.class, "cast");
 	}
 
+	@Override
 	protected DefaultTableConfiguration getCreditsTableConfiguration()
 	{
-		return new DefaultTableConfiguration(ProductionCreditsView.class, "credits");
+		return new DefaultTableConfiguration("production.credits", ProductionCreditsView.class, "credits");
 	}
 
 	@Override
@@ -77,6 +82,7 @@ public class ProductionCreditsView extends CreditsView
 		return actions;
 	}
 
+	@Override
 	protected String[] getCreditTableColumns()
 	{
 		return new String[]{"type", "subType", "person"};
@@ -150,6 +156,7 @@ public class ProductionCreditsView extends CreditsView
 		}
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ProductionCreditsView.class);

@@ -40,6 +40,7 @@ public class TracksTableModel extends SortableTableModel<Track>
 		return COLUMNS.length;
 	}
 
+	@Override
 	public String getColumnName(int column)
 	{
 		return COLUMNS[column];
@@ -52,11 +53,13 @@ public class TracksTableModel extends SortableTableModel<Track>
 			super(record);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -67,12 +70,14 @@ public class TracksTableModel extends SortableTableModel<Track>
 			fireRowUpdated();
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0) return new Integer(getUserObject().getChainPosition());
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Track record=getUserObject();

@@ -16,6 +16,7 @@ import javax.swing.*;
  */
 public class CountryHTMLRenderer extends DefaultHTMLRenderer
 {
+	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Country)

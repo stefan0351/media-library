@@ -40,16 +40,19 @@ public class MediaView extends ViewPanel implements Pinnable
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Media";
 	}
 
+	@Override
 	protected JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		MediaTableModel tableModel=new MediaTableModel();
 		tableController=new TableController<Medium>(tableModel, new DefaultTableConfiguration(MediaTableModel.class))
 		{
+			@Override
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -62,10 +65,12 @@ public class MediaView extends ViewPanel implements Pinnable
 				return actions;
 			}
 
+			@Override
 			public List<ContextAction> getContextActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
 				actions.add(new MediumDetailsAction());
+				actions.add(new MediaBulkChangeAction(frame));
 				actions.add(null);
 				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
@@ -78,6 +83,7 @@ public class MediaView extends ViewPanel implements Pinnable
 				return actions;
 			}
 
+			@Override
 			public ContextAction getDoubleClickAction()
 			{
 				return new MediumDetailsAction();
@@ -100,16 +106,19 @@ public class MediaView extends ViewPanel implements Pinnable
 		return panel;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		MediumManager.getInstance().removeCollectionListener(mediumListener);
@@ -152,11 +161,13 @@ public class MediaView extends ViewPanel implements Pinnable
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), MediaView.class);

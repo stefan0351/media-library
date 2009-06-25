@@ -16,6 +16,7 @@ public class OutTag extends TagSupport
 	private String bean;
 	private String value;
 
+	@Override
 	public int doStartTag() throws JspException
 	{
 		XPBean xpBean;
@@ -45,6 +46,7 @@ public class OutTag extends TagSupport
 		this.bean=bean;
 	}
 
+	@Override
 	public void release()
 	{
 		value=null;

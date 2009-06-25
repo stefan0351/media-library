@@ -13,6 +13,7 @@ public class FanFicPairingsTask extends MenuSidebarItem.Task
 		super("Pairings");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PairingsView());

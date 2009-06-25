@@ -91,24 +91,29 @@ public abstract class EpisodeDataLoader implements Job
 		for (EpisodeData data : episodes)
 		{
 			if (progress.isStoppedByUser()) return false;
-			Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getTitle());
-			if (episode==null) episode=createEpisode(data);
-			if (episode!=null)
-			{
-				progress.startStep("Loading details for episode "+episode.getUserKey()+": "+data.getTitle()+"...");
-				if (data.getFirstAirdate()==null || data.getFirstAirdate().before(today))
-				{
-					if (!StringUtils.isEmpty(data.getEpisodeUrl()))
-					{
-						loadDetails(data);
-					}
-					saveEpisode(episode, data);
-					Thread.sleep(300); // To avoid DOS on the server
-				}
-			}
+			saveEpisode(data);
 			progress.progress();
 		}
 		return true;
+	}
+
+	protected void saveEpisode(EpisodeData data) throws IOException, InterruptedException
+	{
+		Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getTitle());
+		if (episode==null) episode=createEpisode(data);
+		if (episode!=null)
+		{
+			progress.startStep("Loading details for episode "+episode.getUserKey()+": "+data.getTitle()+"...");
+			if (data.getFirstAirdate()==null || data.getFirstAirdate().before(today))
+			{
+				if (!StringUtils.isEmpty(data.getEpisodeUrl()))
+				{
+					loadDetails(data);
+				}
+				saveEpisode(episode, data);
+				Thread.sleep(300); // To avoid DOS on the server
+			}
+		}
 	}
 
 	protected abstract List<EpisodeData> loadEpisodeList(int season) throws IOException;
@@ -323,7 +328,6 @@ public abstract class EpisodeDataLoader implements Job
 
 		public PersonData(String key, String actor)
 		{
-
 			this.key=key;
 			this.name=actor;
 		}

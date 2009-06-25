@@ -291,27 +291,32 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 
 	private static class NewState extends State
 	{
+		@Override
 		public boolean isEditable()
 		{
 			return true;
 		}
 
+		@Override
 		public boolean isDownloadable()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForDownload(WebDocument document)
 		{
 			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public String toString()
 		{
 			return "New";
 		}
 
+		@Override
 		public String getIcon()
 		{
 			return "webpage.new";
@@ -320,33 +325,39 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 
 	private static class DownloadedState extends State
 	{
+		@Override
 		public boolean isDownloadable()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForDownload(WebDocument document)
 		{
 			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public boolean isDownloaded()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForParsing(WebDocument document)
 		{
 			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public String toString()
 		{
 			return "Downloaded";
 		}
 
+		@Override
 		public String getIcon()
 		{
 			return "webpage.queued";
@@ -355,33 +366,39 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 
 	private static class ParsedState extends State
 	{
+		@Override
 		public boolean isDownloadable()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForDownload(WebDocument document)
 		{
 			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public boolean isDownloaded()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForParsing(WebDocument document)
 		{
 			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public String toString()
 		{
 			return "Parsed";
 		}
 
+		@Override
 		public String getIcon()
 		{
 			return "webpage.queued";
@@ -390,33 +407,39 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 
 	private static class CompletedState extends State
 	{
+		@Override
 		public boolean isDownloadable()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForDownload(WebDocument document)
 		{
 			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public boolean isDownloaded()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForParsing(WebDocument document)
 		{
 			GrabberUtils.getParserQueue().addJob(new ParserJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public String toString()
 		{
 			return "Completed";
 		}
 
+		@Override
 		public String getIcon()
 		{
 			return "webpage.finished";
@@ -425,27 +448,32 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 
 	private static class FailedState extends State
 	{
+		@Override
 		public boolean isEditable()
 		{
 			return true;
 		}
 
+		@Override
 		public boolean isDownloadable()
 		{
 			return true;
 		}
 
+		@Override
 		public void enqueueForDownload(WebDocument document)
 		{
 			GrabberUtils.getDownloadQueue().addJob(new DownloadJob(document));
 			document.setQueued(true);
 		}
 
+		@Override
 		public String toString()
 		{
 			return "Failed";
 		}
 
+		@Override
 		public String getIcon()
 		{
 			return "webpage.error";
@@ -490,7 +518,8 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 		project=(GrabberProject)context.getAttribute("project");
 	}
 
-	public void setXMLAttribute(XMLContext context, String name, String value)
+	@Override
+	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 		if ("fileName".equalsIgnoreCase(name)) this.fileName=value;
 		else if ("error".equalsIgnoreCase(name)) this.error=value;
@@ -520,6 +549,7 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 		}
 	}
 
+	@Override
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 		if (element instanceof DefaultXMLObject)

@@ -144,6 +144,7 @@ public class SearchPatternDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		final Movie movie=movieEnabledField.isSelected() ? movieField.getValue() : null;

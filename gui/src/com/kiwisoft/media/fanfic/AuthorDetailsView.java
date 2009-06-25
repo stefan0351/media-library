@@ -53,6 +53,7 @@ public class AuthorDetailsView extends DetailsView
 		nameField=new JTextField();
 		nameField.getDocument().addDocumentListener(new DocumentAdapter()
 		{
+			@Override
 			public void changedUpdate(DocumentEvent e)
 			{
 				if (author==null) pathField.setText(buildPath(nameField.getText()));
@@ -61,10 +62,10 @@ public class AuthorDetailsView extends DetailsView
 		pathField=new DialogLookupField(new PathLookup());
 		mailModel=new StringTableModel("address");
 		SortableTable tblMails=new SortableTable(mailModel);
-		tblMails.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "mail"));
+		tblMails.configure(new DefaultTableConfiguration("author.mail", AuthorDetailsView.class, "mail"));
 		webModel=new StringTableModel("address");
 		SortableTable tblWeb=new SortableTable(webModel);
-		tblWeb.initializeColumns(new DefaultTableConfiguration(AuthorDetailsView.class, "web"));
+		tblWeb.configure(new DefaultTableConfiguration("author.web", AuthorDetailsView.class, "web"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 200));
@@ -131,6 +132,7 @@ public class AuthorDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String name=nameField.getText();
@@ -202,6 +204,7 @@ public class AuthorDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();

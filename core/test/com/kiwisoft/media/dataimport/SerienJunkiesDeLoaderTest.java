@@ -40,6 +40,7 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
 		SerienJunkiesDeLoader loader=new SerienJunkiesDeLoader(show, "http://www.serienjunkies.de/drwho/episoden.html", 3, 3, false)
 		{
+			@Override
 			protected Episode createEpisode(Show show, EpisodeData info)
 			{
 				return null;

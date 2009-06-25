@@ -89,6 +89,7 @@ public class ScheduleView extends ViewPanel
 		filter=new ShowFilter(show);
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		dateRangeField=new JComboBox(DateRange.values().toArray());
@@ -179,6 +180,7 @@ public class ScheduleView extends ViewPanel
 		search();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		ApplicationListenerSupport listeners=getComponentListenerList();
@@ -247,12 +249,14 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
@@ -287,11 +291,13 @@ public class ScheduleView extends ViewPanel
 			super(airdate);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -311,6 +317,7 @@ public class ScheduleView extends ViewPanel
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0)
@@ -320,6 +327,7 @@ public class ScheduleView extends ViewPanel
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Airdate airdate=getUserObject();
@@ -368,11 +376,13 @@ public class ScheduleView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ScheduleView.class);

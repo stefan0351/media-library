@@ -29,11 +29,13 @@ public class TracksTable extends SortableWebTable<Track>
 		sort();
 	}
 
+	@Override
 	public ResourceBundle getBundle()
 	{
 		return ResourceBundle.getBundle(TracksTable.class.getName());
 	}
 
+	@Override
 	public boolean isResortable()
 	{
 		return false;
@@ -46,12 +48,14 @@ public class TracksTable extends SortableWebTable<Track>
 			super(record);
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0) return new Integer(getUserObject().getChainPosition());
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Track record=getUserObject();

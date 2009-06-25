@@ -14,6 +14,7 @@ public class LinksTask extends MenuSidebarItem.Task
 		super("Links");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new LinksView());

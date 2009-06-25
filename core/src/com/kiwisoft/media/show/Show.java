@@ -265,22 +265,26 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setModified("webDatesFile", oldFile, this.webDatesFile);
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		return super.isUsed() || ShowManager.getInstance().isShowUsed(this);
 	}
 
+	@Override
 	public void delete()
 	{
 		for (Episode episode : new HashSet<Episode>(getEpisodes().elements())) dropEpisode(episode);
 		super.delete();
 	}
 
+	@Override
 	public String toString()
 	{
 		return getTitle();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		altNames=null;

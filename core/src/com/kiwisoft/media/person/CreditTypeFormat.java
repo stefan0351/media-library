@@ -7,6 +7,7 @@ import com.kiwisoft.format.DefaultObjectFormat;
  */
 public class CreditTypeFormat extends DefaultObjectFormat
 {
+	@Override
 	public String format(Object value)
 	{
 		if (value instanceof CreditType)

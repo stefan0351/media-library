@@ -50,6 +50,7 @@ public class CastData
 		return imdbKey;
 	}
 
+	@Override
 	public boolean equals(Object o)
 	{
 		if (this==o) return true;
@@ -61,6 +62,7 @@ public class CastData
 			   && !(role!=null ? !role.equals(castData.role) : castData.role!=null);
 	}
 
+	@Override
 	public int hashCode()
 	{
 		int result;

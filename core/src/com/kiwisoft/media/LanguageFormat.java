@@ -4,7 +4,8 @@ import com.kiwisoft.format.DefaultObjectFormat;
 
 public class LanguageFormat extends DefaultObjectFormat
 {
-    public String format(Object value)
+    @Override
+	public String format(Object value)
     {
         if (value instanceof Language)
         {
@@ -14,7 +15,8 @@ public class LanguageFormat extends DefaultObjectFormat
         return super.format(value);
     }
 
-    public String getIconName(Object value)
+    @Override
+	public String getIconName(Object value)
     {
         if (value instanceof Language)
         {

@@ -45,6 +45,7 @@ public class TrackType implements Identifyable
 		return name;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

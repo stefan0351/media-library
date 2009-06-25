@@ -39,16 +39,18 @@ public class MediaFilesView extends ViewPanel
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Media Files";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<MediaFile> tableModel=new DefaultSortableTableModel<MediaFile>("name", "file", "width", "height", "duration");
 
-		tableController=new TableController<MediaFile>(tableModel, new DefaultTableConfiguration(MediaFilesView.class, "table.files"))
+		tableController=new TableController<MediaFile>(tableModel, new DefaultTableConfiguration("mediafiles.list", MediaFilesView.class, "table.files"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -96,18 +98,21 @@ public class MediaFilesView extends ViewPanel
 		return panel;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
@@ -144,11 +149,13 @@ public class MediaFilesView extends ViewPanel
 			super(picture);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -166,6 +173,7 @@ public class MediaFilesView extends ViewPanel
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("name".equals(property)) return getUserObject();
@@ -188,11 +196,13 @@ public class MediaFilesView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), MediaFilesView.class);

@@ -13,6 +13,7 @@ public class PhotosTask extends MenuSidebarItem.Task
 		super("Photos");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new PhotoGalleriesView());

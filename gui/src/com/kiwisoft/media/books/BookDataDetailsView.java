@@ -195,7 +195,8 @@ public class BookDataDetailsView extends DetailsView
         summaryField.setText(bookData.getSummary());
     }
 
-    public boolean apply()
+    @Override
+	public boolean apply()
     {
         try
         {
@@ -323,7 +324,8 @@ public class BookDataDetailsView extends DetailsView
         return false;
     }
 
-    public JComponent getDefaultFocusComponent()
+    @Override
+	public JComponent getDefaultFocusComponent()
     {
         return titleField;
     }
@@ -353,7 +355,8 @@ public class BookDataDetailsView extends DetailsView
 
     private class FrameTitleUpdater extends DocumentAdapter
     {
-        public void changedUpdate(DocumentEvent e)
+        @Override
+		public void changedUpdate(DocumentEvent e)
         {
             String title=titleField.getText();
             if (StringUtils.isEmpty(title)) title="<unknown>";
@@ -363,7 +366,8 @@ public class BookDataDetailsView extends DetailsView
 
     private class CoverMouseListener extends MouseAdapter
     {
-        public void mouseClicked(MouseEvent e)
+        @Override
+		public void mouseClicked(MouseEvent e)
         {
             if (e.getButton()==MouseEvent.BUTTON1 && e.getClickCount()>1)
             {

@@ -13,6 +13,7 @@ import com.kiwisoft.web.WebContext;
  */
 public class ImageFileHTMLRenderer extends DefaultHTMLRenderer
 {
+	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof ImageFile)

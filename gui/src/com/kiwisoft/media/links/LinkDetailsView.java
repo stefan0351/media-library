@@ -65,6 +65,7 @@ public class LinkDetailsView extends DetailsView
 		initialize();
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Link";
@@ -107,6 +108,7 @@ public class LinkDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try

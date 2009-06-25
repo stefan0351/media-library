@@ -27,6 +27,7 @@ public class DocumentNode extends GenericTreeNode<WebDocument> implements Proper
 		super.installListeners();
 	}
 
+	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> nodes=super.loadChildren();
@@ -38,6 +39,7 @@ public class DocumentNode extends GenericTreeNode<WebDocument> implements Proper
 		return nodes;
 	}
 
+	@Override
 	public boolean isLeaf()
 	{
 		return !getUserObject().isParsable();

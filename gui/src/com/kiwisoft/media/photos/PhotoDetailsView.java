@@ -203,6 +203,7 @@ public class PhotoDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		final String description=descriptionField.getText();

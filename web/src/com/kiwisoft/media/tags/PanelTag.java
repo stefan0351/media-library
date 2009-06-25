@@ -57,6 +57,7 @@ public class PanelTag extends TagSupport
 		this.title=title;
 	}
 
+	@Override
 	public void setId(String id)
 	{
 		this.id=id;

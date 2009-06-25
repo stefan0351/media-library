@@ -55,6 +55,7 @@ public class Gender implements Identifyable
 		return name;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

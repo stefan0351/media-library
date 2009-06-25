@@ -13,6 +13,7 @@ public class ChannelsTask extends MenuSidebarItem.Task
 		super("Channels");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		frame.setCurrentView(new ChannelsView());

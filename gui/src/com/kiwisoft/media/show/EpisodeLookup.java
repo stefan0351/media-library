@@ -49,16 +49,19 @@ public class EpisodeLookup extends TableLookup<Episode>
 		return episodes;
 	}
 
+	@Override
 	protected TableConfiguration getTableConfiguration()
 	{
 		return new DefaultTableConfiguration(EpisodeLookup.class);
 	}
 
+	@Override
 	public String[] getColumnNames()
 	{
 		return new String[]{"key", "title", "germanTitle"};
 	}
 
+	@Override
 	public Object getColumnValue(Episode episode, int column, String property)
 	{
 		if ("key".equals(property)) return episode.getUserKey();

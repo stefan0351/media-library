@@ -18,21 +18,25 @@ class TvTvDePersonHandler extends TvTvDeHandler<Person>
 		super(loader, object);
 	}
 
+	@Override
 	protected String getName()
 	{
 		return getObject().getName();
 	}
 
+	@Override
 	protected Set<SearchPattern> getSearchPatterns()
 	{
 		return SearchManager.getInstance().getSearchPattern(SearchPattern.TVTV, getObject());
 	}
 
+	@Override
 	protected boolean deleteAirdates()
 	{
 		return true;
 	}
 
+	@Override
 	protected boolean analyze(TvTvDeAirdateData airdate)
 	{
 		if (super.analyze(airdate))

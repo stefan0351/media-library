@@ -190,6 +190,7 @@ public class SeasonDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try
@@ -279,6 +280,7 @@ public class SeasonDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return numberField;
@@ -291,6 +293,7 @@ public class SeasonDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name;

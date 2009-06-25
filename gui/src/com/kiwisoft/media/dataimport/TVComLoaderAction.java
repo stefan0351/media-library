@@ -31,11 +31,13 @@ public class TVComLoaderAction extends SimpleContextAction
 									show.getId(), "http://www.tv.com/%/show/%/%");
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
 		{
+			@Override
 			protected String getLinkName()
 			{
 				return "TV.com - "+show.getTitle()+" - Episode List";
 			}
 
+			@Override
 			protected Language getLinkLanguage()
 			{
 				return LanguageManager.getInstance().getLanguageBySymbol("en");
@@ -47,6 +49,7 @@ public class TVComLoaderAction extends SimpleContextAction
 			link=dialog.getLink();
             EpisodeDataLoader process=new TVComLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
+				@Override
 				protected Episode createEpisode(Show show, EpisodeData info)
 				{
 					NoEpisodeDialog dialog=new NoEpisodeDialog(parent, show, info);

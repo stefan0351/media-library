@@ -81,7 +81,7 @@ public class ProSiebenDeLoaderDialog extends JDialog
 											  "Date is missing.", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			if (date.before(DateUtils.getToday().getTime()))
+			if (date.before(DateUtils.getToday()))
 			{
 				JOptionPane.showMessageDialog(ProSiebenDeLoaderDialog.this,
 											  "Date must lie in the future.", "Error", JOptionPane.ERROR_MESSAGE);

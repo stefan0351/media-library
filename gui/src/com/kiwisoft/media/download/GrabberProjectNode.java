@@ -23,6 +23,7 @@ public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implemen
 		super.installListeners();
 	}
 
+	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> nodes=super.loadChildren();
@@ -30,6 +31,7 @@ public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implemen
 		return nodes;
 	}
 
+	@Override
 	public boolean isLeaf()
 	{
 		return getUserObject().getFolders().isEmpty();

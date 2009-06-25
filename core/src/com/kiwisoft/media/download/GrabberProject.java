@@ -184,6 +184,7 @@ public class GrabberProject extends XMLAdapter implements PropertyChangeSource
 		context.setAttribute("project", this);
 	}
 
+	@Override
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 		if (element instanceof WebFolder)

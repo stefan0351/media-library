@@ -121,6 +121,7 @@ public class AudioDetailsView extends DetailsView
 		super.dispose();
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		Set<File> filesToBeDeleted=new HashSet<File>();
@@ -177,6 +178,7 @@ public class AudioDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();

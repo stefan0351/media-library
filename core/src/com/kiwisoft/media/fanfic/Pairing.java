@@ -76,6 +76,7 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		return "pairing="+getId();
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

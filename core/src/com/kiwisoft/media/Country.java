@@ -41,6 +41,7 @@ public class Country extends IDObject implements Comparable
 		setModified("name", oldName, this.name);
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

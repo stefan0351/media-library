@@ -75,17 +75,20 @@ public class NamesTableModel extends DefaultSortableTableModel<String>
 			return 0;
 		}
 
+		@Override
 		public Class getCellClass(int col, String property)
 		{
 			if (LANGUAGE.equals(property)) return Language.class;
 			return String.class;
 		}
 
+		@Override
 		public boolean isEditable(int column, String property)
 		{
 			return true;
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if (NAME.equals(property)) return name;
@@ -103,6 +106,7 @@ public class NamesTableModel extends DefaultSortableTableModel<String>
 			return language;
 		}
 
+		@Override
 		public int setValue(Object value, int column, String property)
 		{
 			if (NAME.equals(property))

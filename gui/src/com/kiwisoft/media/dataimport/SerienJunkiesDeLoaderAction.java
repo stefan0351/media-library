@@ -32,11 +32,13 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 		final Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
 		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
 		{
+			@Override
 			protected String getLinkName()
 			{
 				return "SerienJunkies.de - "+show.getTitle(german);
 			}
 
+			@Override
 			protected Language getLinkLanguage()
 			{
 				return german;
@@ -48,6 +50,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 			link=dialog.getLink();
 			EpisodeDataLoader process=new SerienJunkiesDeLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
 			{
+				@Override
 				protected Episode createEpisode(Show show, EpisodeData info)
 				{
 					NoEpisodeDialog dialog=new NoEpisodeDialog(parent, show, info);

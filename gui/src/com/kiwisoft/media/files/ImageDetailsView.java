@@ -177,6 +177,7 @@ public class ImageDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try
@@ -261,6 +262,7 @@ public class ImageDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=nameField.getText();

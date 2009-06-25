@@ -27,11 +27,13 @@ public class PhotoGalleriesTableModel extends DefaultSortableTableModel<PhotoGal
 			super(gallery);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -49,6 +51,7 @@ public class PhotoGalleriesTableModel extends DefaultSortableTableModel<PhotoGal
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if (NAME.equals(property))

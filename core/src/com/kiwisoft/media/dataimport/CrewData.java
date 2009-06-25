@@ -34,6 +34,7 @@ public class CrewData
 		return imdbKey;
 	}
 
+
 	public String getName()
 	{
 		return name;
@@ -49,6 +50,7 @@ public class CrewData
 		return subType;
 	}
 
+	@Override
 	public boolean equals(Object o)
 	{
 		if (this==o) return true;
@@ -61,6 +63,7 @@ public class CrewData
 			   !(type!=null ? !type.equals(crewData.type) : crewData.type!=null);
 	}
 
+	@Override
 	public int hashCode()
 	{
 		int result;

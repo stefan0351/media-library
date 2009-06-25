@@ -14,7 +14,7 @@ import com.kiwisoft.utils.xml.XMLTagHandler;
  */
 public class LinkTagHandler implements XMLTagHandler
 {
-	public String startTag(XMLContext context, String uri, String localName, String rawName, Attributes attributes)
+	public String startTag(XMLContext context, String name, Attributes attributes)
 	{
 		String showKey=attributes.getValue("show");
 		String episodeKey=attributes.getValue("episode");
@@ -40,7 +40,7 @@ public class LinkTagHandler implements XMLTagHandler
 		return "";
 	}
 
-	public String endTag(XMLContext context, String uri, String localName, String rawName)
+	public String endTag(XMLContext context, String name)
 	{
 		return "</a>";
 	}

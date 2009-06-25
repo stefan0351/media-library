@@ -18,6 +18,7 @@ public class BooksTask extends MenuSidebarItem.Task
 		super("Books");
 	}
 
+	@Override
 	public void perform(ApplicationFrame frame)
 	{
 		log.debug("Books Task selected");

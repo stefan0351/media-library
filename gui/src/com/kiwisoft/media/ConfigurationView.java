@@ -38,6 +38,7 @@ public class ConfigurationView extends ViewPanel
 		return "Configuration";
 	}
 
+	@Override
 	protected JComponent createContentPanel(ApplicationFrame frame)
 	{
 		DefaultSortableTableModel<String> tableModel=new DefaultSortableTableModel<String>("property", "value", "required");
@@ -173,6 +174,7 @@ public class ConfigurationView extends ViewPanel
 			return super.getCellStyle(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("property".equals(property))

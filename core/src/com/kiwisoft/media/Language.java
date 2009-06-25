@@ -50,6 +50,7 @@ public class Language extends IDObject implements Comparable
 		setModified(NAME, oldName, this.name);
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

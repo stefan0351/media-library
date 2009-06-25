@@ -186,11 +186,13 @@ public class Person extends IDObject
 		setModified("tvcomKey", oldTvcomKey, this.tvcomKey);
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		return super.isUsed() || PersonManager.getInstance().isPersonUsed(this);

@@ -21,7 +21,8 @@ public class OpenLinkFieldAction extends TextFieldAction
         super(Icons.getIcon("link.open"), "Open Link in external Browser");
     }
 
-    public void actionPerformed(ActionField actionField, ActionEvent e)
+    @Override
+	public void actionPerformed(ActionField actionField, ActionEvent e)
     {
         String link=actionField.getText();
         if (!StringUtils.isEmpty(link))

@@ -43,19 +43,21 @@ public class MoviesView extends ViewPanel implements Pinnable
 		this.show=show;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		if (show!=null) return show.getTitle()+" - Movies";
 		return "Movies";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>("title", "germanTitle", "year");
 		collectionObserver=new CollectionChangeObserver();
 		MovieManager.getInstance().addCollectionChangeListener(collectionObserver);
 
-		tableController=new TableController<Movie>(tableModel, new DefaultTableConfiguration(MoviesView.class, "movies"))
+		tableController=new TableController<Movie>(tableModel, new DefaultTableConfiguration("movies.list", MoviesView.class, "movies"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -103,18 +105,21 @@ public class MoviesView extends ViewPanel implements Pinnable
 		return panel;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		MovieManager.getInstance().removeCollectionListener(collectionObserver);
@@ -166,11 +171,13 @@ public class MoviesView extends ViewPanel implements Pinnable
 			super(movie);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -181,6 +188,7 @@ public class MoviesView extends ViewPanel implements Pinnable
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			if ("title".equals(property)) return getUserObject().getTitle();
@@ -191,11 +199,13 @@ public class MoviesView extends ViewPanel implements Pinnable
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), MoviesView.class);

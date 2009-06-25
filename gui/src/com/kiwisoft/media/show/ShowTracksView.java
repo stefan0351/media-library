@@ -24,11 +24,13 @@ public class ShowTracksView extends ViewPanel
 		this.show=show;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return show.getTitle()+" - Tracks";
 	}
 
+	@Override
 	public JComponent createContentPanel(ApplicationFrame frame)
 	{
 		ShowTracksTableModel tableModel=new ShowTracksTableModel(show);
@@ -53,29 +55,34 @@ public class ShowTracksView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		tableController.dispose();
 		super.dispose();
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), ShowTracksView.class);

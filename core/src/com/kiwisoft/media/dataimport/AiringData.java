@@ -38,6 +38,7 @@ public class AiringData extends XMLAdapter
 		return time;
 	}
 
+	@Override
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 		if (element instanceof DefaultXMLObject)
@@ -66,6 +67,7 @@ public class AiringData extends XMLAdapter
 		}
 	}
 
+	@Override
 	public String toString()
 	{
 		return channelName+" "+time;

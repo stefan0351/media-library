@@ -128,6 +128,7 @@ public class MovieDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply() throws InvalidDataException
 	{
 		final String name=titleField.getText();
@@ -232,16 +233,16 @@ public class MovieDetailsView extends DetailsView
 		runtimeField=ComponentUtils.createNumberField(Integer.class, 5, 0, 500);
 		SortableTable tblNames=new SortableTable(namesModel);
 		tblNames.setPreferredScrollableViewportSize(new Dimension(300, 100));
-		tblNames.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "names"));
+		tblNames.configure(new DefaultTableConfiguration("movie.names", MovieDetailsView.class, "names"));
 		genresModel=new ObjectTableModel<Genre>("name", Genre.class, null);
 		SortableTable genresTable=new SortableTable(genresModel);
-		genresTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "genres"));
+		genresTable.configure(new DefaultTableConfiguration("movie.genres", MovieDetailsView.class, "genres"));
 		languagesModel=new ObjectTableModel<Language>("name", Language.class, null);
 		SortableTable languagesTable=new SortableTable(languagesModel);
-		languagesTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "languages"));
+		languagesTable.configure(new DefaultTableConfiguration("movie.languages", MovieDetailsView.class, "languages"));
 		countriesModel=new ObjectTableModel<Country>("name", Country.class, null);
 		SortableTable countriesTable=new SortableTable(countriesModel);
-		countriesTable.initializeColumns(new DefaultTableConfiguration(MovieDetailsView.class, "countries"));
+		countriesTable.configure(new DefaultTableConfiguration("movie.countries", MovieDetailsView.class, "countries"));
 
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -345,6 +346,7 @@ public class MovieDetailsView extends DetailsView
 		return panel;
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return titleField;
@@ -352,6 +354,7 @@ public class MovieDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=titleField.getText();

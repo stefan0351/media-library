@@ -80,6 +80,7 @@ public class ImageViewer extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		return true;

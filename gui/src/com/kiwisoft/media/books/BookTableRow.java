@@ -16,12 +16,14 @@ public class BookTableRow extends SortableTableRow<Book> implements PropertyChan
         super(book);
     }
 
-    public void installListener()
+    @Override
+	public void installListener()
     {
         getUserObject().addPropertyChangeListener(this);
     }
 
-    public void removeListener()
+    @Override
+	public void removeListener()
     {
         getUserObject().removePropertyChangeListener(this);
     }
@@ -31,7 +33,8 @@ public class BookTableRow extends SortableTableRow<Book> implements PropertyChan
         fireRowUpdated();
     }
 
-    public Object getDisplayValue(int column, String property)
+    @Override
+	public Object getDisplayValue(int column, String property)
     {
         if ("title".equals(property)) return getUserObject().getTitle();
         if ("author".equals(property)) return StringUtils.formatAsEnumeration(getUserObject().getAuthors(), "; ");

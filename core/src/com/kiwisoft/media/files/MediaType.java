@@ -56,6 +56,7 @@ public class MediaType implements Identifyable
 		return pluralName;
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

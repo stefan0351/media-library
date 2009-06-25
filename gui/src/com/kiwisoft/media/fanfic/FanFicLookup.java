@@ -31,16 +31,19 @@ public class FanFicLookup extends TableLookup<FanFic>
 		}
 	}
 
+	@Override
 	protected TableConfiguration getTableConfiguration()
 	{
 		return new DefaultTableConfiguration(FanFicLookup.class);
 	}
 
+	@Override
 	public String[] getColumnNames()
 	{
 		return COLUMNS;
 	}
 
+	@Override
 	public Object getColumnValue(FanFic fanFic, int column, String property)
 	{
 		if (column==0) return fanFic.getTitle();

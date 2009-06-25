@@ -17,6 +17,7 @@ public class URLNode extends GenericTreeNode<URL>
 		return 1;
 	}
 
+	@Override
 	public boolean isLeaf()
 	{
 		return true;

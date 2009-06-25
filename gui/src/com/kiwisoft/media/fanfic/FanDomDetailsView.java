@@ -60,6 +60,7 @@ public class FanDomDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String name=tfName.getText();
@@ -137,6 +138,7 @@ public class FanDomDetailsView extends DetailsView
 		tfShow.addSelectionListener(referenceListener);
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return tfName;
@@ -174,6 +176,7 @@ public class FanDomDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();

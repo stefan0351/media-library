@@ -148,6 +148,7 @@ public class CastMember extends IDObject
 		setModified("description", oldDescription, this.description);
 	}
 
+	@Override
 	public String toString()
 	{
 		return getCharacterName()+" ("+getActor()+")";

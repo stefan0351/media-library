@@ -35,6 +35,7 @@ public abstract class SerienJunkiesDeLoader extends EpisodeDataLoader
 		return "Load Episodes from SerienJunkies.de";
 	}
 
+	@Override
 	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
 	{
 		String page=loadUrl(getBaseUrl()+"/season"+season+".html");
@@ -88,6 +89,7 @@ public abstract class SerienJunkiesDeLoader extends EpisodeDataLoader
 		return episodes;
 	}
 
+	@Override
 	protected void loadDetails(EpisodeData data) throws IOException
 	{
 		String page=loadUrl(data.getEpisodeUrl());

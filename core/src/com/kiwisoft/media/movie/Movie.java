@@ -238,6 +238,7 @@ public class Movie extends IDObject implements Recordable, Production
 		setModified("webScriptFile", oldValue, this.webScriptFile);
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		if (!super.isUsed())
@@ -251,11 +252,13 @@ public class Movie extends IDObject implements Recordable, Production
 		return true;
 	}
 
+	@Override
 	public String toString()
 	{
 		return title;
 	}
 
+	@Override
 	public void afterReload()
 	{
 		altNames=null;

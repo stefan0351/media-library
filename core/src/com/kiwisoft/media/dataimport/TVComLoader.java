@@ -1,16 +1,17 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.xml.XMLUtils;
+import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.xml.XMLUtils;
-import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
 
 /**
  * @author Stefan Stiller
@@ -18,15 +19,13 @@ import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
 public abstract class TVComLoader extends EpisodeDataLoader
 {
 	private SimpleDateFormat airdateFormat;
-	private Pattern nameLinkPattern;
 
 	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
 		super(show, baseUrl, startSeason, endSeason, autoCreate);
-        Matcher matcher = Pattern.compile(("(http://www.tv.com/.*/show/[0-9]+/).*")).matcher(baseUrl);
-        if (matcher.matches()) setBaseUrl(matcher.group(1));
-        airdateFormat=new SimpleDateFormat("M/d/yyyy");
-		nameLinkPattern=Pattern.compile("http://www.tv.com/.*/person/([0-9]+)/summary.html");
+		Matcher matcher=Pattern.compile(("(http://www.tv.com/.*/show/[0-9]+/).*")).matcher(baseUrl);
+		if (matcher.matches()) setBaseUrl(matcher.group(1));
+		airdateFormat=new SimpleDateFormat("M/d/yyyy");
 	}
 
 	public String getName()
@@ -34,10 +33,10 @@ public abstract class TVComLoader extends EpisodeDataLoader
 		return "Load Episodes from TV.com";
 	}
 
+	@Override
 	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
 	{
 		String page=loadUrl(getBaseUrl()+"episode.html?shv=list&season="+season);
-        System.out.println("page = " + page);
         // Parse episode list
 		int index1;
 		int index2=page.indexOf("<div id=\"episode_listing\">", 0);
@@ -56,7 +55,9 @@ public abstract class TVComLoader extends EpisodeDataLoader
 			if (values.size()<4) break;
 
 			String episodeKey=XMLUtils.removeTags(values.get(0));
-			if (isNumber(episodeKey)) episodeKey=season+"."+(episodeIndex++);
+			if (isNumber(episodeKey)) episodeKey=season+"."+episodeKey;
+			else episodeKey=season+"."+episodeIndex;
+			episodeIndex++;
 			String nameAndLink=values.get(1);
 			XMLUtils.Tag startTag=XMLUtils.getNextTag(nameAndLink, 0, "a");
 			XMLUtils.Tag endTag=XMLUtils.getNextTag(nameAndLink, startTag.end, "/a");
@@ -73,7 +74,8 @@ public abstract class TVComLoader extends EpisodeDataLoader
 			}
 
 			String code=XMLUtils.removeTags(values.get(3));
-			EpisodeData data=new EpisodeData(episodeKey, nameAndLink.substring(startTag.end+1, endTag.start), airdate, code);
+			String title=convertHTML(nameAndLink.substring(startTag.end+1, endTag.start));
+			EpisodeData data=new EpisodeData(episodeKey, title, airdate, code);
 			data.setEpisodeUrl(XMLUtils.getAttribute(startTag.text, "href"));
 
 			episodes.add(data);
@@ -94,17 +96,18 @@ public abstract class TVComLoader extends EpisodeDataLoader
 		}
 	}
 
+	@Override
 	protected void loadDetails(EpisodeData episodeData) throws IOException
 	{
-		String episodePage=loadUrl(episodeData.getEpisodeUrl());
+		String page=loadUrl(episodeData.getEpisodeUrl());
 
 		// Search summary
-		int summaryStart=episodePage.indexOf("<h3 class=\"title\">EPISODE OVERVIEW</h3>");
-		summaryStart=episodePage.indexOf("<div class=\"details\">", summaryStart);
-		summaryStart=episodePage.indexOf("<p class=\"deck\">", summaryStart);
-		summaryStart=episodePage.indexOf(">", summaryStart)+1;
-		int summaryEnd=episodePage.indexOf("</p>", summaryStart);
-		String content=episodePage.substring(summaryStart+5, summaryEnd).trim();
+		int summaryStart=page.indexOf("<h3>Episode Summary</h3>");
+		summaryStart=page.indexOf("</div>", summaryStart);
+		summaryStart=page.indexOf("<p>", summaryStart);
+		summaryStart=page.indexOf(">", summaryStart)+1;
+		int summaryEnd=page.indexOf("</p>", summaryStart);
+		String content=page.substring(summaryStart, summaryEnd).trim();
 		content=ImportUtils.replaceHtmlFormatTags(content);
 		Matcher matcher=Pattern.compile(" <a href=\"[^\"]*\">(Read full|Add a) recap &raquo;</a>").matcher(content);
 		if (matcher.find()) content=content.substring(0, matcher.start());
@@ -112,100 +115,59 @@ public abstract class TVComLoader extends EpisodeDataLoader
 		episodeData.setEnglishSummary(content);
 
 		// Search credits
-		int creditStart=episodePage.indexOf("<h3 class=\"title\">CAST AND CREW</h3>");
-		creditStart=episodePage.indexOf(" <div class=\"info\">", creditStart);
-		int creditEnd=episodePage.indexOf("</div", creditStart);
-		if (creditStart>0 && creditEnd>creditStart)
+		String baseUrl=episodeData.getEpisodeUrl();
+		baseUrl=baseUrl.substring(0, baseUrl.lastIndexOf("/")+1);
+		page=loadUrl(baseUrl+"cast.html");
+
+		Pattern pattern=Pattern.compile("<li class=\"[^\"]*\"><div class=\"wrap\">"+
+										"<div class=\"score_data\">Person Score<div class=\"score\">[0-9\\.]*</div><a href=\"[^\"]*\">[0-9]* Reviews?</a></div>"+
+										"<div class=\"cast_data (?:no_thumb)?\">(?:<a class=\"thumb\" href=\"[^\"]*\" rel=\"nofollow\"><img src=\"http://image.com.com/tv/images/b.gif\" alt=\"Image of \" style=\"background:url\\([^\\)]*\\) no-repeat center;\" /></a>)?"+
+										"<div class=\"personal\">" +
+										"<h4 class=\"name\"><a href=\"(http://www.tv.com/[^\"]+/person/([0-9]+)/summary.html)\\?tag=cast;cast;([a-z_]+);name;[0-9]+\">([^<]+)</a></h4>" +
+										"(?: <a class=\"photos_link\" href=\"[^\"]*\">\\(photos\\)</a>)?" +
+										"</div>"+
+										"<div class=\"role\">Role: (.*?)</div>" +
+										"(?:<p class=\"intro\">(.*?)<a class=\"more_link\" href=\"[^\"]*\">Read More &raquo;</a></p>)?" +
+										"</div></div></li>"
+		, Pattern.DOTALL);
+		matcher=pattern.matcher(page);
+		int index=0;
+		while (matcher.find(index))
 		{
-			int creditIndex=creditStart;
-			while (true)
-			{
-				int itemStart=episodePage.indexOf("<dl", creditIndex);
-				int itemEnd=episodePage.indexOf("</dl>", itemStart);
-				if (itemStart>0 && itemEnd>itemStart && itemStart<creditEnd)
-				{
-					String item=episodePage.substring(itemStart, itemEnd);
-					matcher=Pattern.compile("<dt>(.+):</dt>").matcher(item);
-					if (matcher.find())
-					{
-						String creditName=matcher.group(1);
-						int personIndex=matcher.end();
-						while (true)
-						{
-							int personStart=item.indexOf("<dd>", personIndex);
-							int personEnd=item.indexOf("</dd>", personStart);
-							if (personStart>=0 && personEnd>personStart)
-							{
-								String personText=item.substring(personStart+4, personEnd).trim();
+//			System.out.println("url="+matcher.group(1));
+			String key=matcher.group(2);
+			String type=matcher.group(3);
+			String actor=convertHTML(matcher.group(4));
+			String role=convertHTML(matcher.group(5));
+//			System.out.println("description="+matcher.group(6));
 
-								if ("Writers".equals(creditName) || "Director".equals(creditName))
-								{
-									String[] personStrings=personText.split("</a>");
-									for (String personString : personStrings)
-									{
-										String key=getPersonKey(personString);
-										String name=convertHTML(personString);
-										if ("Writers".equals(creditName)) episodeData.addWrittenBy(new PersonData(key, name));
-										else if ("Director".equals(creditName)) episodeData.addDirectedBy(new PersonData(key, name));
-									}
-								}
-								else if ("Stars".equals(creditName) || "Recurring Role".equals(creditName) || "Guest Star".equals(creditName))
-								{
-									int sep=personText.indexOf("</a>");
-									if (sep==-1)
-									{
-										if (personText.endsWith(")"))
-										{
-											sep=StringUtils.findMatchingBrace(personText, personText.length()-1);
-										}
-									}
-									String name=null;
-									String key=null;
-									String character;
-									if (sep>0)
-									{
-										name=personText.substring(0, sep);
-										key=getPersonKey(name);
-										name=convertHTML(name);
-										character=convertHTML(personText.substring(sep));
-										if (character.startsWith("(") && character.endsWith(")"))
-										{
-											character=character.substring(1, character.length()-1);
-										}
-									}
-									else
-									{
-										character=convertHTML(personText);
-									}
-									PersonData person=null;
-									if (!StringUtils.isEmpty(name)) person=new PersonData(key, name);
-									CastData castData=new CastData(person, character);
-									if ("Stars".equals(creditName)) episodeData.addMainCast(castData);
-									else if ("Recurring Role".equals(creditName)) episodeData.addRecurringCast(castData);
-									else if ("Guest Star".equals(creditName)) episodeData.addGuestCast(castData);
-								}
-								else
-								{
-									getProgress().warning("Unknown credit: "+creditName);
-									break;
-								}
-							}
-							else break;
-							personIndex=personEnd;
-						}
-					}
-
-				}
-				else break;
-				creditIndex=itemEnd;
-			}
+			PersonData personData=new PersonData(key, actor);
+			CastData castData=new CastData(personData, role);
+			if ("star".equals(type)) episodeData.addMainCast(castData);
+			else if ("recurring_role".equals(type)) episodeData.addRecurringCast(castData);
+			else if ("guest_star".equals(type)) episodeData.addGuestCast(castData);
+			else getProgress().error("Unknown cast type: "+type);
+			index=matcher.end();
 		}
-	}
 
-	private String getPersonKey(String html)
-	{
-		Matcher keyMatcher=nameLinkPattern.matcher(XMLUtils.getAttribute(html, "href"));
-		if (keyMatcher.find()) return keyMatcher.group(1);
-		return null;
+		// Load directors/writers
+		page=loadUrl(baseUrl+"cast.html?flag=6");
+		matcher=pattern.matcher(page);
+		index=0;
+		while (matcher.find(index))
+		{
+//			System.out.println("url="+matcher.group(1));
+			String key=matcher.group(2);
+			String type=matcher.group(3);
+			String person=convertHTML(matcher.group(4));
+//			String role=convertHTML(matcher.group(5));
+//			System.out.println("description="+matcher.group(6));
+
+			PersonData personData=new PersonData(key, person);
+			if ("writer".equals(type)) episodeData.addWrittenBy(personData);
+			else if ("director".equals(type)) episodeData.addDirectedBy(personData);
+			else if (!"crew".equals(type)) getProgress().error("Unknown cast type: "+type);
+			index=matcher.end();
+		}
 	}
 }

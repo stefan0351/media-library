@@ -80,11 +80,11 @@ public class ShowDetailsView extends DetailsView
 		languageField=new LookupField<Language>(new LanguageLookup());
 		tmNames=new NamesTableModel(true);
 		SortableTable tblNames=new SortableTable(tmNames);
-		tblNames.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "names"));
+		tblNames.configure(new DefaultTableConfiguration("show.names", ShowDetailsView.class, "names"));
 		webShowField=new JCheckBox();
 
 		WebInfosTableModel<ShowInfo> tmInfos=new WebInfosTableModel<ShowInfo>(false);
-		infosController=new TableController<ShowInfo>(tmInfos, new DefaultTableConfiguration(ShowDetailsView.class, "infos"))
+		infosController=new TableController<ShowInfo>(tmInfos, new DefaultTableConfiguration("show.infos", ShowDetailsView.class, "infos"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -97,7 +97,7 @@ public class ShowDetailsView extends DetailsView
 		};
 		genresModel=new ObjectTableModel<Genre>("name", Genre.class, null);
 		SortableTable tblGenres=new SortableTable(genresModel);
-		tblGenres.initializeColumns(new DefaultTableConfiguration(ShowDetailsView.class, "genres"));
+		tblGenres.configure(new DefaultTableConfiguration("show.genres", ShowDetailsView.class, "genres"));
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(800, 500));
@@ -189,6 +189,7 @@ public class ShowDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		final String title=titleField.getText();
@@ -331,6 +332,7 @@ public class ShowDetailsView extends DetailsView
 
 	private class FrameTitleUpdater extends DocumentAdapter
 	{
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=titleField.getText();

@@ -40,6 +40,7 @@ public class EpisodesView extends ViewPanel
 		this.show=season.getShow();
 	}
 
+	@Override
 	public String getTitle()
 	{
 		if (season!=null)
@@ -48,13 +49,15 @@ public class EpisodesView extends ViewPanel
 			return show.getTitle()+" - Episodes";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>("userkey", "title", "germanTitle", "firstAired");
 		createTableData(tmEpisodes);
 
-		tableController=new TableController<Episode>(tmEpisodes, new DefaultTableConfiguration(EpisodesView.class, "episodes"))
+		tableController=new TableController<Episode>(tmEpisodes, new DefaultTableConfiguration("episodes.list", EpisodesView.class, "episodes"))
 		{
+			@Override
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -69,6 +72,7 @@ public class EpisodesView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public List<ContextAction> getContextActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -84,6 +88,7 @@ public class EpisodesView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public ContextAction getDoubleClickAction()
 			{
 				return new EpisodeDetailsAction();
@@ -113,18 +118,21 @@ public class EpisodesView extends ViewPanel
 		show.addCollectionListener(collectionObserver);
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		if (season==null) show.getEpisodes().removeChainListener(collectionObserver);
@@ -176,11 +184,13 @@ public class EpisodesView extends ViewPanel
 			super(episode);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -191,6 +201,7 @@ public class EpisodesView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0)
@@ -209,6 +220,7 @@ public class EpisodesView extends ViewPanel
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Episode episode=getUserObject();
@@ -227,11 +239,13 @@ public class EpisodesView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), EpisodesView.class);

@@ -26,17 +26,19 @@ public class SeasonsView extends ViewPanel
 		this.show=show;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return show.getTitle()+" - Seasons";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Season> tableModel=new DefaultSortableTableModel<Season>("name", "years");
 		createTableData(tableModel);
 
-		tableController=new TableController<Season>(tableModel, new DefaultTableConfiguration(SeasonsView.class, "seasons"))
+		tableController=new TableController<Season>(tableModel, new DefaultTableConfiguration("seasons.list", SeasonsView.class, "seasons"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -79,18 +81,21 @@ public class SeasonsView extends ViewPanel
 		show.addCollectionListener(collectionObserver);
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		show.removeCollectionListener(collectionObserver);
@@ -129,11 +134,13 @@ public class SeasonsView extends ViewPanel
 			super(season);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -144,6 +151,7 @@ public class SeasonsView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (column==0)
@@ -154,6 +162,7 @@ public class SeasonsView extends ViewPanel
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Season season=getUserObject();
@@ -168,11 +177,13 @@ public class SeasonsView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), SeasonsView.class);

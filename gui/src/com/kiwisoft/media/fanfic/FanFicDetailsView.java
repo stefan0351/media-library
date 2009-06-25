@@ -118,6 +118,7 @@ public class FanFicDetailsView extends DetailsView
 		authorsModel.addSortColumn(0, false);
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String title=titleField.getText();
@@ -243,19 +244,19 @@ public class FanFicDetailsView extends DetailsView
 
 		pairingsModel=new ObjectTableModel<Pairing>("name", Pairing.class, null);
 		pairingsTable=new SortableTable(pairingsModel);
-		pairingsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "pairings"));
+		pairingsTable.configure(new DefaultTableConfiguration("fanfic.pairings", FanFicDetailsView.class, "pairings"));
 
 		fandomsModel=new ObjectTableModel<FanDom>("name", FanDom.class, null);
 		fandomsTable=new SortableTable(fandomsModel);
-		fandomsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "fandoms"));
+		fandomsTable.configure(new DefaultTableConfiguration("fanfic.fandoms", FanFicDetailsView.class, "fandoms"));
 
 		authorsModel=new ObjectTableModel<Author>("name", Author.class, null);
 		authorsTable=new SortableTable(authorsModel);
-		authorsTable.initializeColumns(new DefaultTableConfiguration(FanFicDetailsView.class, "authors"));
+		authorsTable.configure(new DefaultTableConfiguration("fanfic.authors", FanFicDetailsView.class, "authors"));
 
 		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("name");
 		tmParts.setResortable(false);
-		partsController=new TableController<String>(tmParts, new DefaultTableConfiguration(FanFicDetailsView.class, "parts"))
+		partsController=new TableController<String>(tmParts, new DefaultTableConfiguration("fanfic.parts", FanFicDetailsView.class, "parts"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -348,11 +349,13 @@ public class FanFicDetailsView extends DetailsView
 										  WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return titleField;
 	}
 
+	@Override
 	public void dispose()
 	{
 		super.dispose();

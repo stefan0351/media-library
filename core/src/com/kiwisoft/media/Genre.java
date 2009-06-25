@@ -35,6 +35,7 @@ public class Genre extends IDObject
 		setModified("name", oldName, this.name);
 	}
 
+	@Override
 	public String toString()
 	{
 		if (name!=null) return name;

@@ -16,6 +16,7 @@ import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Utils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.swing.actions.ContextAction;
@@ -36,16 +37,18 @@ public class FanFicsView extends ViewPanel
 		this.group=group;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Fan Fiction - "+group.getFanFicGroupName();
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<FanFic> tmFanFics=new DefaultSortableTableModel<FanFic>("id", "title", "author", "fandom", "pairing");
 
-		tableController=new TableController<FanFic>(tmFanFics, new DefaultTableConfiguration(FanFicsView.class, "fanfics"))
+		tableController=new TableController<FanFic>(tmFanFics, new DefaultTableConfiguration("fanfics.list", FanFicsView.class, "fanfics"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -77,6 +80,7 @@ public class FanFicsView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	public void initializeData()
 	{
 		SortableTableModel<FanFic> tableModel=tableController.getModel();
@@ -92,6 +96,7 @@ public class FanFicsView extends ViewPanel
 		tableModel.sort();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
@@ -99,12 +104,14 @@ public class FanFicsView extends ViewPanel
 
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(fanFicListener);
@@ -158,11 +165,13 @@ public class FanFicsView extends ViewPanel
 			super(fanFic);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -173,6 +182,7 @@ public class FanFicsView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -192,11 +202,13 @@ public class FanFicsView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), FanFicsView.class);
@@ -211,7 +223,7 @@ public class FanFicsView extends ViewPanel
 		Long id=new Long(bookmark.getParameter("id"));
 		try
 		{
-			FanFicGroup group=(FanFicGroup)DBLoader.getInstance().load((Class<DBObject>)Class.forName(className), id);
+			FanFicGroup group=(FanFicGroup)DBLoader.getInstance().load(Utils.<DBObject>cast(Class.forName(className)), id);
 			frame.setCurrentView(new FanFicsView(group));
 		}
 		catch (ClassNotFoundException e)

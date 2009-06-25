@@ -125,18 +125,21 @@ public class Channel extends IDObject
 		setReference(LANGUAGE, language);
 	}
 
+	@Override
 	public String toString()
 	{
 		if (name!=null) return name;
 		return super.toString();
 	}
 
+	@Override
 	public void afterReload()
 	{
 		altNames=null;
 		super.afterReload();
 	}
 
+	@Override
 	public boolean isUsed()
 	{
 		return super.isUsed() || ChannelManager.getInstance().isChannelUsed(this);

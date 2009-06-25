@@ -18,6 +18,7 @@ public class StartupServlet extends GenericServlet
 		MediaWebApplication.checkInstance();
 	}
 
+	@Override
 	public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException
 	{
 	}

@@ -26,11 +26,13 @@ public class XPServlet extends HttpServlet
 		templates=ResourceBundle.getBundle("com.kiwisoft.xp.templates");
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		process(request, response);
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
 	{
 		process(request, response);

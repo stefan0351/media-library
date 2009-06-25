@@ -28,6 +28,7 @@ public class LanguageHTMLRenderer extends DefaultHTMLRenderer
 		this.withText=withText;
 	}
 
+	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
 		if (value instanceof Language)

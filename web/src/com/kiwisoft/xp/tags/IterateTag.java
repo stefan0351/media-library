@@ -17,6 +17,7 @@ public class IterateTag extends TagSupport
 	private String element;
 	private Iterator iterator;
 
+	@Override
 	public int doStartTag() throws JspException
 	{
 		XPBean xpBean;
@@ -37,6 +38,7 @@ public class IterateTag extends TagSupport
 		return SKIP_BODY;
 	}
 
+	@Override
 	public int doAfterBody() throws JspException
 	{
 		if (iterator!=null && iterator.hasNext())
@@ -62,6 +64,7 @@ public class IterateTag extends TagSupport
 		values=name;
 	}
 
+	@Override
 	public void release()
 	{
 		iterator=null;

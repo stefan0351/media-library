@@ -39,6 +39,7 @@ public class ShowTracksTable extends SortableWebTable<Track>
 		return super.getRendererVariant(rowIndex, columnIndex);
 	}
 
+	@Override
 	public ResourceBundle getBundle()
 	{
 		return ResourceBundle.getBundle(ShowTracksTable.class.getName());
@@ -51,6 +52,7 @@ public class ShowTracksTable extends SortableWebTable<Track>
 			super(track);
 		}
 
+		@Override
 		public Comparable getSortValue(int column, String property)
 		{
 			if (EVENT.equals(property))
@@ -62,6 +64,7 @@ public class ShowTracksTable extends SortableWebTable<Track>
 			return super.getSortValue(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Track track=getUserObject();

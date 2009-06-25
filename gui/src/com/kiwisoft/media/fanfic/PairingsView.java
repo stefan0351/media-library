@@ -41,11 +41,13 @@ public class PairingsView extends ViewPanel implements Disposable
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Fan Fiction - Pairings";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Pairing> tableModel=new DefaultSortableTableModel<Pairing>("name");
@@ -54,7 +56,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
 
-		tableController=new TableController<Pairing>(tableModel, new DefaultTableConfiguration(PairingsView.class, "pairings"))
+		tableController=new TableController<Pairing>(tableModel, new DefaultTableConfiguration("pairings.list", PairingsView.class, "pairings"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -90,18 +92,21 @@ public class PairingsView extends ViewPanel implements Disposable
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		super.installComponentListeners();
 		tableController.installListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		super.removeComponentListeners();
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		FanFicManager.getInstance().removeCollectionListener(updateListener);
@@ -136,11 +141,13 @@ public class PairingsView extends ViewPanel implements Disposable
 			super(pairing);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -151,6 +158,7 @@ public class PairingsView extends ViewPanel implements Disposable
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -213,11 +221,13 @@ public class PairingsView extends ViewPanel implements Disposable
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), PairingsView.class);

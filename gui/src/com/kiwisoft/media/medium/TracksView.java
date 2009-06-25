@@ -28,6 +28,7 @@ public class TracksView extends ViewPanel
 		this.medium=video;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		StringBuilder name=new StringBuilder(20);
@@ -37,13 +38,14 @@ public class TracksView extends ViewPanel
 		return name.toString();
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		TracksTableModel tableModel=new TracksTableModel(medium);
 		tracksListener=new TracksListener();
 		medium.getTracks().addChainListener(tracksListener);
 
-		tableController=new TableController<Track>(tableModel, new DefaultTableConfiguration(TracksView.class, "tracks"))
+		tableController=new TableController<Track>(tableModel, new DefaultTableConfiguration("tracks.list", TracksView.class, "tracks"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -82,18 +84,21 @@ public class TracksView extends ViewPanel
 		return tableController.createComponent();
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 		super.installComponentListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 		super.removeComponentListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		medium.getTracks().removeChainListener(tracksListener);
@@ -124,11 +129,13 @@ public class TracksView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), TracksView.class);

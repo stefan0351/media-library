@@ -58,11 +58,11 @@ public class IncludedXPBean implements XPBean
 	 * @param name The name of the attribute.
 	 * @param value The value of the attribute.
 	 */
-	public void setXMLAttribute(XMLContext context, String name, String value)
+	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 	}
 
-	public void setXMLReference(XMLContext context, String name, Object value)
+	public void setXMLReference(XMLContext context, String uri, String name, Object value)
 	{
 	}
 

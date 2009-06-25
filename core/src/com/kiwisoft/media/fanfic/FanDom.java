@@ -102,6 +102,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		return "fandom="+getId();
 	}
 
+	@Override
 	public String toString()
 	{
 		return getName();

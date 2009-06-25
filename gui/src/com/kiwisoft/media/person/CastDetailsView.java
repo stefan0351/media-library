@@ -127,6 +127,7 @@ public class CastDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String character=characterField.getText();

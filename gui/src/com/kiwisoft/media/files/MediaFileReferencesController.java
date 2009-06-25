@@ -28,7 +28,7 @@ public class MediaFileReferencesController extends TableController<IDObject>
 	public MediaFileReferencesController()
 	{
 		super(new DefaultSortableTableModel<IDObject>("type", "name"),
-			  new DefaultTableConfiguration(MediaFileReferencesController.class, "references"));
+			  new DefaultTableConfiguration("mediafiles.references", MediaFileReferencesController.class, "references"));
 		setTitle("References");
 		setShowBorder(true);
 	}
@@ -147,6 +147,7 @@ public class MediaFileReferencesController extends TableController<IDObject>
 			return super.getCellFormat(column, property);
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			IDObject object=getUserObject();

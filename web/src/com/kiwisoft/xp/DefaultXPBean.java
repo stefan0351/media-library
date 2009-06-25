@@ -36,7 +36,7 @@ public class DefaultXPBean implements XPBean
 		this.list=new ArrayList<Object>();
 	}
 
-	public void setXMLAttribute(XMLContext context, String name, String value)
+	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 		if (SOURCE_ATTRIBUTES.contains((this.name+"."+name).toLowerCase()))
 		{
@@ -47,7 +47,7 @@ public class DefaultXPBean implements XPBean
 		putValue(name, value);
 	}
 
-	public void setXMLReference(XMLContext context, String name, Object value)
+	public void setXMLReference(XMLContext context, String uri, String name, Object value)
 	{
 		putValue(name, value);
 	}
@@ -67,6 +67,7 @@ public class DefaultXPBean implements XPBean
 		list.add(element);
 	}
 
+	@Override
 	public String toString()
 	{
 		return content;

@@ -38,6 +38,7 @@ public class MediaManager
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter()
 		{
+			@Override
 			public void windowClosing(WindowEvent e)
 			{
 				Configuration.getInstance().saveUserValues();

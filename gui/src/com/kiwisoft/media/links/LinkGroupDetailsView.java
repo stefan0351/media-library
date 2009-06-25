@@ -46,6 +46,7 @@ public class LinkGroupDetailsView extends DetailsView
 		initialize();
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Link Group";
@@ -76,6 +77,7 @@ public class LinkGroupDetailsView extends DetailsView
 		if (group!=null) nameField.setText(group.getName());
 	}
 
+	@Override
 	public boolean apply()
 	{
 		try

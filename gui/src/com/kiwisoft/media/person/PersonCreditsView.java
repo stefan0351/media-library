@@ -18,11 +18,13 @@ public class PersonCreditsView extends CreditsView
 		this.person=person;
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return person.getName()+" - Credits";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		JTabbedPane tabs=new JTabbedPane();
@@ -31,21 +33,25 @@ public class PersonCreditsView extends CreditsView
 		return tabs;
 	}
 
+	@Override
 	protected String[] getCastTableColumns()
 	{
 		return new String[]{"productionType", "production", "character", "type"};
 	}
 
+	@Override
 	protected String[] getCreditTableColumns()
 	{
 		return new String[]{"productionType", "production", "type", "subType"};
 	}
 
+	@Override
 	protected DefaultTableConfiguration getCastTableConfiguration()
 	{
 		return new DefaultTableConfiguration("PersonCreditsView.cast", PersonCreditsView.class, "cast");
 	}
 
+	@Override
 	protected DefaultTableConfiguration getCreditsTableConfiguration()
 	{
 		return new DefaultTableConfiguration("PersonCreditsView.credits", PersonCreditsView.class, "credits");
@@ -63,11 +69,13 @@ public class PersonCreditsView extends CreditsView
 		creditTableModel.sort();
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		Bookmark bookmark=new Bookmark(getTitle(), PersonCreditsView.class);

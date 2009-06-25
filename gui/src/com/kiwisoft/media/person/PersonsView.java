@@ -43,11 +43,13 @@ public class PersonsView extends ViewPanel
 	{
 	}
 
+	@Override
 	public String getTitle()
 	{
 		return "Persons";
 	}
 
+	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Person> tableModel=new DefaultSortableTableModel<Person>("gender", "name");
@@ -55,8 +57,9 @@ public class PersonsView extends ViewPanel
 		personListener=new PersonListener();
 		PersonManager.getInstance().addCollectionChangeListener(personListener);
 
-		tableController=new TableController<Person>(tableModel, new DefaultTableConfiguration(PersonsView.class, "persons"))
+		tableController=new TableController<Person>(tableModel, new DefaultTableConfiguration("persons.list", PersonsView.class, "persons"))
 		{
+			@Override
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -68,6 +71,7 @@ public class PersonsView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public List<ContextAction> getContextActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
@@ -87,6 +91,7 @@ public class PersonsView extends ViewPanel
 				return actions;
 			}
 
+			@Override
 			public ContextAction getDoubleClickAction()
 			{
 				return new PersonDetailsAction();
@@ -106,16 +111,19 @@ public class PersonsView extends ViewPanel
 		return panel;
 	}
 
+	@Override
 	protected void installComponentListeners()
 	{
 		tableController.installListeners();
 	}
 
+	@Override
 	protected void removeComponentListeners()
 	{
 		tableController.removeListeners();
 	}
 
+	@Override
 	public void dispose()
 	{
 		PersonManager.getInstance().removeCollectionListener(personListener);
@@ -153,11 +161,13 @@ public class PersonsView extends ViewPanel
 			super(person);
 		}
 
+		@Override
 		public void installListener()
 		{
 			getUserObject().addPropertyChangeListener(this);
 		}
 
+		@Override
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
@@ -168,6 +178,7 @@ public class PersonsView extends ViewPanel
 			fireRowUpdated();
 		}
 
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			switch (column)
@@ -181,11 +192,13 @@ public class PersonsView extends ViewPanel
 		}
 	}
 
+	@Override
 	public boolean isBookmarkable()
 	{
 		return true;
 	}
 
+	@Override
 	public Bookmark getBookmark()
 	{
 		return new Bookmark(getTitle(), PersonsView.class);

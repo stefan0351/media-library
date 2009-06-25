@@ -45,6 +45,7 @@ public class PairingDetailsView extends DetailsView
 		}
 	}
 
+	@Override
 	public boolean apply()
 	{
 		String name=tfName.getText();
@@ -95,6 +96,7 @@ public class PairingDetailsView extends DetailsView
 		tfName.getDocument().addDocumentListener(new FrameTitleUpdater());
 	}
 
+	@Override
 	public JComponent getDefaultFocusComponent()
 	{
 		return tfName;
@@ -107,6 +109,7 @@ public class PairingDetailsView extends DetailsView
 			changedUpdate(null);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			String name=tfName.getText();
