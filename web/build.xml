@@ -19,6 +19,7 @@
 				<pathelement location="${root.dir}/tomcat/common/lib/servlet-api.jar"/>
 				<pathelement location="${root.dir}/tomcat/common/lib/jasper-runtime.jar"/>
 				<pathelement location="${root.dir}/tomcat/common/lib/jsp-api.jar"/>
+				<pathelement location="${root.dir}/tomcat/server/lib/catalina.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-collections.jar"/>

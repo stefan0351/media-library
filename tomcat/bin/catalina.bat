@@ -36,7 +36,7 @@ rem
 rem $Id: catalina.bat,v 1.11 2004/09/23 20:14:48 yoavs Exp $
 rem ---------------------------------------------------------------------------
 
-set JAVA_OPTS=-Xmx256M
+set JAVA_OPTS=%JAVA_OPTS% -Xmx256M 
 
 rem Guess CATALINA_HOME if not defined
 set CURRENT_DIR=%cd%

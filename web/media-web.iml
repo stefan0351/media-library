@@ -211,6 +211,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="Tomcat 5 (Media)" level="application_server_libraries" />
+    <orderEntry type="library" name="Tomcat Core" level="project" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ACTIVE_VCS_NAME" value="svn" />

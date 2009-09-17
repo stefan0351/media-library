@@ -88,7 +88,7 @@ public class ImportNewWallpapers
 
 	private static void createWallpaper(final Dimension size, final Person person, final String path, final int wallpaperCount)
 	{
-		final String thumbnailPath=MediaFileUtils.createThumbnail(MediaConfiguration.getRootPath(), path, MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, "thb");
+		final String thumbnailPath=MediaFileUtils.createThumbnail(MediaConfiguration.PATH_ROOT, path, MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT, "thb");
 		final Dimension thumbnailSize=MediaFileUtils.getImageSize(FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath));
 		DBSession.execute(new Transactional()
 		{

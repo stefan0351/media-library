@@ -32,6 +32,7 @@ public class AmazonDeLoader
 {
     private static final String ASSOCIATE_TAG="nurbjoern";
     private static final String AWS_ACCESS_KEY_ID="0701HTDSBK2MTTZ94W82";
+	private static final String SECRET_ACCESS_KEY="h3XZzVMKNTbBnla4u/PbIs/zw2Xv0qrUEs8gkUTo";
 
     private String isbn;
 

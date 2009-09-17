@@ -16,6 +16,7 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;
+import com.kiwisoft.utils.HttpConstants;
 import com.kiwisoft.utils.xml.XMLUtils;
 
 /**
@@ -35,7 +36,7 @@ public class IMDbComLoader
 		this.url=url;
 		nameLinkPattern=Pattern.compile("/name/(nm[0-9]+)/");
 		connectionProperties=new HashMap<String, String>();
-		connectionProperties.put(WebUtils.USER_AGENT, WebUtils.MOZILLA_5_0);
+		connectionProperties.put(HttpConstants.USER_AGENT, HttpConstants.AGENT_FIREFOX_3);
 	}
 
 	public MovieData load() throws Exception

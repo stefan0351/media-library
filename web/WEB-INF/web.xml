@@ -49,12 +49,19 @@
 		<description>Servlet import movie data</description>
 		<servlet-class>com.kiwisoft.media.movie.IMDbServlet</servlet-class>
 	</servlet>
+
 	<servlet>
 		<servlet-name>StartupServlet</servlet-name>
 		<display-name>Media Manager Web Application Initializer</display-name>
 		<servlet-class>com.kiwisoft.media.web.StartupServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
+
+    <servlet>
+        <servlet-name>BrowserServlet</servlet-name>
+        <servlet-class>com.kiwisoft.media.web.BrowserServlet</servlet-class>
+        <load-on-startup>9</load-on-startup>
+    </servlet>
 
 	<servlet-mapping>
 		<servlet-name>xp</servlet-name>
