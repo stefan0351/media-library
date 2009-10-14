@@ -4,12 +4,20 @@ import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.Person;
 
-public class CrewData
+import java.io.Serializable;
+
+public class CrewData implements Serializable
 {
+	private static final long serialVersionUID=-2065122511217698103L;
+	
 	private String name;
 	private CreditType type;
 	private String subType;
 	private String imdbKey;
+
+	public CrewData()
+	{
+	}
 
 	public CrewData(Credit crewMember)
 	{
@@ -50,6 +58,37 @@ public class CrewData
 		return subType;
 	}
 
+	public void setImdbKey(String imdbKey)
+	{
+		this.imdbKey=imdbKey;
+	}
+
+	public void setName(String name)
+	{
+		this.name=name;
+	}
+
+	public void setSubType(String subType)
+	{
+		this.subType=subType;
+	}
+
+	public void setType(CreditType type)
+	{
+		this.type=type;
+	}
+
+	public Long getTypeId()
+	{
+		return type!=null? type.getId() : null;
+	}
+
+	public void setTypeId(Long typeId)
+	{
+		if (typeId!=null) type=CreditType.valueOf(typeId);
+		else type=null;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -71,5 +110,16 @@ public class CrewData
 		result=29*result+(type!=null ? type.hashCode() : 0);
 		result=29*result+(subType!=null ? subType.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "CrewData{"+
+			   "name='"+name+'\''+
+			   ", type="+type+
+			   ", subType='"+subType+'\''+
+			   ", imdbKey='"+imdbKey+'\''+
+			   '}';
 	}
 }

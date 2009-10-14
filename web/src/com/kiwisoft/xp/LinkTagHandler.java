@@ -14,6 +14,7 @@ import com.kiwisoft.utils.xml.XMLTagHandler;
  */
 public class LinkTagHandler implements XMLTagHandler
 {
+	@Override
 	public String startTag(XMLContext context, String name, Attributes attributes)
 	{
 		String showKey=attributes.getValue("show");
@@ -40,6 +41,7 @@ public class LinkTagHandler implements XMLTagHandler
 		return "";
 	}
 
+	@Override
 	public String endTag(XMLContext context, String name)
 	{
 		return "</a>";

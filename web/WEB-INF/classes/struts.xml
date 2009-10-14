@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+
+    <package name="default" extends="struts-default">
+
+        <result-types>
+            <result-type name="tiles" class="org.apache.struts2.views.tiles.TilesResult" />
+			<result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+        </result-types>
+
+        <interceptors>
+            <interceptor name="redirectMessages" class="com.kiwisoft.web.struts.RedirectMessageInterceptor" />
+			<interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+            <interceptor-stack name="mediaStack">
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="redirectMessages" />
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="mediaStack"/>
+
+		<global-results>
+			<result name="error" type="tiles">media.main.error</result>			
+			<result name="Exception" type="tiles">media.main.error</result>			
+		</global-results>
+
+        <!-- Book Actions -->
+
+        <action name="ListBooks" class="com.kiwisoft.media.books.ListBooksAction">
+            <result name="success" type="tiles">media.main.books.index</result>
+        </action>
+        <action name="BookDetails" class="com.kiwisoft.media.books.BookDetailsAction">
+            <result name="success" type="tiles">media.main.book.book</result>
+        </action>
+
+		<!-- Episode Actions -->
+
+		<action name="EpisodeDetails" class="com.kiwisoft.media.show.EpisodeDetailsAction">
+			<result name="success" type="tiles">media.main.episode.episode</result>
+		</action>
+		<action name="EpisodeMediaFiles" class="com.kiwisoft.media.show.EpisodeMediaFilesAction">
+			<result name="success" type="tiles">media.main.episode.mediafiles</result>
+		</action>
+
+        <!-- FanFic Actions -->
+
+        <action name="ListFanDoms" class="com.kiwisoft.media.fanfics.ListFanDomsAction">
+            <result name="success" type="tiles">media.main.fanfics.fandoms</result>
+        </action>
+        <action name="ListFanFicPairs" class="com.kiwisoft.media.fanfics.ListFanFicPairsAction">
+            <result name="success" type="tiles">media.main.fanfics.pairings</result>
+        </action>
+        <action name="ListFanFicAuthors" class="com.kiwisoft.media.fanfics.ListFanFicAuthorsAction">
+            <result name="success" type="tiles">media.main.fanfics.authors</result>
+        </action>
+        <action name="ListFanFics" class="com.kiwisoft.media.fanfics.ListFanFicsAction">
+            <result name="success" type="tiles">media.main.fanfics.fanfics</result>
+        </action>
+        <action name="FanFic" class="com.kiwisoft.media.fanfics.FanFicAction">
+            <result name="success" type="tiles">media.main.fanfics.fanfic</result>
+        </action>
+
+        <!-- Link Actions -->
+
+        <action name="Links" class="com.kiwisoft.media.links.LinksAction">
+            <result name="success" type="tiles">media.main.links.index</result>
+        </action>
+
+        <!-- Media Actions -->
+
+        <action name="ListMedia" class="com.kiwisoft.media.medium.ListMediaAction">
+            <result name="success" type="tiles">media.main.media.index</result>
+        </action>
+        <action name="MediumDetails" class="com.kiwisoft.media.medium.MediumDetailsAction">
+            <result name="success" type="tiles">media.main.media.medium</result>
+        </action>
+
+        <!-- Movie Actions -->
+
+        <action name="MovieDetails" class="com.kiwisoft.media.movie.MovieDetailsAction">
+            <result name="success" type="tiles">media.main.movie.movie</result>
+        </action>
+        <action name="ListMovies" class="com.kiwisoft.media.movie.ListMoviesAction">
+            <result name="success" type="tiles">media.main.movies.index</result>
+        </action>
+		<action name="ImportImdb" class="com.kiwisoft.media.movie.ImportImdbAction">
+			<result name="success" type="tiles">media.main.movies.import</result>
+		</action>
+		<action name="SaveMovie" class="com.kiwisoft.media.movie.SaveMovieAction">
+			<interceptor-ref name="json"/>
+			<result name="success" type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+        <!-- Person Actions -->
+
+        <action name="PersonDetails" class="com.kiwisoft.media.person.PersonDetailsAction">
+            <result name="success" type="tiles">media.main.person.person</result>
+        </action>
+		<action name="PersonMediaFiles" class="com.kiwisoft.media.person.PersonMediaFilesAction">
+			<result name="success" type="tiles">media.main.person.mediafiles</result>
+		</action>
+		<action name="PersonSchedule" class="com.kiwisoft.media.person.PersonScheduleAction">
+			<result name="success" type="tiles">media.main.person.schedule</result>
+		</action>
+
+        <!-- Photo Actions -->
+
+        <action name="ListPhotoGalleries" class="com.kiwisoft.media.photos.ListPhotoGalleriesAction">
+            <result name="success" type="tiles">media.main.photos.index</result>
+        </action>
+        <action name="PhotoGalleryDetails" class="com.kiwisoft.media.photos.PhotoGalleryDetailsAction">
+            <result name="success" type="tiles">media.main.photos.gallery</result>
+        </action>
+
+        <!-- Show Actions -->
+
+        <action name="ListShows" class="com.kiwisoft.media.show.ListShowsAction">
+            <result name="success" type="tiles">media.main.shows.index</result>
+        </action>
+        <action name="ListShowGenres" class="com.kiwisoft.media.show.ListShowGenresAction">
+            <result name="success" type="tiles">media.main.shows.genres</result>
+        </action>
+        <action name="ListShowsByGenre" class="com.kiwisoft.media.show.ListShowsByGenreAction">
+            <result name="success" type="tiles">media.main.shows.genre</result>
+        </action>
+		<action name="ShowDetails" class="com.kiwisoft.media.show.ShowDetailsAction">
+			<result type="redirectAction">
+				<param name="actionName">ListEpisodes?showId=${showId}</param>
+			</result>
+			<result name="info" type="redirectAction">
+				<param name="actionName">ShowInfo?infoId=${info.id}</param>
+			</result>
+		</action>
+		<action name="ShowSchedule" class="com.kiwisoft.media.show.ShowScheduleAction">
+			<result name="success" type="tiles">media.main.show.schedule</result>
+		</action>
+		<action name="ShowMediaFiles" class="com.kiwisoft.media.show.ShowMediaFilesAction">
+			<result name="success" type="tiles">media.main.show.mediafiles</result>
+		</action>
+		<action name="ShowTracks" class="com.kiwisoft.media.show.ShowTracksAction">
+			<result name="success" type="tiles">media.main.show.tracks</result>
+		</action>
+		<action name="ShowCredits" class="com.kiwisoft.media.show.ShowCreditsAction">
+			<result name="success" type="tiles">media.main.show.credits</result>
+		</action>
+		<action name="ListEpisodes" class="com.kiwisoft.media.show.ListEpisodesAction">
+			<result name="success" type="tiles">media.main.show.episodes</result>
+		</action>
+		<action name="ShowInfo" class="com.kiwisoft.media.show.ShowInfoAction">
+			<result name="redirect" type="redirect">/res/${info.url}</result>
+			<result name="success" type="tiles">media.main.show.templates/${template}</result>
+		</action>
+
+        <!-- Other Actions -->
+
+		<action name="Home" class="com.kiwisoft.media.HomeAction">
+			<result name="success" type="tiles">media.main.home</result>
+		</action>
+        <action name="Search" class="com.kiwisoft.media.SearchAction">
+            <result name="success" type="tiles">media.main.searchResult</result>
+        </action>
+		<action name="Schedule" class="com.kiwisoft.media.MainScheduleAction">
+			<result name="success" type="tiles">media.main.schedule</result>
+		</action>
+
+        <!-- Default Action -->
+
+        <action name="*" class="com.kiwisoft.media.BaseAction">
+             <result type="tiles">media.main.{1}</result>
+         </action>
+
+    </package>
+</struts>

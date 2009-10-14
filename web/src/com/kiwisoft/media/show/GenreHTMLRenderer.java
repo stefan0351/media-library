@@ -20,7 +20,7 @@ public class GenreHTMLRenderer extends DefaultHTMLRenderer
 			StringBuilder buffer=new StringBuilder();
 			buffer.append("<a class=\"link\" href=\"");
 			buffer.append(context.getContextPath());
-			buffer.append("/shows/genre.jsp?genre=");
+			buffer.append("/ListShowsByGenre.action?genreId=");
 			buffer.append(genre.getId());
 			buffer.append("\">");
 			buffer.append(StringEscapeUtils.escapeHtml(genre.getName()));

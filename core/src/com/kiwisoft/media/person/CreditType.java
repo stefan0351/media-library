@@ -1,11 +1,14 @@
 package com.kiwisoft.media.person;
 
 import java.util.*;
+import java.io.Serializable;
 
 import com.kiwisoft.utils.Identifyable;
 
-public class CreditType implements Identifyable, Comparable<CreditType>
+public class CreditType implements Identifyable, Comparable<CreditType>, Serializable
 {
+	private static final long serialVersionUID=-5770869194813731803L;
+
 	private static final Map<Long, CreditType> map=new HashMap<Long, CreditType>(3);
 	private static final Set<CreditType> nonCastTypes=new HashSet<CreditType>();
 
@@ -49,6 +52,7 @@ public class CreditType implements Identifyable, Comparable<CreditType>
 		if (!cast) nonCastTypes.add(this);
 	}
 
+	@Override
 	public Object getPrimaryKey()
 	{
 		return getId();
@@ -69,6 +73,13 @@ public class CreditType implements Identifyable, Comparable<CreditType>
 		return byName;
 	}
 
+	@Override
+	public String toString()
+	{
+		return getAsName();
+	}
+
+	@Override
 	public int compareTo(CreditType creditType)
 	{
 		return getId().compareTo(creditType.getId());

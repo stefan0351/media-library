@@ -1,74 +1,30 @@
-<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
+<%@ page language="java" %>
 
-<%@ page import="com.kiwisoft.media.photos.PhotoGallery" %>
-<%@ page import="com.kiwisoft.media.photos.PhotoManager" %>
-<%@ page import="com.kiwisoft.utils.Utils" %>
-<%@ page import="com.kiwisoft.web.JspUtils" %>
-<%@ page import="java.util.*" %>
+<%@ taglib prefix="media" uri="/media-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
-<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
-
-<html>
-
-<head>
-<title>Photos</title>
-<script language="JavaScript" src="../overlib.js"></script>
-<link rel="StyleSheet" type="text/css" href="../style.css">
-</head>
-
-<body>
-<a name="top"></a>
-
-<div id="overDiv" class="over_lib"></div>
-
-<media:title>Photos</media:title>
-<media:body>
-	<media:sidebar>
-		<jsp:include page="../_nav.jsp"/>
-	</media:sidebar>
-	<media:content>
-		<media:panel title="Galleries">
-			<table cellspacing="0">
-			<%
-				List galleries=new ArrayList(PhotoManager.getInstance().getGalleries());
-				Collections.sort(galleries, new com.kiwisoft.format.FormatStringComparator());
-				List rows=Utils.splitIntoRows(galleries, 4);
-				for (Iterator itRows=rows.iterator(); itRows.hasNext();)
-				{
-					List row=(List)itRows.next();
-					out.print("<tr>");
-					for (Iterator itGalleries=row.iterator(); itGalleries.hasNext();)
-					{
-						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
-						com.kiwisoft.media.files.ImageFile thumbnail=gallery.getThumbnail();
-			%>
-			<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/clipart/trans10.png);">
-				<a href="<%=request.getContextPath()%>/photos/gallery.jsp?gallery=<%=gallery.getId()%>"><%=renderImage(request, thumbnail, null)%></a>
-			</td>
-			<%
-						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");
-					}
-					out.println("</tr>");
-					out.print("<tr>");
-					for (Iterator itGalleries=row.iterator(); itGalleries.hasNext();)
-					{
-						PhotoGallery gallery=(PhotoGallery)itGalleries.next();
-			%>
-			<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(<%=request.getContextPath()%>/clipart/trans20.png);">
-				[<%=JspUtils.render(request, gallery.getCreationDate(), "Date only")%>]<br>
-				<%=JspUtils.render(request, gallery.getName())%>
-			</td>
-			<%
-						if (itGalleries.hasNext()) out.print("<td width=\"10\"></td>");
-					}
-					out.println("</tr>");
-					if (itRows.hasNext()) out.println("<tr height=\"10\"><td colSpan=\"7\"></td></tr>");
-				}
-			%>
-			</table>
-		</media:panel>
-	</media:content>
-</media:body>
-
-</body>
-</html>
+<media:panel title="Galleries">
+	<table cellspacing="0">
+		<s:set var="rows" value="@com.kiwisoft.utils.Utils@splitIntoRows(galleries, 4)"/>
+		<s:iterator value="#rows" status="itRows">
+			<tr>
+				<s:iterator value="top" status="it">
+					<td style="width:170px; height:130px; text-align:center; vertical-align:middle; background:url(<%=request.getContextPath()%>/style/images/trans10.png);">
+						<a href="<s:url action="PhotoGalleryDetails"><s:param name="galleryId" value="id"/></s:url>"><media:image image="thumbnail"/></a>
+					</td>
+					<s:if test="!#it.last"><td width="10"></td></s:if>
+				</s:iterator>
+			</tr>
+			<tr>
+				<s:iterator value="top" status="it">
+					<td style="width:170px; font-size:8pt; text-align:center; vertical-align:top; background:url(<%=request.getContextPath()%>/style/images/trans20.png);">
+						[<media:format value="creationDate" variant="Date only"/>]<br>
+						<media:format value="name"/>
+					</td>
+					<s:if test="!#it.last"><td width="10"></td></s:if>
+				</s:iterator>
+			</tr>
+			<s:if test="!#itRows.last"><tr height="10"><td colSpan="7"></td></tr></s:if>
+		</s:iterator>
+	</table>
+</media:panel>

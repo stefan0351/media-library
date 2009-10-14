@@ -259,4 +259,18 @@ public class FanFic extends IDObject
 			parts=new Chain<FanFicPart>(DBLoader.getInstance().loadSet(FanFicPart.class, null, "fanfic_id=?", getId()));
 		return parts;
 	}
+
+	public long getSize()
+	{
+		long size=0;
+		for (Iterator itParts=parts.iterator(); itParts.hasNext() && size>=0;)
+		{
+			FanFicPart part=(FanFicPart)itParts.next();
+			long partSize=part.getSize();
+			if (partSize>=0) size+=partSize;
+			else size=-1;
+		}
+		return size;
+	}
+
 }

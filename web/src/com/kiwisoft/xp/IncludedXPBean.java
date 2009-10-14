@@ -36,6 +36,11 @@ public class IncludedXPBean implements XPBean
 		return include.getName();
 	}
 
+	public Object getString(String name)
+	{
+		return include.getString(name);
+	}
+
 	public Object getValue(String name)
 	{
 		return include.getValue(name);

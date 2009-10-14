@@ -1,368 +1,123 @@
-<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="java.util.Date,
-				 java.util.Iterator,
-				 java.util.Set,
-				 org.apache.commons.lang.StringEscapeUtils,
-				 com.kiwisoft.media.*" %>
-<%@ page import="com.kiwisoft.media.person.CastMember" %>
-<%@ page import="com.kiwisoft.media.person.Credit" %>
-<%@ page import="com.kiwisoft.media.person.Person" %>
-<%@ page import="com.kiwisoft.media.show.Episode" %>
-<%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.media.show.ShowManager" %>
-<%@ page import="com.kiwisoft.utils.StringUtils" %>
-<%@ page import="com.kiwisoft.web.JspUtils" %>
-<%@ page import="com.kiwisoft.media.person.CreditType" %>
-<%@ page import="com.kiwisoft.media.medium.MediumManager" %>
-<%@ page import="com.kiwisoft.media.medium.Medium" %>
-<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
+<%@ taglib prefix="media" uri="/media-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
-<%
-	Episode episode=ShowManager.getInstance().getEpisode(new Long(request.getParameter("episode")));
-	request.setAttribute("episode", episode);
-	request.setAttribute("season", episode.getSeason());
-	Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
-	Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
-	Show show=episode.getShow();
-	request.setAttribute("show", show);
-%>
+<media:panel title="%{'Episode '+episode.getTitleWithKey(null)}">
 
-<html>
-
-<head>
-<title><%=StringEscapeUtils.escapeHtml(show.getTitle())%> - <%=StringEscapeUtils.escapeHtml(episode.getTitle())%>
-</title>
-<script language="JavaScript" src="../overlib.js"></script>
-<script language="JavaScript" src="../popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="../style.css">
-</head>
-
-<body>
-<a name="top"></a>
-
-<div id="overDiv" class="over_lib"></div>
-
-<media:title><%=StringEscapeUtils.escapeHtml(show.getTitle())%>
-</media:title>
-
-<div class="main">
-<table cellspacing="0" cellpadding="5">
-<tr valign="top">
-<td width="200">
-	<!--Navigation Start-->
-
-	<jsp:include page="_episode_nav.jsp"/>
-	<jsp:include page="_show_nav.jsp"/>
-	<jsp:include page="_shows_nav.jsp"/>
-	<jsp:include page="../_nav.jsp"/>
-
-	<!--Navigation End-->
-</td>
-<td width="800">
-<!--Content Start-->
-
-<table class="contenttable" width="790">
-<tr>
-	<td class="header1">Episode <%=episode.getTitleWithKey(null)%>
-	</td>
-</tr>
-<tr>
-<td class="content">
-<jsp:include page="/shows/_episode_next.jsp"/>
-<br/>
-<%
-	String englishSummary=episode.getSummaryText(english);
-	String germanSummary=episode.getSummaryText(german);
-	if (!StringUtils.isEmpty(englishSummary) || !StringUtils.isEmpty(germanSummary))
-	{
-%>
-<table class="contenttable" width="765">
-<tr>
-	<td class="header2"><a name="content">Summary</a></td>
-</tr>
-<tr>
-	<td class="content">
-		<%
-			boolean hr=false;
-			if (!StringUtils.isEmpty(englishSummary))
-			{
-				out.print("<p>");
-				out.print(JspUtils.render(request, englishSummary, "preformatted"));
-				out.println("</p>");
-				hr=true;
-			}
-			if (!StringUtils.isEmpty(germanSummary))
-			{
-				if (hr) out.println("<hr size=\"1\" color=\"black\">");
-				out.print("<p>");
-				out.print(JspUtils.render(request, german, "icon only"));
-				out.print(" ");
-				out.print(JspUtils.render(request, germanSummary, "preformatted"));
-				out.println("</p>");
-			}
-		%>
-		<p align=right><a class=link href="#top">Top</a></p>
-	</td>
-</tr>
-</table>
-<%
-	}
-
-	Date airdate=episode.getAirdate();
-	String productionCode=episode.getProductionCode();
-%>
-<table class="contenttable" width="765">
-<tr>
-	<td class="header2"><a name="production">Production Details</a></td>
-</tr>
-<tr>
-	<td class="content">
-		<dl>
-		<%
-			Set names=episode.getAltNames();
-			if (!names.isEmpty() || (!StringUtils.isEmpty(episode.getGermanTitle()) && !episode.getGermanTitle().equals(episode.getTitle())))
-			{
-		%>
-		<dt><b>Also Known As:</b>
-			<dd>
-				<%
-					if (!StringUtils.isEmpty(episode.getGermanTitle()) && !episode.getGermanTitle().equals(episode.getTitle()))
-					{
-						out.print(StringEscapeUtils.escapeHtml(episode.getGermanTitle()));
-						out.print(" (");
-						out.print(JspUtils.render(request, CountryManager.getInstance().getCountryBySymbol("DE")));
-						out.print(")<br>");
-					}
-					for (Iterator it=names.iterator(); it.hasNext();)
-					{
-						Name name=(Name)it.next();
-						out.print(StringEscapeUtils.escapeHtml(name.getName()));
-						out.println(" ("+JspUtils.render(request, name.getLanguage())+")<br>");
-					}
-				%>
-			</dd>
-		</dt>
-		<%
-			}
-			if (airdate!=null)
-			{
-		%>
-		<dt><b>First Aired:</b><dd><%=JspUtils.render(request, airdate, "Date only")%></dd></dt>
-		<%
-			}
-			if (!StringUtils.isEmpty(productionCode))
-			{
-		%>
-		<dt><b>Production Code:</b>
-			<dd><%=productionCode%>
-			</dd>
-		</dt>
-		<%
-			}
-			Set media=MediumManager.getInstance().getMedia(episode);
-			if (!media.isEmpty())
-			{
-		%>
-				<dt><b>Media:</b><dd>
-<%
-	for (Iterator it=media.iterator(); it.hasNext();)
-	{
-		Medium medium=(Medium)it.next();
-		if (medium.isObsolete()) out.print("<strike>");
-		out.print(JspUtils.render(request, medium, "Full"));
-		if (medium.isObsolete()) out.print("</strike>");
-		out.print("<br>");
-	}
-%>
-				</dd></dt>
-<%
-			}
-		%>
-		</dl>
-		<p align=right><a class=link href="#top">Top</a></p>
-	</td>
-</tr>
-</table>
-<%
-
-	Set writers=episode.getCredits(CreditType.WRITER);
-	Set directors=episode.getCredits(CreditType.DIRECTOR);
-	Set mainCast=episode.getCastMembers(CreditType.MAIN_CAST);
-	Set recurringCast=episode.getCastMembers(CreditType.RECURRING_CAST);
-	Set guestCast=episode.getCastMembers(CreditType.GUEST_CAST);
-	if (!writers.isEmpty() || !directors.isEmpty()
-		|| !mainCast.isEmpty() || !recurringCast.isEmpty() || !guestCast.isEmpty())
-	{
-%>
-<table class="contenttable" width="765">
-<tr>
-	<td class="header2"><a name="castAndCrew">Cast and Crew</a></td>
-</tr>
-<tr>
-<td class="content">
-<dl>
-<%
-	if (!writers.isEmpty())
-	{
-%>
-<dt><b>Writing credits:</b>
-	<dd>
-		<%
-			for (Iterator it=writers.iterator(); it.hasNext();)
-			{
-				Credit crew=(Credit)it.next();
-				out.print(JspUtils.render(request, crew.getPerson()));
-				if (!StringUtils.isEmpty(crew.getSubType())) out.print(" ("+crew.getSubType()+")");
-				if (it.hasNext()) out.println(",");
-			}
-		%>
-	</dd>
-</dt>
-<%
-	}
-	if (!directors.isEmpty())
-	{
-%>
-<dt><b>Directed by:</b>
-	<dd>
-		<%
-			for (Iterator it=directors.iterator(); it.hasNext();)
-			{
-				Credit crew=(Credit)it.next();
-				out.print(JspUtils.render(request, crew.getPerson()));
-				if (it.hasNext()) out.println(",");
-			}
-		%>
-	</dd>
-</dt>
-<%
-	}
-	if (!mainCast.isEmpty())
-	{
-%>
-<dt><b>Main Cast:</b>
-	<dd>
-		<table cellspacing=2 cellpadding=0>
-		<%
-			for (Iterator it=mainCast.iterator(); it.hasNext();)
-			{
-				CastMember castMember=(CastMember)it.next();
-				Person actor=castMember.getActor();
-		%>
+	<table class="contenttable" width="765">
+		<tr><td class="header2"><a name="content">Summary</a></td></tr>
 		<tr>
-			<td class="content2"><%=JspUtils.render(request, actor)%></td>
-			<td class="content2">...</td>
-			<td class="content2"><%=castMember.getCharacterName()%>
+			<td class="content">
+				<s:if test="!summaries.empty">
+					<s:iterator value="summaries" status="it">
+						<p><media:format value="language" variant="icon only"/>
+							<media:format value="summary" variant="preformatted"/></p>
+						<s:if test="!#it.last">
+							<hr size="1" color="black">
+						</s:if>
+					</s:iterator>
+				</s:if>
 			</td>
-			<%
-				if (!StringUtils.isEmpty(castMember.getVoice()))
-				{
-			%>
-			<td class="content2">voice:</td>
-			<td class="content2"><%=castMember.getVoice()%>
-			</td>
-			<%
-				}
-			%>
 		</tr>
-		<%
-			}
-		%>
-		</table>
-	</dd>
-</dt>
-<%
-	}
-	if (!recurringCast.isEmpty())
-	{
-%>
-<dt><b>Recurring Cast:</b>
-	<dd>
-		<table cellspacing=2 cellpadding=0>
-		<%
-			for (Iterator it=recurringCast.iterator(); it.hasNext();)
-			{
-				CastMember castMember=(CastMember)it.next();
-				Person actor=castMember.getActor();
-		%>
-		<tr>
-			<td class="content2"><%=JspUtils.render(request, actor)%></td>
-			<td class="content2">...</td>
-			<td class="content2"><%=castMember.getCharacterName()%>
-			</td>
-			<%
-				if (!StringUtils.isEmpty(castMember.getVoice()))
-				{
-			%>
-			<td class="content2">voice:</td>
-			<td class="content2"><%=castMember.getVoice()%>
-			</td>
-			<%
-				}
-			%>
-		</tr>
-		<%
-			}
-		%>
-		</table>
-	</dd>
-</dt>
-<%
-	}
-	if (!guestCast.isEmpty())
-	{
-%>
-<dt><b>Guest Cast:</b>
-	<dd>
-		<table cellspacing=2 cellpadding=0>
-		<%
-			for (Iterator it=guestCast.iterator(); it.hasNext();)
-			{
-				CastMember castMember=(CastMember)it.next();
-				Person actor=castMember.getActor();
-		%>
-		<tr>
-			<td class="content2"><%=JspUtils.render(request, actor)%></td>
-			<td class="content2">...</td>
-			<td class="content2"><%=castMember.getCharacterName()%>
-			</td>
-			<%
-				if (!StringUtils.isEmpty(castMember.getVoice()))
-				{
-			%>
-			<td class="content2">voice:</td>
-			<td class="content2"><%=castMember.getVoice()%>
-			</td>
-			<%
-				}
-			%>
-		</tr>
-		<%
-			}
-		%>
-		</table>
-	</dd>
-</dt>
-<%
-	}
-%>
-</dl>
-<p align=right><a class=link href="#top">Top</a></p>
-</td>
-</tr>
-</table>
-<%
-	}
-%>
-</td>
-</tr>
-</table>
+	</table>
 
-<!--Content End-->
-</td>
-</tr>
-</table>
-</div>
+	<table class="contenttable" width="765">
+		<tr><td class="header2"><a name="production">Production Details</a></td></tr>
+		<tr>
+			<td class="content">
+				<dl>
+					<s:if test="(!episode.germanTitle.empty && episode.germanTitle!=episode.title) || !episode.altNames.empty">
+						<dt>Also Known As</dt>
+						<s:if test="!episode.germanTitle.empty && episode.germanTitle!=episode.title">
+							<dd><s:property value="episode.germanTitle"/> (<media:format value="germany"/>)</dd>
+						</s:if>
+						<s:iterator value="episode.altNames">
+							<dd><s:property value="name"/> (<media:format value="language"/>)</dd>
+						</s:iterator>
+					</s:if>
+					<s:if test="episode.airdate!=null">
+						<dt>First Aired:</dt>
+						<dd><media:format value="episode.airdate" variant="Date only"/></dd>
+					</s:if>
+					<s:if test="!episode.productionCode.empty">
+						<dt>Production Code:</dt>
+						<dd><s:property value="episode.productionCode"/></dd>
+					</s:if>
+					<s:set var="media" value="episode.media"/>
+					<s:if test="!#media.empty">
+						<dt>Media:</dt>
+						<s:iterator value="#media">
+							<dd <s:if test="obsolete">style="text-decoration: line-through;"</s:if>>
+								<media:format value="top" variant="Full"/>
+							</dd>
+						</s:iterator>
+					</s:if>
+				</dl>
+			</td>
+		</tr>
+	</table>
 
-</body>
-</html>
+	<s:if test="!writers.empty || !directors.empty || !mainCast.empty || !recurringCast.empty || !guestCast.empty">
+		<table class="contenttable" width="765">
+			<tr><td class="header2"><a name="castAndCrew">Cast and Crew</a></td></tr>
+			<tr>
+				<td class="content">
+					<dl>
+						<s:if test="!writers.empty">
+							<dt>Writing Credits:</dt>
+							<dd><s:iterator value="writers" status="it">
+								<s:if test="!#it.first">, </s:if><media:format value="person"/>
+								<s:if test="!subType.empty"> (<s:property value="subType"/>)</s:if>
+							</s:iterator></dd>
+						</s:if>
+						<s:if test="!directors.empty">
+							<dt>Directed by:</dt>
+							<dd><s:iterator value="directors" status="it">
+								<s:if test="!#it.first">, </s:if><media:format value="person"/>
+							</s:iterator></dd>
+						</s:if>
+						<s:if test="!mainCast.empty">
+							<dt>Main Cast:</dt>
+							<dd>
+								<table cellspacing="2" cellpadding="2">
+									<s:iterator value="mainCast">
+										<tr><td class="content2"><media:format value="actor"/></td>
+											<td>...</td>
+											<td><s:property value="characterName"/></td>
+											<td><s:if test="!voice.empty">voice: <s:property value="voice"/></s:if></td></tr>
+									</s:iterator>
+								</table>
+							</dd>
+						</s:if>
+						<s:if test="!recurringCast.empty">
+							<dt>Recurring Cast:</dt>
+							<dd>
+								<table cellspacing="2" cellpadding="2">
+									<s:iterator value="recurringCast">
+										<tr><td class="content2"><media:format value="actor"/></td>
+											<td>...</td>
+											<td><s:property value="characterName"/></td>
+											<td><s:if test="!voice.empty">voice: <s:property value="voice"/></s:if></td></tr>
+									</s:iterator>
+								</table>
+							</dd>
+						</s:if>
+						<s:if test="!guestCast.empty">
+							<dt>Guest Cast:</dt>
+							<dd>
+								<table cellspacing="2" cellpadding="2">
+									<s:iterator value="guestCast">
+										<tr><td class="content2"><media:format value="actor"/></td>
+											<td>...</td>
+											<td><s:property value="characterName"/></td>
+											<td><s:if test="!voice.empty">voice: <s:property value="voice"/></s:if></td></tr>
+									</s:iterator>
+								</table>
+							</dd>
+						</s:if>
+					</dl>
+				</td>
+			</tr>
+		</table>
+	</s:if>
+</media:panel>
+

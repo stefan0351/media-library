@@ -30,8 +30,9 @@ import com.kiwisoft.cfg.Configuration;
 public class MediaFileUtils
 {
 	public static final int THUMBNAIL_WIDTH=160;
-	public static final int THUMBNAIL_SIDEBAR_WIDTH=170;
 	public static final int THUMBNAIL_HEIGHT=120;
+	public static final int THUMBNAIL_SIDEBAR_WIDTH=170;
+	public static final int THUMBNAIL_SIDEBAR_HEIGHT=-1;
 
 	public static final TimeFormat DURATION_FORMAT=new TimeFormat("H:mm:ss");
 

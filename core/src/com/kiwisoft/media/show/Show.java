@@ -10,6 +10,8 @@ import java.util.*;
 
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileManager;
+import com.kiwisoft.media.files.MediaType;
 import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanFicGroup;
@@ -519,5 +521,15 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public void setLinkGroup(LinkGroup group)
 	{
 		setReference(LINK_GROUP, group);
+	}
+
+	public boolean hasImages()
+	{
+		return MediaFileManager.getInstance().getNumberOfMediaFiles(this, MediaType.IMAGE)>0;
+	}
+
+	public boolean hasVideos()
+	{
+		return MediaFileManager.getInstance().getNumberOfMediaFiles(this, MediaType.VIDEO)>0;
 	}
 }

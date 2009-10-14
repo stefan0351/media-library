@@ -3,15 +3,23 @@ package com.kiwisoft.media.dataimport;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Person;
 
+import java.io.Serializable;
+
 /**
  * @author Stefan Stiller
  */
-public class CastData
+public class CastData implements Serializable
 {
+	private static final long serialVersionUID=-1107097608838199653L;
+	
 	private String actor;
 	private String role;
 	private Integer creditOrder;
 	private String imdbKey;
+
+	public CastData()
+	{
+	}
 
 	public CastData(CastMember castMember)
 	{
@@ -50,6 +58,26 @@ public class CastData
 		return imdbKey;
 	}
 
+	public void setActor(String actor)
+	{
+		this.actor=actor;
+	}
+
+	public void setCreditOrder(Integer creditOrder)
+	{
+		this.creditOrder=creditOrder;
+	}
+
+	public void setImdbKey(String imdbKey)
+	{
+		this.imdbKey=imdbKey;
+	}
+
+	public void setRole(String role)
+	{
+		this.role=role;
+	}
+
 	@Override
 	public boolean equals(Object o)
 	{
@@ -69,5 +97,16 @@ public class CastData
 		result=(actor!=null ? actor.hashCode() : 0);
 		result=29*result+(role!=null ? role.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "CastData{"+
+			   "creditOrder="+creditOrder+
+			   ", actor='"+actor+'\''+
+			   ", role='"+role+'\''+
+			   ", imdbKey='"+imdbKey+'\''+
+			   '}';
 	}
 }

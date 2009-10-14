@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.kiwisoft.web.*;
 import com.kiwisoft.utils.StringUtils;
+import org.apache.struts2.views.jsp.StrutsBodyTagSupport;
+import org.apache.struts2.ServletActionContext;
 
 /**
  * @author Stefan Stiller
  */
-public class TableTag extends TagSupport
+public class TableTag extends StrutsBodyTagSupport
 {
 	private String model;
 	private boolean alternateRows;
@@ -30,9 +32,7 @@ public class TableTag extends TagSupport
 			{
 				HttpServletRequest request=(HttpServletRequest)pageContext.getRequest();
 
-				SortableWebTable table=(SortableWebTable)pageContext.getAttribute(model);
-				if (table==null) table=(SortableWebTable)request.getAttribute(model);
-				if (table==null) table=(SortableWebTable)pageContext.getSession().getAttribute(model);
+				SortableWebTable table=(SortableWebTable) findValue(model, SortableWebTable.class);
 				if (table!=null)
 				{
 					try
@@ -137,7 +137,11 @@ public class TableTag extends TagSupport
 			out.print("<td class=\"tcell\">");
 			if (table.isResortable())
 			{
-				out.print("<a class=hiddenlink href=\""+request.getContextPath()+request.getServletPath()+"?");
+				String requestURI = (String) request.getAttribute("struts.request_uri");
+				if (requestURI == null) requestURI = (String) request.getAttribute("javax.servlet.forward.request_uri");
+				if (requestURI == null) requestURI = request.getRequestURI();
+
+				out.print("<a class=hiddenlink href=\""+requestURI+"?");
 				if (queryString!=null && queryString.length()>0) out.print(queryString);
 				out.print("sort="+column+"&dir="+sortDir+"\">");
 			}

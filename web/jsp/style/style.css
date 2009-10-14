@@ -1,0 +1,238 @@
+/* Main Title ------------------------------------------------------------------- */
+
+.title {
+	position:absolute;
+	top:10px;
+	left:10px;
+	width:1000px;
+	height:50px;
+	border:solid 1px black;
+	background:url(images/bg_title.png);
+	color:black;
+	font-family:Verdana,serif;
+	font-weight:bold;
+	font-size:20pt;
+}
+
+.main {
+	background:url(images/bg_main.png);
+	position:absolute;
+	top:61px;
+	left:10px;
+	width:1000px;
+	min-height:750px;
+	border:solid 1px black;
+	overflow:auto;
+}
+
+/* Menu ------------------------------------------------------------------------- */
+
+.menutable {
+	width:190px; 
+	border:solid 1px black; 
+	background:white;
+	padding:0;
+	border-spacing:0;
+	margin-bottom:5px;
+}
+
+.menuheader {
+	background:url(images/header1.png);
+	height:19px;
+	color:black;
+	font-family:Verdana,serif;
+	font-weight:bold;
+	font-size:11pt;
+	text-align:center;
+	
+}
+
+.menuitem {
+	background:white;
+	font-family:Verdana,serif;
+	font-size:10pt;
+}
+
+a.menulink {
+	text-decoration:none;
+	color:black;
+}
+
+a.menulink:hover, a.menulink:focus {
+	color:white;
+	background:#005500;
+}
+
+/* Content ---------------------------------------------------------------------- */
+
+.contenttable {
+	border:solid 1px black;
+	border-spacing:0;
+	font-family:Verdana,serif;
+	margin-bottom:5px;
+}
+
+
+.header1 {
+	background:url(images/header1.png);
+	height:20px;
+	color:black;
+	font-weight:bold;
+}
+
+.header2 {
+	background:url(images/header2.png);
+	height:20px;
+	color:black;
+	font-weight:bold;
+}
+
+.content {
+	font-size:9pt;
+	padding:10px;
+}
+
+.content2 {
+	font-size:9pt;
+}
+
+/* Tables ---------------------------------------------------------------------- */
+
+td.tcell {
+	padding: 2px 12px 2px 2px;
+	border-right:solid 1px black;
+}
+
+td.tcell2 {
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-right:12px;
+	padding-left:2px;
+}
+
+tr.thead {
+	background:url(images/trans30.png);
+	font-weight:bold;
+	font-size:9pt;
+}
+
+tr.trow1 {
+	background:url(images/trans10.png);
+	font-size:9pt;
+}
+
+tr.trow2 {
+	font-size:9pt;
+}
+
+table.table1 {
+	border: solid 1px black;
+	border-spacing:0;
+	border-collapse:collapse;
+	margin-bottom:5px;
+}
+
+/* Links ------------------------------------------------------------------------ */
+
+a.link {
+	text-decoration: none;
+	color:#669966;
+}
+
+a.hiddenlink {
+	text-decoration: none;
+	color:black;
+}
+
+a.image {
+	text-decoration: none;
+	color:black;
+}
+
+a.image:hover, a.image:focus {
+	background:#005500;
+	color:white;
+}
+
+/* Listen -------------------------------------------------------------------------*/
+
+ul {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+li {
+	list-style-image: url(images/li.png)
+}
+
+.errorList {
+    color: red;
+}
+
+.errorList li {
+	list-style: circle;
+}
+
+div#overDiv {
+	position:absolute;
+	visibility:hidden;
+	z-index:1;
+}
+
+dt {
+    font-weight:bold;
+}
+
+img {
+	border:0px;
+}
+img[onclick] {
+	cursor:pointer
+}
+
+/* Tables */
+
+.stdTable {
+	border: solid 1px black;
+	border-spacing: 0;
+	border-collapse: collapse;
+	margin-bottom: 5px;
+}
+
+.stdTable tr {
+	font-size: 9pt;
+}
+
+.stdTable thead tr {
+	background: url(images/trans30.png);
+	font-weight: bold;
+}
+
+.stdTable .even {
+	background: url(images/trans10.png);
+}
+
+.stdTable tfoot tr {
+	background: url(images/trans20.png);
+}
+
+.stdTable td {
+	padding: 2px 5px 2px 2px;
+}
+
+/* Forms */
+
+input.numberField {
+	text-align: right;
+	width: 50px;
+}
+
+.stdTable input {
+	font-size: 9pt;
+	padding:1px;
+}
+
+.stdTable select {
+	font-size: 9pt;
+	padding:1px;
+}

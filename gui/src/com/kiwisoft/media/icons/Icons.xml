@@ -12,12 +12,6 @@
 	<icon key="edit">
 		<resource url="/com/kiwisoft/media/icons/page_edit.png"/>
 	</icon>
-	<icon key="add">
-		<resource url="/com/kiwisoft/media/icons/add.png"/>
-	</icon>
-	<icon key="delete">
-		<resource url="/com/kiwisoft/media/icons/delete.png"/>
-	</icon>
 	<icon key="movie">
 		<resource url="/com/kiwisoft/media/icons/film.png"/>
 	</icon>
@@ -71,12 +65,6 @@
 	</icon>
 	<icon key="cast">
 		<resource url="/com/kiwisoft/media/icons/group.png"/>
-	</icon>
-	<icon key="move.up">
-		<resource url="/com/kiwisoft/media/icons/arrow_up.png"/>
-	</icon>
-	<icon key="move.down">
-		<resource url="/com/kiwisoft/media/icons/arrow_down.png"/>
 	</icon>
 	<icon key="female">
 		<resource url="/com/kiwisoft/media/icons/female.png"/>

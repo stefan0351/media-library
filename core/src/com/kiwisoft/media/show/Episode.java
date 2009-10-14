@@ -14,9 +14,9 @@ import java.util.Set;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.Name;
-import com.kiwisoft.media.medium.Recordable;
-import com.kiwisoft.media.medium.Track;
-import com.kiwisoft.media.medium.TrackType;
+import com.kiwisoft.media.files.MediaFileManager;
+import com.kiwisoft.media.files.MediaType;
+import com.kiwisoft.media.medium.*;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
@@ -138,6 +138,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 										   getReferenceId(SHOW), getChainPosition(), getChainPosition());
 	}
 
+	@Override
 	public void setChainPosition(int position)
 	{
 		int oldSequence=this.sequence;
@@ -145,6 +146,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		setModified("chainPosition", oldSequence, this.sequence);
 	}
 
+	@Override
 	public int getChainPosition()
 	{
 		return sequence;
@@ -258,6 +260,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		super.afterReload();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		Episode episode=(Episode)o;
@@ -318,16 +321,24 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return DBLoader.getInstance().load(Summary.class, null, "episode_id=? and language_id=?", getId(), language.getId());
 	}
 
+	public Set<Summary> getSummaries()
+	{
+		return DBLoader.getInstance().loadSet(Summary.class, null, "episode_id=?", getId());
+	}
+
+	@Override
 	public Set<Credit> getCredits()
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=?", getId());
 	}
 
+	@Override
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public Credit createCredit()
 	{
 		Credit credit=new Credit();
@@ -336,12 +347,14 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return credit;
 	}
 
+	@Override
 	public void dropCredit(Credit credit)
 	{
 		credit.delete();
 		fireElementRemoved(CREDITS, credit);
 	}
 
+	@Override
 	public String getProductionTitle()
 	{
 		Show show=getShow();
@@ -406,4 +419,18 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		super.delete();
 	}
 
+	public boolean hasImages()
+	{
+		return MediaFileManager.getInstance().getNumberOfMediaFiles(this, MediaType.IMAGE)>0;
+	}
+
+	public boolean hasVideos()
+	{
+		return MediaFileManager.getInstance().getNumberOfMediaFiles(this, MediaType.VIDEO)>0;
+	}
+
+	public Set<Medium> getMedia()
+	{
+		return MediumManager.getInstance().getMedia(this);
+	}
 }

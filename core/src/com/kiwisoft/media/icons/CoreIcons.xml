@@ -23,4 +23,16 @@
 	<icon key="details">
 		<resource url="/com/kiwisoft/media/icons/document-16x16.png"/>
 	</icon>
+	<icon key="add">
+		<resource url="/com/kiwisoft/media/icons/add.png"/>
+	</icon>
+	<icon key="delete">
+		<resource url="/com/kiwisoft/media/icons/delete.png"/>
+	</icon>
+	<icon key="move.up">
+		<resource url="/com/kiwisoft/media/icons/arrow_up.png"/>
+	</icon>
+	<icon key="move.down">
+		<resource url="/com/kiwisoft/media/icons/arrow_down.png"/>
+	</icon>
 </icons>

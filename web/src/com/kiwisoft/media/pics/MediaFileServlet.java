@@ -90,16 +90,7 @@ public class MediaFileServlet extends HttpServlet
 		}
 		catch (Exception e)
 		{
-			ServletContext servletContext=request.getSession().getServletContext();
-			request.setAttribute("error", e);
-			RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/error.jsp");
-			try
-			{
-				requestDispatcher.forward(request, response);
-			}
-			catch (Exception e1)
-			{
-			}
+			e.printStackTrace();
 		}
 		finally
 		{

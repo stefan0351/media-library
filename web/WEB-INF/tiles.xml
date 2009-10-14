@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <!-- Layout Tiles -->
+
+    <definition name="layout.main" template="/layout/main.jsp">
+        <put-list-attribute name="menus">
+            <add-attribute value="/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+    <!-- Book Tiles -->
+
+    <definition name="media.main.books.*" extends="layout.main">
+        <put-attribute name="content" value="/books/{1}.jsp"/>
+    </definition>
+    <definition name="media.main.book.*" extends="layout.main">
+        <put-attribute name="content" value="/books/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/books/book_menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+	<!-- Episode Tiles -->
+
+	<definition name="media.main.episode.*" extends="media.main.show.**">
+		<put-attribute name="content" value="/shows/{1}.jsp"/>
+		<put-list-attribute name="menus" inherit="true">
+			<add-attribute value="/shows/episode_menu.jsp"/>
+		</put-list-attribute>
+	</definition>
+	<definition name="media.main.episode.mediafiles" extends="media.main.episode.*">
+		<put-attribute name="content" value="/common/mediagallery.jsp"/>
+	</definition>
+
+    <!-- FanFic Tiles -->
+
+    <definition name="media.main.fanfics.*" extends="layout.main">
+        <put-attribute name="content" value="/fanfic/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/fanfic/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+    <!-- Link Tiles -->
+
+    <definition name="media.main.links.*" extends="layout.main">
+        <put-attribute name="content" value="/links/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/links/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+    <!-- Media Tiles -->
+
+    <definition name="media.main.media.*" extends="layout.main">
+        <put-attribute name="content" value="/media/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/media/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+    <!-- Movie Tiles -->
+
+    <definition name="media.main.movies.*" extends="layout.main">
+        <put-attribute name="content" value="/movies/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/movies/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+    <definition name="media.main.movie.*" extends="media.main.movies.*">
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/movies/movie_menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+
+    <!-- Person Tiles -->
+
+    <definition name="media.main.person.*" extends="layout.main">
+        <put-attribute name="content" value="/persons/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/persons/person_menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+	<definition name="media.main.person.mediafiles" extends="media.main.person.*">
+		<put-attribute name="content" value="/common/mediagallery.jsp"/>
+	</definition>
+	<definition name="media.main.person.schedule" extends="media.main.person.*">
+		<put-attribute name="content" value="/common/schedule.jsp"/>
+	</definition>
+
+    <!-- Photo Tiles -->
+
+    <definition name="media.main.photos.*" extends="layout.main">
+        <put-attribute name="content" value="/photos/{1}.jsp"/>
+    </definition>
+
+    <!-- Show Tiles -->
+
+    <definition name="media.main.shows.*" extends="layout.main">
+        <put-attribute name="content" value="/shows/{1}.jsp"/>
+        <put-list-attribute name="menus" inherit="true">
+            <add-attribute value="/shows/menu.jsp"/>
+        </put-list-attribute>
+    </definition>
+	<definition name="media.main.show.**" extends="media.main.shows.*">
+		<put-list-attribute name="menus" inherit="true">
+			<add-attribute value="/shows/show_menu.jsp"/>
+		</put-list-attribute>
+	</definition>
+	<definition name="media.main.show.schedule" extends="media.main.show.**">
+		<put-attribute name="content" value="/common/schedule.jsp"/>
+	</definition>
+	<definition name="media.main.show.mediafiles" extends="media.main.show.**">
+		<put-attribute name="content" value="/common/mediagallery.jsp"/>
+	</definition>
+
+	<!-- Other Tiles -->
+
+	<definition name="media.main.schedule" extends="layout.main">
+		<put-attribute name="content" value="/common/schedule.jsp"/>
+	</definition>
+
+    <!-- Default Tiles -->
+
+    <definition name="media.main.*" extends="layout.main">
+        <put-attribute name="content" value="/{1}.jsp"/>
+    </definition>
+
+</tiles-definitions>
+

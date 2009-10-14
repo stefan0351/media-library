@@ -21,7 +21,6 @@ import com.kiwisoft.collection.ObjectCache;
 import com.kiwisoft.utils.xml.CopyingTagHandler;
 import com.kiwisoft.utils.xml.ReplacingTagHandler;
 import com.kiwisoft.utils.xml.XMLHandler;
-import com.kiwisoft.utils.xml.XMLObject;
 import com.kiwisoft.utils.xml.XMLTagHandler;
 
 public class XPLoader
@@ -34,7 +33,7 @@ public class XPLoader
 	private static ResourceBundle resourceBundle=ResourceBundle.getBundle("com/kiwisoft/xp/tags");
 	private static Map<String, XMLTagHandler> tagHandlers;
 
-	public static XMLObject loadXMLFile(HttpServletRequest request, File file)
+	public static XPBean loadXMLFile(HttpServletRequest request, File file)
 	{
 		CacheEntry cacheEntry=fileCache.get(file);
 		if (cacheEntry==null)
@@ -63,7 +62,7 @@ public class XPLoader
 		}
 	}
 
-	private static XMLObject loadFile(HttpServletRequest request, File file)
+	private static XPBean loadFile(HttpServletRequest request, File file)
 	{
 		System.out.println("Loading file: "+file.getAbsolutePath());
 		XMLHandler xmlHandler=new XMLHandler();
@@ -80,7 +79,7 @@ public class XPLoader
 		}
 
 		xmlHandler.loadFile(file);
-		XMLObject rootElement=xmlHandler.getRootElement();
+		XPBean rootElement=(XPBean) xmlHandler.getRootElement();
 		if (USE_CACHE)
 		{
 			Set includes=(Set) xmlHandler.getContext().getAttribute("includes");
@@ -112,24 +111,25 @@ public class XPLoader
 			tagHandlers.put("img", new ImageTagHandler());
 			tagHandlers.put("space", new SpaceTagHandler());
 			tagHandlers.put("link", new LinkTagHandler());
+			tagHandlers.put("a", new ATagHandler());
 		}
 		return tagHandlers;
 	}
 
 	private static class CacheEntry
 	{
-		private XMLObject object;
+		private XPBean object;
 		private Set includes;
 		private long lastModified;
 
-		public CacheEntry(XMLObject object, Set includes, long lastModified)
+		public CacheEntry(XPBean object, Set includes, long lastModified)
 		{
 			this.object=object;
 			this.includes=includes;
 			this.lastModified=lastModified;
 		}
 
-		public XMLObject getObject()
+		public XPBean getObject()
 		{
 			return object;
 		}

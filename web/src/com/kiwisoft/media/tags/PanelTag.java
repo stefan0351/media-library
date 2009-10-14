@@ -6,11 +6,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.struts2.views.jsp.StrutsBodyTagSupport;
 
 /**
  * @author Stefan Stiller
  */
-public class PanelTag extends TagSupport
+public class PanelTag extends StrutsBodyTagSupport
 {
 	private String title;
 	private String id;
@@ -21,7 +22,12 @@ public class PanelTag extends TagSupport
 		try
 		{
 			JspWriter out=pageContext.getOut();
-			if (id!=null) out.println("<a name=\""+id+"\"/>");
+			String title=findString(this.title);
+			if (this.id!=null)
+			{
+				String id=findString(this.id);
+				if (id!=null) out.println("<a name=\""+id+"\"/>");
+			}
 			out.println("<table class=\"contenttable\" width=\"790\">");
 			out.print("<tr><td class=\"header1\">");
 			out.print(StringEscapeUtils.escapeHtml(title));

@@ -128,4 +128,24 @@ public abstract class DateRange
 		return name;
 	}
 
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this==o) return true;
+		if (!(o instanceof DateRange)) return false;
+
+		DateRange dateRange=(DateRange) o;
+
+		if (id!=null ? !id.equals(dateRange.id) : dateRange.id!=null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int result=id!=null ? id.hashCode() : 0;
+		result=31*result+(name!=null ? name.hashCode() : 0);
+		return result;
+	}
 }

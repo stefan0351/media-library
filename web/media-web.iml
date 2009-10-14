@@ -53,11 +53,6 @@
             <url>jar://$PROJECTS_ROOT$/media/lib/commons-logging.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib" />
-            <url>jar://$PROJECTS_ROOT$/media/lib/fop.jar!/</url>
-          </containerElement>
-          <containerElement type="library" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$PROJECTS_ROOT$/media/lib/junit.jar!/</url>
@@ -142,6 +137,17 @@
           </containerElement>
         </packaging>
       </configuration>
+      <facet type="Struts2" name="Struts 2">
+        <configuration>
+          <fileset id="s2fileset1" name="My Fileset" removed="false">
+            <file>file://$MODULE_DIR$/WEB-INF/classes/struts.xml</file>
+            <file>jar://$PROJECTS_ROOT$/media/lib/struts2-core.jar!/struts-default.xml</file>
+            <file>jar://$PROJECTS_ROOT$/media/lib/xwork-core.jar!/xwork-default.xml</file>
+            <file>jar://$PROJECTS_ROOT$/media/lib/struts2-tiles-plugin.jar!/struts-plugin.xml</file>
+            <file>jar://$PROJECTS_ROOT$/media/lib/struts2-json-plugin.jar!/struts-plugin.xml</file>
+          </fileset>
+        </configuration>
+      </facet>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
@@ -158,7 +164,7 @@
           <root url="jar://$PROJECTS_ROOT$/media/lib/fop.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/fop-doc.jar!/" />
+          <root url="jar://$SOURCE_REPOSITORY$/fop-0.93-doc.zip!/" />
         </JAVADOC>
         <SOURCES />
       </library>
@@ -201,17 +207,8 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/commons-io.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" exported="" name="Tomcat 5 (Media)" level="application_server_libraries" />
-    <orderEntry type="library" name="Tomcat Core" level="project" />
+    <orderEntry type="library" exported="" name="Tomcat 6 (Media)" level="application_server_libraries" />
+    <orderEntry type="library" exported="" name="Struts2" level="project" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ACTIVE_VCS_NAME" value="svn" />

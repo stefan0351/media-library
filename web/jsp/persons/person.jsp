@@ -1,345 +1,151 @@
-<%@ page language="java" extends="com.kiwisoft.media.MediaJspBase" %>
-<%@ page import="com.kiwisoft.media.Name" %>
-<%@ page import="com.kiwisoft.media.person.*" %>
-<%@ page import="com.kiwisoft.media.show.Production" %>
-<%@ page import="com.kiwisoft.media.show.Show" %>
-<%@ page import="com.kiwisoft.utils.StringUtils" %>
-<%@ page import="com.kiwisoft.web.JspUtils" %>
-<%@ page import="java.util.Iterator" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="com.kiwisoft.media.movie.Movie" %>
-<%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
-<%@ page import="com.kiwisoft.media.books.Book" %>
-<%@ page import="com.kiwisoft.media.Navigation" %>
+<%@ taglib prefix="media" uri="/media-tags" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
-<%@ taglib prefix="media" uri="http://www.kiwisoft.de/media" %>
-
-<%
-	Long personId=new Long(request.getParameter("id"));
-	Person person=PersonManager.getInstance().getPerson(personId);
-	request.setAttribute("person", person);
-
-	Credits actingCredits=person.getSortedActingCredits();
-	request.setAttribute("actingCredits", actingCredits);
-	Map creditMap=person.getSortedCrewCredits();
-	request.setAttribute("crewCredits", creditMap);
-%>
-<html>
-
-<head>
-<title><%=person.getName()%></title>
-<script language="JavaScript" src="../overlib.js"></script>
-<script language="JavaScript" src="../popup.js"></script>
-<link rel="StyleSheet" type="text/css" href="../style.css">
-</head>
-
-<body>
-<a name="top"></a>
-<div id="overDiv"></div>
-
-<media:title><media:render value="<%=person.getName()%>"/></media:title>
-
-<media:body>
-	<media:sidebar>
-		<jsp:include page="_nav.jsp"/>
-		<jsp:include page="../_nav.jsp"/>
-	</media:sidebar>
-	<media:content>
-		<media:panel id="details" title="Details">
-			<dl>
-<%
-	Set names=person.getAltNames();
-	if (!names.isEmpty())
-	{
-		out.print("<dt><b>Also Known As:</b>");
-		for (Iterator it=names.iterator(); it.hasNext();)
-		{
-			Name name=(Name)it.next();
-			out.print("<dd>");
-			out.print(JspUtils.render(request, name.getName()));
-			out.println("</dd>");
-		}
-		out.println("</dt>");
-	}
-
-	String imdbKey=person.getImdbKey();
-	String tvcomKey=person.getTvcomKey();
-	if (!StringUtils.isEmpty(imdbKey) || !StringUtils.isEmpty(tvcomKey))
-	{
-%>
-			<dt><b>Links:</b>
-<%
-		if (!StringUtils.isEmpty(imdbKey))
-		{
-%>
-				<dd><a target="_new" class="link" href="http://www.imdb.com/name/<%=imdbKey%>/">
-					<img src="<%=request.getContextPath()%>/file?type=Icon&name=imdb" alt="IMDb" border="0"/>
-					http://www.imdb.com/name/<%=imdbKey%>/</a></dd>
-<%
-		}
-		if (!StringUtils.isEmpty(tvcomKey))
-		{
-%>
-				<dd><a target="_new" class="link" href="http://www.tv.com/text/person/<%=tvcomKey%>/summary.html">
+<media:panel id="details" title="Details">
+	<dl>
+		<s:if test="!person.altNames.empty">
+			<dt>Also Known As:</dt>
+			<s:iterator value="person.altNames">
+				<dd><media:format value="name"/></dd>
+			</s:iterator>
+		</s:if>
+		<s:if test="!person.imdbKey.empty || !person.tvcomKey.empty">
+			<dt>Links</dt>
+			<s:if test="!person.imdbKey.empty">
+				<dd><a target="_blank" class="link" href="http://www.imdb.com/name/<s:property value="person.imdbKey" escape="false"/>/">
+					<img src="<%=request.getContextPath()%>/file/?type=Icon&name=imdb" alt="IMDb" border="0"/>
+					http://www.imdb.com/name/<s:property value="person.imdbKey"/>/</a></dd>
+			</s:if>
+			<s:if test="!person.tvcomKey.empty">
+				<dd><a target="_new" class="link" href="http://www.tv.com/text/person/<s:property value="person.tvcomKey" escape="false"/>/summary.html">
 					<img src="http://www.tv.com/favicon.ico" alt="IMDb" border="0"/>
-					http://www.tv.com/text/person/<%=tvcomKey%>/summary.html</a></dd>
-<%
-		}
-%>
+					http://www.tv.com/text/person/<s:property value="person.tvcomKey"/>/summary.html</a></dd>
+			</s:if>
+		</s:if>
+	</dl>
+</media:panel>
 
-			</dt>
-<%
-	}
-%>
-			</dl>
-		</media:panel>
-
-		<media:panel id="filmography" title="Filmography">
-		<%
-			if (!actingCredits.isEmpty())
-			{
-		%>
-
+<media:panel id="filmography" title="Filmography">
+	<s:if test="!actingCredits.empty">
 		<table class="contenttable" width="765">
-		<tr>
-			<td class="header2">Actor/Actress</td>
-		</tr>
-		<tr>
-			<td class="content">
-				<ol>
-				<%
-                    for (Iterator it=actingCredits.getProductions().iterator(); it.hasNext();)
-                    {
-                        Production production=(Production) it.next();
-                        Set mainCredits=actingCredits.getCredits(production);
-                        out.print("<li><b>");
-                        out.print(JspUtils.render(request, production));
-                        out.print("</b>");
-                        if (production instanceof Movie)
-                        {
-                            Integer year=((Movie) production).getYear();
-                            if (year!=null) out.println(" ("+year+")");
-                        }
-                        else
-                            if (production instanceof Show)
-                            {
-                                String yearString=((Show) production).getYearString();
-                                if (yearString!=null)
-                                {
-                                    out.print(" (");
-                                    out.print(yearString);
-                                    out.println(")");
-                                }
-                            }
-                        if (!mainCredits.isEmpty())
-                        {
-                            out.print(" ... ");
-                            boolean first=true;
-                            for (Iterator itRoles=mainCredits.iterator(); itRoles.hasNext();)
-                            {
-                                CastMember castMember=(CastMember) itRoles.next();
-                                if (!StringUtils.isEmpty(castMember.getCharacterName()))
-                                {
-                                    if (!first) out.print(" / ");
-                                    out.print(JspUtils.render(request, castMember.getCharacterName(), "preformatted"));
-                                    first=false;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Set subProductions=actingCredits.getSubProductions(production);
-                            int i=0;
-                            for (Iterator itEpisodes=subProductions.iterator(); itEpisodes.hasNext();)
-                            {
-                                Production subProduction=(Production) itEpisodes.next();
-                                if (i>=5)
-                                {
-                                    out.print("<br>and "+(subProductions.size()-5)+" more");
-                                    break;
-                                }
-                                else
-                                {
-                                    out.print("<br>- ");
-                                    out.print(JspUtils.render(request, subProduction, "Show"));
-                                    out.print(" ... ");
-                                    Set subCredits=actingCredits.getCredits(subProduction);
-                                    boolean first=true;
-                                    for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
-                                    {
-                                        CastMember castMember=(CastMember) itRoles.next();
-                                        if (!StringUtils.isEmpty(castMember.getCharacterName()))
-                                        {
-                                            if (!first) out.print(" / ");
-                                            out.print(JspUtils.render(request, castMember.getCharacterName(), "preformatted"));
-                                            first=false;
-                                        }
-                                    }
-                                }
-                                i++;
-                            }
-                        }
-                    }
-                %>
-				</ol>
-
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td>
-		</tr>
+			<tr><td class="header2">Actor/Actress</td></tr>
+			<tr>
+				<td class="content">
+					<ol>
+						<s:iterator value="actingCredits.productions">
+							<li><b><media:format value="top"/></b>
+								<s:if test="top instanceof com.kiwisoft.media.movie.Movie">
+									<s:if test="top.year!=null">(<s:property value="top.year"/>)</s:if>
+								</s:if>
+								<s:if test="top instanceof com.kiwisoft.media.show.Show">
+									<s:if test="top.yearString!=null">(<s:property value="top.yearString"/>)</s:if>
+								</s:if>
+								<s:set var="mainCredits" value="actingCredits.getCredits(top)"/>
+								<s:if test="!#mainCredits.empty">
+									...
+									<s:iterator value="#mainCredits" status="it">
+										<s:if test="!characterName.empty">
+											<s:if test="!#it.first">/</s:if>
+											<media:format value="characterName" variant="preformatted"/>
+										</s:if>
+									</s:iterator>
+								</s:if>
+								<s:else>
+									<s:set var="subProductions" value="actingCredits.getSubProductions(top)"/>
+									<s:subset source="#subProductions" count="5">
+										<s:iterator>
+											<br>- <media:format value="top" variant="Show"/> ...
+											<s:set var="subCredits" value="actingCredits.getCredits(top)"/>
+											<s:iterator value="subCredits">
+												<s:if test="!characterName.empty">
+													<s:if test="!#it.first">/</s:if>
+													<media:format value="characterName" variant="preformatted"/>
+												</s:if>
+											</s:iterator>
+										</s:iterator>
+									</s:subset>
+									<s:if test="#subProductions.size()>5">
+										<br>and <s:property value="#subProductions.size()-5"/> more
+									</s:if>
+								</s:else></li>
+						</s:iterator>
+					</ol>
+				</td>
+			</tr>
 		</table>
-
-		<%
-			}
-
-			for (Iterator itTypes=creditMap.keySet().iterator(); itTypes.hasNext();)
-			{
-				CreditType type=(CreditType)itTypes.next();
-				Credits crewCredits=(Credits)creditMap.get(type);
-		%>
-
+	</s:if>
+	<s:iterator value="creditMap.keySet()">
+		<s:set var="crewCredits" value="creditMap.get(top)"/>
 		<table class="contenttable" width="765">
-		<tr>
-			<td class="header2"><%=StringEscapeUtils.escapeHtml(type.getAsName())%>
-			</td>
-		</tr>
-		<tr>
-			<td class="content">
-				<ol>
-				<%
-					for (Iterator it=crewCredits.getProductions().iterator(); it.hasNext();)
-					{
-						Production production=(Production)it.next();
-						Set mainCredits=crewCredits.getCredits(production);
-						out.print("<li><b>");
-						out.print(JspUtils.render(request, production));
-						out.print("</b>");
-						if (production instanceof Movie)
-						{
-							Movie movie=(Movie)production;
-							Integer year=movie.getYear();
-							if (year!=null) out.println(" ("+year+")");
-						}
-						if (!mainCredits.isEmpty())
-						{
-							boolean first=true;
-							for (Iterator itRoles=mainCredits.iterator(); itRoles.hasNext();)
-							{
-								Credit crewMember=(Credit)itRoles.next();
-								if (!StringUtils.isEmpty(crewMember.getSubType()))
-								{
-									if (first) out.print(" (");
-									else out.print(", ");
-									out.print(JspUtils.render(request, crewMember.getSubType(), "preformatted"));
-									first=false;
-								}
-							}
-							if (!first) out.print(")");
-						}
-						else
-						{
-							Set subProductions=crewCredits.getSubProductions(production);
-							int i=0;
-							for (Iterator itEpisodes=subProductions.iterator(); itEpisodes.hasNext();)
-							{
-								Production subProduction=(Production)itEpisodes.next();
-								if (i>=5)
-								{
-									out.print("<br>and "+(subProductions.size()-5)+" more");
-									break;
-								}
-								else
-								{
-									out.print("<br>- ");
-									out.print(JspUtils.render(request, subProduction, "Show"));
-									Set subCredits=crewCredits.getCredits(subProduction);
-									boolean first=true;
-									for (Iterator itRoles=subCredits.iterator(); itRoles.hasNext();)
-									{
-										Credit crewMember=(Credit)itRoles.next();
-										if (!StringUtils.isEmpty(crewMember.getSubType()))
-										{
-											if (first) out.print(" (");
-											else out.print(", ");
-											out.print(JspUtils.render(request, crewMember.getSubType()));
-											first=false;
-										}
-									}
-									if (!first) out.print(")");
-								}
-								i++;
-							}
-						}
-					}
-				%>
-				</ol>
-
-				<p align=right><a class=link href="#top">Top</a></p>
-			</td>
-		</tr>
+			<tr><td class="header2"><s:property value="asName"/></td></tr>
+			<tr>
+				<td class="content">
+					<ol>
+						<s:iterator value="#crewCredits.productions">
+							<li><b><media:format value="top"/></b>
+								<s:if test="top instanceof com.kiwisoft.media.movie.Movie">
+									<s:if test="top.year!=null">(<s:property value="top.year"/>)</s:if>
+								</s:if>
+								<s:if test="top instanceof com.kiwisoft.media.show.Show">
+									<s:if test="top.yearString!=null">(<s:property value="top.yearString"/>)</s:if>
+								</s:if>
+								<s:set var="mainCredits" value="#crewCredits.getCredits(top).{? !#this.subType.empty}"/>
+								<s:if test="!#mainCredits.empty">
+									(<media:formatList value="#mainCredits.{subType}" variant="preformatted"/>)</s:if>
+								<s:else>
+									<s:set var="subProductions" value="#crewCredits.getSubProductions(top)"/>
+									<s:subset source="#subProductions" count="5">
+										<s:iterator>
+											<br>- <media:format variant="Show"/>
+											<s:set var="subCredits" value="#crewCredits.getCredits(top).{? #this.subType.empty}"/>
+											<s:if test="!#subCredits.empty">
+												(<media:formatList value="#subCredits.{subType}" variant="preformatted"/>)
+											</s:if>
+										</s:iterator>
+									</s:subset>
+									<s:if test="#subProductions.size()>5">
+										<br>and <s:property value="#subProductions.size()-5"/> more
+									</s:if>
+								</s:else></li>
+						</s:iterator>
+					</ol>
+				</td>
+			</tr>
 		</table>
+	</s:iterator>
+</media:panel>
 
-		<%
-			}
-		%>
-		</media:panel>
-
-<%
-    Set writtenBooks=person.getWrittenBooks();
-    Set translatedBooks=person.getTranslatedBooks();
-    if (!writtenBooks.isEmpty() || !translatedBooks.isEmpty())
-    {
-%>
-        <media:panel id="books" title="Books">
-<%
-        if (!writtenBooks.isEmpty())
-        {
-%>
-            <table class="contenttable" width="765"><tr><td class="header2">Author</td></tr>
-            <tr><td class="content"><ol>
-<%
-            for (Iterator it=writtenBooks.iterator(); it.hasNext();)
-            {
-                Book book=(Book) it.next();
-%>
-                <li><a class="link" href="<%=Navigation.getLink(request, book)%>"><media:render value="<%=book.getTitle()%>"/></a></li>
-<%
-            }
-%>
-            </ol>
-            <p align=right><a class=link href="#top">Top</a></p>
-            </td></tr>
-            </table>
-<%
-        }
-
-        if (!translatedBooks.isEmpty())
-        {
-%>
-            <table class="contenttable" width="765"><tr><td class="header2">Translator</td></tr>
-            <tr><td class="content"><ol>
-<%
-            for (Iterator it=translatedBooks.iterator(); it.hasNext();)
-            {
-                Book book=(Book) it.next();
-%>
-                <li><a class="link" href="<%=Navigation.getLink(request, book)%>"><media:render value="<%=book.getTitle()%>"/></a></li>
-<%
-            }
-%>
-            </ol>
-            <p align=right><a class=link href="#top">Top</a></p>
-            </td></tr>
-            </table>
-<%
-        }
-%>
-        </media:panel>
-<%
-    }
-%>
-    </media:content>
-</media:body>
-
-</body>
-</html>
+<s:set var="writtenBooks" value="person.writtenBooks"/>
+<s:set var="translatedBooks" value="person.translatedBooks"/>
+<s:if test="!#writtenBooks.empty || !#translatedBooks.empty">
+	<media:panel id="books" title="Books">
+		<s:if test="!#writtenBooks.empty">
+			<table class="contenttable" width="765">
+				<tr><td class="header2">Author</td></tr>
+				<tr>
+					<td class="content">
+						<ol>
+							<s:iterator value="#writtenBooks">
+								<li><media:format/></li>
+							</s:iterator>
+						</ol>
+					</td>
+				</tr>
+			</table>
+		</s:if>
+		<s:if test="!#translatedBooks.empty">
+			<table class="contenttable" width="765">
+				<tr><td class="header2">Translator</td></tr>
+				<tr>
+					<td class="content">
+						<ol>
+							<s:iterator value="#translatedBooks">
+								<li><media:format/></li>
+							</s:iterator>
+						</ol>
+					</td>
+				</tr>
+			</table>
+		</s:if>
+	</media:panel>
+</s:if>

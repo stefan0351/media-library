@@ -132,6 +132,13 @@ public class Book extends IDObject
 		setModified(ISBN_13, oldIsbn13, isbn13);
 	}
 
+	public String getIsbn()
+	{
+		if (!StringUtils.isEmpty(isbn13)) return isbn13;
+		if (!StringUtils.isEmpty(isbn10)) return isbn10;
+		return null;
+	}
+
 	public String getBinding()
 	{
 		return binding;

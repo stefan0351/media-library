@@ -40,4 +40,9 @@ public class CountryManager
 			return country;
 		}
 	}
+
+	public Country getCountryByName(String name)
+	{
+		return DBLoader.getInstance().load(Country.class, null, "name=?", name);
+	}
 }

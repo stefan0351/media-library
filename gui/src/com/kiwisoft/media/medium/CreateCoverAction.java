@@ -18,6 +18,7 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.CastCreditComparator;
 
 /**
  * @author Stefan Stiller
@@ -53,7 +54,7 @@ public class CreateCoverAction extends SimpleContextAction
 					if (StringUtils.isEmpty(summary)) summary=movie.getSummaryText(LanguageManager.getInstance().getLanguageBySymbol("en"));
 					template.setVariable("description", summary);
 					List<CastMember> castMembers=new ArrayList<CastMember>(movie.getCastMembers(CreditType.MAIN_CAST));
-					Collections.sort(castMembers, new CastMember.CreditComparator());
+					Collections.sort(castMembers, new CastCreditComparator());
 					StringBuilder cast=new StringBuilder();
 					for (CastMember castMember : castMembers)
 					{

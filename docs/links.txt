@@ -8,4 +8,5 @@ Import Link
 	javascript:window.location=%22http://localhost:50001/link?name=%22+encodeURIComponent(document.title)+%22&url=%22+encodeURIComponent(document.URL)
 
 Import von IMDb
-	javascript:window.location=%22http://localhost:8080/media/movies/import_imdb?url=%22+encodeURI(document.URL)
+	new: javascript:window.location=%22http://localhost:8080/media/ImportImdb.action?url=%22+encodeURI(document.URL)
+	old: javascript:window.location=%22http://localhost:8080/media/movies/import_imdb?url=%22+encodeURI(document.URL)

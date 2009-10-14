@@ -68,6 +68,17 @@
             <option name="LABEL_INDENT_ABSOLUTE" value="false" />
           </value>
         </option>
+        <option name="OTHER_INDENT_OPTIONS">
+          <value>
+            <option name="INDENT_SIZE" value="4" />
+            <option name="CONTINUATION_INDENT_SIZE" value="8" />
+            <option name="TAB_SIZE" value="4" />
+            <option name="USE_TAB_CHARACTER" value="true" />
+            <option name="SMART_TABS" value="false" />
+            <option name="LABEL_INDENT_SIZE" value="0" />
+            <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          </value>
+        </option>
         <option name="BRACE_STYLE" value="2" />
         <option name="CLASS_BRACE_STYLE" value="2" />
         <option name="METHOD_BRACE_STYLE" value="2" />
@@ -90,6 +101,8 @@
         <option name="SPACE_AROUND_ADDITIVE_OPERATORS" value="false" />
         <option name="SPACE_AROUND_MULTIPLICATIVE_OPERATORS" value="false" />
         <option name="SPACE_AROUND_SHIFT_OPERATORS" value="false" />
+        <option name="RIGHT_MARGIN" value="160" />
+        <option name="HTML_DONT_ADD_BREAKS_IF_INLINE_CONTENT" value="title,h1,h2,h3,h4,h5,h6,p,tr,td" />
         <ADDITIONAL_INDENT_OPTIONS fileType="java">
           <option name="INDENT_SIZE" value="4" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
@@ -103,7 +116,7 @@
           <option name="INDENT_SIZE" value="4" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
           <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="USE_TAB_CHARACTER" value="true" />
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
@@ -112,7 +125,7 @@
           <option name="INDENT_SIZE" value="4" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
           <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="USE_TAB_CHARACTER" value="true" />
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
@@ -121,7 +134,7 @@
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
           <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="USE_TAB_CHARACTER" value="true" />
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
@@ -130,7 +143,7 @@
           <option name="INDENT_SIZE" value="4" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
           <option name="TAB_SIZE" value="4" />
-          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="USE_TAB_CHARACTER" value="true" />
           <option name="SMART_TABS" value="false" />
           <option name="LABEL_INDENT_SIZE" value="0" />
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
@@ -350,7 +363,7 @@
           <option name="nonNlsCommentPattern" value="NON-NLS" />
         </inspection_tool>
         <inspection_tool class="RequiredAttributes" level="WARNING" enabled="true">
-          <option name="myAdditionalRequiredHtmlAttributes" value="type" />
+          <option name="myAdditionalRequiredHtmlAttributes" value="type,alt" />
         </inspection_tool>
         <inspection_tool class="HTML" level="WARNING" enabled="true">
           <option name="myAdditionalHtmlTags" value="embed,nobr,noembed,comment,script" />
@@ -359,6 +372,23 @@
           <option name="myCheckHtmlAttributes" value="true" />
         </inspection_tool>
         <inspection_tool class="MissingOverrideAnnotation" level="WARNING" enabled="true" />
+        <inspection_tool class="CheckTagEmptyBody" level="WARNING" enabled="false" />
+        <inspection_tool class="HtmlUnknownAttribute" level="WARNING" enabled="true">
+          <option name="myValues">
+            <value>
+              <list size="6">
+                <item index="0" class="java.lang.String" itemvalue="type" />
+                <item index="1" class="java.lang.String" itemvalue="wmode" />
+                <item index="2" class="java.lang.String" itemvalue="src" />
+                <item index="3" class="java.lang.String" itemvalue="width" />
+                <item index="4" class="java.lang.String" itemvalue="height" />
+                <item index="5" class="java.lang.String" itemvalue="color" />
+              </list>
+            </value>
+          </option>
+          <option name="myCustomValuesEnabled" value="true" />
+        </inspection_tool>
+        <inspection_tool class="HtmlPresentationalElement" level="WARNING" enabled="false" />
       </profile>
       <profile version="1.0" is_locked="false">
         <option name="myName" value="Project Default" />
@@ -718,7 +748,7 @@
       <module fileurl="file://$PROJECT_DIR$/web/media-web.iml" filepath="$PROJECT_DIR$/web/media-web.iml" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 6.0" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="JDK 6.0" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="RmicSettings">
@@ -785,12 +815,31 @@
     </LanguageOptions>
   </component>
   <component name="libraryTable">
-    <library name="Tomcat Core">
+    <library name="Struts2">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/tomcat/server/lib/catalina.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/commons-fileupload.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/struts2-core.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/ognl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/tiles-jsp.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/struts2-tiles-plugin.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/tiles-core.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/tiles-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/tiles-servlet.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/xwork-core.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/struts2-json-plugin.jar!/" />
       </CLASSES>
       <JAVADOC />
-      <SOURCES />
+      <SOURCES>
+        <root url="jar://$SOURCE_REPOSITORY$/tiles-api-2.1.3-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/tiles-jsp-2.1.3-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/tiles-core-2.1.3-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/tiles-servlet-2.1.3-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/struts2-core-2.1.8-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/struts2-tiles-plugin-2.1.8-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/struts2-json-plugin-2.1.8-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/xwork-core-2.1.6-src.zip!/" />
+        <root url="jar://$SOURCE_REPOSITORY$/ognl-2.7.3-src.zip!/" />
+      </SOURCES>
     </library>
   </component>
   <component name="uidesigner-configuration">
@@ -800,6 +849,7 @@
   </component>
   <UsedPathMacros>
     <macro name="PROJECTS_ROOT" />
+    <macro name="SOURCE_REPOSITORY" />
     <macro name="WEB_ROOT_MEDIA" />
   </UsedPathMacros>
 </project>

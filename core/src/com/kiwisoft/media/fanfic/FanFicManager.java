@@ -327,6 +327,11 @@ public class FanFicManager
 		return DBLoader.getInstance().load(FanFic.class, id);
 	}
 
+	public FanFicPart getFanFicPart(Long id)
+	{
+		return DBLoader.getInstance().load(FanFicPart.class, id);
+	}
+
 	public FanFic createFanFic()
 	{
 		FanFic fanFic=new FanFic();

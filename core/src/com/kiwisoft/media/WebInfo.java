@@ -56,6 +56,21 @@ public abstract class WebInfo extends IDObject
 		setModified("path", oldPath, this.path);
 	}
 
+	public String getUrl()
+	{
+		return path!=null ? path.replace('\\', '/') : "";
+	}
+
+	public String getFileName()
+	{
+		if (path!=null)
+		{
+			int pos=Math.max(path.lastIndexOf('\\'), path.lastIndexOf('/'));
+			if (pos>=0) return path.substring(pos+1);
+		}
+		return path;
+	}
+
 	public abstract boolean isDefault();
 
 	@Override

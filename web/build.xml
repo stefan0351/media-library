@@ -16,10 +16,9 @@
 		<javac srcdir="${web.module.dir}/src" destdir="${classes.dir}/web" debug="true" deprecation="off">
 			<classpath>
 				<pathelement location="${root.dir}/media-core.jar"/>
-				<pathelement location="${root.dir}/tomcat/common/lib/servlet-api.jar"/>
-				<pathelement location="${root.dir}/tomcat/common/lib/jasper-runtime.jar"/>
-				<pathelement location="${root.dir}/tomcat/common/lib/jsp-api.jar"/>
-				<pathelement location="${root.dir}/tomcat/server/lib/catalina.jar"/>
+				<pathelement location="${root.dir}/tomcat/lib/servlet-api.jar"/>
+                <pathelement location="${root.dir}/tomcat/lib/jsp-api.jar"/>
+                <pathelement location="${root.dir}/tomcat/lib/jasper.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-collections.jar"/>
@@ -33,6 +32,8 @@
 				<pathelement location="${lib.dir}/commons-io.jar"/>
 				<pathelement location="${lib.dir}/commons-logging.jar"/>
 				<pathelement location="${lib.dir}/fop.jar"/>
+				<pathelement location="${lib.dir}/xwork-core.jar"/>
+				<pathelement location="${lib.dir}/struts2-core.jar"/>
 			</classpath>
 		</javac>
 		<copy todir="${classes.dir}/web">
@@ -60,18 +61,24 @@
 	</target>
 
 	<target name="web.deploy">
-		<copy todir="${root.dir}/tomcat/webapps/media">
+        <touch file="${web.module.dir}/WEB-INF/web.xml"/>
+		<copy todir="${root.dir}/tomcat/webapps/media" preservelastmodified="true">
 			<fileset dir="${web.module.dir}">
 				<include name="WEB-INF/**/*.*"/>
 				<include name="META-INF/**/*.*"/>
 			</fileset>
 			<fileset dir="${web.module.dir}/jsp"/>
 		</copy>
-		<copy todir="${root.dir}/tomcat/webapps/media/WEB-INF/lib">
+		<copy todir="${root.dir}/tomcat/webapps/media/WEB-INF/lib" preservelastmodified="true">
 			<fileset dir="${lib.dir}">
 				<include name="commons-io.jar"/>
 				<include name="commons-lang.jar"/>
-				<include name="avalon-framework.jar"/>
+				<include name="commons-logging.jar"/>
+                <include name="commons-fileupload.jar"/>
+                <include name="commons-digester.jar"/>
+                <include name="commons-collections.jar"/>
+                <include name="commons-beanutils.jar"/>
+                <include name="avalon-framework.jar"/>
 				<include name="batik-all.jar"/>
 				<include name="xmlgraphics-commons.jar"/>
 				<include name="fop.jar"/>
@@ -85,6 +92,16 @@
 				<include name="kiwisoft_utils-web.jar"/>
 				<include name="kiwisoft_utils-xml.jar"/>
 				<include name="kiwisoft_utils-swing.jar"/>
+				<include name="ognl.jar"/>
+				<include name="struts2-core.jar"/>
+				<include name="struts2-tiles-plugin.jar"/>
+				<include name="struts2-json-plugin.jar"/>
+				<include name="tiles-jsp.jar"/>
+				<include name="tiles-core.jar"/>
+				<include name="tiles-api.jar"/>
+				<include name="tiles-servlet.jar"/>
+				<include name="xwork-core.jar"/>
+				<include name="freemarker.jar"/>
 			</fileset>
 			<fileset dir="${root.dir}">
 				<include name="media-core.jar"/>

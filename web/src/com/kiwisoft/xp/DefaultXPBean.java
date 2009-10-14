@@ -36,27 +36,31 @@ public class DefaultXPBean implements XPBean
 		this.list=new ArrayList<Object>();
 	}
 
+	@Override
 	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 		if (SOURCE_ATTRIBUTES.contains((this.name+"."+name).toLowerCase()))
 		{
 			File file=new File(new File(context.getFileName()).getParentFile(), value);
 			HttpServletRequest request=(HttpServletRequest)context.getAttribute("request");
-			putValue(name, request.getContextPath()+"/resource?file="+FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()));
+			putValue(name, request.getContextPath()+"/res/"+FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()).replace('\\', '/'));
 		}
 		putValue(name, value);
 	}
 
+	@Override
 	public void setXMLReference(XMLContext context, String uri, String name, Object value)
 	{
 		putValue(name, value);
 	}
 
+	@Override
 	public void setXMLContent(XMLContext context, String value)
 	{
 		content=value;
 	}
 
+	@Override
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 		if (element instanceof XPBean)
@@ -73,6 +77,7 @@ public class DefaultXPBean implements XPBean
 		return content;
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
@@ -115,6 +120,13 @@ public class DefaultXPBean implements XPBean
 			if (value instanceof XPBean) return ((XPBean)value).getValue(childName);
 			else return null;
 		}
+	}
+
+	public String getString(String name)
+	{
+		Object value=getValue(name);
+		if (value!=null) return value.toString();
+		return null;
 	}
 
 	public Collection getValues(String name)

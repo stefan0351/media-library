@@ -22,20 +22,19 @@ public class ImageTagHandler implements XMLTagHandler
 		{
 			String name=attributes.getLocalName(i);
 			String value=attributes.getValue(i);
-			if ("src".equals(name))
+			builder.append(" ");
+			builder.append(name);
+			builder.append("=\"");
+			if ("src".equalsIgnoreCase(name))
 			{
 				File file=new File(new File(context.getFileName()).getParentFile(), value);
 				HttpServletRequest request=(HttpServletRequest)context.getAttribute("request");
-				System.out.println("src = "+file.getAbsolutePath());
-				builder.append(" ");
-				builder.append(name);
-				builder.append("=\"");
 				builder.append(request.getContextPath());
-				builder.append("/resource?file=");
-				builder.append(FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()));
-				builder.append("\"");
+				builder.append("/res/");
+				builder.append(FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()).replace('\\', '/'));
 			}
-			else builder.append(" ").append(name).append("=\"").append(value).append("\"");
+			else builder.append(value);
+			builder.append("\"");
 		}
 		builder.append("/>");
 		return builder.toString();

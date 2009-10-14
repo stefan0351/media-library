@@ -7,12 +7,11 @@ import com.kiwisoft.media.person.CastMember;
 /**
  * @author Stefan Stiller
  */
-public class CastComparator implements Comparator
+public class CastComparator implements Comparator<CastMember>
 {
-	public int compare(Object o1, Object o2)
+	@Override
+	public int compare(CastMember cast1, CastMember cast2)
 	{
-		CastMember cast1=(CastMember)o1;
-		CastMember cast2=(CastMember)o2;
 		String actor1=cast1.getActor()!=null ? cast1.getActor().toString() : "";
 		String actor2=cast2.getActor()!=null ? cast2.getActor().toString() : "";
 		int result=actor1.compareToIgnoreCase(actor2);

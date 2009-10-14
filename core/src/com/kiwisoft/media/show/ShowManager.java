@@ -193,4 +193,9 @@ public class ShowManager
 	{
 		return DBLoader.getInstance().loadSet(Show.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
+
+	public ShowInfo getShowInfo(Long id)
+	{
+		return DBLoader.getInstance().load(ShowInfo.class, id);
+	}
 }

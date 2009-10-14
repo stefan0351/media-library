@@ -129,11 +129,6 @@ public class MediumManager
 		return DBLoader.getInstance().loadSet(Medium.class, null, "userkey div ?=?", GROUP_SIZE, group);
 	}
 
-	public static String getGroupName(int group)
-	{
-		return Math.max(1, group*50)+"-"+(group*50+49);
-	}
-
 	public Set<Medium> getMedia(Movie movie)
 	{
 		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+

@@ -19,13 +19,13 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="media-core" exported="" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$PROJECTS_ROOT$/media/lib/alloy.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/alloy-doc.jar!/" />
+          <root url="jar://$SOURCE_REPOSITORY$/alloy-1.4.4-doc.zip!/" />
         </JAVADOC>
         <SOURCES />
       </library>

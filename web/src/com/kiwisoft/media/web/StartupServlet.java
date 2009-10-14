@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.servlet.*;
 
 import com.kiwisoft.media.MediaWebApplication;
+import com.kiwisoft.persistence.DBSession;
 
 /**
  * @author Stefan Stiller
@@ -21,5 +22,12 @@ public class StartupServlet extends GenericServlet
 	@Override
 	public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException
 	{
+	}
+
+	@Override
+	public void destroy()
+	{
+		DBSession.shutdown();
+		super.destroy();
 	}
 }

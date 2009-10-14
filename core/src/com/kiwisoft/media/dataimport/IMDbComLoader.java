@@ -166,12 +166,12 @@ public class IMDbComLoader
 			else if ("Country:".equals(type))
 			{
 				value=XMLUtils.removeTags(XMLUtils.unescapeHtml(value)).trim();
-				for (String country : value.split("[/|]")) movieData.addCountry(getCountry(country.trim()));
+				for (String country : value.split("[/|]")) movieData.addCountry(new CountryData(country.trim()));
 			}
 			else if ("Language:".equals(type))
 			{
 				value=XMLUtils.removeTags(XMLUtils.unescapeHtml(value)).trim();
-				for (String language : value.split("[/|]")) movieData.addLanguage(getLanguage(language.trim()));
+				for (String language : value.split("[/|]")) movieData.addLanguage(new LanguageData(language.trim()));
 			}
 			index=index2;
 		}
@@ -320,23 +320,5 @@ public class IMDbComLoader
 			}
 			index1=index2;
 		}
-	}
-
-	private Language getLanguage(String name)
-	{
-		ResourceBundle bundle=ResourceBundle.getBundle(IMDbComLoader.class.getName());
-		String isoCode=bundle.getString("language."+name);
-		Language language=LanguageManager.getInstance().getLanguageBySymbol(isoCode);
-		if (language==null) throw new RuntimeException("Language "+name+" not found");
-		return language;
-	}
-
-	private Country getCountry(String name)
-	{
-		ResourceBundle bundle=ResourceBundle.getBundle(IMDbComLoader.class.getName());
-		String isoCode=bundle.getString("country."+name);
-		Country country=CountryManager.getInstance().getCountryBySymbol(isoCode);
-		if (country==null) throw new RuntimeException("Country "+name+" not found");
-		return country;
 	}
 }

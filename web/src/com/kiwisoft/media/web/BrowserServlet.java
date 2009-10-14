@@ -4,7 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.*;
+import javax.management.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.List;
 
 /**
  * @author Stefan Stiller
@@ -18,19 +22,38 @@ public class BrowserServlet extends GenericServlet
 	public void init(ServletConfig servletConfig) throws ServletException
 	{
 		super.init(servletConfig);
-		String autoStartUrl=System.getProperty("kiwisoft.web.autoStart.url");
-		if (autoStartUrl!=null)
+		String path=System.getProperty("kiwisoft.web.autoStart.path");
+		log.info("Starting browser for path: "+path);
+		if (path!=null)
 		{
-			log.info("url: "+autoStartUrl);
 			try
 			{
-				Runtime.getRuntime().exec("cmd /c start \"browser\" \""+autoStartUrl+"\"");
+				String port=getHttpPort();
+				log.debug("port: "+port);
+				String contextPath=servletConfig.getServletContext().getContextPath();
+				log.debug("contextPath: "+contextPath);
+				Runtime.getRuntime().exec("cmd /c start \"browser\" \"http://localhost:"+port+contextPath+path+"\"");
 			}
-			catch (IOException e)
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private String getHttpPort() throws Exception
+	{
+		for (MBeanServer mBeanServer : MBeanServerFactory.findMBeanServer(null))
+		{
+			Set<ObjectInstance> objectInstances=mBeanServer.queryMBeans(new ObjectName("Catalina:type=Connector,*"),
+															   Query.eq(Query.attr("protocol"), Query.value("HTTP/1.1")));
+			for (ObjectInstance objectInstance : objectInstances)
+			{
+				String port=objectInstance.getObjectName().getKeyProperty("port");
+				if (port!=null) return port;
+			}
+		}
+		return "8080";
 	}
 
 	@Override

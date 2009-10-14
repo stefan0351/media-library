@@ -58,7 +58,7 @@ public class IMDbServlet extends HttpServlet
 				MovieData movieData=(MovieData)session.getAttribute("movie");
 				if (movieData!=null)
 				{
-					if (Boolean.parseBoolean(request.getParameter("force_new"))) movieData.setMovie(null);
+//					if (Boolean.parseBoolean(request.getParameter("force_new"))) movieData.setMovie(null);
 					CreateMovieTx createMovieTx=new CreateMovieTx(movieData)
 					{
 						public void handleError(Throwable throwable, boolean rollback)
@@ -86,7 +86,7 @@ public class IMDbServlet extends HttpServlet
 						movie=movieManager.getMovieByTitle(movieData.getTitle());
 					if (movie==null && !StringUtils.isEmpty(movieData.getGermanTitle()))
 						movie=movieManager.getMovieByTitle(movieData.getGermanTitle());
-					movieData.setMovie(movie);
+//					movieData.setMovie(movie);
 					session.setAttribute("movie", movieData);
 					RequestDispatcher requestDispatcher=servletContext.getRequestDispatcher("/movies/import.jsp");
 					requestDispatcher.forward(request, response);

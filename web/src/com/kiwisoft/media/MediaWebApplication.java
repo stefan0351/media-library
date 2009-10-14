@@ -26,6 +26,10 @@ import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonHTMLRenderer;
 import com.kiwisoft.media.files.ImageFile;
 import com.kiwisoft.media.pics.ImageFileHTMLRenderer;
+import com.kiwisoft.media.links.LinkGroupHierarchyHTMLRenderer;
+import com.kiwisoft.media.links.LinkGroupHTMLRenderer;
+import com.kiwisoft.media.books.Book;
+import com.kiwisoft.media.books.BookHTMLRenderer;
 import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.app.Application;
@@ -102,6 +106,7 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(Episode.class, new EpisodeHTMLRenderer());
 		rendererManager.setRenderer(Movie.class, new MovieHTMLRenderer());
 		rendererManager.setRenderer(Person.class, new PersonHTMLRenderer());
+		rendererManager.setRenderer(Book.class, new BookHTMLRenderer());
 		rendererManager.setRenderer(Show.class, new ShowHTMLRenderer());
 		rendererManager.setRenderer(Genre.class, new GenreHTMLRenderer());
 		rendererManager.setRenderer(Season.class, new SeasonHTMLRenderer());

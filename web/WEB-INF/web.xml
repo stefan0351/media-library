@@ -8,39 +8,42 @@
 
     <display-name>Media Manager</display-name>
 
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>*.action</url-pattern>
+    </filter-mapping>
+
+    <listener>
+      <listener-class>org.apache.struts2.tiles.StrutsTilesListener</listener-class>
+    </listener>
+
 	<servlet>
-		<servlet-name>xp</servlet-name>
-		<display-name>XPServlet</display-name>
+		<servlet-name>XPServlet</servlet-name>
 		<description>Servlet handling .xp files</description>
 		<servlet-class>com.kiwisoft.xp.XPServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>create.pdf</servlet-name>
-		<display-name>PDFServlet</display-name>
+		<servlet-name>PDFServlet</servlet-name>
 		<description>Servlet for creating PDF documents</description>
 		<servlet-class>com.kiwisoft.media.PDFServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>file</servlet-name>
-		<display-name>MediaFileServlet</display-name>
+		<servlet-name>MediaFileServlet</servlet-name>
 		<description>Streams images and other resources from file system</description>
 		<servlet-class>com.kiwisoft.media.pics.MediaFileServlet</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>resource</servlet-name>
-		<display-name>ResourceServlet</display-name>
+		<servlet-name>FileServlet</servlet-name>
 		<description>Streams resources from file system</description>
-		<servlet-class>com.kiwisoft.media.ResourceServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>search</servlet-name>
-		<display-name>Search Servlet</display-name>
-		<description>Search for all type of objects</description>
-		<servlet-class>com.kiwisoft.media.SearchServlet</servlet-class>
+		<servlet-class>com.kiwisoft.media.FileServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -64,18 +67,13 @@
     </servlet>
 
 	<servlet-mapping>
-		<servlet-name>xp</servlet-name>
+		<servlet-name>XPServlet</servlet-name>
 		<url-pattern>*.xp</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>create.pdf</servlet-name>
+		<servlet-name>PDFServlet</servlet-name>
 		<url-pattern>/create.pdf</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>search</servlet-name>
-		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
@@ -84,22 +82,22 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>file</servlet-name>
+		<servlet-name>MediaFileServlet</servlet-name>
 		<url-pattern>/file/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>resource</servlet-name>
-		<url-pattern>/resource</url-pattern>
+		<servlet-name>MediaFileServlet</servlet-name>
+		<url-pattern>/mediafile/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+		<url-pattern>/res/*</url-pattern>
 	</servlet-mapping>
 
 	<taglib>
 		<taglib-uri>http://www.kiwisoft.de/media/xp</taglib-uri>
 		<taglib-location>/WEB-INF/xp.tld</taglib-location>
-	</taglib>
-
-	<taglib>
-		<taglib-uri>http://www.kiwisoft.de/media</taglib-uri>
-		<taglib-location>/WEB-INF/media.tld</taglib-location>
 	</taglib>
 </web-app>

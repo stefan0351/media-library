@@ -119,4 +119,9 @@ public class LinkManager implements CollectionChangeSource
 	{
 		return DBLoader.getInstance().load(LinkGroup.class, null, "name=? and parentgroup_id is null", name);
 	}
+
+	public LinkGroup getGroup(Long groupId)
+	{
+		return DBLoader.getInstance().load(LinkGroup.class, groupId);
+	}
 }

@@ -15,6 +15,8 @@ public interface XPBean extends XMLObject
 {
 	String getName();
 
+	Object getString(String name);
+
 	Object getValue(String name);
 
 	Collection getValues(String name);

@@ -141,6 +141,19 @@ public class MediaFile extends ImageFile
 		setReference(CONTENT_TYPE, contentType);
 	}
 
+	public ImageFile findThumbnail()
+	{
+		ImageFile thumbnail=getThumbnail();
+		if (thumbnail==null && getMediaType()==MediaType.IMAGE)
+		{
+			if (MediaFileUtils.isThumbnailSize(getWidth(), getHeight(), MediaFileUtils.THUMBNAIL_WIDTH, MediaFileUtils.THUMBNAIL_HEIGHT))
+			{
+				thumbnail=this;
+			}
+		}
+		return thumbnail;
+	}
+
 	public ImageFile getThumbnail()
 	{
 		return (ImageFile)getReference(THUMBNAIL);
@@ -169,6 +182,19 @@ public class MediaFile extends ImageFile
 	public void setThumbnail50x50(String root, String path, int imageWidth, int imageHeight)
 	{
 		setThumbnail(THUMBNAIL_50x50, root, path, imageWidth, imageHeight);
+	}
+
+	public ImageFile findSidebarThumbnail()
+	{
+		ImageFile thumbnail=getThumbnailSidebar();
+		if (thumbnail==null && getMediaType()==MediaType.IMAGE)
+		{
+			if (MediaFileUtils.isThumbnailSize(getWidth(), getHeight(), MediaFileUtils.THUMBNAIL_SIDEBAR_WIDTH, MediaFileUtils.THUMBNAIL_SIDEBAR_HEIGHT))
+			{
+				thumbnail=this;
+			}
+		}
+		return thumbnail;
 	}
 
 	public ImageFile getThumbnailSidebar()

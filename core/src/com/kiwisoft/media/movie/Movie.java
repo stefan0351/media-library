@@ -295,6 +295,11 @@ public class Movie extends IDObject implements Recordable, Production
 		return DBLoader.getInstance().load(Summary.class, null, "movie_id=? and language_id=?", getId(), language.getId());
 	}
 
+	public Set<Summary> getSummaries()
+	{
+		return DBLoader.getInstance().loadSet(Summary.class, null, "movie_id=?", getId());
+	}
+
 	public Integer getYear()
 	{
 		return year;

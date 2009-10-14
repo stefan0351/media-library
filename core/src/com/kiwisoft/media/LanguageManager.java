@@ -50,5 +50,10 @@ public class LanguageManager
 			return language;
 		}
 	}
+
+	public Language getLanguageByName(String name)
+	{
+		return DBLoader.getInstance().load(Language.class, null, "name=?", name);
+	}
 }
 

@@ -35,8 +35,9 @@ public abstract class CreateMovieTx implements Transactional
         Language english=LanguageManager.getInstance().getLanguageBySymbol("en");
         Map<String, Person> persons=new HashMap<String, Person>();
 
-        movie=movieData.getMovie();
-        if (movie==null) movie=new Movie();
+		// todo
+//        movie=movieData.getMovie();
+//        if (movie==null) movie=new Movie();
 
         if (StringUtils.isEmpty(movie.getImdbKey())) movie.setImdbKey(movieData.getImdbKey());
         if (StringUtils.isEmpty(movie.getTitle())) movie.setTitle(movieData.getTitle());
@@ -45,8 +46,9 @@ public abstract class CreateMovieTx implements Transactional
         if (StringUtils.isEmpty(movie.getSummaryText(english))) movie.setSummaryText(english, movieData.getSummary());
         if (movie.getYear()==null) movie.setYear(movieData.getYear());
         if (movie.getRuntime()==null) movie.setRuntime(movieData.getRuntime());
-        if (movie.getLanguages().isEmpty()) movie.setLanguages(movieData.getLanguages());
-        if (movie.getCountries().isEmpty()) movie.setCountries(movieData.getCountries());
+		// todo
+//        if (movie.getLanguages().isEmpty()) movie.setLanguages(movieData.getLanguages());
+//        if (movie.getCountries().isEmpty()) movie.setCountries(movieData.getCountries());
 
         Set<CrewData> crew=new HashSet<CrewData>();
         for (Credit crewMember : movie.getCredits()) crew.add(new CrewData(crewMember));

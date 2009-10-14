@@ -1,0 +1,310 @@
+/********************************************************************************/
+/* Common Window Styles
+/********************************************************************************/
+
+.top_draggable, .bottom_draggable {
+  cursor:move;
+}
+
+.status_bar {
+  font-size:12px;
+}
+.status_bar input{
+  font-size:12px;
+}
+
+.wired_frame {
+	display: block;
+  position: absolute;
+  border: 1px #000 dashed;
+}
+
+/* DO NOT CHANGE THESE VALUES*/
+.dialog {
+	display: block;
+	position: absolute;
+}
+
+.dialog table.table_window  { 
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+	margin: 0px;
+	padding:0px;
+}
+
+.dialog table.table_window td , .dialog table.table_window th { 
+  padding: 0; 
+}
+
+.dialog .title_window {
+  -moz-user-select:none;
+}                                                    
+
+/********************************************************************************/
+/* Default Window Styles
+/********************************************************************************/
+
+.window_nw {
+	background:transparent url(images/window_nw.png) no-repeat 0 0;			
+	width:8px;
+	height:26px;
+	border-top: 0px solid black;
+	border-left: 0px solid black;
+}
+
+.window_n {
+	background: transparent url(images/window_n.png) repeat-x 0 0;
+	height:26px;
+	border-top: 0px solid black;
+}
+
+.window_ne {
+	background: transparent url(images/window_ne.png) no-repeat 0 0;
+	width:8px;
+	height:26px;
+	border-top: 0px solid black;
+	border-right: 0px solid black;
+}
+
+.window_e {
+	background: transparent url(images/window_e.png) repeat-y 0 0;
+	width: 8px;
+	border-right: 0px solid black;
+}
+
+.window_se {
+	background: transparent url(images/window_se.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-right: 0px solid black;
+	border-bottom: 0px solid black;
+}
+
+.window_s {
+	background: transparent url(images/window_s.png) repeat-x 0 0;
+	height:8px;
+	border-bottom: 0px solid black;
+}
+
+.window_sw {
+	background: transparent url(images/window_sw.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-bottom: 0px solid black;
+	border-left: 0px solid black;
+}
+
+.window_w {
+	background: transparent url(images/window_w.png) repeat-y 0 0;
+	width:8px;
+	border-left: 0px solid black;
+}
+
+
+.window_sizer {
+	background: transparent url(images/window_sizer.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-bottom: 0px solid black;
+	border-right: 0px solid black;
+}
+
+.window_wired_frame {
+	background:#FFF;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;	
+}
+
+.window_content {
+	overflow:auto;
+	color:black;
+	font-size:9px;
+	background:white;
+}
+
+.overlay_window {
+	background-color:#FFF;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;
+}
+
+.window_sizer {
+	cursor:se-resize;	
+}
+
+.window_title {
+	font-weight: bold;
+	font-size: 10pt;
+	text-align: center;
+	padding-bottom: 2px;
+}
+
+.window_close {
+	width:15px;
+	height:9px;
+	background:transparent url(images/window-close.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:5px;
+	cursor:pointer;
+	z-index:1000;
+}
+
+.window_maximize {
+	width:15px;
+	height:9px;
+	background:transparent url(images/window-maximize.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:20px;
+	cursor:pointer;
+	z-index:1000;
+}
+
+.window_minimize {
+	width:15px;
+	height:9px;
+	background:transparent url(images/window-minimize.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:35px;
+	cursor:pointer;
+	z-index:1000;
+}
+
+/********************************************************************************/
+/* Error Window Styles
+/********************************************************************************/
+
+.alert_nw {
+	background:transparent url(images/alert_nw.png) no-repeat 0 0;			
+	width:8px;
+	height:26px;
+	border-top: 0px solid black;
+	border-left: 0px solid black;
+}
+
+.alert_n {
+	background: transparent url(images/alert_n.png) repeat-x 0 0;
+	height:26px;
+	border-top: 0px solid black;
+}
+
+.alert_ne {
+	background: transparent url(images/alert_ne.png) no-repeat 0 0;
+	width:8px;
+	height:26px;
+	border-top: 0px solid black;
+	border-right: 0px solid black;
+}
+
+.alert_e {
+	background: transparent url(images/alert_e.png) repeat-y 0 0;
+	width: 8px;
+	border-right: 0px solid black;
+}
+
+.alert_se {
+	background: transparent url(images/alert_se.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-right: 0px solid black;
+	border-bottom: 0px solid black;
+}
+
+.alert_s {
+	background: transparent url(images/alert_s.png) repeat-x 0 0;
+	height:8px;
+	border-bottom: 0px solid black;
+}
+
+.alert_sw {
+	background: transparent url(images/alert_sw.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-bottom: 0px solid black;
+	border-left: 0px solid black;
+}
+
+.alert_w {
+	background: transparent url(images/alert_w.png) repeat-y 0 0;
+	width:8px;
+	border-left: 0px solid black;
+}
+
+
+.alert_sizer {
+	background: transparent url(images/alert_sizer.png) no-repeat 0 0;
+	width: 8px;
+	height: 8px;
+	border-bottom: 0px solid black;
+	border-right: 0px solid black;
+}
+
+.alert_wired_frame {
+	background:#FFF;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;	
+}
+
+.alert_content {
+	overflow:auto;
+	color:black;
+	font-size:9px;
+	background:white;
+}
+
+.overlay_alert {
+	background-color:#FFF;
+	filter:alpha(opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;
+}
+
+.alert_sizer {
+	cursor:se-resize;	
+}
+
+.alert_title {
+	font-weight: bold;
+	font-size: 10pt;
+	text-align: center;
+	padding-bottom: 2px;
+}
+
+.alert_close {
+	width:15px;
+	height:9px;
+	background:transparent url(images/alert-close.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:5px;
+	cursor:pointer;
+	z-index:1000;
+}
+
+.alert_maximize {
+	width:15px;
+	height:9px;
+	background:transparent url(images/alert-maximize.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:20px;
+	cursor:pointer;
+	z-index:1000;
+}
+
+.alert_minimize {
+	width:15px;
+	height:9px;
+	background:transparent url(images/alert-minimize.png) no-repeat 0 0;			
+	position:absolute;
+	top:5px;
+	right:35px;
+	cursor:pointer;
+	z-index:1000;
+}

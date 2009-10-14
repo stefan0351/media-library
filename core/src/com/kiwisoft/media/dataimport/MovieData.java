@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
-
-import com.kiwisoft.media.Country;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.movie.Movie;
+import java.io.Serializable;
 
 /**
  * @author Stefan Stiller
  */
-public class MovieData
+public class MovieData implements Serializable
 {
+	private static final long serialVersionUID=-672166447065632609L;
+
 	private String plotSummaryLink;
 	private String releaseInfoLink;
 	private String plotSynopsisLink;
@@ -26,9 +25,8 @@ public class MovieData
 	private List<CrewData> crew=new ArrayList<CrewData>();
 	private List<CastData> cast=new ArrayList<CastData>();
 	private Integer runtime;
-	private Set<Country> countries=new HashSet<Country>();
-	private Set<Language> languages=new HashSet<Language>();
-	private Movie movie;
+	private Set<CountryData> countries;
+	private Set<LanguageData> languages;
 	private String imdbKey;
 	private String outline;
 
@@ -42,12 +40,12 @@ public class MovieData
 		getCast().add(castData);
 	}
 
-	public void addCountry(Country country)
+	public void addCountry(CountryData country)
 	{
 		getCountries().add(country);
 	}
 
-	public void addLanguage(Language language)
+	public void addLanguage(LanguageData language)
 	{
 		getLanguages().add(language);
 	}
@@ -127,19 +125,41 @@ public class MovieData
 		return crew;
 	}
 
+	public void setCrew(List<CrewData> crew)
+	{
+		this.crew=crew;
+	}
+
 	public List<CastData> getCast()
 	{
 		return cast;
 	}
 
-	public Set<Country> getCountries()
+	public void setCast(List<CastData> cast)
 	{
+		this.cast=cast;
+	}
+
+	public Set<CountryData> getCountries()
+	{
+		if (countries==null) countries=new HashSet<CountryData>();
 		return countries;
 	}
 
-	public Set<Language> getLanguages()
+	public void setCountries(Set<CountryData> countries)
 	{
+		this.countries=countries;
+	}
+
+	public Set<LanguageData> getLanguages()
+	{
+		if (languages==null) languages=new HashSet<LanguageData>();
 		return languages;
+	}
+
+	public void setLanguages(Set<LanguageData> languages)
+	{
+		this.languages=languages;
 	}
 
 	public void setGermanTitle(String germanTitle)
@@ -150,16 +170,6 @@ public class MovieData
 	public String getGermanTitle()
 	{
 		return germanTitle;
-	}
-
-	public void setMovie(Movie movie)
-	{
-		this.movie=movie;
-	}
-
-	public Movie getMovie()
-	{
-		return movie;
 	}
 
 	public void setImdbKey(String imdbKey)
@@ -188,6 +198,8 @@ public class MovieData
 		buffer.append("\n\tcreditsLink=").append(creditsLink);
 		buffer.append("\n\treleaseInfoLink=").append(releaseInfoLink);
 		buffer.append("\n\tsummary=").append(summary);
+		buffer.append("\n\tcast=").append(cast);
+		buffer.append("\n\tcrew=").append(crew);
 		buffer.append("\n}");
 		return buffer.toString();
 	}

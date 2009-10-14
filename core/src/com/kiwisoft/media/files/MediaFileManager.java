@@ -6,15 +6,14 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSource;
-import com.kiwisoft.collection.CollectionChangeSupport;
+import com.kiwisoft.collection.*;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.person.Person;
+import com.kiwisoft.format.FormatStringComparator;
 
 /**
  * @author Stefan Stiller
@@ -194,5 +193,16 @@ public class MediaFileManager implements CollectionChangeSource
 									   "_ join mediafile_persons map on map.mediafile_id=mediafiles.id",
 									   "mediafiles.mediatype_id=? and map.person_id=?",
 									   mediaType.getId(), person.getId());
+	}
+
+	public SetMap<String, MediaFile> groupMediaFiles(Set<MediaFile> files)
+	{
+		SetMap<String, MediaFile> mediaFiles=new SortedSetMap<String, MediaFile>(String.CASE_INSENSITIVE_ORDER, new FormatStringComparator());
+		for (MediaFile mediaFile : files)
+		{
+			if (mediaFile.getContentType()!=null) mediaFiles.add(mediaFile.getContentType().getPluralName(), mediaFile);
+			else mediaFiles.add("Unsorted", mediaFile);
+		}
+		return mediaFiles;
 	}
 }
