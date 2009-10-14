@@ -1,4 +1,19 @@
 @echo off
+rem Licensed to the Apache Software Foundation (ASF) under one or more
+rem contributor license agreements.  See the NOTICE file distributed with
+rem this work for additional information regarding copyright ownership.
+rem The ASF licenses this file to You under the Apache License, Version 2.0
+rem (the "License"); you may not use this file except in compliance with
+rem the License.  You may obtain a copy of the License at
+rem
+rem     http://www.apache.org/licenses/LICENSE-2.0
+rem
+rem Unless required by applicable law or agreed to in writing, software
+rem distributed under the License is distributed on an "AS IS" BASIS,
+rem WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+rem See the License for the specific language governing permissions and
+rem limitations under the License.
+
 if "%OS%" == "Windows_NT" setlocal
 rem ---------------------------------------------------------------------------
 rem Wrapper script for command line tools
@@ -15,7 +30,7 @@ rem
 rem   JAVA_OPTS     (Optional) Java runtime options used when the "start",
 rem                 "stop", or "run" command is executed.
 rem
-rem $Id: tool-wrapper.bat,v 1.5 2004/10/25 18:08:08 markt Exp $
+rem $Id: tool-wrapper.bat 562770 2007-08-04 22:13:58Z markt $
 rem ---------------------------------------------------------------------------
 
 rem Guess CATALINA_HOME if not defined
@@ -43,7 +58,12 @@ set BASEDIR=%CATALINA_HOME%
 call "%CATALINA_HOME%\bin\setclasspath.bat"
 
 rem Add on extra jar files to CLASSPATH
-set CLASSPATH=%CLASSPATH%;%CATALINA_HOME%\bin\bootstrap.jar;"%BASEDIR%"\common\lib\jmx.jar;"%BASEDIR%"\common\lib\servlet-api.jar
+if "%CLASSPATH%" == "" goto noclasspath
+set CLASSPATH=%CLASSPATH%;%CATALINA_HOME%\bin\bootstrap.jar;"%BASEDIR%"\lib\servlet-api.jar
+goto :okclasspath
+:noclasspath
+set CLASSPATH=%CATALINA_HOME%\bin\bootstrap.jar;"%BASEDIR%"\lib\servlet-api.jar
+:okclasspath
 
 rem Get remaining unshifted command line arguments and save them in the
 set CMD_LINE_ARGS=
