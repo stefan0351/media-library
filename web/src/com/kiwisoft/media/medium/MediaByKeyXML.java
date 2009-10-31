@@ -16,6 +16,7 @@ import com.kiwisoft.utils.Utils;
  */
 public class MediaByKeyXML implements XMLSource
 {
+	@Override
 	public void createXML(HttpServletRequest request, XMLWriter xmlWriter) throws IOException
 	{
 		TreeSet<Medium> mediums=new TreeSet<Medium>(new MediumComparator());
@@ -37,6 +38,7 @@ public class MediaByKeyXML implements XMLSource
 
 	private static class MediumComparator implements Comparator<Medium>
 	{
+		@Override
 		public int compare(Medium o1, Medium o2)
 		{
 			return Utils.compareNullSafe(o1.getUserKey(), o2.getUserKey(), false);

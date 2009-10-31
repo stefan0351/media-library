@@ -147,6 +147,7 @@ public class MovieDetailsView extends DetailsView
 
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				if (movie==null)
@@ -190,6 +191,7 @@ public class MovieDetailsView extends DetailsView
 				movie.setSummaryText(LanguageManager.ENGLISH, englishSummaryField.getText());
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(MovieDetailsView.this, throwable);
@@ -365,11 +367,13 @@ public class MovieDetailsView extends DetailsView
 
 	private class IndexByLookup implements DialogLookup
 	{
+		@Override
 		public void open(JTextField field)
 		{
 			field.setText(IndexByUtils.createIndexBy(titleField.getText()));
 		}
 
+		@Override
 		public Icon getIcon()
 		{
 			return Icons.getIcon("lookup.create");

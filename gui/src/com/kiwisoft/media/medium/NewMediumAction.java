@@ -15,6 +15,7 @@ public class NewMediumAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MediumDetailsView.create();

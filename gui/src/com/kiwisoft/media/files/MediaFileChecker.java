@@ -16,11 +16,13 @@ import com.kiwisoft.persistence.DBLoader;
  */
 public class MediaFileChecker implements Job
 {
+	@Override
 	public String getName()
 	{
 		return "Check References";
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		final ProgressSupport progress=new ProgressSupport(this, progressListener);
@@ -67,6 +69,7 @@ public class MediaFileChecker implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}

@@ -31,6 +31,7 @@ public class DeleteLinkAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();
@@ -47,6 +48,7 @@ public class DeleteLinkAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					Set<Show> shows=DBLoader.getInstance().loadSet(Show.class, null, "linkgroup_id=?", linkGroup.getId());
@@ -58,6 +60,7 @@ public class DeleteLinkAction extends SimpleContextAction
 					else LinkManager.getInstance().dropRootGroup(linkGroup);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(frame, throwable);
@@ -74,11 +77,13 @@ public class DeleteLinkAction extends SimpleContextAction
 			final LinkGroup linkGroup=((LinkGroupNode)node.getParent()).getUserObject();
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					linkGroup.removeRelatedGroup(relatedGroup);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(frame, throwable);
@@ -93,11 +98,13 @@ public class DeleteLinkAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					link.getGroup().dropLink(link);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(frame, throwable);

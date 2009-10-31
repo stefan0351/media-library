@@ -13,16 +13,15 @@ import javax.swing.event.DocumentEvent;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageLookup;
 import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.ShowLookup;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.files.*;
-import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.swing.ImagePanel;
-import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.*;
 import com.kiwisoft.swing.table.ObjectTableModel;
 import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.app.DetailsView;
@@ -41,9 +40,9 @@ public class BookDetailsView extends DetailsView
 	private JTextField titleField;
 	private ObjectTableModel<Person> authorsModel;
 	private ObjectTableModel<Person> translatorsModel;
-	private JTextField publisherField;
+	private LookupField<String> publisherField;
 	private JTextField editionField;
-	private JTextField bindingField;
+	private LookupField<String> bindingField;
 	private JFormattedTextField pageCountField;
 	private JFormattedTextField publishedYearField;
 	private LookupField<Language> languageField;
@@ -52,6 +51,7 @@ public class BookDetailsView extends DetailsView
 	private JTextField isbn13Field;
     private JTextPane germanSummaryField;
     private JTextPane englishSummaryField;
+	private LookupField<Show> showField;
 
 	private BookDetailsView(Book book)
 	{
@@ -72,13 +72,13 @@ public class BookDetailsView extends DetailsView
 		translatorsField.addComponentListener(new WindowResizeListener(authorsField));
 
 		titleField=new JTextField(40);
-		publisherField=new JTextField(40);
+		publisherField=new LookupField<String>(new PublisherLookup());
 		editionField=new JTextField(20);
-		bindingField=new JTextField(20);
+		bindingField=new LookupField<String>(new BindingLookup());
 		isbn10Field=new JTextField(15);
 		isbn13Field=new JTextField(20);
-		pageCountField=GuiUtils.createNumberField(Integer.class, 5, 0, null);
-		publishedYearField=GuiUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
+		pageCountField=ComponentUtils.createNumberField(Integer.class, 5, 0, null);
+		publishedYearField=ComponentUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
 		languageField=new LookupField<Language>(new LanguageLookup());
 		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new MyImageLookupHandler());
 		ImagePanel coverPreview=new ImagePanel(new Dimension(150, 200));
@@ -89,6 +89,7 @@ public class BookDetailsView extends DetailsView
         summaryField.setPreferredSize(new Dimension(400, 100));
         summaryField.addTab("German", new JScrollPane(germanSummaryField));
         summaryField.addTab("English", new JScrollPane(englishSummaryField));
+		showField=new LookupField<Show>(new ShowLookup());
 
         setLayout(new GridBagLayout());
 		int row=0;
@@ -163,6 +164,12 @@ public class BookDetailsView extends DetailsView
 		add(coverField,
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
+		row++;
+		add(new JLabel("Show:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(showField,
+			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
 		titleField.getDocument().addDocumentListener(new BookDetailsView.FrameTitleUpdater());
 		new PicturePreviewUpdater(coverField, coverPreview);
 	}
@@ -175,9 +182,9 @@ public class BookDetailsView extends DetailsView
 		{
 			titleField.setText(book.getTitle());
 			pageCountField.setValue(book.getPageCount());
-			publisherField.setText(book.getPublisher());
+			publisherField.setValue(book.getPublisher());
 			editionField.setText(book.getEdition());
-			bindingField.setText(book.getBinding());
+			bindingField.setValue(book.getBinding());
             if (book.getPublishedYear()!=null)
             {
                 publishedYearField.setValue(book.getPublishedYear());
@@ -192,6 +199,7 @@ public class BookDetailsView extends DetailsView
 			translatorsModel.sort();
             germanSummaryField.setText(book.getSummaryText(LanguageManager.GERMAN));
             englishSummaryField.setText(book.getSummaryText(LanguageManager.ENGLISH));
+			showField.setValue(book.getShow());
         }
 	}
 
@@ -213,9 +221,11 @@ public class BookDetailsView extends DetailsView
 			final Integer publishedYear=(Integer)publishedYearField.getValue();
 			final Integer pageCount=(Integer)pageCountField.getValue();
 			final MediaFile cover=coverField.getValue();
+			final Show show=showField.getValue();
 
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (book==null) book=BookManager.getInstance().createBook();
@@ -231,8 +241,10 @@ public class BookDetailsView extends DetailsView
 					book.setIsbn13(isbn13);
 					book.setLanguage(language);
 					book.setCover(cover);
+					book.setShow(show);
                 }
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(BookDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

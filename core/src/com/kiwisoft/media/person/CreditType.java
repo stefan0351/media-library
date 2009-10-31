@@ -23,9 +23,11 @@ public class CreditType implements Identifyable, Comparable<CreditType>, Seriali
 	public static final CreditType RECURRING_CAST=new CreditType(9L, "Recurring Cast", "Recurring Cast", true);
 	public static final CreditType GUEST_CAST=new CreditType(10L, "Guest Gast", "Guest Cast", true);
 	public static final CreditType INTERPRET=new CreditType(11L, "Interpret", "Interpret", false);
+	public static final CreditType ACTOR=new CreditType(12L, "Actor/Actress", "Actor/Actress", true);
 
 	public static CreditType valueOf(Long id)
 	{
+		if (id!=null && id.longValue()==12L) return ACTOR;
 		return map.get(id);
 	}
 
@@ -42,14 +44,19 @@ public class CreditType implements Identifyable, Comparable<CreditType>, Seriali
 	private Long id;
 	private String byName;
 	private String asName;
+	private boolean actingCredit;
 
 	private CreditType(Long id, String byName, String asName, boolean cast)
 	{
 		this.id=id;
 		this.byName=byName;
 		this.asName=asName;
-		map.put(id, this);
-		if (!cast) nonCastTypes.add(this);
+		this.actingCredit=cast;
+		if (id.longValue()!=12L)
+		{
+			map.put(id, this);
+			if (!cast) nonCastTypes.add(this);
+		}
 	}
 
 	@Override
@@ -71,6 +78,11 @@ public class CreditType implements Identifyable, Comparable<CreditType>, Seriali
 	public String getByName()
 	{
 		return byName;
+	}
+
+	public boolean isActingCredit()
+	{
+		return actingCredit;
 	}
 
 	@Override

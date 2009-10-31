@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.kiwisoft.media.Language;
 import com.kiwisoft.media.show.Summary;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.persistence.IDObject;
@@ -29,6 +30,7 @@ public class Book extends IDObject
 	public static final String COVER="cover";
 	public static final String AUTHORS="authors";
 	public static final String TRANSLATORS="translators";
+	public static final String SHOW="show";
 
 	private String title;
 	private String publisher;
@@ -241,4 +243,16 @@ public class Book extends IDObject
         return DBLoader.getInstance().load(Summary.class, null, "book_id=? and language_id=?", getId(), language.getId());
     }
 
+	public Show getShow()
+	{
+		return (Show) getReference(SHOW);
+	}
+
+	public void setShow(Show show)
+	{
+		Show oldShow=getShow();
+		setReference(SHOW, show);
+		if (oldShow!=null) oldShow.removeBook(this);
+		if (show!=null) show.addBook(this);
+	}
 }

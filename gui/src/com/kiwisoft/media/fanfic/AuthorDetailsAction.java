@@ -15,6 +15,7 @@ public class AuthorDetailsAction extends SimpleContextAction
 		super(Author.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		AuthorDetailsView.create((Author)getObject());

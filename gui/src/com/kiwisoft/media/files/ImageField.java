@@ -107,6 +107,7 @@ class ImageField extends JPanel
 			super("Open File", Icons.getIcon("open.file"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			ImageFileChooser fileChooser=new ImageFileChooser();
@@ -142,6 +143,7 @@ class ImageField extends JPanel
 			super("Remove", Icons.getIcon("delete"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (file!=null)
@@ -253,6 +255,7 @@ class ImageField extends JPanel
 			super("Edit", Icons.getIcon("edit"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			edit();

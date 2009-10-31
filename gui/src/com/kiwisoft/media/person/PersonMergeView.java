@@ -72,11 +72,13 @@ public class PersonMergeView extends DetailsView
 		if (person==null) throw new InvalidDataException("No base person selected!", this);
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				PersonManager.getInstance().mergePersons(person, persons);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(PersonMergeView.this, throwable);

@@ -46,6 +46,7 @@ public class ImportNewWallpapers
 		{
 			private StringNumberComparator comparator=new StringNumberComparator();
 
+			@Override
 			public int compare(File o1, File o2)
 			{
 				return comparator.compare(o1.getName(), o2.getName());
@@ -92,6 +93,7 @@ public class ImportNewWallpapers
 		final Dimension thumbnailSize=MediaFileUtils.getImageSize(FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath));
 		DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				MediaFile wallpaper=MediaFileManager.getInstance().createImage(MediaConfiguration.PATH_ROOT);
@@ -104,6 +106,7 @@ public class ImportNewWallpapers
 				wallpaper.setThumbnail(MediaConfiguration.PATH_ROOT, thumbnailPath, thumbnailSize.width, thumbnailSize.height);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				throwable.printStackTrace();

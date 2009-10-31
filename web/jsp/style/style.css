@@ -12,6 +12,8 @@
 	font-family:Verdana,serif;
 	font-weight:bold;
 	font-size:20pt;
+	white-space:nowrap;
+	overflow:hidden;
 }
 
 .main {

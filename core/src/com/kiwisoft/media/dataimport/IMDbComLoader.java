@@ -1,7 +1,6 @@
 package com.kiwisoft.media.dataimport;
 
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -9,10 +8,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.WordUtils;
 
-import com.kiwisoft.media.Country;
-import com.kiwisoft.media.CountryManager;
-import com.kiwisoft.media.Language;
-import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.WebUtils;

@@ -2,7 +2,6 @@ package com.kiwisoft.media.fanfics;
 
 import com.kiwisoft.media.BaseAction;
 import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.fanfic.Pairing;
 
 import java.util.TreeSet;

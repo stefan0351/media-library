@@ -26,6 +26,7 @@ public class DeleteAirdateAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List<Airdate> airdates=getObjects();

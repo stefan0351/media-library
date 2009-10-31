@@ -115,6 +115,7 @@ public class ImageDetailsView extends DetailsView
 		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		imageField.addPropertyChangeListener("file", new PropertyChangeListener()
 		{
+			@Override
 			public void propertyChange(PropertyChangeEvent evt)
 			{
 				File file=imageField.getFile();
@@ -208,6 +209,7 @@ public class ImageDetailsView extends DetailsView
 			{
 				return DBSession.execute(new Transactional()
 				{
+					@Override
 					public void run() throws Exception
 					{
 						if (image==null) image=MediaFileManager.getInstance().createImage(imageField.getRoot());
@@ -227,6 +229,7 @@ public class ImageDetailsView extends DetailsView
 						image.setReferences(references);
 					}
 
+					@Override
 					public void handleError(Throwable throwable, boolean rollback)
 					{
 						JOptionPane.showMessageDialog(ImageDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

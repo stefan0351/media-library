@@ -24,6 +24,7 @@ public class DeleteFanFicAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		FanFic fanFic=(FanFic)getObject();

@@ -50,6 +50,7 @@ public class DocumentElementsNode extends GenericTreeNode<String> implements Col
 		return document.getURL().toString();
 	}
 
+	@Override
 	public void collectionChanged(CollectionChangeEvent event)
 	{
 		if (WebDocument.ELEMENTS.equals(event.getPropertyName()))

@@ -18,6 +18,7 @@ public class CastDetailsAction extends SimpleContextAction
 	/**
 	 * Invoked when an action occurs.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		CastDetailsView.create((CastMember)getObject());

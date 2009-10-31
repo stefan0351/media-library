@@ -235,6 +235,7 @@ public class LinksView extends ViewPanel
 					final LinkGroup targetGroup=(LinkGroup)target;
 					return DBSession.execute(new Transactional()
 					{
+						@Override
 						public void run() throws Exception
 						{
 							LinkGroup oldParentGroup=draggedGroup.getParentGroup();
@@ -245,6 +246,7 @@ public class LinksView extends ViewPanel
 							draggedGroup.setParentGroup(targetGroup);
 						}
 
+						@Override
 						public void handleError(Throwable throwable, boolean rollback)
 						{
 							GuiUtils.handleThrowable(LinksView.this, throwable);
@@ -260,6 +262,7 @@ public class LinksView extends ViewPanel
 					final LinkGroup targetGroup=(LinkGroup)target;
 					return DBSession.execute(new Transactional()
 					{
+						@Override
 						public void run() throws Exception
 						{
 							LinkGroup oldParentGroup=draggedLink.getGroup();
@@ -268,6 +271,7 @@ public class LinksView extends ViewPanel
 							draggedLink.setGroup(targetGroup);
 						}
 
+						@Override
 						public void handleError(Throwable throwable, boolean rollback)
 						{
 							GuiUtils.handleThrowable(LinksView.this, throwable);
@@ -290,11 +294,13 @@ public class LinksView extends ViewPanel
 					{
 						return DBSession.execute(new Transactional()
 						{
+							@Override
 							public void run() throws Exception
 							{
 								targetGroup.addRelatedGroup(draggedGroup);
 							}
 
+							@Override
 							public void handleError(Throwable throwable, boolean rollback)
 							{
 								GuiUtils.handleThrowable(LinksView.this, throwable);

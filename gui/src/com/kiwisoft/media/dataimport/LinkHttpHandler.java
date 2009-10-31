@@ -26,6 +26,7 @@ public class LinkHttpHandler implements HttpHandler
 		this.frame=frame;
 	}
 
+	@Override
 	public void handle(HttpExchange httpExchange) throws IOException
 	{
 		httpExchange.getResponseHeaders().set("content-type", "text/html; charset=iso-8859-1");

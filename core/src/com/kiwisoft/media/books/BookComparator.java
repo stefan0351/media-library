@@ -9,6 +9,7 @@ import com.kiwisoft.utils.Utils;
  */
 public class BookComparator implements Comparator<Book>
 {
+	@Override
 	public int compare(Book book1, Book book2)
 	{
 		int result=Utils.compareNullSafe(book1.getTitle(), book2.getTitle(), false);

@@ -72,7 +72,7 @@
 
 	<s:if test="html!=null">
 		<table class="contenttable" width="765">
-		<tr><td class=header2>Story</td></tr>
+		<tr><td class=header2><s:if test="!part.name.empty"><s:property value="part.name"/></s:if><s:else>Story</s:else></td></tr>
 		<tr><td class="content"><s:property value="html" escape="false"/></td></tr>
 		</table>
 	</s:if>

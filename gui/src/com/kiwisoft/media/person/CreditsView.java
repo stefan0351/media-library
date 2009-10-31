@@ -182,6 +182,7 @@ public abstract class CreditsView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();
@@ -234,6 +235,7 @@ public abstract class CreditsView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();
@@ -244,7 +246,7 @@ public abstract class CreditsView extends ViewPanel
 		{
 			Credit credit=getUserObject();
 			if ("type".equals(property)) return credit.getCreditType();
-			if ("character".equals(property)) return credit.getSubType();
+			if ("subType".equals(property)) return credit.getSubType();
 			if ("person".equals(property)) return credit.getPerson();
 			if ("production".equals(property))
 			{

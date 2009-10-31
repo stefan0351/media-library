@@ -10,6 +10,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.web.SortableWebTable;
 import com.kiwisoft.web.TableSortDescription;
 import com.kiwisoft.web.TableConstants;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -19,26 +20,27 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 	public static final String TIME="time";
 	public static final String CHANNEL="channel";
 	public static final String EVENT="event";
+	public static final String LINK="link";
 
 	private Show show;
 	private Person person;
 
 	public ScheduleTable(DateRange range)
 	{
-		super(TIME, CHANNEL, EVENT);
+		super(TIME, CHANNEL, EVENT, LINK);
 		init(range);
 	}
 
 	public ScheduleTable(Show show, DateRange range)
 	{
-		super(TIME, CHANNEL, EVENT);
+		super(TIME, CHANNEL, EVENT, LINK);
 		this.show=show;
 		init(range);
 	}
 
 	public ScheduleTable(Person person, DateRange range)
 	{
-		super(TIME, CHANNEL, EVENT);
+		super(TIME, CHANNEL, EVENT, LINK);
 		this.person=person;
 		init(range);
 	}
@@ -86,6 +88,7 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 		public String getRendererVariant(int columnIndex, String property)
 		{
 			if (TIME.equals(property)) return "schedule";
+			if (LINK.equals(property)) return "html";
 			return super.getRendererVariant(columnIndex, property);
 		}
 
@@ -95,6 +98,19 @@ public class ScheduleTable extends SortableWebTable<Airdate>
 			if (TIME.equals(property)) return getUserObject().getDate();
 			else if (CHANNEL.equals(property)) return getUserObject().getChannel();
 			else if (EVENT.equals(property)) return getUserObject();
+			else if (LINK.equals(property))
+			{
+				if (!StringUtils.isEmpty(getUserObject().getDetailsLink()))
+				{
+					StringBuilder buffer=new StringBuilder();
+					buffer.append("<img");
+					buffer.append(" src=\"${contextPath}/file?type=Icon&name=details\"");
+					buffer.append(" onClick=\"newWindow('Details', '").append(getUserObject().getDetailsLink()).append("', 500, 500);\"");
+					buffer.append(" alt=\"Details\"");
+					buffer.append(" border=\"0\">");
+					return buffer.toString();
+				}
+			}
 			return "";
 		}
 	}

@@ -95,11 +95,13 @@ public class MediaFileManager implements CollectionChangeSource
 		return DBLoader.getInstance().load(ImageFile.class, id);
 	}
 
+	@Override
 	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
 		return collectionChangeSupport.addListener(listener);
 	}
 
+	@Override
 	public void removeCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.removeListener(listener);

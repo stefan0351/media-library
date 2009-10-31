@@ -16,6 +16,7 @@ public class CastData implements Serializable
 	private String role;
 	private Integer creditOrder;
 	private String imdbKey;
+	private Person person;
 
 	public CastData()
 	{
@@ -108,5 +109,15 @@ public class CastData implements Serializable
 			   ", role='"+role+'\''+
 			   ", imdbKey='"+imdbKey+'\''+
 			   '}';
+	}
+
+	public void setPerson(Person person)
+	{
+		this.person=person;
+	}
+
+	public Person getPerson()
+	{
+		return person;
 	}
 }

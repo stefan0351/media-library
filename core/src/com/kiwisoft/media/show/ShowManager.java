@@ -6,7 +6,6 @@
  */
 package com.kiwisoft.media.show;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -22,6 +21,7 @@ import com.kiwisoft.media.Name;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.utils.Disposable;
 
 public class ShowManager
 {
@@ -41,7 +41,7 @@ public class ShowManager
 	{
 	}
 
-	public Collection<Show> getShows()
+	public Set<Show> getShows()
 	{
 		return DBLoader.getInstance().loadSet(Show.class);
 	}
@@ -115,9 +115,9 @@ public class ShowManager
 		fireElementRemoved(SHOWS, show);
 	}
 
-	public void addCollectionChangeListener(CollectionChangeListener listener)
+	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

@@ -20,6 +20,7 @@ public class DeletePhotoAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final List<Photo> photos=getObjects();
@@ -36,11 +37,13 @@ public class DeletePhotoAction extends MultiContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					for (Photo photo : photos) photo.getGallery().dropPhoto(photo);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", ERROR_MESSAGE);

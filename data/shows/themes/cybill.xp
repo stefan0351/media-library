@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<themes>
+	<theme source="cybill.mp3" variant="theme" description="Season 1-3">
+		<length>0:18</length>
+	</theme>
+	<theme source="cybill_v2.mp3" variant="theme" description="Season 4">
+		<length>0:19</length>
+	</theme>
+</themes>

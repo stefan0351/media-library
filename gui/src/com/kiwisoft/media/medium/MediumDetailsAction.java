@@ -15,6 +15,7 @@ public class MediumDetailsAction extends SimpleContextAction
 		super(Medium.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MediumDetailsView.create((Medium)getObject());

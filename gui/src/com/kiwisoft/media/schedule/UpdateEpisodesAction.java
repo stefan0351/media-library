@@ -7,6 +7,7 @@ import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.show.EpisodeUpdater;
 import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.swing.progress.ProgressDialog;
+import com.kiwisoft.utils.Utils;
 
 /**
  * @author Stefan Stiller
@@ -21,8 +22,9 @@ public class UpdateEpisodesAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		new ProgressDialog(frame, new EpisodeUpdater(getObjects())).start();
+		new ProgressDialog(frame, new EpisodeUpdater(Utils.<Airdate>cast(getObjects()))).start();
 	}
 }

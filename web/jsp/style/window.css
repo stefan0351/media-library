@@ -254,8 +254,12 @@
 .alert_content {
 	overflow:auto;
 	color:black;
-	font-size:9px;
+	font-size:9pt;
 	background:white;
+}
+
+.alert_buttons {
+	text-align:center
 }
 
 .overlay_alert {

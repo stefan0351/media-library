@@ -132,6 +132,7 @@ public class NoEpisodeDialog extends JDialog
 			super("Ok", Icons.getIcon("ok"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (apply())
@@ -149,6 +150,7 @@ public class NoEpisodeDialog extends JDialog
 			super("Cancel", Icons.getIcon("cancel"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			dispose();
@@ -157,24 +159,28 @@ public class NoEpisodeDialog extends JDialog
 
 	private class EpisodeLookupHandler implements LookupHandler<Episode>
 	{
+		@Override
 		public boolean isCreateAllowed()
 		{
 			return true;
 		}
 
+		@Override
 		public Episode createObject(LookupField<Episode> lookupField)
 		{
-			return EpisodeDetailsView.createDialog(GuiUtils.getWindow(lookupField), show, episodeData);
+			return EpisodeDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), show, episodeData);
 		}
 
+		@Override
 		public boolean isEditAllowed()
 		{
 			return true;
 		}
 
+		@Override
 		public void editObject(LookupField<Episode> lookupField, Episode value)
 		{
-			EpisodeDetailsView.createDialog(GuiUtils.getWindow(lookupField), value);
+			EpisodeDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), value);
 		}
 	}
 }

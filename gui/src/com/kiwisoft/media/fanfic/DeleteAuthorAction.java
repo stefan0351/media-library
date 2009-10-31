@@ -24,6 +24,7 @@ public class DeleteAuthorAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		Author author=(Author)getObject();

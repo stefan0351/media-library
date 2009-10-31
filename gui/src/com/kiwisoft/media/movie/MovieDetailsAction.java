@@ -15,6 +15,7 @@ public class MovieDetailsAction extends SimpleContextAction
 		super(Movie.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MovieDetailsView.create((Movie)getObject());

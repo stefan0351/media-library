@@ -113,6 +113,17 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
+          <root url="jar://$PROJECTS_ROOT$/media/lib/kiwisoft_utils-http.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$PROJECTS_ROOT$/media/lib/kiwisoft_utils-http_src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
           <root url="jar://$PROJECTS_ROOT$/media/lib/mysql.jar!/" />
         </CLASSES>
         <JAVADOC />

@@ -54,11 +54,13 @@ public class LinkManager implements CollectionChangeSource
 		collectionChangeSupport.fireElementRemoved(ROOT_GROUPS, group);
 	}
 
+	@Override
 	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
 		return collectionChangeSupport.addListener(listener);
 	}
 
+	@Override
 	public void removeCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.removeListener(listener);

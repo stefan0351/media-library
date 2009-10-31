@@ -48,6 +48,7 @@ public class LinkGroupNode extends GenericTreeNode<LinkGroup>
 
 	private class ChildListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (LinkGroup.LINKS.equals(event.getPropertyName()))

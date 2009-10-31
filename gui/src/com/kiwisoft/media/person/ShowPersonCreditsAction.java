@@ -19,6 +19,7 @@ public class ShowPersonCreditsAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new PersonCreditsView((Person)getObject()));

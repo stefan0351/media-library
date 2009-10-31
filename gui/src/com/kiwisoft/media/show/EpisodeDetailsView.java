@@ -54,14 +54,14 @@ public class EpisodeDetailsView extends DetailsView
 		return null;
 	}
 
-	public static void create(Airdate airdate)
+	public static void create(Window parent, Airdate airdate)
 	{
-		new DetailsFrame(new EpisodeDetailsView(airdate)).show();
+		new DetailsFrame(parent, new EpisodeDetailsView(airdate)).show();
 	}
 
-	public static void create(Episode episode)
+	public static void create(Window parent, Episode episode)
 	{
-		new DetailsFrame(new EpisodeDetailsView(episode)).show();
+		new DetailsFrame(parent, new EpisodeDetailsView(episode)).show();
 	}
 
 	private Show show;

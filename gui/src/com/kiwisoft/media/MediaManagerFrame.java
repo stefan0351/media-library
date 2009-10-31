@@ -32,7 +32,9 @@ public class MediaManagerFrame extends ApplicationFrame
 	public MediaManagerFrame()
 	{
 		super();
-		setTitle("MediaManager v3.0");
+		String title="MediaManager v3.0";
+		if (System.getProperty("media.database")!=null) title=title+" ("+System.getProperty("media.database")+")";
+		setTitle(title);
 	}
 
 	@Override

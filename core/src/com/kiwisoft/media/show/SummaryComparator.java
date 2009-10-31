@@ -10,6 +10,7 @@ import java.util.Comparator;
  */
 public class SummaryComparator implements Comparator<Summary>
 {
+	@Override
 	public int compare(Summary o1, Summary o2)
 	{
 		Language language1=o1.getLanguage();

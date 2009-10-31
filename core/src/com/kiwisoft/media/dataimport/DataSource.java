@@ -36,6 +36,7 @@ public class DataSource implements Identifyable
 		map.put(key, this);
 	}
 
+	@Override
 	public Object getPrimaryKey()
 	{
 		return getId();

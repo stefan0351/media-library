@@ -26,6 +26,7 @@ public class SplitAirdateAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Airdate airdate=(Airdate)getObject();

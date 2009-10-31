@@ -18,6 +18,7 @@ public class ScheduleUpdateManagerAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new ScheduleUpdateManagerView());

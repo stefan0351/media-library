@@ -15,6 +15,7 @@ public class NewPairingAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PairingDetailsView.create(null);

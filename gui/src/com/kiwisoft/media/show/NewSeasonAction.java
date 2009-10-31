@@ -18,6 +18,7 @@ public class NewSeasonAction extends ContextAction
 		this.show=show;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SeasonDetailsView.create(show);

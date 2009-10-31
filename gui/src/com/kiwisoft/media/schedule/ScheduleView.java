@@ -19,6 +19,7 @@ import com.kiwisoft.app.ApplicationListenerSupport;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.DateRange;
 import com.kiwisoft.media.AirdateManager;
+import com.kiwisoft.media.dataimport.TVTVDeLoaderAction;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonManager;
 import com.kiwisoft.media.show.Show;
@@ -114,10 +115,8 @@ public class ScheduleView extends ViewPanel
 				actions.add(new AirdateDetailsAction());
 				actions.add(new CreateAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
-				actions.add(new CreateEpisodeFromAirdateAction());
-				actions.add(new UpdateEpisodesAction(frame));
-				actions.add(new SplitAirdateAction(frame));
 				actions.add(new PurgeAirdatesAction(frame));
+				actions.add(new TVTVDeLoaderAction(frame, "Update"));
 				actions.add(new ScheduleUpdateManagerAction(frame));
 				return actions;
 			}
@@ -131,7 +130,7 @@ public class ScheduleView extends ViewPanel
 				actions.add(new CreateAirdateAction());
 				actions.add(new DeleteAirdateAction(frame));
 				actions.add(null);
-				actions.add(new CreateEpisodeFromAirdateAction());
+				actions.add(new CreateEpisodeFromAirdateAction(frame));
 				actions.add(new UpdateEpisodesAction(frame));
 				actions.add(new SplitAirdateAction(frame));
 				return actions;
@@ -186,6 +185,7 @@ public class ScheduleView extends ViewPanel
 		ApplicationListenerSupport listeners=getComponentListenerList();
 		listeners.installActionListener(dateRangeField, new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				selectDateRange((DateRange)dateRangeField.getSelectedItem());
@@ -194,6 +194,7 @@ public class ScheduleView extends ViewPanel
 		});
 		ActionListener rangeFieldListener=new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				search();
@@ -265,10 +266,12 @@ public class ScheduleView extends ViewPanel
 
 	private class AirdatesListener implements ClassListener
 	{
+		@Override
 		public void instanceCreated(Object dbObject)
 		{
 		}
 
+		@Override
 		public void instanceChanged(PropertyChangeEvent event)
 		{
 			Airdate airdate=(Airdate)event.getSource();
@@ -303,6 +306,7 @@ public class ScheduleView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			if (getUserObject().getState()==IDObject.State.DELETED) fireRowDeleted();
@@ -353,6 +357,7 @@ public class ScheduleView extends ViewPanel
 			this.show=show;
 		}
 
+		@Override
 		public boolean filter(Airdate airdate)
 		{
 			if (airdate.getShow()==show) return true;
@@ -369,6 +374,7 @@ public class ScheduleView extends ViewPanel
 			this.person=person;
 		}
 
+		@Override
 		public boolean filter(Airdate airdate)
 		{
 			if (airdate.getPersons().contains(person)) return true;

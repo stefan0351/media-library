@@ -14,10 +14,10 @@ import com.kiwisoft.swing.lookup.LookupUtils;
  */
 public class CreditTypeLookup extends ListLookup<CreditType>
 {
-
-	public Collection<CreditType> getValues(String text, CreditType currentValue, boolean lookup)
+	@Override
+	public Collection<CreditType> getValues(String text, CreditType currentValue, int lookup)
 	{
-		if (lookup) return CreditType.noCastValues();
+		if (lookup>0) return CreditType.noCastValues();
 		if (text==null) return Collections.emptySet();
 		Set<CreditType> values=new HashSet<CreditType>();
 		Pattern pattern=LookupUtils.createPattern(text);

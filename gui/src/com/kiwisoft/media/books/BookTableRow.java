@@ -28,7 +28,8 @@ public class BookTableRow extends SortableTableRow<Book> implements PropertyChan
         getUserObject().removePropertyChangeListener(this);
     }
 
-    public void propertyChange(PropertyChangeEvent evt)
+    @Override
+	public void propertyChange(PropertyChangeEvent evt)
     {
         fireRowUpdated();
     }

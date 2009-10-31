@@ -23,6 +23,7 @@ public class CreateThumbnailsAction extends ContextAction
 	/**
 	 * Invoked when an action occurs.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		new ProgressDialog(frame, new ThumbnailCreation()).start();

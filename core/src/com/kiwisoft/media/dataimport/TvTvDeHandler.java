@@ -1,40 +1,47 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.media.Airdate;
+import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.movie.MovieManager;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.ShowManager;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.progress.ProgressSupport;
+import com.kiwisoft.utils.*;
+import com.kiwisoft.html.HtmlUtils;
+import org.htmlparser.Parser;
+import org.htmlparser.filters.CssSelectorNodeFilter;
+import org.htmlparser.filters.OrFilter;
+import org.htmlparser.nodes.TagNode;
+import org.htmlparser.tags.*;
+import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.WebUtils;
-import com.kiwisoft.utils.DateUtils;
-import com.kiwisoft.utils.xml.*;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transactional;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.movie.MovieManager;
-import com.kiwisoft.media.Airdate;
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.progress.ProgressSupport;
 
 /**
  * @author Stefan Stiller
-*/
+ */
 abstract class TvTvDeHandler<T>
 {
+	private final static Log log=LogFactory.getLog(TvTvDeHandler.class);
+
 	private T object;
 	private TVTVDeLoader loader;
 	private ProgressSupport progressSupport;
 
-	private Pattern dayPattern=Pattern.compile("<td id=\"date-box\"  class=\"fb-w13\" >(\\d{1,2}\\. \\w+ \\d{4})</td>");
-	private Pattern timePattern=Pattern.compile("<td class=\"pitime-box\\d\" nowrap=\"nowrap\" style='width:80px;'>(\\d\\d:\\d\\d)</td>");
-	private Pattern channelPattern=Pattern.compile("<td class=\"pisicon-box\\d\" nowrap style=\"width:40px\">"+
-												   "<img title=\"([^\"]+)\" src=\"(http://www.tvtv.de:80/tvtv/resource\\?channelLogo=(\\d+))\" alt=\"channel logo\"");
-	private Pattern titlePattern=Pattern.compile("<td class=\"pititle-box\\d\"");
-	private Pattern lengthPattern=Pattern.compile("class=\"fn-w8\" id=\"box-small-light\">L\u00e4nge: (\\d+) min\\.</td>");
+	private Pattern lengthPattern=Pattern.compile("Länge: (\\d+) min\\.");
+	private Pattern episodeNumberPattern=Pattern.compile("(\\d+)(?:/\\d+)?.*");
 
 	protected TvTvDeHandler(TVTVDeLoader loader, T object)
 	{
@@ -95,21 +102,6 @@ abstract class TvTvDeHandler<T>
 
 	protected abstract String getName();
 
-	private static Date mergeDayAndTime(Date day, Date time, TimeZone timeZone)
-	{
-		Calendar calendar=Calendar.getInstance();
-		calendar.setTimeZone(timeZone);
-		calendar.setTime(day);
-		Calendar calendar2=Calendar.getInstance();
-		calendar2.setTimeZone(timeZone);
-		calendar2.setTime(time);
-		calendar.set(Calendar.HOUR_OF_DAY, calendar2.get(Calendar.HOUR_OF_DAY));
-		calendar.set(Calendar.MINUTE, calendar2.get(Calendar.MINUTE));
-		calendar.set(Calendar.SECOND, calendar2.get(Calendar.SECOND));
-		calendar.set(Calendar.MILLISECOND, calendar2.get(Calendar.MILLISECOND));
-		return calendar.getTime();
-	}
-
 	private Set<TvTvDeAirdateData> loadDates(Set<String> patterns)
 	{
 		progressSupport.startStep("Load schedule for "+getName()+"...");
@@ -119,69 +111,51 @@ abstract class TvTvDeHandler<T>
 			Set<TvTvDeAirdateData> airdates=new HashSet<TvTvDeAirdateData>();
 			for (String pattern : patterns)
 			{
-				resultPage=WebUtils.loadURL(MessageFormat.format(TVTVDeLoader.SEARCH_URL, pattern), null, "UTF-8");
+				resultPage=ImportUtils.loadUrl(MessageFormat.format(TVTVDeLoader.SEARCH_URL, pattern), "UTF-8");
 
-				SimpleDateFormat dayFormat=new SimpleDateFormat("d. MMMM yyyy", Locale.GERMANY);
+				SimpleDateFormat dayFormat=new SimpleDateFormat("EE d. MMMM yyyy", Locale.GERMANY);
 				TimeZone timeZone=TimeZone.getTimeZone("Europe/Berlin");
 				dayFormat.setTimeZone(timeZone);
 				SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
 				timeFormat.setTimeZone(timeZone);
-				Matcher dayMatcher=dayPattern.matcher(resultPage);
 
-				int dayPosition=0;
-				boolean dayFound=dayMatcher.find(dayPosition);
-				while (dayFound)
+				Date maxDate=DateUtils.getStartOfDay(DateUtils.add(new Date(), Calendar.DATE, 10));
+
+				Parser parser=new Parser();
+				try
 				{
-					String dayString=dayMatcher.group(1);
-					Date day=dayFormat.parse(dayString);
-					int dayStart=dayMatcher.end();
-					dayFound=dayMatcher.find(dayStart);
-					int dayEnd=dayFound ? dayMatcher.start() : resultPage.length();
-
-					String daySubPage=resultPage.substring(dayStart, dayEnd);
-					Matcher timeMatcher=timePattern.matcher(daySubPage);
-					boolean timeFound=timeMatcher.find();
-					while (timeFound)
+					parser.setInputHTML(resultPage);
+					NodeList divTags=parser.parse(new CssSelectorNodeFilter("div.search-list"));
+					for (int i=0; i<divTags.size(); i++)
 					{
-						TvTvDeAirdateData airdate=new TvTvDeAirdateData();
-						String timeString=timeMatcher.group(1);
-
-						airdate.setTime(mergeDayAndTime(day, timeFormat.parse(timeString), timeZone));
-						int timeStart=timeMatcher.end();
-						timeFound=timeMatcher.find(timeMatcher.end(0));
-						int timeEnd=timeFound ? timeMatcher.start() : daySubPage.length();
-						String timeSubPage=daySubPage.substring(timeStart, timeEnd);
-
-						Matcher channelMatcher=channelPattern.matcher(timeSubPage);
-						if (channelMatcher.find())
+						Div div=(Div) divTags.elementAt(i);
+						NodeList list=new NodeList();
+						div.collectInto(list, new OrFilter(new CssSelectorNodeFilter("h2"), new CssSelectorNodeFilter("table")));
+						Date day=null;
+						for (NodeIterator it=list.elements(); it.hasMoreNodes();)
 						{
-							airdate.setChannelName(channelMatcher.group(1));
-							airdate.setChannelLogo(channelMatcher.group(2));
-							airdate.setChannelKey(channelMatcher.group(3));
-						}
-						Matcher titleMatcher=titlePattern.matcher(timeSubPage);
-						if (titleMatcher.find())
-						{
-							int titleStart=timeSubPage.indexOf(">", titleMatcher.end());
-							int titleEnd=timeSubPage.indexOf("</td>", titleStart);
-							String title=timeSubPage.substring(titleStart, titleEnd);
-							XMLUtils.Tag linkTag=XMLUtils.getNextTag(title, 0, "a");
-							if (linkTag!=null)
+							TagNode node=(TagNode) it.nextNode();
+							if ("H2".equalsIgnoreCase(node.getTagName()))
 							{
-								String href=XMLUtils.getAttribute(linkTag.text, "href");
-								if (!StringUtils.isEmpty(href)) airdate.setDetailLink(TVTVDeLoader.BASE_URL+href);
+								String dateString=HtmlUtils.trimUnescape(node.toPlainTextString());
+								day=dayFormat.parse(dateString);
 							}
-							airdate.setTitle(XMLUtils.removeTags(title).trim());
+							else
+							{
+								if (day.before(maxDate)) airdates.addAll(parseDay(day, (TableTag) node));
+							}
 						}
-						airdates.add(airdate);
 					}
 				}
-
+				catch (ParserException e)
+				{
+					progressSupport.error(e);
+				}
 			}
 			for (Iterator it=airdates.iterator(); it.hasNext();)
 			{
 				if (progressSupport.isStoppedByUser()) return null;
-				TvTvDeAirdateData airdate=(TvTvDeAirdateData)it.next();
+				TvTvDeAirdateData airdate=(TvTvDeAirdateData) it.next();
 				if (airdate.getTime()==null)
 				{
 					progressSupport.error("Airdate without time.");
@@ -195,7 +169,7 @@ abstract class TvTvDeHandler<T>
 					continue;
 				}
 				airdate.setChannel(loader.getChannel(airdate));
-				if (airdate.getChannel()==null)
+				if (airdate.getChannel()==null || !airdate.getChannel().isReceivable())
 				{
 					it.remove();
 					continue;
@@ -218,6 +192,46 @@ abstract class TvTvDeHandler<T>
 			progressSupport.error(e);
 			return null;
 		}
+	}
+
+	private Set<TvTvDeAirdateData> parseDay(Date day, TableTag tableTag)
+	{
+		TimeZone timeZone=TimeZone.getTimeZone("Europe/Berlin");
+		SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
+		timeFormat.setTimeZone(timeZone);
+
+		TableRow[] rows=tableTag.getRows();
+		Set<TvTvDeAirdateData> airdates=new HashSet<TvTvDeAirdateData>();
+		for (TableRow row : rows)
+		{
+			try
+			{
+				TvTvDeAirdateData airdate=new TvTvDeAirdateData();
+				TagNode dateNode=(TagNode) HtmlUtils.findFirst(row, "td.date");
+				String timeString=HtmlUtils.trimUnescape(dateNode.toPlainTextString());
+				Date time=timeFormat.parse(timeString);
+				airdate.setTime(DateUtils.mergeDayAndTime(day, time, timeZone));
+
+				TableColumn channelNode=(TableColumn) HtmlUtils.findFirst(row, "td.channel");
+				TagNode channelLogoNode=(TagNode) HtmlUtils.findFirst(channelNode, "img");
+				String channel=channelLogoNode.getAttribute("title");
+				airdate.setChannelName(channel);
+				airdate.setChannelLogo(channelLogoNode.getAttribute("src"));
+				Matcher matcher=Pattern.compile("http.*channelLogo=(\\d+)").matcher(airdate.getChannelLogo());
+				if (matcher.matches()) airdate.setChannelKey(matcher.group(1));
+
+				TagNode titleNode=(TagNode) HtmlUtils.findFirst(row, "a.title");
+				airdate.setTitle(HtmlUtils.trimUnescape(titleNode.toPlainTextString()));
+				airdate.setDetailLink(TVTVDeLoader.BASE_URL+titleNode.getAttribute("href"));
+
+				airdates.add(airdate);
+			}
+			catch (ParseException e)
+			{
+				progressSupport.error(e);
+			}
+		}
+		return airdates;
 	}
 
 	protected boolean preCheck(TvTvDeAirdateData airdate)
@@ -274,7 +288,8 @@ abstract class TvTvDeHandler<T>
 					if (episodeData.getOriginalTitle()!=null)
 					{
 						Episode episode1=null;
-						if (!StringUtils.isEmpty(episodeData.getOriginalTitle())) episode1=loader.findEpisode(airdate.getShow(), episodeData.getOriginalTitle());
+						if (!StringUtils.isEmpty(episodeData.getOriginalTitle()))
+							episode1=loader.findEpisode(airdate.getShow(), episodeData.getOriginalTitle());
 						Episode episode2=null;
 						if (!StringUtils.isEmpty(episodeData.getGermanTitle())) episode2=loader.findEpisode(airdate.getShow(), episodeData.getGermanTitle());
 
@@ -284,11 +299,18 @@ abstract class TvTvDeHandler<T>
 					}
 					if (episodeData.getEpisode()==null)
 					{
-						episodeData.setEpisode(loader.findEpisode(airdate.getShow(), airdate.getTitle()));
-						if (episodeData.getEpisode()!=null)
+						if (!StringUtils.isEmpty(episodeData.getTitle()))
 						{
-							episodeData.setGermanTitle(null);
-							episodeData.setOriginalTitle(null);
+							episodeData.setEpisode(loader.findEpisode(airdate.getShow(), episodeData.getTitle()));
+							if (episodeData.getEpisode()!=null)
+							{
+								episodeData.setGermanTitle(null);
+								episodeData.setOriginalTitle(null);
+							}
+						}
+						else if (airdate.getEpisodeNumber()!=null)
+						{
+							episodeData.setTitle("Episode "+airdate.getEpisodeNumber());
 						}
 					}
 				}
@@ -310,35 +332,79 @@ abstract class TvTvDeHandler<T>
 			String detailPage=null;
 			try
 			{
-				detailPage=WebUtils.loadURL(airdate.getDetailLink(), null, "UTF-8");
-				int episodeStart=detailPage.indexOf("<span class=\"fb-b9\">");
-				if (episodeStart>0)
+				detailPage=ImportUtils.loadUrl(airdate.getDetailLink(), "UTF-8");
+				Parser parser=new Parser();
+				parser.setInputHTML(detailPage);
+				CompositeTag table=(CompositeTag) HtmlUtils.findFirst(parser, "table#program-box");
+				CompositeTag contentTag=(CompositeTag) HtmlUtils.findFirst(table, "td.program-content");
+				CompositeTag titleTag=(CompositeTag) HtmlUtils.findFirst(contentTag, "span.fb-b15");
+				if (titleTag!=null)
 				{
-					episodeStart=detailPage.indexOf(">", episodeStart)+1;
-					int episodeEnd=detailPage.indexOf("</span>", episodeStart);
-					String title=detailPage.substring(episodeStart, episodeEnd).trim();
-					airdate.setSubTitle(StringUtils.trimQuotes(title));
-				}
-				Matcher lengthMatcher=lengthPattern.matcher(detailPage);
-				if (lengthMatcher.find())
-				{
-					airdate.setLength(Integer.parseInt(lengthMatcher.group(1)));
-				}
-				int castStart=detailPage.indexOf("class=\"fn-w8\" id=\"box-small\">Darsteller:</td>");
-				if (castStart>0)
-				{
-					castStart=detailPage.indexOf("<span class=\"fn-b8\">", castStart);
-					int castEnd=detailPage.indexOf("</span>", castStart);
-					if (castStart>0 && castEnd>castStart)
+					String newTitle=HtmlUtils.trimUnescape(titleTag.toPlainTextString());
+					if (!StringUtils.isEmpty(newTitle))
 					{
-						airdate.setCast(detailPage.substring(castStart+20, castEnd));
+						String oldTitle=airdate.getTitle();
+						airdate.setTitle(newTitle);
+						if (!StringUtils.equal(oldTitle, airdate.getTitle()))
+							log.debug("Changed title from '"+oldTitle+"' to '"+airdate.getTitle()+"'.");
+					}
+				}
+				CompositeTag subTitleTag=(CompositeTag) HtmlUtils.findFirst(contentTag, "span.fb-b9");
+				if (subTitleTag!=null)
+				{
+					airdate.setSubTitle(StringUtils.trimQuotes(HtmlUtils.trimUnescape(subTitleTag.toPlainTextString())));
+					log.debug("Set subtitle: "+airdate.getSubTitle());
+				}
+				NodeList numberTags=HtmlUtils.findAll(contentTag, "span.fn-b9");
+				if (numberTags.size()>=2)
+				{
+					CompositeTag numberTag=(CompositeTag) numberTags.elementAt(1);
+					String numberString=numberTag.toPlainTextString();
+					if (!StringUtils.isEmpty(numberString))
+					{
+						Matcher matcher=episodeNumberPattern.matcher(numberString);
+						if (matcher.matches())
+						{
+							airdate.setEpisodeNumber(Long.valueOf(matcher.group(1)));
+							log.debug("Set episode number: "+airdate.getEpisodeNumber());
+						}
+						else
+						{
+							log.warn("Invalid episode number pattern: "+numberString);
+							getProgressSupport().warning("Invalid episode number pattern: "+numberString);
+						}
+					}
+				}
+				NodeList list=HtmlUtils.findAll(table, "td.fn-w8");
+				for (NodeIterator it=list.elements();it.hasMoreNodes();)
+				{
+					CompositeTag tag=(CompositeTag) it.nextNode();
+					String content=tag.toPlainTextString();
+					if (content.startsWith("Länge:"))
+					{
+						Matcher matcher=lengthPattern.matcher(content);
+						if (matcher.matches())
+						{
+							airdate.setLength(Integer.valueOf(matcher.group(1)));
+							log.debug("Set length: "+airdate.getLength());
+						}
+						else
+						{
+							log.warn("Invalid length pattern: "+content);
+							getProgressSupport().warning("Invalid length pattern: "+content);
+						}
+					}
+					else if (content.startsWith("Darsteller:"))
+					{
+						TableColumn castTag=((TableRow) tag.getParent()).getColumns()[1];
+						airdate.setCast(HtmlUtils.trimUnescape(castTag.toPlainTextString()));
+						log.debug("Set cast: "+airdate.getCast());
 					}
 				}
 			}
 			catch (Exception e)
 			{
 				e.printStackTrace();
-				System.out.println("content = "+detailPage);
 				progressSupport.error("Error while loading details for "+airdate.getTime()+" "+airdate.getTitle());
 				progressSupport.error(e);
 			}
@@ -355,6 +421,7 @@ abstract class TvTvDeHandler<T>
 			this.airingData=airingData;
 		}
 
+		@Override
 		public void run() throws Exception
 		{
 			if (airingData.getEpisodes().isEmpty())
@@ -383,6 +450,7 @@ abstract class TvTvDeHandler<T>
 			}
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			progressSupport.error(throwable);

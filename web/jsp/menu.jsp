@@ -5,7 +5,9 @@
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="Home"/>">Home</a></td></tr>
 <tr><td><hr size=1 color=black></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="ListBooks"/>">Books</a></td></tr>
-<tr><td class="menuitem"><a class="menulink" href="<s:url action="ListFanDoms"/>">Fan Fiction</a></td></tr>
+<s:if test="@com.kiwisoft.media.MediaConfiguration@isFanFicsEnabled">
+	<tr><td class="menuitem"><a class="menulink" href="<s:url action="ListFanDoms"/>">Fan Fiction</a></td></tr>
+</s:if>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="Links"/>">Links</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="ListMedia"/>">Media</a></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="ListMovies"/>">Movies</a></td></tr>
@@ -33,3 +35,7 @@
 	</tr>
 	</table>
 </form>
+
+<% if ("dev".equals(System.getProperty("media.database"))) {%><table class="menutable">
+<tr><td class="menuheader">Development</td></tr>
+</table><%}%>

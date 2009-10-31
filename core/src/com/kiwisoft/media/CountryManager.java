@@ -45,4 +45,12 @@ public class CountryManager
 	{
 		return DBLoader.getInstance().load(Country.class, null, "name=?", name);
 	}
+	
+	public Country createCountry(String symbol, String name)
+	{
+		Country country=new Country();
+		country.setSymbol(symbol);
+		country.setName(name);
+		return country;
+	}
 }

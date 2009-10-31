@@ -128,6 +128,7 @@ public class LinkGroup extends IDObject implements Linkable
 		return subGroups;
 	}
 
+	@Override
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		return this;

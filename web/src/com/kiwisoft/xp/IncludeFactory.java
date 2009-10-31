@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;
 import com.kiwisoft.utils.xml.XMLObjectFactory;
+import com.kiwisoft.utils.Utils;
 import org.xml.sax.Attributes;
 
 public class IncludeFactory implements XMLObjectFactory
@@ -23,16 +24,17 @@ public class IncludeFactory implements XMLObjectFactory
 	{
 	}
 
+	@Override
 	public XMLObject createElement(XMLContext context, String name, Attributes attributes)
 	{
 		String src=attributes.getValue("src");
 		File includedFile=new File(new File(context.getFileName()).getParentFile(), src);
-		XPBean bean=(XPBean)XPLoader.loadXMLFile((HttpServletRequest)context.getAttribute("request"), includedFile);
+		XPBean bean=XPLoader.loadXMLFile((HttpServletRequest)context.getAttribute("request"), includedFile);
 		IncludedXPBean include=new IncludedXPBean(bean, includedFile);
-		Set set=(Set) context.getAttribute("includes");
+		Set<IncludedXPBean> set=Utils.cast(context.getAttribute("includes"));
 		if (set==null)
 		{
-			set=new HashSet();
+			set=new HashSet<IncludedXPBean>();
 			context.setAttribute("includes", set);
 		}
 		set.add(include);

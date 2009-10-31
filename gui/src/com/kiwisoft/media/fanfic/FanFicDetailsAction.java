@@ -15,6 +15,7 @@ public class FanFicDetailsAction extends SimpleContextAction
 		super(FanFic.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		FanFicDetailsView.create((FanFic)getObject());

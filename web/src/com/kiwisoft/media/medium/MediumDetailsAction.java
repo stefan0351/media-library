@@ -1,6 +1,8 @@
 package com.kiwisoft.media.medium;
 
 import com.kiwisoft.media.BaseAction;
+import com.kiwisoft.web.RecentItemManager;
+import com.kiwisoft.web.RecentIdObject;
 
 /**
  * @author Stefan Stiller
@@ -22,7 +24,11 @@ public class MediumDetailsAction extends BaseAction
 	public String execute() throws Exception
 	{
 		if (mediumId!=null) medium=MediumManager.getInstance().getMedium(mediumId);
-		if (medium!=null) tracksTable=new TracksTable(medium);
+		if (medium!=null)
+		{
+			RecentItemManager.getInstance().addItem(new RecentIdObject<Medium>(Medium.class, medium));
+			tracksTable=new TracksTable(medium);
+		}
 		return super.execute();
 	}
 

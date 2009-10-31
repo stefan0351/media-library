@@ -14,6 +14,7 @@ public class CrewData implements Serializable
 	private CreditType type;
 	private String subType;
 	private String imdbKey;
+	private Person person;
 
 	public CrewData()
 	{
@@ -121,5 +122,15 @@ public class CrewData implements Serializable
 			   ", subType='"+subType+'\''+
 			   ", imdbKey='"+imdbKey+'\''+
 			   '}';
+	}
+
+	public void setPerson(Person person)
+	{
+		this.person=person;
+	}
+
+	public Person getPerson()
+	{
+		return person;
 	}
 }

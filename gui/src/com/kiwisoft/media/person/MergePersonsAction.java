@@ -27,6 +27,7 @@ public class MergePersonsAction extends MultiContextAction
 		setEnabled(getObjects().size()>1);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		//noinspection unchecked

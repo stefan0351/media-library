@@ -20,6 +20,10 @@
 		</layout>
 	</appender>
 
+	<category name="com.kiwisoft.media.dataimport.EpisodeDataLoader">
+		<priority value="debug"/>
+	</category>
+
 	<category name="com.kiwisoft">
 		<priority value="info"/>
 	</category>

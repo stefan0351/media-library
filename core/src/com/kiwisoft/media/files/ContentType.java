@@ -59,6 +59,7 @@ public class ContentType implements Identifyable
 		map.put(id, this);
 	}
 
+	@Override
 	public Object getPrimaryKey()
 	{
 		return getId();

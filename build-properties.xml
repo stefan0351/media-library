@@ -7,6 +7,7 @@
 	<property name="build.dir" location="${root.dir}/tmp"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="utils.builds.dir" location="${root.dir}/../utils/builds"/>
+	<property name="dump.dir" location="${basedir}/db/dumps"/>
 
 	<patternset id="resource.pattern">
 		<include name="**/*.jpg"/>

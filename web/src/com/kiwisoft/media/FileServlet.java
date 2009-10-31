@@ -1,15 +1,10 @@
 package com.kiwisoft.media;
 
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.xp.XPBean;
-import com.kiwisoft.xp.XPLoader;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ResourceBundle;
 
 public class FileServlet extends HttpServlet
 {

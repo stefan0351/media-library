@@ -21,6 +21,7 @@ public class MovePhotoAction extends MultiContextAction
 		this.gallery=gallery;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final List<Photo> photos=getObjects();
@@ -30,6 +31,7 @@ public class MovePhotoAction extends MultiContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					PhotoGallery newGallery;
@@ -46,6 +48,7 @@ public class MovePhotoAction extends MultiContextAction
 					}
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(frame, throwable);

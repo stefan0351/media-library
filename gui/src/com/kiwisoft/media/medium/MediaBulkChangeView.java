@@ -73,11 +73,13 @@ public class MediaBulkChangeView extends DetailsView
 			final String finalStorage=storage;
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					for (Medium medium : media) medium.setStorage(finalStorage);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					throw new RuntimeException("Error saving storage change.", throwable);
@@ -90,11 +92,13 @@ public class MediaBulkChangeView extends DetailsView
 			if (type==null) throw new InvalidDataException("Typetorage is missing!", storageField);
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					for (Medium medium : media) medium.setType(type);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					throw new RuntimeException("Error saving type change.", throwable);

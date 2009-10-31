@@ -115,6 +115,7 @@ class AudioField extends JPanel
 			super("Select File", Icons.getIcon("open.file"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			JFileChooser fileChooser=new JFileChooser();
@@ -154,6 +155,7 @@ class AudioField extends JPanel
 			super("Play the selected file", Icons.getIcon("play"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (file!=null)
@@ -177,6 +179,7 @@ class AudioField extends JPanel
 			super("Remove", Icons.getIcon("delete"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (file!=null)

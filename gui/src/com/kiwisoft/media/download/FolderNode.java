@@ -30,6 +30,7 @@ public class FolderNode extends GenericTreeNode<WebFolder> implements Collection
 		return nodes;
 	}
 
+	@Override
 	public void collectionChanged(CollectionChangeEvent event)
 	{
 		if (WebFolder.SUB_FOLDERS.equals(event.getPropertyName()))

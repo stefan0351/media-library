@@ -13,6 +13,7 @@ public class HTMLParser implements Parser
 {
 	private static Map<String, TagProperties> tagMap;
 
+	@Override
 	public void parse(File file, final URL url, final List<URL> contained, final List<URL> linked) throws IOException
 	{
 		final Map<String, TagProperties> tagMap=getTagMap();

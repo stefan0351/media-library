@@ -34,6 +34,7 @@ public class PicturePreviewUpdater implements LookupSelectionListener
 		if (lookupField.getValue()==null) selectionChanged(null);
 	}
 
+	@Override
 	public void selectionChanged(LookupEvent event)
 	{
 		MediaFile picture=lookupField.getValue();

@@ -54,9 +54,9 @@ public class BookDataDetailsView extends DetailsView
     private JTextField titleField;
     private JTextField authorsField;
     private JTextField translatorsField;
-    private JTextField publisherField;
+    private LookupField<String> publisherField;
     private JTextField editionField;
-    private JTextField bindingField;
+    private LookupField<String> bindingField;
     private JFormattedTextField pageCountField;
     private JFormattedTextField publishedYearField;
     private LookupField<Language> languageField;
@@ -79,13 +79,13 @@ public class BookDataDetailsView extends DetailsView
         authorsField=new JTextField(20);
         translatorsField=new JTextField(30);
         titleField=new JTextField(40);
-        publisherField=new JTextField(40);
+        publisherField=new LookupField<String>(new PublisherLookup());
         editionField=new JTextField(20);
-        bindingField=new JTextField(20);
+        bindingField=new LookupField<String>(new BindingLookup());
         isbn10Field=new JTextField(15);
         isbn13Field=new JTextField(20);
-        pageCountField=GuiUtils.createNumberField(Integer.class, 5, 0, null);
-        publishedYearField=GuiUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
+        pageCountField=ComponentUtils.createNumberField(Integer.class, 5, 0, null);
+        publishedYearField=ComponentUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
         languageField=new LookupField<Language>(new LanguageLookup());
         coverFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
         coverPreview=new ImagePanel(new Dimension(150, 200));
@@ -180,9 +180,9 @@ public class BookDataDetailsView extends DetailsView
     {
         titleField.setText(bookData.getTitle());
         pageCountField.setValue(bookData.getPageCount());
-        publisherField.setText(bookData.getPublisher());
+        publisherField.setValue(bookData.getPublisher());
         editionField.setText(bookData.getEdition());
-        bindingField.setText(bookData.getBinding());
+        bindingField.setValue(bookData.getBinding());
         int publishedYear=bookData.getPublishedYear();
         if (publishedYear>0) publishedYearField.setValue(publishedYear);
         File imageFile=bookData.getImageFile();
@@ -190,6 +190,7 @@ public class BookDataDetailsView extends DetailsView
         isbn10Field.setText(bookData.getIsbn10());
         isbn13Field.setText(bookData.getIsbn13());
         languageField.setValue(bookData.getLanguage());
+		summaryLanguageField.setValue(bookData.getLanguage());
         authorsField.setText(StringUtils.formatAsEnumeration(bookData.getAuthors(), "; "));
         translatorsField.setText(StringUtils.formatAsEnumeration(bookData.getTranslators(), "; "));
         summaryField.setText(bookData.getSummary());
@@ -252,7 +253,8 @@ public class BookDataDetailsView extends DetailsView
             {
                 private Map<String, Person> persons=new HashMap<String, Person>();
 
-                public void run() throws Exception
+                @Override
+				public void run() throws Exception
                 {
                     if (book==null) book=BookManager.getInstance().createBook();
                     book.setTitle(title);
@@ -311,7 +313,8 @@ public class BookDataDetailsView extends DetailsView
                     return person;
                 }
 
-                public void handleError(Throwable throwable, boolean rollback)
+                @Override
+				public void handleError(Throwable throwable, boolean rollback)
                 {
                     JOptionPane.showMessageDialog(BookDataDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -333,7 +336,7 @@ public class BookDataDetailsView extends DetailsView
     private static String createFileName(String title, int index, String extension)
     {
         title=title.toLowerCase();
-        title=title.replaceAll("[\\.\\?\\!\\:\\,]", "");
+        title=title.replaceAll("[\\.\\?!:,]", "");
         title=title.replaceAll("\\s+", "_");
         title=title.replaceAll("\u00E4", "ae");
         title=title.replaceAll("\u00FC", "ue");

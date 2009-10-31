@@ -26,6 +26,7 @@ public class WebInfosTableModel<T extends WebInfo> extends SortableTableModel<T>
 		this.requiresDefault=requiresDefault;
 	}
 
+	@Override
 	public int getColumnCount()
 	{
 		return COLUMNS.length;

@@ -21,9 +21,10 @@ public class LinkableLookup extends ListLookup<Linkable>
 		setFormatVariant("linkable");
 	}
 
-	public Collection<Linkable> getValues(String text, Linkable currentValue, boolean lookup)
+	@Override
+	public Collection<Linkable> getValues(String text, Linkable currentValue, int lookup)
 	{
-		if (lookup)
+		if (lookup>0)
 		{
 			Set<Linkable> linkables=new HashSet<Linkable>();
 			DBLoader dbLoader=DBLoader.getInstance();

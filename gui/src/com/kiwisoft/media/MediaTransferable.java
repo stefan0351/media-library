@@ -36,6 +36,7 @@ public class MediaTransferable implements Transferable
 		return primaryKey;
 	}
 
+	@Override
 	public DataFlavor[] getTransferDataFlavors()
 	{
 		return flavors;
@@ -52,6 +53,7 @@ public class MediaTransferable implements Transferable
 	 *         is not one of the above flavors
 	 * @throws NullPointerException if flavor is <code>null</code>
 	 */
+	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor)
 	{
 		for (int i=0; i<flavors.length; i++)
@@ -61,6 +63,7 @@ public class MediaTransferable implements Transferable
 		return false;
 	}
 
+	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
 	{
 		if (DATA_FLAVOR.equals(flavor))

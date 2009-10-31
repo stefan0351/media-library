@@ -42,46 +42,55 @@ public class Song extends IDObject implements Production
 		setModified(VERSION, oldVersion, songVersion);
 	}
 
+	@Override
 	public String getProductionTitle()
 	{
 		return getTitle();
 	}
 
+	@Override
 	public CreditType[] getSupportedCastTypes()
 	{
 		return new CreditType[0];
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers()
 	{
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return Collections.emptySet();
 	}
 
 
+	@Override
 	public CastMember createCastMember(CreditType type)
 	{
 		return null;
 	}
 
+	@Override
 	public void dropCastMember(CastMember cast)
 	{
 	}
 
+	@Override
 	public Set<Credit> getCredits()
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "song_id=?", getId());
 	}
 
+	@Override
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "song_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public Credit createCredit()
 	{
 		Credit credit=new Credit();
@@ -90,6 +99,7 @@ public class Song extends IDObject implements Production
 		return credit;
 	}
 
+	@Override
 	public void dropCredit(Credit credit)
 	{
 		credit.delete();

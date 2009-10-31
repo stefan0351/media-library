@@ -1,6 +1,7 @@
 package com.kiwisoft.media;
 
 import com.kiwisoft.media.files.MediaFilesTask;
+import com.kiwisoft.media.channel.ChannelsTask;
 import com.kiwisoft.app.MenuSidebarItem;
 
 /**

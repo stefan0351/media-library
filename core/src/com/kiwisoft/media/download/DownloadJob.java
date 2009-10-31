@@ -20,11 +20,13 @@ public class DownloadJob implements Runnable, DocumentJob
 		this.document=document;
 	}
 
+	@Override
 	public WebDocument getDocument()
 	{
 		return document;
 	}
 
+	@Override
 	public void run()
 	{
 		try

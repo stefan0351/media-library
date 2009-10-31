@@ -1,18 +1,25 @@
 package com.kiwisoft.media.dataimport;
 
+import static com.kiwisoft.media.dataimport.EpisodeData.DETAILS_LINK;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.html.HtmlUtils;
+import org.htmlparser.Parser;
+import org.htmlparser.Tag;
+import org.htmlparser.nodes.TagNode;
+import org.htmlparser.tags.CompositeTag;
+import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.xml.XMLUtils;
-import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -30,98 +37,91 @@ public abstract class SerienJunkiesDeLoader extends EpisodeDataLoader
 		airdateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Load Episodes from SerienJunkies.de";
 	}
 
 	@Override
-	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
+	protected List<EpisodeData> loadEpisodeList(int season) throws IOException, ParserException
 	{
-		String page=loadUrl(getBaseUrl()+"/season"+season+".html");
+		String url=getBaseUrl()+"/season"+season+".html";
+		log.debug("Loading season "+season+" from "+url);
+		String page=ImportUtils.loadUrl(url);
 
-		// Parse episode list
-		int listStart=page.indexOf("<table class=\"eplist\">");
-		int listEnd=page.indexOf("</table>", listStart);
 		List<EpisodeData> episodes=new ArrayList<EpisodeData>();
-		if (listStart>0 && listEnd>listStart)
+
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
+		CompositeTag tableNode=(CompositeTag) HtmlUtils.findFirst(parser, "table.eplist");
+		NodeList rowNodes=HtmlUtils.findAll(tableNode, "tr");
+		for (NodeIterator it=rowNodes.elements(); it.hasMoreNodes();)
 		{
-			int episodeEnd=listStart;
-			while (true)
+			if (getProgress().isStoppedByUser()) return null;
+			CompositeTag rowNode=(CompositeTag) it.nextNode();
+			try
 			{
-				if (getProgress().isStoppedByUser()) return null;
+				NodeList cellNodes=HtmlUtils.findAll(rowNode, "td");
+				CompositeTag numberNode=(CompositeTag) cellNodes.elementAt(0);
+				CompositeTag titleNode=(CompositeTag) cellNodes.elementAt(2);
+				CompositeTag germanTitleNode=(CompositeTag) cellNodes.elementAt(3);
+				CompositeTag infoNode=(CompositeTag) cellNodes.elementAt(8);
 
-				int episodeStart=page.indexOf("<tr>", episodeEnd);
-				if (episodeStart==-1 || episodeStart>listEnd) break;
-				episodeEnd=page.indexOf("</tr>", episodeStart);
-				if (episodeEnd<episodeStart) break;
-				String episodeRow=page.substring(episodeStart, episodeEnd);
-				List<String> episodeCells=XMLUtils.extractCellValues(episodeRow);
+				String episodeKey=season+"."+HtmlUtils.trimUnescape(numberNode.toPlainTextString());
+				log.debug("Episode key: "+episodeKey);
+				String title=HtmlUtils.trimUnescape(titleNode.toPlainTextString());
+				log.debug("Title: "+title);
+				EpisodeData episodeData=new EpisodeData(episodeKey, title);
 
-				String key=season+"."+episodeCells.get(0).trim();
-				String title=convertHTML(episodeCells.get(2));
-				EpisodeData episodeData=new EpisodeData(key, title);
-				episodeData.setGermanTitle(convertHTML(episodeCells.get(3)));
+				episodeData.setGermanTitle(HtmlUtils.trimUnescape(germanTitleNode.toPlainTextString()));
+				log.debug("German title: "+episodeData.getGermanTitle());
 
-				String airdateText=convertHTML(episodeCells.get(1));
-				if (!StringUtils.isEmpty(airdateText))
+				Tag linkNode=(Tag) HtmlUtils.findFirst(infoNode, "a");
+				if (linkNode!=null)
 				{
-					try
-					{
-						episodeData.setFirstAirdate(airdateFormat.parse(airdateText));
-					}
-					catch (ParseException e)
-					{
-						getProgress().error(e);
-					}
-				}
-
-				XMLUtils.Tag linkTag=XMLUtils.getNextTag(episodeCells.get(6), 0, "a");
-				if (linkTag!=null)
-				{
-					String href=XMLUtils.getAttribute(linkTag.text, "href");
-					episodeData.setEpisodeUrl(new URL(new URL(getBaseUrl()), href).toString());
+					episodeData.setLink(DETAILS_LINK, new URL(new URL(getBaseUrl()), linkNode.getAttribute("href")).toString());
+					log.debug("Details link: "+episodeData.getLink(DETAILS_LINK));
 				}
 
 				episodes.add(episodeData);
+			}
+			catch (Exception e)
+			{
+				getProgress().error(e);
 			}
 		}
 		return episodes;
 	}
 
 	@Override
-	protected void loadDetails(EpisodeData data) throws IOException
+	protected void loadDetails(EpisodeData episodeData) throws IOException, ParserException
 	{
-		String page=loadUrl(data.getEpisodeUrl());
+		log.debug("Loading details for "+episodeData.getTitle());
+		String page=ImportUtils.loadUrl(episodeData.getLink(DETAILS_LINK));
 
-		int tableStart=page.indexOf("<table id=\"epdetails\">");
-		if (tableStart<0) return;
-		int tableEnd=page.indexOf("</table>", tableStart);
-		if (tableEnd<tableStart) return;
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
 
-		int summaryStart=page.indexOf("<td colspan=\"2\">", tableStart);
-		if (summaryStart<0 || summaryStart>tableEnd) return;
-		summaryStart=page.indexOf(">", summaryStart)+1;
-		int summaryEnd=page.indexOf("</td>", summaryStart);
-		String summary=page.substring(summaryStart, summaryEnd);
-		summary=summary.replaceAll("<em>Exklusive Episodenbeschreibung von .* f\u00fcr Serienjunkies.de:</em><br />", "");
-		summary=XMLUtils.removeTag(summary, "img");
-		StringBuilder preformattedText=new StringBuilder();
-		boolean lineBreak=false;
-		String[] lines=summary.split("<p[^>]*>|</p\\w*>");
-		for (String line : lines)
+		CompositeTag tableNode=(CompositeTag) HtmlUtils.findFirst(parser, "table#epdetails");
+		CompositeTag summaryCell=(CompositeTag) HtmlUtils.findFirst(tableNode, "td[colspan=\"2\"]");
+		if (summaryCell!=null)
 		{
-			if (StringUtils.isEmpty(line))
+			StringBuilder summary=new StringBuilder();
+			NodeList paragraphs=HtmlUtils.findAll(summaryCell, "p");
+			for (NodeIterator it=paragraphs.elements(); it.hasMoreNodes();)
 			{
-				if (preformattedText.length()>0) lineBreak=true;
+				TagNode paragraph=(TagNode) it.nextNode();
+				String text=ImportUtils.toPreformattedText(paragraph.toHtml(false), true);
+				if (text.startsWith("Wertung des Autors")) continue;
+				if (!StringUtils.isEmpty(text))
+				{
+					if (summary.length()>0) summary.append("[br/][br/]\n");
+					summary.append(text);
+				}
 			}
-			else
-			{
-				if (lineBreak) preformattedText.append("[br/]\n[br/]\n");
-				lineBreak=false;
-				preformattedText.append(convertHTML(line));
-			}
+			log.debug("German: "+summary);
+			episodeData.setGermanSummary(summary.toString());
 		}
-		data.setGermanSummary(preformattedText.toString());
 	}
 }

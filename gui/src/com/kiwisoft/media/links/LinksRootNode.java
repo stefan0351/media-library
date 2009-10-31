@@ -38,6 +38,7 @@ public class LinksRootNode extends GenericTreeNode<String>
 
 	private class ChildListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (LinkManager.ROOT_GROUPS.equals(event.getPropertyName()))

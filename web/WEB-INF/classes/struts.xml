@@ -96,7 +96,12 @@
 		<action name="SaveMovie" class="com.kiwisoft.media.movie.SaveMovieAction">
 			<interceptor-ref name="json"/>
 			<result name="success" type="json">
-				<param name="root">result</param>
+				<param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">
+					returnCode.*,
+					actionErrors.*,
+					movieId
+				</param>
 			</result>
 		</action>
 
@@ -110,6 +115,9 @@
 		</action>
 		<action name="PersonSchedule" class="com.kiwisoft.media.person.PersonScheduleAction">
 			<result name="success" type="tiles">media.main.person.schedule</result>
+		</action>
+		<action name="SubProductionCredits" class="com.kiwisoft.media.person.SubProductionCreditsAction">
+			<result name="success" type="tiles">media.main.person.subProductionCredits</result>
 		</action>
 
         <!-- Photo Actions -->
@@ -158,6 +166,9 @@
 		<action name="ShowInfo" class="com.kiwisoft.media.show.ShowInfoAction">
 			<result name="redirect" type="redirect">/res/${info.url}</result>
 			<result name="success" type="tiles">media.main.show.templates/${template}</result>
+		</action>
+		<action name="ShowBooks" class="com.kiwisoft.media.show.ShowBooksAction">
+			<result name="success" type="tiles">media.main.show.books</result>
 		</action>
 
         <!-- Other Actions -->

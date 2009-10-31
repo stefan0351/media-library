@@ -273,6 +273,7 @@ public class ShowDetailsView extends DetailsView
 
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws IOException
 			{
 				if (show==null) show=ShowManager.getInstance().createShow();
@@ -323,6 +324,7 @@ public class ShowDetailsView extends DetailsView
 				if (logo!=null) logo.addShow(show);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				JOptionPane.showMessageDialog(ShowDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -349,6 +351,7 @@ public class ShowDetailsView extends DetailsView
 			super("New", Icons.getIcon("add"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			((WebInfosTableModel<ShowInfo>)infosController.getModel()).createRow();
@@ -362,6 +365,7 @@ public class ShowDetailsView extends DetailsView
 			super(ShowInfo.class,  "Delete", Icons.getIcon("delete"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			for (Object object : getObjects()) infosController.getModel().removeObject(object);
@@ -370,6 +374,7 @@ public class ShowDetailsView extends DetailsView
 
 	private class IndexByLookup implements DialogLookup
 	{
+		@Override
 		public void open(JTextField field)
 		{
 			String title=titleField.getText();
@@ -377,6 +382,7 @@ public class ShowDetailsView extends DetailsView
 			field.setText(IndexByUtils.createIndexBy(title));
 		}
 
+		@Override
 		public Icon getIcon()
 		{
 			return Icons.getIcon("lookup.create");

@@ -13,8 +13,6 @@ import java.util.*;
 import javax.swing.*;
 
 import com.kiwisoft.swing.table.TableController;
-import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
@@ -57,7 +55,7 @@ public class FanFicDetailsView extends DetailsView
 	private ObjectTableModel<Pairing> pairingsModel;
 	private SortableTable authorsTable;
 	private ObjectTableModel<Author> authorsModel;
-	private TableController<String> partsController;
+	private TableController<FanFicPart> partsController;
 
 	private FanFicDetailsView(FanFic fanFic)
 	{
@@ -97,12 +95,8 @@ public class FanFicDetailsView extends DetailsView
 			descriptionField.setText(fanFic.getDescription());
 			spoilerField.setText(fanFic.getSpoiler());
 			prequelField.setValue(fanFic.getPrequel());
-			for (Iterator it=fanFic.getParts().iterator(); it.hasNext();)
-			{
-				String source=((FanFicPart)it.next()).getSource();
-				String path=FileUtils.getFile(MediaConfiguration.getFanFicPath(), source).getAbsolutePath();
-				partsController.getModel().addRow(new FanFicPartTableRow(path));
-			}
+			for (Iterator<FanFicPart> it=fanFic.getParts().iterator(); it.hasNext();)
+				partsController.getModel().addRow(new FanFicPartTableRow(it.next()));
 			for (Pairing pairing : fanFic.getPairings()) pairingsModel.addObject(pairing);
 			for (FanDom fanDom : fanFic.getFanDoms()) fandomsModel.addObject(fanDom);
 			for (Author author : fanFic.getAuthors()) authorsModel.addObject(author);
@@ -134,22 +128,20 @@ public class FanFicDetailsView extends DetailsView
 		String spoiler=spoilerField.getText();
 		String description=descriptionField.getText();
 		FanFic prequel=prequelField.getValue();
-		List<String> sources=new ArrayList<String>();
-		SortableTableModel<String> tmParts=partsController.getModel();
+		SortableTableModel<FanFicPart> tmParts=partsController.getModel();
 		SortableTable tblParts=partsController.getTable();
+		List<FanFicPartTableRow> partRows=new ArrayList<FanFicPartTableRow>();
 		for (int i=0; i<tmParts.getRowCount(); i++)
 		{
-			String source=tmParts.getObject(i);
-			if (StringUtils.isEmpty(source))
+			FanFicPartTableRow partRow=(FanFicPartTableRow) tmParts.getRow(i);
+			if (StringUtils.isEmpty(partRow.getSource()))
 			{
-				JOptionPane.showMessageDialog(this, "Source is missing!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Path is missing!", "Error", JOptionPane.ERROR_MESSAGE);
 				tblParts.getSelectionModel().setSelectionInterval(i, i);
 				tblParts.requestFocus();
 				return false;
 			}
-			source=FileUtils.getRelativePath(MediaConfiguration.getFanFicPath(), source);
-			source=StringUtils.replaceStrings(source, "\\", "/");
-			sources.add(source);
+			partRows.add(partRow);
 		}
 		Set<Author> authors=new HashSet<Author>(authorsModel.getObjects());
 		if (authors.isEmpty())
@@ -190,20 +182,25 @@ public class FanFicDetailsView extends DetailsView
 			fanFic.setFanDoms(fanDoms);
 			fanFic.setAuthors(authors);
 			Iterator<FanFicPart> itOldParts=new ArrayList<FanFicPart>(fanFic.getParts().elements()).iterator();
-			Iterator<String> itNewSources=sources.iterator();
-			while (itOldParts.hasNext() || itNewSources.hasNext())
+			Iterator<FanFicPartTableRow> itNewParts=partRows.iterator();
+			while (itOldParts.hasNext() || itNewParts.hasNext())
 			{
 				FanFicPart oldPart=itOldParts.hasNext() ? itOldParts.next() : null;
-				String newSource=itNewSources.hasNext() ? itNewSources.next() : null;
+				FanFicPartTableRow newPartRow=itNewParts.hasNext() ? itNewParts.next() : null;
 				if (oldPart!=null)
 				{
-					if (newSource!=null) oldPart.setSource(newSource);
+					if (newPartRow!=null)
+					{
+						oldPart.setName(newPartRow.getName());
+						oldPart.setSource(newPartRow.getSource());
+					}
 					else fanFic.dropPart(oldPart);
 				}
-				else if (newSource!=null)
+				else if (newPartRow!=null)
 				{
 					FanFicPart part=fanFic.createPart();
-					part.setSource(newSource);
+					part.setName(newPartRow.getName());
+					part.setSource(newPartRow.getSource());
 				}
 			}
 			transaction.close();
@@ -254,9 +251,9 @@ public class FanFicDetailsView extends DetailsView
 		authorsTable=new SortableTable(authorsModel);
 		authorsTable.configure(new DefaultTableConfiguration("fanfic.authors", FanFicDetailsView.class, "authors"));
 
-		DefaultSortableTableModel<String> tmParts=new DefaultSortableTableModel<String>("name");
+		DefaultSortableTableModel<FanFicPart> tmParts=new DefaultSortableTableModel<FanFicPart>("name", "path");
 		tmParts.setResortable(false);
-		partsController=new TableController<String>(tmParts, new DefaultTableConfiguration("fanfic.parts", FanFicDetailsView.class, "parts"))
+		partsController=new TableController<FanFicPart>(tmParts, new DefaultTableConfiguration("fanfic.parts", FanFicDetailsView.class, "parts"))
 		{
 			@Override
 			public List<ContextAction> getToolBarActions()
@@ -370,13 +367,14 @@ public class FanFicDetailsView extends DetailsView
 			super(String.class, "Delete", Icons.getIcon("delete"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			int[] indices=partsController.getTable().getSelectedRows();
-			Set<SortableTableRow<String>> rows=new HashSet<SortableTableRow<String>>();
-			SortableTableModel<String> model=partsController.getModel();
-			for (int indice : indices) rows.add(model.getRow(indice));
-			for (SortableTableRow<String> row : rows) model.removeRow(row);
+			int[] indexes=partsController.getTable().getSelectedRows();
+			Set<SortableTableRow<FanFicPart>> rows=new HashSet<SortableTableRow<FanFicPart>>();
+			SortableTableModel<FanFicPart> model=partsController.getModel();
+			for (int index : indexes) rows.add(model.getRow(index));
+			for (SortableTableRow<FanFicPart> row : rows) model.removeRow(row);
 		}
 	}
 
@@ -400,16 +398,17 @@ public class FanFicDetailsView extends DetailsView
 			return !selectionModel.isSelectionEmpty() && selectionModel.getMinSelectionIndex()>0;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (isValid())
 			{
 				SortableTable tblParts=partsController.getTable();
-				SortableTableModel<String> tmParts=partsController.getModel();
-				int[] indices=tblParts.getSelectedRows();
-				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
-				for (int indice : indices) rows.add(tmParts.getRow(indice));
-				for (SortableTableRow<String> row : rows)
+				SortableTableModel<FanFicPart> tmParts=partsController.getModel();
+				int[] indexes=tblParts.getSelectedRows();
+				List<SortableTableRow<FanFicPart>> rows=new ArrayList<SortableTableRow<FanFicPart>>();
+				for (int index : indexes) rows.add(tmParts.getRow(index));
+				for (SortableTableRow<FanFicPart> row : rows)
 				{
 					int index=tmParts.indexOfRow(row);
 					if (index>0)
@@ -418,7 +417,7 @@ public class FanFicDetailsView extends DetailsView
 						tmParts.addRowAt(row, index-1);
 					}
 				}
-				for (SortableTableRow<String> row : rows)
+				for (SortableTableRow<FanFicPart> row : rows)
 				{
 					int index=tmParts.indexOfRow(row);
 					tblParts.getSelectionModel().addSelectionInterval(index, index);
@@ -447,19 +446,20 @@ public class FanFicDetailsView extends DetailsView
 			return !selectionModel.isSelectionEmpty() && selectionModel.getMaxSelectionIndex()<partsController.getModel().getRowCount()-1;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (isValid())
 			{
 				SortableTable tblParts=partsController.getTable();
-				SortableTableModel<String> tmParts=partsController.getModel();
-				int[] indices=tblParts.getSelectedRows();
-				List<SortableTableRow<String>> rows=new ArrayList<SortableTableRow<String>>();
-				for (int i=indices.length-1; i>=0; i--)
+				SortableTableModel<FanFicPart> tmParts=partsController.getModel();
+				int[] indexes=tblParts.getSelectedRows();
+				List<SortableTableRow<FanFicPart>> rows=new ArrayList<SortableTableRow<FanFicPart>>();
+				for (int i=indexes.length-1; i>=0; i--)
 				{
-					rows.add(tmParts.getRow(indices[i]));
+					rows.add(tmParts.getRow(indexes[i]));
 				}
-				for (SortableTableRow<String> row : rows)
+				for (SortableTableRow<FanFicPart> row : rows)
 				{
 					int index=tmParts.indexOfRow(row);
 					if (index+1<tmParts.getRowCount())
@@ -468,7 +468,7 @@ public class FanFicDetailsView extends DetailsView
 						tmParts.addRowAt(row, index+1);
 					}
 				}
-				for (SortableTableRow<String> row : rows)
+				for (SortableTableRow<FanFicPart> row : rows)
 				{
 					int index=tmParts.indexOfRow(row);
 					tblParts.getSelectionModel().addSelectionInterval(index, index);
@@ -484,15 +484,15 @@ public class FanFicDetailsView extends DetailsView
 			super("Add", Icons.getIcon("add"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			SortableTableModel<String> tmParts=partsController.getModel();
+			SortableTableModel<FanFicPart> tmParts=partsController.getModel();
 			int rows=tmParts.getRowCount();
 			if (rows>0)
 			{
-				String lastPath=tmParts.getObject(rows-1);
-				File file=new File(lastPath);
-				tmParts.addRow(new FanFicPartTableRow(StringUtils.increase(file.getPath())));
+				String lastSource=((FanFicPartTableRow) tmParts.getRow(rows-1)).getSource();
+				tmParts.addRow(new FanFicPartTableRow(StringUtils.increase(lastSource)));
 			}
 			else
 			{
@@ -518,16 +518,15 @@ public class FanFicDetailsView extends DetailsView
 														JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (option==JOptionPane.NO_OPTION)
 				{
-					StringBuilder path=buildFileName(author, titleField.getText());
-					path.append(".xp");
-					tmParts.addRow(new FanFicPartTableRow(path.toString()));
+					StringBuilder source=buildFileName(author, titleField.getText());
+					source.append(".html");
+					tmParts.addRow(new FanFicPartTableRow(source.toString()));
 				}
 				else if (option==JOptionPane.YES_OPTION)
 				{
-					StringBuilder path=buildFileName(author, titleField.getText());
-					path.append(File.separator);
-					path.append("01.xp");
-					tmParts.addRow(new FanFicPartTableRow(path.toString()));
+					StringBuilder source=buildFileName(author, titleField.getText());
+					source.append("/01.html");
+					tmParts.addRow(new FanFicPartTableRow(source.toString()));
 				}
 			}
 		}
@@ -535,10 +534,8 @@ public class FanFicDetailsView extends DetailsView
 		private StringBuilder buildFileName(Author author, String title)
 		{
 			title=title.toLowerCase();
-			StringBuilder path=new StringBuilder(MediaConfiguration.getFanFicPath());
-			path.append(File.separator);
-			path.append(author.getPath());
-			path.append(File.separator);
+			StringBuilder path=new StringBuilder();
+			path.append(author.getPath()).append("/");
 			for (StringTokenizer tokens=new StringTokenizer(title, " ,-\"?!"); tokens.hasMoreTokens();)
 			{
 				path.append(tokens.nextToken());
@@ -562,16 +559,17 @@ public class FanFicDetailsView extends DetailsView
 			setEnabled(fanFic!=null);
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			try
 			{
-				SortableTableModel<String> tmParts=partsController.getModel();
+				SortableTableModel<FanFicPart> tmParts=partsController.getModel();
 				StringBuilder buffer=new StringBuilder();
 				int errors=0;
 				for (int i=0; i<tmParts.getRowCount(); i++)
 				{
-					String fileName=tmParts.getObject(i);
+					String fileName=((FanFicPartTableRow) tmParts.getRow(i)).getPath();
 					if (!StringUtils.isEmpty(fileName))
 					{
 						File file=new File(fileName);

@@ -21,6 +21,7 @@ public class ShowPhotoAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Photo photo=(Photo)getObject();

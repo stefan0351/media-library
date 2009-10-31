@@ -57,11 +57,13 @@ public class PhotoManager implements CollectionChangeSource
 		collectionChangeSupport.fireElementRemoved(GALLERIES, gallery);
 	}
 
+	@Override
 	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
 		return collectionChangeSupport.addListener(listener);
 	}
 
+	@Override
 	public void removeCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.removeListener(listener);

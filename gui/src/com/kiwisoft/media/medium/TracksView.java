@@ -108,6 +108,7 @@ public class TracksView extends ViewPanel
 
 	private class TracksListener implements ChainListener<Track>
 	{
+		@Override
 		public void chainChanged(ChainEvent<Track> event)
 		{
 			TracksTableModel tableModel=(TracksTableModel)tableController.getModel();

@@ -15,6 +15,7 @@ public class MediaFileDetailsAction extends SimpleContextAction
 		super(MediaFile.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MediaFile mediaFile=(MediaFile)getObject();

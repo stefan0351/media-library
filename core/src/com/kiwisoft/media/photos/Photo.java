@@ -152,6 +152,7 @@ public class Photo extends IDObject implements ChainLink
 		return -1;
 	}
 
+	@Override
 	public void setChainPosition(int position)
 	{
 		int oldPosition=this.sequence;
@@ -159,6 +160,7 @@ public class Photo extends IDObject implements ChainLink
 		setModified("chainPosition", oldPosition, this.sequence);
 	}
 
+	@Override
 	public int getChainPosition()
 	{
 		return sequence;

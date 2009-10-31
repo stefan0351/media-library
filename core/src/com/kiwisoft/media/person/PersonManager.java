@@ -17,6 +17,7 @@ import com.kiwisoft.media.books.Book;
 import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.DBLoader;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
+import com.kiwisoft.utils.Disposable;
 
 public class PersonManager
 {
@@ -52,9 +53,9 @@ public class PersonManager
 		fireElementRemoved(PERSONS, person);
 	}
 
-	public void addCollectionChangeListener(CollectionChangeListener listener)
+	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

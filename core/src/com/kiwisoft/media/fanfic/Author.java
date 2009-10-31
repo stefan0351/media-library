@@ -34,6 +34,7 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		super(dummy);
 	}
 
+	@Override
 	public String getFanFicGroupName()
 	{
 		return getName();
@@ -113,34 +114,34 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		fireElementRemoved(WEB, medium);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics()
 	{
 		return getAssociations(FANFICS);
 	}
 
+	@Override
 	public int getFanFicCount()
 	{
 		return getAssociationsCount(FANFICS);
 	}
 
+	@Override
 	public boolean contains(FanFic fanFic)
 	{
 		return containsAssociation(FANFICS, fanFic);
 	}
 
+	@Override
 	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
-	}
-
-	public String getHttpParameter()
-	{
-		return "author="+getId();
 	}
 
 	@Override
@@ -157,6 +158,7 @@ public class Author extends IDObject implements FanFicGroup, Comparable
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		return getName().compareToIgnoreCase(((Author)o).getName());

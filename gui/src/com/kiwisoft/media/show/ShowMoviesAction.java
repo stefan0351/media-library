@@ -3,7 +3,7 @@ package com.kiwisoft.media.show;
 import java.awt.event.ActionEvent;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.media.movie.MoviesView;
+import com.kiwisoft.media.movie.ShowMoviesView;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 
@@ -20,8 +20,9 @@ public class ShowMoviesAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new MoviesView((Show)getObject()));
+		frame.setCurrentView(new ShowMoviesView((Show)getObject()));
 	}
 }

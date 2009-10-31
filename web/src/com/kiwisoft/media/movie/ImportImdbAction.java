@@ -81,6 +81,7 @@ public class ImportImdbAction extends BaseAction
 		}
 		for (CountryData countryData : movieData.getCountries())
 		{
+			if ("UK".equalsIgnoreCase(countryData.getName())) countryData.setName("Great Britain");
 			Country country=CountryManager.getInstance().getCountryByName(countryData.getName());
 			if (country!=null) countryData.setSymbol(country.getSymbol());
 		}

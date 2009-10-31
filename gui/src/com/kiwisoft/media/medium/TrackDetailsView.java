@@ -239,6 +239,7 @@ public class TrackDetailsView extends DetailsView
 
 	private class ShowSelectionListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			Show show=showField.getValue();
@@ -251,6 +252,7 @@ public class TrackDetailsView extends DetailsView
 
 	private class MovieSelectionListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			Movie movie=movieField.getValue();

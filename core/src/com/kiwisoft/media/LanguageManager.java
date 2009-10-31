@@ -55,5 +55,13 @@ public class LanguageManager
 	{
 		return DBLoader.getInstance().load(Language.class, null, "name=?", name);
 	}
+
+	public Language createLanguage(String symbol, String name)
+	{
+		Language language=new Language();
+		language.setSymbol(symbol);
+		language.setName(name);
+		return language;
+	}
 }
 

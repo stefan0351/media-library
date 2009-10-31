@@ -2,15 +2,23 @@ package com.kiwisoft.web;
 
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.Utils;
+
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author Stefan Stiller
  * @since 11.10.2009
  */
-public class RecentIdObject<T extends IDObject> implements RecentItem
+public class RecentIdObject<T extends IDObject> implements RecentItem<T>
 {
 	private Class<T> clazz;
 	private Long id;
+
+	public RecentIdObject()
+	{
+	}
 
 	public RecentIdObject(Class<T> clazz, T object)
 	{
@@ -19,12 +27,23 @@ public class RecentIdObject<T extends IDObject> implements RecentItem
 	}
 
 	@Override
-	public String getItemClassId()
+	public Map<String, String> getProperties()
 	{
-		return clazz.getName();
+		Map<String, String> properties=new HashMap<String, String>();
+		properties.put("class", clazz.getName());
+		properties.put("id", id.toString());
+		return properties;
 	}
 
-	public T getObject()
+	@Override
+	public void setProperties(Map<String, String> properties) throws Exception
+	{
+		clazz=Utils.cast(Class.forName(properties.get("class")));
+		id=Long.valueOf(properties.get("id"));
+	}
+
+	@Override
+	public T getItem()
 	{
 		return DBLoader.getInstance().load(clazz, id);
 	}

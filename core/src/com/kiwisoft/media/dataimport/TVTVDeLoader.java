@@ -18,7 +18,6 @@ import com.kiwisoft.progress.Job;
 import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.FileUtils;
 
 public class TVTVDeLoader implements Job
@@ -37,8 +36,6 @@ public class TVTVDeLoader implements Job
 	public TVTVDeLoader(List<Object> objects)
 	{
 		this.objects=objects;
-		ignoredChannels.add("718"); // RTL Living
-		ignoredChannels.add("943"); // Animal Planet
 	}
 
 	public void setDryRun(boolean dryRun)
@@ -56,6 +53,7 @@ public class TVTVDeLoader implements Job
 		return startDate;
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Load Schedule from TVTV.de";
@@ -66,6 +64,7 @@ public class TVTVDeLoader implements Job
 		return progressSupport;
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
@@ -91,6 +90,7 @@ public class TVTVDeLoader implements Job
 
 		Collections.sort(objects, new Comparator<Object>()
 		{
+			@Override
 			public int compare(Object o1, Object o2)
 			{
 				int result=getClassPriority(o1).compareTo(getClassPriority(o2));
@@ -107,7 +107,7 @@ public class TVTVDeLoader implements Job
 			}
 		});
 
-		objects=objects.subList(90, objects.size());
+//		objects=objects.subList(90, objects.size());
 		Iterator it=objects.iterator();
 		progressSupport.startStep("Load schedules...");
 		progressSupport.initialize(true, objects.size(), null);
@@ -123,6 +123,7 @@ public class TVTVDeLoader implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}
@@ -157,7 +158,7 @@ public class TVTVDeLoader implements Job
 						final File logoFile=FileUtils.getFile(MediaConfiguration.getRootPath(), logoPath);
 						try
 						{
-							byte[] logoData=WebUtils.loadBytesFromURL(airdate.getChannelLogo());
+							byte[] logoData=ImportUtils.loadUrlBinary(airdate.getChannelLogo());
 							FileUtils.saveToFile(logoData, logoFile);
 						}
 						catch (Exception e)
@@ -181,10 +182,41 @@ public class TVTVDeLoader implements Job
 				}
 			}
 		}
+		else
+		{
+			if (!airdate.getChannelName().equals(channel.getName()) && !ignoredChannels.contains(airdate.getChannelKey()))
+			{
+				if (askUpdateChannel(airdate.getChannelKey(), channel.getName(), airdate.getChannelName()))
+				{
+					final Channel finalChannel=channel;
+					boolean success=DBSession.execute(new Transactional()
+					{
+						@Override
+						public void run() throws Exception
+						{
+							finalChannel.setName(airdate.getChannelName());
+						}
+
+						@Override
+						public void handleError(Throwable throwable, boolean rollback)
+						{
+							progressSupport.error(throwable);
+						}
+					});
+					if (!success) progressSupport.error("Failed to update channel "+channel.getName());
+
+				}
+			}
+		}
 		return channel;
 	}
 
 	protected boolean askMissingChannel(String channelName, String channelKey)
+	{
+		return false;
+	}
+
+	protected boolean askUpdateChannel(String channelKey, String oldChannelName, String newChannelName)
 	{
 		return false;
 	}
@@ -223,11 +255,13 @@ public class TVTVDeLoader implements Job
 			this.logoPath=logoPath;
 		}
 
+		@Override
 		public void run() throws Exception
 		{
 			channel=ChannelManager.getInstance().createChannel();
 			channel.setName(airdate.getChannelName());
 			channel.setTvtvKey(airdate.getChannelKey());
+			channel.setReceivable(true);
 
 			if (logoFile!=null && logoFile.exists())
 			{
@@ -245,6 +279,7 @@ public class TVTVDeLoader implements Job
 			}
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			progressSupport.error(throwable);

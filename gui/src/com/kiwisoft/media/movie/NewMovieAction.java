@@ -19,6 +19,7 @@ public class NewMovieAction extends ContextAction
 		this.show=show;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MovieDetailsView.create(show);

@@ -19,6 +19,7 @@ public class ExportWebDatesAction extends AbstractAction
 		super("Exportiere Internet-Termine");
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		new ProgressDialog(null, new WebDatesExport()).start();

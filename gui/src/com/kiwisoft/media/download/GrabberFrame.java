@@ -22,7 +22,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.TreePath;
 
 import com.kiwisoft.app.Application;
-import com.kiwisoft.app.ExceptionHandler;
 import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.media.MediaApplication;
 import com.kiwisoft.swing.GuiUtils;
@@ -155,6 +154,7 @@ public class GrabberFrame extends JFrame
 			super("Save");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent event)
 		{
 			GrabberUtils.stopAllQueues();
@@ -184,6 +184,7 @@ public class GrabberFrame extends JFrame
 			super("New");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent event)
 		{
 			if (project!=null && !project.getFolders().isEmpty())
@@ -205,6 +206,7 @@ public class GrabberFrame extends JFrame
 			super("Load", Icons.getIcon("open.file"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent event)
 		{
 			if (project!=null && !project.getFolders().isEmpty())
@@ -233,6 +235,7 @@ public class GrabberFrame extends JFrame
 			super("Add Address", Icons.getIcon("add"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			try
@@ -288,6 +291,7 @@ public class GrabberFrame extends JFrame
 			idleFormat=new MessageFormat(idlePattern);
 		}
 
+		@Override
 		public void jobAdded(JobQueue jobQueue, Runnable runnable)
 		{
 			DocumentJob job=(DocumentJob)jobQueue.getCurrentJob();
@@ -301,6 +305,7 @@ public class GrabberFrame extends JFrame
 		{
 			SwingUtilities.invokeLater(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					label.setText(text);
@@ -308,11 +313,13 @@ public class GrabberFrame extends JFrame
 			});
 		}
 
+		@Override
 		public void jobStarted(JobQueue jobQueue, Runnable runnable)
 		{
 			jobAdded(jobQueue, runnable);
 		}
 
+		@Override
 		public void jobFinished(JobQueue jobQueue, Runnable runnable)
 		{
 			jobAdded(jobQueue, runnable);

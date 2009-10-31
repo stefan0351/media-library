@@ -15,9 +15,10 @@ import com.kiwisoft.media.Genre;
 
 public class GenreLookup extends ListLookup<Genre>
 {
-	public Collection<Genre> getValues(String text, Genre currentValue, boolean lookup)
+	@Override
+	public Collection<Genre> getValues(String text, Genre currentValue, int lookup)
 	{
-		if (lookup) return DBLoader.getInstance().loadSet(Genre.class);
+		if (lookup>0) return DBLoader.getInstance().loadSet(Genre.class);
 		if (text==null) return Collections.emptySet();
 		if (text.indexOf('*')>=0) text=text.replace('*', '%');
 		else text=text+"%";

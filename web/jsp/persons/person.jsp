@@ -32,7 +32,7 @@
 			<tr>
 				<td class="content">
 					<ol>
-						<s:iterator value="actingCredits.productions">
+						<s:iterator var="production" value="actingCredits.productions">
 							<li><b><media:format value="top"/></b>
 								<s:if test="top instanceof com.kiwisoft.media.movie.Movie">
 									<s:if test="top.year!=null">(<s:property value="top.year"/>)</s:if>
@@ -65,7 +65,10 @@
 										</s:iterator>
 									</s:subset>
 									<s:if test="#subProductions.size()>5">
-										<br>and <s:property value="#subProductions.size()-5"/> more
+										<br>
+										<a class="link" href="<s:url action="SubProductionCredits"><s:param name="productionId" value="#production.id"
+										/><s:param name="productionClass" value="#production.class.name"/><s:param name="personId" value="person.id"
+										/><s:param name="typeId" value="12"/></s:url>">and <s:property value="#subProductions.size()-5"/> more</a>
 									</s:if>
 								</s:else></li>
 						</s:iterator>
@@ -74,14 +77,14 @@
 			</tr>
 		</table>
 	</s:if>
-	<s:iterator value="creditMap.keySet()">
+	<s:iterator var="creditType" value="creditMap.keySet()">
 		<s:set var="crewCredits" value="creditMap.get(top)"/>
 		<table class="contenttable" width="765">
 			<tr><td class="header2"><s:property value="asName"/></td></tr>
 			<tr>
 				<td class="content">
 					<ol>
-						<s:iterator value="#crewCredits.productions">
+						<s:iterator var="production" value="#crewCredits.productions">
 							<li><b><media:format value="top"/></b>
 								<s:if test="top instanceof com.kiwisoft.media.movie.Movie">
 									<s:if test="top.year!=null">(<s:property value="top.year"/>)</s:if>
@@ -97,14 +100,17 @@
 									<s:subset source="#subProductions" count="5">
 										<s:iterator>
 											<br>- <media:format variant="Show"/>
-											<s:set var="subCredits" value="#crewCredits.getCredits(top).{? #this.subType.empty}"/>
+											<s:set var="subCredits" value="#crewCredits.getCredits(top).{? !#this.subType.empty}"/>
 											<s:if test="!#subCredits.empty">
 												(<media:formatList value="#subCredits.{subType}" variant="preformatted"/>)
 											</s:if>
 										</s:iterator>
 									</s:subset>
-									<s:if test="#subProductions.size()>5">
-										<br>and <s:property value="#subProductions.size()-5"/> more
+									<s:if test="#subProductions.size()>0">
+										<br>
+										<a class="link" href="<s:url action="SubProductionCredits"><s:param name="productionId" value="#production.id"
+										/><s:param name="productionClass" value="#production.class.name"/><s:param name="personId" value="person.id"
+										/><s:param name="typeId" value="#creditType.id"/></s:url>">and <s:property value="#subProductions.size()-5"/> more</a>
 									</s:if>
 								</s:else></li>
 						</s:iterator>

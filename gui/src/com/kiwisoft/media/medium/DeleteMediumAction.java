@@ -23,6 +23,7 @@ public class DeleteMediumAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		final Medium medium=(Medium)getObject();
@@ -36,11 +37,13 @@ public class DeleteMediumAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					MediumManager.getInstance().dropMedium(medium);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

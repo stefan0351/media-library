@@ -25,6 +25,7 @@ public class NewLinkAction extends SimpleContextAction
 		super.update(objects);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();

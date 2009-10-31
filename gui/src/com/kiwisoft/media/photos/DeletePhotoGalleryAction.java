@@ -20,6 +20,7 @@ public class DeletePhotoGalleryAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final PhotoGallery gallery=(PhotoGallery)getObject();
@@ -33,11 +34,13 @@ public class DeletePhotoGalleryAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					PhotoManager.getInstance().dropGallery(gallery);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

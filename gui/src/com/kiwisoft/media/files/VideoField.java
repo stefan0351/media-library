@@ -122,6 +122,7 @@ class VideoField extends JPanel
 			super("Select File", Icons.getIcon("open.file"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			JFileChooser fileChooser=new JFileChooser();
@@ -157,6 +158,7 @@ class VideoField extends JPanel
 			super("Play the selected file", Icons.getIcon("play"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (file!=null)
@@ -180,6 +182,7 @@ class VideoField extends JPanel
 			super("Remove", Icons.getIcon("delete"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (file!=null)

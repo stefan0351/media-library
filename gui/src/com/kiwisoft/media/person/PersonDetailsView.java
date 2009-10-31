@@ -195,7 +195,8 @@ public class PersonDetailsView extends DetailsView
         final String surname1=surname;
         return DBSession.execute(new Transactional()
         {
-            public void run() throws Exception
+            @Override
+			public void run() throws Exception
             {
                 if (person==null) person=PersonManager.getInstance().createPerson();
                 person.setName(name1);
@@ -223,7 +224,8 @@ public class PersonDetailsView extends DetailsView
                 }
             }
 
-            public void handleError(Throwable throwable, boolean rollback)
+            @Override
+			public void handleError(Throwable throwable, boolean rollback)
             {
                 GuiUtils.handleThrowable(PersonDetailsView.this,  throwable);
             }
@@ -338,16 +340,19 @@ public class PersonDetailsView extends DetailsView
 			this.listen=listen;
 		}
 
+		@Override
 		public void insertUpdate(DocumentEvent e)
 		{
 			changedUpdate(e);
 		}
 
+		@Override
 		public void removeUpdate(DocumentEvent e)
 		{
 			changedUpdate(e);
 		}
 
+		@Override
 		public void changedUpdate(DocumentEvent e)
 		{
 			if (listen)

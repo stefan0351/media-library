@@ -28,6 +28,7 @@ public class ImportBookAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		String isbn=JOptionPane.showInputDialog(frame, "ISBN:", "Load Book", JOptionPane.QUESTION_MESSAGE);
@@ -37,22 +38,27 @@ public class ImportBookAction extends ContextAction
 			try
 			{
 				BookData bookData=loader.load();
-                Book book=null;
-                Set<Book> books=findExistingBooks(bookData);
-                if (!books.isEmpty())
-                {
-                    BookUpdateDialog dialog=new BookUpdateDialog(frame, books);
-                    dialog.setVisible(true);
-                    switch (dialog.getOption())
-                    {
-                        case BookUpdateDialog.CANCEL_OPTION:
-                            return;
-                        case BookUpdateDialog.UPDATE_OPTION:
-                            book=dialog.getBook();
-                            break;
-                    }
-                }
-                BookDataDetailsView.createDialog(frame, bookData, book);
+				if (bookData!=null)
+				{
+					Book book=null;
+					Set<Book> books=findExistingBooks(bookData);
+					if (!books.isEmpty())
+					{
+						BookUpdateDialog dialog=new BookUpdateDialog(frame, books);
+						dialog.setVisible(true);
+						switch (dialog.getOption())
+						{
+							case BookUpdateDialog.CANCEL_OPTION:
+								return;
+							case BookUpdateDialog.UPDATE_OPTION:
+								book=dialog.getBook();
+								break;
+						}
+					}
+					book=BookDataDetailsView.createDialog(frame, bookData, book);
+					if (book!=null) BookDetailsView.create(book);
+				}
+				else JOptionPane.showMessageDialog(frame, "A book with ISBN '"+isbn+"' was not found.");
 			}
 			catch (Exception e1)
 			{

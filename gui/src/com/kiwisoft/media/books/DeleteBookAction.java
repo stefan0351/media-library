@@ -28,6 +28,7 @@ public class DeleteBookAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		final Book book=(Book)getObject();
@@ -42,11 +43,13 @@ public class DeleteBookAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					BookManager.getInstance().dropBook(book);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(frame, throwable);

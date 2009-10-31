@@ -27,6 +27,7 @@ public class PhotoImportJob implements Job
 		this.files=files;
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
@@ -60,11 +61,13 @@ public class PhotoImportJob implements Job
 		return true;
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Import Photos";
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 		photoGallery=null;
@@ -83,11 +86,13 @@ public class PhotoImportJob implements Job
 			this.thumbnail=thumbnail;
 		}
 
+		@Override
 		public void run() throws Exception
 		{
 			photoGallery.createPhoto(picture, thumbnail);
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			progressSupport.error(throwable);

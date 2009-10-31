@@ -28,6 +28,7 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		super(dummy);
 	}
 
+	@Override
 	public String getFanFicGroupName()
 	{
 		return getName();
@@ -45,35 +46,35 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		setModified("name", oldName, this.name);
 	}
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public Set<FanFic> getFanFics()
 	{
 		return (Set<FanFic>)DBAssociation.getAssociation(Pairing.class, FANFICS).getAssociations(this);
 	}
 
+	@Override
 	public int getFanFicCount()
 	{
 		return DBAssociation.getAssociation(Pairing.class, FANFICS).getAssociationsSize(this);
 	}
 
+	@Override
 	public boolean contains(FanFic fanFic)
 	{
 		return DBAssociation.getAssociation(Pairing.class, FANFICS).isExistsAssociation(this, fanFic);
 	}
 
+	@Override
 	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
-	}
-
-	public String getHttpParameter()
-	{
-		return "pairing="+getId();
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class Pairing extends IDObject implements FanFicGroup, Comparable
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		return getName().compareToIgnoreCase(((Pairing)o).getName());

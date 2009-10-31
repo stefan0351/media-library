@@ -24,6 +24,7 @@ public class DeleteDomainAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		FanDom domain=(FanDom)getObject();

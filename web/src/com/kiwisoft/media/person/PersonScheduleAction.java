@@ -8,7 +8,7 @@ import com.kiwisoft.media.schedule.ScheduleTable;
  * @author Stefan Stiller
  * @since 04.10.2009
  */
-public class PersonScheduleAction extends PersonDetailsAction implements ScheduleAction
+public class PersonScheduleAction extends PersonAction implements ScheduleAction
 {
 	private Long rangeId;
 

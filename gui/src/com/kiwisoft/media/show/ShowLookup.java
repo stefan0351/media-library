@@ -17,9 +17,10 @@ import com.kiwisoft.swing.lookup.ListLookup;
 
 public class ShowLookup extends ListLookup<Show>
 {
-	public Collection<Show> getValues(String text, Show currentValue, boolean lookup)
+	@Override
+	public Collection<Show> getValues(String text, Show currentValue, int lookup)
 	{
-		if (text==null) return ShowManager.getInstance().getShows();
+		if (lookup>0) return ShowManager.getInstance().getShows();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

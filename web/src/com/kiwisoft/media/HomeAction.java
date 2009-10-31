@@ -1,12 +1,10 @@
 package com.kiwisoft.media;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.web.RecentIdObject;
 import com.kiwisoft.web.RecentItem;
 import com.kiwisoft.web.RecentItemManager;
+import com.kiwisoft.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Stefan Stiller
@@ -14,22 +12,31 @@ import java.util.List;
  */
 public class HomeAction extends BaseAction
 {
-	private List<Show> shows;
+	private List<Object> recentItems;
+	private List<Airdate> airdates;
 
 	@Override
 	public String execute() throws Exception
 	{
-		shows=new ArrayList<Show>();
-		List<RecentItem> recentItemList=RecentItemManager.getInstance().getRecentItems(Show.class.getName());
+		recentItems=new ArrayList<Object>();
+		List<RecentItem> recentItemList=RecentItemManager.getInstance().getRecentItems();
 		for (RecentItem recentItem : recentItemList)
 		{
-			shows.add((Show) ((RecentIdObject) recentItem).getObject());
+			recentItems.add(recentItem.getItem());
 		}
+		Date now=new Date();
+		airdates=new ArrayList<Airdate>(AirdateManager.getInstance().getAirdates(now, DateUtils.add(now, Calendar.HOUR, 12)));
+		Collections.sort(airdates, new AirdateComparator(AirdateComparator.INV_TIME));
 		return super.execute();
 	}
 
-	public List<Show> getShows()
+	public List<Object> getRecentItems()
 	{
-		return shows;
+		return recentItems;
+	}
+
+	public List<Airdate> getAirdates()
+	{
+		return airdates;
 	}
 }

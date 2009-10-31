@@ -15,6 +15,7 @@ public class SeasonDetailsAction extends SimpleContextAction
 		super(Season.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SeasonDetailsView.create((Season)getObject());

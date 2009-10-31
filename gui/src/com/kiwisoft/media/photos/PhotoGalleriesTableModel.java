@@ -39,6 +39,7 @@ public class PhotoGalleriesTableModel extends DefaultSortableTableModel<PhotoGal
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

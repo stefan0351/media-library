@@ -47,6 +47,7 @@ public class Country extends IDObject implements Comparable
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		Country country=(Country)o;

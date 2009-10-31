@@ -26,6 +26,7 @@ public class DeleteEpisodeAction extends MultiContextAction
 		this.viewPanel=viewPanel;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List<Episode> episodes=getObjects();

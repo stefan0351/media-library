@@ -15,6 +15,7 @@ public class DomainDetailsAction extends SimpleContextAction
 		super(FanDom.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		FanDomDetailsView.create((FanDom)getObject());

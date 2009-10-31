@@ -15,6 +15,7 @@ public class CreateSearchPatternAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SearchPatternDetailsView.create(null);

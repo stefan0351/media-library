@@ -47,13 +47,6 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>import_imdb</servlet-name>
-		<display-name>Import IMDb</display-name>
-		<description>Servlet import movie data</description>
-		<servlet-class>com.kiwisoft.media.movie.IMDbServlet</servlet-class>
-	</servlet>
-
-	<servlet>
 		<servlet-name>StartupServlet</servlet-name>
 		<display-name>Media Manager Web Application Initializer</display-name>
 		<servlet-class>com.kiwisoft.media.web.StartupServlet</servlet-class>
@@ -74,11 +67,6 @@
 	<servlet-mapping>
 		<servlet-name>PDFServlet</servlet-name>
 		<url-pattern>/create.pdf</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>import_imdb</servlet-name>
-		<url-pattern>/movies/import_imdb</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

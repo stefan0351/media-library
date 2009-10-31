@@ -197,7 +197,10 @@
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
   <component name="EntryPointsManager">
-    <entry_points />
+    <entry_points version="2.0" />
+  </component>
+  <component name="ExcludeFromValidation">
+    <file url="file://$PROJECT_DIR$/web/WEB-INF/classes/struts.xml" />
   </component>
   <component name="ExportToHTMLSettings">
     <option name="PRINT_LINE_NUMBERS" value="false" />
@@ -389,6 +392,7 @@
           <option name="myCustomValuesEnabled" value="true" />
         </inspection_tool>
         <inspection_tool class="HtmlPresentationalElement" level="WARNING" enabled="false" />
+        <inspection_tool class="BooleanMethodIsAlwaysInverted" level="WARNING" enabled="false" />
       </profile>
       <profile version="1.0" is_locked="false">
         <option name="myName" value="Project Default" />

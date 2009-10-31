@@ -32,6 +32,7 @@ public class LinkableNode extends GenericTreeNode<Linkable>
 	{
 		getListeners().installPropertyChangeListener((PropertyChangeSource)getUserObject(), Linkable.LINK_GROUP, new PropertyChangeListener()
 		{
+			@Override
 			public void propertyChange(PropertyChangeEvent evt)
 			{
 				if (evt.getNewValue() instanceof LinkGroup)

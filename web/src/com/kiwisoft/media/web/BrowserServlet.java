@@ -6,9 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import javax.servlet.*;
 import javax.management.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.List;
 
 /**
  * @author Stefan Stiller

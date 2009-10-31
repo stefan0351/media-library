@@ -99,6 +99,7 @@ public class PhotosView extends ViewPanel
 
 	private class PhotosCollectionListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (event.getType()==CollectionChangeEvent.ADDED)
@@ -135,6 +136,7 @@ public class PhotosView extends ViewPanel
 
 	private class SelectionListener implements ListSelectionListener
 	{
+		@Override
 		public void valueChanged(ListSelectionEvent e)
 		{
 			if (!e.getValueIsAdjusting())
@@ -152,6 +154,7 @@ public class PhotosView extends ViewPanel
 
 	private class PhotosChainListener implements ChainListener<Photo>
 	{
+		@Override
 		public void chainChanged(ChainEvent<Photo> event)
 		{
 			thumbnailPanel.sort(Chain.getComparator());

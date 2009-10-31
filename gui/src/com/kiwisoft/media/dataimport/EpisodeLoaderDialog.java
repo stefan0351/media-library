@@ -121,6 +121,7 @@ public abstract class EpisodeLoaderDialog extends JDialog
 		{
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (link==null)
@@ -132,6 +133,7 @@ public abstract class EpisodeLoaderDialog extends JDialog
 					link.setUrl(url);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(EpisodeLoaderDialog.this, throwable);
@@ -172,6 +174,7 @@ public abstract class EpisodeLoaderDialog extends JDialog
 			super("Ok", Icons.getIcon("ok"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			try
@@ -200,6 +203,7 @@ public abstract class EpisodeLoaderDialog extends JDialog
 			super("Cancel", Icons.getIcon("cancel"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			dispose();

@@ -92,6 +92,7 @@
 				<include name="kiwisoft_utils-web.jar"/>
 				<include name="kiwisoft_utils-xml.jar"/>
 				<include name="kiwisoft_utils-swing.jar"/>
+				<include name="kiwisoft_utils-http.jar"/>
 				<include name="ognl.jar"/>
 				<include name="struts2-core.jar"/>
 				<include name="struts2-tiles-plugin.jar"/>

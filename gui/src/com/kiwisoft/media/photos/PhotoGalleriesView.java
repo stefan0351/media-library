@@ -93,6 +93,7 @@ public class PhotoGalleriesView extends ViewPanel
 
 	private class MyCollectionListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (PhotoManager.GALLERIES.equals(event.getPropertyName()))

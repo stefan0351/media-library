@@ -15,6 +15,7 @@ public class CreateShowAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		ShowDetailsView.create(null);

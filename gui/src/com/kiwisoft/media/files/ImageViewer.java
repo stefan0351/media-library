@@ -56,6 +56,7 @@ public class ImageViewer extends DetailsView
 				final File rotatedFile=File.createTempFile("pic", "."+FileUtils.getExtension(file), new File(System.getenv("TEMP")));
 				getListenerList().addDisposable(new Disposable()
 				{
+					@Override
 					public void dispose()
 					{
 						rotatedFile.delete();

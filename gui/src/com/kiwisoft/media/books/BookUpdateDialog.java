@@ -85,7 +85,8 @@ public class BookUpdateDialog extends JDialog
             super("Update Book");
         }
 
-        public void actionPerformed(ActionEvent e)
+        @Override
+		public void actionPerformed(ActionEvent e)
         {
             int row=table.getSelectedRow();
             if (row>=0)
@@ -107,7 +108,8 @@ public class BookUpdateDialog extends JDialog
             super("New Book");
         }
 
-        public void actionPerformed(ActionEvent e)
+        @Override
+		public void actionPerformed(ActionEvent e)
         {
             option=NEW_OPTION;
             dispose();
@@ -121,7 +123,8 @@ public class BookUpdateDialog extends JDialog
             super("Cancel", Icons.getIcon("cancel"));
         }
 
-        public void actionPerformed(ActionEvent e)
+        @Override
+		public void actionPerformed(ActionEvent e)
         {
             option=CANCEL_OPTION;
             dispose();

@@ -22,11 +22,13 @@ public class ThumbnailCreation implements Job
 {
 	private ProgressSupport progress;
 
+	@Override
 	public String getName()
 	{
 		return "Create Thumbnails";
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progress=new ProgressSupport(this, progressListener);
@@ -108,6 +110,7 @@ public class ThumbnailCreation implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}
@@ -127,11 +130,13 @@ public class ThumbnailCreation implements Job
 			this.thumbnailSize=thumbnailSize;
 		}
 
+		@Override
 		public void run() throws Exception
 		{
 			image.setThumbnail(property, MediaConfiguration.PATH_ROOT, thumbnailPath, thumbnailSize.width, thumbnailSize.height);
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			progress.error(throwable);

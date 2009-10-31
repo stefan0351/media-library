@@ -105,6 +105,7 @@ public class SeasonsView extends ViewPanel
 
 	private class CollectionChangeObserver implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (Show.SEASONS.equals(event.getPropertyName()))
@@ -146,6 +147,7 @@ public class SeasonsView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

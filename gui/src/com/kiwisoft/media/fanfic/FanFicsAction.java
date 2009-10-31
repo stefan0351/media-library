@@ -21,6 +21,7 @@ public class FanFicsAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new FanFicsView((FanFicGroup)getObject()));

@@ -15,6 +15,7 @@ public class NewPersonAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PersonDetailsView.create(null);

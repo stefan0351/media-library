@@ -15,6 +15,7 @@ public class NewDomainAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		FanDomDetailsView.create(null);

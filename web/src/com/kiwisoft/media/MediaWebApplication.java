@@ -14,6 +14,7 @@ import java.util.Date;
 import com.kiwisoft.web.HTMLRendererManager;
 import com.kiwisoft.web.PreformattedHTMLRenderer;
 import com.kiwisoft.web.DefaultHTMLRenderer;
+import com.kiwisoft.web.PlainHTMLRenderer;
 import com.kiwisoft.media.medium.Medium;
 import com.kiwisoft.media.medium.Track;
 import com.kiwisoft.media.medium.TrackHTMLRenderer;
@@ -30,16 +31,24 @@ import com.kiwisoft.media.links.LinkGroupHierarchyHTMLRenderer;
 import com.kiwisoft.media.links.LinkGroupHTMLRenderer;
 import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.books.BookHTMLRenderer;
+import com.kiwisoft.media.photos.PhotoGalleryHTMLRenderer;
+import com.kiwisoft.media.photos.PhotoGallery;
+import com.kiwisoft.media.fanfic.FanFic;
+import com.kiwisoft.media.fanfics.FanFicHTMLRenderer;
 import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.app.Application;
 import com.kiwisoft.swing.icons.Icons;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Stefan Stiller
  */
 public class MediaWebApplication extends MediaApplication
 {
+	private final static Log log=LogFactory.getLog(MediaWebApplication.class);
+
 	public synchronized static void checkInstance()
 	{
 		if (!Application.hasInstance())
@@ -77,7 +86,12 @@ public class MediaWebApplication extends MediaApplication
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
-			configuration.loadUserValues("media"+File.separator+"profile.xml");
+			String fileName;
+			if ("dev".equals(System.getProperty("media.database"))) fileName="dev-profile.xml";
+			else fileName="profile.xml";
+			String userValuesFile="media"+File.separator+fileName;
+			log.info("Loading user configuration from "+userValuesFile);
+			configuration.loadUserValues(userValuesFile);
 		}
 		catch (Exception e)
 		{
@@ -94,6 +108,7 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(Date.class, "Date only", new DefaultHTMLRenderer("Date only"));
 		rendererManager.setRenderer(Date.class, "schedule", new DefaultHTMLRenderer("schedule"));
 		rendererManager.setRenderer(String.class, "preformatted", new PreformattedHTMLRenderer());
+		rendererManager.setRenderer(String.class, "html", new PlainHTMLRenderer());
 		rendererManager.setRenderer(Language.class, new LanguageHTMLRenderer());
 		rendererManager.setRenderer(Language.class, "icon only", new LanguageHTMLRenderer(false));
 		rendererManager.setRenderer(Country.class, new CountryHTMLRenderer());
@@ -115,6 +130,8 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(LinkGroup.class, "hierarchy", new LinkGroupHierarchyHTMLRenderer());
 		rendererManager.setRenderer(ImageFile.class, new ImageFileHTMLRenderer());
 		rendererManager.setRenderer(Channel.class, new ChannelHTMLRenderer());
+		rendererManager.setRenderer(PhotoGallery.class, new PhotoGalleryHTMLRenderer());
+		rendererManager.setRenderer(FanFic.class, new FanFicHTMLRenderer());
 	}
 }
 

@@ -15,6 +15,7 @@ public class NewBookAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		BookDetailsView.create(null);

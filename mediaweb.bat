@@ -19,7 +19,7 @@ goto error
 
 :start
 cd tomcat\bin
-set JAVA_OPTS=-Dkiwisoft.web.autoStart.url=http://localhost:8080/media/shows/index.jsp
+set JAVA_OPTS=-Dkiwisoft.web.autoStart.path=/Home.action
 call startup.bat
 goto end
 

@@ -22,6 +22,7 @@ public class RotatePhotoAction extends SimpleContextAction
 		this.angle=angle;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final Photo photo=(Photo)getObject();
@@ -29,11 +30,13 @@ public class RotatePhotoAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					photo.setRotation((photo.getRotation()+angle)%360);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

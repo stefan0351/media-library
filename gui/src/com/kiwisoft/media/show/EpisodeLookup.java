@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.lookup.TableLookup;
 import com.kiwisoft.swing.table.TableConfiguration;
@@ -31,12 +30,12 @@ public class EpisodeLookup extends TableLookup<Episode>
 		return show;
 	}
 
-	public Collection<Episode> getValues(String text, Episode currentValue, boolean lookup)
+	@Override
+	public Collection<Episode> getValues(String text, Episode currentValue, int lookup)
 	{
 		Show show=getShow();
 		if (show==null) return Collections.emptySet();
-		if (lookup) return show.getEpisodes().elements();
-		if (StringUtils.isEmpty(text)) return Collections.emptySet();
+		if (lookup>0) return show.getEpisodes().elements();
 		String title;
 		if (text.indexOf('*')>=0) title=text.replace('*', '%');
 		else title=text+"%";

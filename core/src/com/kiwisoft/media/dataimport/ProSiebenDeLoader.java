@@ -13,7 +13,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import static com.kiwisoft.utils.StringUtils.replaceStrings;
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.progress.Job;
 import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
@@ -39,11 +38,13 @@ public class ProSiebenDeLoader implements Job
 		details=new HashMap<String, String>();
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Lade Pro7 Termine";
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
@@ -52,6 +53,7 @@ public class ProSiebenDeLoader implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}
@@ -81,7 +83,7 @@ public class ProSiebenDeLoader implements Job
 				try
 				{
 					//http://www.prosieben.de/service/tvprogramm/index.php?action=onProgramm&datum=2004-09-24
-					listing=WebUtils.loadURL(BASE_URL+"index.php?action=onProgramm&datum="+format.format(date));
+					listing=ImportUtils.loadUrl(BASE_URL+"index.php?action=onProgramm&datum="+format.format(date));
 				}
 				catch (Exception e)
 				{
@@ -160,7 +162,7 @@ public class ProSiebenDeLoader implements Job
 			{
 				try
 				{
-					String detail=WebUtils.loadURL(BASE_URL+"popup.php?action=onDetail&id="+detailsId);
+					String detail=ImportUtils.loadUrl(BASE_URL+"popup.php?action=onDetail&id="+detailsId);
 					loaded=true;
 					parsed=parseDetail(name, detail);
 					break;

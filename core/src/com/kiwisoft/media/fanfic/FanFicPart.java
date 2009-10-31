@@ -17,8 +17,11 @@ import com.kiwisoft.persistence.DBDummy;
 public class FanFicPart extends IDObject implements ChainLink
 {
 	public static final String FANFIC="fanFic";
+	public static final String SOURCE="source";
+	public static final String NAME="name";
 	public static final String SEQUENCE="sequence";
 
+	private String name;
 	private String source;
 	private int sequence;
 
@@ -42,6 +45,18 @@ public class FanFicPart extends IDObject implements ChainLink
 		setReference(FANFIC, fanFic);
 	}
 
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		String oldName=this.name;
+		this.name=name;
+		setModified(NAME, oldName, this.name);
+	}
+
 	public String getSource()
 	{
 		return source;
@@ -51,7 +66,7 @@ public class FanFicPart extends IDObject implements ChainLink
 	{
 		String oldSource=this.source;
 		this.source=source;
-		setModified("source", oldSource, this.source);
+		setModified(SOURCE, oldSource, this.source);
 	}
 
 	public long getSize()
@@ -80,11 +95,13 @@ public class FanFicPart extends IDObject implements ChainLink
 		setModified(SEQUENCE, oldSequence, sequence);
 	}
 
+	@Override
 	public void setChainPosition(int position)
 	{
 		setSequence(position);
 	}
 
+	@Override
 	public int getChainPosition()
 	{
 		return getSequence();
@@ -98,6 +115,7 @@ public class FanFicPart extends IDObject implements ChainLink
 
 	public static class Comparator implements java.util.Comparator
 	{
+		@Override
 		public int compare(Object o1, Object o2)
 		{
 			FanFicPart e1=(FanFicPart)o1;

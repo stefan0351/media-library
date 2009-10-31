@@ -15,6 +15,7 @@ public class TrackDetailsAction extends SimpleContextAction
 		super(Track.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		TrackDetailsView.create((Track)getObject());

@@ -37,11 +37,13 @@ public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implemen
 		return getUserObject().getFolders().isEmpty();
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		fireStructureChanged();
 	}
 
+	@Override
 	public void collectionChanged(CollectionChangeEvent event)
 	{
 		if (GrabberProject.FOLDERS.equals(event.getPropertyName()))

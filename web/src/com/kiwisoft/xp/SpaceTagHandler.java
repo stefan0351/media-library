@@ -12,6 +12,7 @@ import org.xml.sax.Attributes;
 
 public class SpaceTagHandler implements XMLTagHandler
 {
+	@Override
 	public String startTag(XMLContext context, String name, Attributes attributes)
 	{
 		String s=attributes.getValue("count");
@@ -31,6 +32,7 @@ public class SpaceTagHandler implements XMLTagHandler
 		return "&nbsp;";
 	}
 
+	@Override
 	public String endTag(XMLContext context, String name)
 	{
 		return "";

@@ -23,6 +23,7 @@ public class DeletePersonAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		final Person person=(Person)getObject();
@@ -36,11 +37,13 @@ public class DeletePersonAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					PersonManager.getInstance().dropPerson(person);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

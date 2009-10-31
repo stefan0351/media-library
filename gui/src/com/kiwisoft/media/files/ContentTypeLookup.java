@@ -18,9 +18,10 @@ public class ContentTypeLookup extends ListLookup<ContentType>
 		this.mediaType=mediaType;
 	}
 
-	public Collection<ContentType> getValues(String text, ContentType currentValue, boolean lookup)
+	@Override
+	public Collection<ContentType> getValues(String text, ContentType currentValue, int lookup)
 	{
-		if (lookup) return ContentType.values(mediaType);
+		if (lookup>0) return ContentType.values(mediaType);
 		if (text==null) return Collections.emptySet();
 		Set<ContentType> values=new HashSet<ContentType>();
 		Pattern pattern=LookupUtils.createPattern(text);

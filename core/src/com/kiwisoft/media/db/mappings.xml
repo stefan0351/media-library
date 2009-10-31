@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="d:\Projects\Java\utils\database\src\com\kiwisoft\persistence\mappings.xsd">
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://kiwisoft.com/persistence/mappings.xsd">
 	<type name="Airdate" class="com.kiwisoft.media.Airdate" table="airdates" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="event" column="event"/>
@@ -29,6 +29,7 @@
 		<field name="version" column="version"/>
 		<reference name="cover" column="cover_id" type="MediaFile"/>
 		<reference name="language" column="language_id" type="Language"/>
+		<reference name="show" column="show_id" type="Show"/>
 	</type>
 	<type name="Cast" class="com.kiwisoft.media.person.CastMember" table="cast" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
@@ -132,6 +133,7 @@
 		<field name="id" column="id"/>
 		<field name="sequence" column="sequence"/>
 		<field name="lastModified" column="lastmodified"/>
+		<field name="name" column="name"/>
 		<field name="source" column="source"/>
 		<field name="version" column="version"/>
 		<reference name="fanFic" column="fanfic_id" type="FanFic"/>

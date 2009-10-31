@@ -1,8 +1,6 @@
 package com.kiwisoft.media.books;
 
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,11 +82,13 @@ public class BookManager implements CollectionChangeSource
 		}
 	}
 
+	@Override
 	public Disposable addCollectionListener(CollectionChangeListener listener)
 	{
 		return collectionChangeSupport.addListener(listener);
 	}
 
+	@Override
 	public void removeCollectionListener(CollectionChangeListener listener)
 	{
 		collectionChangeSupport.removeListener(listener);
@@ -120,8 +120,56 @@ public class BookManager implements CollectionChangeSource
         for (int i=0;i<id.length();i++)
         {
             char ch=id.charAt(i);
-            if (Character.isDigit(ch)) filteredId.append(ch);
+            if (Character.isDigit(ch) || ch=='X' || ch=='x') filteredId.append(ch);
         }
         return filteredId.toString();
     }
+
+	public Collection<String> getPublishers()
+	{
+		try
+		{
+			Set<String> publishers=new HashSet<String>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct publisher from books");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next()) publishers.add(resultSet.getString(1));
+			}
+			finally
+			{
+				statement.close();
+			}
+			return publishers;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Collection<String> getBindings()
+	{
+		try
+		{
+			Set<String> publishers=new HashSet<String>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct binding from books");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next()) publishers.add(resultSet.getString(1));
+			}
+			finally
+			{
+				statement.close();
+			}
+			return publishers;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
 }

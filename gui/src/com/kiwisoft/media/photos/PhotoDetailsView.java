@@ -209,6 +209,7 @@ public class PhotoDetailsView extends DetailsView
 		final String description=descriptionField.getText();
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				photo.setDescription(description);
@@ -216,6 +217,7 @@ public class PhotoDetailsView extends DetailsView
 				else photo.getGallery().setGalleryPhoto(null);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(PhotoDetailsView.this, throwable);

@@ -27,6 +27,7 @@ public class DeleteTrackAction extends MultiContextAction
 		this.medium=video;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List<Track> tracks=getObjects();

@@ -16,6 +16,7 @@ import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.utils.StringUtils;
 
 /**
  * @author Stefan Stiller
@@ -101,10 +102,10 @@ public class Airdate extends IDObject
 			Language language=getLanguage();
 			if (episode!=null)
 			{
-				if (event!=null) return show.getTitle(language)+" - "+episode.getTitleWithKey(language)+" "+event;
+				if (!StringUtils.isEmpty(event)) return show.getTitle(language)+" - "+episode.getTitleWithKey(language)+" "+event;
 				else return show.getTitle(language)+" - "+episode.getTitleWithKey(getLanguage());
 			}
-			else if (event!=null) return show.getTitle(language)+" - "+event;
+			else if (!StringUtils.isEmpty(event)) return show.getTitle(language)+" - "+event;
 			else return show.getTitle(language);
 		}
 		return event;

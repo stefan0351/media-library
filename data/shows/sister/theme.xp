@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<themes>
+	<theme source="sounds/themes/01.mp3" description="Season 1-2">
+		<length>0:56</length>
+		<lyrics>
+			Sister, Sister[br/]
+			Talk about two way twister[br/]
+			shaking off the family tree[br/]
+			with sibling sincremestity[br/]
+			[br/]
+			Sister, Sister[br/]
+			Never knew how much I missed you,[br/]
+			Now that everybody knows[br/]
+			I ain't ever gonna let you gooooo[br/]
+			[br/]
+			Ohhh, oooohh ohhh[br/]
+			Ohhh, oooohh ohhh[br/]
+			[br/]
+			Sister, Sister[br/]
+			Never knew how much I missed you,[br/]
+			Now that everybody knows[br/]
+			I ain't ever gonna let you gooooo[br/]
+			[br/]
+			Sister, Sister
+		</lyrics>
+	</theme>
+	<theme source="sounds/themes/02.mp3" description="Season 3-4">
+		<length>0:30</length>
+		<lyrics>
+			Sister, Sister[br/]
+			Talk about two way twister[br/]
+			shaking off the family tree[br/]
+			with sibling sincremestity[br/]
+			[br/]
+			Sister, Sister[br/]
+			Never knew how much I missed you[br/]
+			Now that everybody knows[br/]
+			I ain't ever gonna let you gooooo[br/]
+			[br/]
+			I ain't ever gonna let you gooooo[br/]
+			[br/]
+			Sister, Sister
+		</lyrics>
+	</theme>
+	<theme source="sounds/themes/03.mp3" description="Season 5-6">
+		<length>0:40</length>
+		<interpret>Tia and Tamera Mowry</interpret>
+		<lyrics>
+			Sister, Sister[br/]
+			[br/]
+			Sister, Sister[br/]
+			Sister! (pause) Sister![br/]
+			[br/]
+			I got got my own mind[br/]
+			I do my own style in my time[br/]
+			and now everybody sees[br/]
+			how different we have come to beee[br/]
+			[br/]
+			Sister, Sister[br/]
+			even though I'm glad to be with you[br/]
+			I've got to feel there is room for me[br/]
+			like you got to do what's right for you.[br/]
+			[br/]
+			Wow, Wow, Wow, Wow[br/]
+			Err, ahh ohh[br/]
+			Wow, Wow, Wow, Wooooow[br/]
+			Uhhhh, haaa, ahhh[br/]
+			Sisssssssster[br/]
+			Sister, Sister[br/]
+			ohhh, Sister, Sister
+		</lyrics>
+	</theme>
+</themes>

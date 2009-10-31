@@ -24,6 +24,7 @@ public class AddPhotoAction extends ContextAction
 		this.photoGallery=photoGallery;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		ImageFileChooser fileChooser=new ImageFileChooser();

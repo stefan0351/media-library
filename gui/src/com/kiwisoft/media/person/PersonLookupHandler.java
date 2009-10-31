@@ -2,30 +2,35 @@ package com.kiwisoft.media.person;
 
 import com.kiwisoft.swing.lookup.LookupHandler;
 import com.kiwisoft.swing.lookup.LookupField;
-import com.kiwisoft.swing.GuiUtils;
+
+import javax.swing.*;
 
 /**
  * @author Stefan Stiller
 */
 public class PersonLookupHandler implements LookupHandler<Person>
 {
+	@Override
 	public boolean isCreateAllowed()
 	{
 		return true;
 	}
 
+	@Override
 	public Person createObject(LookupField<Person> lookupField)
 	{
-		return PersonDetailsView.createDialog(GuiUtils.getWindow(lookupField), lookupField.getText());
+		return PersonDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), lookupField.getText());
 	}
 
+	@Override
 	public boolean isEditAllowed()
 	{
 		return true;
 	}
 
+	@Override
 	public void editObject(LookupField<Person> lookupField, Person value)
 	{
-		PersonDetailsView.createDialog(GuiUtils.getWindow(lookupField), value);
+		PersonDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), value);
 	}
 }

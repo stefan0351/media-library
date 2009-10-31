@@ -480,21 +480,25 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 		}
 	}
 
+	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener)
 	{
 		changeSupport.addPropertyChangeListener(listener);
 	}
 
+	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener)
 	{
 		changeSupport.removePropertyChangeListener(listener);
 	}
 
+	@Override
 	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
 		changeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
+	@Override
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
 		changeSupport.removePropertyChangeListener(propertyName, listener);

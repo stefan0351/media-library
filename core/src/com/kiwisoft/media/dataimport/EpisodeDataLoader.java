@@ -18,15 +18,19 @@ import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 import static com.kiwisoft.utils.StringUtils.trimString;
-import com.kiwisoft.utils.WebUtils;
 import static com.kiwisoft.utils.xml.XMLUtils.removeTags;
 import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.htmlparser.util.ParserException;
 
 /**
  * @author Stefan Stiller
  */
 public abstract class EpisodeDataLoader implements Job
 {
+	protected final static Log log=LogFactory.getLog(EpisodeDataLoader.class);
+
 	private ProgressSupport progress;
 
 	private String baseUrl;
@@ -67,6 +71,7 @@ public abstract class EpisodeDataLoader implements Job
 		return progress;
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progress=new ProgressSupport(this, progressListener);
@@ -80,7 +85,7 @@ public abstract class EpisodeDataLoader implements Job
 		return true;
 	}
 
-	private boolean loadSeason(int season) throws IOException, InterruptedException
+	private boolean loadSeason(int season) throws IOException, InterruptedException, ParserException
 	{
 		progress.startStep("Load episode list for season "+season+"...");
 
@@ -97,7 +102,7 @@ public abstract class EpisodeDataLoader implements Job
 		return true;
 	}
 
-	protected void saveEpisode(EpisodeData data) throws IOException, InterruptedException
+	protected void saveEpisode(EpisodeData data) throws IOException, InterruptedException, ParserException
 	{
 		Episode episode=ShowManager.getInstance().getEpisodeByName(show, data.getTitle());
 		if (episode==null) episode=createEpisode(data);
@@ -106,7 +111,7 @@ public abstract class EpisodeDataLoader implements Job
 			progress.startStep("Loading details for episode "+episode.getUserKey()+": "+data.getTitle()+"...");
 			if (data.getFirstAirdate()==null || data.getFirstAirdate().before(today))
 			{
-				if (!StringUtils.isEmpty(data.getEpisodeUrl()))
+				if (!StringUtils.isEmpty(data.getLink(EpisodeData.DETAILS_LINK)))
 				{
 					loadDetails(data);
 				}
@@ -116,9 +121,9 @@ public abstract class EpisodeDataLoader implements Job
 		}
 	}
 
-	protected abstract List<EpisodeData> loadEpisodeList(int season) throws IOException;
+	protected abstract List<EpisodeData> loadEpisodeList(int season) throws IOException, ParserException;
 
-	protected abstract void loadDetails(EpisodeData data) throws IOException;
+	protected abstract void loadDetails(EpisodeData data) throws IOException, ParserException;
 
 	protected abstract Episode createEpisode(Show show, EpisodeData info);
 
@@ -128,6 +133,7 @@ public abstract class EpisodeDataLoader implements Job
 		{
 			MyTransactional<Episode> transactional=new MyTransactional<Episode>()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					value=show.createEpisode();
@@ -156,6 +162,7 @@ public abstract class EpisodeDataLoader implements Job
 	{
 		DBSession.execute(new MyTransactional()
 		{
+			@Override
 			public void run()
 			{
 				String oldOrigName=episode.getTitle();
@@ -189,9 +196,8 @@ public abstract class EpisodeDataLoader implements Job
 				if (oldAirdate==null && newAirdate!=null) episode.setAirdate(newAirdate);
 			}
 		});
-		saveCrew(episode, CreditType.WRITER, null, data.getWrittenBy());
-		saveCrew(episode, CreditType.DIRECTOR, null, data.getDirectedBy());
-		saveCrew(episode, CreditType.WRITER, "Story", data.getStoryBy());
+		saveCrew(episode, CreditType.WRITER, data.getWrittenBy());
+		saveCrew(episode, CreditType.DIRECTOR, data.getDirectedBy());
 
 		saveCast(episode, CreditType.MAIN_CAST, data.getMainCast());
 		saveCast(show, CreditType.MAIN_CAST, data.getMainCast());
@@ -219,6 +225,7 @@ public abstract class EpisodeDataLoader implements Job
 			}
 			DBSession.execute(new MyTransactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					for (CastData castData : castList)
@@ -263,57 +270,45 @@ public abstract class EpisodeDataLoader implements Job
 		return person;
 	}
 
-	private void saveCrew(final Episode episode, final CreditType type, final String subType, final List<PersonData> crewList)
+	private void saveCrew(final Episode episode, final CreditType type, final List<CrewData> crewList)
 	{
 		if (crewList!=null)
 		{
-			final Set<String> crewNames=new HashSet<String>();
-			for (Iterator it=episode.getCredits(type).iterator(); it.hasNext();)
+			final Map<String, Credit> crewNames=new HashMap<String, Credit>();
+			final Set<Credit> credits=episode.getCredits(type);
+			for (Iterator it=credits.iterator(); it.hasNext();)
 			{
 				Credit crewMember=(Credit)it.next();
-				crewNames.add(crewMember.getPerson().getName());
+				crewNames.put(crewMember.getPerson().getName()+" / "+crewMember.getSubType(), crewMember);
 			}
 			DBSession.execute(new MyTransactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
-					for (PersonData personData : crewList)
+					for (CrewData crewData : crewList)
 					{
-						if (!crewNames.contains(personData.name))
+						Credit credit=crewNames.get(crewData.person.name+" / "+crewData.subType);
+						if (credit==null)
 						{
-							Person person=getPerson(personCache, personData.key, personData.name);
+							Person person=getPerson(personCache, crewData.person.key, crewData.person.name);
 							Credit crewMember=new Credit();
 							crewMember.setEpisode(episode);
 							crewMember.setCreditType(type);
-							crewMember.setSubType(subType);
+							crewMember.setSubType(crewData.subType);
 							crewMember.setPerson(person);
 						}
+						else credits.remove(credit);
 					}
+					for (Credit credit : credits) episode.dropCredit(credit);
 				}
 			});
 		}
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
-	}
-
-	protected String loadUrl(String episodeUrl) throws IOException
-	{
-		int tries=0;
-		while (true)
-		{
-			try
-			{
-				return WebUtils.loadURL(episodeUrl);
-			}
-			catch (IOException e)
-			{
-				tries++;
-				if (tries<3) progress.warning(e.getMessage());
-				else throw e;
-			}
-		}
 	}
 
 	protected String convertHTML(String html)
@@ -367,10 +362,39 @@ public abstract class EpisodeDataLoader implements Job
 		}
 	}
 
+	protected static class CrewData
+	{
+		private PersonData person;
+		private String subType;
+
+		public CrewData(PersonData person, String subType)
+		{
+			this.person=person;
+			this.subType=subType;
+		}
+
+		public PersonData getPerson()
+		{
+			return person;
+		}
+
+		public String getSubType()
+		{
+			return subType;
+		}
+
+		@Override
+		public String toString()
+		{
+			return person+" as "+subType;
+		}
+	}
+
 	private abstract class MyTransactional<T> implements Transactional
 	{
 		public T value;
 
+		@Override
 		public void handleError(Throwable e, boolean rollback)
 		{
 			progress.error(e.getClass().getSimpleName()+": "+e.getMessage());

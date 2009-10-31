@@ -2,6 +2,7 @@ package com.kiwisoft.media.person;
 
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.Comparator;
 
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.collection.SetMap;
@@ -13,9 +14,22 @@ import com.kiwisoft.format.FormatStringComparator;
  */
 public class Credits<T>
 {
-	private Set<Production> productions=new TreeSet<Production>(new FormatStringComparator());
-	private SetMap<Production, Production> subProductions=new SortedSetMap<Production, Production>(new FormatStringComparator(), null);
-	private SetMap<Production, T> creditMap=new SetMap<Production, T>();
+	private Set<Production> productions;
+	private SetMap<Production, Production> subProductions;
+	private SetMap<Production, T> creditMap;
+
+	public Credits()
+	{
+		this(null);
+	}
+
+	public Credits(Comparator productionComparator)
+	{
+		if (productionComparator==null) productionComparator=new FormatStringComparator();
+		productions=new TreeSet<Production>(productionComparator);
+		subProductions=new SortedSetMap<Production, Production>(new FormatStringComparator(), null);
+		creditMap=new SetMap<Production, T>();
+	}
 
 	public void addProduction(Production production)
 	{

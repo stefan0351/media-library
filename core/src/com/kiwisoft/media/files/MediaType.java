@@ -36,6 +36,7 @@ public class MediaType implements Identifyable
 		map.put(id, this);
 	}
 
+	@Override
 	public Object getPrimaryKey()
 	{
 		return getId();

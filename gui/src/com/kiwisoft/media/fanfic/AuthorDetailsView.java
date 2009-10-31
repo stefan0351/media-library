@@ -216,6 +216,7 @@ public class AuthorDetailsView extends DetailsView
 
 	private class PathLookup implements DialogLookup
 	{
+		@Override
 		public void open(JTextField field)
 		{
 			try
@@ -229,6 +230,7 @@ public class AuthorDetailsView extends DetailsView
 			}
 		}
 
+		@Override
 		public Icon getIcon()
 		{
 			return Icons.getIcon("lookup.create");

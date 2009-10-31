@@ -5,7 +5,6 @@ import org.apache.struts2.views.jsp.StrutsBodyTagSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
 import java.net.URLEncoder;
 

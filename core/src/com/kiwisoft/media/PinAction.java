@@ -18,6 +18,7 @@ public class PinAction extends ContextAction
 		this.pinnable=pinnable;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		pinnable.setPinned(!pinnable.isPinned());

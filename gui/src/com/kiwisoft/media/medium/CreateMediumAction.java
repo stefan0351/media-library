@@ -15,6 +15,7 @@ public class CreateMediumAction extends MultiContextAction
 		super(Recordable.class, "Create Medium", Icons.getIcon("medium.add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MediumDetailsView.create(getObjects());

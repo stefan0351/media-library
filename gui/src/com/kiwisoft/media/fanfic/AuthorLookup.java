@@ -8,16 +8,15 @@ package com.kiwisoft.media.fanfic;
 
 import java.util.Collection;
 
-import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.fanfic.Author;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.lookup.ListLookup;
 
 public class AuthorLookup extends ListLookup<Author>
 {
-	public Collection<Author> getValues(String text, Author currentValue, boolean lookup)
+	@Override
+	public Collection<Author> getValues(String text, Author currentValue, int lookup)
 	{
-		if (text==null) return FanFicManager.getInstance().getAuthors();
+		if (lookup>0) return FanFicManager.getInstance().getAuthors();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

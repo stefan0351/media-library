@@ -151,6 +151,7 @@ public class MovePhotoDialog extends JDialog
 			super("Ok", Icons.getIcon("ok"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			if (apply())
@@ -168,6 +169,7 @@ public class MovePhotoDialog extends JDialog
 			super("Cancel", Icons.getIcon("cancel"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			dispose();

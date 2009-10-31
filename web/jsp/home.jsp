@@ -5,42 +5,40 @@
 <media:panel title="Home">
 	<table width="100%">
 		<tr style="vertical-align:top">
-			<td width="50%">
+			<td>
 				<table class="contenttable" width="100%">
-					<tr><td class="header2">Recently Visited Shows</td></tr>
+					<tr><td class="header2">Recently Visited</td></tr>
 					<tr>
 						<td class="content">
 							<ul>
-								<s:iterator value="shows">
-									<li><media:format/></li>
-								</s:iterator>
-							</ul>
-						</td>
-					</tr>
-				</table>
-				<table class="contenttable" width="100%">
-					<tr><td class="header2">Recently Visited Persons</td></tr>
-					<tr>
-						<td class="content">
-							<ul>
-								<s:iterator value="persons">
-									<li><media:format/></li>
+								<s:iterator value="recentItems">
+									<li><media:format variant="Full"/></li>
 								</s:iterator>
 							</ul>
 						</td>
 					</tr>
 				</table>
 			</td>
-			<td width="50%">
+			<td>
 				<table class="contenttable" width="100%">
-					<tr><td class="header2">Recently Visited Movies</td></tr>
+					<tr><td class="header2">Next on TV</td></tr>
 					<tr>
 						<td class="content">
-							<ul>
-								<s:iterator value="movies">
-									<li><media:format/></li>
+							<table>
+								<s:iterator value="airdates" status="it">
+									<tr valign="top" <s:if test="#it.even">class="trow1"</s:if><s:else>class="trow2"</s:else>>
+										<td align="right"><s:date name="date" format="HH:mm"/></td>
+										<td><media:format value="channel"/></td>
+										<td><media:format/></td>
+										<td>
+											<s:if test="!detailsLink.empty">
+												<img src="<%=request.getContextPath()%>/file/?type=Icon&name=details" alt="Details"
+														onClick="newWindow('Details', '<s:property value="detailsLink"/>', 500, 500);" border="0"/>
+											</s:if>
+										</td>
+									</tr>
 								</s:iterator>
-							</ul>
+							</table>
 						</td>
 					</tr>
 				</table>

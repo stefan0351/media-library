@@ -50,6 +50,7 @@ public class DocumentLinksNode extends GenericTreeNode<String> implements Collec
 		return document.getURL().toString();
 	}
 
+	@Override
 	public void collectionChanged(CollectionChangeEvent event)
 	{
 		if (WebDocument.LINKS.equals(event.getPropertyName()))

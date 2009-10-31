@@ -87,6 +87,7 @@ public class MediumType implements Identifyable
 		return userKeyPrefix;
 	}
 
+	@Override
 	public Object getPrimaryKey()
 	{
 		return getId();

@@ -13,7 +13,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.utils.StringUtils;
 
 public class CastMember extends IDObject
 {

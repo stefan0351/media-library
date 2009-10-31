@@ -175,6 +175,7 @@ public class CastDetailsView extends DetailsView
 
 	private class ActorSelectionListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			Person actor=actorField.getValue();

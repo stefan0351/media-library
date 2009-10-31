@@ -27,11 +27,13 @@ public class EpisodeUpdater implements Job
 		this.airdates=airdates;
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Check Episode References";
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		ProgressSupport progressSupport=new ProgressSupport(this, progressListener);
@@ -105,6 +107,7 @@ public class EpisodeUpdater implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}

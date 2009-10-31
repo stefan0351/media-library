@@ -24,6 +24,4 @@ public interface FanFicGroup
 	public SortedSet<Character> getFanFicLetters();
 
 	public Set<FanFic> getFanFics(char ch);
-
-	public String getHttpParameter();
 }

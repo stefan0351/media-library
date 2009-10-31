@@ -11,6 +11,8 @@ import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.xp.XPLoader;
 import com.kiwisoft.xp.XPBean;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.web.RecentItemManager;
+import com.kiwisoft.web.RecentIdObject;
 
 import java.io.File;
 import java.util.Collection;
@@ -56,6 +58,7 @@ public class FanFicAction extends BaseAction
 		String source=null;
 		if (fanFic!=null)
 		{
+			RecentItemManager.getInstance().addItem(new RecentIdObject<FanFic>(FanFic.class, fanFic));
 			Collection<FanDom> fanDoms=fanFic.getFanDoms();
 			if (fanDoms.size()==1)
 			{

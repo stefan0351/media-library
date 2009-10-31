@@ -62,6 +62,7 @@ public class MediaTableModel extends MutableSortableTableModel<Medium>
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

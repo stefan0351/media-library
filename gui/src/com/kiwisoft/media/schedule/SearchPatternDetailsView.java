@@ -158,6 +158,7 @@ public class SearchPatternDetailsView extends DetailsView
 
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				if (pattern==null)
@@ -172,6 +173,7 @@ public class SearchPatternDetailsView extends DetailsView
 				pattern.setPattern(patternString);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(SearchPatternDetailsView.this, throwable);
@@ -181,6 +183,7 @@ public class SearchPatternDetailsView extends DetailsView
 
 	private class PatternLookup implements DialogLookup
 	{
+		@Override
 		public void open(JTextField field)
 		{
 			try
@@ -217,6 +220,7 @@ public class SearchPatternDetailsView extends DetailsView
 			}
 		}
 
+		@Override
 		public Icon getIcon()
 		{
 			return Icons.getIcon("lookup.create");

@@ -55,6 +55,7 @@ public class ThumbnailField extends ImageField
 			super("Create", Icons.getIcon("add"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			createThumbnail(thumbnailWidth, thumbnailHeight, suffix);
@@ -68,6 +69,7 @@ public class ThumbnailField extends ImageField
 			super("Edit", Icons.getIcon("edit"));
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			File file=getFile();

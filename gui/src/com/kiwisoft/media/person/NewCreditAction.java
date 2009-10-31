@@ -19,6 +19,7 @@ public class NewCreditAction extends ContextAction
 		this.production=production;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		CreditDetailsView.create(production);

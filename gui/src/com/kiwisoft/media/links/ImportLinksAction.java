@@ -33,6 +33,7 @@ public class ImportLinksAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		JFileChooser fileChooser=new JFileChooser();
@@ -56,6 +57,7 @@ public class ImportLinksAction extends ContextAction
 						{
 							DBSession.execute(new Transactional()
 							{
+								@Override
 								public void run() throws Exception
 								{
 									for (URL url : links)
@@ -66,6 +68,7 @@ public class ImportLinksAction extends ContextAction
 									}
 								}
 
+								@Override
 								public void handleError(Throwable throwable, boolean rollback)
 								{
 									GuiUtils.handleThrowable(frame, throwable);

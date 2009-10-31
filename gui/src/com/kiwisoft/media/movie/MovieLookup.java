@@ -10,16 +10,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.lookup.ListLookup;
 
 public class MovieLookup extends ListLookup<Movie>
 {
-	public Collection<Movie> getValues(String text, Movie currentValue, boolean lookup)
+	@Override
+	public Collection<Movie> getValues(String text, Movie currentValue, int lookup)
 	{
-		if (text==null) return MovieManager.getInstance().getMovies();
+		if (lookup>0) return MovieManager.getInstance().getMovies();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

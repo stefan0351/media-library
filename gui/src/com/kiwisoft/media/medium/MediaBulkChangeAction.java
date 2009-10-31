@@ -19,6 +19,7 @@ public class MediaBulkChangeAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		MediaBulkChangeView.create(frame, Utils.<Medium>cast(getObjects()));

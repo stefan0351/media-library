@@ -28,29 +28,34 @@ public class IncludedXPBean implements XPBean
 
 	public void reload(HttpServletRequest request)
 	{
-		include=(XPBean)XPLoader.loadXMLFile(request, file);
+		include=XPLoader.loadXMLFile(request, file);
 	}
 
+	@Override
 	public String getName()
 	{
 		return include.getName();
 	}
 
+	@Override
 	public Object getString(String name)
 	{
 		return include.getString(name);
 	}
 
+	@Override
 	public Object getValue(String name)
 	{
 		return include.getValue(name);
 	}
 
+	@Override
 	public Collection getValues(String name)
 	{
 		return include.getValues(name);
 	}
 
+	@Override
 	public List getChildren()
 	{
 		return include.getChildren();
@@ -63,10 +68,12 @@ public class IncludedXPBean implements XPBean
 	 * @param name The name of the attribute.
 	 * @param value The value of the attribute.
 	 */
+	@Override
 	public void setXMLAttribute(XMLContext context, String uri, String name, String value)
 	{
 	}
 
+	@Override
 	public void setXMLReference(XMLContext context, String uri, String name, Object value)
 	{
 	}
@@ -77,6 +84,7 @@ public class IncludedXPBean implements XPBean
 	 *
 	 * @param value The content of the element.
 	 */
+	@Override
 	public void setXMLContent(XMLContext context, String value)
 	{
 	}
@@ -87,6 +95,7 @@ public class IncludedXPBean implements XPBean
 	 *
 	 * @param element The new child element.
 	 */
+	@Override
 	public void addXMLElement(XMLContext context, XMLObject element)
 	{
 	}

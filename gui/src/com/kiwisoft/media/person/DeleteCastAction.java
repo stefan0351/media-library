@@ -28,6 +28,7 @@ public class DeleteCastAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List<CastMember> casts=getObjects();

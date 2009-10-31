@@ -19,6 +19,7 @@ public class AirdateDetailsAction extends SimpleContextAction
 	/**
 	 * Invoked when an action occurs.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		AirdateDetailsView.create((Airdate)getObject());

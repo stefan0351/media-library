@@ -19,6 +19,7 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.utils.Disposable;
 
 public class MediumManager
 {
@@ -75,9 +76,9 @@ public class MediumManager
 		fireElementRemoved(MEDIA, medium);
 	}
 
-	public void addCollectionChangeListener(CollectionChangeListener listener)
+	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

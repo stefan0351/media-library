@@ -33,6 +33,7 @@ public class CreateCoverAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		try

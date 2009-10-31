@@ -1,5 +1,7 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.media.Country;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +14,7 @@ public class CountryData implements Serializable
 	
 	private String symbol;
 	private String name;
+	private Country country;
 
 	public CountryData()
 	{
@@ -77,5 +80,15 @@ public class CountryData implements Serializable
 			   "name='"+name+'\''+
 			   ", symbol='"+symbol+'\''+
 			   '}';
+	}
+
+	public void setCountry(Country country)
+	{
+		this.country=country;
+	}
+
+	public Country getCountry()
+	{
+		return country;
 	}
 }

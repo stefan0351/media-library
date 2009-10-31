@@ -19,6 +19,7 @@ public class FormatListTag extends StrutsBodyTagSupport
 	private String value;
 	private boolean sort;
 	private String variant;
+	private String separator;
 
 	@SuppressWarnings({"unchecked"})
 	@Override
@@ -29,6 +30,9 @@ public class FormatListTag extends StrutsBodyTagSupport
 			Object rawValue=findValue(value);
 			if (rawValue!=null)
 			{
+				String separator;
+				if (this.separator==null) separator=", ";
+				else separator=findString(this.separator);
 				List list;
 				if (rawValue instanceof List) list=(List) rawValue;
 				else if (rawValue instanceof Collection) list=new ArrayList((Collection) rawValue);
@@ -37,7 +41,7 @@ public class FormatListTag extends StrutsBodyTagSupport
 				if (sort) Collections.sort(list, new FormatStringComparator());
 				JspWriter out=pageContext.getOut();
 				HttpServletRequest request=(HttpServletRequest) pageContext.getRequest();
-				out.print(JspUtils.renderSet(request, list, variant));
+				out.print(JspUtils.renderSet(request, list, variant, separator));
 			}
 			return SKIP_BODY;
 		}
@@ -75,5 +79,15 @@ public class FormatListTag extends StrutsBodyTagSupport
 	public void setVariant(String variant)
 	{
 		this.variant=variant;
+	}
+
+	public String getSeparator()
+	{
+		return separator;
+	}
+
+	public void setSeparator(String separator)
+	{
+		this.separator=separator;
 	}
 }

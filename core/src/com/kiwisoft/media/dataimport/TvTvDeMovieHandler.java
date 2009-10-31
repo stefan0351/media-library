@@ -60,6 +60,7 @@ class TvTvDeMovieHandler extends TvTvDeHandler<Movie>
 
 	private class DeleteAirdatesTransaction implements Transactional
 	{
+		@Override
 		public void run() throws Exception
 		{
 			Connection connection=DBSession.getInstance().getConnection();
@@ -78,6 +79,7 @@ class TvTvDeMovieHandler extends TvTvDeHandler<Movie>
 			DBSession.getInstance().getCurrentTransaction().forceCommit();
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			getProgressSupport().error(throwable);

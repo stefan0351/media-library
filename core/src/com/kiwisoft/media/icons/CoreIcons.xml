@@ -35,4 +35,19 @@
 	<icon key="move.down">
 		<resource url="/com/kiwisoft/media/icons/arrow_down.png"/>
 	</icon>
+	<icon key="font.bold">
+		<resource url="/com/kiwisoft/media/icons/font-bold-16x16.png"/>
+	</icon>
+	<icon key="font.italic">
+		<resource url="/com/kiwisoft/media/icons/font-italic-16x16.png"/>
+	</icon>
+	<icon key="font.underline">
+		<resource url="/com/kiwisoft/media/icons/font-underline-16x16.png"/>
+	</icon>
+	<icon key="font.subscript">
+		<resource url="/com/kiwisoft/media/icons/font-subscript-16x16.png"/>
+	</icon>
+	<icon key="font.superscript">
+		<resource url="/com/kiwisoft/media/icons/font-superscript-16x16.png"/>
+	</icon>
 </icons>

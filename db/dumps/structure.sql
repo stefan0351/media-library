@@ -16,6 +16,17 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `airdate_persons`
+--
+
+DROP TABLE IF EXISTS airdate_persons;
+CREATE TABLE airdate_persons (
+  airdate_id bigint(20) NOT NULL,
+  person_id bigint(20) NOT NULL,
+  UNIQUE KEY uq_mediafile_airdates (airdate_id,person_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Table structure for table `airdates`
 --
 
@@ -93,6 +104,7 @@ DROP TABLE IF EXISTS channels;
 CREATE TABLE channels (
   id bigint(20) NOT NULL default '0',
   `name` varchar(50) NOT NULL default '',
+  tvtv_key varchar(30) default NULL,
   web_address varchar(300) default NULL,
   logo_id bigint(20) default NULL,
   language_id bigint(20) default NULL,
@@ -151,18 +163,6 @@ CREATE TABLE credit (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `credit_types`
---
-
-DROP TABLE IF EXISTS credit_types;
-CREATE TABLE credit_types (
-  id bigint(20) NOT NULL,
-  by_name varchar(20) default NULL,
-  as_name varchar(20) default NULL,
-  PRIMARY KEY  (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
 -- Table structure for table `episodes`
 --
 
@@ -214,6 +214,7 @@ CREATE TABLE fanfic_parts (
   sequence int(11) default NULL,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   version bigint(20) NOT NULL default '1',
+  `name` varchar(200) default NULL,
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -642,7 +643,7 @@ CREATE TABLE searchpatterns (
   show_id bigint(20) default NULL,
   pattern varchar(200) default NULL,
   movie_id bigint(20) default NULL,
-  actor_id bigint(20) default NULL,
+  person_id bigint(20) default NULL,
   version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -754,6 +755,7 @@ CREATE TABLE summary (
   summary mediumtext,
   lastmodified timestamp NOT NULL default CURRENT_TIMESTAMP,
   movie_id bigint(20) default NULL,
+  book_id bigint(20) default NULL,
   version bigint(20) NOT NULL default '1',
   PRIMARY KEY  (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -789,20 +791,20 @@ DELIMITER ;;
 /*!50003 SET SESSION SQL_MODE="STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER"*/;;
 /*!50003 CREATE*/ /*!50020 DEFINER=root@localhost*/ /*!50003 FUNCTION sort_letter(name varchar(200)) RETURNS char(1) CHARSET utf8
     DETERMINISTIC
-begin
-
-	declare letter char(1);
-
-	set letter=upper(left(name, 1));	
-
-	if (letter>='0' and letter<='9') then
-
-		set letter='0';
-
-	end if;
-
-	return letter;
-
+begin
+
+	declare letter char(1);
+
+	set letter=upper(left(name, 1));	
+
+	if (letter>='0' and letter<='9') then
+
+		set letter='0';
+
+	end if;
+
+	return letter;
+
 end */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
@@ -816,4 +818,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-11-22 20:10:58
+-- Dump completed on 2009-10-29 17:49:59

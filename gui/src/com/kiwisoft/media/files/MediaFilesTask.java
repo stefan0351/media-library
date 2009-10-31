@@ -16,6 +16,6 @@ public class MediaFilesTask extends MenuSidebarItem.Task
 	@Override
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new MediaFilesView());
+		frame.setCurrentView(new MediaFileSearchView());
 	}
 }

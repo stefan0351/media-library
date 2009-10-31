@@ -15,6 +15,7 @@ public class PersonDetailsAction extends SimpleContextAction
 		super(Person.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PersonDetailsView.create((Person)getObject());

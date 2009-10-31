@@ -18,6 +18,7 @@ public class ShowEpisodesAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new EpisodesView((Show)getObject()));

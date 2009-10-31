@@ -33,6 +33,7 @@ public class MovePhotoDownAction extends MultiContextAction
 		return super.isValid(object) && object!=chain.getLast();
 	}
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public void actionPerformed(ActionEvent e)
 	{
@@ -41,11 +42,13 @@ public class MovePhotoDownAction extends MultiContextAction
 		thumbnailPanel.clearSelection();
 		DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				for (Photo photo : photos) chain.moveDown(photo);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(thumbnailPanel, throwable);
@@ -53,6 +56,7 @@ public class MovePhotoDownAction extends MultiContextAction
 		});
 		SwingUtilities.invokeLater(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				for (Photo photo : photos)

@@ -110,6 +110,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 
 	private class UpdateListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (FanFicManager.AUTHORS.equals(event.getPropertyName()))
@@ -151,6 +152,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

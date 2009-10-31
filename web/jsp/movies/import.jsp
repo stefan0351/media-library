@@ -95,7 +95,7 @@
 		cell=row.insertCell(3);
 		cell.innerHTML="<select class=\"type\">"
 				+"<option value=\"\" selected>Select a type...</option>"
-				<s:iterator value="allCreditTypes">+"<option value=\"<s:property value="asName"/>\"><s:property value="asName"/></option>"</s:iterator>
+				<s:iterator value="allCreditTypes">+"<option value=\"<s:property value="id"/>\"><s:property value="asName"/></option>"</s:iterator>
 				+"</select>";
 		cell=row.insertCell(4);
 		cell.innerHTML="<input class=\"subType\"/>";
@@ -142,69 +142,87 @@
 	{
 		var movieTable=$("movieTable");
 		var movie=new Object();
+		var errors=new Array();
 		movie.imdbKey=movieTable.down("input#imdbKey").value;
 		movie.title=movieTable.down("input#title").value;
+		if (movie.title.empty()) errors.push("Title is empty!");
 		movie.germanTitle=movieTable.down("input#germanTitle").value;
 		movie.summary=movieTable.down("textarea#summary").value;
 		movie.runtime=parseInt(movieTable.down("input#runtime").value);
+		if (isNaN(movie.runtime)) errors.push("Runtime must be an integer!");
 		movie.year=parseInt(movieTable.down("input#year").value);
+		if (isNaN(movie.year)) errors.push("Year must be an integer!");
 		var i, row;
 		movie.languages=new Array();
 		var table=$("languageTable");
 		for (i=0; i<table.tBodies[0].rows.length; i++)
 		{
 			row=table.tBodies[0].rows[i];
-			movie.languages[movie.languages.length]=
+			var language=
 			{
 				name: row.down(".name").value,
 				symbol: row.down(".symbol").value
 			};
+			if (language.name.empty() && language.symbol.empty())
+				errors.push("Language has neither name or symbol!");
+			movie.languages.push(language);
 		}
 		movie.countries=new Array();
 		table=$("countryTable");
 		for (i=0; i<table.tBodies[0].rows.length; i++)
 		{
 			row=table.tBodies[0].rows[i];
-			movie.countries[movie.countries.length]=
+			var country=
 			{
 				name: row.down(".name").value,
 				symbol: row.down(".symbol").value
 			};
+			if (country.name.empty() && country.symbol.empty())
+				errors.push("Country has neither name or symbol!");
+			movie.countries.push(country);
 		}
 		movie.cast=new Array();
 		table=$("castTable");
 		for (i=0; i<table.tBodies[0].rows.length; i++)
 		{
 			row=table.tBodies[0].rows[i];
-			movie.cast[movie.cast.length]=
+			var castMember=
 			{
 				creditOrder: i+1,
 				actor: row.down(".actor").value,
 				imdbKey: row.down(".imdbKey").value,
 				role: row.down(".role").value
 			};
+			if (castMember.actor.empty()) errors.push("Cast member #"+castMember.creditOrder+" has no actor!");
+			movie.cast.push(castMember);
 		}
 		movie.crew=new Array();
 		table=$("crewTable");
 		for (i=0; i<table.tBodies[0].rows.length; i++)
 		{
 			row=table.tBodies[0].rows[i];
-			movie.crew[movie.crew.length]=
+			var crewMember=
 			{
 				name: row.down(".name").value,
 				imdbKey: row.down(".imdbKey").value,
 				typeId: parseInt(row.down(".type").value),
 				subType: row.down(".subType").value
 			};
+			if (crewMember.name.empty()) errors.push("Crew member #"+(i+1)+" has no name!");
+			if (isNaN(crewMember.typeId)) errors.push("Crew member #"+(i+1)+" has no type!");
+			movie.crew.push(crewMember);
 		}
-
+		if (errors.length>0)
+		{
+			showErrors(errors);
+			return;
+		}
 		var request=
 		{
 			movieId: parseInt(movieTable.down("select#movie").value),
 			movieData: movie
 		};
 		$("submitMovie").disabled=true;
-		alert(Object.toJSON(request));
 		new Ajax.Request("<%=request.getContextPath()%>/SaveMovie.action",
 		{
 			method: "post",
@@ -212,13 +230,18 @@
 			postBody: Object.toJSON(request),
 			onSuccess: function(response)
 			{
-				alert("onSuccess: "+response.responseText);
+				var data=response.responseJSON;
+				if (!data.returnCode)
+				{
+					$("submitMovie").disabled=false;
+					showErrors(data.actionErrors);
+				}
+				else window.location.href="<s:url action="MovieDetails"/>?movieId="+data.movieId;
 			},
 			onFailure: function(response)
 			{
 				$("submitMovie").disabled=false;
-				$("failures").style.display="block";
-				$("failures").innerHTML=response.responseText;
+				showError(response.responseText);
 			},
 			onException: function(request, exception)
 			{
@@ -228,8 +251,6 @@
 		});
 	}
 </script>
-
-<div id="failures" style="display:none;background-color:white;border:1px solid red;color:red"></div>
 
 <media:panel title="Import from IMDb">
 	<table id="movieTable" border=0 cellspacing="5">

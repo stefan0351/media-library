@@ -130,6 +130,7 @@ public class VideoDetailsView extends DetailsView
 		nameField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		videoField.addPropertyChangeListener("file", new PropertyChangeListener()
 		{
+			@Override
 			public void propertyChange(PropertyChangeEvent evt)
 			{
 				File file=videoField.getFile();
@@ -196,6 +197,7 @@ public class VideoDetailsView extends DetailsView
 		{
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (video==null) video=MediaFileManager.getInstance().createVideo(videoRoot);
@@ -211,6 +213,7 @@ public class VideoDetailsView extends DetailsView
 					video.setReferences(references);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(VideoDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

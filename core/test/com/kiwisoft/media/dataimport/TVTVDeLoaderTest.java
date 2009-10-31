@@ -31,16 +31,16 @@ public class TVTVDeLoaderTest extends TestCase
 		configuration.loadDefaultsFromFile(configFile);
 	}
 
-	public void test_PushingDaisies() throws Exception
+	public void test_Frasier() throws Exception
 	{
-		Show show=DBLoader.getInstance().load(Show.class, null, "title=?", "Pushing Daisies");
+		Show show=DBLoader.getInstance().load(Show.class, null, "title=?", "Frasier");
 		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(show));
 		assertTrue(loader.run(new ConsoleProgressListener()));
 	}
 
-	public void test_AlexisBledel() throws Exception
+	public void test_MileyCyrus() throws Exception
 	{
-		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Alexis Bledel");
+		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Miley Cyrus");
 		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(person));
 		assertTrue(loader.run(new ConsoleProgressListener()));
 	}

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Enumeration;
 import java.net.URLEncoder;
-import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.kiwisoft.web.*;
 import com.kiwisoft.utils.StringUtils;
 import org.apache.struts2.views.jsp.StrutsBodyTagSupport;
-import org.apache.struts2.ServletActionContext;
 
 /**
  * @author Stefan Stiller

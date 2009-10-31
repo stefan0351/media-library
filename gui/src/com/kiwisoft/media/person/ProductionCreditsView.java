@@ -135,6 +135,7 @@ public class ProductionCreditsView extends CreditsView
 
 	private class CollectionChangeObserver implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (Production.CAST_MEMBERS.equals(event.getPropertyName()))

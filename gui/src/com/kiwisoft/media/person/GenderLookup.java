@@ -11,9 +11,10 @@ import com.kiwisoft.swing.lookup.LookupUtils;
 
 public class GenderLookup extends ListLookup<Gender>
 {
-	public Collection<Gender> getValues(String text, Gender currentValue, boolean lookup)
+	@Override
+	public Collection<Gender> getValues(String text, Gender currentValue, int lookup)
 	{
-		if (lookup) return Gender.values();
+		if (lookup>0) return Gender.values();
 		if (text==null) return Collections.emptySet();
 		Set<Gender> values=new HashSet<Gender>();
 		Pattern pattern=LookupUtils.createPattern(text);

@@ -28,6 +28,7 @@ public class GrabPageAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List objects=getObjects();

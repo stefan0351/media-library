@@ -1,8 +1,6 @@
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.media.Country;
-import com.kiwisoft.media.CountryManager;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CastMember;

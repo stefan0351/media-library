@@ -26,6 +26,7 @@ public class NewMediaFileAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		ImageFileChooser fileChooser=new ImageFileChooser();

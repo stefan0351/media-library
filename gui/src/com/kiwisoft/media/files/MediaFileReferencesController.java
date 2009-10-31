@@ -11,7 +11,6 @@ import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.IDObject;
-import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
@@ -19,6 +18,8 @@ import com.kiwisoft.swing.table.DefaultSortableTableModel;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.swing.table.TableController;
+
+import javax.swing.*;
 
 /**
  * @author Stefan Stiller
@@ -80,9 +81,10 @@ public class MediaFileReferencesController extends TableController<IDObject>
 			super("Show");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			Show show=SelectShowView.createDialog(GuiUtils.getWindow(getTable()));
+			Show show=SelectShowView.createDialog(SwingUtilities.getWindowAncestor(getTable()));
 			if (show!=null) addReference(show);
 		}
 
@@ -96,9 +98,10 @@ public class MediaFileReferencesController extends TableController<IDObject>
 			super("Episode");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			Episode episode=SelectEpisodeView.createDialog(GuiUtils.getWindow(getTable()));
+			Episode episode=SelectEpisodeView.createDialog(SwingUtilities.getWindowAncestor(getTable()));
 			if (episode!=null) addReference(episode);
 		}
 
@@ -111,9 +114,10 @@ public class MediaFileReferencesController extends TableController<IDObject>
 			super("Movie");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			Movie movie=SelectMovieView.createDialog(GuiUtils.getWindow(getTable()));
+			Movie movie=SelectMovieView.createDialog(SwingUtilities.getWindowAncestor(getTable()));
 			if (movie!=null) addReference(movie);
 		}
 	}
@@ -125,9 +129,10 @@ public class MediaFileReferencesController extends TableController<IDObject>
 			super("Person");
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			Person person=SelectPersonView.createDialog(GuiUtils.getWindow(getTable()));
+			Person person=SelectPersonView.createDialog(SwingUtilities.getWindowAncestor(getTable()));
 			if (person!=null) addReference(person);
 		}
 

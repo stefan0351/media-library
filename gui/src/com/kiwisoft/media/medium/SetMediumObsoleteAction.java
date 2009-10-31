@@ -29,11 +29,13 @@ public class SetMediumObsoleteAction extends MultiContextAction
 		return super.isValid(object) && !((Medium)object).isObsolete();
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		final List<Medium> media=getObjects();
 		DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				for (Medium video : media)
@@ -42,6 +44,7 @@ public class SetMediumObsoleteAction extends MultiContextAction
 				}
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

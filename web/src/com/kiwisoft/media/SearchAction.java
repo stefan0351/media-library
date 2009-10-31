@@ -12,7 +12,6 @@ import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.format.FormatStringComparator;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 

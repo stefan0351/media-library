@@ -115,6 +115,7 @@ public class PairingsView extends ViewPanel implements Disposable
 
 	private class UpdateListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (FanFicManager.PAIRINGS.equals(event.getPropertyName()))
@@ -153,6 +154,7 @@ public class PairingsView extends ViewPanel implements Disposable
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();
@@ -180,6 +182,7 @@ public class PairingsView extends ViewPanel implements Disposable
 			this.frame=frame;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent event)
 		{
 			Pairing pairing=(Pairing)getObject();

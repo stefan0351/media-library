@@ -18,6 +18,7 @@ public class CreditDetailsAction extends SimpleContextAction
 	/**
 	 * Invoked when an action occurs.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		CreditDetailsView.create((Credit)getObject());

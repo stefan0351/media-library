@@ -16,6 +16,8 @@ import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.media.show.SummaryComparator;
+import com.kiwisoft.web.RecentItemManager;
+import com.kiwisoft.web.RecentIdObject;
 
 import java.util.*;
 
@@ -49,6 +51,7 @@ public class MovieDetailsAction extends BaseAction
 		if (movieId!=null) movie=MovieManager.getInstance().getMovie(movieId);
 		if (movie!=null)
 		{
+			RecentItemManager.getInstance().addItem(new RecentIdObject<Movie>(Movie.class, movie));
 			poster=movie.getPoster();
 			if (poster!=null)
 			{

@@ -18,6 +18,7 @@ public class NewFanFicAction extends ContextAction
 		this.group=group;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		FanFicDetailsView.create(group);

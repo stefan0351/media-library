@@ -22,6 +22,7 @@ public class DeleteShowAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		final Show show=(Show)getObject();
@@ -42,11 +43,13 @@ public class DeleteShowAction extends SimpleContextAction
 		{
 			DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					ShowManager.getInstance().dropShow(show);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

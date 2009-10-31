@@ -16,6 +16,7 @@ public class WebpageGrabberAction extends ContextAction
 		super("Webpage Grabber", Icons.getIcon("download"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		new GrabberFrame(null).setVisible(true);

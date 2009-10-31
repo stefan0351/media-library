@@ -15,9 +15,10 @@ import com.kiwisoft.swing.lookup.ListLookup;
 
 public class PersonLookup extends ListLookup<Person>
 {
-	public Collection<Person> getValues(String text, Person currentValue, boolean lookup)
+	@Override
+	public Collection<Person> getValues(String text, Person currentValue, int lookup)
 	{
-		if (text==null) return Collections.emptySet();
+		if (lookup>0) return Collections.emptySet();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

@@ -57,7 +57,12 @@
 									href="<s:url action="Links"><s:param name="showId" value="show.id"/><s:param name="groupId" value="show.linkGroup.id"/></s:url>">Links</a>
 		</td></tr>
 	</s:if>
-	<s:if test="show.fanFicCount>0">
+	<s:if test="show.books.size>0">
+		<tr><td class="menuitem"><a class="menulink"
+									href="<s:url action="ShowBooks"><s:param name="showId" value="show.id"/></s:url>">Books</a>
+		</td></tr>
+	</s:if>
+	<s:if test="@com.kiwisoft.media.MediaConfiguration@isFanFicsEnabled && show.fanFicCount>0">
 		<tr><td class="menuitem"><a class="menulink"
 									href="<s:url action="ListFanFics"><s:param name="showId" value="show.id"/></s:url>">Fan Fiction</a>
 		</td></tr>

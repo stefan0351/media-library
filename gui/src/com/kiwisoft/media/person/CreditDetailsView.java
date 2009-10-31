@@ -116,6 +116,7 @@ public class CreditDetailsView extends DetailsView
 
 		return DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				if (credit==null) credit=production.createCredit();
@@ -124,6 +125,7 @@ public class CreditDetailsView extends DetailsView
 				credit.setPerson(person);
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(CreditDetailsView.this, throwable);

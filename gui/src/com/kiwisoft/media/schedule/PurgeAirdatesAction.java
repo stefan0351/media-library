@@ -28,6 +28,7 @@ public class PurgeAirdatesAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SmallProgressDialog progressDialog=new SmallProgressDialog(frame, new MyJob());
@@ -41,6 +42,7 @@ public class PurgeAirdatesAction extends ContextAction
 		{
 		}
 
+		@Override
 		public boolean run(ProgressListener progressListener) throws Exception
 		{
 			final ProgressSupport progressSupport=new ProgressSupport(this, progressListener);
@@ -53,11 +55,13 @@ public class PurgeAirdatesAction extends ContextAction
 				if (progressSupport.isStoppedByUser()) return false;
 				if (!DBSession.execute(new Transactional()
 				{
+					@Override
 					public void run() throws Exception
 					{
 						airdate.delete();
 					}
 
+					@Override
 					public void handleError(Throwable throwable, boolean rollback)
 					{
 						progressSupport.error(throwable);
@@ -72,11 +76,13 @@ public class PurgeAirdatesAction extends ContextAction
 			return true;
 		}
 
+		@Override
 		public String getName()
 		{
 			return "Purge Airdates";
 		}
 
+		@Override
 		public void dispose() throws IOException
 		{
 		}

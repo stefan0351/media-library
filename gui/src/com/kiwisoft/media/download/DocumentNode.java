@@ -58,6 +58,7 @@ public class DocumentNode extends GenericTreeNode<WebDocument> implements Proper
 		return toolTip.toString();
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		if (WebDocument.CONTENT_TYPE.equals(evt.getPropertyName()))

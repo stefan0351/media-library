@@ -19,9 +19,10 @@ public class FanFicLookup extends TableLookup<FanFic>
 {
 	private final static String[] COLUMNS=new String[]{"title", "author"};
 
-	public Collection<FanFic> getValues(String text, FanFic currentValue, boolean lookup)
+	@Override
+	public Collection<FanFic> getValues(String text, FanFic currentValue, int lookup)
 	{
-		if (StringUtils.isEmpty(text)) return Collections.emptySet();
+		if (lookup>0) return Collections.emptySet();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

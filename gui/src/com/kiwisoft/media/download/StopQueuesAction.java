@@ -15,6 +15,7 @@ class StopQueuesAction extends ContextAction
 		super("Stop", Icons.getIcon("stop"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		GrabberUtils.stopAllQueues();

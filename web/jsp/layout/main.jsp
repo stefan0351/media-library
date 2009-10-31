@@ -15,9 +15,11 @@
     <title>MediaLib - <s:property value="pageTitle"/></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/style.css"/>
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/style/window.css"/>
     <script language="JavaScript" src="<%=request.getContextPath()%>/js/overlib.js"></script>
     <script language="JavaScript" src="<%=request.getContextPath()%>/js/popup.js"></script>
     <script language="JavaScript" src="<%=request.getContextPath()%>/js/prototype.js"></script>
+	<script language="JavaScript" src="<%=request.getContextPath()%>/js/window.js"></script>
 </head>
 
 <body>

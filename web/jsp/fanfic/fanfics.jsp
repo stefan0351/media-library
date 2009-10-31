@@ -105,7 +105,7 @@
 													<small>Parts:
 														<s:iterator value="#parts" status="it">
 															<a class="link"
-															   href="<s:url action="FanFic"><s:param name="partId" value="id"/></s:url>"><s:property value="#it.index"/></a>
+															   href="<s:url action="FanFic"><s:param name="partId" value="id"/></s:url>"><s:property value="#it.count"/></a>
 															<s:if test="!#it.last">|</s:if>
 														</s:iterator>
 													</small><br>

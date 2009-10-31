@@ -164,11 +164,13 @@ public class Track extends IDObject implements ChainLink, Recordable
 		setModified(SEQUENCE, oldSequence, sequence);
 	}
 
+	@Override
 	public void setChainPosition(int position)
 	{
 		setSequence(position);
 	}
 
+	@Override
 	public int getChainPosition()
 	{
 		return getSequence();
@@ -217,6 +219,7 @@ public class Track extends IDObject implements ChainLink, Recordable
 
 	public static class Comparator implements java.util.Comparator
 	{
+		@Override
 		public int compare(Object o1, Object o2)
 		{
 			Track e1=(Track)o1;
@@ -227,16 +230,19 @@ public class Track extends IDObject implements ChainLink, Recordable
 		}
 	}
 
+	@Override
 	public int getRecordableLength()
 	{
 		return getLength();
 	}
 
+	@Override
 	public String getRecordableName(Language language)
 	{
 		return getName(language);
 	}
 
+	@Override
 	public void initRecord(Track track)
 	{
 		track.setType(getType());

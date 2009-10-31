@@ -29,11 +29,13 @@ public class WebDatesExport implements Job
 	{
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Exportiere Internet-Sendetermine";
 	}
 
+	@Override
 	public boolean run(ProgressListener progressListener) throws Exception
 	{
 		progressSupport=new ProgressSupport(this, progressListener);
@@ -52,6 +54,7 @@ public class WebDatesExport implements Job
 		return true;
 	}
 
+	@Override
 	public void dispose() throws IOException
 	{
 	}

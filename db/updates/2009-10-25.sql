@@ -1,0 +1,1 @@
+alter table fanfic_parts add name varchar(200);

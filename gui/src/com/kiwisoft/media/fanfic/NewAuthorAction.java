@@ -15,6 +15,7 @@ public class NewAuthorAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		AuthorDetailsView.create(null);

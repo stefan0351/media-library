@@ -12,7 +12,6 @@
 		<copy todir="${lib.dir}" preservelastmodified="true">
 			<fileset dir="${utils.builds.dir}">
 				<include name="*.jar"/>
-				<exclude name="*http*.jar"/>
 				<exclude name="*math*.jar"/>
 				<exclude name="*syntax*.jar"/>
 			</fileset>
@@ -44,13 +43,10 @@
 
 	<target name="build" depends="jar, web.deploy"/>
 
-	<property name="dump.dir" value="${basedir}/db/dumps"/>
-
-	<target name="dump">
-		<input message="Password" addproperty="password" />
-		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/media.sql">
+	<target name="database.dump">
+		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/media.sql">
 			<arg value="--user=stefan"/>
-			<arg value="--password=${password}"/>
+			<arg value="--password=bokada"/>
 			<arg value="--skip-extended-insert"/>
 			<arg value="--skip-quote-names"/>
 			<arg value="--opt"/>
@@ -58,9 +54,9 @@
 			<arg value="--ignore-table=media.sequences"/>
 			<arg value="media"/>
 		</exec>
-		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/sequences.sql">
+		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/sequences.sql">
 			<arg value="--user=stefan"/>
-			<arg value="--password=${password}"/>
+			<arg value="--password=bokada"/>
 			<arg value="--skip-extended-insert"/>
 			<arg value="--skip-quote-names"/>
 			<arg value="--opt"/>
@@ -68,19 +64,34 @@
 			<arg value="sequences"/>
 		</exec>
 		<zip file="${dump.dir}/dump.zip" update="false">
-			<fileset dir="${dump.dir}">
-				<include name="media.sql"/>
-				<include name="sequences.sql"/>
-			</fileset>
+			<fileset file="${build.dir}/media.sql"/>
+			<fileset file="${build.dir}/sequences.sql"/>
 		</zip>
-		<delete file="${dump.dir}/media.sql"/>
-		<delete file="${dump.dir}/sequences.sql"/>
+		<delete file="${build.dir}/media.sql"/>
+		<delete file="${build.dir}/sequences.sql"/>
 	</target>
 
-	<target name="dump.structure">
-		<input message="Password" addproperty="password" />
+	<target name="database.dev.update">
+		<mkdir dir="${build.dir}"/>
+		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/dump.sql">
+			<arg value="--user=stefan"/>
+			<arg value="--password=bokada"/>
+			<arg value="--skip-extended-insert"/>
+			<arg value="--skip-quote-names"/>
+			<arg value="--opt"/>
+			<arg value="--routines"/>
+			<arg value="media"/>
+		</exec>
+		<exec dir="${build.dir}" executable="mysql" input="${build.dir}/dump.sql">
+			<arg value="--user=stefan"/>
+			<arg value="--password=bokada"/>
+			<arg value="mediadev"/>
+		</exec>
+	</target>
+
+	<target name="database.structure.update">
 		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/structure.sql">
-			<arg line="--user=stefan --password=${password} --no-data --skip-quote-names --routines media"/>
+			<arg line="--user=stefan --password=bokada --no-data --skip-quote-names --routines media"/>
 		</exec>
 	</target>
 

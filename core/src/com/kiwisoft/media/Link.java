@@ -72,6 +72,7 @@ public class Link extends IDObject implements Comparable
 		setReference(LANGUAGE, language);
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		Link link2=(Link)o;

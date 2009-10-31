@@ -121,6 +121,7 @@ public class FanFicsView extends ViewPanel
 
 	private class FanFicListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (FanFicManager.FANFICS.equals(event.getPropertyName()))
@@ -177,6 +178,7 @@ public class FanFicsView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

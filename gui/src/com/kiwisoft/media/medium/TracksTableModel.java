@@ -35,6 +35,7 @@ public class TracksTableModel extends SortableTableModel<Track>
 		return medium;
 	}
 
+	@Override
 	public int getColumnCount()
 	{
 		return COLUMNS.length;
@@ -65,6 +66,7 @@ public class TracksTableModel extends SortableTableModel<Track>
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

@@ -18,6 +18,7 @@ public class ShowSeasonsAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new SeasonsView((Show)getObject()));

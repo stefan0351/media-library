@@ -34,6 +34,7 @@ public class ChainMoveDownAction extends MultiContextAction
 		return super.isValid(object) && object!=chain.getLast();
 	}
 
+	@Override
 	@SuppressWarnings({"unchecked"})
 	public void actionPerformed(ActionEvent e)
 	{

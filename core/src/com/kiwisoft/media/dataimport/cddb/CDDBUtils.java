@@ -6,10 +6,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.kiwisoft.utils.WebUtils;
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.dataimport.ImportUtils;
 
 /**
  * @author Stefan Stiller
@@ -63,7 +63,7 @@ public class CDDBUtils
 	{
 		String url=MediaConfiguration.getCDDBUrl();
 		if (StringUtils.isEmpty(url)) url="http://freedb.freedb.org/~cddb/cddb.cgi";
-		return WebUtils.loadURL(url+"?cmd="+URLEncoder.encode(command, "UTF-8")+"&" +HELLO_STRING+"&proto=5");
+		return ImportUtils.loadUrl(url+"?cmd="+URLEncoder.encode(command, "UTF-8")+"&" +HELLO_STRING+"&proto=5");
 	}
 
 	private static DiscInfo parseSearchResult(String data)

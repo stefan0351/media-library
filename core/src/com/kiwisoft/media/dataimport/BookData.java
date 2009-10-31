@@ -23,8 +23,9 @@ public class BookData
 	private String edition;
 	private File imageFile;
     private String summary;
+	private String originalTitle;
 
-    public void setTitle(String title)
+	public void setTitle(String title)
 	{
 		this.title=title;
 	}
@@ -74,6 +75,7 @@ public class BookData
 	{
 		return "Book [\n" +
 			   "\ttitle="+title+"\n"+
+			   "\toriginalTitle="+originalTitle+"\n"+
 			   "\tauthors="+authors+"\n"+
 			   "\ttranslators="+translators+"\n"+
 			   "\tpages="+pageCount+"\n"+
@@ -178,4 +180,9 @@ public class BookData
     {
         return summary;
     }
+
+	public void setOriginalTitle(String originalTitle)
+	{
+		this.originalTitle=originalTitle;
+	}
 }

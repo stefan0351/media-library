@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Stefan Stiller
  * @since 04.10.2009
  */
-public class PersonMediaFilesAction extends PersonDetailsAction implements MediaFilesAction
+public class PersonMediaFilesAction extends PersonAction implements MediaFilesAction
 {
 	private Long typeId;
 

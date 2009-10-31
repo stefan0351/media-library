@@ -15,6 +15,7 @@ public class PhotoGalleryDetailsAction extends SimpleContextAction
 		super(PhotoGallery.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PhotoGalleryDetailsView.create((PhotoGallery)getObject());

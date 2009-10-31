@@ -15,6 +15,7 @@ public class NewPhotoGalleryAction extends ContextAction
 		super("New", Icons.getIcon("add"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PhotoGalleryDetailsView.create();

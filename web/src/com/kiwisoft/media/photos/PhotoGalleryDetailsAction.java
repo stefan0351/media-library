@@ -1,6 +1,8 @@
 package com.kiwisoft.media.photos;
 
 import com.kiwisoft.media.BaseAction;
+import com.kiwisoft.web.RecentItemManager;
+import com.kiwisoft.web.RecentIdObject;
 
 /**
  * @author Stefan Stiller
@@ -21,6 +23,9 @@ public class PhotoGalleryDetailsAction extends BaseAction
 	public String execute() throws Exception
 	{
 		if (galleryId!=null) gallery=PhotoManager.getInstance().getGallery(galleryId);
+		if (gallery!=null)
+			RecentItemManager.getInstance().addItem(new RecentIdObject<PhotoGallery>(PhotoGallery.class, gallery));
+
 		return super.execute();
 	}
 

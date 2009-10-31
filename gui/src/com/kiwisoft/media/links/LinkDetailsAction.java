@@ -21,6 +21,7 @@ public class LinkDetailsAction extends SimpleContextAction
 	/**
 	 * Invoked when an action occurs.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();

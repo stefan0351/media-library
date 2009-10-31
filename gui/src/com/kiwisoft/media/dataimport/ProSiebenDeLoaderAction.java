@@ -22,6 +22,7 @@ public class ProSiebenDeLoaderAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(final ActionEvent anEvent)
 	{
 		new ProSiebenDeLoaderDialog(frame, getObjects()).setVisible(true);

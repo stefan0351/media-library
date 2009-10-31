@@ -32,6 +32,7 @@ public class CDDBAction extends ContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		try
@@ -134,6 +135,7 @@ public class CDDBAction extends ContextAction
 				this.info=info;
 			}
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				MyDialog.this.discInfo=info;
@@ -148,6 +150,7 @@ public class CDDBAction extends ContextAction
 				super("Cancel", Icons.getIcon("cancel"));
 			}
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				dispose();

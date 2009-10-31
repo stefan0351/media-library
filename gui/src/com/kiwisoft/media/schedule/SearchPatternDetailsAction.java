@@ -16,6 +16,7 @@ public class SearchPatternDetailsAction extends SimpleContextAction
 		super(SearchPattern.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		SearchPatternDetailsView.create((SearchPattern)getObject());

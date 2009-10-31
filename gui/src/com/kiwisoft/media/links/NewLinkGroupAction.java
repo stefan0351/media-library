@@ -19,6 +19,7 @@ public class NewLinkGroupAction extends SimpleContextAction
 			  "Link Group", Icons.getIcon("linkgroup"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();

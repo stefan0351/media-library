@@ -61,7 +61,7 @@ public class EpisodesView extends ViewPanel
 			public List<ContextAction> getToolBarActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
-				actions.add(new EpisodeDetailsAction());
+				actions.add(new EpisodeDetailsAction(frame));
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
 				if (season==null)
@@ -76,7 +76,7 @@ public class EpisodesView extends ViewPanel
 			public List<ContextAction> getContextActions()
 			{
 				List<ContextAction> actions=new ArrayList<ContextAction>();
-				actions.add(new EpisodeDetailsAction());
+				actions.add(new EpisodeDetailsAction(frame));
 				actions.add(null);
 				actions.add(new NewEpisodeAction(show));
 				actions.add(new DeleteEpisodeAction(show, EpisodesView.this));
@@ -91,7 +91,7 @@ public class EpisodesView extends ViewPanel
 			@Override
 			public ContextAction getDoubleClickAction()
 			{
-				return new EpisodeDetailsAction();
+				return new EpisodeDetailsAction(frame);
 			}
 		};
 		return tableController.createComponent();
@@ -141,8 +141,9 @@ public class EpisodesView extends ViewPanel
 		super.dispose();
 	}
 
-	private class CollectionChangeObserver implements CollectionChangeListener, ChainListener
+	private class CollectionChangeObserver implements CollectionChangeListener, ChainListener<Episode>
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (Show.EPISODES.equals(event.getPropertyName()))
@@ -167,6 +168,7 @@ public class EpisodesView extends ViewPanel
 			}
 		}
 
+		@Override
 		public void chainChanged(ChainEvent event)
 		{
 			switch (event.getType())
@@ -196,6 +198,7 @@ public class EpisodesView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

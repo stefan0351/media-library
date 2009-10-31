@@ -17,9 +17,10 @@ public class MediaFileLookup extends ListLookup<MediaFile>
 		this.mediaType=mediaType;
 	}
 
-	public Collection<MediaFile> getValues(String text, MediaFile currentValue, boolean lookup)
+	@Override
+	public Collection<MediaFile> getValues(String text, MediaFile currentValue, int lookup)
 	{
-		if (text==null) return MediaFileManager.getInstance().getImages();
+		if (lookup>0) return MediaFileManager.getInstance().getImages();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

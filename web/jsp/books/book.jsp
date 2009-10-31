@@ -58,5 +58,9 @@
 			<dt>ISBN:</dt>
 			<dd><s:property value="isbn"/></dd>
 		</s:if>
+		<s:if test="book.show!=null">
+			<dt>References:</dt>
+			<dd><media:format value="book.show"/></dd>
+		</s:if>
 	</dl>
 </media:panel>

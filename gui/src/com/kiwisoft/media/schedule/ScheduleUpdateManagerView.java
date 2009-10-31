@@ -66,6 +66,7 @@ public class ScheduleUpdateManagerView extends ViewPanel
 
 		getModelListenerList().installClassListener(SearchPattern.class, new ClassListener()
 		{
+			@Override
 			public void instanceCreated(Object instance)
 			{
 				if (instance instanceof SearchPattern && tableController.getModel().indexOf(instance)<0)
@@ -74,6 +75,7 @@ public class ScheduleUpdateManagerView extends ViewPanel
 				}
 			}
 
+			@Override
 			public void instanceChanged(PropertyChangeEvent event)
 			{
 			}
@@ -134,6 +136,7 @@ public class ScheduleUpdateManagerView extends ViewPanel
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			if (getUserObject().getState()==IDObject.State.DELETED) fireRowDeleted();

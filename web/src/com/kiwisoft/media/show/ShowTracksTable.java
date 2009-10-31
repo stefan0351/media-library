@@ -26,8 +26,8 @@ public class ShowTracksTable extends SortableWebTable<Track>
 
 	private void initializeData(Show show)
 	{
-		Iterator it=show.getRecordings().iterator();
-		while (it.hasNext()) addRow(new TrackRow((Track)it.next()));
+		Iterator<Track> it=show.getRecordings().iterator();
+		while (it.hasNext()) addRow(new TrackRow(it.next()));
 		setSortColumn(new TableSortDescription(0, TableConstants.ASCEND));
 		sort();
 	}

@@ -141,6 +141,7 @@ public class AudioDetailsView extends DetailsView
 		{
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (audio==null) audio=MediaFileManager.getInstance().createAudio(root);
@@ -153,6 +154,7 @@ public class AudioDetailsView extends DetailsView
 					audio.setReferences(references);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(AudioDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

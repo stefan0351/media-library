@@ -2,7 +2,6 @@ package com.kiwisoft.media.common;
 
 import com.kiwisoft.media.files.MediaType;
 import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.collection.SetMap;
 
 import java.util.Set;
 

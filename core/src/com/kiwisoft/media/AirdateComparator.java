@@ -21,6 +21,7 @@ public class AirdateComparator implements Comparator<Airdate>
 		this.type=type;
 	}
 
+	@Override
 	public int compare(Airdate date1, Airdate date2)
 	{
 		switch (type)

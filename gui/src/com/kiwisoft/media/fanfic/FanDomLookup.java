@@ -8,16 +8,15 @@ package com.kiwisoft.media.fanfic;
 
 import java.util.Collection;
 
-import com.kiwisoft.media.fanfic.FanFicManager;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.lookup.ListLookup;
 
 public class FanDomLookup extends ListLookup<FanDom>
 {
-	public Collection<FanDom> getValues(String text, FanDom currentValue, boolean lookup)
+	@Override
+	public Collection<FanDom> getValues(String text, FanDom currentValue, int lookup)
 	{
-		if (text==null) return FanFicManager.getInstance().getDomains();
+		if (lookup>0) return FanFicManager.getInstance().getDomains();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

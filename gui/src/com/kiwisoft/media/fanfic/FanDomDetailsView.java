@@ -146,6 +146,7 @@ public class FanDomDetailsView extends DetailsView
 
 	private class ReferenceListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			if (event.getSource()==tfShow)

@@ -24,11 +24,13 @@ public class DeleteSearchPatternAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final List<SearchPattern> patterns=getObjects();
 		DBSession.execute(new Transactional()
 		{
+			@Override
 			public void run() throws Exception
 			{
 				for (SearchPattern pattern : patterns)
@@ -37,6 +39,7 @@ public class DeleteSearchPatternAction extends MultiContextAction
 				}
 			}
 
+			@Override
 			public void handleError(Throwable throwable, boolean rollback)
 			{
 				GuiUtils.handleThrowable(frame, throwable);

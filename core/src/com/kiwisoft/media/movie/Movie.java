@@ -387,26 +387,31 @@ public class Movie extends IDObject implements Recordable, Production
 		DBAssociation.getAssociation(Movie.class, COUNTRIES).setAssociations(this, countries);
 	}
 
+	@Override
 	public String getProductionTitle()
 	{
 		return getTitle();
 	}
 
+	@Override
 	public CreditType[] getSupportedCastTypes()
 	{
 		return new CreditType[]{CreditType.MAIN_CAST};
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=?", getId());
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public CastMember createCastMember(CreditType creditType)
 	{
 		CastMember cast=new CastMember();
@@ -416,38 +421,45 @@ public class Movie extends IDObject implements Recordable, Production
 		return cast;
 	}
 
+	@Override
 	public void dropCastMember(CastMember cast)
 	{
 		cast.delete();
 		fireElementRemoved(CAST_MEMBERS, cast);
 	}
 
+	@Override
 	public int getRecordableLength()
 	{
 		return runtime!=null ? runtime : 0;
 	}
 
+	@Override
 	public String getRecordableName(Language language)
 	{
 		return getTitle(language);
 	}
 
+	@Override
 	public void initRecord(Track track)
 	{
 		track.setType(TrackType.VIDEO);
 		track.setMovie(this);
 	}
 
+	@Override
 	public Set<Credit> getCredits()
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=?", getId());
 	}
 
+	@Override
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(Credit.class, null, "movie_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public Credit createCredit()
 	{
 		Credit credit=new Credit();
@@ -456,6 +468,7 @@ public class Movie extends IDObject implements Recordable, Production
 		return credit;
 	}
 
+	@Override
 	public void dropCredit(Credit credit)
 	{
 		credit.delete();

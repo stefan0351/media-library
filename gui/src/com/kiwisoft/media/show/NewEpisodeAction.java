@@ -18,6 +18,7 @@ public class NewEpisodeAction extends ContextAction
 		this.show=show;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		EpisodeDetailsView.create(show);

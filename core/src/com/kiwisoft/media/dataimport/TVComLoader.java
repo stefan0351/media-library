@@ -1,8 +1,18 @@
 package com.kiwisoft.media.dataimport;
 
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.xml.XMLUtils;
-import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.html.HtmlUtils;
+import org.htmlparser.Node;
+import org.htmlparser.Parser;
+import org.htmlparser.nodes.TagNode;
+import org.htmlparser.tags.CompositeTag;
+import org.htmlparser.tags.Div;
+import org.htmlparser.tags.TableColumn;
+import org.htmlparser.tags.TableRow;
+import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -19,6 +29,7 @@ import java.util.regex.Pattern;
 public abstract class TVComLoader extends EpisodeDataLoader
 {
 	private SimpleDateFormat airdateFormat;
+	private Pattern personLinkPattern;
 
 	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
 	{
@@ -26,148 +37,282 @@ public abstract class TVComLoader extends EpisodeDataLoader
 		Matcher matcher=Pattern.compile(("(http://www.tv.com/.*/show/[0-9]+/).*")).matcher(baseUrl);
 		if (matcher.matches()) setBaseUrl(matcher.group(1));
 		airdateFormat=new SimpleDateFormat("M/d/yyyy");
+		personLinkPattern=Pattern.compile("http://www.tv.com/[^/]+/person/(\\d+)/.*");
 	}
 
+	@Override
 	public String getName()
 	{
 		return "Load Episodes from TV.com";
 	}
 
 	@Override
-	protected List<EpisodeData> loadEpisodeList(int season) throws IOException
+	protected List<EpisodeData> loadEpisodeList(int season) throws IOException, ParserException
 	{
-		String page=loadUrl(getBaseUrl()+"episode.html?shv=list&season="+season);
-        // Parse episode list
-		int index1;
-		int index2=page.indexOf("<div id=\"episode_listing\">", 0);
-		int episodeIndex=1;
+		String url=getBaseUrl()+"episode.html?shv=list&season="+season;
+		log.debug("Loading season "+season+" from "+url);
+		String page=ImportUtils.loadUrl(url);
+
 		List<EpisodeData> episodes=new ArrayList<EpisodeData>();
-		while (true)
+
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
+		Div mainDiv=(Div) HtmlUtils.findFirst(parser, "div#episode_listing");
+		if (mainDiv!=null)
 		{
-			if (getProgress().isStoppedByUser()) return null;
-			index1=page.indexOf("<tr class=\"episode\"", index2);
-			if (index1<0) break;
-			index1=page.indexOf(">", index1);
-			index2=page.indexOf("</tr>", index1);
-			if (index2<0) break;
-			String htmlRow=page.substring(index1+1, index2);
-			List<String> values=XMLUtils.extractCellValues(htmlRow);
-			if (values.size()<4) break;
-
-			String episodeKey=XMLUtils.removeTags(values.get(0));
-			if (isNumber(episodeKey)) episodeKey=season+"."+episodeKey;
-			else episodeKey=season+"."+episodeIndex;
-			episodeIndex++;
-			String nameAndLink=values.get(1);
-			XMLUtils.Tag startTag=XMLUtils.getNextTag(nameAndLink, 0, "a");
-			XMLUtils.Tag endTag=XMLUtils.getNextTag(nameAndLink, startTag.end, "/a");
-			Date airdate=null;
-			try
+			log.debug("div#episode_listing found");
+			NodeList episodeRows=HtmlUtils.findAll(mainDiv, "tr.episode");
+			for (NodeIterator it=episodeRows.elements(); it.hasMoreNodes();)
 			{
-				airdate=airdateFormat.parse(XMLUtils.removeTags(values.get(2)));
-				if (airdate.getTime()<0L) airdate=null;
-			}
-			catch (ParseException e)
-			{
-				e.printStackTrace();
-				getProgress().error(e.getMessage());
-			}
+				if (getProgress().isStoppedByUser()) return null;
+				try
+				{
+					TableRow row=(TableRow) it.nextNode();
+					Node numberCell=HtmlUtils.findFirst(row, "td.number");
+					String episodeKey=HtmlUtils.trimUnescape(numberCell.toPlainTextString());
+					log.debug("Episode key: "+episodeKey);
 
-			String code=XMLUtils.removeTags(values.get(3));
-			String title=convertHTML(nameAndLink.substring(startTag.end+1, endTag.start));
-			EpisodeData data=new EpisodeData(episodeKey, title, airdate, code);
-			data.setEpisodeUrl(XMLUtils.getAttribute(startTag.text, "href"));
+					TableColumn titleCell=(TableColumn) HtmlUtils.findFirst(row, "td.title");
+					String episodeTitle=HtmlUtils.trimUnescape(titleCell.toPlainTextString());
+					log.debug("Episode title: "+episodeTitle);
 
-			episodes.add(data);
+					TagNode linkNode=(TagNode) HtmlUtils.findFirst(titleCell, "a");
+					String episodeLink=null;
+					if (linkNode!=null) episodeLink=linkNode.getAttribute("href");
+					log.debug("Details link: "+episodeLink);
+
+					Node airdateCell=HtmlUtils.findFirst(row, "td.air_date");
+					Date airdate=null;
+					try
+					{
+						airdate=airdateFormat.parse(HtmlUtils.trimUnescape(airdateCell.toPlainTextString()));
+						if (airdate.getTime()<0L) airdate=null;
+					}
+					catch (ParseException e)
+					{
+						getProgress().error(e);
+					}
+					log.debug("Airdate: "+airdate);
+
+					Node prodNoCell=HtmlUtils.findFirst(row, "td.prod_no");
+					String prodNo=HtmlUtils.trimUnescape(prodNoCell.toPlainTextString());
+					log.debug("Production No.: "+prodNo);
+
+					EpisodeData episodeData=new EpisodeData(episodeKey, episodeTitle, airdate, prodNo);
+					episodeData.setLink(EpisodeData.DETAILS_LINK, episodeLink);
+					episodes.add(episodeData);
+				}
+				catch (ParserException e)
+				{
+					getProgress().error(e);
+				}
+			}
+		}
+		else
+		{
+			getProgress().warning("Invalid page content (episode_listing).");
 		}
 		return episodes;
 	}
 
-	private boolean isNumber(String text)
+	@Override
+	protected void loadDetails(EpisodeData episodeData) throws IOException, ParserException
 	{
-		try
+		loadSummary(episodeData);
+
+		String baseUrl=episodeData.getLink(EpisodeData.DETAILS_LINK);
+		baseUrl=baseUrl.substring(0, baseUrl.lastIndexOf("/")+1);
+		episodeData.setLink("cast", baseUrl+"cast.html");
+		episodeData.setLink("crew", baseUrl+"cast.html?flag=6");
+
+		loadCast(episodeData);
+		loadCrew(episodeData);
+	}
+
+	private void loadSummary(EpisodeData episodeData) throws ParserException, IOException
+	{
+		log.debug("Loading summary for "+episodeData.getTitle());
+		String page=ImportUtils.loadUrl(episodeData.getLink(EpisodeData.DETAILS_LINK));
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
+		Div crumbsNode=(Div) HtmlUtils.findFirst(parser, "div.crumbs");
+		if (crumbsNode!=null)
 		{
-			Integer.parseInt(text);
-			return true;
+			Node episodeKeyNode=HtmlUtils.findFirst(crumbsNode, "span");
+			if (episodeKeyNode!=null)
+			{
+				Matcher matcher=Pattern.compile("Season (\\d+), Episode (\\d+)").matcher(HtmlUtils.trimUnescape(episodeKeyNode.toPlainTextString()));
+				if (matcher.matches())
+				{
+					String oldKey=episodeData.getKey();
+					episodeData.setKey(matcher.group(1)+"."+matcher.group(2));
+					log.debug("Episode key: changed from "+oldKey+" to "+episodeData.getKey());
+				}
+			}
 		}
-		catch (NumberFormatException e)
+		parser.reset();
+		Div recapNode=(Div) HtmlUtils.findFirst(parser, "div#episode_recap");
+		if (recapNode!=null)
 		{
-			return false;
+			StringBuilder summary=new StringBuilder();
+			NodeList paragraphs=HtmlUtils.findAll(recapNode, "p");
+			for (NodeIterator it=paragraphs.elements(); it.hasMoreNodes();)
+			{
+				TagNode paragraph=(TagNode) it.nextNode();
+				String text=ImportUtils.toPreformattedText(paragraph.toHtml(false), true);
+				if (!StringUtils.isEmpty(text))
+				{
+					if (summary.length()>0) summary.append("[br/][br/]\n");
+					summary.append(text);
+				}
+			}
+			log.debug("Summary: "+summary);
+			episodeData.setEnglishSummary(summary.toString());
 		}
 	}
 
-	@Override
-	protected void loadDetails(EpisodeData episodeData) throws IOException
+	private Pattern mainCastPattern=Pattern.compile("Stars?");
+	private Pattern recurringCastPattern=Pattern.compile("Recurring Roles?");
+	private Pattern guestCastPattern=Pattern.compile("((Special )?Guest Stars?)|(Cameos?)");
+
+	private void loadCast(EpisodeData episodeData) throws IOException, ParserException
 	{
-		String page=loadUrl(episodeData.getEpisodeUrl());
+		log.debug("Loading cast for "+episodeData.getTitle());
+		String page=ImportUtils.loadUrl(episodeData.getLink("cast"));
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
 
-		// Search summary
-		int summaryStart=page.indexOf("<h3>Episode Summary</h3>");
-		summaryStart=page.indexOf("</div>", summaryStart);
-		summaryStart=page.indexOf("<p>", summaryStart);
-		summaryStart=page.indexOf(">", summaryStart)+1;
-		int summaryEnd=page.indexOf("</p>", summaryStart);
-		String content=page.substring(summaryStart, summaryEnd).trim();
-		content=ImportUtils.replaceHtmlFormatTags(content);
-		Matcher matcher=Pattern.compile(" <a href=\"[^\"]*\">(Read full|Add a) recap &raquo;</a>").matcher(content);
-		if (matcher.find()) content=content.substring(0, matcher.start());
-		content=unescapeHtml(content).trim();
-		episodeData.setEnglishSummary(content);
-
-		// Search credits
-		String baseUrl=episodeData.getEpisodeUrl();
-		baseUrl=baseUrl.substring(0, baseUrl.lastIndexOf("/")+1);
-		page=loadUrl(baseUrl+"cast.html");
-
-		Pattern pattern=Pattern.compile("<li class=\"[^\"]*\"><div class=\"wrap\">"+
-										"<div class=\"score_data\">Person Score<div class=\"score\">[0-9\\.]*</div><a href=\"[^\"]*\">[0-9]* Reviews?</a></div>"+
-										"<div class=\"cast_data (?:no_thumb)?\">(?:<a class=\"thumb\" href=\"[^\"]*\" rel=\"nofollow\"><img src=\"http://image.com.com/tv/images/b.gif\" alt=\"Image of \" style=\"background:url\\([^\\)]*\\) no-repeat center;\" /></a>)?"+
-										"<div class=\"personal\">" +
-										"<h4 class=\"name\"><a href=\"(http://www.tv.com/[^\"]+/person/([0-9]+)/summary.html)\\?tag=cast;cast;([a-z_]+);name;[0-9]+\">([^<]+)</a></h4>" +
-										"(?: <a class=\"photos_link\" href=\"[^\"]*\">\\(photos\\)</a>)?" +
-										"</div>"+
-										"<div class=\"role\">Role: (.*?)</div>" +
-										"(?:<p class=\"intro\">(.*?)<a class=\"more_link\" href=\"[^\"]*\">Read More &raquo;</a></p>)?" +
-										"</div></div></li>"
-		, Pattern.DOTALL);
-		matcher=pattern.matcher(page);
-		int index=0;
-		while (matcher.find(index))
+		CompositeTag mainNode=(CompositeTag) HtmlUtils.findFirst(parser, "div#cast_crew_list");
+		NodeList listNodes=HtmlUtils.findAll(mainNode, "div.list");
+		for (NodeIterator it=listNodes.elements(); it.hasMoreNodes();)
 		{
-//			System.out.println("url="+matcher.group(1));
-			String key=matcher.group(2);
-			String type=matcher.group(3);
-			String actor=convertHTML(matcher.group(4));
-			String role=convertHTML(matcher.group(5));
-//			System.out.println("description="+matcher.group(6));
-
-			PersonData personData=new PersonData(key, actor);
-			CastData castData=new CastData(personData, role);
-			if ("star".equals(type)) episodeData.addMainCast(castData);
-			else if ("recurring_role".equals(type)) episodeData.addRecurringCast(castData);
-			else if ("guest_star".equals(type)) episodeData.addGuestCast(castData);
-			else getProgress().error("Unknown cast type: "+type);
-			index=matcher.end();
+			CompositeTag listNode=(CompositeTag) it.nextNode();
+			CompositeTag typeNode=(CompositeTag) HtmlUtils.findFirst(listNode, "h3");
+			String type=HtmlUtils.trimUnescape(typeNode.toPlainTextString());
+			log.debug("Cast type: "+type);
+			NodeList itemNodes=HtmlUtils.findAll(listNode, "li.person");
+			for (NodeIterator it2=itemNodes.elements(); it2.hasMoreNodes();)
+			{
+				CompositeTag itemNode=(CompositeTag) it2.nextNode();
+				try
+				{
+					CompositeTag nameNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".full_name");
+					if (nameNode!=null)
+					{
+						String actor=HtmlUtils.trimUnescape(nameNode.toPlainTextString());
+						String key=null;
+						CompositeTag linkNode=(CompositeTag) HtmlUtils.findFirst(nameNode, "a");
+						if (linkNode!=null)
+						{
+							Matcher matcher=personLinkPattern.matcher(linkNode.getAttribute("href"));
+							if (matcher.matches())
+							{
+								key=matcher.group(1);
+							}
+						}
+						log.debug("Actor: "+actor);
+						log.debug("Key: "+key);
+						if (!StringUtils.isEmpty(actor))
+						{
+							PersonData person=new PersonData(key, actor);
+							CompositeTag roleNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".role");
+							String role=null;
+							if (roleNode!=null) role=HtmlUtils.trimUnescape(roleNode.toPlainTextString());
+							log.debug("Role: "+role);
+							CastData castData=new CastData(person, role);
+							if (mainCastPattern.matcher(type).matches()) episodeData.addMainCast(castData);
+							else if (recurringCastPattern.matcher(type).matches()) episodeData.addRecurringCast(castData);
+							else if (guestCastPattern.matcher(type).matches()) episodeData.addGuestCast(castData);
+							else
+							{
+								getProgress().warning("Unknown cast type: "+type);
+								log.warn("Unknown cast type: "+type);
+							}
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					log.error(e.getMessage(), e);
+					getProgress().error(e);
+				}
+			}
 		}
+	}
 
-		// Load directors/writers
-		page=loadUrl(baseUrl+"cast.html?flag=6");
-		matcher=pattern.matcher(page);
-		index=0;
-		while (matcher.find(index))
+	private void loadCrew(EpisodeData episodeData) throws IOException, ParserException
+	{
+		log.debug("Loading crew for "+episodeData.getTitle());
+		String page=ImportUtils.loadUrl(episodeData.getLink("crew"));
+		Parser parser=new Parser(page);
+		parser.setInputHTML(page);
+
+		CompositeTag mainNode=(CompositeTag) HtmlUtils.findFirst(parser, "div#cast_crew_list");
+		NodeList listNodes=HtmlUtils.findAll(mainNode, "div.list");
+		for (NodeIterator it=listNodes.elements(); it.hasMoreNodes();)
 		{
-//			System.out.println("url="+matcher.group(1));
-			String key=matcher.group(2);
-			String type=matcher.group(3);
-			String person=convertHTML(matcher.group(4));
-//			String role=convertHTML(matcher.group(5));
-//			System.out.println("description="+matcher.group(6));
-
-			PersonData personData=new PersonData(key, person);
-			if ("writer".equals(type)) episodeData.addWrittenBy(personData);
-			else if ("director".equals(type)) episodeData.addDirectedBy(personData);
-			else if (!"crew".equals(type)) getProgress().error("Unknown cast type: "+type);
-			index=matcher.end();
+			CompositeTag listNode=(CompositeTag) it.nextNode();
+			CompositeTag typeNode=(CompositeTag) HtmlUtils.findFirst(listNode, "h3");
+			String type=HtmlUtils.trimUnescape(typeNode.toPlainTextString());
+			log.debug("Crew type: "+type);
+			NodeList itemNodes=HtmlUtils.findAll(listNode, "li.person");
+			for (NodeIterator it2=itemNodes.elements(); it2.hasMoreNodes();)
+			{
+				CompositeTag itemNode=(CompositeTag) it2.nextNode();
+				try
+				{
+					CompositeTag nameNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".full_name");
+					if (nameNode!=null)
+					{
+						String person=HtmlUtils.trimUnescape(nameNode.toPlainTextString());
+						String key=null;
+						CompositeTag linkNode=(CompositeTag) HtmlUtils.findFirst(nameNode, "a");
+						if (linkNode!=null)
+						{
+							Matcher matcher=personLinkPattern.matcher(linkNode.getAttribute("href"));
+							if (matcher.matches())
+							{
+								key=matcher.group(1);
+							}
+						}
+						log.debug("Person: "+person);
+						log.debug("Key: "+key);
+						if (!StringUtils.isEmpty(person))
+						{
+							PersonData personData=new PersonData(key, person);
+							CompositeTag roleNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".role");
+							String role=null;
+							if (roleNode!=null) role=HtmlUtils.trimUnescape(roleNode.toPlainTextString());
+							if (role!=null && role.endsWith("(n/a)")) role=role.substring(0, role.length()-"(n/a)".length()).trim();
+							log.debug("Role: "+role);
+							if ("Writer".equalsIgnoreCase(type) || "Writers".equalsIgnoreCase(type))
+							{
+								if ("Writer".equalsIgnoreCase(role))
+									episodeData.addWrittenBy(new CrewData(personData, null));
+								else
+									episodeData.addWrittenBy(new CrewData(personData,  role));
+							}
+							else if ("Director".equalsIgnoreCase(type))
+							{
+								if ("Director".equalsIgnoreCase(role))
+									episodeData.addDirectedBy(new CrewData(personData, null));
+								else
+									episodeData.addDirectedBy(new CrewData(personData,  role));
+							}
+							else if (!"Crew".equalsIgnoreCase(type))
+							{
+								getProgress().warning("Unknown cast type: "+type);
+								log.warn("Unknown cast type: "+type);
+							}
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					log.error(e.getMessage(), e);
+					getProgress().error(e);
+				}
+			}
 		}
 	}
 }

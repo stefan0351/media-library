@@ -27,6 +27,7 @@ public class DeleteCreditsAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		List<Credit> credits=getObjects();

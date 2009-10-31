@@ -99,6 +99,7 @@ public class DefaultXPBean implements XPBean
 		}
 	}
 
+	@Override
 	public Object getValue(String name)
 	{
 		if (!name.contains("."))
@@ -122,6 +123,7 @@ public class DefaultXPBean implements XPBean
 		}
 	}
 
+	@Override
 	public String getString(String name)
 	{
 		Object value=getValue(name);
@@ -129,6 +131,7 @@ public class DefaultXPBean implements XPBean
 		return null;
 	}
 
+	@Override
 	public Collection getValues(String name)
 	{
 		if (!name.contains("."))
@@ -158,6 +161,7 @@ public class DefaultXPBean implements XPBean
 		}
 	}
 
+	@Override
 	public List getChildren()
 	{
 		return list;

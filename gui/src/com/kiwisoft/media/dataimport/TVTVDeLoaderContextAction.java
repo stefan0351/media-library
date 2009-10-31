@@ -36,6 +36,7 @@ public class TVTVDeLoaderContextAction extends MultiContextAction
 		return object instanceof Show || object instanceof Person;
 	}
 
+	@Override
 	public void actionPerformed(final ActionEvent anEvent)
 	{
 		TVTVDeLoader job=new TVTVDeLoader(getObjects())
@@ -49,6 +50,14 @@ public class TVTVDeLoaderContextAction extends MultiContextAction
 				return option==YES_OPTION;
 			}
 
+			@Override
+			protected boolean askUpdateChannel(String channelKey, String oldChannelName, String newChannelName)
+			{
+				Window window=getProgressSupport().getWindow();
+				int option=showConfirmDialog(window, "Change name of channel ("+channelKey+") from '"+oldChannelName+"' to '"+newChannelName+"'?",
+											 "Update Channel?", YES_NO_OPTION, QUESTION_MESSAGE);
+				return option==YES_OPTION;
+			}
 		};
 		new ProgressDialog(frame, job).start();
 	}

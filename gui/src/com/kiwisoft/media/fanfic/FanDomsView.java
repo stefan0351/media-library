@@ -108,6 +108,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 
 	private class UpdateListener implements CollectionChangeListener
 	{
+		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
 			if (FanFicManager.DOMAINS.equals(event.getPropertyName()))
@@ -146,6 +147,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

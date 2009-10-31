@@ -85,6 +85,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 			final Date date=dateField.getDate();
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (photoGallery==null) photoGallery=PhotoManager.getInstance().createGallery();
@@ -92,6 +93,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 					photoGallery.setCreationDate(date);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					JOptionPane.showMessageDialog(PhotoGalleryDetailsView.this, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

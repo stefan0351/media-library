@@ -15,6 +15,7 @@ import com.kiwisoft.utils.xml.XMLTagHandler;
  */
 public class ImageTagHandler implements XMLTagHandler
 {
+	@Override
 	public String startTag(XMLContext context, String tagName, Attributes attributes)
 	{
 		StringBuilder builder=new StringBuilder("<"+tagName);
@@ -40,6 +41,7 @@ public class ImageTagHandler implements XMLTagHandler
 		return builder.toString();
 	}
 
+	@Override
 	public String endTag(XMLContext context, String name)
 	{
 		return null;

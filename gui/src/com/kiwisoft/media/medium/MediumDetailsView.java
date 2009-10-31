@@ -173,6 +173,7 @@ public class MediumDetailsView extends DetailsView
 			languageField=new LookupField<Language>(new LanguageLookup());
 			languageField.addSelectionListener(new LookupSelectionListener()
 			{
+				@Override
 				public void selectionChanged(LookupEvent event)
 				{
 					if (recordables!=null)
@@ -263,7 +264,8 @@ public class MediumDetailsView extends DetailsView
         final int remain1=remain;
         return DBSession.execute(new Transactional()
         {
-            public void run() throws Exception
+            @Override
+			public void run() throws Exception
             {
                 if (video==null) video=MediumManager.getInstance().createMedium();
                 else if (video.getUserKey()==null) video.setUserKey((int)SequenceManager.getSequence("medium").next());
@@ -286,7 +288,8 @@ public class MediumDetailsView extends DetailsView
                 }
                 SwingUtilities.invokeLater(new Runnable()
                 {
-                    public void run()
+                    @Override
+					public void run()
                     {
                         MediumManager.getInstance().fireElementChanged(video);
                         keyField.setText(video.getFullKey());
@@ -294,7 +297,8 @@ public class MediumDetailsView extends DetailsView
                 });
             }
 
-            public void handleError(Throwable throwable, boolean rollback)
+            @Override
+			public void handleError(Throwable throwable, boolean rollback)
             {
                 GuiUtils.handleThrowable(MediumDetailsView.this, throwable);
             }
@@ -369,6 +373,7 @@ public class MediumDetailsView extends DetailsView
 			this.rows=rows;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			for (RecordableTableRow row : rows) recordables.moveUp(row);
@@ -387,6 +392,7 @@ public class MediumDetailsView extends DetailsView
 			this.rows=rows;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			for (RecordableTableRow row : rows) recordables.moveDown(row);
@@ -421,6 +427,7 @@ public class MediumDetailsView extends DetailsView
 			for (Iterator it=recordables.iterator(); it.hasNext();) addRow((RecordableTableRow)it.next());
 		}
 
+		@Override
 		public int getColumnCount()
 		{
 			return COLUMNS.length;
@@ -495,11 +502,13 @@ public class MediumDetailsView extends DetailsView
 			return "language".equals(property) || "length".equals(property);
 		}
 
+		@Override
 		public void setChainPosition(int position)
 		{
 			index=position;
 		}
 
+		@Override
 		public int getChainPosition()
 		{
 			return index;

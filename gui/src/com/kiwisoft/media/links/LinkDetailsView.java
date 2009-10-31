@@ -124,6 +124,7 @@ public class LinkDetailsView extends DetailsView
 
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (link==null) link=linkable.getLinkGroup(true).createLink();
@@ -132,6 +133,7 @@ public class LinkDetailsView extends DetailsView
 					link.setLanguage(language);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(LinkDetailsView.this, throwable);

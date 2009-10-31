@@ -1,14 +1,14 @@
 package com.kiwisoft.media.dataimport;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * @author Stefan Stiller
 */
 public class EpisodeData
 {
+	public static final String DETAILS_LINK="details";
+
 	private String key;
 	private String title;
 	private String germanTitle;
@@ -19,10 +19,9 @@ public class EpisodeData
 	private List<EpisodeDataLoader.CastData> mainCast;
 	private List<EpisodeDataLoader.CastData> recurringCast;
 	private List<EpisodeDataLoader.CastData> guestCast;
-	private List<EpisodeDataLoader.PersonData> writtenBy;
-	private List<EpisodeDataLoader.PersonData> directedBy;
-	private List<EpisodeDataLoader.PersonData> storyBy;
-	private String episodeUrl;
+	private List<EpisodeDataLoader.CrewData> writtenBy;
+	private List<EpisodeDataLoader.CrewData> directedBy;
+	private Map<String, String> links=new HashMap<String, String>();
 
 	public EpisodeData(String episodeKey, String episodeName)
 	{
@@ -35,9 +34,8 @@ public class EpisodeData
 		this.title=episodeName;
 		this.airdate=airdate;
 		this.productionCode=productionCode;
-		writtenBy=new ArrayList<EpisodeDataLoader.PersonData>();
-		directedBy=new ArrayList<EpisodeDataLoader.PersonData>();
-		storyBy=new ArrayList<EpisodeDataLoader.PersonData>();
+		writtenBy=new ArrayList<EpisodeDataLoader.CrewData>();
+		directedBy=new ArrayList<EpisodeDataLoader.CrewData>();
 		mainCast=new ArrayList<EpisodeDataLoader.CastData>();
 		recurringCast=new ArrayList<EpisodeDataLoader.CastData>();
 		guestCast=new ArrayList<EpisodeDataLoader.CastData>();
@@ -46,6 +44,11 @@ public class EpisodeData
 	public String getKey()
 	{
 		return key;
+	}
+
+	public void setKey(String key)
+	{
+		this.key=key;
 	}
 
 	public void setGermanTitle(String germanTitle)
@@ -98,34 +101,24 @@ public class EpisodeData
 		return guestCast;
 	}
 
-	public List<EpisodeDataLoader.PersonData> getWrittenBy()
+	public List<EpisodeDataLoader.CrewData> getWrittenBy()
 	{
 		return writtenBy;
 	}
 
-	public List<EpisodeDataLoader.PersonData> getDirectedBy()
+	public List<EpisodeDataLoader.CrewData> getDirectedBy()
 	{
 		return directedBy;
 	}
 
-	public List<EpisodeDataLoader.PersonData> getStoryBy()
-	{
-		return storyBy;
-	}
-
-	public void addWrittenBy(EpisodeDataLoader.PersonData personData)
+	public void addWrittenBy(EpisodeDataLoader.CrewData personData)
 	{
 		writtenBy.add(personData);
 	}
 
-	public void addDirectedBy(EpisodeDataLoader.PersonData person)
+	public void addDirectedBy(EpisodeDataLoader.CrewData person)
 	{
 		directedBy.add(person);
-	}
-
-	public void addStoryBy(EpisodeDataLoader.PersonData person)
-	{
-		storyBy.add(person);
 	}
 
 	public void addMainCast(EpisodeDataLoader.CastData cast)
@@ -143,14 +136,14 @@ public class EpisodeData
 		guestCast.add(cast);
 	}
 
-	public void setEpisodeUrl(String episodeUrl)
+	public void setLink(String key, String link)
 	{
-		this.episodeUrl=episodeUrl;
+		links.put(key, link);
 	}
 
-	public String getEpisodeUrl()
+	public String getLink(String key)
 	{
-		return episodeUrl;
+		return links.get(key);
 	}
 
 	public String getGermanSummary()

@@ -105,23 +105,27 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 		else setBackground(Color.WHITE);
 	}
 
+	@Override
 	public void propertyChange(PropertyChangeEvent evt)
 	{
 		if (Photo.THUMBNAIL.equals(evt.getPropertyName())) updateThumbnail();
 		else if (Photo.DESCRIPTION.equals(evt.getPropertyName())) updateLabel();
 	}
 
+	@Override
 	public void dispose()
 	{
 		photo.removePropertyChangeListener(this);
 		photo=null;
 	}
 
+	@Override
 	public void setChainPosition(int position)
 	{
 		photo.setChainPosition(position);
 	}
 
+	@Override
 	public int getChainPosition()
 	{
 		return photo.getChainPosition();
@@ -136,6 +140,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 			this.photo=photo;
 		}
 
+		@Override
 		public void run()
 		{
 			File photoFile=photo.getOriginalPicture().getPhysicalFile();
@@ -144,6 +149,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 			{
 				boolean success=DBSession.execute(new Transactional()
 				{
+					@Override
 					public void run() throws Exception
 					{
 						ImageFile oldThumbnail=photo.getThumbnail();
@@ -152,6 +158,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 						if (oldThumbnail!=null) oldThumbnail.delete();
 					}
 
+					@Override
 					public void handleError(Throwable throwable, boolean rollback)
 					{
 						throwable.printStackTrace();
@@ -161,6 +168,7 @@ public class Thumbnail extends JPanel implements ChainLink, Disposable, Property
 				{
 					SwingUtilities.invokeLater(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							try

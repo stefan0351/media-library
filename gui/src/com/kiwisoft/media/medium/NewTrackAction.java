@@ -18,6 +18,7 @@ public class NewTrackAction extends ContextAction
 		this.medium=medium;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		TrackDetailsView.create(medium);

@@ -13,9 +13,10 @@ import com.kiwisoft.persistence.DBLoader;
 
 public class PairingLookup extends ListLookup<Pairing>
 {
-	public Collection<Pairing> getValues(String text, Pairing currentValue, boolean lookup)
+	@Override
+	public Collection<Pairing> getValues(String text, Pairing currentValue, int lookup)
 	{
-		if (text==null) return FanFicManager.getInstance().getPairings();
+		if (lookup>0) return FanFicManager.getInstance().getPairings();
 		else
 		{
 			if (text.indexOf('*')>=0) text=text.replace('*', '%');

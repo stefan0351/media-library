@@ -25,6 +25,7 @@ public class ShowTracksTableModel extends SortableTableModel<Track>
 		for (Track track : show.getRecordings()) addRow(new Row(track));
 	}
 
+	@Override
 	public int getColumnCount()
 	{
 		return COLUMNS.length;
@@ -55,6 +56,7 @@ public class ShowTracksTableModel extends SortableTableModel<Track>
 			getUserObject().removePropertyChangeListener(this);
 		}
 
+		@Override
 		public void propertyChange(PropertyChangeEvent evt)
 		{
 			fireRowUpdated();

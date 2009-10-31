@@ -137,6 +137,7 @@ public class ThumbnailPanel extends JPanel
 
 	private class MyListSelectionListener implements ListSelectionListener
 	{
+		@Override
 		public void valueChanged(ListSelectionEvent e)
 		{
 			if (!e.getValueIsAdjusting())

@@ -16,6 +16,6 @@ public class AllMediaTask extends MenuSidebarItem.Task
 	@Override
 	public void perform(ApplicationFrame frame)
 	{
-		frame.setCurrentView(new MediaView());
+		frame.setCurrentView(new MediumSearchView());
 	}
 }

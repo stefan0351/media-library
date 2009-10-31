@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.channel.ChannelLookup;
 import com.kiwisoft.media.links.OpenLinkFieldAction;
 import com.kiwisoft.media.dataimport.DataSource;
 import com.kiwisoft.media.show.Show;
@@ -90,7 +91,7 @@ public class AirdateDetailsView extends DetailsView
 		linkField.setEditable(false);
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 275));
+		setPreferredSize(new Dimension(400, 285));
 		int row=0;
 		add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
@@ -250,6 +251,7 @@ public class AirdateDetailsView extends DetailsView
 
 	private class ShowSelectionListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			Episode episode=episodeField.getValue();
@@ -259,6 +261,7 @@ public class AirdateDetailsView extends DetailsView
 
 	private class MovieSelectionListener implements LookupSelectionListener
 	{
+		@Override
 		public void selectionChanged(LookupEvent event)
 		{
 			Movie movie=movieField.getValue();

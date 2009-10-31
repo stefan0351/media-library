@@ -22,6 +22,6 @@ public class BooksTask extends MenuSidebarItem.Task
 	public void perform(ApplicationFrame frame)
 	{
 		log.debug("Books Task selected");
-		frame.setCurrentView(new BooksView());
+		frame.setCurrentView(new BookSearchView());
 	}
 }

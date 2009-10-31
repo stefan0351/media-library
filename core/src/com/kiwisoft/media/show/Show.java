@@ -9,6 +9,7 @@ package com.kiwisoft.media.show;
 import java.util.*;
 
 import com.kiwisoft.media.*;
+import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.files.MediaFileManager;
 import com.kiwisoft.media.files.MediaType;
@@ -40,6 +41,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public static final String LOGO="logo";
 	public static final String TITLE="title";
 	public static final String MEDIA_FILES="mediaFiles";
+	public static final String BOOKS="books";
 
 	private String userKey;
 	private String title;
@@ -54,6 +56,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private Set<ShowInfo> infos;
 	private Integer startYear, endYear;
 	private String indexBy;
+	private Set<Book> books;
 
 	public Show()
 	{
@@ -64,6 +67,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		super(dummy);
 	}
 
+	@Override
 	public String getFanFicGroupName()
 	{
 		return getTitle();
@@ -306,36 +310,36 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return DBLoader.getInstance().loadSet(FanDom.class, null, "show_id=?", getId());
 	}
 
+	@Override
 	public Set<FanFic> getFanFics()
 	{
 		return DBLoader.getInstance().loadSet(FanFic.class, "map_fanfic_fandom map, fandoms",
 											  "map.fanfic_id=fanfics.id and map.fandom_id=fandoms.id and fandoms.show_id=?", getId());
 	}
 
+	@Override
 	public int getFanFicCount()
 	{
 		return DBLoader.getInstance().count(FanFic.class, "map_fanfic_fandom map, fandoms",
 											"map.fanfic_id=fanfics.id and map.fandom_id=fandoms.id and fandoms.show_id=?", getId());
 	}
 
+	@Override
 	public boolean contains(FanFic fanFic)
 	{
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
-	}
-
-	public String getHttpParameter()
-	{
-		return "show="+getId();
 	}
 
 	public Language getLanguage()
@@ -401,45 +405,54 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setAssociations(GENRES, genres);
 	}
 
+	@Override
 	public Set<Credit> getCredits()
 	{
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Set<Credit> getCredits(CreditType type)
 	{
 		return Collections.emptySet();
 	}
 
+	@Override
 	public Credit createCredit()
 	{
 		return null;
 	}
 
+	@Override
 	public void dropCredit(Credit credit)
 	{
 	}
 
+	@Override
 	public String getProductionTitle()
 	{
 		return getTitle();
 	}
 
+	@Override
 	public CreditType[] getSupportedCastTypes()
 	{
 		return new CreditType[]{CreditType.MAIN_CAST, CreditType.RECURRING_CAST};
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=?", getId());
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "show_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public CastMember createCastMember(CreditType creditType)
 	{
 		CastMember cast=new CastMember();
@@ -449,6 +462,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return cast;
 	}
 
+	@Override
 	public void dropCastMember(CastMember cast)
 	{
 		cast.delete();
@@ -483,7 +497,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	{
 		if (startYear==null) return null;
 		else if (endYear==null) return startYear+"-";
-		else if (endYear==startYear) return String.valueOf(startYear);
+		else if (endYear.equals(startYear)) return String.valueOf(startYear);
 		else return startYear+"-"+endYear;
 	}
 
@@ -505,6 +519,7 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		return (LinkGroup)getReference(LINK_GROUP);
 	}
 
+	@Override
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();
@@ -531,5 +546,31 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public boolean hasVideos()
 	{
 		return MediaFileManager.getInstance().getNumberOfMediaFiles(this, MediaType.VIDEO)>0;
+	}
+
+	public Set<Book> getBooks()
+	{
+		if (books==null) books=DBLoader.getInstance().loadSet(Book.class, null, "show_id=?", getId());
+		return books;
+	}
+
+	public void addBook(Book book)
+	{
+		boolean changed=getBooks().add(book);
+		if (changed)
+		{
+			if (book.getShow()!=this) book.setShow(this);
+			fireElementAdded(BOOKS, book);
+		}
+	}
+
+	public void removeBook(Book book)
+	{
+		boolean changed=getBooks().remove(book);
+		if (changed)
+		{
+			if (book.getShow()==this) book.setShow(null);
+			fireElementRemoved(BOOKS, book);
+		}
 	}
 }

@@ -361,21 +361,25 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return show.getTitle()+" - "+toString();
 	}
 
+	@Override
 	public CreditType[] getSupportedCastTypes()
 	{
 		return new CreditType[]{CreditType.MAIN_CAST, CreditType.RECURRING_CAST, CreditType.GUEST_CAST};
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers()
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=?", getId());
 	}
 
+	@Override
 	public Set<CastMember> getCastMembers(CreditType type)
 	{
 		return DBLoader.getInstance().loadSet(CastMember.class, null, "episode_id=? and credit_type_id=?", getId(), type.getId());
 	}
 
+	@Override
 	public CastMember createCastMember(CreditType creditType)
 	{
 		CastMember cast=new CastMember();
@@ -385,23 +389,27 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 		return cast;
 	}
 
+	@Override
 	public void dropCastMember(CastMember cast)
 	{
 		cast.delete();
 		fireElementRemoved(CAST_MEMBERS, cast);
 	}
 
+	@Override
 	public int getRecordableLength()
 	{
 		return getShow().getDefaultEpisodeLength();
 	}
 
+	@Override
 	public String getRecordableName(Language language)
 	{
 		Show show=getShow();
 		return show.getTitle(language)+" - "+getTitleWithKey(language);
 	}
 
+	@Override
 	public void initRecord(Track track)
 	{
 		track.setType(TrackType.VIDEO);

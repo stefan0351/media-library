@@ -35,6 +35,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		super(dummy);
 	}
 
+	@Override
 	public String getFanFicGroupName()
 	{
 		return getName();
@@ -72,34 +73,34 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		setReference(MOVIE, movie);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics()
 	{
 		return getAssociations(FANFICS);
 	}
 
+	@Override
 	public int getFanFicCount()
 	{
 		return getAssociationsCount(FANFICS);
 	}
 
+	@Override
 	public boolean contains(FanFic fanFic)
 	{
 		return containsAssociation(FANFICS, fanFic);
 	}
 
+	@Override
 	public SortedSet<Character> getFanFicLetters()
 	{
 		return FanFicManager.getInstance().getFanFicLetters(this);
 	}
 
+	@Override
 	public Set<FanFic> getFanFics(char ch)
 	{
 		return FanFicManager.getInstance().getFanFics(this, ch);
-	}
-
-	public String getHttpParameter()
-	{
-		return "fandom="+getId();
 	}
 
 	@Override
@@ -108,6 +109,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		return getName().compareToIgnoreCase(((FanDom)o).getName());
@@ -118,6 +120,7 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 		return (LinkGroup)getReference(LINK_GROUP);
 	}
 
+	@Override
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();

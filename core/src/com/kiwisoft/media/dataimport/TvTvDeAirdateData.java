@@ -28,6 +28,7 @@ class TvTvDeAirdateData
 	private Person person;
 	private String channelKey;
 	private String channelLogo;
+	private Long episodeNumber;
 
 	@Override
 	public boolean equals(Object o)
@@ -197,5 +198,15 @@ class TvTvDeAirdateData
 	public void addEpisode(TvTvDeEpisodeData episodeData)
 	{
 		episodes.add(episodeData);
+	}
+
+	public void setEpisodeNumber(Long episodeNumber)
+	{
+		this.episodeNumber=episodeNumber;
+	}
+
+	public Long getEpisodeNumber()
+	{
+		return episodeNumber;
 	}
 }

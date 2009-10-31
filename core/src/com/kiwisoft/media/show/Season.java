@@ -189,6 +189,7 @@ public class Season extends IDObject implements Comparable
 		super.afterReload();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		Season season=(Season)o;

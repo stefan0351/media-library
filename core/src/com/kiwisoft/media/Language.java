@@ -56,6 +56,7 @@ public class Language extends IDObject implements Comparable
 		return getName();
 	}
 
+	@Override
 	public int compareTo(Object o)
 	{
 		Language language=(Language)o;

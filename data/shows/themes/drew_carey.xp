@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<themes>
+	<theme source="drew_carey_v1.mp3" description="Season 1">
+		<length>0:17</length>
+	</theme>
+	<theme source="drew_carey_v2.mp3" description="Season 2">
+		<length>0:41</length>
+	</theme>
+</themes>

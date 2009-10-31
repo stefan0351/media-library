@@ -9,6 +9,7 @@ import com.kiwisoft.utils.WebUtils;
 
 public class TextParser implements Parser
 {
+	@Override
 	public void parse(File file, URL documentUrl, List<URL> contained, List<URL> linked) throws IOException
 	{
 		InputStream is=new FileInputStream(file);

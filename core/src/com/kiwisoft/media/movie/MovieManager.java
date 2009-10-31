@@ -21,6 +21,7 @@ import com.kiwisoft.media.Name;
 import com.kiwisoft.media.dataimport.SearchPattern;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.utils.Disposable;
 
 public class MovieManager
 {
@@ -92,9 +93,9 @@ public class MovieManager
 		return DBLoader.getInstance().load(SearchPattern.class, null, "type=? and movie_id=?", type, movie.getId());
 	}
 
-	public void addCollectionChangeListener(CollectionChangeListener listener)
+	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

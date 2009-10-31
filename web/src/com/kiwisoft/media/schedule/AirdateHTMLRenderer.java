@@ -51,23 +51,10 @@ public class AirdateHTMLRenderer extends DefaultHTMLRenderer
 				}
 			}
 			String event=airdate.getEvent();
-			if (event!=null)
+			if (!StringUtils.isEmpty(event))
 			{
 				if (buffer.length()>0) buffer.append(" - ");
 				buffer.append(StringEscapeUtils.escapeHtml(event));
-			}
-			if (!StringUtils.isEmpty(airdate.getDetailsLink()))
-			{
-				buffer.append(" ");
-//				buffer.append(" <a target=\"_new\" href=\"");
-//				buffer.append(airdate.getDetailsLink());
-//				buffer.append("\">");
-				buffer.append("<img");
-				buffer.append(" src=\"").append(context.getContextPath()).append("/file?type=Icon&name=details\"");
-				buffer.append(" onClick=\"newWindow('Details', '").append(airdate.getDetailsLink()).append("', 500, 500);\"");
-				buffer.append(" alt=\"Details\"");
-				buffer.append(" border=\"0\">");
-//				buffer.append("</a>");
 			}
 			return buffer.toString();
 		}

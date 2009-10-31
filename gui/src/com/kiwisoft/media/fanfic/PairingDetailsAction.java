@@ -15,6 +15,7 @@ public class PairingDetailsAction extends SimpleContextAction
 		super(Pairing.class, "Details", Icons.getIcon("details"));
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		PairingDetailsView.create((Pairing)getObject());

@@ -20,6 +20,7 @@ public class DeleteMediaFileAction extends MultiContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		final List<MediaFile> mediafiles=getObjects();
@@ -48,11 +49,13 @@ public class DeleteMediaFileAction extends MultiContextAction
 			this.deletePhysically=deletePhysically;
 		}
 
+		@Override
 		public void run() throws Exception
 		{
 			for (MediaFile mediafile : mediafiles) MediaFileManager.getInstance().dropMediaFile(mediafile, deletePhysically);
 		}
 
+		@Override
 		public void handleError(Throwable throwable, boolean rollback)
 		{
 			JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

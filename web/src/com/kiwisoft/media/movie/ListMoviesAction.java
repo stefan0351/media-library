@@ -1,6 +1,5 @@
 package com.kiwisoft.media.movie;
 
-import com.opensymphony.xwork2.ActionSupport;
 import com.kiwisoft.media.BaseAction;
 
 import java.util.SortedSet;

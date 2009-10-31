@@ -2,7 +2,6 @@ package com.kiwisoft.media;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
@@ -12,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.app.Application;
-import com.kiwisoft.utils.UrlFormat;
 import com.kiwisoft.utils.Time;
 import com.kiwisoft.utils.TimeFormat;
 import com.kiwisoft.format.FormatManager;
@@ -34,6 +32,8 @@ import com.kiwisoft.media.download.WebFolderFormat;
 import com.kiwisoft.media.download.WebDocumentFormat;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.EpisodeFormat;
+import com.kiwisoft.media.books.BookFormat;
+import com.kiwisoft.media.books.Book;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.cfg.SimpleConfiguration;
 
@@ -59,7 +59,10 @@ public class MediaApplication extends Application
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
-			String userValuesFile="media"+File.separator+"profile.xml";
+			String fileName;
+			if ("dev".equals(System.getProperty("media.database"))) fileName="dev-profile.xml";
+			else fileName="profile.xml";
+			String userValuesFile="media"+File.separator+fileName;
 			log.info("Loading user configuration from "+userValuesFile);
 			configuration.loadUserValues(userValuesFile);
 		}
@@ -101,11 +104,11 @@ public class MediaApplication extends Application
 		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
-		formatManager.setFormat(URL.class, new UrlFormat());
 		formatManager.setFormat(Date.class, "schedule", new DefaultDateFormat(new SimpleDateFormat("EE, dd.MM.yy HH:mm")));
 		formatManager.setFormat(Time.class, "mediafile", new DefaultTimeFormat(new TimeFormat("H:mm:ss")));
 		formatManager.setFormat(Episode.class, new EpisodeFormat(false));
 		formatManager.setFormat(Episode.class, "full", new EpisodeFormat(true));
+		formatManager.setFormat(Book.class, new BookFormat());
 		super.registerFormats();
 	}
 }

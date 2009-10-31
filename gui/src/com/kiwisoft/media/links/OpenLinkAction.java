@@ -23,6 +23,7 @@ public class OpenLinkAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Object object=getObject();

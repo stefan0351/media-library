@@ -12,6 +12,7 @@ import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.utils.Utils;
 
 /**
  * @author Stefan Stiller
@@ -28,9 +29,10 @@ public class DeleteMovieAction extends MultiContextAction
 		this.show=show;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		List<Movie> movies=getObjects();
+		List<Movie> movies=Utils.cast(getObjects());
 		for (Movie movie : movies)
 		{
 			if (movie.isUsed())

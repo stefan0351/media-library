@@ -87,6 +87,7 @@ public class LinkGroupDetailsView extends DetailsView
 
 			return DBSession.execute(new Transactional()
 			{
+				@Override
 				public void run() throws Exception
 				{
 					if (group==null)
@@ -97,6 +98,7 @@ public class LinkGroupDetailsView extends DetailsView
 					group.setName(name);
 				}
 
+				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
 					GuiUtils.handleThrowable(LinkGroupDetailsView.this, throwable);

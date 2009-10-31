@@ -19,6 +19,7 @@ public class ShowTracksAction extends SimpleContextAction
 		this.frame=frame;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		frame.setCurrentView(new ShowTracksView((Show)getObject()));
