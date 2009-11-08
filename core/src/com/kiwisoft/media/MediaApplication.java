@@ -39,6 +39,20 @@ import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
+ * @todo FanFics: Convert HTML fanfics
+ * @todo FanFics: Implement series name and number
+ * @todo FanFics: Pairing images
+ * @todo Books: Storage
+ * @todo Books: Search
+ * @todo Books: Original title
+ * @todo GUI: Preformatted text editor
+ * @todo GUI: Statusbar
+ * @todo GUI: Link grabber
+ * @todo Web: JavaScript sorting
+ * @todo SerienJunkies: Load episode images
+ * @todo Photos: Export
+ * @todo Photos: Tags
+ * @todo Photos: Display number of photos
  */
 public class MediaApplication extends Application
 {

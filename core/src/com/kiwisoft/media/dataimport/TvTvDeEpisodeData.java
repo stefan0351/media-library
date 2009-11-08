@@ -12,23 +12,32 @@ class TvTvDeEpisodeData
 	private String title;
 	private String germanTitle;
 	private String originalTitle;
+	private int length;
 
 	TvTvDeEpisodeData(String title)
 	{
 		this.title=title;
 	}
 
-	TvTvDeEpisodeData(String germanTitle, String originalTitle)
+	TvTvDeEpisodeData(String title, int timeOffset, int length)
 	{
-		this(germanTitle, originalTitle, 0);
+		this.title=title;
+		this.timeOffset=timeOffset;
+		this.length=length;
 	}
 
-	TvTvDeEpisodeData(String germanTitle, String originalTitle, int timeOffset)
+	TvTvDeEpisodeData(String germanTitle, String originalTitle)
+	{
+		this(germanTitle, originalTitle, 0, 0);
+	}
+
+	TvTvDeEpisodeData(String germanTitle, String originalTitle, int timeOffset, int length)
 	{
 		title=germanTitle+" ("+originalTitle+")";
 		this.originalTitle=originalTitle;
 		this.germanTitle=germanTitle;
 		this.timeOffset=timeOffset;
+		this.length=length;
 	}
 
 	public Episode getEpisode()
@@ -79,5 +88,10 @@ class TvTvDeEpisodeData
 	public void setTitle(String title)
 	{
 		this.title=title;
+	}
+
+	public int getLength()
+	{
+		return length;
 	}
 }

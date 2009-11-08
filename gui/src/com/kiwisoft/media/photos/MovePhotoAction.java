@@ -8,6 +8,7 @@ import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.utils.Utils;
 
 public class MovePhotoAction extends MultiContextAction
 {
@@ -24,7 +25,7 @@ public class MovePhotoAction extends MultiContextAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		final List<Photo> photos=getObjects();
+		final List<Photo> photos=Utils.cast(getObjects());
 		final MovePhotoDialog dialog=new MovePhotoDialog(frame, gallery);
 		dialog.setVisible(true);
 		if (dialog.isOk())
@@ -37,7 +38,7 @@ public class MovePhotoAction extends MultiContextAction
 					PhotoGallery newGallery;
 					if (dialog.isNewGallery())
 					{
-						newGallery=PhotoManager.getInstance().createGallery();
+						newGallery=PhotoManager.getInstance().createRootGallery();
 						newGallery.setName(dialog.getGalleryName());
 					}
 					else newGallery=dialog.getGallery();

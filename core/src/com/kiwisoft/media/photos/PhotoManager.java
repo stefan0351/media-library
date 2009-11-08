@@ -9,6 +9,7 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeSource;
@@ -39,22 +40,37 @@ public class PhotoManager implements CollectionChangeSource
 		return DBLoader.getInstance().loadSet(PhotoGallery.class);
 	}
 
+	public Set<PhotoGallery> getRootGalleries()
+	{
+		return DBLoader.getInstance().loadSet(PhotoGallery.class, null, "parent_id is null");
+	}
+
 	public PhotoGallery getGallery(Long id)
 	{
 		return DBLoader.getInstance().load(PhotoGallery.class, id);
 	}
 
-	public PhotoGallery createGallery()
+	public PhotoGallery createRootGallery()
 	{
 		PhotoGallery gallery=new PhotoGallery();
-		collectionChangeSupport.fireElementAdded(GALLERIES, gallery);
+		addRootGallery(gallery);
 		return gallery;
 	}
 
-	public void dropGallery(PhotoGallery gallery)
+	public void dropRootGallery(PhotoGallery gallery)
 	{
 		gallery.delete();
+		removeRootGallery(gallery);
+	}
+
+	public void removeRootGallery(PhotoGallery gallery)
+	{
 		collectionChangeSupport.fireElementRemoved(GALLERIES, gallery);
+	}
+
+	public void addRootGallery(PhotoGallery gallery)
+	{
+		collectionChangeSupport.fireElementAdded(GALLERIES, gallery);
 	}
 
 	@Override

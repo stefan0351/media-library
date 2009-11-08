@@ -22,21 +22,23 @@ public class PhotoGalleryDetailsView extends DetailsView
 {
 	public static void create(PhotoGallery gallery)
 	{
-		new DetailsFrame(new PhotoGalleryDetailsView(gallery)).show();
+		new DetailsFrame(new PhotoGalleryDetailsView(gallery, null)).show();
 	}
 
-	public static void create()
+	public static void createNew(PhotoGallery parent)
 	{
-		new DetailsFrame(new PhotoGalleryDetailsView()).show();
+		new DetailsFrame(new PhotoGalleryDetailsView(null, parent)).show();
 	}
 
 	private PhotoGallery photoGallery;
+	private PhotoGallery parent;
 
 	private JTextField nameField;
 	private DateField dateField;
 
-	private PhotoGalleryDetailsView(PhotoGallery gallery)
+	private PhotoGalleryDetailsView(PhotoGallery gallery, PhotoGallery parent)
 	{
+		this.parent=parent;
 		createContentPanel();
 		setBook(gallery);
 	}
@@ -88,7 +90,11 @@ public class PhotoGalleryDetailsView extends DetailsView
 				@Override
 				public void run() throws Exception
 				{
-					if (photoGallery==null) photoGallery=PhotoManager.getInstance().createGallery();
+					if (photoGallery==null)
+					{
+						if (parent==null) photoGallery=PhotoManager.getInstance().createRootGallery();
+						else photoGallery=parent.createChildGallery();
+					}
 					photoGallery.setName(name);
 					photoGallery.setCreationDate(date);
 				}

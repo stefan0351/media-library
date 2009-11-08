@@ -11,6 +11,17 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class BookHTMLRenderer extends DefaultHTMLRenderer
 {
+	private String variant;
+
+	public BookHTMLRenderer()
+	{
+	}
+
+	public BookHTMLRenderer(String variant)
+	{
+		this.variant=variant;
+	}
+
 	@Override
 	public String getContent(Object value, WebContext context, int rowIndex, int columnIndex)
 	{
@@ -19,7 +30,8 @@ public class BookHTMLRenderer extends DefaultHTMLRenderer
 			Book book=(Book)value;
 			StringBuilder buffer=new StringBuilder();
 			buffer.append("<a class=\"link\" href=\"").append(Navigation.getLink(context.getRequest(), book)).append("\">");
-			buffer.append(StringEscapeUtils.escapeHtml(book.getTitle()));
+			if ("series".equals(variant)) buffer.append(StringEscapeUtils.escapeHtml(book.getTitle()));
+			else buffer.append(StringEscapeUtils.escapeHtml(book.getFullTitle()));
 			buffer.append("</a>");
 			return buffer.toString();
 		}

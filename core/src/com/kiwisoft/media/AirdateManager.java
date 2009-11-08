@@ -34,7 +34,7 @@ public class AirdateManager
 
 	public Set<Airdate> getAirdates(Date startDate, Date endDate)
 	{
-		return DBLoader.getInstance().loadSet(Airdate.class, null, "viewdate between ? and ?", startDate, endDate);
+		return DBLoader.getInstance().loadSet(Airdate.class, null, "enddate>=? and viewdate<=?", startDate, endDate);
 	}
 
 	public Set<Airdate> getAirdates(Channel channel, Date startDate)
@@ -44,19 +44,19 @@ public class AirdateManager
 
 	public Set<Airdate> getAirdates(Show show, Date startDate, Date endDate)
 	{
-		return DBLoader.getInstance().loadSet(Airdate.class, null, "show_id=? and viewdate between ? and ?", show.getId(), startDate, endDate);
+		return DBLoader.getInstance().loadSet(Airdate.class, null, "show_id=? and enddate>=? and viewdate<=?", show.getId(), startDate, endDate);
 	}
 
 	public Set<Airdate> getAirdates(Person person, Date startDate, Date endDate)
 	{
 		Set<Airdate> airdates=new HashSet<Airdate>();
-		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.show_id=airdates.show_id", "cast.actor_id=? and viewdate between ? and ?",
+		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.show_id=airdates.show_id", "cast.actor_id=? and enddate>=? and viewdate<=?",
 													   person.getId(), startDate, endDate));
-		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.episode_id=airdates.episode_id", "cast.actor_id=? and viewdate between ? and ?",
+		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.episode_id=airdates.episode_id", "cast.actor_id=? and enddate>=? and viewdate<=?",
 													   person.getId(), startDate, endDate));
-		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.movie_id=airdates.movie_id", "cast.actor_id=? and viewdate between ? and ?",
+		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join cast on cast.movie_id=airdates.movie_id", "cast.actor_id=? and enddate>=? and viewdate<=?",
 													   person.getId(), startDate, endDate));
-		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join airdate_persons m on m.airdate_id=airdates.id", "m.person_id=? and viewdate between ? and ?",
+		airdates.addAll(DBLoader.getInstance().loadSet(Airdate.class, "_ join airdate_persons m on m.airdate_id=airdates.id", "m.person_id=? and enddate>=? and viewdate<=?",
 													   person.getId(), startDate, endDate));
 		return airdates;
 	}

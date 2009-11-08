@@ -39,6 +39,9 @@
         <action name="BookDetails" class="com.kiwisoft.media.books.BookDetailsAction">
             <result name="success" type="tiles">media.main.book.book</result>
         </action>
+		<action name="BookSeries" class="com.kiwisoft.media.books.BookSeriesAction">
+			<result name="success" type="tiles">media.main.books.series</result>
+		</action>
 
 		<!-- Episode Actions -->
 

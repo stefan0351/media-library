@@ -2,6 +2,7 @@ package com.kiwisoft.media.books;
 
 import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.CompoundComparable;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,20 +35,30 @@ public class BookTableRow extends SortableTableRow<Book> implements PropertyChan
         fireRowUpdated();
     }
 
-    @Override
+	@Override
+	public Comparable getSortValue(int column, String property)
+	{
+		if ("title".equals(property)) return getUserObject().getIndexBy();
+		if ("series".equals(property))
+			return new CompoundComparable<String,Integer>(getUserObject().getSeriesName(), getUserObject().getSeriesNumber());
+		return super.getSortValue(column, property);
+	}
+
+	@Override
 	public Object getDisplayValue(int column, String property)
     {
         if ("title".equals(property)) return getUserObject().getTitle();
+        if ("series".equals(property)) return getUserObject().getSeriesTitle();
         if ("author".equals(property)) return StringUtils.formatAsEnumeration(getUserObject().getAuthors(), "; ");
-        else if ("publisher".equals(property)) return getUserObject().getPublisher();
-        else if ("pageCount".equals(property))
+        if ("publisher".equals(property)) return getUserObject().getPublisher();
+        if ("pageCount".equals(property))
         {
             Integer pageCount=getUserObject().getPageCount();
             if (pageCount!=null && pageCount>0) return pageCount;
             return null;
         }
-        else if ("binding".equals(property)) return getUserObject().getBinding();
-        else if ("isbn".equals(property))
+        if ("binding".equals(property)) return getUserObject().getBinding();
+        if ("isbn".equals(property))
         {
             String isbn=getUserObject().getIsbn13();
             if (StringUtils.isEmpty(isbn)) isbn=getUserObject().getIsbn10();

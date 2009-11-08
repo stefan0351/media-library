@@ -6,6 +6,7 @@
 		<field name="event" column="event"/>
 		<field name="reminder" column="reminder"/>
 		<field name="date" column="viewdate"/>
+		<field name="endDate" column="enddate"/>
 		<field name="version" column="version"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="detailsLink" column="detailslink"/>
@@ -19,6 +20,9 @@
 	<type name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
+		<field name="indexBy" column="index_by"/>
+		<field name="seriesName" column="series_name"/>
+		<field name="seriesNumber" column="series_number"/>
 		<field name="binding" column="binding"/>
 		<field name="publisher" column="publisher"/>
 		<field name="publishedYear" column="published_year"/>
@@ -273,6 +277,7 @@
 		<field name="name" column="name"/>
 		<field name="creationDate" column="creation_date"/>
 		<field name="version" column="version"/>
+		<reference name="parent" column="parent_id" type="PhotoGallery"/>
 	</type>
 	<type name="SearchPattern" class="com.kiwisoft.media.dataimport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
 		<field name="id" column="id"/>

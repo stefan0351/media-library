@@ -45,6 +45,13 @@ public class ShowBooksTable extends SortableWebTable<Book>
 		}
 
 		@Override
+		public Comparable getSortValue(int column, String property)
+		{
+			if (TITLE.equals(property)) return getUserObject().getIndexBy();
+			return super.getSortValue(column, property);
+		}
+
+		@Override
 		public Object getDisplayValue(int column, String property)
 		{
 			Book book=getUserObject();

@@ -1,15 +1,17 @@
 package com.kiwisoft.media.photos;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.actions.SimpleContextAction;
+import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.app.ApplicationFrame;
+import com.kiwisoft.utils.Utils;
 
-public class RotatePhotoAction extends SimpleContextAction
+public class RotatePhotoAction extends MultiContextAction
 {
 	private ApplicationFrame frame;
 
@@ -25,10 +27,10 @@ public class RotatePhotoAction extends SimpleContextAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		final Photo photo=(Photo)getObject();
-		if (photo!=null)
+		final List<Photo> photos=Utils.cast(getObjects());
+		for (final Photo photo : photos)
 		{
-			DBSession.execute(new Transactional()
+			boolean success=DBSession.execute(new Transactional()
 			{
 				@Override
 				public void run() throws Exception
@@ -42,6 +44,7 @@ public class RotatePhotoAction extends SimpleContextAction
 					JOptionPane.showMessageDialog(frame, throwable.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			});
+			if (!success) break;
 		}
 	}
 }

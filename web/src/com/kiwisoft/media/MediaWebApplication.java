@@ -122,6 +122,7 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(Movie.class, new MovieHTMLRenderer());
 		rendererManager.setRenderer(Person.class, new PersonHTMLRenderer());
 		rendererManager.setRenderer(Book.class, new BookHTMLRenderer());
+		rendererManager.setRenderer(Book.class, "series", new BookHTMLRenderer("series"));
 		rendererManager.setRenderer(Show.class, new ShowHTMLRenderer());
 		rendererManager.setRenderer(Genre.class, new GenreHTMLRenderer());
 		rendererManager.setRenderer(Season.class, new SeasonHTMLRenderer());

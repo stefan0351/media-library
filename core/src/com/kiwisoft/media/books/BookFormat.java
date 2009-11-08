@@ -14,7 +14,7 @@ public class BookFormat extends DefaultObjectFormat
 		if (value instanceof Book)
 		{
 			Book book=(Book) value;
-			return book.getTitle();			
+			return book.getFullTitle();			
 		}
 		return super.format(value);
 	}

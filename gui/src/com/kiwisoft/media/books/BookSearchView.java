@@ -24,7 +24,7 @@ public class BookSearchView extends SearchView<Book>
 	@Override
 	protected TableController<Book> createResultTable(final ApplicationFrame frame)
 	{
-		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>("title", "author", "publisher", "binding", "pageCount", "isbn");
+		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>("title", "series", "author", "isbn");
 		return new TableController<Book>(tableModel, new DefaultTableConfiguration("books.list", BookSearchView.class, "books"))
 		{
 			@Override
@@ -78,7 +78,7 @@ public class BookSearchView extends SearchView<Book>
 		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
 		else searchText="%"+searchText+"%";
 		Set<Book> books=new HashSet<Book>();
-		books.addAll(DBLoader.getInstance().loadSet(Book.class, null, "title like ? limit 1001", searchText));
+		books.addAll(DBLoader.getInstance().loadSet(Book.class, null, "(title like ? or series_name like ?) limit 1001", searchText, searchText));
 		if (books.size()<1001)
 		{
 			books.addAll(DBLoader.getInstance().loadSet(Book.class,

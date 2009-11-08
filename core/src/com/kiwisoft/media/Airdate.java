@@ -26,6 +26,7 @@ public class Airdate extends IDObject
 	public static final String PERSONS="persons";
 	public static final String CHANNEL="channel";
 	public static final String DATE="date";
+	public static final String END_DATE="endDate";
 	public static final String EPISODE="episode";
 	public static final String EVENT="event";
 	public static final String SHOW="show";
@@ -37,6 +38,7 @@ public class Airdate extends IDObject
 	private String event;
 	private boolean reminder;
 	private Date date;
+	private Date endDate;
 	private String detailsLink;
 
 	public Airdate()
@@ -143,6 +145,18 @@ public class Airdate extends IDObject
 		Date oldDate=getDate();
 		this.date=date;
 		setModified(DATE, oldDate, date);
+	}
+
+	public Date getEndDate()
+	{
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate)
+	{
+		Date oldDate=this.endDate;
+		this.endDate=endDate;
+		setModified(END_DATE, oldDate, this.endDate);
 	}
 
 	public Channel getChannel()

@@ -50,7 +50,7 @@ public class BookManager implements CollectionChangeSource
 
 	public Set<Book> getBooksByLetter(char ch)
 	{
-		return DBLoader.getInstance().loadSet(Book.class, null, "sort_letter(title)=?", String.valueOf(ch));
+		return DBLoader.getInstance().loadSet(Book.class, null, "sort_letter(index_by)=?", String.valueOf(ch));
 	}
 
 	public SortedSet<Character> getLetters()
@@ -59,7 +59,7 @@ public class BookManager implements CollectionChangeSource
 		{
 			SortedSet<Character> set=new TreeSet<Character>();
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(title) from books");
+			PreparedStatement statement=connection.prepareStatement("select distinct sort_letter(index_by) from books");
 			try
 			{
 				ResultSet resultSet=statement.executeQuery();
@@ -171,5 +171,34 @@ public class BookManager implements CollectionChangeSource
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	public Collection<String> getSeriesNames()
+	{
+		try
+		{
+			Set<String> publishers=new HashSet<String>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct series_name from books where series_name is not null");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next()) publishers.add(resultSet.getString(1));
+			}
+			finally
+			{
+				statement.close();
+			}
+			return publishers;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Set<Book> getBooksBySeries(String seriesName)
+	{
+		return DBLoader.getInstance().loadSet(Book.class, null, "series_name=?", seriesName);
 	}
 }

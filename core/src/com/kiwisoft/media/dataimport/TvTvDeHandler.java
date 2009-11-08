@@ -264,10 +264,10 @@ abstract class TvTvDeHandler<T>
 							String[] germanTitles=germanTitle.split("/");
 							if (germanTitles.length>1 && germanTitles.length==originalTitles.length)
 							{
-								int episodeLength=length!=null ? length/2 : show.getDefaultEpisodeLength();
+								int episodeLength=length!=null ? length/germanTitle.length() : show.getDefaultEpisodeLength();
 								for (int i=0; i<germanTitles.length; i++)
 								{
-									airdate.addEpisode(new TvTvDeEpisodeData(germanTitles[i].trim(), originalTitles[i].trim(), i*episodeLength));
+									airdate.addEpisode(new TvTvDeEpisodeData(germanTitles[i].trim(), originalTitles[i].trim(), i*episodeLength, episodeLength));
 								}
 							}
 							else airdate.addEpisode(new TvTvDeEpisodeData(germanTitle, originalTitle));
@@ -278,10 +278,16 @@ abstract class TvTvDeHandler<T>
 				}
 				else
 				{
-					for (String s : title.split("/"))
+					String[] episodeTitles=title.split("/");
+					if (episodeTitles.length>1)
 					{
-						airdate.addEpisode(new TvTvDeEpisodeData(s.trim()));
+						int episodeLength=airdate.getLength()!=null ? airdate.getLength().intValue()/episodeTitles.length : show.getDefaultEpisodeLength();
+						for (int i=0; i<episodeTitles.length; i++)
+						{
+							airdate.addEpisode(new TvTvDeEpisodeData(episodeTitles[i].trim(), i*episodeLength, episodeLength));
+						}
 					}
+					else airdate.addEpisode(new TvTvDeEpisodeData(title));
 				}
 				for (TvTvDeEpisodeData episodeData : airdate.getEpisodes())
 				{
@@ -358,20 +364,27 @@ abstract class TvTvDeHandler<T>
 				NodeList numberTags=HtmlUtils.findAll(contentTag, "span.fn-b9");
 				if (numberTags.size()>=2)
 				{
-					CompositeTag numberTag=(CompositeTag) numberTags.elementAt(1);
-					String numberString=numberTag.toPlainTextString();
-					if (!StringUtils.isEmpty(numberString))
+					for (int i=0;i<numberTags.size();i++)
 					{
-						Matcher matcher=episodeNumberPattern.matcher(numberString);
-						if (matcher.matches())
+						String text=numberTags.elementAt(i).toPlainTextString();
+						if ("Folge".equals(text))
 						{
-							airdate.setEpisodeNumber(Long.valueOf(matcher.group(1)));
-							log.debug("Set episode number: "+airdate.getEpisodeNumber());
-						}
-						else
-						{
-							log.warn("Invalid episode number pattern: "+numberString);
-							getProgressSupport().warning("Invalid episode number pattern: "+numberString);
+							if (i+1<numberTags.size())
+							{
+								String numberString=numberTags.elementAt(i+1).toPlainTextString();
+								Matcher matcher=episodeNumberPattern.matcher(numberString);
+								if (matcher.matches())
+								{
+									airdate.setEpisodeNumber(Long.valueOf(matcher.group(1)));
+									log.debug("Set episode number: "+airdate.getEpisodeNumber());
+								}
+								else
+								{
+									log.warn("Invalid episode number pattern: "+numberString);
+									getProgressSupport().warning("Invalid episode number pattern: "+numberString);
+								}
+							}
+							break;
 						}
 					}
 				}
@@ -426,7 +439,7 @@ abstract class TvTvDeHandler<T>
 		{
 			if (airingData.getEpisodes().isEmpty())
 			{
-				Airdate airdate=loader.createAirdate(airingData, airingData.getTime());
+				Airdate airdate=loader.createAirdate(airingData, airingData.getTime(), airingData.getLength());
 				if (airingData.getShow()==null && airingData.getMovie()==null) airdate.setEvent(airingData.getTitle());
 				else airdate.setEvent(airingData.getSubTitle());
 				created++;
@@ -436,7 +449,7 @@ abstract class TvTvDeHandler<T>
 				for (TvTvDeEpisodeData episodeData : airingData.getEpisodes())
 				{
 					Date date=DateUtils.add(airingData.getTime(), Calendar.MINUTE, episodeData.getTimeOffset());
-					Airdate airdate=loader.createAirdate(airingData, date);
+					Airdate airdate=loader.createAirdate(airingData, date, episodeData.getLength());
 					Episode episode=episodeData.getEpisode();
 					airdate.setEpisode(episode);
 					if (episode==null) airdate.setEvent(episodeData.getTitle());

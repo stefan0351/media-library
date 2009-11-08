@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.SQLException;
 import java.util.Date;
+import java.util.Calendar;
 import javax.swing.*;
 
 import com.kiwisoft.media.show.Episode;
@@ -22,12 +22,14 @@ import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Time;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
 import com.kiwisoft.swing.lookup.TimeField;
 import com.kiwisoft.swing.ActionField;
+import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
@@ -50,6 +52,7 @@ public class AirdateDetailsView extends DetailsView
 	// Konfigurations Panel
 	private DateField dateField;
 	private TimeField timeField;
+	private TimeField endTimeField;
 	private LookupField<Language> languageField;
 	private LookupField<Show> showField;
 	private LookupField<Episode> episodeField;
@@ -79,6 +82,7 @@ public class AirdateDetailsView extends DetailsView
 	{
 		dateField=new DateField();
 		timeField=new TimeField();
+		endTimeField=new TimeField();
 		languageField=new LookupField<Language>(new LanguageLookup());
 		showField=new LookupField<Show>(new ShowLookup());
 		episodeField=new LookupField<Episode>(new DialogEpisodeLookup());
@@ -91,21 +95,25 @@ public class AirdateDetailsView extends DetailsView
 		linkField.setEditable(false);
 
 		setLayout(new GridBagLayout());
-		setPreferredSize(new Dimension(400, 285));
+		setPreferredSize(new Dimension(400, 310));
 		int row=0;
 		add(new JLabel("Date:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		add(dateField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
-		add(new JLabel("Time:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Channel:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 10, 0, 0), 0, 0));
-		add(timeField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
+		add(channelField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 
 		row++;
-		add(new JLabel("Channel:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
+		add(new JLabel("Time:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(channelField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0,
+		add(timeField, new GridBagConstraints(1, row, 1, 1, 0.5, 0.0,
+		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+		add(new JLabel("End Time:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0,
+		        GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(endTimeField, new GridBagConstraints(3, row, 1, 1, 0.5, 0.0,
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -161,9 +169,9 @@ public class AirdateDetailsView extends DetailsView
 			Date date=airdate.getDate();
 			if (date!=null)
 			{
-				Time time=DateUtils.getTime(date, true);
 				dateField.setDate(date);
-				timeField.setTime(time);
+				timeField.setTime(DateUtils.getTime(date, true));
+				endTimeField.setTime(DateUtils.getTime(airdate.getEndDate(), true));
 			}
 			eventField.setText(airdate.getEvent());
 			showField.setValue(airdate.getShow());
@@ -183,70 +191,52 @@ public class AirdateDetailsView extends DetailsView
 	}
 
 	@Override
-	public boolean apply()
+	public boolean apply() throws InvalidDataException
 	{
-		String event=eventField.getText();
-		if (StringUtils.isEmpty(event)) event=null;
-		Show show=showField.getValue();
-		Episode episode=episodeField.getValue();
-		Movie movie=movieField.getValue();
-		Language language=languageField.getValue();
+		final String event=StringUtils.empty2null(eventField.getText());
+		final Show show=showField.getValue();
+		final Episode episode=episodeField.getValue();
+		final Movie movie=movieField.getValue();
+		final Language language=languageField.getValue();
 		Date date=dateField.getDate();
-		if (date==null)
-		{
-			JOptionPane.showMessageDialog(this, "Date is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			dateField.requestFocus();
-			return false;
-		}
+		if (date==null) throw new InvalidDataException("Date is missing!", dateField);
 		Time time=timeField.getTime();
-		if (time==null)
-		{
-			JOptionPane.showMessageDialog(this, "Time is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			timeField.requestFocus();
-			return false;
-		}
-		Date fullDate=DateUtils.merge(date, time);
-		Channel channel=channelField.getValue();
-		if (channel==null)
-		{
-			JOptionPane.showMessageDialog(this, "Channel is missing!", "Error", JOptionPane.ERROR_MESSAGE);
-			channelField.requestFocus();
-			return false;
-		}
+		if (time==null) throw new InvalidDataException("Time is missing!", timeField);
+		Time endTime=endTimeField.getTime();
+		if (endTime==null) throw new InvalidDataException("End time is missing!", endTimeField);
+		final Date startDate=DateUtils.merge(date, time);
+		Date endDate=DateUtils.merge(date, endTime);
+		if (endDate.before(startDate)) endDate=DateUtils.add(endDate, Calendar.DATE, 1);
+		final Channel channel=channelField.getValue();
+		if (channel==null) throw new InvalidDataException("Channel is missing!", channelField);
 
-		Transaction transaction=null;
-		try
+		final Date endDate1=endDate;
+		return DBSession.execute(new Transactional()
 		{
-			transaction=DBSession.getInstance().createTransaction();
-			if (airdate==null)
+			@Override
+			public void run() throws Exception
 			{
-				airdate=new Airdate();
-				airdate.setDataSource(DataSource.INPUT);
+				if (airdate==null)
+				{
+					airdate=new Airdate();
+					airdate.setDataSource(DataSource.INPUT);
+				}
+				airdate.setEvent(event);
+				airdate.setShow(show);
+				airdate.setEpisode(episode);
+				airdate.setMovie(movie);
+				airdate.setLanguage(language);
+				airdate.setDate(startDate);
+				airdate.setEndDate(endDate1);
+				airdate.setChannel(channel);
 			}
-			airdate.setEvent(event);
-			airdate.setShow(show);
-			airdate.setEpisode(episode);
-			airdate.setMovie(movie);
-			airdate.setLanguage(language);
-			airdate.setDate(fullDate);
-			airdate.setChannel(channel);
-			transaction.close();
-			return true;
-		}
-		catch (Throwable t)
-		{
-			t.printStackTrace();
-			try
+
+			@Override
+			public void handleError(Throwable throwable, boolean rollback)
 			{
-				if (transaction!=null) transaction.rollback();
+				GuiUtils.handleThrowable(AirdateDetailsView.this, throwable);
 			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-			JOptionPane.showMessageDialog(this, t.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
+		});
 	}
 
 	private class ShowSelectionListener implements LookupSelectionListener

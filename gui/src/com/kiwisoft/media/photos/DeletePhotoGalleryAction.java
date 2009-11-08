@@ -16,14 +16,15 @@ public class DeletePhotoGalleryAction extends SimpleContextAction
 
 	public DeletePhotoGalleryAction(ApplicationFrame frame)
 	{
-		super(PhotoGallery.class, "Delete", Icons.getIcon("delete"));
+		super(PhotoGalleryNode.class, "Delete", Icons.getIcon("delete"));
 		this.frame=frame;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		final PhotoGallery gallery=(PhotoGallery)getObject();
+		PhotoGalleryNode node=(PhotoGalleryNode)getObject();
+		final PhotoGallery gallery=node.getUserObject();
 		if (gallery.isUsed())
 		{
 			showMessageDialog(frame, "The photo gallery '"+gallery.getName()+"' can't be deleted.", "Message", INFORMATION_MESSAGE);
@@ -37,7 +38,9 @@ public class DeletePhotoGalleryAction extends SimpleContextAction
 				@Override
 				public void run() throws Exception
 				{
-					PhotoManager.getInstance().dropGallery(gallery);
+					PhotoGallery parent=gallery.getParent();
+					if (parent!=null) parent.dropChildGallery(gallery);
+					else PhotoManager.getInstance().dropRootGallery(gallery);
 				}
 
 				@Override

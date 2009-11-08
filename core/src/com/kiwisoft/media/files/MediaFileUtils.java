@@ -163,8 +163,11 @@ public class MediaFileUtils
 						else if ("model".equals(key)) imageDescriptor.setCameraModel(value);
 						else if ("date".equals(key))
 						{
-							SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
-							imageDescriptor.setDate(dateFormat.parse(value));
+							if (!"0000:00:00 00:00:00".equals(value))
+							{
+								SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
+								imageDescriptor.setDate(dateFormat.parse(value));
+							}
 						}
 						else if ("exposuretime".equals(key)) imageDescriptor.setExposureTime(convertFractionToNumber(value));
 						else if ("fnumber".equals(key)) imageDescriptor.setFNumber(convertFractionToNumber(value));

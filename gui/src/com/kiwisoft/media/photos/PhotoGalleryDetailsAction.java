@@ -12,12 +12,13 @@ public class PhotoGalleryDetailsAction extends SimpleContextAction
 {
 	public PhotoGalleryDetailsAction()
 	{
-		super(PhotoGallery.class, "Details", Icons.getIcon("details"));
+		super(PhotoGalleryNode.class, "Details", Icons.getIcon("details"));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		PhotoGalleryDetailsView.create((PhotoGallery)getObject());
+		PhotoGalleryNode node=(PhotoGalleryNode) getObject();
+		PhotoGalleryDetailsView.create(node.getUserObject());
 	}
 }

@@ -1,17 +1,20 @@
 package com.kiwisoft.media.books;
 
-import java.util.Set;
-import java.util.Collection;
-
+import com.kiwisoft.media.IndexByUtils;
 import com.kiwisoft.media.Language;
-import com.kiwisoft.media.show.Summary;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.persistence.IDObject;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.show.Summary;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.StringUtils;
+
+import java.text.DecimalFormat;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author Stefan Stiller
@@ -31,6 +34,9 @@ public class Book extends IDObject
 	public static final String AUTHORS="authors";
 	public static final String TRANSLATORS="translators";
 	public static final String SHOW="show";
+	public static final String SERIES_NAME="seriesName";
+	public static final String SERIES_NUMBER="seriesNumber";
+	public static final String INDEX_BY="indexBy";
 
 	private String title;
 	private String publisher;
@@ -40,6 +46,9 @@ public class Book extends IDObject
 	private String isbn10;
 	private String isbn13;
 	private String binding;
+	private String seriesName;
+	private Integer seriesNumber;
+	private String indexBy;
 
 	public Book()
 	{
@@ -60,6 +69,42 @@ public class Book extends IDObject
 		String oldTitle=this.title;
 		this.title=title;
 		setModified(TITLE, oldTitle, title);
+	}
+
+	public String getSeriesName()
+	{
+		return seriesName;
+	}
+
+	public void setSeriesName(String seriesName)
+	{
+		String oldName=this.seriesName;
+		this.seriesName=seriesName;
+		setModified(SERIES_NAME, oldName, this.seriesName);
+	}
+
+	public Integer getSeriesNumber()
+	{
+		return seriesNumber;
+	}
+
+	public void setSeriesNumber(Integer seriesNumber)
+	{
+		Integer oldNumber=this.seriesNumber;
+		this.seriesNumber=seriesNumber;
+		setModified(SERIES_NUMBER, oldNumber, this.seriesNumber);
+	}
+
+	public String getIndexBy()
+	{
+		return indexBy;
+	}
+
+	public void setIndexBy(String indexBy)
+	{
+		String oldIndexBy=this.indexBy;
+		this.indexBy=indexBy;
+		setModified(INDEX_BY, oldIndexBy, this.indexBy);
 	}
 
 	public String getPublisher()
@@ -155,7 +200,7 @@ public class Book extends IDObject
 
 	public Language getLanguage()
 	{
-		return (Language)getReference(LANGUAGE);
+		return (Language) getReference(LANGUAGE);
 	}
 
 	public void setLanguage(Language language)
@@ -165,7 +210,7 @@ public class Book extends IDObject
 
 	public MediaFile getCover()
 	{
-		return (MediaFile)getReference(COVER);
+		return (MediaFile) getReference(COVER);
 	}
 
 	public void setCover(MediaFile cover)
@@ -213,35 +258,35 @@ public class Book extends IDObject
 		setAssociations(TRANSLATORS, translators);
 	}
 
-    public void setSummaryText(Language language, String text)
-    {
-        Summary summary=getSummary(language);
-        if (!StringUtils.isEmpty(text))
-        {
-            if (summary==null)
-            {
-                summary=new Summary();
-                summary.setBook(this);
-                summary.setLanguage(language);
-            }
-            summary.setSummary(text);
-        }
-        else
-        {
-            if (summary!=null) summary.delete();
-        }
-    }
+	public void setSummaryText(Language language, String text)
+	{
+		Summary summary=getSummary(language);
+		if (!StringUtils.isEmpty(text))
+		{
+			if (summary==null)
+			{
+				summary=new Summary();
+				summary.setBook(this);
+				summary.setLanguage(language);
+			}
+			summary.setSummary(text);
+		}
+		else
+		{
+			if (summary!=null) summary.delete();
+		}
+	}
 
-    public String getSummaryText(Language language)
-    {
-        Summary summary=getSummary(language);
-        return summary!=null ? summary.getSummary() : null;
-    }
+	public String getSummaryText(Language language)
+	{
+		Summary summary=getSummary(language);
+		return summary!=null ? summary.getSummary() : null;
+	}
 
-    private Summary getSummary(Language language)
-    {
-        return DBLoader.getInstance().load(Summary.class, null, "book_id=? and language_id=?", getId(), language.getId());
-    }
+	private Summary getSummary(Language language)
+	{
+		return DBLoader.getInstance().load(Summary.class, null, "book_id=? and language_id=?", getId(), language.getId());
+	}
 
 	public Show getShow()
 	{
@@ -254,5 +299,55 @@ public class Book extends IDObject
 		setReference(SHOW, show);
 		if (oldShow!=null) oldShow.removeBook(this);
 		if (show!=null) show.addBook(this);
+	}
+
+	public String getFullTitle()
+	{
+		String title=getTitle();
+		if (!StringUtils.isEmpty(title))
+		{
+			StringBuilder buffer=new StringBuilder(title);
+			if (!StringUtils.isEmpty(seriesName) && buffer.indexOf(seriesName)==-1)
+			{
+				buffer.append(" (");
+				buffer.append(seriesName);
+				if (seriesNumber!=null) buffer.append(" #").append(seriesNumber);
+				buffer.append(")");
+			}
+			return buffer.toString();
+		}
+		return null;
+	}
+
+	public String getSeriesTitle()
+	{
+		if (!StringUtils.isEmpty(seriesName))
+		{
+			if (seriesNumber!=null) return seriesName+" #"+seriesNumber;
+		}
+		return seriesName;
+	}
+
+	public static String createIndexBy(String title, String series, Integer number, Language language)
+	{
+		if (!StringUtils.isEmpty(title))
+		{
+			StringBuilder buffer=new StringBuilder();
+			if (LanguageManager.GERMAN.equals(language))
+				buffer.append(IndexByUtils.createGermanIndexBy(title));
+			else
+				buffer.append(IndexByUtils.createIndexBy(title));
+			if (!StringUtils.isEmpty(series))
+			{
+				buffer.append(" - ");
+				if (LanguageManager.GERMAN.equals(language))
+					buffer.append(IndexByUtils.createGermanIndexBy(series));
+				else
+					buffer.append(IndexByUtils.createIndexBy(series));
+				if (number!=null) buffer.append(" ").append(new DecimalFormat("0000").format(number));
+			}
+			return buffer.toString();
+		}
+		return null;
 	}
 }

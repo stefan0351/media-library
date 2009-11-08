@@ -4,6 +4,7 @@ import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.html.CssClassFilter;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.books.BookManager;
+import com.kiwisoft.media.books.Isbn;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.PlainTextFilter;
 import com.kiwisoft.utils.StringUtils;
@@ -173,14 +174,17 @@ public class AmazonDeLoader
 			{
 				String[] information=itList.nextNode().toPlainTextString().split(":", 2);
 				String label=information[0].trim();
-				String text=information[1].trim();
+				String text=information.length>1 ? information[1].trim() : null;
 				Matcher labelMatcher=bindingPattern.matcher(label);
 				if (labelMatcher.matches())
 				{
 					bookData.setBinding(labelMatcher.group(1));
-					matcher=pageCountPattern.matcher(text);
-					if (matcher.matches()) bookData.setPageCount(Integer.parseInt(matcher.group(1)));
-					else System.err.println("Invalid page count pattern: "+text);
+					if (text!=null)
+					{
+						matcher=pageCountPattern.matcher(text);
+						if (matcher.matches()) bookData.setPageCount(Integer.parseInt(matcher.group(1)));
+						else System.err.println("Invalid page count pattern: "+text);
+					}
 				}
 				else if ("Verlag".equals(label))
 				{
@@ -193,8 +197,8 @@ public class AmazonDeLoader
 					}
 					else System.err.println("Invalid publisher pattern: "+text);
 				}
-				else if ("ISBN-10".equals(label)) bookData.setIsbn10(text);
-				else if ("ISBN-13".equals(label)) bookData.setIsbn13(text);
+				else if ("ISBN-10".equals(label)) bookData.setIsbn10(Isbn.format(text));
+				else if ("ISBN-13".equals(label)) bookData.setIsbn13(Isbn.format(text));
 				else if ("Sprache".equals(label))
 				{
 					if ("Deutsch".equals(text)) bookData.setLanguage(LanguageManager.GERMAN);

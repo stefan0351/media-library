@@ -2,11 +2,13 @@ package com.kiwisoft.media.photos;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.ImageFile;
 import com.kiwisoft.media.files.PhotoFileInfo;
 import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.media.Link;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.persistence.DBDummy;
@@ -18,10 +20,13 @@ public class PhotoGallery extends IDObject
 	public static final String NAME="name";
 	public static final String PHOTOS="photos";
 	public static final String CREATION_DATE="creationDate";
+	public static final String PARENT="parent";
+	public static final String CHILD_GALLERIES="childGalleries";
 
 	private String name;
 	private Chain<Photo> photos;
 	private Date creationDate;
+	private Set<PhotoGallery> childGalleries;
 
 	public PhotoGallery()
 	{
@@ -117,6 +122,7 @@ public class PhotoGallery extends IDObject
 	@Override
 	public void delete()
 	{
+		for (PhotoGallery gallery : new HashSet<PhotoGallery>(getChildGalleries())) gallery.delete();
 		for (Photo photo : new HashSet<Photo>(getPhotos().elements())) photo.delete();
 		super.delete();
 	}
@@ -148,5 +154,52 @@ public class PhotoGallery extends IDObject
 																			  " and sequence=(select min(sequence) from photos where photogallery_id=?)",
 														   getId(), getId());
 		return photo!=null ? photo.getThumbnail() : null;
+	}
+
+	public PhotoGallery getParent()
+	{
+		return (PhotoGallery) getReference(PARENT);
+	}
+
+	private void setParent(PhotoGallery gallery)
+	{
+		setReference(PARENT, gallery);
+	}
+
+	public Set<PhotoGallery> getChildGalleries()
+	{
+		if (childGalleries==null)
+		{
+			childGalleries=DBLoader.getInstance().loadSet(PhotoGallery.class, null, "parent_id=?", getId());
+		}
+		return childGalleries;
+	}
+
+	public void addChildGallery(PhotoGallery gallery)
+	{
+		gallery.setParent(this);
+		if (childGalleries!=null) childGalleries.add(gallery);
+		fireElementAdded(CHILD_GALLERIES, gallery);
+	}
+
+	public void removeChildGallery(PhotoGallery gallery)
+	{
+		if (gallery.getParent()==this) gallery.setParent(null);
+		if (childGalleries!=null) childGalleries.remove(gallery);
+		fireElementRemoved(CHILD_GALLERIES, gallery);
+	}
+
+	public PhotoGallery createChildGallery()
+	{
+		PhotoGallery gallery=new PhotoGallery();
+		addChildGallery(gallery);
+		return gallery;
+	}
+
+	public void dropChildGallery(PhotoGallery gallery)
+	{
+		gallery.delete();
+		if (childGalleries!=null) childGalleries.remove(gallery);
+		fireElementRemoved(CHILD_GALLERIES, gallery);
 	}
 }

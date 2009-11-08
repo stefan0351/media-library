@@ -19,6 +19,7 @@ import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.DateUtils;
 
 public class TVTVDeLoader implements Job
 {
@@ -221,7 +222,7 @@ public class TVTVDeLoader implements Job
 		return false;
 	}
 
-	Airdate createAirdate(TvTvDeAirdateData airingData, Date date)
+	Airdate createAirdate(TvTvDeAirdateData airingData, Date date, Integer length)
 	{
 		Set<Airdate> airdates=AirdateManager.getInstance().getAirdates(airingData.getChannel(), date);
 		Airdate airdate;
@@ -235,6 +236,8 @@ public class TVTVDeLoader implements Job
 		airdate.setDetailsLink(airingData.getDetailLink());
 		airdate.setShow(airingData.getShow());
 		airdate.setMovie(airingData.getMovie());
+		if (length==null) length=90;
+		airdate.setEndDate(DateUtils.add(date, Calendar.MINUTE, length));
 		if (airingData.getPerson()!=null) airdate.addPerson(airingData.getPerson());
 		airdate.setLanguage(airingData.getChannel().getLanguage());
 		airdate.setDataSource(DataSource.TVTV);

@@ -31,7 +31,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,16 +48,13 @@ public class BookDataDetailsView extends DetailsView
     }
 
     private Book book;
+    private BookData bookData;
 
     // Konfigurations Panel
     private JTextField titleField;
     private JTextField authorsField;
     private JTextField translatorsField;
     private LookupField<String> publisherField;
-    private JTextField editionField;
-    private LookupField<String> bindingField;
-    private JFormattedTextField pageCountField;
-    private JFormattedTextField publishedYearField;
     private LookupField<Language> languageField;
     private DialogLookupField coverFileField;
     private ImagePanel coverPreview;
@@ -70,6 +66,7 @@ public class BookDataDetailsView extends DetailsView
     private BookDataDetailsView(BookData bookData, Book book)
     {
         this.book=book;
+		this.bookData=bookData;
         createContentPanel();
         setBookData(bookData);
     }
@@ -80,12 +77,8 @@ public class BookDataDetailsView extends DetailsView
         translatorsField=new JTextField(30);
         titleField=new JTextField(40);
         publisherField=new LookupField<String>(new PublisherLookup());
-        editionField=new JTextField(20);
-        bindingField=new LookupField<String>(new BindingLookup());
         isbn10Field=new JTextField(15);
         isbn13Field=new JTextField(20);
-        pageCountField=ComponentUtils.createNumberField(Integer.class, 5, 0, null);
-        publishedYearField=ComponentUtils.createNumberField(Integer.class, 5, 1000, Calendar.getInstance().get(Calendar.YEAR));
         languageField=new LookupField<Language>(new LanguageLookup());
         coverFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
         coverPreview=new ImagePanel(new Dimension(150, 200));
@@ -125,16 +118,6 @@ public class BookDataDetailsView extends DetailsView
                 new GridBagConstraints(2, row, 1, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 
         row++;
-        add(new JLabel("Binding:"),
-                new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-        add(bindingField,
-                new GridBagConstraints(2, row, 1, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-        add(new JLabel("Pages:"),
-                new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-        add(pageCountField,
-                new GridBagConstraints(4, row, 1, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-        row++;
         add(new JLabel("Language:"),
                 new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
         add(languageField,
@@ -145,16 +128,6 @@ public class BookDataDetailsView extends DetailsView
                 new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
         add(publisherField,
                 new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-        row++;
-        add(new JLabel("Edition:"),
-                new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-        add(editionField,
-                new GridBagConstraints(2, row, 1, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-        add(new JLabel("Publ. Year:"),
-                new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-        add(publishedYearField,
-                new GridBagConstraints(4, row, 1, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
         row++;
         add(new JLabel("ISBN-10:"),
@@ -179,12 +152,7 @@ public class BookDataDetailsView extends DetailsView
     private void setBookData(BookData bookData)
     {
         titleField.setText(bookData.getTitle());
-        pageCountField.setValue(bookData.getPageCount());
         publisherField.setValue(bookData.getPublisher());
-        editionField.setText(bookData.getEdition());
-        bindingField.setValue(bookData.getBinding());
-        int publishedYear=bookData.getPublishedYear();
-        if (publishedYear>0) publishedYearField.setValue(publishedYear);
         File imageFile=bookData.getImageFile();
         if (imageFile!=null) coverFileField.setText(imageFile.getAbsolutePath());
         isbn10Field.setText(bookData.getIsbn10());
@@ -206,13 +174,12 @@ public class BookDataDetailsView extends DetailsView
             final String[] authors=StringUtils.splitAndTrim(authorsField.getText(), ";");
             final String[] translators=StringUtils.splitAndTrim(translatorsField.getText(), ";");
             final String publisher=publisherField.getText();
-            final String edition=editionField.getText();
-            final String binding=bindingField.getText();
-            final String isbn10=isbn10Field.getText();
-            final String isbn13=isbn13Field.getText();
-            final Language language=languageField.getValue();
-            final Integer publishedYear=(Integer) publishedYearField.getValue();
-            final Integer pageCount=(Integer) pageCountField.getValue();
+			final String isbn10=Isbn.format(isbn10Field.getText());
+			isbn10Field.setText(isbn10);
+            final String isbn13=Isbn.format(isbn13Field.getText());
+			isbn13Field.setText(isbn13);
+			final Language language=languageField.getValue();
+			if (language==null) throw new InvalidDataException("Language is missing!", titleField);
             String coverPath=coverFileField.getText();
             String thumbnailPath=null;
             Dimension coverSize=null;
@@ -243,6 +210,7 @@ public class BookDataDetailsView extends DetailsView
             final Language summaryLanguage=summaryLanguageField.getValue();
             if (!StringUtils.isEmpty(summary) && summaryLanguage==null)
                 throw new InvalidDataException("No summary language specified!", summaryLanguageField);
+			final String indexBy=Book.createIndexBy(titleField.getText(), null, null, languageField.getValue());
 
 
             final Dimension finalCoverSize=coverSize;
@@ -258,6 +226,7 @@ public class BookDataDetailsView extends DetailsView
                 {
                     if (book==null) book=BookManager.getInstance().createBook();
                     book.setTitle(title);
+					book.setIndexBy(indexBy);
                     for (String name : authors)
                     {
                         if (!StringUtils.isEmpty(name))
@@ -274,11 +243,11 @@ public class BookDataDetailsView extends DetailsView
                             book.addTranslator(translator);
                         }
                     }
-                    book.setBinding(binding);
+                    book.setBinding(bookData.getBinding());
                     book.setPublisher(publisher);
-                    book.setEdition(edition);
-                    book.setPublishedYear(publishedYear);
-                    book.setPageCount(pageCount);
+                    book.setEdition(bookData.getEdition());
+                    book.setPublishedYear(bookData.getPublishedYear());
+                    book.setPageCount(bookData.getPageCount());
                     book.setIsbn10(isbn10);
                     book.setIsbn13(isbn13);
                     book.setLanguage(language);

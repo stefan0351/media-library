@@ -2,6 +2,8 @@ package com.kiwisoft.media;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.datatransfer.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Locale;

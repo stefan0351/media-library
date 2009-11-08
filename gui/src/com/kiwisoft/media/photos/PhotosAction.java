@@ -15,13 +15,14 @@ public class PhotosAction extends SimpleContextAction
 
 	public PhotosAction(ApplicationFrame frame)
 	{
-		super(PhotoGallery.class, "Photos", Icons.getIcon("photos"));
+		super(PhotoGalleryNode.class, "Photos", Icons.getIcon("photos"));
 		this.frame=frame;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		frame.setCurrentView(new PhotosView((PhotoGallery)getObject()));
+		PhotoGalleryNode node=(PhotoGalleryNode) getObject();
+		frame.setCurrentView(new PhotosView(node.getUserObject()));
 	}
 }
