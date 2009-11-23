@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 import com.kiwisoft.media.MediaConfiguration;
 import static com.kiwisoft.media.files.MediaFileUtils.DURATION_FORMAT;
 import com.kiwisoft.swing.GuiUtils;
+import static com.kiwisoft.swing.ComponentUtils.createBoldLabel;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.style.StyleUtils;
 import com.kiwisoft.utils.*;
@@ -64,19 +65,19 @@ class VideoField extends JPanel
 		audioField=new JLabel();
 
 		int row=0;
-		panel.add(GuiUtils.createBoldLabel("File Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+		panel.add(createBoldLabel("File Name:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		panel.add(fileNameField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(0, 5, 0, 0), 0, 0));
 		row++;
-		panel.add(GuiUtils.createBoldLabel("Folder:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
+		panel.add(createBoldLabel("Folder:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
 		panel.add(folderField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		row++;
-		panel.add(GuiUtils.createBoldLabel("Size:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
+		panel.add(createBoldLabel("Size:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
 		panel.add(sizeField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		row++;
-		panel.add(GuiUtils.createBoldLabel("Video Format:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
+		panel.add(createBoldLabel("Video Format:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
 		panel.add(videoField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		row++;
-		panel.add(GuiUtils.createBoldLabel("Audio Format:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
+		panel.add(createBoldLabel("Audio Format:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 0, 0, 0), 0, 0));
 		panel.add(audioField, new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 0, 0), 0, 0));
 		return panel;
 	}

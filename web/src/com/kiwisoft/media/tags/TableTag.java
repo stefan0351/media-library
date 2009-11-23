@@ -66,7 +66,7 @@ public class TableTag extends StrutsBodyTagSupport
 		return SKIP_BODY;
 	}
 
-	private void renderRows(SortableWebTable table) throws IOException
+	private void renderRows(SortableWebTable<?> table) throws IOException
 	{
 		JspWriter out=pageContext.getOut();
 		HttpServletRequest request=(HttpServletRequest)pageContext.getRequest();

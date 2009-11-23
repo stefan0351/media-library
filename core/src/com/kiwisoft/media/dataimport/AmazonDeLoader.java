@@ -2,11 +2,11 @@ package com.kiwisoft.media.dataimport;
 
 import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.html.CssClassFilter;
+import com.kiwisoft.html.PlainTextFilter;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.books.BookManager;
 import com.kiwisoft.media.books.Isbn;
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.utils.PlainTextFilter;
 import com.kiwisoft.utils.StringUtils;
 import org.htmlparser.Node;
 import org.htmlparser.Parser;

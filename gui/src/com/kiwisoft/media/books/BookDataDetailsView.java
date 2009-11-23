@@ -21,6 +21,7 @@ import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Utils;
+import com.kiwisoft.text.preformat.PreformatTextController;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -38,7 +39,7 @@ public class BookDataDetailsView extends DetailsView
 {
     private File targetFile;
 
-    public static Book createDialog(Window owner, BookData bookData, Book book)
+	public static Book createDialog(Window owner, BookData bookData, Book book)
     {
         BookDataDetailsView view=new BookDataDetailsView(bookData, book);
         DetailsDialog dialog=new DetailsDialog(owner, view);
@@ -60,7 +61,7 @@ public class BookDataDetailsView extends DetailsView
     private ImagePanel coverPreview;
     private JTextField isbn10Field;
     private JTextField isbn13Field;
-    private JTextPane summaryField;
+    private PreformatTextController summaryController;
     private LookupField<Language> summaryLanguageField;
 
     private BookDataDetailsView(BookData bookData, Book book)
@@ -84,9 +85,8 @@ public class BookDataDetailsView extends DetailsView
         coverPreview=new ImagePanel(new Dimension(150, 200));
         coverPreview.setBorder(new EtchedBorder());
         coverPreview.addMouseListener(new CoverMouseListener());
-        summaryField=new JTextPane();
-        JScrollPane summaryPane=new JScrollPane(summaryField);
-        summaryPane.setPreferredSize(new Dimension(400, 100));
+        summaryController=new PreformatTextController();
+        summaryController.getComponent().setPreferredSize(new Dimension(400, 100));
         summaryLanguageField=new LookupField<Language>(new LanguageLookup());
 
         setLayout(new GridBagLayout());
@@ -111,7 +111,7 @@ public class BookDataDetailsView extends DetailsView
         row++;
         add(new JLabel("Summary:"),
                 new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
-        add(summaryPane,
+        add(summaryController.getComponent(),
                 new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(10, 5, 0, 0), 0, 0));
         row++;
         add(summaryLanguageField,
@@ -161,7 +161,7 @@ public class BookDataDetailsView extends DetailsView
 		summaryLanguageField.setValue(bookData.getLanguage());
         authorsField.setText(StringUtils.formatAsEnumeration(bookData.getAuthors(), "; "));
         translatorsField.setText(StringUtils.formatAsEnumeration(bookData.getTranslators(), "; "));
-        summaryField.setText(bookData.getSummary());
+        summaryController.setText(bookData.getSummary());
     }
 
     @Override
@@ -206,7 +206,7 @@ public class BookDataDetailsView extends DetailsView
                     thumbnailSize=MediaFileUtils.getImageSize(FileUtils.getFile(MediaConfiguration.getRootPath(), thumbnailPath));
                 }
             }
-            final String summary=summaryField.getText();
+            final String summary=summaryController.getText();
             final Language summaryLanguage=summaryLanguageField.getValue();
             if (!StringUtils.isEmpty(summary) && summaryLanguage==null)
                 throw new InvalidDataException("No summary language specified!", summaryLanguageField);

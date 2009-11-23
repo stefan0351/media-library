@@ -29,6 +29,7 @@ import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.ObjectTableModel;
 import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.text.preformat.PreformatTextController;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -71,8 +72,8 @@ public class MovieDetailsView extends DetailsView
 	private ObjectTableModel<Language> languagesModel;
 	private ObjectTableModel<Country> countriesModel;
 	private LookupField<MediaFile> posterField;
-	private JTextPane germanSummaryField;
-	private JTextPane englishSummaryField;
+	private PreformatTextController germanSummaryController;
+	private PreformatTextController englishSummaryController;
 
 	private MovieDetailsView(Show show)
 	{
@@ -119,8 +120,8 @@ public class MovieDetailsView extends DetailsView
 			languagesModel.setObjects(movie.getLanguages());
 			countriesModel.setObjects(movie.getCountries());
 			posterField.setValue(movie.getPoster());
-			germanSummaryField.setText(movie.getSummaryText(LanguageManager.GERMAN));
-			englishSummaryField.setText(movie.getSummaryText(LanguageManager.ENGLISH));
+			germanSummaryController.setText(movie.getSummaryText(LanguageManager.GERMAN));
+			englishSummaryController.setText(movie.getSummaryText(LanguageManager.ENGLISH));
 		}
 		else if (show!=null)
 		{
@@ -137,8 +138,8 @@ public class MovieDetailsView extends DetailsView
 		if (StringUtils.isEmpty(indexBy)) throw new InvalidDataException("Index by is missing!", indexByField);
 		final String germanName=germanTitleField.getText();
 		final boolean record=recordField.isSelected();
-		final String script=StringUtils.empty2null(transcriptField.getText());
-		final String javascript=StringUtils.empty2null(javaScriptField.getText());
+		final String script=StringUtils.emptyToNull(transcriptField.getText());
+		final String javascript=StringUtils.emptyToNull(javaScriptField.getText());
 		final Map<String, Language> names=namesModel.getNameMap();
 		final Collection<Language> languages=languagesModel.getObjects();
 		final Collection<Country> countries=countriesModel.getObjects();
@@ -187,8 +188,8 @@ public class MovieDetailsView extends DetailsView
 					altName.setName(text);
 					altName.setLanguage(names.get(text));
 				}
-				movie.setSummaryText(LanguageManager.GERMAN, germanSummaryField.getText());
-				movie.setSummaryText(LanguageManager.ENGLISH, englishSummaryField.getText());
+				movie.setSummaryText(LanguageManager.GERMAN, germanSummaryController.getText());
+				movie.setSummaryText(LanguageManager.ENGLISH, englishSummaryController.getText());
 			}
 
 			@Override
@@ -324,12 +325,10 @@ public class MovieDetailsView extends DetailsView
 
 	protected JPanel createSummaryPanel()
 	{
-		germanSummaryField=new JTextPane();
-		englishSummaryField=new JTextPane();
-		JScrollPane germanSummaryPane=new JScrollPane(germanSummaryField);
-		germanSummaryPane.setPreferredSize(new Dimension(400, 150));
-		JScrollPane englishSummaryPane=new JScrollPane(englishSummaryField);
-		englishSummaryPane.setPreferredSize(new Dimension(400, 150));
+		germanSummaryController=new PreformatTextController();
+		englishSummaryController=new PreformatTextController();
+		germanSummaryController.getComponent().setPreferredSize(new Dimension(400, 150));
+		englishSummaryController.getComponent().setPreferredSize(new Dimension(400, 150));
 
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -337,13 +336,13 @@ public class MovieDetailsView extends DetailsView
 		panel.add(new JLabel("English:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(englishSummaryPane,
+		panel.add(englishSummaryController.getComponent(),
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
 		panel.add(new JLabel("German:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(germanSummaryPane,
+		panel.add(germanSummaryController.getComponent(),
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		return panel;
 	}

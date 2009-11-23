@@ -38,9 +38,9 @@ public class TVTVDeLoaderTest extends TestCase
 		assertTrue(loader.run(new ConsoleProgressListener()));
 	}
 
-	public void test_MileyCyrus() throws Exception
+	public void test_KirstenDunst() throws Exception
 	{
-		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Miley Cyrus");
+		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", "Kirsten Dunst");
 		TVTVDeLoader loader=new TVTVDeLoader(Collections.<Object>singletonList(person));
 		assertTrue(loader.run(new ConsoleProgressListener()));
 	}

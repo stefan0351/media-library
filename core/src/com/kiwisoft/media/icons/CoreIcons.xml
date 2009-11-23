@@ -50,4 +50,19 @@
 	<icon key="font.superscript">
 		<resource url="/com/kiwisoft/media/icons/font-superscript-16x16.png"/>
 	</icon>
+	<icon key="copy">
+		<resource url="/com/kiwisoft/media/icons/copy.png"/>
+	</icon>
+	<icon key="cut">
+		<resource url="/com/kiwisoft/media/icons/cut.png"/>
+	</icon>
+	<icon key="paste">
+		<resource url="/com/kiwisoft/media/icons/paste.png"/>
+	</icon>
+	<icon key="undo">
+		<resource url="/com/kiwisoft/media/icons/undo.png"/>
+	</icon>
+	<icon key="redo">
+		<resource url="/com/kiwisoft/media/icons/redo.png"/>
+	</icon>
 </icons>

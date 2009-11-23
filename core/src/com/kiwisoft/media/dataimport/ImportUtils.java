@@ -27,7 +27,7 @@ public class ImportUtils
 	private final static Log log=LogFactory.getLog(ImportUtils.class);
 
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
-	public static final boolean USE_CACHE=true;
+	public static final boolean USE_CACHE=false;
 
 	private ImportUtils()
 	{
@@ -77,7 +77,7 @@ public class ImportUtils
 			File file=new File("tmp"+File.separator+"web", URLEncoder.encode(url, "UTF-8")+".html");
 			if (file.exists())
 			{
-				log.info("Loading cached data from "+file.getAbsolutePath());
+				log.debug("Loading cached data from "+file.getAbsolutePath());
 				return FileUtils.loadFile(file, charSetName);
 			}
 		}
@@ -110,7 +110,7 @@ public class ImportUtils
 			File file=new File("tmp"+File.separator+"web", URLEncoder.encode(url, "UTF-8"));
 			if (file.exists())
 			{
-				log.info("Loading cached data from "+file.getAbsolutePath());
+				log.debug("Loading cached data from "+file.getAbsolutePath());
 				return FileUtils.loadBinaryFile(file);
 			}
 		}

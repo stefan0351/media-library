@@ -129,7 +129,7 @@ public class IMDbComLoader
 		{
 			index=index+"<h5>Plot Outline:</h5>".length();
 			int index2=page.indexOf("</div>", index);
-			String outline=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index, index2)));
+			String outline=StringUtils.trimAll(XMLUtils.unescapeHtml(page.substring(index, index2)));
 			outline=XMLUtils.removeTag(outline, "a");
 			outline=outline.replace("<", "[").replace(">", "]");
 			movieData.setOutline(outline);
@@ -269,7 +269,7 @@ public class IMDbComLoader
 				int index2=page.indexOf("</p>", index1);
 				if (index2>index1)
 				{
-					String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
+					String summary=StringUtils.trimAll(XMLUtils.unescapeHtml(page.substring(index1, index2)));
 					summary=XMLUtils.removeTag(summary, "a");
 					summary=summary.replace("<", "[").replace(">", "]");
 					movieData.setSummary(summary);
@@ -290,7 +290,7 @@ public class IMDbComLoader
 		{
 			index1=page.indexOf(">", index1)+1;
 			int index2=page.indexOf("</div>", index1);
-			String summary=StringUtils.trimString(XMLUtils.unescapeHtml(page.substring(index1, index2)));
+			String summary=StringUtils.trimAll(XMLUtils.unescapeHtml(page.substring(index1, index2)));
 			summary=XMLUtils.removeTag(summary, "a");
 			summary=summary.replace("<", "[").replace(">", "]");
 			movieData.setSummary(summary);

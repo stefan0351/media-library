@@ -167,12 +167,12 @@ public class ScheduleView extends ViewPanel
 		if (startDate!=null)
 		{
 			startDateField.setDate(startDate);
-			startTimeField.setTime(DateUtils.getTime(startDate, true));
+			startTimeField.setTime(TimeUtils.getTime(startDate, true));
 		}
 		if (startDate!=null)
 		{
 			endDateField.setDate(endDate);
-			endTimeField.setTime(DateUtils.getTime(endDate, true));
+			endTimeField.setTime(TimeUtils.getTime(endDate, true));
 		}
 		dateRangeField.setSelectedItem(range!=null ? range : DateRange.NEXT_24_HOURS);
 		selectDateRange((DateRange)dateRangeField.getSelectedItem());
@@ -222,9 +222,9 @@ public class ScheduleView extends ViewPanel
 			if (dates!=null)
 			{
 				startDateField.setDate(dates[0]);
-				startTimeField.setTime(DateUtils.getTime(dates[0], true));
+				startTimeField.setTime(TimeUtils.getTime(dates[0], true));
 				endDateField.setDate(dates[1]);
-				endTimeField.setTime(DateUtils.getTime(dates[1], true));
+				endTimeField.setTime(TimeUtils.getTime(dates[1], true));
 			}
 		}
 	}

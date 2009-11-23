@@ -1,7 +1,5 @@
 package com.kiwisoft.media.person;
 
-import static com.kiwisoft.utils.StringUtils.trimString;
-
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
 import java.util.*;
@@ -234,7 +232,7 @@ public class PersonDetailsView extends DetailsView
 
 	private void updateFullName()
 	{
-		String name=trimString(nameField.getValue());
+		String name=StringUtils.trimAll(nameField.getValue());
 
 		StringBuilder oldCombinedName=new StringBuilder();
 		if (!StringUtils.isEmpty(firstNameField.getValue()))
@@ -259,7 +257,7 @@ public class PersonDetailsView extends DetailsView
 
 	private void updateSplitNames()
 	{
-		String oldName=trimString(nameField.getValue());
+		String oldName=StringUtils.trimAll(nameField.getValue());
 		String newName=nameField.getText();
 		StringBuilder oldCombinedName=new StringBuilder();
 		if (!StringUtils.isEmpty(firstNameField.getValue()))

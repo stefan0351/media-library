@@ -11,7 +11,7 @@ import java.awt.Dimension;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.commons.io.*;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.kiwisoft.media.files.MediaFileUtils;

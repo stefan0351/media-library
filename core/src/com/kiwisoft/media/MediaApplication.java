@@ -45,14 +45,14 @@ import com.kiwisoft.cfg.SimpleConfiguration;
  * @todo Books: Storage
  * @todo Books: Search
  * @todo Books: Original title
- * @todo GUI: Preformatted text editor
  * @todo GUI: Statusbar
  * @todo GUI: Link grabber
- * @todo Web: JavaScript sorting
+ * @todo Web: Dynamic HTML sorting
  * @todo SerienJunkies: Load episode images
  * @todo Photos: Export
  * @todo Photos: Tags
  * @todo Photos: Display number of photos
+ * @todo Photos: Consider gallery hierarchy in web pages
  */
 public class MediaApplication extends Application
 {

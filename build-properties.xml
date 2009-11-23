@@ -8,6 +8,7 @@
 	<property name="classes.dir" location="${build.dir}/classes"/>
 	<property name="utils.builds.dir" location="${root.dir}/../utils/builds"/>
 	<property name="dump.dir" location="${basedir}/db/dumps"/>
+	<property  name="jflex.home" location="c:/Java/tools/jflex/1.4.3"/>
 
 	<patternset id="resource.pattern">
 		<include name="**/*.jpg"/>
@@ -20,5 +21,11 @@
 		<include name="**/*.dtd"/>
 		<include name="**/*.tld"/>
 	</patternset>
+
+	<path id="jflex.classpath">
+		<pathelement location="${jflex.home}/lib/JFlex.jar"/>
+	</path>
+
+	<taskdef name="jflex" classname="JFlex.anttask.JFlexTask" classpathref="jflex.classpath"/>
 
 </project>

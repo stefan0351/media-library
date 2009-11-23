@@ -27,13 +27,20 @@
 				<exclude name="lib/*src.jar"/>
 				<exclude name="lib/*doc.jar"/>
 				<exclude name="lib/*.version"/>
+
 				<include name="conf/**"/>
+
 				<include name="bin/**"/>
 				<exclude name="bin/MediaInfo.parameters"/>
-				<include name="docs/**"/>
+
+				<include name="docs/links.txt"/>
+				<include name="docs/requirements.txt"/>
+
 				<include name="tomcat/**"/>
 				<exclude name="tomcat/work/**"/>
 				<exclude name="tomcat/temp/**/*.*"/>
+				<exclude name="tomcat/logs/**/*.*"/>
+
 				<include name="media-core.jar"/>
 				<include name="media-gui.jar"/>
 				<include name="media*.bat"/>

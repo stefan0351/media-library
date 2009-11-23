@@ -110,7 +110,7 @@ public class CreditDetailsView extends DetailsView
 	{
 		final CreditType type=typeField.getValue();
 		if (type==null) throw new InvalidDataException("Type is missing!", typeField);
-		final String subType=StringUtils.empty2null(subTypeField.getText());
+		final String subType=StringUtils.emptyToNull(subTypeField.getText());
 		final Person person=personField.getValue();
 		if (person==null) throw new InvalidDataException("Person is missing!", personField);
 

@@ -11,9 +11,18 @@
 		<delete dir="${classes.dir}/core"/>
 	</target>
 
+	<target name="core.generate">
+		<delete>
+			<fileset dir="${core.module.dir}/src-gen" excludes="**/.svn"/>
+		</delete>
+		<jflex file="${core.module.dir}/flex/Preformat.flex" destdir="${core.module.dir}/src-gen" nobak="true" />
+	</target>
+
 	<target name="core.compile" depends="core.clean">
 		<mkdir dir="${classes.dir}/core"/>
-		<javac srcdir="${core.module.dir}/src" destdir="${classes.dir}/core" debug="true" deprecation="off">
+		<javac destdir="${classes.dir}/core" debug="true" deprecation="off">
+			<src location="${core.module.dir}/src"/>
+			<src location="${core.module.dir}/src-gen"/>
 			<classpath>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>

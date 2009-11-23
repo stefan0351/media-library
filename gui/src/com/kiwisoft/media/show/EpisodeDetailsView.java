@@ -28,6 +28,7 @@ import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.text.preformat.PreformatTextController;
 
 public class EpisodeDetailsView extends DetailsView
 {
@@ -81,8 +82,8 @@ public class EpisodeDetailsView extends DetailsView
 	private JTextField javaScriptField;
 	private DialogLookupField scriptFileField;
 	private NamesTableModel namesModel;
-	private JTextPane germanSummaryField;
-	private JTextPane englishSummaryField;
+	private PreformatTextController germanSummaryController;
+	private PreformatTextController englishSummaryController;
 
 	private EpisodeDetailsView(Show show, EpisodeData info)
 	{
@@ -124,8 +125,8 @@ public class EpisodeDetailsView extends DetailsView
 			for (Name name : episode.getAltNames()) namesModel.addName(name.getName(), name.getLanguage());
 			namesModel.sort();
 			LanguageManager languageManager=LanguageManager.getInstance();
-			germanSummaryField.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("de")));
-			englishSummaryField.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("en")));
+			germanSummaryController.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("de")));
+			englishSummaryController.setText(episode.getSummaryText(languageManager.getLanguageBySymbol("en")));
 		}
 		else if (show!=null)
 		{
@@ -184,8 +185,8 @@ public class EpisodeDetailsView extends DetailsView
 			episode.setAirdate(firstAiredField.getDate());
 			episode.setProductionCode(productionCodeField.getText());
 			LanguageManager languageManager=LanguageManager.getInstance();
-			episode.setSummaryText(languageManager.getLanguageBySymbol("de"), germanSummaryField.getText());
-			episode.setSummaryText(languageManager.getLanguageBySymbol("en"), englishSummaryField.getText());
+			episode.setSummaryText(languageManager.getLanguageBySymbol("de"), germanSummaryController.getText());
+			episode.setSummaryText(languageManager.getLanguageBySymbol("en"), englishSummaryController.getText());
 			for (Name altName : new HashSet<Name>(episode.getAltNames()))
 			{
 				if (names.containsKey(altName.getName()))
@@ -302,12 +303,10 @@ public class EpisodeDetailsView extends DetailsView
 
 	protected JPanel createSummaryPanel()
 	{
-		germanSummaryField=new JTextPane();
-		englishSummaryField=new JTextPane();
-		JScrollPane germanSummaryPane=new JScrollPane(germanSummaryField);
-		germanSummaryPane.setPreferredSize(new Dimension(400, 150));
-		JScrollPane englishSummaryPane=new JScrollPane(englishSummaryField);
-		englishSummaryPane.setPreferredSize(new Dimension(400, 150));
+		germanSummaryController=new PreformatTextController();
+		englishSummaryController=new PreformatTextController();
+		germanSummaryController.getComponent().setPreferredSize(new Dimension(400, 150));
+		englishSummaryController.getComponent().setPreferredSize(new Dimension(400, 150));
 
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -315,13 +314,13 @@ public class EpisodeDetailsView extends DetailsView
 		panel.add(new JLabel("English:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(englishSummaryPane,
+		panel.add(englishSummaryController.getComponent(),
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
 		panel.add(new JLabel("German:"),
 				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
 		row++;
-		panel.add(germanSummaryPane,
+		panel.add(germanSummaryController.getComponent(),
 				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		return panel;
 	}

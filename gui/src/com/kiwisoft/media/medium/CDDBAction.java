@@ -15,6 +15,7 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.dataimport.cddb.CDDBUtils;
 import com.kiwisoft.media.dataimport.cddb.DiscInfo;
 import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.ComponentUtils;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 
@@ -98,7 +99,7 @@ public class CDDBAction extends ContextAction
 			int row=0;
 			for (Map.Entry<String, List<DiscInfo>> entry : discInfos.entrySet())
 			{
-				contentPanel.add(GuiUtils.createBoldLabel("Drive "+entry.getKey()+":"),
+				contentPanel.add(ComponentUtils.createBoldLabel("Drive "+entry.getKey()+":"),
 								 new GridBagConstraints(0, row++, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(row>0 ? 10 : 0, 0, 0, 0), 0, 0));
 				for (DiscInfo info : entry.getValue())
 				{

@@ -37,7 +37,7 @@ public class SearchAction extends BaseAction
 	@Override
 	public String execute() throws Exception
 	{
-		text=StringUtils.trimString(text);
+		text=StringUtils.trimAll(text);
 		if (!StringUtils.isEmpty(text) && text.length()>1)
 		{
 			String searchText;

@@ -21,6 +21,7 @@ import com.kiwisoft.media.movie.MovieLookup;
 import com.kiwisoft.utils.DateUtils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Time;
+import com.kiwisoft.utils.TimeUtils;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.lookup.LookupEvent;
@@ -170,8 +171,8 @@ public class AirdateDetailsView extends DetailsView
 			if (date!=null)
 			{
 				dateField.setDate(date);
-				timeField.setTime(DateUtils.getTime(date, true));
-				endTimeField.setTime(DateUtils.getTime(airdate.getEndDate(), true));
+				timeField.setTime(TimeUtils.getTime(date, true));
+				endTimeField.setTime(TimeUtils.getTime(airdate.getEndDate(), true));
 			}
 			eventField.setText(airdate.getEvent());
 			showField.setValue(airdate.getShow());
@@ -193,7 +194,7 @@ public class AirdateDetailsView extends DetailsView
 	@Override
 	public boolean apply() throws InvalidDataException
 	{
-		final String event=StringUtils.empty2null(eventField.getText());
+		final String event=StringUtils.emptyToNull(eventField.getText());
 		final Show show=showField.getValue();
 		final Episode episode=episodeField.getValue();
 		final Movie movie=movieField.getValue();

@@ -17,7 +17,6 @@ import com.kiwisoft.progress.ProgressListener;
 import com.kiwisoft.progress.ProgressSupport;
 import com.kiwisoft.utils.StringUtils;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
-import static com.kiwisoft.utils.StringUtils.trimString;
 import static com.kiwisoft.utils.xml.XMLUtils.removeTags;
 import static com.kiwisoft.utils.xml.XMLUtils.unescapeHtml;
 import org.apache.commons.logging.Log;
@@ -233,7 +232,7 @@ public abstract class EpisodeDataLoader implements Job
 						String actorName=castData.person.name;
 						if (!castNames.contains(actorName))
 						{
-							String character=trimString(castData.character);
+							String character=StringUtils.trimAll(castData.character);
 							Person person=getPerson(personCache, castData.person.key, castData.person.name);
 							CastMember castMember=new CastMember();
 							castMember.setCreditType(type);
@@ -313,7 +312,7 @@ public abstract class EpisodeDataLoader implements Job
 
 	protected String convertHTML(String html)
 	{
-		return trimString(unescapeHtml(removeTags(html)));
+		return StringUtils.trimAll(unescapeHtml(removeTags(html)));
 	}
 
 	public static class PersonData

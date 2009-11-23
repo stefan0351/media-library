@@ -69,7 +69,7 @@ public class MovePhotoDialog extends JDialog
 		int row=0;
 		pnlContent.add(existingGalleryField,
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 0, 0), 0, 0));
-		pnlContent.add(GuiUtils.createBoldLabel("Existing Gallery"),
+		pnlContent.add(ComponentUtils.createBoldLabel("Existing Gallery"),
 					   new GridBagConstraints(1, row, 2, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 0, 5), 0, 0));
 		row++;
 		pnlContent.add(galleriesField,
@@ -77,7 +77,7 @@ public class MovePhotoDialog extends JDialog
 		row++;
 		pnlContent.add(newGalleryField,
 					   new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(15, 5, 0, 0), 0, 0));
-		pnlContent.add(GuiUtils.createBoldLabel("New Gallery"),
+		pnlContent.add(ComponentUtils.createBoldLabel("New Gallery"),
 					   new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(15, 5, 0, 5), 0, 0));
 		row++;
 		pnlContent.add(galleryNameLabel,

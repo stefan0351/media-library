@@ -22,6 +22,7 @@ import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.table.ObjectTableModel;
 import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.text.preformat.PreformatTextController;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -55,8 +56,8 @@ public class BookDetailsView extends DetailsView
 	private LookupField<MediaFile> coverField;
 	private JTextField isbn10Field;
 	private JTextField isbn13Field;
-	private JTextPane germanSummaryField;
-	private JTextPane englishSummaryField;
+	private PreformatTextController germanSummaryController;
+	private PreformatTextController englishSummaryController;
 	private LookupField<Show> showField;
 	private LookupField<String> seriesNameField;
 	private JFormattedTextField seriesNumberField;
@@ -93,12 +94,12 @@ public class BookDetailsView extends DetailsView
 		coverField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new MyImageLookupHandler());
 		ImagePanel coverPreview=new ImagePanel(new Dimension(150, 200));
 		coverPreview.setBorder(new EtchedBorder());
-		germanSummaryField=new JTextPane();
-		englishSummaryField=new JTextPane();
+		germanSummaryController=new PreformatTextController();
+		englishSummaryController=new PreformatTextController();
 		JTabbedPane summaryField=new JTabbedPane(JTabbedPane.BOTTOM);
 		summaryField.setPreferredSize(new Dimension(400, 100));
-		summaryField.addTab("German", new JScrollPane(germanSummaryField));
-		summaryField.addTab("English", new JScrollPane(englishSummaryField));
+		summaryField.addTab("German", germanSummaryController.getComponent());
+		summaryField.addTab("English", englishSummaryController.getComponent());
 		showField=new LookupField<Show>(new ShowLookup());
 		seriesNameField=new LookupField<String>(new SeriesNameLookup());
 		seriesNumberField=ComponentUtils.createNumberField(Integer.class, 5, 1, 1000);
@@ -228,8 +229,8 @@ public class BookDetailsView extends DetailsView
 			authorsModel.sort();
 			translatorsModel.setObjects(book.getTranslators());
 			translatorsModel.sort();
-			germanSummaryField.setText(book.getSummaryText(LanguageManager.GERMAN));
-			englishSummaryField.setText(book.getSummaryText(LanguageManager.ENGLISH));
+			germanSummaryController.setText(book.getSummaryText(LanguageManager.GERMAN));
+			englishSummaryController.setText(book.getSummaryText(LanguageManager.ENGLISH));
 			showField.setValue(book.getShow());
 		}
 	}
@@ -259,6 +260,8 @@ public class BookDetailsView extends DetailsView
 			final Integer pageCount=(Integer) pageCountField.getValue();
 			final MediaFile cover=coverField.getValue();
 			final Show show=showField.getValue();
+			final String germanSummary=germanSummaryController.getText();
+			final String englishSummary=englishSummaryController.getText();
 
 			return DBSession.execute(new Transactional()
 			{
@@ -282,6 +285,8 @@ public class BookDetailsView extends DetailsView
 					book.setLanguage(language);
 					book.setCover(cover);
 					book.setShow(show);
+					book.setSummaryText(LanguageManager.GERMAN, germanSummary);
+					book.setSummaryText(LanguageManager.ENGLISH, englishSummary);
 				}
 
 				@Override
