@@ -18,49 +18,7 @@
     <option name="USER" value="" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/VideoField.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/VideoField.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/text/preformat/PreformatLexerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchAction.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/SearchAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/AudioField.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/AudioField.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/CoreIcons.xml" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/CoreIcons.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/MovePhotoDialog.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/photos/MovePhotoDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVTVDeLoaderTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVTVDeLoaderTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/ImportUtils.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/ImportUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/media-core.iml" afterPath="$PROJECT_DIR$/core/media-core.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/text/preformat" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/text" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/build.xml" afterPath="$PROJECT_DIR$/core/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/log4j.xml" afterPath="$PROJECT_DIR$/core/src/log4j.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build-properties.xml" afterPath="$PROJECT_DIR$/build-properties.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src-gen" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/EpisodeDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDataDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDataDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/flex/Preformat.flex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/TableTag.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/tags/TableTag.java" />
-      <change type="DELETED" beforePath="D:\Projects\Java\media\core\src\com\kiwisoft\utils\PlainTextFilter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/EpisodeDataLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/EpisodeDataLoader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat/PreformatEditorKit.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/flex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/utils/ODFTemplate.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/utils/ODFTemplate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat/PreformatWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/AmazonDeLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/AmazonDeLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/media.iws" afterPath="$PROJECT_DIR$/media.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/IMDbComLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/IMDbComLoader.java" />
-      <change type="MOVED" beforePath="D:\Projects\Java\media\gui\src\com\kiwisoft\swing\PreformattedEditor.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat/PreformatTextController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/CreditDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/dump.zip" afterPath="$PROJECT_DIR$/db/dumps/dump.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonDetailsView.java" />
-    </list>
+    <list default="true" readonly="true" name="Default" comment="" />
   </component>
   <component name="ChangesViewManager" flattened_view="false" show_ignored="false" />
   <component name="Commander">
@@ -287,15 +245,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ScheduleView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/ScheduleView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="226" column="47" selection-start="6478" selection-end="6478" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AirdateDetailsView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/schedule/AirdateDetailsView.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -359,19 +308,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="141" selection-start="550" selection-end="550" vertical-scroll-proportion="0.20205921">
+            <state line="16" column="141" selection-start="550" selection-end="550" vertical-scroll-proportion="-6.5416665">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IMDbComLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/IMDbComLoader.java">
+      <file leaf-file-name="CDDBAction.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="292" column="39" selection-start="9819" selection-end="9819" vertical-scroll-proportion="0.0">
+            <state line="101" column="0" selection-start="2989" selection-end="2989" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BookDetailsView.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="28" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.10611735">
               <folding />
             </state>
           </provider>
@@ -1915,7 +1873,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed Amazon.de loader" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added preformat editor" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1937,6 +1895,7 @@
     <MESSAGE value="Added media galleries" />
     <MESSAGE value="Finished webpage grabber;&#10;Continued integration of media files;&#10;Improved TVTV.de loader" />
     <MESSAGE value="Fixed Amazon.de loader" />
+    <MESSAGE value="Added preformat editor" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -2108,20 +2067,6 @@
     <option name="myLastEditedConfigurable" value="Private Projects" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="47" selection-start="1322" selection-end="1322" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDataDetailsView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="60" selection-start="2125" selection-end="2125" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowDetailsView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="31" column="13" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.0">
@@ -2215,7 +2160,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="141" selection-start="550" selection-end="550" vertical-scroll-proportion="0.20205921">
+        <state line="16" column="141" selection-start="550" selection-end="550" vertical-scroll-proportion="-6.5416665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/CDDBAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="0" selection-start="2989" selection-end="2989" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookDetailsView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="28" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.10611735">
           <folding />
         </state>
       </provider>
