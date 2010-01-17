@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
+import java.util.Map;
 import java.nio.charset.Charset;
 
 import org.apache.commons.logging.Log;
@@ -66,10 +67,20 @@ public class ImportUtils
 
 	public static String loadUrl(String url) throws IOException
 	{
-		return loadUrl(url, null);
+		return loadUrl(url, null, null);
 	}
 
 	public static String loadUrl(String url, String charSetName) throws IOException
+	{
+		return loadUrl(url, null, charSetName);
+	}
+
+	public static String loadUrl(String url, Map<String, String> properties) throws IOException
+	{
+		return loadUrl(url, properties, null);
+	}
+
+	public static String loadUrl(String url, Map<String, String> properties, String charSetName) throws IOException
 	{
 		if (charSetName==null) charSetName=Charset.defaultCharset().name();
 		if (USE_CACHE)
@@ -86,7 +97,7 @@ public class ImportUtils
 		{
 			try
 			{
-				String page=WebUtils.loadURL(url, null, charSetName);
+				String page=WebUtils.loadURL(url, properties, charSetName);
 				if (USE_CACHE)
 				{
 					File file=new File("tmp"+File.separator+"web", URLEncoder.encode(url, "UTF-8")+".html");

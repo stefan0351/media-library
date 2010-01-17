@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.io.File;
 
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.LanguageManager;
-import com.kiwisoft.media.CountryManager;
 import junit.framework.TestCase;
 
 /**
@@ -26,6 +24,7 @@ public class IMDbLoaderTest extends TestCase
 		SimpleConfiguration configuration=new SimpleConfiguration();
 		File configFile=new File("conf", "config.xml");
 		configuration.loadDefaultsFromFile(configFile);
+		configuration.loadUserValues("media"+File.separator+"dev-profile.xml");
 	}
 
 	public void test_DizzyLieberDizzy() throws Exception
@@ -37,9 +36,9 @@ public class IMDbLoaderTest extends TestCase
 		assertEquals(new Integer(1997), movieData.getYear());
 		assertEquals(new Integer(88), movieData.getRuntime());
 		assertEquals(1, movieData.getLanguages().size());
-		assertTrue(movieData.getLanguages().contains(LanguageManager.getInstance().getLanguageBySymbol("de")));
+		assertTrue(movieData.getLanguages().contains(new LanguageData("German")));
 		assertEquals(1, movieData.getCountries().size());
-		assertTrue(movieData.getCountries().contains(CountryManager.getInstance().getCountryBySymbol("DE")));
+		assertTrue(movieData.getCountries().contains(new CountryData("Germany")));
 		assertEquals("tt0112877", movieData.getImdbKey());
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
@@ -54,12 +53,15 @@ public class IMDbLoaderTest extends TestCase
 		assertEquals(new Integer(2006), movieData.getYear());
 		assertEquals(new Integer(92), movieData.getRuntime());
 		assertEquals(1, movieData.getLanguages().size());
-		assertTrue(movieData.getLanguages().contains(LanguageManager.getInstance().getLanguageBySymbol("en")));
+		assertTrue(movieData.getLanguages().contains(new LanguageData("English")));
 		assertEquals(1, movieData.getCountries().size());
-		assertTrue(movieData.getCountries().contains(CountryManager.getInstance().getCountryBySymbol("US")));
+		assertTrue(movieData.getCountries().contains(new CountryData("USA")));
 		assertEquals("tt0489085", movieData.getImdbKey());
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
+		assertTrue(movieData.getOutline().startsWith("A 17-year-old boy buys mini-cameras and displays"));
+		assertTrue(movieData.getOutline().endsWith("until it all comes crashing down...."));
+		assertEquals(movieData.getOutline(), movieData.getSummary());
 	}
 
 	public void test_EyeOfTheDolphin() throws Exception
@@ -70,15 +72,16 @@ public class IMDbLoaderTest extends TestCase
 		assertEquals("Eye of the Dolphin", movieData.getTitle());
 		assertEquals(new Integer(2006), movieData.getYear());
 		assertEquals(1, movieData.getLanguages().size());
-		assertTrue(movieData.getLanguages().contains(LanguageManager.getInstance().getLanguageBySymbol("en")));
+		assertTrue(movieData.getLanguages().contains(new LanguageData("English")));
 		assertEquals(1, movieData.getCountries().size());
-		assertTrue(movieData.getCountries().contains(CountryManager.getInstance().getCountryBySymbol("US")));
+		assertTrue(movieData.getCountries().contains(new CountryData("USA")));
 		assertEquals("tt0465407", movieData.getImdbKey());
 		assertNotNull(movieData.getPlotSummaryLink());
 		assertNotNull(movieData.getPlotSynopsisLink());
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
 		assertNotNull(movieData.getSummary());
+		assertEquals("A young girl discovers she can communicate with dolphins.", movieData.getOutline());
 		assertTrue(movieData.getSummary().startsWith("Fourteen year old Alyssa"));
 		assertTrue(movieData.getSummary().endsWith("friend who hold the key."));
 	}
@@ -89,19 +92,44 @@ public class IMDbLoaderTest extends TestCase
 		MovieData movieData=loader.load();
 		System.out.println(movieData);
 		assertEquals("Luxo Jr.", movieData.getTitle());
-		assertEquals("Die Kleine Lampe", movieData.getGermanTitle());
+		assertEquals("Die kleine Lampe", movieData.getGermanTitle());
 		assertEquals(new Integer(1986), movieData.getYear());
 		assertEquals(new Integer(2), movieData.getRuntime());
 		assertEquals(1, movieData.getLanguages().size());
-		assertTrue(movieData.getLanguages().contains(LanguageManager.getInstance().getLanguageBySymbol("none")));
+		assertTrue(movieData.getLanguages().contains(new LanguageData("None")));
 		assertEquals(1, movieData.getCountries().size());
-		assertTrue(movieData.getCountries().contains(CountryManager.getInstance().getCountryBySymbol("US")));
+		assertTrue(movieData.getCountries().contains(new CountryData("USA")));
 		assertEquals("tt0091455", movieData.getImdbKey());
 		assertNotNull(movieData.getPlotSummaryLink());
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
 		assertNotNull(movieData.getSummary());
+		assertEquals("A larger lamp watches while a smaller, younger lamp plays exuberantly with a ball but doesn't pick up the knack of correct handling.", movieData.getOutline());
 		assertTrue(movieData.getSummary().startsWith("This was Pixar's first attempt"));
 		assertTrue(movieData.getSummary().endsWith("[i] Written by LIIT [/i]"));
+	}
+
+	public void test_WildChild() throws Exception
+	{
+		IMDbComLoader loader=new IMDbComLoader("http://www.imdb.com/title/tt1024255/", "tt1024255");
+		MovieData movieData=loader.load();
+		System.out.println(movieData);
+		assertEquals("Wild Child", movieData.getTitle());
+		assertEquals("Wild Child - Erstklassig zickig", movieData.getGermanTitle());
+		assertEquals(new Integer(2008), movieData.getYear());
+		assertEquals(new Integer(98), movieData.getRuntime());
+		assertEquals(1, movieData.getLanguages().size());
+		assertTrue(movieData.getLanguages().contains(new LanguageData("English")));
+		assertEquals(3, movieData.getCountries().size());
+		assertTrue(movieData.getCountries().contains(new CountryData("France")));
+		assertTrue(movieData.getCountries().contains(new CountryData("USA")));
+		assertTrue(movieData.getCountries().contains(new CountryData("UK")));
+		assertEquals("tt1024255", movieData.getImdbKey());
+		assertNotNull(movieData.getCreditsLink());
+		assertNotNull(movieData.getReleaseInfoLink());
+		assertNotNull(movieData.getSummary());
+		assertEquals("A rebellious Malibu princess is shipped off to a strict English boarding school by her father.", movieData.getOutline());
+		assertTrue(movieData.getSummary().startsWith("Sixteen-year-old Poppy Moore"));
+		assertTrue(movieData.getSummary().endsWith("Poppy will remain at Abbey Mount."));
 	}
 }

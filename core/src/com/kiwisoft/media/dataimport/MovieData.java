@@ -198,6 +198,7 @@ public class MovieData implements Serializable
 		buffer.append("\n\tcreditsLink=").append(creditsLink);
 		buffer.append("\n\treleaseInfoLink=").append(releaseInfoLink);
 		buffer.append("\n\tsummary=").append(summary);
+		buffer.append("\n\toutline=").append(outline);
 		buffer.append("\n\tcast=").append(cast);
 		buffer.append("\n\tcrew=").append(crew);
 		buffer.append("\n}");

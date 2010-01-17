@@ -7,19 +7,21 @@
  */
 package com.kiwisoft.media.medium;
 
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.collection.CollectionChangeSupport;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.utils.Disposable;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-
-import com.kiwisoft.media.movie.Movie;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.utils.Disposable;
 
 public class MediumManager
 {
@@ -133,20 +135,44 @@ public class MediumManager
 	public Set<Medium> getMedia(Movie movie)
 	{
 		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+
-																		 " and tracks.movie_id=?", movie.getId());
+																	  " and tracks.movie_id=?", movie.getId());
 	}
 
 	public Set<Medium> getMedia(Episode episode)
 	{
 		return DBLoader.getInstance().loadSet(Medium.class, "tracks", "tracks.medium_id=media.id"+
-																		 " and tracks.episode_id=?", episode.getId());
+																	  " and tracks.episode_id=?", episode.getId());
 	}
 
 	public Set<Track> getMovieTracks()
 	{
 		return DBLoader.getInstance().loadSet(Track.class, "media",
-													 "media.id=tracks.medium_id" +
-													 " and movie_id is not null and media.userkey is not null" +
-													 " and ifnull(media.obsolete, 0)=0");
+											  "media.id=tracks.medium_id"+
+											  " and movie_id is not null and media.userkey is not null"+
+											  " and ifnull(media.obsolete, 0)=0");
+	}
+
+	public Collection<String> getStorages()
+	{
+		try
+		{
+			Set<String> storages=new HashSet<String>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct storage from media");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next()) storages.add(resultSet.getString(1));
+			}
+			finally
+			{
+				statement.close();
+			}
+			return storages;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }
