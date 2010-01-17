@@ -103,6 +103,7 @@
 				<include name="tiles-servlet.jar"/>
 				<include name="xwork-core.jar"/>
 				<include name="freemarker.jar"/>
+				<include name="htmlparser.jar"/>
 			</fileset>
 			<fileset dir="${root.dir}">
 				<include name="media-core.jar"/>

@@ -62,7 +62,7 @@ public class MediumDetailsView extends DetailsView
 	private JTextField nameField;
 	private JTextField lengthField;
 	private JTextField remainingField;
-	private JTextField storageField;
+	private LookupField<String> storageField;
 	private LookupField<Language> languageField;
 	private LookupField<MediumType> typeField;
 	private boolean manualName;
@@ -148,7 +148,7 @@ public class MediumDetailsView extends DetailsView
 		remainingField=new JTextField();
 		remainingField.setHorizontalAlignment(JTextField.TRAILING);
 		typeField=new LookupField<MediumType>(new MediumTypeLookup());
-		storageField=new JTextField();
+		storageField=new LookupField<String>(new StorageLookup());
 
 		setLayout(new GridBagLayout());
 		setPreferredSize(new Dimension(400, 120));
@@ -216,7 +216,7 @@ public class MediumDetailsView extends DetailsView
 			lengthField.setEditable(false);
 			remainingField.setText(String.valueOf(video.getRemainingLength()));
 			typeField.setValue(video.getType());
-			storageField.setText(video.getStorage());
+			storageField.setValue(video.getStorage());
 		}
 		else
 		{

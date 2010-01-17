@@ -13,6 +13,8 @@
 			<fileset dir="${utils.builds.dir}">
 				<include name="*.jar"/>
 				<exclude name="*math*.jar"/>
+				<exclude name="*idea*.jar"/>
+				<exclude name="*wizard*.jar"/>
 				<exclude name="*syntax*.jar"/>
 			</fileset>
 		</copy>

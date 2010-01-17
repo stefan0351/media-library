@@ -34,25 +34,12 @@ public class ImportImdbAction extends BaseAction
 	@Override
 	public String execute() throws Exception
 	{
-		Matcher matcher=Pattern.compile("http://(german|www).imdb.com/title/(\\w+)/.*").matcher(url);
+		Matcher matcher=Pattern.compile("http://(german|www).imdb.(com|de)/title/(\\w+)/.*").matcher(url);
 		if (matcher.matches())
 		{
 			url="http://www.imdb.com/title/"+matcher.group(2)+"/";
-			File file=new File("d:\\temp\\"+matcher.group(2)+".data");
-			if (!file.exists())
-			{
-				movieData=new IMDbComLoader(url, matcher.group(2)).load();
-				ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(file));
-				outputStream.writeObject(movieData);
-				outputStream.flush();
-				outputStream.close();
-			}
-			else
-			{
-				ObjectInputStream inputStream=new ObjectInputStream(new FileInputStream(file));
-				movieData=(MovieData) inputStream.readObject();
-				inputStream.close();
-			}
+			movieData=new IMDbComLoader(url, matcher.group(2)).load();
+			System.out.println("ImportImdbAction.execute: movieData = "+movieData);
 
 			fillData();
 
