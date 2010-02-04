@@ -20,6 +20,7 @@
 	<type name="Book" class="com.kiwisoft.media.books.Book" table="books" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="title" column="title"/>
+		<field name="originalTitle" column="original_title"/>
 		<field name="indexBy" column="index_by"/>
 		<field name="seriesName" column="series_name"/>
 		<field name="seriesNumber" column="series_number"/>
@@ -30,6 +31,7 @@
 		<field name="pageCount" column="pages"/>
 		<field name="isbn10" column="isbn10"/>
 		<field name="isbn13" column="isbn13"/>
+		<field name="storage" column="storage"/>
 		<field name="version" column="version"/>
 		<reference name="cover" column="cover_id" type="MediaFile"/>
 		<reference name="language" column="language_id" type="Language"/>
@@ -277,7 +279,6 @@
 		<field name="name" column="name"/>
 		<field name="creationDate" column="creation_date"/>
 		<field name="version" column="version"/>
-		<reference name="parent" column="parent_id" type="PhotoGallery"/>
 	</type>
 	<type name="SearchPattern" class="com.kiwisoft.media.dataimport.SearchPattern" table="searchpatterns" primaryKey="id" version="version">
 		<field name="id" column="id"/>
@@ -427,5 +428,9 @@
 	<association table="airdate_persons">
 		<element type="Airdate" name="persons" column="airdate_id"/>
 		<element type="Person" name="airdates" column="person_id"/>
+	</association>
+	<association table="photogalleries_structure">
+		<element type="PhotoGallery" name="parents" column="child_id"/>
+		<element type="PhotoGallery" name="children" column="parent_id"/>
 	</association>
 </mappings>

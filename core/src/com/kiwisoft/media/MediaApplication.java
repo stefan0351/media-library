@@ -42,9 +42,6 @@ import com.kiwisoft.cfg.SimpleConfiguration;
  * @todo FanFics: Convert HTML fanfics
  * @todo FanFics: Implement series name and number
  * @todo FanFics: Pairing images
- * @todo Books: Storage
- * @todo Books: Search
- * @todo Books: Original title
  * @todo GUI: Statusbar
  * @todo GUI: Link grabber
  * @todo Web: Dynamic HTML sorting

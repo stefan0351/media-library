@@ -2,6 +2,8 @@ package com.kiwisoft.media;
 
 import com.kiwisoft.collection.SetMap;
 import com.kiwisoft.collection.SortedSetMap;
+import com.kiwisoft.format.FormatStringComparator;
+import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieComparator;
 import com.kiwisoft.media.person.Person;
@@ -10,7 +12,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowComparator;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.format.FormatStringComparator;
 
 import java.util.Set;
 import java.util.TreeSet;
@@ -23,6 +24,7 @@ public class SearchAction extends BaseAction
 {
 	private String type;
 	private String text;
+	private Set<Book> books;
 	private Set<Show> shows;
 	private SetMap<Show, Episode> episodes;
 	private Set<Movie> movies;
@@ -78,6 +80,11 @@ public class SearchAction extends BaseAction
 				persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id and names.name like ?",
 															  Name.PERSON, searchText));
 			}
+			if ("books".equals(type) || "all".equals(type))
+			{
+				books=new TreeSet<Book>(new FormatStringComparator());
+				books.addAll(DBLoader.getInstance().loadSet(Book.class, null, "title like ? or series_name like ?", searchText, searchText));
+			}
 		}
 		return super.execute();
 	}
@@ -87,7 +94,8 @@ public class SearchAction extends BaseAction
 		return (persons==null || persons.isEmpty())
 			   && (shows==null || shows.isEmpty())
 			   && (episodes==null || episodes.isEmpty())
-			   && (movies==null || movies.isEmpty());
+			   && (movies==null || movies.isEmpty())
+			   && (books==null || books.isEmpty());
 	}
 
 	public String getType()
@@ -153,5 +161,15 @@ public class SearchAction extends BaseAction
 	public void setPersons(Set<Person> persons)
 	{
 		this.persons=persons;
+	}
+
+	public Set<Book> getBooks()
+	{
+		return books;
+	}
+
+	public void setBooks(Set<Book> books)
+	{
+		this.books=books;
 	}
 }

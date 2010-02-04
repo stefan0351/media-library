@@ -38,9 +38,7 @@ public class DeletePhotoGalleryAction extends SimpleContextAction
 				@Override
 				public void run() throws Exception
 				{
-					PhotoGallery parent=gallery.getParent();
-					if (parent!=null) parent.dropChildGallery(gallery);
-					else PhotoManager.getInstance().dropRootGallery(gallery);
+					gallery.delete();
 				}
 
 				@Override

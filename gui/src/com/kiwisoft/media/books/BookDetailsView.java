@@ -43,8 +43,8 @@ public class BookDetailsView extends DetailsView
 
 	private Book book;
 
-	// Konfigurations Panel
 	private JTextField titleField;
+	private JTextField originalTitleField;
 	private ObjectTableModel<Person> authorsModel;
 	private ObjectTableModel<Person> translatorsModel;
 	private LookupField<String> publisherField;
@@ -62,6 +62,7 @@ public class BookDetailsView extends DetailsView
 	private LookupField<String> seriesNameField;
 	private JFormattedTextField seriesNumberField;
 	private DialogLookupField indexByField;
+	private LookupField<String> storageField;
 
 	private BookDetailsView(Book book)
 	{
@@ -82,6 +83,7 @@ public class BookDetailsView extends DetailsView
 		translatorsField.addComponentListener(new WindowResizeListener(authorsField));
 
 		titleField=new JTextField(40);
+		originalTitleField=new JTextField(40);
 		indexByField=new DialogLookupField(new IndexByLookup());
 		publisherField=new LookupField<String>(new PublisherLookup());
 		editionField=new JTextField(20);
@@ -97,12 +99,13 @@ public class BookDetailsView extends DetailsView
 		germanSummaryController=new PreformatTextController();
 		englishSummaryController=new PreformatTextController();
 		JTabbedPane summaryField=new JTabbedPane(JTabbedPane.BOTTOM);
-		summaryField.setPreferredSize(new Dimension(400, 100));
+		summaryField.setPreferredSize(new Dimension(400, 200));
 		summaryField.addTab("German", germanSummaryController.getComponent());
 		summaryField.addTab("English", englishSummaryController.getComponent());
 		showField=new LookupField<Show>(new ShowLookup());
 		seriesNameField=new LookupField<String>(new SeriesNameLookup());
 		seriesNumberField=ComponentUtils.createNumberField(Integer.class, 5, 1, 1000);
+		storageField=new LookupField<String>(new StorageLookup());
 
 		setLayout(new GridBagLayout());
 		int row=0;
@@ -111,6 +114,12 @@ public class BookDetailsView extends DetailsView
 		add(new JLabel("Title:"),
 			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(titleField,
+			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
+		row++;
+		add(new JLabel("Original Title:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(originalTitleField,
 			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
@@ -199,6 +208,12 @@ public class BookDetailsView extends DetailsView
 		add(showField,
 			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
+		row++;
+		add(new JLabel("Storage:"),
+			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 10, 0, 0), 0, 0));
+		add(storageField,
+			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+
 		titleField.getDocument().addDocumentListener(new BookDetailsView.FrameTitleUpdater());
 		new PicturePreviewUpdater(coverField, coverPreview);
 	}
@@ -210,6 +225,7 @@ public class BookDetailsView extends DetailsView
 		if (book!=null)
 		{
 			titleField.setText(book.getTitle());
+			originalTitleField.setText(book.getOriginalTitle());
 			indexByField.setText(book.getIndexBy());
 			seriesNameField.setValue(book.getSeriesName());
 			seriesNumberField.setValue(book.getSeriesNumber());
@@ -232,6 +248,7 @@ public class BookDetailsView extends DetailsView
 			germanSummaryController.setText(book.getSummaryText(LanguageManager.GERMAN));
 			englishSummaryController.setText(book.getSummaryText(LanguageManager.ENGLISH));
 			showField.setValue(book.getShow());
+			storageField.setValue(book.getStorage());
 		}
 	}
 
@@ -242,6 +259,7 @@ public class BookDetailsView extends DetailsView
 		{
 			final String title=titleField.getText();
 			if (StringUtils.isEmpty(title)) throw new InvalidDataException("Title is missing!", titleField);
+			final String originalTitle=originalTitleField.getText();
 			final String indexBy=indexByField.getText();
 			if (StringUtils.isEmpty(indexBy)) throw new InvalidDataException("Index by is missing!", indexByField);
 			final String seriesName=seriesNameField.getText();
@@ -262,6 +280,7 @@ public class BookDetailsView extends DetailsView
 			final Show show=showField.getValue();
 			final String germanSummary=germanSummaryController.getText();
 			final String englishSummary=englishSummaryController.getText();
+			final String storage=storageField.getText();
 
 			return DBSession.execute(new Transactional()
 			{
@@ -270,6 +289,7 @@ public class BookDetailsView extends DetailsView
 				{
 					if (book==null) book=BookManager.getInstance().createBook();
 					book.setTitle(title);
+					book.setOriginalTitle(originalTitle);
 					book.setIndexBy(indexBy);
 					book.setSeriesName(seriesName);
 					book.setSeriesNumber(seriesNumber);
@@ -287,6 +307,7 @@ public class BookDetailsView extends DetailsView
 					book.setShow(show);
 					book.setSummaryText(LanguageManager.GERMAN, germanSummary);
 					book.setSummaryText(LanguageManager.ENGLISH, englishSummary);
+					book.setStorage(storage);
 				}
 
 				@Override

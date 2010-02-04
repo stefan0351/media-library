@@ -92,7 +92,7 @@ public class PhotoGalleryDetailsView extends DetailsView
 				{
 					if (photoGallery==null)
 					{
-						if (parent==null) photoGallery=PhotoManager.getInstance().createRootGallery();
+						if (parent==null) photoGallery=PhotoManager.getInstance().getRootGallery().createChildGallery();
 						else photoGallery=parent.createChildGallery();
 					}
 					photoGallery.setName(name);

@@ -102,15 +102,18 @@ public class PhotosView extends ViewPanel
 		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
-			if (event.getType()==CollectionChangeEvent.ADDED)
+			if (PhotoGallery.PHOTOS.equals(event.getPropertyName()))
 			{
-				addThumbnail((Photo)event.getElement());
-				updateUI();
-			}
-			else if (event.getType()==CollectionChangeEvent.REMOVED)
-			{
-				removeThumbnail((Photo)event.getElement());
-				updateUI();
+				if (event.getType()==CollectionChangeEvent.ADDED)
+				{
+					addThumbnail((Photo)event.getElement());
+					updateUI();
+				}
+				else if (event.getType()==CollectionChangeEvent.REMOVED)
+				{
+					removeThumbnail((Photo)event.getElement());
+					updateUI();
+				}
 			}
 		}
 	}

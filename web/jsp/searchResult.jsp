@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <media:panel title="Search Result">
+	<p>Search for '<s:property value="text"/>'</p>
 	<s:if test="nothingFound">
 		<p><b>The search return no results.</b></p>
 	</s:if>
@@ -47,5 +48,13 @@
 			</s:iterator>
 		</ol>
 		</p>
+	</s:if>
+	<s:if test="!books.empty">
+		<p><b><s:property value="books.size"/> Book(s) found</b>
+		<ol>
+			<s:iterator value="books">
+				<li><media:format value="top"/></li>
+			</s:iterator>
+		</ol></p>
 	</s:if>
 </media:panel>

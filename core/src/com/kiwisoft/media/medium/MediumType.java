@@ -14,8 +14,8 @@ public class MediumType implements Identifyable
 {
 	public static final Map<Long, MediumType> map=new HashMap<Long, MediumType>();
 
-	public static final MediumType VHS=new MediumType(new Long(2), "VHS", "Videos", "V", true);
 	public static final MediumType VHS_ORIGINAL=new MediumType(new Long(1), "VHS(O)", "Videos - Original", "V");
+	public static final MediumType VHS=new MediumType(new Long(2), "VHS", "Videos", "V", true);
 	public static final MediumType VIDEO_CD=new MediumType(new Long(3), "VCD", "Video-CD's", "C");
 	public static final MediumType DVD=new MediumType(new Long(4), "DVD", "DVD's", "D");
 	public static final MediumType DVD_ORIGINAL=new MediumType(new Long(5), "DVD(O)", "Original DVD's", "D");
@@ -23,6 +23,8 @@ public class MediumType implements Identifyable
 	public static final MediumType HDR=new MediumType(new Long(7), "HDR", "Hard Disk Recorder", "H", true);
 	public static final MediumType AUDIO_CD=new MediumType(new Long(8), "Audio-CD", "Audio-CD's", "A");
 	public static final MediumType HD=new MediumType(new Long(9), "HD", "Hard Disk", "H", true);
+	public static final MediumType BLU_RAY_ORIGINAL=new MediumType(new Long(10), "BD(O)", "Original Blu-Ray's", "B");
+	public static final MediumType BLU_RAY=new MediumType(new Long(11), "BD", "Blu-Ray's", "B");
 
 	public static MediumType valueOf(Long id)
 	{

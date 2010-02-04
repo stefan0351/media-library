@@ -220,6 +220,12 @@ public class MovieDetailsView extends DetailsView
 			{
 				return titleField.getText()+" - Poster";
 			}
+
+			@Override
+			 public ContentType getDefaultContentType()
+			{
+				return ContentType.POSTER;
+			}
 		});
 		ImagePanel posterPreview=new ImagePanel(new Dimension(150, 200));
 		posterPreview.setBorder(new EtchedBorder());

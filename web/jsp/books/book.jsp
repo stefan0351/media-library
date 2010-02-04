@@ -38,6 +38,10 @@
 			<dd>Part <s:if test="book.seriesNumber!=null"><s:property value="book.seriesNumber"/></s:if> of the
 				<a class="link" href="<s:url action="BookSeries"><s:param name="seriesName" value="book.seriesName"/></s:url>">&quot;<s:property value="book.seriesName"/>&quot; Series</a></dd>
 		</s:if>
+		<s:if test="!book.originalTitle.empty">
+			<dt>Original Title:</dt>
+			<dd><s:property value="book.originalTitle"/></dd>
+		</s:if>
 		<s:if test="book.language!=null">
 			<dt>Language:</dt>
 			<dd><media:format value="book.language"/></dd>
@@ -66,6 +70,10 @@
 		<s:if test="book.show!=null">
 			<dt>References:</dt>
 			<dd><media:format value="book.show"/></dd>
+		</s:if>
+		<s:if test="!book.storage.empty">
+			<dt>Storage:</dt>
+			<dd><s:property value="book.storage"/></dd>
 		</s:if>
 	</dl>
 </media:panel>

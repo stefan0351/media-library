@@ -21,14 +21,14 @@ public class PhotoGalleryNode extends GenericTreeNode<PhotoGallery>
 	@Override
 	public boolean isLeaf()
 	{
-		return getUserObject().getChildGalleries().isEmpty();
+		return getUserObject().getChildren().isEmpty();
 	}
 
 	@Override
 	public Vector<GenericTreeNode> loadChildren()
 	{
 		Vector<GenericTreeNode> treeNodes=super.loadChildren();
-		for (PhotoGallery gallery : getUserObject().getChildGalleries())
+		for (PhotoGallery gallery : getUserObject().getChildren())
 		{
 			treeNodes.add(new PhotoGalleryNode(gallery));
 		}
@@ -47,7 +47,7 @@ public class PhotoGalleryNode extends GenericTreeNode<PhotoGallery>
 		@Override
 		public void collectionChanged(CollectionChangeEvent event)
 		{
-			if (PhotoGallery.CHILD_GALLERIES.equals(event.getPropertyName()))
+			if (PhotoGallery.CHILDREN.equals(event.getPropertyName()))
 			{
 				if (event.getType()==CollectionChangeEvent.ADDED)
 				{

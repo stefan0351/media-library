@@ -45,7 +45,7 @@ public class NewMediaFileAction extends ContextAction
 			{
 				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
 				String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
-				if (fileInfo.isImage()) ImageDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
+				if (fileInfo.isImage()) ImageDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath, null);
 				else if (fileInfo.isVideo()) VideoDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
 				else if (fileInfo.isAudio()) AudioDetailsView.createDialog(frame, FileUtils.getNameFromFile(file), root, filePath);
 			}

@@ -5,7 +5,7 @@
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="Home"/>">Home</a></td></tr>
 <tr><td><hr size=1 color=black></td></tr>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="ListBooks"/>">Books</a></td></tr>
-<s:if test="@com.kiwisoft.media.MediaConfiguration@isFanFicsEnabled">
+<s:if test="@com.kiwisoft.media.MediaConfiguration@isFanFicsEnabled()">
 	<tr><td class="menuitem"><a class="menulink" href="<s:url action="ListFanDoms"/>">Fan Fiction</a></td></tr>
 </s:if>
 <tr><td class="menuitem"><a class="menulink" href="<s:url action="Links"/>">Links</a></td></tr>
@@ -25,9 +25,10 @@
 		<td align="center">
 			<select name="type" style="margin-top:10px; margin-bottom:5px; width:180px">
 				<option value="all" selected>All</option>
-				<option value="shows">Shows</option>
+				<option value="books">Books</option>
 				<option value="episodes">Episodes</option>
 				<option value="movies">Movies</option>
+				<option value="shows">Shows</option>
 				<option value="persons">Persons</option>
 			</select>
 			<input type="text" name="text" style="margin-bottom:10px; height:20px; width:180px;"/>

@@ -4,6 +4,10 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Properties;
+import java.util.Map;
+import java.util.Hashtable;
 
 import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.persistence.DBLoader;
@@ -19,6 +23,7 @@ public class MediaTransferable implements Transferable
 
 	private Class<? extends DBObject> objectClass;
 	private Object primaryKey;
+	private Map<String, Serializable> properties;
 
 	public MediaTransferable(Class<? extends DBObject> objectClass, Object primaryKey)
 	{
@@ -34,6 +39,18 @@ public class MediaTransferable implements Transferable
 	public Object getPrimaryKey()
 	{
 		return primaryKey;
+	}
+
+	public Serializable getProperty(String property)
+	{
+		if (properties==null) return null;
+		return properties.get(property);
+	}
+
+	public void setProperty(String property, Serializable value)
+	{
+		if (properties==null) properties=new Hashtable<String, Serializable>();
+		properties.put(property, value);
 	}
 
 	@Override

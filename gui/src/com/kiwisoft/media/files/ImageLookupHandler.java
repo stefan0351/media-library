@@ -30,6 +30,11 @@ public class ImageLookupHandler implements LookupHandler<MediaFile>
 		return null;
 	}
 
+	public ContentType getDefaultContentType()
+	{
+		return null;
+	}
+
 	@Override
 	public MediaFile createObject(LookupField<MediaFile> lookupField)
 	{
@@ -46,7 +51,7 @@ public class ImageLookupHandler implements LookupHandler<MediaFile>
 			{
 				MediaFileInfo fileInfo=MediaFileUtils.getMediaFileInfo(file);
 				String filePath=FileUtils.getRelativePath(Configuration.getInstance().getString(root), file.getAbsolutePath());
-				if (fileInfo.isImage()) return ImageDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), getDefaultName(), root, filePath);
+				if (fileInfo.isImage()) return ImageDetailsView.createDialog(SwingUtilities.getWindowAncestor(lookupField), getDefaultName(), root, filePath, getDefaultContentType());
 			}
 			else JOptionPane.showMessageDialog(lookupField, "File is not located in a configured directory.", "Error", JOptionPane.ERROR_MESSAGE);
 		}

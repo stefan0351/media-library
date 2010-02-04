@@ -21,6 +21,7 @@ public class BookManager implements CollectionChangeSource
 	public static final String BOOKS="books";
 
 	private static BookManager instance;
+	private Collection<String> storages;
 
 	public static BookManager getInstance()
 	{
@@ -200,5 +201,29 @@ public class BookManager implements CollectionChangeSource
 	public Set<Book> getBooksBySeries(String seriesName)
 	{
 		return DBLoader.getInstance().loadSet(Book.class, null, "series_name=?", seriesName);
+	}
+
+	public Collection<String> getStorages()
+	{
+		try
+		{
+			Set<String> storages=new HashSet<String>();
+			Connection connection=DBSession.getInstance().getConnection();
+			PreparedStatement statement=connection.prepareStatement("select distinct storage from books");
+			try
+			{
+				ResultSet resultSet=statement.executeQuery();
+				while (resultSet.next()) storages.add(resultSet.getString(1));
+			}
+			finally
+			{
+				statement.close();
+			}
+			return storages;
+		}
+		catch (SQLException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 }

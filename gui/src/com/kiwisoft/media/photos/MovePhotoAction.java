@@ -38,7 +38,8 @@ public class MovePhotoAction extends MultiContextAction
 					PhotoGallery newGallery;
 					if (dialog.isNewGallery())
 					{
-						newGallery=PhotoManager.getInstance().createRootGallery();
+						PhotoGallery rootGallery=PhotoManager.getInstance().getRootGallery();
+						newGallery=rootGallery.createChildGallery();
 						newGallery.setName(dialog.getGalleryName());
 					}
 					else newGallery=dialog.getGallery();

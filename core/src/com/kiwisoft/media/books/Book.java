@@ -36,7 +36,9 @@ public class Book extends IDObject
 	public static final String SHOW="show";
 	public static final String SERIES_NAME="seriesName";
 	public static final String SERIES_NUMBER="seriesNumber";
+	private static final String ORIGINAL_TITLE="originalTitle";
 	public static final String INDEX_BY="indexBy";
+	public static final String STORAGE="storage";
 
 	private String title;
 	private String publisher;
@@ -49,6 +51,8 @@ public class Book extends IDObject
 	private String seriesName;
 	private Integer seriesNumber;
 	private String indexBy;
+	private String storage;
+	private String originalTitle;
 
 	public Book()
 	{
@@ -69,6 +73,30 @@ public class Book extends IDObject
 		String oldTitle=this.title;
 		this.title=title;
 		setModified(TITLE, oldTitle, title);
+	}
+
+	public String getOriginalTitle()
+	{
+		return originalTitle;
+	}
+
+	public void setOriginalTitle(String originalTitle)
+	{
+		String oldTitle=this.originalTitle;
+		this.originalTitle=originalTitle;
+		setModified(ORIGINAL_TITLE, oldTitle, originalTitle);
+	}
+
+	public String getStorage()
+	{
+		return storage;
+	}
+
+	public void setStorage(String storage)
+	{
+		String oldStorage=this.storage;
+		this.storage=storage;
+		setModified(STORAGE, oldStorage, storage);
 	}
 
 	public String getSeriesName()

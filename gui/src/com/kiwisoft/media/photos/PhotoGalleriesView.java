@@ -22,6 +22,7 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class PhotoGalleriesView extends ViewPanel
 {
@@ -83,40 +84,6 @@ public class PhotoGalleriesView extends ViewPanel
 		tree.setExpandsSelectedPaths(true);
 		tree.setTransferHandler(new MyTransferHandler());
 
-//		PhotoGalleriesTableModel tableModel=new PhotoGalleriesTableModel();
-//		tableController=new TableController<PhotoGallery>(tableModel, new DefaultTableConfiguration(PhotoGalleriesTableModel.class))
-//		{
-//			@Override
-//			public List<ContextAction> getToolBarActions()
-//			{
-//				List<ContextAction> actions=new ArrayList<ContextAction>();
-//				actions.add(new PhotoGalleryDetailsAction());
-//				actions.add(new NewPhotoGalleryAction());
-//				actions.add(new DeletePhotoGalleryAction(frame));
-//				actions.add(new PhotosAction(frame));
-//				return actions;
-//			}
-//
-//			@Override
-//			public List<ContextAction> getContextActions()
-//			{
-//				List<ContextAction> actions=new ArrayList<ContextAction>();
-//				actions.add(new PhotoGalleryDetailsAction());
-//				actions.add(null);
-//				actions.add(new NewPhotoGalleryAction());
-//				actions.add(new DeletePhotoGalleryAction(frame));
-//				actions.add(null);
-//				actions.add(new PhotosAction(frame));
-//				return actions;
-//			}
-//
-//			@Override
-//			public ContextAction getDoubleClickAction()
-//			{
-//				return new PhotosAction(frame);
-//			}
-//		};
-
 //		getModelListenerList().addDisposable(PhotoManager.getInstance().addCollectionListener(new MyCollectionListener()));
 		return component;
 	}
@@ -126,7 +93,7 @@ public class PhotoGalleriesView extends ViewPanel
 	{
 		super.initializeData();
 		GenericTree tree=treeController.getTree();
-		tree.setRoot(new PhotosRootNode());
+		tree.setRoot(new PhotoGalleryNode(PhotoManager.getInstance().getRootGallery()));
 	}
 
 	@Override
@@ -204,11 +171,19 @@ public class PhotoGalleriesView extends ViewPanel
 		@Override
 		protected Transferable createTransferable(JComponent c)
 		{
-			List objects=TreeUtils.getSelectedObjects((GenericTree) c);
-			if (objects.size()==1)
+			GenericTree tree=(GenericTree) c;
+			TreePath selectionPath=tree.getLeadSelectionPath();
+			if (selectionPath!=null)
 			{
-				Object object=objects.get(0);
-				if (object instanceof PhotoGallery) return new MediaTransferable(PhotoGallery.class, ((PhotoGallery) object).getId());
+				GenericTreeNode node=(GenericTreeNode) selectionPath.getLastPathComponent();
+				if (node.getUserObject() instanceof PhotoGallery)
+				{
+					MediaTransferable transferable=new MediaTransferable(PhotoGallery.class, ((PhotoGallery) node.getUserObject()).getId());
+					GenericTreeNode parentNode=node.getParent();
+					if (parentNode.getUserObject() instanceof PhotoGallery)
+					transferable.setProperty("parent", ((PhotoGallery) parentNode.getUserObject()).getId());
+					return transferable;
+				}
 			}
 			return null;
 		}
@@ -250,73 +225,35 @@ public class PhotoGalleriesView extends ViewPanel
 			return false;
 		}
 
-		private boolean dragObject(Object draggedObject, Object target, int dropAction)
+		private boolean dragObject(Object draggedObject, Object target, final int dropAction)
 		{
-			switch (dropAction)
+			if (dropAction==MOVE || dropAction==COPY)
 			{
-				case MOVE:
-					return moveObject(draggedObject, target);
-				case COPY:
-					return copyObject(draggedObject, target);
-			}
-			return false;
-		}
-
-		private boolean moveObject(Object draggedObject, Object target)
-		{
-			if (draggedObject instanceof PhotoGallery)
-			{
-				final PhotoGallery draggedGallery=(PhotoGallery)draggedObject;
-				if (target!=draggedObject && draggedGallery.getParent()!=target && (target==null || target instanceof PhotoGallery))
+				if (draggedObject instanceof PhotoGallery)
 				{
-					final PhotoGallery targetGallery=(PhotoGallery)target;
-					return DBSession.execute(new Transactional()
+					final PhotoGallery draggedGallery=(PhotoGallery)draggedObject;
+					if (target==null) target=PhotoManager.getInstance().getRootGallery();
+					if (target instanceof PhotoGallery && target!=draggedObject && !draggedGallery.getParents().contains(target))
 					{
-						@Override
-						public void run() throws Exception
+						final PhotoGallery targetGallery=(PhotoGallery)target;
+						return DBSession.execute(new Transactional()
 						{
-							PhotoGallery oldParent=draggedGallery.getParent();
-							if (oldParent==null) PhotoManager.getInstance().removeRootGallery(draggedGallery);
-							else oldParent.removeChildGallery(draggedGallery);
-							if (targetGallery==null) PhotoManager.getInstance().addRootGallery(draggedGallery);
-							else targetGallery.addChildGallery(draggedGallery);
-						}
+							@Override
+							public void run() throws Exception
+							{
+								if (dropAction==MOVE) draggedGallery.setParents(Collections.<PhotoGallery>emptySet());
+								targetGallery.addChildGallery(draggedGallery);
+							}
 
-						@Override
-						public void handleError(Throwable throwable, boolean rollback)
-						{
-							GuiUtils.handleThrowable(PhotoGalleriesView.this, throwable);
-						}
-					});
+							@Override
+							public void handleError(Throwable throwable, boolean rollback)
+							{
+								GuiUtils.handleThrowable(PhotoGalleriesView.this, throwable);
+							}
+						});
+					}
 				}
 			}
-			return false;
-		}
-
-		private boolean copyObject(Object draggedObject, Object target)
-		{
-//			if (draggedObject instanceof PhotoGallery)
-//			{
-//				if (target instanceof PhotoGallery && target!=draggedObject)
-//				{
-//					final PhotoGallery gallery=(PhotoGallery) draggedObject;
-//					final PhotoGallery targetGallery=(PhotoGallery) target;
-//					return DBSession.execute(new Transactional()
-//					{
-//						@Override
-//						public void run() throws Exception
-//						{
-//							targetGallery.addChildGallery(gallery);
-//						}
-//
-//						@Override
-//						public void handleError(Throwable throwable, boolean rollback)
-//						{
-//							GuiUtils.handleThrowable(PhotoGalleriesView.this, throwable);
-//						}
-//					});
-//				}
-//			}
 			return false;
 		}
 	}

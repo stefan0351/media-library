@@ -35,42 +35,19 @@ public class PhotoManager implements CollectionChangeSource
 	{
 	}
 
+	public PhotoGallery getRootGallery()
+	{
+		return getGallery(1L);
+	}
+
 	public Set<PhotoGallery> getGalleries()
 	{
 		return DBLoader.getInstance().loadSet(PhotoGallery.class);
 	}
 
-	public Set<PhotoGallery> getRootGalleries()
-	{
-		return DBLoader.getInstance().loadSet(PhotoGallery.class, null, "parent_id is null");
-	}
-
 	public PhotoGallery getGallery(Long id)
 	{
 		return DBLoader.getInstance().load(PhotoGallery.class, id);
-	}
-
-	public PhotoGallery createRootGallery()
-	{
-		PhotoGallery gallery=new PhotoGallery();
-		addRootGallery(gallery);
-		return gallery;
-	}
-
-	public void dropRootGallery(PhotoGallery gallery)
-	{
-		gallery.delete();
-		removeRootGallery(gallery);
-	}
-
-	public void removeRootGallery(PhotoGallery gallery)
-	{
-		collectionChangeSupport.fireElementRemoved(GALLERIES, gallery);
-	}
-
-	public void addRootGallery(PhotoGallery gallery)
-	{
-		collectionChangeSupport.fireElementAdded(GALLERIES, gallery);
 	}
 
 	@Override

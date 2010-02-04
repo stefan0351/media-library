@@ -148,8 +148,12 @@
 		if (movie.title.empty()) errors.push("Title is empty!");
 		movie.germanTitle=movieTable.down("input#germanTitle").value;
 		movie.summary=movieTable.down("textarea#summary").value;
-		movie.runtime=parseInt(movieTable.down("input#runtime").value);
-		if (isNaN(movie.runtime)) errors.push("Runtime must be an integer!");
+		var text=movieTable.down("input#runtime").value;
+		if (text && text.length>0)
+		{
+			movie.runtime=parseInt(text);
+			if (isNaN(movie.runtime)) errors.push("Runtime must be an integer!");
+		}
 		movie.year=parseInt(movieTable.down("input#year").value);
 		if (isNaN(movie.year)) errors.push("Year must be an integer!");
 		var i, row;

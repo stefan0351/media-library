@@ -44,11 +44,12 @@ public class ImageDetailsView extends DetailsView
 		return null;
 	}
 
-	public static MediaFile createDialog(Window owner, String name, String root, String path)
+	public static MediaFile createDialog(Window owner, String name, String root, String path, ContentType contentType)
 	{
 		ImageDetailsView view=new ImageDetailsView(null);
 		view.nameField.setText(name);
 		view.imageField.setFile(root, path);
+		view.contentTypeField.setValue(contentType);
 		DetailsDialog dialog=new DetailsDialog(owner, view);
 		dialog.show();
 		if (dialog.getReturnValue()==DetailsDialog.OK) return view.image;
