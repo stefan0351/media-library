@@ -6,9 +6,7 @@
 	<property name="lib.dir" location="${root.dir}/lib"/>
 	<property name="build.dir" location="${root.dir}/tmp"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
-	<property name="utils.builds.dir" location="${root.dir}/../utils/builds"/>
 	<property name="dump.dir" location="${basedir}/db/dumps"/>
-	<property  name="jflex.home" location="c:/Java/tools/jflex/1.4.3"/>
 
 	<patternset id="resource.pattern">
 		<include name="**/*.jpg"/>

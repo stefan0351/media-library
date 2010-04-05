@@ -74,7 +74,7 @@
 			<tr valign="top"><td class="content2"><b>Links:</b></td><td class="content2">
 				<a target="_new" class="link"
 				   href="http://www.imdb.com/title/<s:property value="movie.imdbKey" escape="false"/>/">
-					<img src="<%=request.getContextPath()%>/file/?type=Icon&name=imdb" alt="IMDb" border="0"/>http://www.imdb.com/title/<s:property
+					<img src="<%=request.getContextPath()%>/file/?type=Icon&name=imdb" alt="IMDb" border="0"/> http://www.imdb.com/title/<s:property
 						value="movie.imdbKey"/>/</a>
 			</td></tr>
 		</s:if>

@@ -109,7 +109,7 @@ public class SaveMovieAction extends BaseAction
 	{
 		for (CastData castMember : movieData.getCast())
 		{
-			Person person=findPerson(castMember.getImdbKey(), castMember.getActor());
+			Person person=findPerson(castMember.getKey(), castMember.getActor());
 			castMember.setPerson(person);
 		}
 	}
@@ -118,7 +118,7 @@ public class SaveMovieAction extends BaseAction
 	{
 		for (CrewData crewMember : movieData.getCrew())
 		{
-			Person person=findPerson(crewMember.getImdbKey(), crewMember.getName());
+			Person person=findPerson(crewMember.getKey(), crewMember.getName());
 			crewMember.setPerson(person);
 		}
 	}

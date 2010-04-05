@@ -62,7 +62,8 @@ public class EpisodeDetailsView extends DetailsView
 
 	public static void create(Window parent, Episode episode)
 	{
-		new DetailsFrame(parent, new EpisodeDetailsView(episode)).show();
+		if (parent instanceof JDialog) createDialog(parent, episode);
+		else new DetailsFrame(parent, new EpisodeDetailsView(episode)).show();
 	}
 
 	private Show show;

@@ -30,38 +30,12 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
 									"s.id=? and links.url like ?",
 									show.getId(), "http://www.serienjunkies.de/%/%");
-		final Language german=LanguageManager.getInstance().getLanguageBySymbol("de");
-		EpisodeLoaderDialog dialog=new EpisodeLoaderDialog(parent, show, link)
-		{
-			@Override
-			protected String getLinkName()
-			{
-				return "SerienJunkies.de - "+show.getTitle(german);
-			}
-
-			@Override
-			protected Language getLinkLanguage()
-			{
-				return german;
-			}
-		};
+		EpisodeLoaderLinkDialog dialog=new EpisodeLoaderLinkDialog(parent, show, link, "SerienJunkies.de - "+show.getTitle(LanguageManager.GERMAN), LanguageManager.GERMAN);
 		dialog.setVisible(true);
 		if (dialog.isOk())
 		{
 			link=dialog.getLink();
-			EpisodeDataLoader process=new SerienJunkiesDeLoader(show, link.getUrl(), dialog.getFirstSeason(), dialog.getLastSeason(), dialog.isAutoCreate())
-			{
-				@Override
-				protected Episode createEpisode(Show show, EpisodeData info)
-				{
-					NoEpisodeDialog dialog=new NoEpisodeDialog(parent, show, info);
-					dialog.setVisible(true);
-					if (dialog.isOk()) return dialog.getEpisode();
-					return null;
-				}
-			};
-			ProgressDialog progressDialog=new ProgressDialog(parent, process);
-			progressDialog.start();
+			new EpisodeSynchronizationDialog(parent, show, new SerienJunkiesDeLoader2(link.getUrl())).setVisible(true);
 		}
 	}
 }

@@ -294,7 +294,7 @@ public class FanFicDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Parts:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0,
 														 GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets(10, 0, 0, 0), 0, 0));
-		add(partsController.createComponent(), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
+		add(partsController.getComponent(), new GridBagConstraints(1, row, 5, 1, 1.0, 0.3,
 													   WEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;

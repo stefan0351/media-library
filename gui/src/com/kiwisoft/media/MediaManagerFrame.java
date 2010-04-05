@@ -2,16 +2,13 @@ package com.kiwisoft.media;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JPanel;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
 import com.kiwisoft.media.books.BooksTask;
-import com.kiwisoft.media.dataimport.ImportChangesAction;
-import com.kiwisoft.media.dataimport.TVTVDeLoaderAction;
+import com.kiwisoft.media.dataimport.*;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.links.LinksTask;
 import com.kiwisoft.media.medium.AllMediaTask;
@@ -23,6 +20,8 @@ import com.kiwisoft.media.photos.PhotosTask;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.show.ShowsTask;
+import com.kiwisoft.media.show.ShowManager;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
 import com.kiwisoft.swing.table.TableEditorFactory;
@@ -45,7 +44,6 @@ public class MediaManagerFrame extends ApplicationFrame
 		menuFile.addSeparator();
 		menuFile.add(new ExportWebDatesAction());
 		menuFile.addSeparator();
-//		menuFile.add(new ProSiebenDeLoaderAction(this));
 		menuFile.add(new TVTVDeLoaderAction(this));
 
 		JMenuBar menuBar=new JMenuBar();

@@ -1,13 +1,22 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.utils.PropertyChangeSource;
+
 import java.util.*;
+import java.beans.PropertyChangeSupport;
+import java.beans.PropertyChangeListener;
 
 /**
  * @author Stefan Stiller
 */
-public class EpisodeData
+public class EpisodeData implements PropertyChangeSource
 {
 	public static final String DETAILS_LINK="details";
+
+	public static final String KEY="key";
+	public static final String GERMAN_TITLE="germanTitle";
+	public static final String TITLE="title";
+	public static final String PRODUCTION_CODE="productionCode";
 
 	private String key;
 	private String title;
@@ -16,12 +25,15 @@ public class EpisodeData
 	private String productionCode;
 	private String englishSummary;
 	private String germanSummary;
-	private List<EpisodeDataLoader.CastData> mainCast;
-	private List<EpisodeDataLoader.CastData> recurringCast;
-	private List<EpisodeDataLoader.CastData> guestCast;
-	private List<EpisodeDataLoader.CrewData> writtenBy;
-	private List<EpisodeDataLoader.CrewData> directedBy;
+	private List<CastData> mainCast;
+	private List<CastData> recurringCast;
+	private List<CastData> guestCast;
+	private List<CrewData> writtenBy;
+	private List<CrewData> directedBy;
 	private Map<String, String> links=new HashMap<String, String>();
+	private boolean detailsLoaded;
+
+	private PropertyChangeSupport propertyChangeSupport=new PropertyChangeSupport(this);
 
 	public EpisodeData(String episodeKey, String episodeName)
 	{
@@ -34,11 +46,11 @@ public class EpisodeData
 		this.title=episodeName;
 		this.airdate=airdate;
 		this.productionCode=productionCode;
-		writtenBy=new ArrayList<EpisodeDataLoader.CrewData>();
-		directedBy=new ArrayList<EpisodeDataLoader.CrewData>();
-		mainCast=new ArrayList<EpisodeDataLoader.CastData>();
-		recurringCast=new ArrayList<EpisodeDataLoader.CastData>();
-		guestCast=new ArrayList<EpisodeDataLoader.CastData>();
+		writtenBy=new ArrayList<CrewData>();
+		directedBy=new ArrayList<CrewData>();
+		mainCast=new ArrayList<CastData>();
+		recurringCast=new ArrayList<CastData>();
+		guestCast=new ArrayList<CastData>();
 	}
 
 	public String getKey()
@@ -48,17 +60,28 @@ public class EpisodeData
 
 	public void setKey(String key)
 	{
+		String oldKey=this.key;
 		this.key=key;
+		propertyChangeSupport.firePropertyChange(KEY, oldKey, this.key);
 	}
 
 	public void setGermanTitle(String germanTitle)
 	{
+		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
+		propertyChangeSupport.firePropertyChange(GERMAN_TITLE, oldTitle, this.germanTitle);
 	}
 
 	public String getGermanTitle()
 	{
 		return germanTitle;
+	}
+
+	public void setTitle(String title)
+	{
+		String oldTitle=this.title;
+		this.title=title;
+		propertyChangeSupport.firePropertyChange(TITLE, oldTitle, this.title);
 	}
 
 	public String getTitle()
@@ -86,52 +109,59 @@ public class EpisodeData
 		return productionCode;
 	}
 
-	public List<EpisodeDataLoader.CastData> getMainCast()
+	public void setProductionCode(String productionCode)
+	{
+		String oldCode=this.productionCode;
+		this.productionCode=productionCode;
+		propertyChangeSupport.firePropertyChange(PRODUCTION_CODE, oldCode, this.productionCode);
+	}
+
+	public List<CastData> getMainCast()
 	{
 		return mainCast;
 	}
 
-	public List<EpisodeDataLoader.CastData> getRecurringCast()
+	public List<CastData> getRecurringCast()
 	{
 		return recurringCast;
 	}
 
-	public List<EpisodeDataLoader.CastData> getGuestCast()
+	public List<CastData> getGuestCast()
 	{
 		return guestCast;
 	}
 
-	public List<EpisodeDataLoader.CrewData> getWrittenBy()
+	public List<CrewData> getWrittenBy()
 	{
 		return writtenBy;
 	}
 
-	public List<EpisodeDataLoader.CrewData> getDirectedBy()
+	public List<CrewData> getDirectedBy()
 	{
 		return directedBy;
 	}
 
-	public void addWrittenBy(EpisodeDataLoader.CrewData personData)
+	public void addWrittenBy(CrewData personData)
 	{
 		writtenBy.add(personData);
 	}
 
-	public void addDirectedBy(EpisodeDataLoader.CrewData person)
+	public void addDirectedBy(CrewData person)
 	{
 		directedBy.add(person);
 	}
 
-	public void addMainCast(EpisodeDataLoader.CastData cast)
+	public void addMainCast(CastData cast)
 	{
 		mainCast.add(cast);
 	}
 
-	public void addRecurringCast(EpisodeDataLoader.CastData cast)
+	public void addRecurringCast(CastData cast)
 	{
 		recurringCast.add(cast);
 	}
 
-	public void addGuestCast(EpisodeDataLoader.CastData cast)
+	public void addGuestCast(CastData cast)
 	{
 		guestCast.add(cast);
 	}
@@ -159,5 +189,39 @@ public class EpisodeData
 	public void setFirstAirdate(Date date)
 	{
 		this.airdate=date;
+	}
+
+	public void setDetailsLoaded(boolean detailsLoaded)
+	{
+		this.detailsLoaded=detailsLoaded;
+	}
+
+	public boolean isDetailsLoaded()
+	{
+		return detailsLoaded;
+	}
+
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener)
+	{
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	{
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener)
+	{
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	{
+		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
 }

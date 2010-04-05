@@ -10,10 +10,7 @@ import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.swing.actions.ContextAction;
-import com.kiwisoft.swing.table.DefaultSortableTableModel;
-import com.kiwisoft.swing.table.DefaultTableConfiguration;
-import com.kiwisoft.swing.table.SortableTableModel;
-import com.kiwisoft.swing.table.TableController;
+import com.kiwisoft.swing.table.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -42,7 +39,7 @@ public class ShowMoviesView extends ViewPanel
 	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>("title", "germanTitle", "year");
+		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>(Movie.TITLE, Movie.GERMAN_TITLE, Movie.YEAR);
 		collectionObserver=new CollectionChangeObserver();
 		MovieManager.getInstance().addCollectionChangeListener(collectionObserver);
 
@@ -80,7 +77,7 @@ public class ShowMoviesView extends ViewPanel
 			}
 		};
 
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override
@@ -89,7 +86,7 @@ public class ShowMoviesView extends ViewPanel
 		Set<Movie> movies=show.getMovies();
 		SortableTableModel<Movie> tableModel=tableController.getModel();
 		tableModel.clear();
-		for (Movie movie : movies) tableModel.addRow(new MovieTableRow(movie));
+		for (Movie movie : movies) tableModel.addRow(new BeanTableRow<Movie>(movie));
 		tableModel.sort();
 		super.initializeData();
 	}
@@ -130,7 +127,7 @@ public class ShowMoviesView extends ViewPanel
 						Movie newMovie=(Movie) event.getElement();
 						if (newMovie.getShow()==show)
 						{
-							MovieTableRow row=new MovieTableRow(newMovie);
+							BeanTableRow<Movie> row=new BeanTableRow<Movie>(newMovie);
 							model.addRow(row);
 							model.sort();
 						}

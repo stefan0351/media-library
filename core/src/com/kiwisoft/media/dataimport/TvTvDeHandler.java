@@ -250,44 +250,47 @@ abstract class TvTvDeHandler<T>
 			{
 				Show show=airdate.getShow();
 				String title=airdate.getSubTitle();
-				if (title.endsWith(")"))
+				if (title!=null)
 				{
-					int matchingBrace=StringUtils.findMatchingBrace(title, title.length()-1);
-					if (matchingBrace>0)
+					if (title.endsWith(")"))
 					{
-						String originalTitle=title.substring(matchingBrace+1, title.length()-1).trim();
-						String germanTitle=title.substring(0, matchingBrace).trim();
-						Integer length=airdate.getLength();
-						if (length==null || length>3*show.getDefaultEpisodeLength()/2) // Only check of Double-Episodes if length is > 1.5xdefault length
+						int matchingBrace=StringUtils.findMatchingBrace(title, title.length()-1);
+						if (matchingBrace>0)
 						{
-							String[] originalTitles=originalTitle.split("/");
-							String[] germanTitles=germanTitle.split("/");
-							if (germanTitles.length>1 && germanTitles.length==originalTitles.length)
+							String originalTitle=title.substring(matchingBrace+1, title.length()-1).trim();
+							String germanTitle=title.substring(0, matchingBrace).trim();
+							Integer length=airdate.getLength();
+							if (length==null || length>3*show.getDefaultEpisodeLength()/2) // Only check of Double-Episodes if length is > 1.5xdefault length
 							{
-								int episodeLength=length!=null ? length/germanTitle.length() : show.getDefaultEpisodeLength();
-								for (int i=0; i<germanTitles.length; i++)
+								String[] originalTitles=originalTitle.split("/");
+								String[] germanTitles=germanTitle.split("/");
+								if (germanTitles.length>1 && germanTitles.length==originalTitles.length)
 								{
-									airdate.addEpisode(new TvTvDeEpisodeData(germanTitles[i].trim(), originalTitles[i].trim(), i*episodeLength, episodeLength));
+									int episodeLength=length!=null ? length/germanTitle.length() : show.getDefaultEpisodeLength();
+									for (int i=0; i<germanTitles.length; i++)
+									{
+										airdate.addEpisode(new TvTvDeEpisodeData(germanTitles[i].trim(), originalTitles[i].trim(), i*episodeLength, episodeLength));
+									}
 								}
+								else airdate.addEpisode(new TvTvDeEpisodeData(germanTitle, originalTitle));
 							}
 							else airdate.addEpisode(new TvTvDeEpisodeData(germanTitle, originalTitle));
 						}
-						else airdate.addEpisode(new TvTvDeEpisodeData(germanTitle, originalTitle));
+						else airdate.addEpisode(new TvTvDeEpisodeData(title));
 					}
-					else airdate.addEpisode(new TvTvDeEpisodeData(title));
-				}
-				else
-				{
-					String[] episodeTitles=title.split("/");
-					if (episodeTitles.length>1)
+					else
 					{
-						int episodeLength=airdate.getLength()!=null ? airdate.getLength().intValue()/episodeTitles.length : show.getDefaultEpisodeLength();
-						for (int i=0; i<episodeTitles.length; i++)
+						String[] episodeTitles=title.split("/");
+						if (episodeTitles.length>1)
 						{
-							airdate.addEpisode(new TvTvDeEpisodeData(episodeTitles[i].trim(), i*episodeLength, episodeLength));
+							int episodeLength=airdate.getLength()!=null ? airdate.getLength().intValue()/episodeTitles.length : show.getDefaultEpisodeLength();
+							for (int i=0; i<episodeTitles.length; i++)
+							{
+								airdate.addEpisode(new TvTvDeEpisodeData(episodeTitles[i].trim(), i*episodeLength, episodeLength));
+							}
 						}
+						else airdate.addEpisode(new TvTvDeEpisodeData(title));
 					}
-					else airdate.addEpisode(new TvTvDeEpisodeData(title));
 				}
 				for (TvTvDeEpisodeData episodeData : airdate.getEpisodes())
 				{
@@ -342,6 +345,12 @@ abstract class TvTvDeHandler<T>
 				Parser parser=new Parser();
 				parser.setInputHTML(detailPage);
 				CompositeTag table=(CompositeTag) HtmlUtils.findFirst(parser, "table#program-box");
+				if (table==null)
+				{
+					log.error("No element table#program-box found in details page.");
+					progressSupport.warning("Couldn't parse details at "+airdate.getDetailLink());
+					return;
+				}
 				CompositeTag contentTag=(CompositeTag) HtmlUtils.findFirst(table, "td.program-content");
 				CompositeTag titleTag=(CompositeTag) HtmlUtils.findFirst(contentTag, "span.fb-b15");
 				if (titleTag!=null)

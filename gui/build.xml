@@ -5,6 +5,7 @@
 	<property name="root.dir" location="${basedir}/.."/>
 	<property name="gui.module.dir" location="${root.dir}/gui"/>
 
+	<property file="${root.dir}/user-build.properties"/>
 	<import file="${root.dir}/build-properties.xml"/>
 
 	<target name="gui.clean">
@@ -30,6 +31,7 @@
 				<pathelement location="${lib.dir}/commons-io.jar"/>
 				<pathelement location="${lib.dir}/amazon.jar"/>
 				<pathelement location="${lib.dir}/htmlparser.jar"/>
+				<pathelement location="${intellij.home}/redist/annotations.jar"/>
 			</classpath>
 		</javac>
 		<copy todir="${classes.dir}/gui">

@@ -24,11 +24,17 @@ import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Utils;
 
 public class Episode extends IDObject implements ChainLink, Comparable, Production, Recordable
 {
 	public static final String SHOW="show";
-
+	public static final String USER_KEY="userKey";
+	public static final String PRODUCTION_CODE="productionCode";
+	public static final String TITLE="title";
+	public static final String AIRDATE="airdate";
+	public static final String GERMAN_TITLE="germanTitle";
+	
 	private String userKey;
 	private String title;
 	private String germanTitle;
@@ -61,7 +67,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	{
 		String oldKey=this.userKey;
 		this.userKey=userKey;
-		setModified("userKey", oldKey, this.userKey);
+		setModified(USER_KEY, oldKey, this.userKey);
 	}
 
 	public String getProductionCode()
@@ -73,7 +79,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	{
 		String oldCode=this.productionCode;
 		this.productionCode=productionCode;
-		setModified("productionCode", oldCode, this.productionCode);
+		setModified(PRODUCTION_CODE, oldCode, this.productionCode);
 	}
 
 	public Date getAirdate()
@@ -85,7 +91,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	{
 		Date oldDate=this.airdate;
 		this.airdate=airdate;
-		setModified("airdate", oldDate, this.airdate);
+		setModified(AIRDATE, oldDate, this.airdate);
 	}
 
 	public String getTitle()
@@ -278,7 +284,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	{
 		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
-		setModified("germanTitle", oldTitle, this.germanTitle);
+		setModified(GERMAN_TITLE, oldTitle, this.germanTitle);
 	}
 
 	public Episode getNextEpisode()

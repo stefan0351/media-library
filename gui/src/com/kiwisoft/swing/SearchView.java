@@ -4,9 +4,11 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.media.Pinnable;
+import com.kiwisoft.media.person.Person;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.table.SortableTableModel;
 import com.kiwisoft.swing.table.SortableTableRow;
+import com.kiwisoft.swing.table.BeanTableRow;
 import com.kiwisoft.utils.Utils;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.collection.CollectionChangeListener;
@@ -44,7 +46,7 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 
 		JPanel panel=new JPanel(new BorderLayout(0, 10));
 		panel.add(searchField, BorderLayout.NORTH);
-		panel.add(tableController.createComponent(), BorderLayout.CENTER);
+		panel.add(tableController.getComponent(), BorderLayout.CENTER);
 		panel.add(resultLabel, BorderLayout.SOUTH);
 
 		return panel;
@@ -81,7 +83,10 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 
 	protected abstract Set<T> doSearch(String searchText);
 
-	protected abstract SortableTableRow<T> createRow(T object);
+	protected SortableTableRow<T> createRow(T object)
+	{
+		return new BeanTableRow<T>(object);
+	}
 
 	@Override
 	public boolean isPinned()

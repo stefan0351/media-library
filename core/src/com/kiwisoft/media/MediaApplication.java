@@ -39,6 +39,7 @@ import com.kiwisoft.cfg.SimpleConfiguration;
 
 /**
  * @author Stefan Stiller
+ * @todo Move receivable channels out of database
  * @todo FanFics: Convert HTML fanfics
  * @todo FanFics: Implement series name and number
  * @todo FanFics: Pairing images

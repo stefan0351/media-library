@@ -17,8 +17,6 @@ import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.utils.StringUtils;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +37,7 @@ public class PersonSearchView extends SearchView<Person>
 	@Override
 	protected TableController<Person> createResultTable(final ApplicationFrame frame)
 	{
-		SortableTableModel<Person> tableModel=new DefaultSortableTableModel<Person>("gender", "name");
+		SortableTableModel<Person> tableModel=new DefaultSortableTableModel<Person>(Person.GENDER, Person.NAME);
 		return new TableController<Person>(tableModel, new DefaultTableConfiguration("persons.list", PersonSearchView.class, "persons"))
 		{
 			@Override
@@ -84,12 +82,6 @@ public class PersonSearchView extends SearchView<Person>
 	}
 
 	@Override
-	protected SortableTableRow<Person> createRow(Person object)
-	{
-		return new Row(object);
-	}
-
-	@Override
 	protected void installCollectionListener()
 	{
 		getModelListenerList().addDisposable(PersonManager.getInstance().addCollectionChangeListener(new CollectionObserver(PersonManager.PERSONS)));
@@ -111,44 +103,5 @@ public class PersonSearchView extends SearchView<Person>
 														  Name.PERSON, searchText));
 		}
 		return persons;
-	}
-
-	private static class Row extends SortableTableRow<Person> implements PropertyChangeListener
-	{
-		public Row(Person person)
-		{
-			super(person);
-		}
-
-		@Override
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		@Override
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
-		}
-
-		@Override
-		public Object getDisplayValue(int column, String property)
-		{
-			switch (column)
-			{
-				case 0:
-					return getUserObject().getGender();
-				case 1:
-					return getUserObject().getName();
-			}
-			return null;
-		}
 	}
 }

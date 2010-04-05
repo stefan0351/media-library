@@ -70,7 +70,7 @@ public class SeasonsView extends ViewPanel
 				return new SeasonEpisodesAction(frame);
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	private void createTableData(SortableTableModel<Season> tableModel)

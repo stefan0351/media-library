@@ -17,6 +17,9 @@ import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.media.dataimport.LinkHttpHandler;
+import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.media.files.MediaFileIconFormat;
+import com.kiwisoft.format.FormatManager;
 import com.sun.net.httpserver.HttpServer;
 
 public class MediaManager
@@ -28,7 +31,15 @@ public class MediaManager
 	public static void main(String[] args) throws IOException
 	{
 		Locale.setDefault(Locale.UK);
-		Application application=new MediaApplication();
+		Application application=new MediaApplication()
+		{
+			@Override
+			protected void registerFormats()
+			{
+				super.registerFormats();
+				FormatManager.getInstance().setFormat(MediaFile.class, "icon", new MediaFileIconFormat());
+			}
+		};
 		application.configureXML();
 		application.initialize();
 

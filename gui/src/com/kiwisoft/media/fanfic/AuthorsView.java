@@ -84,7 +84,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 				return new FanFicsAction(frame);
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

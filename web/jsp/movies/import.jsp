@@ -154,8 +154,12 @@
 			movie.runtime=parseInt(text);
 			if (isNaN(movie.runtime)) errors.push("Runtime must be an integer!");
 		}
-		movie.year=parseInt(movieTable.down("input#year").value);
-		if (isNaN(movie.year)) errors.push("Year must be an integer!");
+		text=movieTable.down("input#year").value;
+		if (text && text.length>0)
+		{
+			movie.year=parseInt(text);
+			if (isNaN(movie.year)) errors.push("Year must be an integer!");
+		}
 		var i, row;
 		movie.languages=new Array();
 		var table=$("languageTable");

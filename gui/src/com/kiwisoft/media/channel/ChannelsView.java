@@ -6,8 +6,6 @@
  */
 package com.kiwisoft.media.channel;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -15,16 +13,13 @@ import javax.swing.*;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.collection.CollectionChangeEvent;
 import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.swing.icons.IconManager;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.ChannelManager;
-import com.kiwisoft.media.channel.NewChannelAction;
 
 public class ChannelsView extends ViewPanel
 {
@@ -44,10 +39,10 @@ public class ChannelsView extends ViewPanel
 	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>("icon", "name", "receiving");
+		SortableTableModel<Channel> tmChannels=new DefaultSortableTableModel<Channel>(Channel.LOGO, Channel.NAME, Channel.RECEIVABLE);
 		for (Channel channel : ChannelManager.getInstance().getChannels())
 		{
-			tmChannels.addRow(new ChannelTableRow(channel));
+			tmChannels.addRow(new ChannelRow(channel));
 		}
 		tmChannels.sort();
 		channelListener=new ChannelListener();
@@ -84,7 +79,7 @@ public class ChannelsView extends ViewPanel
 				return new ChannelDetailsAction();
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override
@@ -120,7 +115,7 @@ public class ChannelsView extends ViewPanel
 				{
 					case CollectionChangeEvent.ADDED:
 						Channel newChannel=(Channel)event.getElement();
-						ChannelTableRow row=new ChannelTableRow(newChannel);
+						ChannelRow row=new ChannelRow(newChannel);
 						tableController.getModel().addRow(row);
 						break;
 					case CollectionChangeEvent.REMOVED:
@@ -129,53 +124,6 @@ public class ChannelsView extends ViewPanel
 						break;
 				}
 			}
-		}
-	}
-
-	private static class ChannelTableRow extends SortableTableRow<Channel> implements PropertyChangeListener
-	{
-		public ChannelTableRow(Channel channel)
-		{
-			super(channel);
-		}
-
-		@Override
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		@Override
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			SwingUtilities.invokeLater(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					fireRowUpdated();
-				}
-			});
-		}
-
-		@Override
-		public Object getDisplayValue(int column, String property)
-		{
-			if ("icon".equals(property))
-			{
-				MediaFile logo=getUserObject().getLogo();
-				if (logo!=null) return IconManager.getIconFromFile(logo.getPhysicalFile().getAbsolutePath());
-				return null;
-			}
-			else if ("name".equals(property)) return getUserObject().getName();
-			else if ("receiving".equals(property)) return Boolean.valueOf(getUserObject().isReceivable());
-			return "";
 		}
 	}
 

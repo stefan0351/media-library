@@ -77,7 +77,7 @@ public class FanFicsView extends ViewPanel
 				return new FanFicDetailsAction();
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

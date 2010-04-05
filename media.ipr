@@ -777,7 +777,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
-    <mapping directory="C:/Dokumente und Einstellungen/Stefan/.kiwisoft/media" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../../../../Dokumente und Einstellungen/Stefan/.kiwisoft/media" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/conf" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/core" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/db" vcs="svn" />

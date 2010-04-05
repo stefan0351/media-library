@@ -44,7 +44,7 @@ public class ConfigurationView extends ViewPanel
 		DefaultSortableTableModel<String> tableModel=new DefaultSortableTableModel<String>("property", "value", "required");
 
 		tableController=new TableController<String>(tableModel, new DefaultTableConfiguration("ConfigurationView.entries", ConfigurationView.class, "entries"));
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

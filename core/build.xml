@@ -5,6 +5,7 @@
 	<property name="root.dir" location="${basedir}/.."/>
 	<property name="core.module.dir" location="${root.dir}/core"/>
 
+	<property file="${root.dir}/user-build.properties"/>
 	<import file="${root.dir}/build-properties.xml"/>
 
 	<target name="core.clean">

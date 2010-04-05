@@ -6,8 +6,6 @@
  */
 package com.kiwisoft.media.fanfic;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
@@ -43,8 +41,8 @@ public class FanDomsView extends ViewPanel implements Disposable
 	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<FanDom> tableModel=new DefaultSortableTableModel<FanDom>("name");
-		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new Row(domain));
+		SortableTableModel<FanDom> tableModel=new DefaultSortableTableModel<FanDom>(FanDom.NAME);
+		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new BeanTableRow<FanDom>(domain));
 		tableModel.sort();
 		updateListener=new UpdateListener();
 		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
@@ -82,7 +80,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 			}
 
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override
@@ -117,7 +115,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 				{
 					case CollectionChangeEvent.ADDED:
 						FanDom newDomain=(FanDom)event.getElement();
-						tableController.getModel().addRow(new Row(newDomain));
+						tableController.getModel().addRow(new BeanTableRow<FanDom>(newDomain));
 						break;
 					case CollectionChangeEvent.REMOVED:
 						int index=tableController.getModel().indexOf(event.getElement());
@@ -125,43 +123,6 @@ public class FanDomsView extends ViewPanel implements Disposable
 						break;
 				}
 			}
-		}
-	}
-
-	private static class Row extends SortableTableRow<FanDom> implements PropertyChangeListener
-	{
-		public Row(FanDom domain)
-		{
-			super(domain);
-		}
-
-		@Override
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		@Override
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
-		}
-
-		@Override
-		public Object getDisplayValue(int column, String property)
-		{
-			switch (column)
-			{
-				case 0:
-					return getUserObject().getName();
-			}
-			return null;
 		}
 	}
 

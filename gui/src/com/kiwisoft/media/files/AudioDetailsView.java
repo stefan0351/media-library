@@ -74,7 +74,7 @@ public class AudioDetailsView extends DetailsView
 		JScrollPane descriptionPane=new JScrollPane(descriptionField);
 		descriptionPane.setPreferredSize(new Dimension(400, 50));
 		referencesController=new MediaFileReferencesController();
-		JComponent referenceField=referencesController.createComponent();
+		JComponent referenceField=referencesController.getComponent();
 		referenceField.setPreferredSize(new Dimension(200, 150));
 
 		setLayout(new GridBagLayout());

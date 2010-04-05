@@ -155,7 +155,7 @@ public class ScheduleView extends ViewPanel
 
 		JPanel panel=new JPanel(new BorderLayout());
 		panel.add(parameterPanel, BorderLayout.NORTH);
-		panel.add(tableController.createComponent(), BorderLayout.CENTER);
+		panel.add(tableController.getComponent(), BorderLayout.CENTER);
 		return panel;
 	}
 

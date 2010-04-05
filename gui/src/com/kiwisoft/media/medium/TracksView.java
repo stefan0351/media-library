@@ -81,7 +81,7 @@ public class TracksView extends ViewPanel
 				return new TrackDetailsAction();
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

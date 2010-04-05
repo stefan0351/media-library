@@ -1,8 +1,12 @@
 package com.kiwisoft.media.dataimport;
 
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.html.HtmlUtils;
+import com.kiwisoft.utils.StringNumberComparator;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.progress.ProgressSupport;
+import com.kiwisoft.media.person.CreditType;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.nodes.TagNode;
@@ -17,25 +21,26 @@ import org.htmlparser.util.ParserException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * @author Stefan Stiller
  */
-public abstract class TVComLoader extends EpisodeDataLoader
+public class TVComLoader2 implements EpisodeDataLoader2
 {
+	private final static Log log=LogFactory.getLog(TVComLoader2.class);
+
 	private SimpleDateFormat airdateFormat;
 	private Pattern personLinkPattern;
+	private String baseUrl;
 
-	protected TVComLoader(Show show, String baseUrl, int startSeason, int endSeason, boolean autoCreate)
+	public TVComLoader2(String baseUrl)
 	{
-		super(show, baseUrl, startSeason, endSeason, autoCreate);
 		Matcher matcher=Pattern.compile(("(http://www.tv.com/.*/show/[0-9]+/).*")).matcher(baseUrl);
-		if (matcher.matches()) setBaseUrl(matcher.group(1));
+		if (matcher.matches()) this.baseUrl=matcher.group(1);
+		else this.baseUrl=baseUrl;
 		airdateFormat=new SimpleDateFormat("M/d/yyyy");
 		personLinkPattern=Pattern.compile("http://www.tv.com/[^/]+/person/(\\d+)/.*");
 	}
@@ -43,14 +48,20 @@ public abstract class TVComLoader extends EpisodeDataLoader
 	@Override
 	public String getName()
 	{
-		return "Load Episodes from TV.com";
+		return "TV.com";
 	}
 
 	@Override
-	protected List<EpisodeData> loadEpisodeList(int season) throws IOException, ParserException
+	public boolean hasGermanData()
 	{
-		String url=getBaseUrl()+"episode.html?shv=list&season="+season;
-		log.debug("Loading season "+season+" from "+url);
+		return false;
+	}
+
+	@Override
+	public List<EpisodeData> loadList(ProgressSupport progressSupport) throws Exception
+	{
+		String url=baseUrl+"episode.html?shv=list&season=All";
+		log.debug("Loading episodes from "+url);
 		String page=ImportUtils.loadUrl(url);
 
 		List<EpisodeData> episodes=new ArrayList<EpisodeData>();
@@ -64,7 +75,7 @@ public abstract class TVComLoader extends EpisodeDataLoader
 			NodeList episodeRows=HtmlUtils.findAll(mainDiv, "tr.episode");
 			for (NodeIterator it=episodeRows.elements(); it.hasMoreNodes();)
 			{
-				if (getProgress().isStoppedByUser()) return null;
+				if (progressSupport.isStoppedByUser()) return null;
 				try
 				{
 					TableRow row=(TableRow) it.nextNode();
@@ -90,7 +101,7 @@ public abstract class TVComLoader extends EpisodeDataLoader
 					}
 					catch (ParseException e)
 					{
-						getProgress().error(e);
+						progressSupport.error(e);
 					}
 					log.debug("Airdate: "+airdate);
 
@@ -104,29 +115,46 @@ public abstract class TVComLoader extends EpisodeDataLoader
 				}
 				catch (ParserException e)
 				{
-					getProgress().error(e);
+					progressSupport.error(e);
 				}
+				Collections.sort(episodes, new Comparator<EpisodeData>()
+				{
+					private Comparator<String> keyComparator=new StringNumberComparator();
+
+					@Override
+					public int compare(EpisodeData o1, EpisodeData o2)
+					{
+						return keyComparator.compare(o1.getKey(), o2.getKey());
+					}
+				});
 			}
 		}
 		else
 		{
-			getProgress().warning("Invalid page content (episode_listing).");
+			progressSupport.warning("Invalid page content (episode_listing).");
 		}
 		return episodes;
 	}
 
 	@Override
-	protected void loadDetails(EpisodeData episodeData) throws IOException, ParserException
+	public void loadDetails(ProgressSupport progressSupport, EpisodeData episodeData) throws Exception
 	{
-		loadSummary(episodeData);
+		try
+		{
+			loadSummary(episodeData);
 
-		String baseUrl=episodeData.getLink(EpisodeData.DETAILS_LINK);
-		baseUrl=baseUrl.substring(0, baseUrl.lastIndexOf("/")+1);
-		episodeData.setLink("cast", baseUrl+"cast.html");
-		episodeData.setLink("crew", baseUrl+"cast.html?flag=6");
+			String baseUrl=episodeData.getLink(EpisodeData.DETAILS_LINK);
+			baseUrl=baseUrl.substring(0, baseUrl.lastIndexOf("/")+1);
+			episodeData.setLink("cast", baseUrl+"cast.html");
+			episodeData.setLink("crew", baseUrl+"cast.html?flag=6");
 
-		loadCast(episodeData);
-		loadCrew(episodeData);
+			loadCast(progressSupport, episodeData);
+			loadCrew(progressSupport, episodeData);
+		}
+		finally
+		{
+			episodeData.setDetailsLoaded(true);
+		}
 	}
 
 	private void loadSummary(EpisodeData episodeData) throws ParserException, IOException
@@ -175,7 +203,7 @@ public abstract class TVComLoader extends EpisodeDataLoader
 	private Pattern recurringCastPattern=Pattern.compile("Recurring Roles?");
 	private Pattern guestCastPattern=Pattern.compile("((Special )?Guest Stars?)|(Cameos?)");
 
-	private void loadCast(EpisodeData episodeData) throws IOException, ParserException
+	private void loadCast(ProgressSupport progressSupport, EpisodeData episodeData) throws IOException, ParserException
 	{
 		log.debug("Loading cast for "+episodeData.getTitle());
 		String page=ImportUtils.loadUrl(episodeData.getLink("cast"));
@@ -214,18 +242,17 @@ public abstract class TVComLoader extends EpisodeDataLoader
 						log.debug("Key: "+key);
 						if (!StringUtils.isEmpty(actor))
 						{
-							PersonData person=new PersonData(key, actor);
 							CompositeTag roleNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".role");
 							String role=null;
 							if (roleNode!=null) role=HtmlUtils.trimUnescape(roleNode.toPlainTextString());
 							log.debug("Role: "+role);
-							CastData castData=new CastData(person, role);
+							CastData castData=new CastData(actor, role, null, key);
 							if (mainCastPattern.matcher(type).matches()) episodeData.addMainCast(castData);
 							else if (recurringCastPattern.matcher(type).matches()) episodeData.addRecurringCast(castData);
 							else if (guestCastPattern.matcher(type).matches()) episodeData.addGuestCast(castData);
 							else
 							{
-								getProgress().warning("Unknown cast type: "+type);
+								progressSupport.warning("Unknown cast type: "+type);
 								log.warn("Unknown cast type: "+type);
 							}
 						}
@@ -234,13 +261,13 @@ public abstract class TVComLoader extends EpisodeDataLoader
 				catch (Exception e)
 				{
 					log.error(e.getMessage(), e);
-					getProgress().error(e);
+					progressSupport.error(e);
 				}
 			}
 		}
 	}
 
-	private void loadCrew(EpisodeData episodeData) throws IOException, ParserException
+	private void loadCrew(ProgressSupport progressSupport, EpisodeData episodeData) throws IOException, ParserException
 	{
 		log.debug("Loading crew for "+episodeData.getTitle());
 		String page=ImportUtils.loadUrl(episodeData.getLink("crew"));
@@ -279,7 +306,6 @@ public abstract class TVComLoader extends EpisodeDataLoader
 						log.debug("Key: "+key);
 						if (!StringUtils.isEmpty(person))
 						{
-							PersonData personData=new PersonData(key, person);
 							CompositeTag roleNode=(CompositeTag) HtmlUtils.findFirst(itemNode, ".role");
 							String role=null;
 							if (roleNode!=null) role=HtmlUtils.trimUnescape(roleNode.toPlainTextString());
@@ -288,20 +314,20 @@ public abstract class TVComLoader extends EpisodeDataLoader
 							if ("Writer".equalsIgnoreCase(type) || "Writers".equalsIgnoreCase(type))
 							{
 								if ("Writer".equalsIgnoreCase(role))
-									episodeData.addWrittenBy(new CrewData(personData, null));
+									episodeData.addWrittenBy(new CrewData(person, CreditType.WRITER, null, key));
 								else
-									episodeData.addWrittenBy(new CrewData(personData,  role));
+									episodeData.addWrittenBy(new CrewData(person, CreditType.WRITER, role, key));
 							}
 							else if ("Director".equalsIgnoreCase(type))
 							{
 								if ("Director".equalsIgnoreCase(role))
-									episodeData.addDirectedBy(new CrewData(personData, null));
+									episodeData.addDirectedBy(new CrewData(person, CreditType.DIRECTOR, null, key));
 								else
-									episodeData.addDirectedBy(new CrewData(personData,  role));
+									episodeData.addDirectedBy(new CrewData(person, CreditType.DIRECTOR, role, key));
 							}
 							else if (!"Crew".equalsIgnoreCase(type))
 							{
-								getProgress().warning("Unknown cast type: "+type);
+								progressSupport.warning("Unknown cast type: "+type);
 								log.warn("Unknown cast type: "+type);
 							}
 						}
@@ -310,7 +336,7 @@ public abstract class TVComLoader extends EpisodeDataLoader
 				catch (Exception e)
 				{
 					log.error(e.getMessage(), e);
-					getProgress().error(e);
+					progressSupport.error(e);
 				}
 			}
 		}

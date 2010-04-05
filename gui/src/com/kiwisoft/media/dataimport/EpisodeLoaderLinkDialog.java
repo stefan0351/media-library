@@ -12,31 +12,28 @@ import com.kiwisoft.media.Link;
 import com.kiwisoft.media.Language;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.ComponentUtils;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 
-public abstract class EpisodeLoaderDialog extends JDialog
+public class EpisodeLoaderLinkDialog extends JDialog
 {
 	private JTextField showField;
 	private JTextField urlField;
-	private JFormattedTextField firstSeasonField;
-	private JFormattedTextField lastSeasonField;
 	private boolean returnValue;
-	private Integer lastSeason;
-	private Integer firstSeason;
-	private JCheckBox autoCreateField;
-	private boolean autoCreate;
 	private Show show;
 	private Link link;
+	private String linkName;
+	private Language linkLanguage;
 
-	protected EpisodeLoaderDialog(Window frame, Show show, Link link)
+	protected EpisodeLoaderLinkDialog(Window frame, Show show, Link link, String linkName, Language linkLanguage)
 	{
 		super(frame, "Load Episode from TV.com", ModalityType.APPLICATION_MODAL);
 		this.show=show;
 		this.link=link;
+		this.linkName=linkName;
+		this.linkLanguage=linkLanguage;
 		createContentPanel();
 		initializeData();
 		pack();
@@ -54,11 +51,6 @@ public abstract class EpisodeLoaderDialog extends JDialog
 		urlField=new JTextField(40);
 		showField=new JTextField(40);
 		showField.setEditable(false);
-		firstSeasonField=ComponentUtils.createNumberField(Integer.class, 5, 1, null);
-		firstSeasonField.setValue(1);
-		lastSeasonField=ComponentUtils.createNumberField(Integer.class, 5, 1, null);
-		lastSeasonField.setValue(1);
-		autoCreateField=new JCheckBox("Create Episodes automatically");
 
 		JPanel pnlContent=new JPanel(new GridBagLayout());
 		int row=0;
@@ -69,19 +61,10 @@ public abstract class EpisodeLoaderDialog extends JDialog
 		pnlContent.add(new JLabel("URL:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
 		pnlContent.add(urlField, new GridBagConstraints(1, row, 3, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 
-		row++;
-		pnlContent.add(new JLabel("Season from:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 0), 0, 0));
-		pnlContent.add(firstSeasonField, new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 5), 0, 0));
-		pnlContent.add(new JLabel("Season to:"), new GridBagConstraints(2, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 15, 5, 0), 0, 0));
-		pnlContent.add(lastSeasonField, new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 5, 5), 0, 0));
-
-		row++;
-		pnlContent.add(autoCreateField, new GridBagConstraints(1, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-
 		JPanel pnlButtons=new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		JButton btnOk=new JButton(new EpisodeLoaderDialog.OkAction());
+		JButton btnOk=new JButton(new EpisodeLoaderLinkDialog.OkAction());
 		pnlButtons.add(btnOk);
-		pnlButtons.add(new JButton(new EpisodeLoaderDialog.CancelAction()));
+		pnlButtons.add(new JButton(new EpisodeLoaderLinkDialog.CancelAction()));
 
 		JPanel panel=new JPanel(new GridBagLayout());
 		panel.add(pnlContent, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0,
@@ -110,13 +93,6 @@ public abstract class EpisodeLoaderDialog extends JDialog
 		{
 			throw new InvalidDataException(e.getMessage(), urlField);
 		}
-		firstSeason=(Integer)firstSeasonField.getValue();
-		if (firstSeason==null) throw new InvalidDataException("Missing season from!", firstSeasonField);
-		lastSeason=(Integer)lastSeasonField.getValue();
-		if (lastSeason==null) throw new InvalidDataException("Missing season to!", lastSeasonField);
-		if (lastSeason<firstSeason) throw new InvalidDataException("Season from must be greater or equal than season to!", lastSeasonField);
-		autoCreate=autoCreateField.isSelected();
-
 		if (link==null || !url.equals(link.getUrl()))
 		{
 			return DBSession.execute(new Transactional()
@@ -127,8 +103,8 @@ public abstract class EpisodeLoaderDialog extends JDialog
 					if (link==null)
 					{
 						link=show.getLinkGroup(true).createLink();
-						link.setName(getLinkName());
-						link.setLanguage(getLinkLanguage());
+						link.setName(linkName);
+						link.setLanguage(linkLanguage);
 					}
 					link.setUrl(url);
 				}
@@ -136,35 +112,16 @@ public abstract class EpisodeLoaderDialog extends JDialog
 				@Override
 				public void handleError(Throwable throwable, boolean rollback)
 				{
-					GuiUtils.handleThrowable(EpisodeLoaderDialog.this, throwable);
+					GuiUtils.handleThrowable(EpisodeLoaderLinkDialog.this, throwable);
 				}
 			});
 		}
 		return true;
 	}
 
-	protected abstract String getLinkName();
-
-	protected abstract Language getLinkLanguage();
-
 	public Link getLink()
 	{
 		return link;
-	}
-
-	public Integer getLastSeason()
-	{
-		return lastSeason;
-	}
-
-	public Integer getFirstSeason()
-	{
-		return firstSeason;
-	}
-
-	public boolean isAutoCreate()
-	{
-		return autoCreate;
 	}
 
 	private class OkAction extends AbstractAction
@@ -191,7 +148,7 @@ public abstract class EpisodeLoaderDialog extends JDialog
 			}
 			catch (Exception e1)
 			{
-				GuiUtils.handleThrowable(EpisodeLoaderDialog.this, e1);
+				GuiUtils.handleThrowable(EpisodeLoaderLinkDialog.this, e1);
 			}
 		}
 	}

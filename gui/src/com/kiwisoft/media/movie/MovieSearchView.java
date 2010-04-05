@@ -31,7 +31,7 @@ public class MovieSearchView extends SearchView<Movie>
 	@Override
 	protected TableController<Movie> createResultTable(final ApplicationFrame frame)
 	{
-		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>("title", "germanTitle", "year");
+		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>(Movie.TITLE, Movie.GERMAN_TITLE, Movie.YEAR);
 		return new TableController<Movie>(tableModel, new DefaultTableConfiguration("movies.list", MovieSearchView.class, "movies"))
 		{
 			@Override
@@ -66,12 +66,6 @@ public class MovieSearchView extends SearchView<Movie>
 				return new MovieDetailsAction();
 			}
 		};
-	}
-
-	@Override
-	protected SortableTableRow<Movie> createRow(Movie object)
-	{
-		return new MovieTableRow(object);
 	}
 
 	@Override

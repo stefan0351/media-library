@@ -42,8 +42,8 @@ public class BookUpdateDialog extends JDialog
 
     protected void initComponents(Collection<Book> books)
     {
-        tableModel=new DefaultSortableTableModel<Book>("title", "author", "isbn", "publisher");
-        for (Book book : books) tableModel.addRow(new BookTableRow(book));
+        tableModel=new DefaultSortableTableModel<Book>(Book.TITLE, Book.AUTHORS, BookRow.ISBN, Book.PUBLISHER);
+        for (Book book : books) tableModel.addRow(new BookRow(book));
         table=new SortableTable(tableModel);
         table.configure(new DefaultTableConfiguration("books.update", BookUpdateDialog.class, "books"));
         table.sizeColumnsToFit(true, true);

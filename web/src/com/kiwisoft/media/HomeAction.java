@@ -22,7 +22,8 @@ public class HomeAction extends BaseAction
 		List<RecentItem> recentItemList=RecentItemManager.getInstance().getRecentItems();
 		for (RecentItem recentItem : recentItemList)
 		{
-			recentItems.add(recentItem.getItem());
+			Object item=recentItem.getItem();
+			if (item!=null) recentItems.add(item);
 		}
 		Date now=new Date();
 		airdates=new ArrayList<Airdate>(AirdateManager.getInstance().getAirdates(now, DateUtils.add(now, Calendar.HOUR, 12)));

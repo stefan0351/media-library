@@ -1,16 +1,5 @@
 package com.kiwisoft.media.movie;
 
-import java.awt.*;
-import static java.awt.GridBagConstraints.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-
 import com.kiwisoft.app.DetailsDialog;
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
@@ -28,8 +17,20 @@ import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.ObjectTableModel;
 import com.kiwisoft.swing.table.SortableTable;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.text.preformat.PreformatTextController;
+import com.kiwisoft.utils.FileUtils;
+import com.kiwisoft.utils.StringUtils;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.DocumentEvent;
+import java.awt.*;
+import static java.awt.GridBagConstraints.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.List;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -164,8 +165,8 @@ public class MovieDetailsView extends DetailsView
 				movie.setPoster(poster);
 				if (poster!=null) poster.addMovie(movie);
 				movie.setWebScriptFile(script);
-				movie.setYear((Integer)yearField.getValue());
-				movie.setRuntime((Integer)runtimeField.getValue());
+				movie.setYear((Integer) yearField.getValue());
+				movie.setRuntime((Integer) runtimeField.getValue());
 				movie.setGenres(genres);
 				movie.setLanguages(languages);
 				movie.setCountries(countries);
@@ -213,20 +214,7 @@ public class MovieDetailsView extends DetailsView
 
 	private JPanel createDetailsPanel()
 	{
-		posterField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new ImageLookupHandler()
-		{
-			@Override
-			public String getDefaultName()
-			{
-				return titleField.getText()+" - Poster";
-			}
-
-			@Override
-			 public ContentType getDefaultContentType()
-			{
-				return ContentType.POSTER;
-			}
-		});
+		posterField=new LookupField<MediaFile>(new MediaFileLookup(MediaType.IMAGE), new PosterLookupHandler());
 		ImagePanel posterPreview=new ImagePanel(new Dimension(150, 200));
 		posterPreview.setBorder(new EtchedBorder());
 		showField=new JTextField();
@@ -258,71 +246,71 @@ public class MovieDetailsView extends DetailsView
 		panel.setPreferredSize(new Dimension(800, 340));
 		int row=0;
 		panel.add(posterPreview,
-			new GridBagConstraints(0, row, 1, 6, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+				  new GridBagConstraints(0, row, 1, 6, 0.0, 0.0, NORTHWEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		panel.add(new JLabel("Serie:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 10, 0, 0), 0, 0));
 		panel.add(showField,
-			new GridBagConstraints(2, row, 5, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 5, 1, 1.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Title:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(titleField,
-			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(new JScrollPane(genresTable),
-			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("German Title:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(germanTitleField,
-			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Index By:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(indexByField,
-			new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.5, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Year:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(yearField,
-			new GridBagConstraints(2, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(new JLabel("Runtime:"),
-			new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(runtimeField,
-			new GridBagConstraints(4, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(4, row, 1, 1, 0.1, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Other Titles:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(new JScrollPane(tblNames),
-			new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.5, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(new JScrollPane(languagesTable),
-			new GridBagConstraints(5, row, 1, 1, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(5, row, 1, 1, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("JS Call:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(javaScriptField,
-			new GridBagConstraints(2, row, 1, 1, 0.2, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 1, 1, 0.2, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(recordField,
-			new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(4, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
 		panel.add(new JScrollPane(countriesTable),
-			new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(5, row, 1, 3, 0.5, 0.0, NORTHWEST, BOTH, new Insets(10, 10, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Script File:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(transcriptField,
-			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
 		panel.add(new JLabel("Poster:"),
-			new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
+				  new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		panel.add(posterField,
-			new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
+				  new GridBagConstraints(2, row, 3, 1, 0.0, 0.0, NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		titleField.getDocument().addDocumentListener(new FrameTitleUpdater());
 		new PicturePreviewUpdater(posterField, posterPreview);
@@ -340,16 +328,16 @@ public class MovieDetailsView extends DetailsView
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		int row=0;
 		panel.add(new JLabel("English:"),
-				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
+				  new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0));
 		row++;
 		panel.add(englishSummaryController.getComponent(),
-				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+				  new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		row++;
 		panel.add(new JLabel("German:"),
-				new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
+				  new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(11, 0, 0, 0), 0, 0));
 		row++;
 		panel.add(germanSummaryController.getComponent(),
-				new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
+				  new GridBagConstraints(0, row, 1, 1, 1.0, 0.5, CENTER, BOTH, new Insets(5, 0, 0, 0), 0, 0));
 		return panel;
 	}
 
@@ -382,6 +370,87 @@ public class MovieDetailsView extends DetailsView
 		public Icon getIcon()
 		{
 			return Icons.getIcon("lookup.create");
+		}
+	}
+
+	private class PosterLookupHandler extends ImageLookupHandler
+	{
+		private final String[] EXTENSIONS={"gif", "png", "jpg", "jpeg"};
+
+		@Override
+		public String getDefaultName()
+		{
+			return titleField.getText()+" - Poster";
+		}
+
+		@Override
+		public ContentType getDefaultContentType()
+		{
+			return ContentType.POSTER;
+		}
+
+		private Set<String> createPossibleNames(String originalName, String... articles)
+		{
+			Set<String> possibleNames=new LinkedHashSet<String>();
+			if (!StringUtils.isEmpty(originalName))
+			{
+				String name=originalName.toLowerCase().trim();
+				possibleNames.add(name);
+				possibleNames.add(name.replace(" ", "_"));
+				for (String article : articles)
+				{
+					if (name.startsWith(article+" "))
+					{
+						String nameWithoutArticle=name.substring(article.length()+1);
+						possibleNames.add(nameWithoutArticle);
+						possibleNames.add(nameWithoutArticle.replace(" ", "_"));
+					}
+				}
+				String normalizedName=StringUtils.normalize(name, true);
+				possibleNames.add(normalizedName);
+				possibleNames.add(normalizedName.replace(" ", "_"));
+			}
+			return possibleNames;
+		}
+
+		@Override
+		protected File findFile()
+		{
+			Set<String> possibleNames=new LinkedHashSet<String>();
+			possibleNames.addAll(createPossibleNames(titleField.getText(), "a", "the"));
+			possibleNames.addAll(createPossibleNames(germanTitleField.getText(), "der", "die", "das"));
+//			System.out.println("possibleNames:\n\t"+StringUtils.formatAsEnumeration(possibleNames, "\n\t"));
+			if (!possibleNames.isEmpty())
+			{
+				// Search in all movies/poster folders
+				File moviesFolder=FileUtils.getFile(MediaConfiguration.getRootPath(), "movies");
+				for (File folder : moviesFolder.listFiles())
+				{
+					if (folder.isDirectory() && folder.getName().toLowerCase().startsWith("poster"))
+					{
+						for (String fileName : possibleNames)
+						{
+							for (String extension : EXTENSIONS)
+							{
+								File file=new File(folder, fileName+"."+extension);
+								if (file.exists() && file.isFile())
+								{
+									try
+									{
+										return file.getCanonicalFile();
+									}
+									catch (IOException e)
+									{
+										e.printStackTrace();
+										return file;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return null;
 		}
 	}
 }

@@ -3,6 +3,8 @@
 <project name="MediaLib" default="build" basedir=".">
 
 	<property name="root.dir" location="${basedir}"/>
+
+	<property file="${root.dir}/user-build.properties"/>
 	<import file="${root.dir}/build-properties.xml"/>
 	<import file="${root.dir}/core/build.xml"/>
 	<import file="${root.dir}/gui/build.xml"/>
@@ -53,7 +55,7 @@
 	<target name="build" depends="jar, web.deploy"/>
 
 	<target name="database.dump">
-		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/media.sql">
+		<exec dir="${build.dir}" executable="${mysql.home}/bin/mysqldump" output="${build.dir}/media.sql">
 			<arg value="--user=stefan"/>
 			<arg value="--password=bokada"/>
 			<arg value="--skip-extended-insert"/>
@@ -63,7 +65,7 @@
 			<arg value="--ignore-table=media.sequences"/>
 			<arg value="media"/>
 		</exec>
-		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/sequences.sql">
+		<exec dir="${build.dir}" executable="${mysql.home}/bin/mysqldump" output="${build.dir}/sequences.sql">
 			<arg value="--user=stefan"/>
 			<arg value="--password=bokada"/>
 			<arg value="--skip-extended-insert"/>
@@ -82,7 +84,7 @@
 
 	<target name="database.dev.update">
 		<mkdir dir="${build.dir}"/>
-		<exec dir="${build.dir}" executable="mysqldump" output="${build.dir}/dump.sql">
+		<exec dir="${build.dir}" executable="${mysql.home}/bin/mysqldump" output="${build.dir}/dump.sql">
 			<arg value="--user=stefan"/>
 			<arg value="--password=bokada"/>
 			<arg value="--skip-extended-insert"/>
@@ -91,7 +93,7 @@
 			<arg value="--routines"/>
 			<arg value="media"/>
 		</exec>
-		<exec dir="${build.dir}" executable="mysql" input="${build.dir}/dump.sql">
+		<exec dir="${build.dir}" executable="${mysql.home}/bin/mysql" input="${build.dir}/dump.sql">
 			<arg value="--user=stefan"/>
 			<arg value="--password=bokada"/>
 			<arg value="mediadev"/>
@@ -99,7 +101,7 @@
 	</target>
 
 	<target name="database.structure.update">
-		<exec dir="${dump.dir}" executable="mysqldump" output="${dump.dir}/structure.sql">
+		<exec dir="${dump.dir}" executable="${mysql.home}/bin/mysqldump" output="${dump.dir}/structure.sql">
 			<arg line="--user=stefan --password=bokada --no-data --skip-quote-names --routines media"/>
 		</exec>
 	</target>

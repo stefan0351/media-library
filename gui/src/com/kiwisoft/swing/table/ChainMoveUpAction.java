@@ -63,6 +63,7 @@ public class ChainMoveUpAction extends MultiContextAction
 			JOptionPane.showMessageDialog(tableController.getTable(), e1.getLocalizedMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
+		tableController.getModel().sort();
 		for (Object object : objects)
 		{
 			int rowIndex=tableController.getModel().indexOf(object);

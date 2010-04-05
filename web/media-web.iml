@@ -161,18 +161,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/fop.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$SOURCE_REPOSITORY$/fop-0.93-doc.zip!/" />
-        </JAVADOC>
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/xmlgraphics-commons.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/avalon-framework.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -181,7 +170,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/avalon-framework.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/xmlgraphics-commons.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -190,7 +179,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/batik-all.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/fop.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -199,12 +188,19 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/kiwisoft_utils-web.jar!/" />
+          <root url="jar://$MODULE_DIR$/../lib/batik-all.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="jar://$PROJECTS_ROOT$/media/lib/kiwisoft_utils-web_src.jar!/" />
-        </SOURCES>
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-web.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="Tomcat 6 (Media)" level="application_server_libraries" />

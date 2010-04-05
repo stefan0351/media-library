@@ -3,14 +3,13 @@ package com.kiwisoft.media.dataimport;
 import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 import java.io.File;
 
 import junit.framework.TestCase;
 import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.progress.ConsoleProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
 
 /**
  * @author Stefan Stiller
@@ -26,6 +25,7 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
+		ImportUtils.USE_CACHE=true;
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
 		File configFile=new File("conf", "config.xml");
@@ -35,27 +35,21 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 
 	public void test_DoctorWho() throws Exception
 	{
-		Show show=ShowManager.getInstance().getShowByName("Doctor Who");
-		assertNotNull(show);
+		SerienJunkiesDeLoader2 loader=new SerienJunkiesDeLoader2("http://www.serienjunkies.de/drwho/episoden.html");
 
-		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
-		SerienJunkiesDeLoader loader=new SerienJunkiesDeLoader(show, "http://www.serienjunkies.de/drwho/episoden.html", 1, 4, false)
+		ProgressSupport progressSupport=new ProgressSupport(null, new ConsoleProgressListener());
+		List<EpisodeData> episodeList=loader.loadList(progressSupport);
+		progressSupport.info("Found "+episodeList.size()+" episodes");
+		Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
+		for (EpisodeData episodeData : episodeList)
 		{
-			@Override
-			protected Episode createEpisode(Show show, EpisodeData info)
-			{
-				return null;
-			}
+			loader.loadDetails(progressSupport, episodeData);
+			episodesMap.put(episodeData.getKey(), episodeData);
+			progressSupport.info("Loaded details for "+episodeData.getTitle());
+			Thread.sleep(500);
+		}
 
-			@Override
-			public void saveEpisode(final Episode episode, final EpisodeData data)
-			{
-				episodesMap.put(data.getKey(), data);
-			}
-		};
-		loader.run(new ConsoleProgressListener());
-
-		assertEquals(56, episodesMap.size());
+		assertEquals(70, episodesMap.size());
 
 		EpisodeData episode=episodesMap.get("1.1");
 		assertEquals("Rose", episode.getTitle());

@@ -80,7 +80,7 @@ public class ScheduleUpdateManagerView extends ViewPanel
 			{
 			}
 		});
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 

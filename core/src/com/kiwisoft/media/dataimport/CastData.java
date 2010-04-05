@@ -15,7 +15,7 @@ public class CastData implements Serializable
 	private String actor;
 	private String role;
 	private Integer creditOrder;
-	private String imdbKey;
+	private String key;
 	private Person person;
 
 	public CastData()
@@ -26,16 +26,16 @@ public class CastData implements Serializable
 	{
 		Person person=castMember.getActor();
 		actor=person.getName();
-		imdbKey=person.getImdbKey();
+		key=person.getImdbKey();
 		role=castMember.getCharacterName();
 	}
 
-	public CastData(String actor, String role, Integer creditOrder, String imdbKey)
+	public CastData(String actor, String role, Integer creditOrder, String key)
 	{
 		this.actor=actor;
 		this.role=role;
 		this.creditOrder=creditOrder;
-		this.imdbKey=imdbKey;
+		this.key=key;
 	}
 
 	public Integer getCreditOrder()
@@ -54,9 +54,9 @@ public class CastData implements Serializable
 	}
 
 
-	public String getImdbKey()
+	public String getKey()
 	{
-		return imdbKey;
+		return key;
 	}
 
 	public void setActor(String actor)
@@ -69,9 +69,9 @@ public class CastData implements Serializable
 		this.creditOrder=creditOrder;
 	}
 
-	public void setImdbKey(String imdbKey)
+	public void setKey(String key)
 	{
-		this.imdbKey=imdbKey;
+		this.key=key;
 	}
 
 	public void setRole(String role)
@@ -107,7 +107,7 @@ public class CastData implements Serializable
 			   "creditOrder="+creditOrder+
 			   ", actor='"+actor+'\''+
 			   ", role='"+role+'\''+
-			   ", imdbKey='"+imdbKey+'\''+
+			   ", key='"+key+'\''+
 			   '}';
 	}
 

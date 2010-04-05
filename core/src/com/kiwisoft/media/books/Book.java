@@ -36,7 +36,8 @@ public class Book extends IDObject
 	public static final String SHOW="show";
 	public static final String SERIES_NAME="seriesName";
 	public static final String SERIES_NUMBER="seriesNumber";
-	private static final String ORIGINAL_TITLE="originalTitle";
+	public static final String SERIES_TITLE="seriesTitle";
+	public static final String ORIGINAL_TITLE="originalTitle";
 	public static final String INDEX_BY="indexBy";
 	public static final String STORAGE="storage";
 

@@ -39,12 +39,20 @@ public class ImageLookupHandler implements LookupHandler<MediaFile>
 	public MediaFile createObject(LookupField<MediaFile> lookupField)
 	{
 		ImageFileChooser fileChooser=new ImageFileChooser();
-		String path=MediaConfiguration.getRecentMediaPath();
-		if (path==null) path=MediaConfiguration.getRootPath();
-		if (path!=null) fileChooser.setCurrentDirectory(new File(path));
+		File file=findFile();
+		if (file!=null)
+		{
+			fileChooser.setSelectedFile(file);
+		}
+		else
+		{
+			String path=MediaConfiguration.getRecentMediaPath();
+			if (path==null) path=MediaConfiguration.getRootPath();
+			if (path!=null) fileChooser.setCurrentDirectory(new File(path));
+		}
 		if (fileChooser.showOpenDialog(lookupField)==JFileChooser.APPROVE_OPTION)
 		{
-			File file=fileChooser.getSelectedFile();
+			file=fileChooser.getSelectedFile();
 			MediaConfiguration.setRecentMediaPath(file.getParent());
 			String root=MediaFileUtils.getRootPath(file);
 			if (root!=null)
@@ -55,6 +63,11 @@ public class ImageLookupHandler implements LookupHandler<MediaFile>
 			}
 			else JOptionPane.showMessageDialog(lookupField, "File is not located in a configured directory.", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+		return null;
+	}
+
+	protected File findFile()
+	{
 		return null;
 	}
 

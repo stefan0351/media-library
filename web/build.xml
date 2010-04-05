@@ -5,6 +5,7 @@
 	<property name="root.dir" location="${basedir}/.."/>
 	<property name="web.module.dir" location="${root.dir}/web"/>
 
+	<property file="${root.dir}/user-build.properties"/>
 	<import file="${root.dir}/build-properties.xml"/>
 
 	<target name="web.clean">

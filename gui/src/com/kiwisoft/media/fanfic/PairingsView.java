@@ -89,7 +89,7 @@ public class PairingsView extends ViewPanel implements Disposable
 			}
 
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

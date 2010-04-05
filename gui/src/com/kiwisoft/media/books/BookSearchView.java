@@ -24,7 +24,7 @@ public class BookSearchView extends SearchView<Book>
 	@Override
 	protected TableController<Book> createResultTable(final ApplicationFrame frame)
 	{
-		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>("title", "series", "author", "isbn");
+		SortableTableModel<Book> tableModel=new DefaultSortableTableModel<Book>(Book.TITLE, Book.SERIES_TITLE, Book.AUTHORS, BookRow.ISBN);
 		return new TableController<Book>(tableModel, new DefaultTableConfiguration("books.list", BookSearchView.class, "books"))
 		{
 			@Override
@@ -61,7 +61,7 @@ public class BookSearchView extends SearchView<Book>
 	@Override
 	protected SortableTableRow<Book> createRow(Book object)
 	{
-		return new BookTableRow(object);
+		return new BookRow(object);
 	}
 
 	@Override

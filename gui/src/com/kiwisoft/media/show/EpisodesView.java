@@ -1,7 +1,5 @@
 package com.kiwisoft.media.show;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +14,7 @@ import com.kiwisoft.collection.ChainEvent;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.media.person.ShowCreditsAction;
+import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.collection.ChainListener;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -52,7 +51,8 @@ public class EpisodesView extends ViewPanel
 	@Override
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
-		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>("userkey", "title", "germanTitle", "firstAired");
+		SortableTableModel<Episode> tmEpisodes=new DefaultSortableTableModel<Episode>(
+				Episode.USER_KEY, EpisodeData.TITLE, EpisodeData.GERMAN_TITLE, Episode.AIRDATE);
 		createTableData(tmEpisodes);
 
 		tableController=new TableController<Episode>(tmEpisodes, new DefaultTableConfiguration("episodes.list", EpisodesView.class, "episodes"))
@@ -94,7 +94,7 @@ public class EpisodesView extends ViewPanel
 				return new EpisodeDetailsAction(frame);
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	private void createTableData(SortableTableModel<Episode> tableModel)
@@ -112,7 +112,7 @@ public class EpisodesView extends ViewPanel
 		while (it.hasNext())
 		{
 			Episode episode=(Episode)it.next();
-			tableModel.addRow(new EpisodeTableRow(episode));
+			tableModel.addRow(new EpisodeRow(episode));
 		}
 		tableModel.sort();
 		show.addCollectionListener(collectionObserver);
@@ -154,7 +154,7 @@ public class EpisodesView extends ViewPanel
 					case CollectionChangeEvent.ADDED:
 						SortableTable table=tableController.getTable();
 						Episode newEpisode=(Episode)event.getElement();
-						EpisodeTableRow row=new EpisodeTableRow(newEpisode);
+						EpisodeRow row=new EpisodeRow(newEpisode);
 						int newIndex=tableModel.addRow(row);
 						tableModel.sort();
 						table.getSelectionModel().setSelectionInterval(newIndex, newIndex);
@@ -176,69 +176,6 @@ public class EpisodesView extends ViewPanel
 				case ChainEvent.CHANGED:
 					tableController.getModel().sort();
 			}
-		}
-	}
-
-	private static class EpisodeTableRow extends SortableTableRow<Episode> implements PropertyChangeListener
-	{
-		public EpisodeTableRow(Episode episode)
-		{
-			super(episode);
-		}
-
-		@Override
-		public void installListener()
-		{
-			getUserObject().addPropertyChangeListener(this);
-		}
-
-		@Override
-		public void removeListener()
-		{
-			getUserObject().removePropertyChangeListener(this);
-		}
-
-		@Override
-		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
-		}
-
-		@Override
-		public Comparable getSortValue(int column, String property)
-		{
-			if (column==0)
-			{
-				Episode episode=getUserObject();
-				return episode.getChainPosition();
-			}
-			return super.getSortValue(column, property);
-		}
-
-
-		@Override
-		public String getCellFormat(int column, String property)
-		{
-			if ("firstAired".equals(property)) return "Date only";
-			return super.getCellFormat(column, property);
-		}
-
-		@Override
-		public Object getDisplayValue(int column, String property)
-		{
-			Episode episode=getUserObject();
-			switch (column)
-			{
-				case 0:
-					return episode.getUserKey();
-				case 1:
-					return episode.getTitle();
-				case 2:
-					return episode.getGermanTitle();
-				case 3:
-					return episode.getAirdate();
-			}
-			return "";
 		}
 	}
 

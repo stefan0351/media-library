@@ -52,7 +52,7 @@ public class ShowTracksView extends ViewPanel
 				return new TrackDetailsAction();
 			}
 		};
-		return tableController.createComponent();
+		return tableController.getComponent();
 	}
 
 	@Override

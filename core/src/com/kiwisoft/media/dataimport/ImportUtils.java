@@ -28,7 +28,7 @@ public class ImportUtils
 	private final static Log log=LogFactory.getLog(ImportUtils.class);
 
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
-	public static final boolean USE_CACHE=false;
+	public static boolean USE_CACHE=false;
 
 	private ImportUtils()
 	{
@@ -110,6 +110,18 @@ public class ImportUtils
 			{
 				tries++;
 				if (tries>=3) throw e;
+				else
+				{
+					try
+					{
+						System.err.println("Failed to load URL "+url+". Trying again in 1 second.");
+						Thread.sleep(1000);
+					}
+					catch (InterruptedException e1)
+					{
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	}

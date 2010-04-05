@@ -1,21 +1,16 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.progress.ConsoleProgressListener;
+import com.kiwisoft.progress.ProgressSupport;
+import junit.framework.TestCase;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Date;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-
-import junit.framework.TestCase;
-import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.progress.ConsoleProgressListener;
-import com.kiwisoft.utils.StringUtils;
-import org.htmlparser.util.ParserException;
 
 /**
  * @author Stefan Stiller
@@ -31,6 +26,7 @@ public class TVComLoaderTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
+		ImportUtils.USE_CACHE=true;
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
 		File configFile=new File("conf", "config.xml");
@@ -40,38 +36,17 @@ public class TVComLoaderTest extends TestCase
 
 	public void test_PushingDaisies() throws Exception
 	{
-		Show show=ShowManager.getInstance().getShowByName("Pushing Daisies");
-		assertNotNull(show);
+		EpisodeDataLoader2 loader=new TVComLoader2("http://www.tv.com/pushing-daisies/show/68663/episode_listings.html");
 
-		final Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
-		EpisodeDataLoader loader=new TVComLoader(show, "http://www.tv.com/pushing-daisies/show/68663/episode_listings.html", 1, 2, false)
+		ProgressSupport progressSupport=new ProgressSupport(null, new ConsoleProgressListener());
+		List<EpisodeData> episodeList=loader.loadList(progressSupport);
+		Map<String, EpisodeData> episodesMap=new HashMap<String, EpisodeData>();
+		for (EpisodeData episodeData : episodeList)
 		{
-			@Override
-			protected void saveEpisode(EpisodeData data) throws IOException, InterruptedException, ParserException
-			{
-				if (data.getFirstAirdate()==null || data.getFirstAirdate().before(new Date()))
-				{
-					if (!StringUtils.isEmpty(data.getLink(EpisodeData.DETAILS_LINK)))
-					{
-						loadDetails(data);
-					}
-					Thread.sleep(300); // To avoid DOS on the server
-				}
-				episodesMap.put(data.getKey(), data);
-			}
-
-			@Override
-			protected Episode createEpisode(Show show, EpisodeData info)
-			{
-				return null;
-			}
-
-			@Override
-			public void saveEpisode(final Episode episode, final EpisodeData data)
-			{
-			}
-		};
-		loader.run(new ConsoleProgressListener());
+			loader.loadDetails(progressSupport, episodeData);
+			episodesMap.put(episodeData.getKey(), episodeData);
+			Thread.sleep(500);
+		}
 
 		assertEquals(22, episodesMap.size());
 
@@ -85,21 +60,21 @@ public class TVComLoaderTest extends TestCase
 		assertEquals(5, episode.getRecurringCast().size());
 		assertEquals(11, episode.getGuestCast().size());
 		assertEquals(1, episode.getWrittenBy().size());
-		assertEquals("14383", episode.getWrittenBy().get(0).getPerson().getKey());
-		assertEquals("Bryan Fuller", episode.getWrittenBy().get(0).getPerson().getName());
+		assertEquals("14383", episode.getWrittenBy().get(0).getKey());
+		assertEquals("Bryan Fuller", episode.getWrittenBy().get(0).getName());
 		assertEquals(1, episode.getDirectedBy().size());
-		assertEquals("51311", episode.getDirectedBy().get(0).getPerson().getKey());
-		assertEquals("Barry Sonnenfeld", episode.getDirectedBy().get(0).getPerson().getName());
+		assertEquals("51311", episode.getDirectedBy().get(0).getKey());
+		assertEquals("Barry Sonnenfeld", episode.getDirectedBy().get(0).getName());
 
 		episode=episodesMap.get("1.2");
 		assertTrue(episode.getEnglishSummary().startsWith("Ned sees his power"));
 		assertTrue(episode.getEnglishSummary().endsWith("order to get the reward."));
 
 		episode=episodesMap.get("1.6");
-		assertEquals("582600", episode.getWrittenBy().get(0).getPerson().getKey());
-		assertEquals("Dara Resnik Creasey", episode.getWrittenBy().get(0).getPerson().getName());
-		assertEquals("582599", episode.getWrittenBy().get(1).getPerson().getKey());
-		assertEquals("Chad Gomez Creasey", episode.getWrittenBy().get(1).getPerson().getName());
+		assertEquals("582600", episode.getWrittenBy().get(0).getKey());
+		assertEquals("Dara Resnik Creasey", episode.getWrittenBy().get(0).getName());
+		assertEquals("582599", episode.getWrittenBy().get(1).getKey());
+		assertEquals("Chad Gomez Creasey", episode.getWrittenBy().get(1).getName());
 
 	}
 }

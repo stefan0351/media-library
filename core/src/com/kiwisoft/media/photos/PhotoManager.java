@@ -9,7 +9,6 @@ import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.collection.CollectionChangeSource;

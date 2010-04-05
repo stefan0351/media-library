@@ -40,7 +40,11 @@ public class Movie extends IDObject implements Recordable, Production
 	public static final String COUNTRIES="countries";
 	public static final String INDEX_BY="indexBy";
 	public static final String POSTER="poster";
-
+	public static final String TITLE="title";
+	public static final String POSTER_AVAILABLE="posterAvailable";
+	public static final String GERMAN_TITLE="germanTitle";
+	public static final String YEAR="year";
+	
 	private String title;
 	private String germanTitle;
 	private boolean record;
@@ -88,7 +92,7 @@ public class Movie extends IDObject implements Recordable, Production
 	{
 		String oldTitle=this.title;
 		this.title=title;
-		setModified("title", oldTitle, this.title);
+		setModified(TITLE, oldTitle, this.title);
 	}
 
 	public String getGermanTitle()
@@ -100,7 +104,7 @@ public class Movie extends IDObject implements Recordable, Production
 	{
 		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
-		setModified("germanTitle", oldTitle, this.germanTitle);
+		setModified(GERMAN_TITLE, oldTitle, this.germanTitle);
 	}
 
 	public String getTitle(Language language)
@@ -211,7 +215,9 @@ public class Movie extends IDObject implements Recordable, Production
 
 	public void setPoster(MediaFile picture)
 	{
+		boolean oldPosterAvailable=isPosterAvailable();
 		setReference(POSTER, picture);
+		firePropertyChange(POSTER_AVAILABLE, oldPosterAvailable, isPosterAvailable());
 	}
 
 	public String getJavaScript()
@@ -309,7 +315,7 @@ public class Movie extends IDObject implements Recordable, Production
 	{
 		Integer oldYear=this.year;
 		this.year=year;
-		setModified("year", oldYear, this.year);
+		setModified(YEAR, oldYear, this.year);
 	}
 
 	public Integer getRuntime()
@@ -475,7 +481,7 @@ public class Movie extends IDObject implements Recordable, Production
 		fireElementRemoved(CREDITS, credit);
 	}
 
-	public boolean hasPoster()
+	public boolean isPosterAvailable()
 	{
 		return getReferenceId(POSTER)!=null;
 	}

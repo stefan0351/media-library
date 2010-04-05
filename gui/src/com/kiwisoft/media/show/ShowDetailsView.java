@@ -134,7 +134,7 @@ public class ShowDetailsView extends DetailsView
 		add(logoField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,NORTHWEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Pages:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(infosController.createComponent(), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
+		add(infosController.getComponent(), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
 		FrameTitleUpdater frameTitleUpdater=new FrameTitleUpdater();
 		titleField.getDocument().addDocumentListener(frameTitleUpdater);

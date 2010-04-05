@@ -60,7 +60,7 @@ public abstract class CreditsView extends ViewPanel
 				return new CastDetailsAction();
 			}
 		};
-		return castTableController.createComponent();
+		return castTableController.getComponent();
 	}
 
 	protected abstract DefaultTableConfiguration getCastTableConfiguration();
@@ -91,7 +91,7 @@ public abstract class CreditsView extends ViewPanel
 				return new CreditDetailsAction();
 			}
 		};
-		return creditTableController.createComponent();
+		return creditTableController.getComponent();
 	}
 
 	protected abstract DefaultTableConfiguration getCreditsTableConfiguration();

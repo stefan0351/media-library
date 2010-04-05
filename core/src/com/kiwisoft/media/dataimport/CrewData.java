@@ -13,7 +13,7 @@ public class CrewData implements Serializable
 	private String name;
 	private CreditType type;
 	private String subType;
-	private String imdbKey;
+	private String key;
 	private Person person;
 
 	public CrewData()
@@ -24,23 +24,23 @@ public class CrewData implements Serializable
 	{
 		Person person=crewMember.getPerson();
 		name=person.getName();
-		imdbKey=person.getImdbKey();
+		key=person.getImdbKey();
 		type=crewMember.getCreditType();
 		subType=crewMember.getSubType();
 	}
 
-	public CrewData(String name, CreditType type, String subType, String imdbKey)
+	public CrewData(String name, CreditType type, String subType, String key)
 	{
 		this.name=name;
 		this.type=type;
 		this.subType=subType;
-		this.imdbKey=imdbKey;
+		this.key=key;
 	}
 
 
-	public String getImdbKey()
+	public String getKey()
 	{
-		return imdbKey;
+		return key;
 	}
 
 
@@ -59,9 +59,9 @@ public class CrewData implements Serializable
 		return subType;
 	}
 
-	public void setImdbKey(String imdbKey)
+	public void setKey(String key)
 	{
-		this.imdbKey=imdbKey;
+		this.key=key;
 	}
 
 	public void setName(String name)
@@ -120,7 +120,7 @@ public class CrewData implements Serializable
 			   "name='"+name+'\''+
 			   ", type="+type+
 			   ", subType='"+subType+'\''+
-			   ", imdbKey='"+imdbKey+'\''+
+			   ", key='"+key+'\''+
 			   '}';
 	}
 

@@ -8,11 +8,9 @@ import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.actions.ContextAction;
-import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.swing.tree.GenericTree;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 import com.kiwisoft.swing.tree.TreeController;
-import com.kiwisoft.swing.tree.TreeUtils;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -26,7 +24,6 @@ import java.util.Collections;
 
 public class PhotoGalleriesView extends ViewPanel
 {
-	private TableController<PhotoGallery> tableController;
 	private TreeController treeController;
 
 	public PhotoGalleriesView()
@@ -79,12 +76,11 @@ public class PhotoGalleriesView extends ViewPanel
 		JComponent component=treeController.createComponent();
 
 		GenericTree tree=treeController.getTree();
-		tree.setRootVisible(false);
+		tree.setRootVisible(true);
 		tree.setDragEnabled(true);
 		tree.setExpandsSelectedPaths(true);
 		tree.setTransferHandler(new MyTransferHandler());
 
-//		getModelListenerList().addDisposable(PhotoManager.getInstance().addCollectionListener(new MyCollectionListener()));
 		return component;
 	}
 
@@ -93,7 +89,8 @@ public class PhotoGalleriesView extends ViewPanel
 	{
 		super.initializeData();
 		GenericTree tree=treeController.getTree();
-		tree.setRoot(new PhotoGalleryNode(PhotoManager.getInstance().getRootGallery()));
+		PhotoGallery rootGallery=PhotoManager.getInstance().getRootGallery();
+		if (rootGallery!=null) tree.setRoot(new PhotoGalleryNode(rootGallery));
 	}
 
 	@Override
@@ -116,29 +113,6 @@ public class PhotoGalleriesView extends ViewPanel
 		treeController.dispose();
 		super.dispose();
 	}
-
-//	private class MyCollectionListener implements CollectionChangeListener
-//	{
-//		@Override
-//		public void collectionChanged(CollectionChangeEvent event)
-//		{
-//			if (PhotoManager.GALLERIES.equals(event.getPropertyName()))
-//			{
-//				SortableTableModel<PhotoGallery> tableModel=tableController.getModel();
-//				switch (event.getType())
-//				{
-//					case CollectionChangeEvent.ADDED:
-//						PhotoGallery gallery=(PhotoGallery)event.getElement();
-//						tableModel.addRow(new PhotoGalleriesTableModel.Row(gallery));
-//						break;
-//					case CollectionChangeEvent.REMOVED:
-//						int oldIndex=tableModel.indexOf(event.getElement());
-//						if (oldIndex>=0) tableModel.removeRowAt(oldIndex);
-//						break;
-//				}
-//			}
-//		}
-//	}
 
 	@Override
 	public boolean isBookmarkable()
@@ -176,12 +150,13 @@ public class PhotoGalleriesView extends ViewPanel
 			if (selectionPath!=null)
 			{
 				GenericTreeNode node=(GenericTreeNode) selectionPath.getLastPathComponent();
-				if (node.getUserObject() instanceof PhotoGallery)
+				if (node.getUserObject() instanceof PhotoGallery && node.getParent()!=null)
 				{
-					MediaTransferable transferable=new MediaTransferable(PhotoGallery.class, ((PhotoGallery) node.getUserObject()).getId());
+					PhotoGallery photoGallery=(PhotoGallery) node.getUserObject();
+					MediaTransferable transferable=new MediaTransferable(PhotoGallery.class, photoGallery.getId());
 					GenericTreeNode parentNode=node.getParent();
 					if (parentNode.getUserObject() instanceof PhotoGallery)
-					transferable.setProperty("parent", ((PhotoGallery) parentNode.getUserObject()).getId());
+						transferable.setProperty("parent", ((PhotoGallery) parentNode.getUserObject()).getId());
 					return transferable;
 				}
 			}
