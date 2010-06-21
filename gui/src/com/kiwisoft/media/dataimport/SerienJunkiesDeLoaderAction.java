@@ -3,13 +3,10 @@ package com.kiwisoft.media.dataimport;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
-import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Link;
-import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.swing.actions.SimpleContextAction;
-import com.kiwisoft.swing.progress.ProgressDialog;
 import com.kiwisoft.persistence.DBLoader;
 
 public class SerienJunkiesDeLoaderAction extends SimpleContextAction
@@ -35,7 +32,7 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 		if (dialog.isOk())
 		{
 			link=dialog.getLink();
-			new EpisodeSynchronizationDialog(parent, show, new SerienJunkiesDeLoader2(link.getUrl())).setVisible(true);
+			new EpisodeLoaderDialog(parent, show, new SerienJunkiesDeLoader(link.getUrl())).setVisible(true);
 		}
 	}
 }

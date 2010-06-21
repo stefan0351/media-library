@@ -16,7 +16,7 @@ public class CheckPicturesAction extends ContextAction
 	public CheckPicturesAction(ApplicationFrame frame)
 	{
 		super("Check References");
-		putValue(SHORT_DESCRIPTION, "Check if the referenced files exist.");
+		putValue(SHORT_DESCRIPTION, "Check if the referenced files exist or if the directories contains unused files.");
 		this.frame=frame;
 	}
 

@@ -12,6 +12,7 @@ import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.media.files.MediaFile;
+import com.kiwisoft.cfg.Configuration;
 
 public class Channel extends IDObject
 {
@@ -24,7 +25,6 @@ public class Channel extends IDObject
 
 	private String name;
 	private String webAddress;
-	private boolean receivable;
 	private Set<Name> altNames;
 	private String tvtvKey;
 
@@ -105,14 +105,17 @@ public class Channel extends IDObject
 
 	public boolean isReceivable()
 	{
-		return receivable;
+		return MediaConfiguration.isChannelReceivable(this);
 	}
 
 	public void setReceivable(boolean receivable)
 	{
-		boolean oldReceivable=this.receivable;
-		this.receivable=receivable;
-		setModified(RECEIVABLE, oldReceivable, this.receivable);
+		boolean oldReceivable=isReceivable();
+		if (receivable!=oldReceivable)
+		{
+			MediaConfiguration.setChannelReceivable(this, receivable);
+			firePropertyChange(RECEIVABLE, oldReceivable, receivable);
+		}
 	}
 
 	public Language getLanguage()
@@ -130,6 +133,13 @@ public class Channel extends IDObject
 	{
 		if (name!=null) return name;
 		return super.toString();
+	}
+
+	@Override
+	public void delete()
+	{
+		super.delete();
+		MediaConfiguration.removeChannel(this);
 	}
 
 	@Override

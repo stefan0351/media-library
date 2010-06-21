@@ -9,6 +9,7 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.*;
+import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.lookup.DialogLookup;
 import com.kiwisoft.swing.lookup.DialogLookupField;
@@ -27,6 +28,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -96,6 +98,12 @@ public class MovieDetailsView extends DetailsView
 		initializeData();
 		titleField.setText(text);
 	}
+
+//	@Override
+//	public List<Action> getActions()
+//	{
+//		return Collections.<Action>singletonList(new LoadImdbAction());
+//	}
 
 	private void initializeData()
 	{
@@ -451,6 +459,20 @@ public class MovieDetailsView extends DetailsView
 				}
 			}
 			return null;
+		}
+	}
+
+	private class LoadImdbAction extends ContextAction
+	{
+		protected LoadImdbAction()
+		{
+			super("IMDb", Icons.getIcon("imdb"));
+			setShortDescription("Synchronize data with Internet Movie Database");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
 		}
 	}
 }

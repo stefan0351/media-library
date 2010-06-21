@@ -40,6 +40,8 @@ public class Book extends IDObject
 	public static final String ORIGINAL_TITLE="originalTitle";
 	public static final String INDEX_BY="indexBy";
 	public static final String STORAGE="storage";
+	public static final String GDR_LICENCE="gdrLicence";
+	public static final String SUMMARIES="summaries";
 
 	private String title;
 	private String publisher;
@@ -54,6 +56,7 @@ public class Book extends IDObject
 	private String indexBy;
 	private String storage;
 	private String originalTitle;
+	private String gdrLicence;
 
 	public Book()
 	{
@@ -213,6 +216,18 @@ public class Book extends IDObject
 		if (!StringUtils.isEmpty(isbn13)) return isbn13;
 		if (!StringUtils.isEmpty(isbn10)) return isbn10;
 		return null;
+	}
+
+	public String getGdrLicence()
+	{
+		return gdrLicence;
+	}
+
+	public void setGdrLicence(String gdrLicence)
+	{
+		String oldGdrLicence=this.gdrLicence;
+		this.gdrLicence=gdrLicence;
+		setModified(GDR_LICENCE, oldGdrLicence, gdrLicence);
 	}
 
 	public String getBinding()

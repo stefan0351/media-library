@@ -395,7 +395,7 @@ public class MediaFileUtils
 		String imagePath=com.kiwisoft.utils.FileUtils.getRelativePath(Configuration.getInstance().getString(root), imageFile.getAbsolutePath());
 		String extension=com.kiwisoft.utils.FileUtils.getExtension(imageFile);
 		String basePath=MediaConfiguration.getRootPath()+File.separator+imagePath;
-		basePath=basePath.substring(0, basePath.length()-extension.length()-1);
+		if (extension!=null) basePath=basePath.substring(0, basePath.length()-extension.length()-1);
 		for (String suffix : THUMBNAIL_SUFFIXES)
 		{
 			File file=new File(basePath+"_"+suffix+".jpg");

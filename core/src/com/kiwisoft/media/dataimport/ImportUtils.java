@@ -28,7 +28,7 @@ public class ImportUtils
 	private final static Log log=LogFactory.getLog(ImportUtils.class);
 
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
-	public static boolean USE_CACHE=false;
+	public static boolean USE_CACHE=Boolean.getBoolean("kiwisoft.media.downloadCache");
 
 	private ImportUtils()
 	{

@@ -10,6 +10,7 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 
@@ -225,5 +226,22 @@ public class BookManager implements CollectionChangeSource
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	public Set<Book> getBooksByISBN(Isbn isbn)
+	{
+		if (isbn!=null)
+		{
+			Set<Book> books=new HashSet<Book>();
+			books.addAll(DBLoader.getInstance().loadSet(Book.class, null, "replace(replace(ISBN10, ' ', ''), '-', '')=?", isbn.getIsbn10().getRawNumber()));
+			books.addAll(DBLoader.getInstance().loadSet(Book.class, null, "replace(replace(ISBN13, ' ', ''), '-', '')=?", isbn.getIsbn13().getRawNumber()));
+			return books;
+		}
+		return null;
+	}
+
+	public Set<Book> getBooksByTitle(String title)
+	{
+		return DBLoader.getInstance().loadSet(Book.class, null, "title=?", title);
 	}
 }

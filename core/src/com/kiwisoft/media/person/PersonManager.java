@@ -7,17 +7,18 @@
  */
 package com.kiwisoft.media.person;
 
-import java.util.Collection;
-import java.util.Set;
-
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.books.Book;
 import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.DBLoader;
-import static com.kiwisoft.utils.StringUtils.isEmpty;
 import com.kiwisoft.utils.Disposable;
+import static com.kiwisoft.utils.StringUtils.isEmpty;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PersonManager
 {
@@ -88,16 +89,22 @@ public class PersonManager
 		return person;
 	}
 
-	public Person getPersonByName(String name, boolean binary)
+	public Person getPersonByName(String name)
 	{
-		Person person=DBLoader.getInstance().load(Person.class, null, (binary ? "binary " : "")+"name=?", name);
+		Person person=DBLoader.getInstance().load(Person.class, null, "name=?", name);
 		if (person==null)
 		{
-			person=DBLoader.getInstance().load(Person.class, "names", "names.type=? and names.ref_id=persons.id"+
-																	  " and "+(binary ? "binary " : "")+"names.name=?",
-											   Name.PERSON, name);
+			person=DBLoader.getInstance().load(Person.class, "names", "names.type=? and names.ref_id=persons.id and names.name=?", Name.PERSON, name);
 		}
 		return person;
+	}
+
+	public Set<Person> getPersonsByName(String name)
+	{
+		Set<Person> persons=new HashSet<Person>();
+		persons.addAll(DBLoader.getInstance().loadSet(Person.class, null, "name=?", name));
+		persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id and names.name=?", Name.PERSON, name));
+		return persons;
 	}
 
 	public Person getPerson(Long id)
@@ -138,7 +145,7 @@ public class PersonManager
 		for (Credit credit : person.getCrewCredits()) credit.setPerson(basePerson);
 		DBAssociation association=DBAssociation.getAssociation(Person.class, "writtenBooks");
 		//noinspection unchecked
-		Set<Book> books=(Set<Book>)association.getAssociations(person);
+		Set<Book> books=(Set<Book>) association.getAssociations(person);
 		for (Book book : books)
 		{
 			association.removeAssociation(person, book);
@@ -146,7 +153,7 @@ public class PersonManager
 		}
 		association=DBAssociation.getAssociation(Person.class, "translatedBooks");
 		//noinspection unchecked
-		books=(Set<Book>)association.getAssociations(person);
+		books=(Set<Book>) association.getAssociations(person);
 		for (Book book : books)
 		{
 			association.removeAssociation(person, book);

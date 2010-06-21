@@ -15,6 +15,7 @@ public class CrewData implements Serializable
 	private String subType;
 	private String key;
 	private Person person;
+	private Credit credit;
 
 	public CrewData()
 	{
@@ -132,5 +133,15 @@ public class CrewData implements Serializable
 	public Person getPerson()
 	{
 		return person;
+	}
+
+	public void setCredit(Credit credit)
+	{
+		this.credit=credit;
+	}
+
+	public Credit getCredit()
+	{
+		return credit;
 	}
 }

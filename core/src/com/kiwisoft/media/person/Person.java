@@ -282,4 +282,14 @@ public class Person extends IDObject
     {
         return getAssociations(TRANSLATED_BOOKS);
     }
+
+	public boolean hasName(String name)
+	{
+		if (name.equalsIgnoreCase(getName())) return true;
+		for (Name altName : getAltNames())
+		{
+			if (name.equalsIgnoreCase(altName.getName())) return true;
+		}
+		return false;
+	}
 }

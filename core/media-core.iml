@@ -20,7 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src-gen" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
-    <content url="file://$MODULE_DIR$/../db" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">

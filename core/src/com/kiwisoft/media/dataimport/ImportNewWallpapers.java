@@ -68,7 +68,7 @@ public class ImportNewWallpapers
 				if (personMap.containsKey(name)) person=personMap.get(name);
 				else
 				{
-					person=PersonManager.getInstance().getPersonByName(name, false);
+					person=PersonManager.getInstance().getPersonByName(name);
 					personMap.put(name, person);
 				}
 				System.out.println(name+" -> "+person+": "+path);

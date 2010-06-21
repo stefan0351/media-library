@@ -1,6 +1,7 @@
 package com.kiwisoft.media.dataimport;
 
 import com.kiwisoft.cfg.SimpleConfiguration;
+import com.kiwisoft.media.LanguageManager;
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -20,6 +21,7 @@ public class AmazonTest extends TestCase
     protected void setUp() throws Exception
     {
         super.setUp();
+		ImportUtils.USE_CACHE=true;
         Locale.setDefault(Locale.UK);
         SimpleConfiguration configuration=new SimpleConfiguration();
         File configFile=new File("conf", "config.xml");
@@ -36,18 +38,18 @@ public class AmazonTest extends TestCase
 		assertEquals("Paula Pepper ermittelt: Die schwarze Bucht", bookData.getTitle());
 		assertEquals("[Sabine Blazy]", bookData.getAuthors().toString());
 		assertEquals("[]", bookData.getTranslators().toString());
-		assertEquals(252, bookData.getPageCount());
+		assertEquals(Integer.valueOf(252), bookData.getPageCount());
 		assertEquals("Gebundene Ausgabe", bookData.getBinding());
 		assertEquals("Thienemann Verlag", bookData.getPublisher());
-		assertEquals(2009, bookData.getPublishedYear());
-		assertEquals("3522181654", bookData.getIsbn10());
-		assertEquals("978-3522181655", bookData.getIsbn13());
+		assertEquals(Integer.valueOf(2009), bookData.getPublishedYear());
+		assertEquals("3-522-18165-4", bookData.getIsbn10());
+		assertEquals("978-3-522-18165-5", bookData.getIsbn13());
 		assertNotNull(bookData.getLanguage());
 		assertEquals("de", bookData.getLanguage().getSymbol());
 		assertNotNull(bookData.getImageFile());
-		assertNotNull(bookData.getSummary());
-		assertTrue(bookData.getSummary().startsWith("Drohend erheben sich die Klippen"));
-		assertTrue(bookData.getSummary().endsWith("einer Vorliebe für Gänsehaut!"));
+		assertNotNull(bookData.getSummary(LanguageManager.GERMAN));
+		assertTrue(bookData.getSummary(LanguageManager.GERMAN).startsWith("Drohend erheben sich die Klippen"));
+		assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith("einer Vorliebe für Gänsehaut!"));
 		Thread.sleep(1000);
 	}
 
@@ -60,18 +62,18 @@ public class AmazonTest extends TestCase
         assertEquals("Schöne Scheine: Ein Scheibenwelt-Roman", bookData.getTitle());
         assertEquals("[Terry Pratchett]", bookData.getAuthors().toString());
         assertEquals("[Bernhard Kempen]", bookData.getTranslators().toString());
-        assertEquals(416, bookData.getPageCount());
+        assertEquals(Integer.valueOf(416), bookData.getPageCount());
         assertEquals("Gebundene Ausgabe", bookData.getBinding());
         assertEquals("Manhattan HC", bookData.getPublisher());
-        assertEquals(2007, bookData.getPublishedYear());
-        assertEquals("3442546311", bookData.getIsbn10());
-        assertEquals("978-3442546312", bookData.getIsbn13());
+        assertEquals(Integer.valueOf(2007), bookData.getPublishedYear());
+        assertEquals("3-442-54631-1", bookData.getIsbn10());
+        assertEquals("978-3-442-54631-2", bookData.getIsbn13());
 		assertNotNull(bookData.getLanguage());
 		assertEquals("de", bookData.getLanguage().getSymbol());
         assertNotNull(bookData.getImageFile());
-        assertNotNull(bookData.getSummary());
-        assertTrue(bookData.getSummary().startsWith("Nachdem Ankh-Morpork in"));
-        assertTrue(bookData.getSummary().endsWith(" dafür findet. [i]-- Steffi Pritzens[/i]"));
+        assertNotNull(bookData.getSummary(LanguageManager.GERMAN));
+        assertTrue(bookData.getSummary(LanguageManager.GERMAN).startsWith("Nachdem Ankh-Morpork in"));
+        assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith(" dafür findet. [i]-- Steffi Pritzens[/i]"));
         Thread.sleep(1000);
     }
 
@@ -83,12 +85,12 @@ public class AmazonTest extends TestCase
         assertNotNull(bookData);
         assertEquals("Saint Nick: Roman: Der Tag, an dem der Weihnachtsmann durchdrehte", bookData.getTitle());
         assertEquals("[Wolfgang Hohlbein]", bookData.getAuthors().toString());
-        assertEquals(318, bookData.getPageCount());
+        assertEquals(Integer.valueOf(318), bookData.getPageCount());
         assertEquals("Taschenbuch", bookData.getBinding());
         assertEquals("Heyne Verlag", bookData.getPublisher());
-        assertEquals(1997, bookData.getPublishedYear());
-        assertEquals("3453134575", bookData.getIsbn10());
-        assertEquals("978-3453134577", bookData.getIsbn13());
+        assertEquals(Integer.valueOf(1997), bookData.getPublishedYear());
+        assertEquals("3-453-13457-5", bookData.getIsbn10());
+        assertEquals("978-3-453-13457-7", bookData.getIsbn13());
         assertNotNull(bookData.getImageFile());
         Thread.sleep(1000);
     }

@@ -31,6 +31,7 @@
 		<field name="pageCount" column="pages"/>
 		<field name="isbn10" column="isbn10"/>
 		<field name="isbn13" column="isbn13"/>
+		<field name="gdrLicence" column="gdr_licence"/>
 		<field name="storage" column="storage"/>
 		<field name="version" column="version"/>
 		<reference name="cover" column="cover_id" type="MediaFile"/>
@@ -57,7 +58,6 @@
 		<field name="name" column="name"/>
 		<field name="tvtvKey" column="tvtv_key"/>
 		<field name="webAddress" column="web_address"/>
-		<field name="receivable" column="receivable"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
 		<reference name="language" column="language_id" type="Language"/>

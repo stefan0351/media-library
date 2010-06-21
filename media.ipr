@@ -748,6 +748,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/core/media-core.iml" filepath="$PROJECT_DIR$/core/media-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/media-data.iml" filepath="$PROJECT_DIR$/data/media-data.iml" />
       <module fileurl="file://$PROJECT_DIR$/gui/media-gui.iml" filepath="$PROJECT_DIR$/gui/media-gui.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/media-web.iml" filepath="$PROJECT_DIR$/web/media-web.iml" />
     </modules>

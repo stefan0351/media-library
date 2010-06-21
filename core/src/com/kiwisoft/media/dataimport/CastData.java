@@ -16,7 +16,9 @@ public class CastData implements Serializable
 	private String role;
 	private Integer creditOrder;
 	private String key;
+
 	private Person person;
+	private CastMember castMember;
 
 	public CastData()
 	{
@@ -119,5 +121,15 @@ public class CastData implements Serializable
 	public Person getPerson()
 	{
 		return person;
+	}
+
+	public void setCastMember(CastMember castMember)
+	{
+		this.castMember=castMember;
+	}
+
+	public CastMember getCastMember()
+	{
+		return castMember;
 	}
 }

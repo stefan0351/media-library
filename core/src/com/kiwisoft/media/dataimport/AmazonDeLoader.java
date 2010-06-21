@@ -1,7 +1,8 @@
 package com.kiwisoft.media.dataimport;
 
-import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.html.CssClassFilter;
+import com.kiwisoft.html.CssNodeFilter;
+import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.html.PlainTextFilter;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.books.BookManager;
@@ -12,8 +13,8 @@ import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.Tag;
 import org.htmlparser.filters.AndFilter;
-import org.htmlparser.filters.TagNameFilter;
 import org.htmlparser.filters.OrFilter;
+import org.htmlparser.filters.TagNameFilter;
 import org.htmlparser.tags.CompositeTag;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
@@ -33,6 +34,7 @@ public class AmazonDeLoader
 	private Pattern pageCountPattern;
 	private Pattern bindingPattern;
 	private Pattern publisherPattern;
+	private Pattern titlePattern;
 
 	public AmazonDeLoader(String isbn)
 	{
@@ -41,11 +43,12 @@ public class AmazonDeLoader
 
 	public BookData load() throws Exception
 	{
-		Pattern titlePattern=Pattern.compile("(.*)\\((?:Gebundene Ausgabe|Taschenbuch|Broschiert)\\)");
+		titlePattern=Pattern.compile("(.*)\\((?:Gebundene Ausgabe|Taschenbuch|Broschiert)\\)");
 		authorPattern=Pattern.compile("(.*) \\((Autor|Illustrator|Übersetzer)\\)");
 		pageCountPattern=Pattern.compile("(\\d+) Seiten");
 		bindingPattern=Pattern.compile("(Gebundene Ausgabe|Taschenbuch|Broschiert)");
 		publisherPattern=Pattern.compile("(.+?)(?:; Auflage: (.+?))?(?: \\(.*(\\d{4})\\))?");
+		Pattern resultCountPattern=Pattern.compile("(\\d+) Treffer");
 
 		String isbn=BookManager.filterIsbn(this.isbn);
 		String html=ImportUtils.loadUrl("http://www.amazon.de/gp/search/ref=sr_adv_b/?search-alias=stripbooks&field-isbn="+isbn);
@@ -54,8 +57,44 @@ public class AmazonDeLoader
 
 		CompositeTag bodyElement=(CompositeTag) HtmlUtils.findFirst(parser, "body");
 
+		CompositeTag resultCountElement=(CompositeTag) HtmlUtils.findFirst(bodyElement, "div#resultCount");
+		if (resultCountElement==null) return error("Result count element not found.");
+		Matcher matcher=resultCountPattern.matcher(resultCountElement.toPlainTextString());
+		if (!matcher.matches()) return error("Unknown result count string.");
+		int resultCount=Integer.parseInt(matcher.group(1));
+		System.out.println(resultCount+" book(s) found.");
+		if (resultCount!=1) return null;
+
+		CompositeTag resultElement=(CompositeTag) HtmlUtils.findFirst(bodyElement, new CssNodeFilter("div.result"));
+		if (resultElement==null) return error("Result element not found.");
+		CompositeTag titleElement=(CompositeTag) HtmlUtils.findFirst(resultElement, "div.productTitle");
+		if (titleElement==null) return error("Result Title element not found.");
+		CompositeTag linkElement=(CompositeTag) HtmlUtils.findFirst(titleElement, "a");
+		if (linkElement==null) return error("Result link element not found.");
+		String href=linkElement.getAttribute("href");
+		return loadBookDetails(href);
+	}
+
+	private static BookData error(String message)
+	{
+		System.err.println(message);
+		return null;
+	}
+
+	private BookData loadBookDetails(String url) throws Exception
+	{
+		String html=ImportUtils.loadUrl(url);
+		Parser parser=new Parser();
+		parser.setInputHTML(html);
+
+		CompositeTag bodyElement=(CompositeTag) HtmlUtils.findFirst(parser, "body");
+
 		CompositeTag titleElement=(CompositeTag) HtmlUtils.findFirst(bodyElement, "span#btAsinTitle");
-		if (titleElement==null) return null;
+		if (titleElement==null)
+		{
+			System.err.println("Title element not found.");
+			return null;
+		}
 
 		BookData bookData=new BookData();
 		bookData.setTitle(HtmlUtils.trimUnescape(titleElement.toPlainTextString()));
@@ -76,19 +115,25 @@ public class AmazonDeLoader
 		descriptionElement.collectInto(contentElements, new OrFilter(new CssClassFilter("productDescriptionSource"),
 																	 new CssClassFilter("productDescriptionWrapper")));
 		String source=null;
-		for (NodeIterator it=contentElements.elements();it.hasMoreNodes();)
+		for (NodeIterator it=contentElements.elements(); it.hasMoreNodes();)
 		{
 			CompositeTag tag=(CompositeTag) it.nextNode();
 			if (tag.getAttribute("class").contains("productDescriptionSource")) source=HtmlUtils.trimUnescape(tag.toPlainTextString());
 			else
 			{
 				if ("Kurzbeschreibung".equals(source) || "Aus der Amazon.de-Redaktion".equals(source)
-						|| "Amazon.co.uk".equals(source) || "Amazon.com".equals(source) || "Synopsis".equals(source)
-						|| "Der Autor über sein Buch".equals(source)
-						|| "Umschlagtext".equals(source))
+					|| "Synopsis".equals(source) || "Der Autor über sein Buch".equals(source) || "Umschlagtext".equals(source)
+					|| "Klappentext".equals(source))
 				{
 					String summary=ImportUtils.toPreformattedText(tag.getChildrenHTML());
-					if (StringUtils.isEmpty(bookData.getSummary()) || bookData.getSummary().length()<summary.length()) bookData.setSummary(summary);
+					String currentSummary=bookData.getSummary(LanguageManager.GERMAN);
+					if (StringUtils.isEmpty(currentSummary) || currentSummary.length()<summary.length()) bookData.setSummary(LanguageManager.GERMAN, summary);
+				}
+				else if ("Amazon.co.uk".equals(source) || "Amazon.com".equals(source))
+				{
+					String summary=ImportUtils.toPreformattedText(tag.getChildrenHTML());
+					String currentSummary=bookData.getSummary(LanguageManager.ENGLISH);
+					if (StringUtils.isEmpty(currentSummary) || currentSummary.length()<summary.length()) bookData.setSummary(LanguageManager.ENGLISH, summary);
 				}
 				else if ("Pressestimmen".equals(source) || "Über den Autor".equals(source) || "Autorenporträt".equals(source)) continue;
 				else System.err.println("Invalid description source: "+source+"\n"+tag.getChildrenHTML());

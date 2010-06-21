@@ -16,6 +16,7 @@ import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonLookup;
 import com.kiwisoft.media.person.PersonsTask;
+import com.kiwisoft.media.person.PersonLookupHandler;
 import com.kiwisoft.media.photos.PhotosTask;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.show.GenreLookup;

@@ -36,7 +36,7 @@ public class TVComLoaderTest extends TestCase
 
 	public void test_PushingDaisies() throws Exception
 	{
-		EpisodeDataLoader2 loader=new TVComLoader2("http://www.tv.com/pushing-daisies/show/68663/episode_listings.html");
+		EpisodeLoader loader=new TVComLoader("http://www.tv.com/pushing-daisies/show/68663/episode_listings.html");
 
 		ProgressSupport progressSupport=new ProgressSupport(null, new ConsoleProgressListener());
 		List<EpisodeData> episodeList=loader.loadList(progressSupport);

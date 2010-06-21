@@ -181,4 +181,19 @@ public class MediaConfiguration
 	{
 		return Configuration.getInstance().getString(URL_CDDB);
 	}
+
+	public static boolean isChannelReceivable(Channel channel)
+	{
+		return Configuration.getInstance().getBoolean("channel"+channel.getId()+".receivable", Boolean.FALSE);
+	}
+
+	public static void setChannelReceivable(Channel channel, boolean receivable)
+	{
+		Configuration.getInstance().setBoolean("channel"+channel.getId()+".receivable", receivable);
+	}
+
+	public static void removeChannel(Channel channel)
+	{
+		Configuration.getInstance().setBoolean("channel"+channel.getId()+".receivable", null);
+	}
 }

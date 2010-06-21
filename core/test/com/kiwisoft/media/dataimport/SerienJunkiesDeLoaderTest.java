@@ -35,7 +35,7 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 
 	public void test_DoctorWho() throws Exception
 	{
-		SerienJunkiesDeLoader2 loader=new SerienJunkiesDeLoader2("http://www.serienjunkies.de/drwho/episoden.html");
+		SerienJunkiesDeLoader loader=new SerienJunkiesDeLoader("http://www.serienjunkies.de/drwho/episoden.html");
 
 		ProgressSupport progressSupport=new ProgressSupport(null, new ConsoleProgressListener());
 		List<EpisodeData> episodeList=loader.loadList(progressSupport);

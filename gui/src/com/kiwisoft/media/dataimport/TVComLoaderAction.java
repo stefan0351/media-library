@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Link;
-import com.kiwisoft.media.Language;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.persistence.DBLoader;
@@ -34,7 +33,7 @@ public class TVComLoaderAction extends SimpleContextAction
 		if (dialog.isOk())
 		{
 			link=dialog.getLink();
-			new EpisodeSynchronizationDialog(parent, show, new TVComLoader2(link.getUrl())).setVisible(true);
+			new EpisodeLoaderDialog(parent, show, new TVComLoader(link.getUrl())).setVisible(true);
 		}
 	}
 }

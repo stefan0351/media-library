@@ -14,15 +14,15 @@ public class BookData
 	private Set<String> authors=new LinkedHashSet<String>();
 	private Set<String> translators=new LinkedHashSet<String>();
 	private String binding;
-	private int pageCount;
+	private Integer pageCount;
 	private String publisher;
-	private int publishedYear;
+	private Integer publishedYear;
 	private Language language;
 	private String isbn10;
 	private String isbn13;
 	private String edition;
 	private File imageFile;
-    private String summary;
+    private Map<Language, String> summaries=new HashMap<Language, String>();
 	private String originalTitle;
 
 	public void setTitle(String title)
@@ -55,7 +55,7 @@ public class BookData
 		this.binding=binding;
 	}
 
-	public void setPageCount(int pageCount)
+	public void setPageCount(Integer pageCount)
 	{
 		this.pageCount=pageCount;
 	}
@@ -65,7 +65,7 @@ public class BookData
 		this.publisher=publisher;
 	}
 
-	public void setPublishedYear(int publishedYear)
+	public void setPublishedYear(Integer publishedYear)
 	{
 		this.publishedYear=publishedYear;
 	}
@@ -87,7 +87,7 @@ public class BookData
 			   "\tisbn-10="+isbn10+"\n"+
 			   "\tisbn-13="+isbn13+"\n"+
 			   "\timage="+(imageFile!=null ? imageFile.getAbsolutePath() : null)+"\n"+
-			   "\tsummary="+summary+"\n"+
+			   "\tsummaries="+summaries+"\n"+
 			   "]";
 	}
 
@@ -131,7 +131,7 @@ public class BookData
 		return binding;
 	}
 
-	public int getPageCount()
+	public Integer getPageCount()
 	{
 		return pageCount;
 	}
@@ -141,7 +141,7 @@ public class BookData
 		return publisher;
 	}
 
-	public int getPublishedYear()
+	public Integer getPublishedYear()
 	{
 		return publishedYear;
 	}
@@ -171,18 +171,23 @@ public class BookData
 		return imageFile;
 	}
 
-    public void setSummary(String summary)
+    public void setSummary(Language language, String summary)
     {
-        this.summary=summary;
+        this.summaries.put(language, summary);
     }
 
-    public String getSummary()
+    public String getSummary(Language language)
     {
-        return summary;
+        return summaries.get(language);
     }
 
 	public void setOriginalTitle(String originalTitle)
 	{
 		this.originalTitle=originalTitle;
+	}
+
+	public String getOriginalTitle()
+	{
+		return originalTitle;
 	}
 }

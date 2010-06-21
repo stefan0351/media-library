@@ -34,7 +34,6 @@ public class BookSearchView extends SearchView<Book>
 				actions.add(new BookDetailsAction());
 				actions.add(new NewBookAction());
 				actions.add(new DeleteBookAction(frame));
-				actions.add(new ImportBookAction(frame));
 				actions.add(new PinAction(BookSearchView.this));
 				return actions;
 			}
