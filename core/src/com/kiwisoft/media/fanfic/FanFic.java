@@ -21,6 +21,7 @@ public class FanFic extends IDObject
 	public static final String SEQUEL="sequel";
 	public static final String PREQUEL="prequel";
 	public static final String PARTS = "parts";
+	public static final String TITLE="title";
 
 	private String title;
 	private String rating;
@@ -54,7 +55,7 @@ public class FanFic extends IDObject
 	{
 		String oldTitle=this.title;
 		this.title=title;
-		setModified("title", oldTitle, this.title);
+		setModified(TITLE, oldTitle, this.title);
 	}
 
 	public String getRating()

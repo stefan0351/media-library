@@ -27,10 +27,4 @@ public class FanFicPartLookup extends FileLookup
 		MediaConfiguration.setRecentFanFicPath(path);
 		Configuration.getInstance().saveUserValues();
 	}
-
-	@Override
-	public Icon getIcon()
-	{
-		return Icons.getIcon("lookup.table");
-	}
 }

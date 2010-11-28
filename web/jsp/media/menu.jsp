@@ -10,8 +10,7 @@
 		</td>
 	</tr>
 
-	<tr><td class="menuitem"><a class="menulink"
-								href="<%=request.getContextPath()%>/create.pdf?xml.source=com.kiwisoft.media.medium.MediaByKeyXML&xsl=/media/mediaByKey.xsl">
+	<tr><td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/create.pdf?template=/media/mediaByKey.fo.vsl">
 		<img src="<%=request.getContextPath()%>/icons/printer.png" border="0" title="Create PDF"> Print Version</a></td>
 	</tr>
 </table>

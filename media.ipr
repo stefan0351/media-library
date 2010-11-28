@@ -750,6 +750,7 @@
       <module fileurl="file://$PROJECT_DIR$/core/media-core.iml" filepath="$PROJECT_DIR$/core/media-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/media-data.iml" filepath="$PROJECT_DIR$/data/media-data.iml" />
       <module fileurl="file://$PROJECT_DIR$/gui/media-gui.iml" filepath="$PROJECT_DIR$/gui/media-gui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tools/media-tools.iml" filepath="$PROJECT_DIR$/tools/media-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/media-web.iml" filepath="$PROJECT_DIR$/web/media-web.iml" />
     </modules>
   </component>
@@ -775,6 +776,10 @@
     </option>
     <option name="myVersion" value="124" />
     <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+  <component name="TemplateDataLanguageMappings">
+    <file url="file://$PROJECT_DIR$/web/jsp/media/mediaByKey.fo.vsl" dialect="XML" />
+    <file url="file://$PROJECT_DIR$/web/jsp/media/mediaByMovie.fo.vsl" dialect="XML" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />

@@ -20,6 +20,7 @@ import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.utils.Disposable;
 
 public class FanFicManager
 {
@@ -345,9 +346,9 @@ public class FanFicManager
 		fireElementRemoved(FANFICS, fanFic);
 	}
 
-	public void addCollectionChangeListener(CollectionChangeListener listener)
+	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
 	{
-		collectionChangeSupport.addListener(listener);
+		return collectionChangeSupport.addListener(listener);
 	}
 
 	public void removeCollectionListener(CollectionChangeListener listener)

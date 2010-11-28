@@ -70,13 +70,19 @@
 		</tr>
 	</table>
 
-	<s:if test="html!=null">
+	<s:if test="type=='html'">
 		<table class="contenttable" width="765">
 		<tr><td class=header2><s:if test="!part.name.empty"><s:property value="part.name"/></s:if><s:else>Story</s:else></td></tr>
 		<tr><td class="content"><s:property value="html" escape="false"/></td></tr>
 		</table>
 	</s:if>
-	<s:else>
+	<s:if test="type=='image'">
+		<table class="contenttable" width="765">
+		<tr><td class=header2><s:if test="!part.name.empty"><s:property value="part.name"/></s:if><s:else>Story</s:else></td></tr>
+		<tr><td class="content"><img style="max-width:740px" src="<%=request.getContextPath()%>/res/<s:property value="imagePath" escape="false" />"/></td></tr>
+		</table>
+	</s:if>
+	<s:if test="type=='xp'">
 		<s:iterator value="xmlBean.getValues('chapter')" status="it">
 			<table class="contenttable" width="765">
 			<tr><td class=header2><s:if test="getValue('title')!=null"><s:property value="getValue('title')"/></s:if><s:else>Story</s:else></td></tr>
@@ -86,7 +92,7 @@
 				</td></tr>
 			</table>
 		</s:iterator>
-	</s:else>
+	</s:if>
 
 	<s:if test="nextPart!=null">
 		<p align=center><b>[</b> <a class="link" href="<s:url action="FanFic"><s:param name="partId" value="nextPart.id"/></s:url>">Next Part</a> <b>]</b></p>

@@ -35,6 +35,8 @@ public class FanFicAction extends BaseAction
 	private FanFicPart nextPart;
 	private Movie movie;
 	private Show show;
+	private String type;
+	private String imagePath;
 
 	@Override
 	public String getPageTitle()
@@ -78,10 +80,17 @@ public class FanFicAction extends BaseAction
 			File file=new File(MediaConfiguration.getRootPath(), "/fanfic/authors/"+source);
 			if (source.endsWith(".xp"))
 			{
+				type="xp";
 				xmlBean=XPLoader.loadXMLFile(ServletActionContext.getRequest(), file);
+			}
+			else if (source.endsWith(".jpg"))
+			{
+				type="image";
+				imagePath="fanfic/authors/"+source;
 			}
 			else
 			{
+				type="html";
 				html=FileUtils.loadFile(file);
 			}
 		}
@@ -141,5 +150,15 @@ public class FanFicAction extends BaseAction
 	public Show getShow()
 	{
 		return show;
+	}
+
+	public String getType()
+	{
+		return type;
+	}
+
+	public String getImagePath()
+	{
+		return imagePath;
 	}
 }

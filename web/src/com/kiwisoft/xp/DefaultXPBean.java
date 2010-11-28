@@ -42,8 +42,8 @@ public class DefaultXPBean implements XPBean
 		if (SOURCE_ATTRIBUTES.contains((this.name+"."+name).toLowerCase()))
 		{
 			File file=new File(new File(context.getFileName()).getParentFile(), value);
-			HttpServletRequest request=(HttpServletRequest)context.getAttribute("request");
-			putValue(name, request.getContextPath()+"/res/"+FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()).replace('\\', '/'));
+			String contextPath=(String)context.getAttribute("contextPath");
+			putValue(name, (contextPath!=null ? contextPath+"/" : "")+"res/"+FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()).replace('\\', '/'));
 		}
 		putValue(name, value);
 	}

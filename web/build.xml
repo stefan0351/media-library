@@ -35,6 +35,8 @@
 				<pathelement location="${lib.dir}/fop.jar"/>
 				<pathelement location="${lib.dir}/xwork-core.jar"/>
 				<pathelement location="${lib.dir}/struts2-core.jar"/>
+				<pathelement location="${lib.dir}/velocity.jar"/>
+				<pathelement location="${lib.dir}/xmlgraphics-commons.jar"/>
 			</classpath>
 		</javac>
 		<copy todir="${classes.dir}/web">
@@ -105,6 +107,7 @@
 				<include name="xwork-core.jar"/>
 				<include name="freemarker.jar"/>
 				<include name="htmlparser.jar"/>
+				<include name="velocity.jar"/>
 			</fileset>
 			<fileset dir="${root.dir}">
 				<include name="media-core.jar"/>

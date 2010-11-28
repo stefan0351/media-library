@@ -28,11 +28,21 @@ public class ChainMoveUpAction extends MultiContextAction
 		this.chain=chain;
 	}
 
+	public Chain getChain()
+	{
+		return chain;
+	}
+
+	public void setChain(Chain chain)
+	{
+		this.chain=chain;
+		update(getObjects());
+	}
 
 	@Override
 	protected boolean isValid(Object object)
 	{
-		return super.isValid(object) && object!=chain.getFirst();
+		return super.isValid(object) && getChain()!=null && object!=getChain().getFirst();
 	}
 
 	@Override

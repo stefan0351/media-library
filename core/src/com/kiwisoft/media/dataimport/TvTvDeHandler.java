@@ -1,5 +1,6 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.media.Airdate;
 import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.movie.MovieManager;
@@ -9,8 +10,10 @@ import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.progress.ProgressSupport;
-import com.kiwisoft.utils.*;
-import com.kiwisoft.html.HtmlUtils;
+import com.kiwisoft.utils.DateUtils;
+import com.kiwisoft.utils.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.CssSelectorNodeFilter;
 import org.htmlparser.filters.OrFilter;
@@ -19,12 +22,10 @@ import org.htmlparser.tags.*;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -206,25 +207,28 @@ abstract class TvTvDeHandler<T>
 		{
 			try
 			{
-				TvTvDeAirdateData airdate=new TvTvDeAirdateData();
 				TagNode dateNode=(TagNode) HtmlUtils.findFirst(row, "td.date");
-				String timeString=HtmlUtils.trimUnescape(dateNode.toPlainTextString());
-				Date time=timeFormat.parse(timeString);
-				airdate.setTime(DateUtils.mergeDayAndTime(day, time, timeZone));
+				if (dateNode!=null)
+				{
+					TvTvDeAirdateData airdate=new TvTvDeAirdateData();
+					String timeString=HtmlUtils.trimUnescape(dateNode.toPlainTextString());
+					Date time=timeFormat.parse(timeString);
+					airdate.setTime(DateUtils.mergeDayAndTime(day, time, timeZone));
 
-				TableColumn channelNode=(TableColumn) HtmlUtils.findFirst(row, "td.channel");
-				TagNode channelLogoNode=(TagNode) HtmlUtils.findFirst(channelNode, "img");
-				String channel=channelLogoNode.getAttribute("title");
-				airdate.setChannelName(channel);
-				airdate.setChannelLogo(channelLogoNode.getAttribute("src"));
-				Matcher matcher=Pattern.compile("http.*channelLogo=(\\d+)").matcher(airdate.getChannelLogo());
-				if (matcher.matches()) airdate.setChannelKey(matcher.group(1));
+					TableColumn channelNode=(TableColumn) HtmlUtils.findFirst(row, "td.channel");
+					TagNode channelLogoNode=(TagNode) HtmlUtils.findFirst(channelNode, "img");
+					String channel=channelLogoNode.getAttribute("title");
+					airdate.setChannelName(channel);
+					airdate.setChannelLogo(channelLogoNode.getAttribute("src"));
+					Matcher matcher=Pattern.compile("http.*channelLogo=(\\d+)").matcher(airdate.getChannelLogo());
+					if (matcher.matches()) airdate.setChannelKey(matcher.group(1));
 
-				TagNode titleNode=(TagNode) HtmlUtils.findFirst(row, "a.title");
-				airdate.setTitle(HtmlUtils.trimUnescape(titleNode.toPlainTextString()));
-				airdate.setDetailLink(TVTVDeLoader.BASE_URL+titleNode.getAttribute("href"));
+					TagNode titleNode=(TagNode) HtmlUtils.findFirst(row, "a.title");
+					airdate.setTitle(HtmlUtils.trimUnescape(titleNode.toPlainTextString()));
+					airdate.setDetailLink(TVTVDeLoader.BASE_URL+titleNode.getAttribute("href"));
 
-				airdates.add(airdate);
+					airdates.add(airdate);
+				}
 			}
 			catch (ParseException e)
 			{
@@ -373,7 +377,7 @@ abstract class TvTvDeHandler<T>
 				NodeList numberTags=HtmlUtils.findAll(contentTag, "span.fn-b9");
 				if (numberTags.size()>=2)
 				{
-					for (int i=0;i<numberTags.size();i++)
+					for (int i=0; i<numberTags.size(); i++)
 					{
 						String text=numberTags.elementAt(i).toPlainTextString();
 						if ("Folge".equals(text))
@@ -398,7 +402,7 @@ abstract class TvTvDeHandler<T>
 					}
 				}
 				NodeList list=HtmlUtils.findAll(table, "td.fn-w8");
-				for (NodeIterator it=list.elements();it.hasMoreNodes();)
+				for (NodeIterator it=list.elements(); it.hasMoreNodes();)
 				{
 					CompositeTag tag=(CompositeTag) it.nextNode();
 					String content=tag.toPlainTextString();

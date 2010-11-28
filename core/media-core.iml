@@ -135,7 +135,9 @@
           <root url="jar://$MODULE_DIR$/../lib/velocity.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$SOURCE_REPOSITORY$/velocity-1.6.4-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -153,7 +155,9 @@
           <root url="jar://$MODULE_DIR$/../lib/commons-io.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$SOURCE_REPOSITORY$/commons-io-1.3.1-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -189,7 +193,9 @@
           <root url="jar://$MODULE_DIR$/../lib/htmlparser.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$SOURCE_REPOSITORY$/htmlparser-1.6-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">

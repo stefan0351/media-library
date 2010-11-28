@@ -12,6 +12,7 @@ import com.kiwisoft.collection.Chain;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.media.fanfic.FanFicPart;
 
 /**
  * @author Stefan Stiller
@@ -28,10 +29,21 @@ public class ChainMoveDownAction extends MultiContextAction
 		this.chain=chain;
 	}
 
+	public Chain getChain()
+	{
+		return chain;
+	}
+
+	public void setChain(Chain chain)
+	{
+		this.chain=chain;
+		update(getObjects());
+	}
+
 	@Override
 	protected boolean isValid(Object object)
 	{
-		return super.isValid(object) && object!=chain.getLast();
+		return super.isValid(object) && getChain()!=null && object!=getChain().getLast();
 	}
 
 	@Override

@@ -29,9 +29,13 @@ public class ImageTagHandler implements XMLTagHandler
 			if ("src".equalsIgnoreCase(name))
 			{
 				File file=new File(new File(context.getFileName()).getParentFile(), value);
-				HttpServletRequest request=(HttpServletRequest)context.getAttribute("request");
-				builder.append(request.getContextPath());
-				builder.append("/res/");
+				String contextPath=(String)context.getAttribute("contextPath");
+				if (contextPath!=null)
+				{
+					builder.append(contextPath);
+					builder.append("/");
+				}
+				builder.append("res/");
 				builder.append(FileUtils.getRelativePath(MediaConfiguration.getRootPath(), file.getAbsolutePath()).replace('\\', '/'));
 			}
 			else builder.append(value);

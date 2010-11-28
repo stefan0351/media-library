@@ -66,8 +66,11 @@ public class XPLoader
 	{
 		System.out.println("Loading file: "+file.getAbsolutePath());
 		XMLHandler xmlHandler=new XMLHandler();
-		xmlHandler.getContext().setAttribute("request", request);
-		xmlHandler.getContext().setAttribute("contextPath", request.getContextPath());
+		if (request!=null)
+		{
+			xmlHandler.getContext().setAttribute("request", request);
+			xmlHandler.getContext().setAttribute("contextPath", request.getContextPath());
+		}
 		xmlHandler.addTagMapping("*", DefaultXPBean.class);
 		xmlHandler.addTagMapping("include", new IncludeFactory());
 

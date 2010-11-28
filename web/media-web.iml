@@ -182,7 +182,9 @@
           <root url="jar://$MODULE_DIR$/../lib/fop.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$SOURCE_REPOSITORY$/fop-1.0-src.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">

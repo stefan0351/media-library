@@ -26,6 +26,7 @@
 				<pathelement location="${lib.dir}/kiwisoft_utils-configuration.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-application.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-http.jar"/>
+				<pathelement location="${lib.dir}/kiwisoft_utils-syntax.jar"/>
 				<pathelement location="${lib.dir}/commons-logging.jar"/>
 				<pathelement location="${lib.dir}/commons-lang.jar"/>
 				<pathelement location="${lib.dir}/commons-io.jar"/>

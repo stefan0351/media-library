@@ -32,7 +32,6 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 public class MovieDetailsView extends DetailsView
 {

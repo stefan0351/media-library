@@ -17,7 +17,7 @@
 </tr>
 
 <tr>
-	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/create.pdf?xml.source=com.kiwisoft.media.medium.MediaByMovieXML&xsl=/media/mediaByMovie.xsl">
+	<td class="menuitem"><a class="menulink" href="<%=request.getContextPath()%>/create.pdf?template=/media/mediaByMovie.fo.vsl">
 		<img src="<%=request.getContextPath()%>/icons/printer.png" border="0"> DVD's List</a></td>
 </tr>
 </table>

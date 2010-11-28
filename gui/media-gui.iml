@@ -37,6 +37,17 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Utilities - Syntax">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-syntax.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-syntax_src.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ACTIVE_VCS_NAME" value="svn" />
