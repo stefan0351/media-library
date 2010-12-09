@@ -50,7 +50,9 @@
           <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-collections.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-collections_src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -88,7 +90,9 @@
           <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-configuration.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-configuration_src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -108,7 +112,9 @@
           <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-http.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../lib/kiwisoft_utils-http_src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">

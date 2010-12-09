@@ -1,23 +1,18 @@
 package com.kiwisoft.media.fanfics;
 
 import com.kiwisoft.media.BaseAction;
-import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.fanfic.FanFicPart;
 import com.kiwisoft.media.fanfic.FanFic;
 import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.xp.XPLoader;
-import com.kiwisoft.xp.XPBean;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.web.RecentItemManager;
 import com.kiwisoft.web.RecentIdObject;
 
 import java.io.File;
 import java.util.Collection;
-
-import org.apache.struts2.ServletActionContext;
 
 /**
  * @author Stefan Stiller
@@ -30,12 +25,10 @@ public class FanFicAction extends BaseAction
 
 	private FanFicPart part;
 	private FanFic fanFic;
-	private XPBean xmlBean;
 	private String html;
 	private FanFicPart nextPart;
 	private Movie movie;
 	private Show show;
-	private String type;
 	private String imagePath;
 
 	@Override
@@ -57,7 +50,6 @@ public class FanFicAction extends BaseAction
 			fanFic=FanFicManager.getInstance().getFanFic(fanFicId);
 			if (fanFic!=null) part=fanFic.getParts().getFirst();
 		}
-		String source=null;
 		if (fanFic!=null)
 		{
 			RecentItemManager.getInstance().addItem(new RecentIdObject<FanFic>(FanFic.class, fanFic));
@@ -71,27 +63,19 @@ public class FanFicAction extends BaseAction
 			if (part!=null)
 			{
 				nextPart=fanFic.getParts().getNext(part);
-				source=part.getSource();
 			}
 		}
 
-		if (source!=null)
+		if (part!=null)
 		{
-			File file=new File(MediaConfiguration.getRootPath(), "/fanfic/authors/"+source);
-			if (source.endsWith(".xp"))
+			if ("image".equals(part.getType()))
 			{
-				type="xp";
-				xmlBean=XPLoader.loadXMLFile(ServletActionContext.getRequest(), file);
+				imagePath="/files/"+part.getClass().getName()+"/"+part.getId()+"/content."+part.getExtension();
 			}
-			else if (source.endsWith(".jpg"))
+			else if ("html".equals(part.getType()))
 			{
-				type="image";
-				imagePath="fanfic/authors/"+source;
-			}
-			else
-			{
-				type="html";
-				html=FileUtils.loadFile(file);
+				File contentFile=part.getContentFile();
+				html=contentFile!=null ? FileUtils.loadFile(contentFile) : "";
 			}
 		}
 		return super.execute();
@@ -127,11 +111,6 @@ public class FanFicAction extends BaseAction
 		return fanFic;
 	}
 
-	public XPBean getXmlBean()
-	{
-		return xmlBean;
-	}
-
 	public String getHtml()
 	{
 		return html;
@@ -154,7 +133,7 @@ public class FanFicAction extends BaseAction
 
 	public String getType()
 	{
-		return type;
+		return part!=null ? part.getType() : null;
 	}
 
 	public String getImagePath()

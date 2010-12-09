@@ -79,19 +79,8 @@
 	<s:if test="type=='image'">
 		<table class="contenttable" width="765">
 		<tr><td class=header2><s:if test="!part.name.empty"><s:property value="part.name"/></s:if><s:else>Story</s:else></td></tr>
-		<tr><td class="content"><img style="max-width:740px" src="<%=request.getContextPath()%>/res/<s:property value="imagePath" escape="false" />"/></td></tr>
+		<tr><td class="content"><img style="max-width:740px" src="<%=request.getContextPath()%><s:property value="imagePath" escape="false" />"/></td></tr>
 		</table>
-	</s:if>
-	<s:if test="type=='xp'">
-		<s:iterator value="xmlBean.getValues('chapter')" status="it">
-			<table class="contenttable" width="765">
-			<tr><td class=header2><s:if test="getValue('title')!=null"><s:property value="getValue('title')"/></s:if><s:else>Story</s:else></td></tr>
-				<tr><td class="content">
-					<s:property value="top" escape="false"/>
-					<s:if test="!#it.last"><p align="right"><a class="link" href="#top">Top</a></p></s:if>
-				</td></tr>
-			</table>
-		</s:iterator>
 	</s:if>
 
 	<s:if test="nextPart!=null">

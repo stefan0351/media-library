@@ -1,7 +1,6 @@
 package com.kiwisoft.media.fanfic;
 
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
@@ -19,6 +18,8 @@ public class FanFicPartDetailsAction extends SimpleContextAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		FanFicPartDetailsView.create((FanFicPart)getObject());
+		FanFicPart part=(FanFicPart) getObject();
+		if ("html".equals(part.getType())) HtmlPartDetailsView.create(part);
+		else if ("image".equals(part.getType())) ImagePartDetailsView.create(part);
 	}
 }

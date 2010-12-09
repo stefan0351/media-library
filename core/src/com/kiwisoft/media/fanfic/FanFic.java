@@ -82,13 +82,6 @@ public class FanFic extends IDObject
 		setModified("description", oldDescription, this.description);
 	}
 
-	public String getSource()
-	{
-		Iterator<FanFicPart> parts=getParts().iterator();
-		if (parts.hasNext()) return parts.next().getSource();
-		return null;
-	}
-
 	public boolean isFinished()
 	{
 		return finished;
@@ -269,7 +262,6 @@ public class FanFic extends IDObject
 			FanFicPart part=(FanFicPart)itParts.next();
 			long partSize=part.getSize();
 			if (partSize>=0) size+=partSize;
-			else size=-1;
 		}
 		return size;
 	}

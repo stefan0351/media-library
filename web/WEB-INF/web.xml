@@ -47,6 +47,12 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>FileStoreServlet</servlet-name>
+		<description>Streams resources from file store</description>
+		<servlet-class>com.kiwisoft.media.FileStoreServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>StartupServlet</servlet-name>
 		<display-name>Media Manager Web Application Initializer</display-name>
 		<servlet-class>com.kiwisoft.media.web.StartupServlet</servlet-class>
@@ -82,6 +88,11 @@
 	<servlet-mapping>
 		<servlet-name>FileServlet</servlet-name>
 		<url-pattern>/res/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>FileStoreServlet</servlet-name>
+		<url-pattern>/files/*</url-pattern>
 	</servlet-mapping>
 
 	<taglib>

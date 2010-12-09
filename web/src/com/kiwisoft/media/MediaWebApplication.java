@@ -80,6 +80,7 @@ public class MediaWebApplication extends MediaApplication
 		}
 		else
 		{
+			configuration.setApplicationDir(new File(root, "..").getAbsolutePath());
 			configFile=new File(root, ".."+File.separator+"conf"+File.separator+"config.xml");
 		}
 		System.out.println("Loading configuration from "+configFile.getAbsolutePath());

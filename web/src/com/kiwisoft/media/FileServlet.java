@@ -17,8 +17,6 @@ import java.io.InputStream;
 
 public class FileServlet extends HttpServlet
 {
-	private final static Log log=LogFactory.getLog(FileServlet.class);
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{

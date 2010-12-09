@@ -6,24 +6,23 @@
  */
 package com.kiwisoft.media.fanfic;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.*;
-
-import com.kiwisoft.swing.table.TableController;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Utils;
-import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.persistence.DBObject;
-import com.kiwisoft.swing.actions.ContextAction;
-import com.kiwisoft.swing.table.*;
-import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.media.MediaConfiguration;
+import com.kiwisoft.app.ViewPanel;
+import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.persistence.DBObject;
+import com.kiwisoft.swing.actions.ComplexAction;
+import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Utils;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FanFicsView extends ViewPanel
 {
@@ -52,7 +51,7 @@ public class FanFicsView extends ViewPanel
 	{
 
 		SortableTableModel<FanFic> tmFanFics=new DefaultSortableTableModel<FanFic>(FanFic.ID, FanFic.TITLE, FanFic.AUTHORS, FanFic.FANDOMS, FanFic.PAIRINGS);
-		SortableTableModel<FanFicPart> tmParts=new DefaultSortableTableModel<FanFicPart>(FanFicPart.SEQUENCE, FanFicPart.NAME, FanFicPart.SOURCE)
+		SortableTableModel<FanFicPart> tmParts=new DefaultSortableTableModel<FanFicPart>(FanFicPart.SEQUENCE, FanFicPart.NAME)
 		{
 			@Override
 			public Object getValueAt(int rowIndex, int columnIndex)
@@ -186,8 +185,8 @@ public class FanFicsView extends ViewPanel
 		Long id=new Long(bookmark.getParameter("id"));
 		try
 		{
-			FanFicGroup group=(FanFicGroup)DBLoader.getInstance().load(Utils.<DBObject>cast(Class.forName(className)), id);
-			frame.setCurrentView(new FanFicsView(group));
+			FanFicGroup group=(FanFicGroup) DBLoader.getInstance().load(Utils.<DBObject>cast(Class.forName(className)), id);
+			if (group!=null) frame.setCurrentView(new FanFicsView(group));
 		}
 		catch (ClassNotFoundException e)
 		{
@@ -206,7 +205,7 @@ public class FanFicsView extends ViewPanel
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						FanFic newFanFic=(FanFic)event.getElement();
+						FanFic newFanFic=(FanFic) event.getElement();
 						if (group==null || group.contains(newFanFic))
 							tableModel.addRow(new FanFicTableRow(newFanFic));
 						break;
@@ -219,7 +218,7 @@ public class FanFicsView extends ViewPanel
 					case CollectionChangeEvent.CHANGED:
 						if (group!=null)
 						{
-							FanFic fanFic=(FanFic)event.getElement();
+							FanFic fanFic=(FanFic) event.getElement();
 							int index=tableModel.indexOf(fanFic);
 							if (group.contains(fanFic))
 							{
@@ -246,8 +245,8 @@ public class FanFicsView extends ViewPanel
 				switch (event.getType())
 				{
 					case CollectionChangeEvent.ADDED:
-						FanFicPart newPart=(FanFicPart)event.getElement();
-						tableModel.addRow(new PartTableRow(newPart));
+						FanFicPart newPart=(FanFicPart) event.getElement();
+						tableModel.addRow(new BeanTableRow<FanFicPart>(newPart));
 						break;
 					case CollectionChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());
@@ -274,41 +273,28 @@ public class FanFicsView extends ViewPanel
 		}
 	}
 
-	private static class PartTableRow extends BeanTableRow<FanFicPart>
-	{
-		public PartTableRow(FanFicPart part)
-		{
-			super(part);
-		}
-
-		@Override
-		public Object getDisplayValue(int column, String property)
-		{
-			if (FanFicPart.SOURCE.equals(property))
-			{
-				String source=getUserObject().getSource();
-				if (!StringUtils.isEmpty(source)) return FileUtils.getFile(MediaConfiguration.getFanFicPath(), source).getAbsolutePath();
-				else return null;
-			}
-			return super.getDisplayValue(column, property);
-		}
-	}
-
 	private static class PartsTableController extends TableController<FanFicPart>
 	{
-		private NewFanFicPartAction newPartAction;
+		private NewFanFicPartAction[] newPartActions;
 		private DeleteFanFicPartAction deletePartAction;
 		private ChainMoveUpAction partMoveUpAction;
 		private ChainMoveDownAction partMoveDownAction;
+		private FanFicCheckAction checkAction;
 
 		public PartsTableController(SortableTableModel<FanFicPart> tableModel, ApplicationFrame frame)
 		{
 			super(tableModel, new FixedOrderTableConfiguration("fanfics.parts", FanFicsView.class, "parts", FanFicPart.SEQUENCE));
 			tableModel.setResortable(false);
-			newPartAction=new NewFanFicPartAction(frame);
+			newPartActions=new NewFanFicPartAction[]
+					{
+							new NewFanFicPartAction(frame, "New HTML Part", "html"),
+							new NewFanFicPartAction(frame, "New JPEG Part", "jpg"),
+
+					};
 			deletePartAction=new DeleteFanFicPartAction(frame);
 			partMoveUpAction=new ChainMoveUpAction(this, null);
 			partMoveDownAction=new ChainMoveDownAction(this, null);
+			checkAction=new FanFicCheckAction(frame);
 		}
 
 		@Override
@@ -316,21 +302,24 @@ public class FanFicsView extends ViewPanel
 		{
 			List<ContextAction> actions=new ArrayList<ContextAction>();
 			actions.add(new FanFicPartDetailsAction());
-			actions.add(newPartAction);
+			actions.add(new ComplexAction("New", Icons.getIcon("add"), newPartActions));
 			actions.add(deletePartAction);
+			actions.add(checkAction);
 			actions.add(partMoveUpAction);
 			actions.add(partMoveDownAction);
 			return actions;
 		}
 
 		@Override
-			public List<ContextAction> getContextActions()
+		public List<ContextAction> getContextActions()
 		{
 			List<ContextAction> actions=new ArrayList<ContextAction>();
 			actions.add(new FanFicPartDetailsAction());
 			actions.add(null);
-			actions.add(newPartAction);
+			actions.add(new ComplexAction("New", Icons.getIcon("add"), newPartActions));
 			actions.add(deletePartAction);
+			actions.add(null);
+			actions.add(checkAction);
 			actions.add(null);
 			actions.add(partMoveUpAction);
 			actions.add(partMoveDownAction);
@@ -345,15 +334,16 @@ public class FanFicsView extends ViewPanel
 
 		public void setFanFic(FanFic fanFic)
 		{
-			newPartAction.setFanFic(fanFic);
+			for (NewFanFicPartAction newPartAction : newPartActions) newPartAction.setFanFic(fanFic);
 			deletePartAction.setFanFic(fanFic);
+			checkAction.setFanFic(fanFic);
 			SortableTableModel<FanFicPart> tableModel=getModel();
 			tableModel.clear();
 			if (fanFic!=null)
 			{
 				for (FanFicPart part : fanFic.getParts())
 				{
-					tableModel.addRow(new PartTableRow(part));
+					tableModel.addRow(new BeanTableRow<FanFicPart>(part));
 				}
 				tableModel.sort();
 				partMoveUpAction.setChain(fanFic.getParts());

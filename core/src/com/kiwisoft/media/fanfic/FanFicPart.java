@@ -7,23 +7,34 @@
 package com.kiwisoft.media.fanfic;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
 
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.MediaConfiguration;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
+import com.kiwisoft.persistence.filestore.FileStore;
 
 public class FanFicPart extends IDObject implements ChainLink
 {
+	public static final String TYPE_HTML="html";
+	public static final String TYPE_IMAGE="image";
+	
 	public static final String FANFIC="fanFic";
-	public static final String SOURCE="source";
 	public static final String NAME="name";
 	public static final String SEQUENCE="sequence";
+	public static final String TYPE="type";
+	public static final String EXTENSION="extension";
+	public static final String ENCODING="encoding";
 
 	private String name;
-	private String source;
+	private String type;
+	private String extension;
 	private int sequence;
+	private String source;
+	private String encoding;
 
 	public FanFicPart(FanFic fanFic)
 	{
@@ -57,24 +68,73 @@ public class FanFicPart extends IDObject implements ChainLink
 		setModified(NAME, oldName, this.name);
 	}
 
-	public String getSource()
+	// todo remove
+	public String getOldSource()
 	{
 		return source;
 	}
 
-	public void setSource(String source)
+	public String getType()
 	{
-		String oldSource=this.source;
-		this.source=source;
-		setModified(SOURCE, oldSource, this.source);
+		return type;
+	}
+
+	public void setType(String type)
+	{
+		String oldType=this.type;
+		this.type=type;
+		setModified(TYPE, oldType, this.type);
+	}
+
+	public String getExtension()
+	{
+		return extension;
+	}
+
+	protected void setExtension(String extension)
+	{
+		String oldExtension=this.extension;
+		this.extension=extension;
+		setModified(EXTENSION, oldExtension, this.extension);
+	}
+
+	public String getEncoding()
+	{
+		return encoding;
+	}
+
+	public void setEncoding(String encoding)
+	{
+		String oldEncoding=this.encoding;
+		this.encoding=encoding;
+		setModified(ENCODING, oldEncoding, this.encoding);
+	}
+
+	public InputStream getContent() throws Exception
+	{
+		File file=FileStore.getInstance().getFile(this, "content."+extension);
+		if (file!=null) return new FileInputStream(file);
+		else return null;
+	}
+
+	public File getContentFile()
+	{
+		return FileStore.getInstance().getFile(this, "content."+extension);
+	}
+
+	public void putContent(InputStream content, String extension, String encoding) throws Exception
+	{
+		setExtension(extension);
+		setEncoding(encoding);
+		FileStore.getInstance().putFile(this, "content."+extension, content);
 	}
 
 	public long getSize()
 	{
 		try
 		{
-			File file=FileUtils.getFile(MediaConfiguration.getFanFicPath(), source);
-			return file.length();
+			File file=getContentFile();
+			return file.exists() ? file.length() : 0L;
 		}
 		catch (Exception e)
 		{
@@ -111,6 +171,13 @@ public class FanFicPart extends IDObject implements ChainLink
 	public String toString()
 	{
 		return source;
+	}
+
+	@Override
+	public void delete()
+	{
+		super.delete();
+		FileStore.getInstance().removeAllFiles(this);
 	}
 
 	public static class Comparator implements java.util.Comparator

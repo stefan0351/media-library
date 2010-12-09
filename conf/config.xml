@@ -23,4 +23,6 @@
 	<parameter name="db.password">bokada</parameter>
 	<parameter name="db.logChanges">true</parameter>
 	<parameter name="db.changeLog.dir">d:\Projects\Java\media\log</parameter>
+
+	<parameter name="fileStore.path">.files</parameter>
 </configuration>

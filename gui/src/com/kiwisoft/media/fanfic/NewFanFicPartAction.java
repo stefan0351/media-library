@@ -18,11 +18,13 @@ public class NewFanFicPartAction extends ContextAction
 {
 	private ApplicationFrame frame;
 	private FanFic fanFic;
+	private String type;
 
-	public NewFanFicPartAction(ApplicationFrame frame)
+	public NewFanFicPartAction(ApplicationFrame frame, String name, String type)
 	{
-		super("New", Icons.getIcon("add"));
+		super(name, Icons.getIcon("add"));
 		this.frame=frame;
+		this.type=type;
 		update(null);
 	}
 
@@ -50,10 +52,10 @@ public class NewFanFicPartAction extends ContextAction
 				int partCount=fanFic.getParts().size();
 				if (partCount>0) lastPart=fanFic.getParts().getLast();
 				FanFicPart newPart=fanFic.createPart();
+				newPart.setType(type);
 				if (lastPart!=null)
 				{
 					newPart.setName(StringUtils.increase(lastPart.getName()));
-					newPart.setSource(StringUtils.increase(lastPart.getSource()));
 				}
 			}
 
