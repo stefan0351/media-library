@@ -260,8 +260,8 @@ public class FanFic extends IDObject
 		for (Iterator itParts=parts.iterator(); itParts.hasNext() && size>=0;)
 		{
 			FanFicPart part=(FanFicPart)itParts.next();
-			long partSize=part.getSize();
-			if (partSize>=0) size+=partSize;
+			Long partSize=part.getSize();
+			if (partSize!=null) size+=partSize;
 		}
 		return size;
 	}

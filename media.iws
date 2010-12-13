@@ -19,41 +19,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/pink_rabbit/whither_thou_goest_10.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/pink_rabbit/whither_thou_goest_10.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/html/HtmlSourceTextController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/MediaFileSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/files/MediaFileSearchView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/show/ShowSearchView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/AmazonTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/AmazonTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/config.xml" afterPath="$PROJECT_DIR$/conf/config.xml" />
-      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\tools\src\com\kiwisoft\media\tools\FanFictionNetLoader.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\Stefan\Java\media\gui\src\com\kiwisoft\media\fanfic\FanFicPartDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/HtmlPartDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/FanFicData.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/FanFicData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/books/BookSearchView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFicPart.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFicPart.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/movie/MovieSearchView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFic.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFic.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/updates/2010-12-09.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/angelina/night_for_reflection.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/angelina/night_for_reflection.html" />
-      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\data\fanfic\authors\dikern\uninvited\covert.jpg" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\tools\src\com\kiwisoft\media\tools\FanFicConverter2.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/IMDbLoaderTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/IMDbLoaderTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/books/BooksIsbnTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/books/BooksIsbnTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/db/mappings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/CoreIcons.xml" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/icons/CoreIcons.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat/PreformatTextController.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/preformat/PreformatTextController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/media.iws" afterPath="$PROJECT_DIR$/media.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsView.properties" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsView.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/conf/config-dev.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicCheckAction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/dumps/dump.zip" afterPath="$PROJECT_DIR$/db/dumps/dump.zip" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/erin/just_a_day.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/erin/just_a_day.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/data/fanfic/authors/dikern/uninvited" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/swing/SearchController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/medium/MediumSearchView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/swing/SearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/swing/SearchView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/HtmlPartDetailsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/HtmlPartDetailsView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/jsp/fanfic/fanfic.jsp" afterPath="$PROJECT_DIR$/web/jsp/fanfic/fanfic.jsp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/IncludeFilesTableController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ConfigurationView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/ConfigurationView.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/fanfics/FanFicAction.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/fanfics/FanFicAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/com/kiwisoft/media/FileServlet.java" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/FileServlet.java" />
-      <change type="MOVED" beforePath="C:\Users\Stefan\Java\media\tools\src\com\kiwisoft\media\tools\FanFicConverter.java" afterPath="$PROJECT_DIR$/tools/src/com/kiwisoft/media/tools/FanFicConverter2.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/IncludeFilesTableController.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/src/com/kiwisoft/media/FileStoreServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/angelina/day_of_revelation.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/angelina/day_of_revelation.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/FanFictionNetLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/pink_rabbit/whither_thou_goest_14.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/pink_rabbit/whither_thou_goest_14.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/media-core.iml" afterPath="$PROJECT_DIR$/core/media-core.iml" />
-      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\data\fanfic\authors\dikern\uninvited\cover.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/NewFanFicPartAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/NewFanFicPartAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/fanfic/authors/erin/wolf_within_8.html" afterPath="$PROJECT_DIR$/data/fanfic/authors/erin/wolf_within_8.html" />
+      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\gui\src\com\kiwisoft\media\ExportWebDatesAction.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaConfiguration.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/ReverseDefaultHighlighter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonSearchView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/person/PersonSearchView.java" />
+      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\gui\src\com\kiwisoft\media\fanfic\FanFicPartLookup.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/FanFictionNetLoader.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/dataimport/FanFictionNetLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManagerFrame.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/MediaManagerFrame.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/media-data.iml" afterPath="$PROJECT_DIR$/data/media-data.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/SearchBar.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsSearchView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicTask.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicTask.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/TextController.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tools/src/com/kiwisoft/media/tools/Converter.java" />
+      <change type="DELETED" beforePath="C:\Users\Stefan\Java\media\core\src\com\kiwisoft\media\show\WebDatesExport.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsView.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/ImagePartDetailsView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicPartDetailsAction.java" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicPartDetailsAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/log4j.xml" afterPath="$PROJECT_DIR$/core/src/log4j.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/gui/src/com/kiwisoft/text/html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" afterPath="$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/SerienJunkiesDeLoaderTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/SerienJunkiesDeLoaderTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVComLoaderTest.java" afterPath="$PROJECT_DIR$/core/test/com/kiwisoft/media/dataimport/TVComLoaderTest.java" />
     </list>
   </component>
   <component name="ChangesViewManager" flattened_view="false" show_ignored="false" />
@@ -200,6 +212,32 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/ImagePartDetailsView.java" line="42" class="com.kiwisoft.media.fanfic.ImagePartDetailsView" package="com.kiwisoft.media.fanfic">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/ReverseDefaultHighlighter.java" line="99" class="com.kiwisoft.text.ReverseDefaultHighlighter" package="com.kiwisoft.text">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
@@ -248,8 +286,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -281,91 +319,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fanfic.jsp" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/jsp/fanfic/fanfic.jsp">
+      <file leaf-file-name="TextController.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/TextController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="59" selection-start="3503" selection-end="3503" vertical-scroll-proportion="-13.916667">
+            <state line="14" column="30" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FanFicAction.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/fanfics/FanFicAction.java">
+      <file leaf-file-name="HtmlSourceTextController.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/html/HtmlSourceTextController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="0" selection-start="1641" selection-end="1641" vertical-scroll-proportion="0.0">
+            <state line="16" column="13" selection-start="406" selection-end="406" vertical-scroll-proportion="0.15686275">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FanFicPart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFicPart.java">
+      <file leaf-file-name="SearchBar.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/SearchBar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="0" selection-start="2435" selection-end="2435" vertical-scroll-proportion="0.0">
+            <state line="29" column="12" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JComponent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/JComponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="2609" column="25" selection-start="96289" selection-end="96289" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StringBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/lang/StringBuilder.java">
+      <file leaf-file-name="Component.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/awt/Component.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="429" column="0" selection-start="12959" selection-end="12959" vertical-scroll-proportion="0.0">
+            <state line="1370" column="16" selection-start="46546" selection-end="46546" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FileStore.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-database_src.jar!/com/kiwisoft/persistence/filestore/FileStore.java">
+      <file leaf-file-name="Pattern.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/util/regex/Pattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="0" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.16018845">
+            <state line="846" column="22" selection-start="40186" selection-end="40186" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MediaWebApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java">
+      <file leaf-file-name="WToolkit.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/jre/lib/rt.jar!/sun/awt/windows/WToolkit.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="30" selection-start="2034" selection-end="2034" vertical-scroll-proportion="0.0">
+            <state line="207" column="19" selection-start="9708" selection-end="9708" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MediaApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java">
+      <file leaf-file-name="DefaultHighlighter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/text/DefaultHighlighter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="0" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
+            <state line="21" column="20" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Application.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-application_src.jar!/com/kiwisoft/app/Application.java">
+      <file leaf-file-name="ReverseDefaultHighlighter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/ReverseDefaultHighlighter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="24" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.0">
+            <state line="99" column="0" selection-start="2984" selection-end="2984" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleConfiguration.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-configuration.jar!/com/kiwisoft/cfg/SimpleConfiguration.class">
+      <file leaf-file-name="Vector.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/util/Vector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="62" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Configuration.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-configuration.jar!/com/kiwisoft/cfg/Configuration.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="36" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
+            <state line="570" column="29" selection-start="21499" selection-end="21499" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -591,7 +631,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="media-web" />
+          <option name="myItemId" value="media-tools" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -601,11 +641,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="media-web" />
+          <option name="myItemId" value="media-tools" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="web" />
+          <option name="myItemId" value="tools" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -617,6 +657,30 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="media-tools" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="tools" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="tools" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
       <PATH>
@@ -668,32 +732,8 @@
           <option name="myItemId" value="kiwisoft" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
-      </PATH>
-      <PATH>
         <PATH_ELEMENT>
-          <option name="myItemId" value="media" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="media-data" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="media" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="media-data" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="db" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="updates" />
+          <option name="myItemId" value="text" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -703,11 +743,155 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="media-data" />
+          <option name="myItemId" value="media-gui" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="db" />
+          <option name="myItemId" value="gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="text" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="preformat" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media-gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="text" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="html" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media-gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media-gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media-gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="gui" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="com" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="kiwisoft" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="media" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="fanfic" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -731,7 +915,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="core" />
+          <option name="myItemId" value="media" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -762,7 +946,7 @@
       <showLibraryContents PackagesPane="true" />
       <hideEmptyPackages ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure ProjectPane="false" J2EEPane="false" Scope="false" PackagesPane="false" Favorites="false" />
+      <showStructure Favorites="false" J2EEPane="false" Scope="false" PackagesPane="false" ProjectPane="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
@@ -787,13 +971,13 @@
     <property name="vcs_file_view_flatWidth5" value="145" />
     <property name="cvs_file_history_flatWidth6" value="169" />
     <property name="cvs_file_history_flatWidth4" value="169" />
-    <property name="cvs_file_history_flatWidth5" value="170" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir309tmp" />
-    <property name="cvs_file_history_flatWidth2" value="294" />
+    <property name="cvs_file_history_flatWidth5" value="170" />
     <property name="vcs_file_view_flatOrder0" value="0" />
-    <property name="cvs_file_history_treeOrder0" value="0" />
-    <property name="cvs_file_history_flatWidth3" value="293" />
+    <property name="cvs_file_history_flatWidth2" value="294" />
     <property name="vcs_file_view_flatWidth0" value="218" />
+    <property name="cvs_file_history_flatWidth3" value="293" />
+    <property name="cvs_file_history_treeOrder0" value="0" />
     <property name="cvs_file_history_flatWidth0" value="295" />
     <property name="vcs_file_view_flatOrder2" value="2" />
     <property name="vcs_file_view_flatWidth1" value="219" />
@@ -827,8 +1011,8 @@
     <property name="cvs_file_history_treeWidth1" value="295" />
     <property name="cvs_file_history_treeWidth2" value="294" />
     <property name="cvs_file_history_treeWidth3" value="293" />
-    <property name="cvs_file_history_treeWidth4" value="169" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="cvs_file_history_treeWidth4" value="169" />
     <property name="cvs_file_history_treeWidth5" value="170" />
     <property name="cvs_file_history_treeWidth6" value="169" />
     <property name="cvs_file_history_flatOrder4" value="4" />
@@ -839,8 +1023,8 @@
     <property name="cvs_file_history_flatOrder1" value="1" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_media-web/web/media-web" value="C:\Dokumente und Einstellungen\Stefan\Lokale Einstellungen\Temp\webExplodedDir6462415496883195032tmp" />
     <property name="cvs_file_history_flatOrder6" value="6" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="PsiViewer.ProjectComponent">
     <option name="HIGHLIGHT" value="false" />
@@ -852,18 +1036,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.text" />
       <recent name="com.kiwisoft.media.fanfic" />
       <recent name="com.kiwisoft.media" />
       <recent name="com.kiwisoft.media.tools" />
       <recent name="com.kiwisoft.media.books" />
-      <recent name="com.kiwisoft.media.dataimport" />
-    </key>
-    <key name="IntroduceConstantDialog.RECENTS_KEY">
-      <recent name="com.kiwisoft.media.show.Episode" />
-      <recent name="com.kiwisoft.media.movie.Movie" />
-      <recent name="com.kiwisoft.media.dataimport.EpisodeData" />
-      <recent name="com.kiwisoft.media.dataimport.EpisodeSynchronizationDialog.TableComparisonPanel" />
-      <recent name="" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="com.kiwisoft.media.download.DownloadUtils" />
@@ -872,12 +1049,19 @@
       <recent name="com.kiwisoft.media.MediaConfiguration" />
       <recent name="com.kiwisoft.utils.BaseConfiguration" />
     </key>
+    <key name="IntroduceConstantDialog.RECENTS_KEY">
+      <recent name="com.kiwisoft.media.show.Episode" />
+      <recent name="com.kiwisoft.media.movie.Movie" />
+      <recent name="com.kiwisoft.media.dataimport.EpisodeData" />
+      <recent name="com.kiwisoft.media.dataimport.EpisodeSynchronizationDialog.TableComparisonPanel" />
+      <recent name="" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.kiwisoft.text" />
+      <recent name="com.kiwisoft.swing" />
       <recent name="com.kiwisoft.media.fanfic" />
       <recent name="com.kiwisoft.media.dataimport" />
       <recent name="com.kiwisoft.text.preformat" />
-      <recent name="com.kiwisoft.media.books" />
-      <recent name="com.kiwisoft.web" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.kiwisoft.media.fanfic" />
@@ -888,7 +1072,143 @@
     </key>
   </component>
   <component name="RegexUtilComponent" text="http://www.fanfiction.net/s/6071818/1/Small_Pleasures" flags="2" regex="(http://www.fanfiction.net/s/[0-9]+)\b.*" mode="1" />
-  <component name="RunManager" selected="Tomcat Server.MediaLib Server (live)">
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="09.12.10 22:09" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+            <PATH vcs="svn" revision="542">C:\Users\Stefan\Java\media\.files</PATH>
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with property conflicts" />
+          <option name="myStatusName" value="Will be merged with property conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Switched" />
+          <option name="myStatusName" value="Switched" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SWITCHED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with tree conflicts" />
+          <option name="myStatusName" value="Will be merged with tree conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Application.MediaLib (dev)">
+    <tempConfiguration default="false" name="HtmlSourceTextController" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.text.html.HtmlSourceTextController" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="media-gui" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="54744" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </tempConfiguration>
     <configuration default="true" type="#com.intellij.j2ee.web.jsr45.JSR45ConfigurationFactory" factoryName="Remote">
       <option name="PORT" value="80" />
       <option name="LOCAL" value="false" />
@@ -923,21 +1243,6 @@
       <option name="USE_WEBSPHERE51_LINEMAPPING_MODEL" value="false" />
       <option name="LOCAL_PORT" value="80" />
     </configuration>
-    <configuration default="true" type="XSLT" factoryName="XSLT">
-      <option name="myOutputFile" />
-      <option name="myOpenOutputFile" value="false" />
-      <option name="myOpenInBrowser" value="false" />
-      <option name="mySmartErrorHandling" value="true" />
-      <option name="myRunnerPort" value="34873" />
-      <option name="myVmArguments" />
-      <option name="myWorkingDirectory" />
-      <option name="myModule" />
-      <option name="myJdk" />
-      <parameters />
-      <OutputType value="CONSOLE" />
-      <FileType name="XML" />
-      <JdkChoice value="FROM_MODULE" />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false" runner="emma">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -963,6 +1268,21 @@
       <envs />
       <properties />
       <listeners />
+    </configuration>
+    <configuration default="true" type="XSLT" factoryName="XSLT">
+      <option name="myOutputFile" />
+      <option name="myOpenOutputFile" value="false" />
+      <option name="myOpenInBrowser" value="false" />
+      <option name="mySmartErrorHandling" value="true" />
+      <option name="myRunnerPort" value="34873" />
+      <option name="myVmArguments" />
+      <option name="myWorkingDirectory" />
+      <option name="myModule" />
+      <option name="myJdk" />
+      <parameters />
+      <OutputType value="CONSOLE" />
+      <FileType name="XML" />
+      <JdkChoice value="FROM_MODULE" />
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
@@ -1019,11 +1339,8 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
-      <JAVAEE_FACET FACET_ID="media-web/web/media-web" DEPLOYMENT_SOURCE_NAME="exploded">
-        <option name="CONTEXT_PATH" value="/" />
-        <option name="DEPLOY" value="false" />
-      </JAVAEE_FACET>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
+      <option name="LOCAL" value="false" />
       <server-settings>
         <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
         <option name="BASE_DIRECTORY_NAME" value="" />
@@ -1032,8 +1349,11 @@
       <option name="BASE_DIRECTORY_NAME" value="" />
       <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
-    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote">
-      <option name="LOCAL" value="false" />
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
+      <JAVAEE_FACET FACET_ID="media-web/web/media-web" DEPLOYMENT_SOURCE_NAME="exploded">
+        <option name="CONTEXT_PATH" value="/" />
+        <option name="DEPLOY" value="false" />
+      </JAVAEE_FACET>
       <server-settings>
         <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
         <option name="BASE_DIRECTORY_NAME" value="" />
@@ -1139,10 +1459,10 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="Html2Xp" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.fanfic.Html2Xp" />
+    <configuration default="false" name="IsbnNumberFormatter" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.books.IsbnNumberFormatter" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="D:\Temp\mime001.html" />
+      <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1157,31 +1477,13 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="false" name="IsbnNumberFormatter" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.books.IsbnNumberFormatter" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="media-core" />
-      <envs />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="ImportBooks" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+    <configuration default="false" name="ImportBooks" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
       <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.tools.ImportBooks" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
@@ -1207,30 +1509,6 @@
       <envs />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="59178" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="FanFicConverter2" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
-      <option name="MAIN_CLASS_NAME" value="com.kiwisoft.media.tools.FanFicConverter2" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="media-tools" />
-      <envs />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="61730" />
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
@@ -1575,25 +1853,24 @@
         <option name="Make" value="false" />
       </method>
     </configuration>
-    <list size="18">
+    <list size="17">
       <item index="0" class="java.lang.String" itemvalue="Application.MediaLib (dev)" />
       <item index="1" class="java.lang.String" itemvalue="Application.MediaLib (live)" />
       <item index="2" class="java.lang.String" itemvalue="Application.ImportNewWallpapers" />
       <item index="3" class="java.lang.String" itemvalue="Application.Webpage Grabber" />
-      <item index="4" class="java.lang.String" itemvalue="Application.Html2Xp" />
-      <item index="5" class="java.lang.String" itemvalue="Application.IsbnNumberFormatter" />
-      <item index="6" class="java.lang.String" itemvalue="Application.ImportBooks" />
-      <item index="7" class="java.lang.String" itemvalue="Application.FanFictionNetLoader" />
-      <item index="8" class="java.lang.String" itemvalue="Application.FanFicConverter2" />
-      <item index="9" class="java.lang.String" itemvalue="JUnit.IMDbLoaderTest" />
-      <item index="10" class="java.lang.String" itemvalue="JUnit.TVTVDeLoaderTest" />
-      <item index="11" class="java.lang.String" itemvalue="JUnit.TVComLoaderTest" />
-      <item index="12" class="java.lang.String" itemvalue="JUnit.SerienJunkiesDeLoaderTest" />
-      <item index="13" class="java.lang.String" itemvalue="JUnit.AmazonTest" />
-      <item index="14" class="java.lang.String" itemvalue="JUnit.IsbnTest" />
-      <item index="15" class="java.lang.String" itemvalue="JUnit.PreformatLexerTest" />
-      <item index="16" class="java.lang.String" itemvalue="Tomcat Server.MediaLib Server (dev)" />
-      <item index="17" class="java.lang.String" itemvalue="Tomcat Server.MediaLib Server (live)" />
+      <item index="4" class="java.lang.String" itemvalue="Application.IsbnNumberFormatter" />
+      <item index="5" class="java.lang.String" itemvalue="Application.ImportBooks" />
+      <item index="6" class="java.lang.String" itemvalue="Application.FanFictionNetLoader" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.IMDbLoaderTest" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.TVTVDeLoaderTest" />
+      <item index="9" class="java.lang.String" itemvalue="JUnit.TVComLoaderTest" />
+      <item index="10" class="java.lang.String" itemvalue="JUnit.SerienJunkiesDeLoaderTest" />
+      <item index="11" class="java.lang.String" itemvalue="JUnit.AmazonTest" />
+      <item index="12" class="java.lang.String" itemvalue="JUnit.IsbnTest" />
+      <item index="13" class="java.lang.String" itemvalue="JUnit.PreformatLexerTest" />
+      <item index="14" class="java.lang.String" itemvalue="Tomcat Server.MediaLib Server (dev)" />
+      <item index="15" class="java.lang.String" itemvalue="Tomcat Server.MediaLib Server (live)" />
+      <item index="16" class="java.lang.String" itemvalue="Application.HtmlSourceTextController" />
     </list>
   </component>
   <component name="SQL">
@@ -1615,7 +1892,7 @@
   <component name="SQLPlugin.ProjectConfiguration">
     <queries>
       <query name="Query 1" changed="true" database="media@localhost">
-        <statement>alter+table+fanfic_parts+add+extension+varchar%2810%29%3B%0Aalter+table+fanfic_parts+add+type+varchar%2810%29%3B%0Aalter+table+fanfic_parts+add+encoding+varchar%2820%29%3B</statement>
+        <statement>select+f.id%2C+f.title%2C+p.id%2C+p.name%2C+a.name+as+author+%0Afrom+fanfic_parts+p+%0A%09join+fanfics+f+on+f.id%3Dp.fanfic_id+%0A%09join+map_fanfic_author+m+on+m.fanfic_id%3Df.id%0A%09join+fanficauthors+a+on+a.id%3Dm.author_id%0Awhere+p.id+in+%28+41%2C+48%2C+54639%29%0A</statement>
       </query>
     </queries>
   </component>
@@ -1709,46 +1986,46 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="1" width="1918" height="1048" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" />
       <window_info id="Dilbert" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4213615" sideWeight="0.5" order="8" side_tool="false" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6849776" sideWeight="0.5" order="9" side_tool="false" x="23" y="356" width="1233" height="290" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.8164835" sideWeight="0.5" order="10" side_tool="false" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6846154" sideWeight="0.5" order="9" side_tool="false" x="23" y="356" width="1233" height="290" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.8161435" sideWeight="0.5" order="10" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.24919268" sideWeight="0.5876777" order="12" side_tool="false" />
+      <window_info id="Ant Build" active="true" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.2489339" sideWeight="0.5876777" order="12" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.71648353" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48430493" sideWeight="0.0" order="3" side_tool="false" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4846154" sideWeight="0.0" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5459705" sideWeight="0.5" order="12" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33295965" sideWeight="0.5" order="13" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.33296704" sideWeight="0.5" order="13" side_tool="false" />
       <window_info id="Regex Tester" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5908072" sideWeight="0.5" order="14" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.66703296" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19829424" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.46715328" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32992464" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21259418" sideWeight="0.50784755" order="0" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21055438" sideWeight="0.50769234" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="16" side_tool="false" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40339702" sideWeight="0.5" order="11" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39691943" sideWeight="0.5" order="5" side_tool="false" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.77690583" sideWeight="0.5" order="6" side_tool="false" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.77692306" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="17" side_tool="false" />
-      <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" sideWeight="0.5" order="18" side_tool="false" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" sideWeight="0.5" order="5" side_tool="false" />
+      <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" sideWeight="0.5" order="18" side_tool="false" />
       <window_info id="Properties File Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="ResourceEditor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295063" sideWeight="0.5" order="19" side_tool="false" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.40339702" sideWeight="0.5" order="11" side_tool="false" />
       <window_info id="CVS File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7340425" sideWeight="0.5" order="9" side_tool="false" />
       <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.5304248" sideWeight="0.5" order="20" side_tool="false" />
       <window_info id="PsiViewer" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.32927817" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Atlassian " active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="21" side_tool="false" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" />
-      <window_info id="APIdoc" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.3291714" sideWeight="0.5" order="22" side_tool="false" />
       <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="23" side_tool="false" />
+      <window_info id="APIdoc" active="true" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="true" weight="0.3291714" sideWeight="0.5" order="22" side_tool="false" />
       <window_info id="Favorites" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Character Browser" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="10" side_tool="false" />
       <window_info id="KiwiScrap" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.6118192" sideWeight="0.5" order="24" side_tool="false" />
@@ -1756,8 +2033,8 @@
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="IG Telemetry" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="26" side_tool="false" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" />
-      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="6" side_tool="false" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.543554" sideWeight="0.5" order="27" side_tool="false" />
+      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="6" side_tool="false" />
     </layout>
   </component>
   <component name="VCS.FileViewConfiguration">
@@ -1776,7 +2053,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added preformat editor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Convert fanfics" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1799,6 +2076,8 @@
     <MESSAGE value="Finished webpage grabber;&#10;Continued integration of media files;&#10;Improved TVTV.de loader" />
     <MESSAGE value="Fixed Amazon.de loader" />
     <MESSAGE value="Added preformat editor" />
+    <MESSAGE value="Convert fanfics and added FanFiction.net loader" />
+    <MESSAGE value="Convert fanfics" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1970,116 +2249,116 @@
     <option name="myLastEditedConfigurable" value="Private Projects" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/conf/config.xml">
+    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-swing_src.jar!/com/kiwisoft/swing/ToolBar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="37" selection-start="1338" selection-end="1338" vertical-scroll-proportion="0.0">
+        <state line="49" column="0" selection-start="753" selection-end="1104" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../.kiwisoft/media/dev-profile.xml">
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/text/DefaultCaret.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="385" column="33" selection-start="26581" selection-end="26581" vertical-scroll-proportion="0.0">
+        <state line="1101" column="0" selection-start="37060" selection-end="37060" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicCheckAction.java">
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/text/LayeredHighlighter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="67" selection-start="1960" selection-end="1960" vertical-scroll-proportion="0.0">
+        <state line="18" column="55" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/plaf/basic/BasicTextUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1270" column="24" selection-start="42911" selection-end="42911" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/text/Highlighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="27" selection-start="558" selection-end="558" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/com/sun/java/swing/plaf/windows/WindowsTextUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="19" selection-start="2528" selection-end="2528" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/text/DefaultHighlighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="20" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/util/Vector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="570" column="29" selection-start="21499" selection-end="21499" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/jre/lib/rt.jar!/sun/awt/windows/WToolkit.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="207" column="19" selection-start="9708" selection-end="9708" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/ReverseDefaultHighlighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="99" column="0" selection-start="2984" selection-end="2984" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/util/regex/Pattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="846" column="22" selection-start="40186" selection-end="40186" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/awt/Component.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1370" column="16" selection-start="46546" selection-end="46546" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/javax/swing/JComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2609" column="25" selection-start="96289" selection-end="96289" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/SearchBar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="12" selection-start="791" selection-end="791" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/updates/2010-12-09.sql">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/TextController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="55" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0">
+        <state line="14" column="30" selection-start="441" selection-end="441" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/media/fanfic/FanFicsView.java">
+    <entry file="file://$PROJECT_DIR$/gui/src/com/kiwisoft/text/html/HtmlSourceTextController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="48" selection-start="799" selection-end="799" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tools/src/com/kiwisoft/media/tools/FanFicConverter2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="27" selection-start="843" selection-end="843" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/jsp/fanfic/fanfic.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="59" selection-start="3503" selection-end="3503" vertical-scroll-proportion="-13.916667">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../../../../java/jdk/6.0/src.zip!/java/lang/StringBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="429" column="0" selection-start="12959" selection-end="12959" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-configuration.jar!/com/kiwisoft/cfg/SimpleConfiguration.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="62" selection-start="203" selection-end="203" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-configuration.jar!/com/kiwisoft/cfg/Configuration.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="36" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-application_src.jar!/com/kiwisoft/app/Application.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="24" selection-start="1156" selection-end="1156" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/MediaApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="0" selection-start="2091" selection-end="2091" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/MediaWebApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="30" selection-start="2034" selection-end="2034" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/com/kiwisoft/media/fanfics/FanFicAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="0" selection-start="1641" selection-end="1641" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/kiwisoft/media/fanfic/FanFicPart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="0" selection-start="2435" selection-end="2435" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/kiwisoft_utils-database_src.jar!/com/kiwisoft/persistence/filestore/FileStore.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="0" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.16018845">
+        <state line="16" column="13" selection-start="406" selection-end="406" vertical-scroll-proportion="0.15686275">
           <folding />
         </state>
       </provider>

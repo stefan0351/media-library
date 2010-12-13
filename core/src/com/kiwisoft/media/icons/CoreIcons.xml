@@ -74,4 +74,7 @@
 	<icon key="sync.right-active">
 		<resource url="/com/kiwisoft/media/icons/sync-right.png"/>
 	</icon>
+	<icon key="search">
+		<resource url="/com/kiwisoft/media/icons/find.png"/>
+	</icon>
 </icons>

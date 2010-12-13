@@ -5,6 +5,7 @@ import com.kiwisoft.swing.ToolBar;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.text.TextController;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -25,14 +26,8 @@ import java.util.List;
  * @todo enable/disable actions
  * @since 28.10.2009
  */
-public class PreformatTextController
+public class PreformatTextController extends TextController
 {
-	private JEditorPane textField;
-	private UndoManager undoManager;
-	private JPanel panel;
-	private PreformatTextController.UndoAction undoAction;
-	private PreformatTextController.RedoAction redoAction;
-
 	public static void main(String[] args) throws IOException, BadLocationException
 	{
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
@@ -51,74 +46,15 @@ public class PreformatTextController
 	{
 	}
 
-	public JPanel getComponent()
+	@Override
+	protected JTextPane createTextField()
 	{
-		if (panel==null)
-		{
-			undoAction=new UndoAction();
-			redoAction=new RedoAction();
-
-			panel=new JPanel(new GridBagLayout());
-			panel.setPreferredSize(new Dimension(300, 200));
-			textField=new JTextPane();
-			textField.setEditorKit(new PreformatEditorKit());
-			textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK), "font-bold");
-			textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK), "font-italic");
-			textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_MASK), "font-underline");
-			textField.getDocument().addDocumentListener(new DocumentAdapter()
-			{
-				@Override
-				public void changedUpdate(DocumentEvent e)
-				{
-					super.changedUpdate(e);
-					updateUndoActions();
-				}
-			});
-
-			undoManager=GuiUtils.initializeUndo(textField);
-
-			JScrollPane scrollPane=new JScrollPane(textField);
-			panel.add(createToolBar(), new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			panel.add(scrollPane, new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, CENTER, BOTH, new Insets(0, 0, 0, 0), 0, 0));
-			updateUndoActions();
-		}
-		return panel;
-	}
-
-	private void updateUndoActions()
-	{
-		SwingUtilities.invokeLater(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				undoAction.setEnabled(undoManager.canUndo());
-				redoAction.setEnabled(undoManager.canRedo());
-			}
-		});
-	}
-
-	public void setText(String text)
-	{
-		getComponent(); // Make sure component is initialized
-		textField.setText(text);
-		undoManager.discardAllEdits();
-		updateUndoActions();
-	}
-
-	public String getText()
-	{
-		getComponent(); // Make sure component is initialized
-		return textField.getText();
-	}
-
-	protected JToolBar createToolBar()
-	{
-		List<ContextAction> actions=getToolBarActions();
-		ToolBar bar=new ToolBar(false);
-		bar.setFocusableButtons(false);
-		bar.initialize(actions);
-		return bar;
+		JTextPane textField=new JTextPane();
+		textField.setEditorKit(new PreformatEditorKit());
+		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK), "font-bold");
+		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK), "font-italic");
+		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_MASK), "font-underline");
+		return textField;
 	}
 
 	protected List<ContextAction> getToolBarActions()
@@ -130,12 +66,7 @@ public class PreformatTextController
 		actions.add(new SetStyleAction("Subscript", Icons.getIcon("font.subscript"), StyleConstants.Subscript));
 		actions.add(new SetStyleAction("Superscript", Icons.getIcon("font.superscript"), StyleConstants.Superscript));
 		actions.add(null);
-		actions.add(new CopyAction());
-		actions.add(new CutAction());
-		actions.add(new PasteAction());
-		actions.add(null);
-		actions.add(undoAction);
-		actions.add(redoAction);
+		actions.addAll(super.getToolBarActions());
 		return actions;
 	}
 
@@ -185,75 +116,4 @@ public class PreformatTextController
 		}
 
 	}
-
-	private class CopyAction extends ContextAction
-	{
-		private CopyAction()
-		{
-			super("Copy", Icons.getIcon("copy"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			textField.copy();
-		}
-	}
-
-	private class CutAction extends ContextAction
-	{
-		private CutAction()
-		{
-			super("Cut", Icons.getIcon("cut"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			textField.cut();
-		}
-	}
-
-	private class PasteAction extends ContextAction
-	{
-		private PasteAction()
-		{
-			super("Paste", Icons.getIcon("paste"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			textField.paste();
-		}
-	}
-
-	private class UndoAction extends ContextAction
-	{
-		private UndoAction()
-		{
-			super("Undo", Icons.getIcon("undo"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			if (undoManager.canUndo()) undoManager.undo();
-		}
-	}
-
-	private class RedoAction extends ContextAction
-	{
-		private RedoAction()
-		{
-			super("Redo", Icons.getIcon("redo"));
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			if (undoManager.canRedo()) undoManager.redo();
-		}
-	}
-
 }

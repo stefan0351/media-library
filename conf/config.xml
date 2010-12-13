@@ -2,19 +2,8 @@
 
 <configuration>
 	<parameter name="proxy.use">false</parameter>
-	<parameter name="proxy.host">192.168.192.111</parameter>
-	<parameter name="proxy.port">3128</parameter>
 
-	<parameter name="path.web.dates">c:\Webpages\www.tv-scripte.de\index.html</parameter>
-	<parameter name="path.logos.channels.web">c:\Webpages\www.tv-scripte.de\clipart\tv_logos</parameter>
-
-	<parameter name="path.root">d:\Webpages\local</parameter>
-	<parameter name="path.books.covers">d:\Webpages\local\books\covers</parameter>
-	<parameter name="path.shows">d:\Webpages\local\shows</parameter>
-	<parameter name="path.fanfics">d:\Webpages\local\fanfic\authors</parameter>
-	<parameter name="path.photos.thumbnails">d:\Webpages\local\photos\thumbnails</parameter>
-
-	<parameter name="path.image.editor">C:\Programme\iGrafx\Image\1.0\IGXIMG.EXE</parameter>
+	<parameter name="path.root">C:\Users\Stefan\Java\media\data</parameter>
 
 	<parameter name="db.mappings">com/kiwisoft/media/db/mappings.xml</parameter>
 	<parameter name="db.driver">com.mysql.jdbc.Driver</parameter>
@@ -22,7 +11,7 @@
 	<parameter name="db.user">stefan</parameter>
 	<parameter name="db.password">bokada</parameter>
 	<parameter name="db.logChanges">true</parameter>
-	<parameter name="db.changeLog.dir">d:\Projects\Java\media\log</parameter>
+	<parameter name="db.changeLog.dir">C:\Users\Stefan\Java\media\log</parameter>
 
 	<parameter name="fileStore.path">.files</parameter>
 </configuration>

@@ -25,12 +25,10 @@ import java.util.List;
  * @author Stefan Stiller
  * @since 24.10.2009
  */
-public abstract class SearchView<T> extends ViewPanel implements Pinnable
+public abstract class SearchView<T> extends ViewPanel
 {
 	private TableController<T> tableController;
-	private JLabel resultLabel;
-	private boolean pinned;
-	private Set<String> searches=new LinkedHashSet<String>();
+	private SearchController<T> searchController;
 
 	@Override
 	protected JComponent createContentPanel(final ApplicationFrame frame)
@@ -39,65 +37,32 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 
 		installCollectionListener();
 
-		JTextField searchField=new JTextField();
-		searchField.addActionListener(new SearchActionListener(searchField));
-
-		resultLabel=new JLabel("No search executed.");
+		searchController=createSearchController(tableController);
 
 		JPanel panel=new JPanel(new BorderLayout(0, 10));
-		panel.add(searchField, BorderLayout.NORTH);
+		panel.add(searchController.getSearchField(), BorderLayout.NORTH);
 		panel.add(tableController.getComponent(), BorderLayout.CENTER);
-		panel.add(resultLabel, BorderLayout.SOUTH);
+		panel.add(searchController.getResultLabel(), BorderLayout.SOUTH);
 
 		return panel;
 	}
 
+	protected abstract TableController<T> createResultTable(ApplicationFrame frame);
+
+	protected abstract SearchController<T> createSearchController(TableController<T> tableController);
+
 	protected void installCollectionListener()
 	{
 	}
-
-	protected abstract TableController<T> createResultTable(ApplicationFrame frame);
 
 	protected TableController<T> getTableController()
 	{
 		return tableController;
 	}
 
-	private void runSearch(String searchText, boolean pinned)
+	protected SearchController<T> getSearchController()
 	{
-		Set<T> resultSet=doSearch(searchText);
-		SortableTableModel<T> tableModel=tableController.getModel();
-		if (!pinned) tableModel.clear();
-		List<SortableTableRow<T>> rows=new ArrayList<SortableTableRow<T>>(resultSet.size());
-		for (T object : resultSet) rows.add(createRow(object));
-		tableModel.addRows(rows);
-		tableModel.sort();
-		int rowCount=rows.size();
-		if (rows.isEmpty()) resultLabel.setText("No rows found.");
-		else if (rowCount==1) resultLabel.setText("1 row found.");
-		else if (rowCount>1000) resultLabel.setText("More than 1000 Row(s) found.");
-		else resultLabel.setText(rowCount+" rows found.");
-		if (!pinned) searches.clear();
-		searches.add(searchText);
-	}
-
-	protected abstract Set<T> doSearch(String searchText);
-
-	protected SortableTableRow<T> createRow(T object)
-	{
-		return new BeanTableRow<T>(object);
-	}
-
-	@Override
-	public boolean isPinned()
-	{
-		return pinned;
-	}
-
-	@Override
-	public void setPinned(boolean b)
-	{
-		pinned=b;
+		return searchController;
 	}
 
 	@Override
@@ -110,10 +75,11 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 	public Bookmark getBookmark()
 	{
 		String title=getTitle();
+		Set<String> searches=searchController.getSearches();
 		if (!searches.isEmpty()) title=title+": "+StringUtils.formatAsEnumeration(searches);
 		Bookmark bookmark=new Bookmark(title, SearchView.class);
 		bookmark.setParameter("viewClass", getClass().getName());
-		bookmark.setParameter("pinned", String.valueOf(pinned));
+		bookmark.setParameter("pinned", String.valueOf(searchController.isPinned()));
 		int i=0;
 		for (String search : searches) bookmark.setParameter("search"+(i++), search);
 		return bookmark;
@@ -126,14 +92,14 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 			String viewClassName=bookmark.getParameter("viewClass");
 			Class<? extends SearchView> viewClass=Utils.cast(Class.forName(viewClassName));
 			SearchView searchView=viewClass.newInstance();
-			searchView.pinned=Boolean.valueOf(bookmark.getParameter("pinned"));
 			searchView.createView(frame); // Make sure table controller is initialized
 			int i=0;
 			while (true)
 			{
 				final String searchText=bookmark.getParameter("search"+(i++));
 				if (searchText==null) break;
-				searchView.runSearch(searchText, true);
+				searchView.searchController.setPinned(Boolean.valueOf(bookmark.getParameter("pinned")));
+				searchView.searchController.runSearch(searchText, true);
 			}
 			frame.setCurrentView(searchView);
 		}
@@ -183,7 +149,7 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 					case CollectionChangeEvent.ADDED:
 						T newObject=Utils.<T>cast(event.getElement());
 						SortableTableModel<T> tableModel=tableController.getModel();
-						if (!tableModel.containsObject(newObject)) tableModel.addRow(createRow(newObject));
+						if (!tableModel.containsObject(newObject)) tableModel.addRow(searchController.createRow(newObject));
 						break;
 					case CollectionChangeEvent.REMOVED:
 						SortableTableModel<T> model=tableController.getModel();
@@ -192,22 +158,6 @@ public abstract class SearchView<T> extends ViewPanel implements Pinnable
 						break;
 				}
 			}
-		}
-	}
-
-	private class SearchActionListener implements ActionListener
-	{
-		private final JTextField searchField;
-
-		public SearchActionListener(JTextField searchField)
-		{
-			this.searchField=searchField;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			runSearch(searchField.getText(), pinned);
 		}
 	}
 }

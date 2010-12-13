@@ -17,9 +17,7 @@ public class BooksIsbnTest extends TestCase
 	{
 		super.setUp();
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File("conf", "config.xml");
-		configuration.loadDefaultsFromFile(configFile);
-		configuration.loadUserValues("media"+File.separator+"dev-profile.xml");
+		configuration.loadDefaultsFromFile(new File("conf", "config-dev.xml"));
 	}
 
 	public void testIsbn()

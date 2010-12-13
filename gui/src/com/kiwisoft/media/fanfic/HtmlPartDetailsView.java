@@ -2,14 +2,15 @@ package com.kiwisoft.media.fanfic;
 
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.editor.SourceCodeDocument;
-import com.kiwisoft.editor.lexer.HTMLLexer;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.persistence.filestore.FileStore;
 import com.kiwisoft.swing.GuiUtils;
+import com.kiwisoft.swing.InvalidDataException;
 import com.kiwisoft.swing.table.TableController;
 import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.text.html.HtmlSourceTextController;
 import org.apache.commons.io.IOUtils;
 
 import javax.swing.*;
@@ -21,16 +22,17 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 import java.awt.*;
 import static java.awt.GridBagConstraints.*;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
+// todo: search in preview and source
+// todo: reformat source html
+
+// todo use stylesheet for preview
 public class HtmlPartDetailsView extends DetailsView
 {
 	public static void create(FanFicPart part)
@@ -40,10 +42,9 @@ public class HtmlPartDetailsView extends DetailsView
 
 	private FanFicPart part;
 
+	private HtmlSourceTextController htmlSourceController;
 	private JTextField titleField;
-
 	private JTabbedPane tabs;
-	private JTextPane htmlSourceField;
 	private JTextPane htmlPreviewField;
 	private TableController<File> includesController;
 
@@ -63,11 +64,15 @@ public class HtmlPartDetailsView extends DetailsView
 			InputStream contentStream=part.getContent();
 			if (contentStream!=null)
 			{
-				String content=IOUtils.toString(contentStream, part.getEncoding()!=null ? part.getEncoding() : "UTF-8");
-				htmlSourceField.setText(content);
-				htmlSourceField.setCaretPosition(0);
-				htmlPreviewField.setText(content);
-				htmlPreviewField.setCaretPosition(0);
+				try
+				{
+					String content=IOUtils.toString(contentStream, part.getEncoding()!=null ? part.getEncoding() : "UTF-8");
+					htmlSourceController.setText(content);
+				}
+				finally
+				{
+					contentStream.close();
+				}
 			}
 		}
 		catch (Exception e)
@@ -83,22 +88,38 @@ public class HtmlPartDetailsView extends DetailsView
 	}
 
 	@Override
-	public boolean apply()
+	public boolean apply() throws InvalidDataException
 	{
 		final String title=titleField.getText();
 		final Set<String> currentFiles=new HashSet<String>();
 		for (File file : FileStore.getInstance().getAllFiles(part)) currentFiles.add(file.getName());
+		StringBuilder text=new StringBuilder(htmlSourceController.getText());
+		String comment="<!-- "+part.getFanFic().getTitle()+(!StringUtils.isEmpty(title) ? " \\ "+title : "")+"-->";
+		if (text.indexOf(comment)<0)
+		{
+			text.insert(0, comment+"\n");
+			setText(text.toString(), htmlSourceController.getTextField());
+		}
+
+		final byte[] content;
+		try
+		{
+			content=text.toString().getBytes("UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new InvalidDataException(e.getMessage(), htmlSourceController.getTextField());
+		}
 
 		return DBSession.execute(new Transactional()
 		{
 			@Override
 			public void run() throws Exception
 			{
-				System.out.println("FanFicPartDetailsView.apply: part.getId() = "+part.getId());
 				part.setName(title);
-				part.putContent(new ByteArrayInputStream(htmlSourceField.getText().getBytes("UTF-8")), "html", "UTF-8");
+				part.putContent(new ByteArrayInputStream(content), "html", "UTF-8");
 				currentFiles.remove("content.html");
-				for (int i=0;i<includesController.getModel().getRowCount();i++)
+				for (int i=0; i<includesController.getModel().getRowCount(); i++)
 				{
 					IncludeFilesTableController.Row row=(IncludeFilesTableController.Row) includesController.getModel().getRow(i);
 					String fileName=row.getUserObject().getName();
@@ -122,9 +143,7 @@ public class HtmlPartDetailsView extends DetailsView
 	protected void createContentPanel()
 	{
 		titleField=new JTextField();
-		SourceCodeDocument document=new SourceCodeDocument();
-		document.setHighlightStyle(HTMLLexer.class);
-		htmlSourceField=new JTextPane(document);
+		htmlSourceController=new HtmlSourceTextController();
 		htmlPreviewField=new JTextPane();
 		htmlPreviewField.setEditable(false);
 		htmlPreviewField.setEditorKit(new MyHTMLEditorKit());
@@ -132,8 +151,9 @@ public class HtmlPartDetailsView extends DetailsView
 
 		tabs=new JTabbedPane();
 		tabs.setPreferredSize(new Dimension(700, 400));
-		tabs.addTab("Source Code", new JScrollPane(htmlSourceField));
+		tabs.addTab("Source Code", htmlSourceController.getComponent());
 		tabs.addTab("Includes", includesController.getComponent());
+		final int htmlIndex=tabs.getTabCount();
 		tabs.addTab("Preview", new JScrollPane(htmlPreviewField));
 
 		setLayout(new GridBagLayout());
@@ -149,11 +169,9 @@ public class HtmlPartDetailsView extends DetailsView
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				if (tabs.getSelectedIndex()==1)
+				if (tabs.getSelectedIndex()==htmlIndex)
 				{
-					int position=htmlPreviewField.getCaretPosition();
-					htmlPreviewField.setText(htmlSourceField.getText());
-					htmlPreviewField.setCaretPosition(position);
+					setText(htmlSourceController.getText(), htmlPreviewField);
 				}
 			}
 		});
@@ -166,6 +184,13 @@ public class HtmlPartDetailsView extends DetailsView
 				includesController.removeListeners();
 			}
 		});
+	}
+
+	private void setText(String text, JEditorPane textPane)
+	{
+		int position=textPane.getCaretPosition();
+		textPane.setText(text);
+		textPane.setCaretPosition(position);
 	}
 
 	@Override

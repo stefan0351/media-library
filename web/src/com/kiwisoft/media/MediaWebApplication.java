@@ -72,25 +72,29 @@ public class MediaWebApplication extends MediaApplication
 		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
 		String root=System.getProperty("catalina.home");
 		SimpleConfiguration configuration=new SimpleConfiguration();
+		String configName="config.xml";
+		String profileName="profile.xml";
+		if ("dev".equals(System.getProperty("media.database")))
+		{
+			configName="config-dev.xml";
+			profileName="profile-dev.xml";
+		}
 		File configFile;
 		if (StringUtils.isEmpty(root))
 		{
 			System.err.println("catalina.home not found. Using user.dir instead");
-			configFile=new File("conf", "config.xml");
+			configFile=new File("conf", configName);
 		}
 		else
 		{
 			configuration.setApplicationDir(new File(root, "..").getAbsolutePath());
-			configFile=new File(root, ".."+File.separator+"conf"+File.separator+"config.xml");
+			configFile=new File(root, ".."+File.separator+"conf"+File.separator+configName);
 		}
 		System.out.println("Loading configuration from "+configFile.getAbsolutePath());
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
-			String fileName;
-			if ("dev".equals(System.getProperty("media.database"))) fileName="dev-profile.xml";
-			else fileName="profile.xml";
-			String userValuesFile="media"+File.separator+fileName;
+			String userValuesFile="media"+File.separator+profileName;
 			log.info("Loading user configuration from "+userValuesFile);
 			configuration.loadUserValues(userValuesFile);
 		}

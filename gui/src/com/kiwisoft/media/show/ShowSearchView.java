@@ -17,6 +17,7 @@ import com.kiwisoft.media.dataimport.TVTVDeLoaderContextAction;
 import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchView;
+import com.kiwisoft.swing.SearchController;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -53,7 +54,7 @@ public class ShowSearchView extends SearchView<Show>
 				actions.add(new DeleteShowAction(frame));
 				actions.add(new ShowSeasonsAction(frame));
 				actions.add(new ShowEpisodesAction(frame));
-				actions.add(new PinAction(ShowSearchView.this));
+				actions.add(new PinAction(getSearchController()));
 				return actions;
 			}
 
@@ -93,27 +94,34 @@ public class ShowSearchView extends SearchView<Show>
 	}
 
 	@Override
-	protected SortableTableRow<Show> createRow(Show show)
+	protected SearchController<Show> createSearchController(TableController<Show> showTableController)
 	{
-		return new ShowTableRow(show);
-	}
-
-	@Override
-	protected Set<Show> doSearch(String searchText)
-	{
-		if (StringUtils.isEmpty(searchText)) return ShowManager.getInstance().getShows();
-		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-		else searchText="%"+searchText+"%";
-		Set<Show> shows=new HashSet<Show>();
-		shows.addAll(DBLoader.getInstance().loadSet(Show.class, null,
-													"title like ? or german_title like ? limit 1001",
-													searchText, searchText));
-		if (shows.size()<1001)
+		return new SearchController<Show>(showTableController)
 		{
-			shows.addAll(DBLoader.getInstance().loadSet(Show.class, "names",
-														"names.type=? and names.ref_id=shows.id and names.name like ?", Name.SHOW, searchText));
-		}
-		return shows;
+			@Override
+			protected Set<Show> doSearch(String searchText)
+			{
+				if (StringUtils.isEmpty(searchText)) return ShowManager.getInstance().getShows();
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				Set<Show> shows=new HashSet<Show>();
+				shows.addAll(DBLoader.getInstance().loadSet(Show.class, null,
+															"title like ? or german_title like ? limit 1001",
+															searchText, searchText));
+				if (shows.size()<1001)
+				{
+					shows.addAll(DBLoader.getInstance().loadSet(Show.class, "names",
+																"names.type=? and names.ref_id=shows.id and names.name like ?", Name.SHOW, searchText));
+				}
+				return shows;
+			}
+
+			@Override
+			protected SortableTableRow<Show> createRow(Show show)
+			{
+				return new ShowTableRow(show);
+			}
+		};
 	}
 
 	@Override

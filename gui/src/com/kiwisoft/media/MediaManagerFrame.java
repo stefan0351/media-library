@@ -43,8 +43,6 @@ public class MediaManagerFrame extends ApplicationFrame
 		JMenu menuFile=new JMenu("Import/Export");
 		menuFile.add(new ImportChangesAction(this));
 		menuFile.addSeparator();
-		menuFile.add(new ExportWebDatesAction());
-		menuFile.addSeparator();
 		menuFile.add(new TVTVDeLoaderAction(this));
 
 		JMenuBar menuBar=new JMenuBar();
@@ -70,7 +68,6 @@ public class MediaManagerFrame extends ApplicationFrame
 		editorFactory.setEditor(Genre.class, new GenreLookup());
 		editorFactory.setEditor(Country.class, new CountryLookup());
 		editorFactory.setEditor(Person.class, new PersonLookup());
-		editorFactory.setEditor(String.class, "FanFicPart", new TableDialogLookupEditor(new FanFicPartLookup()));
 		editorFactory.setEditor(String.class, "File", new TableDialogLookupEditor(new FileLookup(JFileChooser.FILES_ONLY, false)));
 		editorFactory.setEditor(String.class, "ExistingFile", new TableDialogLookupEditor(new FileLookup(JFileChooser.FILES_ONLY, true)));
 		editorFactory.setEditor(String.class, "Directory", new TableDialogLookupEditor(new FileLookup(JFileChooser.DIRECTORIES_ONLY, false)));

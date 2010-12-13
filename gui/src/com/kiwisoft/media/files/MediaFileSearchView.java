@@ -3,6 +3,7 @@ package com.kiwisoft.media.files;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchView;
+import com.kiwisoft.swing.SearchController;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
@@ -43,7 +44,7 @@ public class MediaFileSearchView extends SearchView<MediaFile>
 				actions.add(new ComplexAction("Manage", Icons.getIcon("manage"),
 											  new CheckPicturesAction(frame),
 											  new CreateThumbnailsAction(frame)));
-				actions.add(new PinAction(MediaFileSearchView.this));
+				actions.add(new PinAction(getSearchController()));
 				return actions;
 			}
 
@@ -67,19 +68,26 @@ public class MediaFileSearchView extends SearchView<MediaFile>
 	}
 
 	@Override
-	protected SortableTableRow<MediaFile> createRow(MediaFile object)
+	protected SearchController<MediaFile> createSearchController(TableController<MediaFile> mediaFileTableController)
 	{
-		return new MyRow(object);
-	}
+		return new SearchController<MediaFile>(mediaFileTableController)
+		{
+			@Override
+			protected Set<MediaFile> doSearch(String searchText)
+			{
+				if (StringUtils.isEmpty(searchText))
+					return DBLoader.getInstance().loadSet(MediaFile.class, null, "limit 1001");
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				return DBLoader.getInstance().loadSet(MediaFile.class, null, "name like ? limit 1001", searchText);
+			}
 
-	@Override
-	protected Set<MediaFile> doSearch(String searchText)
-	{
-		if (StringUtils.isEmpty(searchText))
-			return DBLoader.getInstance().loadSet(MediaFile.class, null, "limit 1001");
-		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-		else searchText="%"+searchText+"%";
-		return DBLoader.getInstance().loadSet(MediaFile.class, null, "name like ? limit 1001", searchText);
+			@Override
+			protected SortableTableRow<MediaFile> createRow(MediaFile object)
+			{
+				return new MyRow(object);
+			}
+		};
 	}
 
 	@Override

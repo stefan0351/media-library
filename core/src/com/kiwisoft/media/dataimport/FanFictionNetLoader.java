@@ -47,9 +47,7 @@ public class FanFictionNetLoader
 	{
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File("conf", "config.xml");
-		configuration.loadDefaultsFromFile(configFile);
-		configuration.loadUserValues("media"+File.separator+"dev-profile.xml");
+		configuration.loadDefaultsFromFile(new File("conf", "config-dev.xml"));
 
 		FanFictionNetLoader loader=new FanFictionNetLoader("http://www.fanfiction.net/s/5729523/1/Uninvited");
 		FanFicData data=loader.getInfo();

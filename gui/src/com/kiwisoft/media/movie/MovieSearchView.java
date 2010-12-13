@@ -7,6 +7,7 @@ import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchView;
+import com.kiwisoft.swing.SearchController;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.utils.StringUtils;
@@ -41,7 +42,7 @@ public class MovieSearchView extends SearchView<Movie>
 				actions.add(new MovieDetailsAction());
 				actions.add(new NewMovieAction(null));
 				actions.add(new DeleteMovieAction(frame, null));
-				actions.add(new PinAction(MovieSearchView.this));
+				actions.add(new PinAction(getSearchController()));
 				return actions;
 			}
 
@@ -69,22 +70,30 @@ public class MovieSearchView extends SearchView<Movie>
 	}
 
 	@Override
-	protected Set<Movie> doSearch(String searchText)
+	protected SearchController<Movie> createSearchController(TableController<Movie> movieTableController)
 	{
-		if (StringUtils.isEmpty(searchText)) return DBLoader.getInstance().loadSet(Movie.class, null, "limit 1001");
-		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-		else searchText="%"+searchText+"%";
-		Set<Movie> movies=new HashSet<Movie>();
-		movies.addAll(DBLoader.getInstance().loadSet(Movie.class, null,
-													 "title like ? or german_title like ? limit 1001",
-													 searchText, searchText));
-		if (movies.size()<1001)
+		return new SearchController<Movie>(movieTableController)
 		{
-			movies.addAll(DBLoader.getInstance().loadSet(Movie.class, "names",
-														 "names.type=? and names.ref_id=movies.id and names.name like ?", Name.MOVIE, searchText));
-		}
-		return movies;
+			@Override
+			protected Set<Movie> doSearch(String searchText)
+			{
+				if (StringUtils.isEmpty(searchText)) return DBLoader.getInstance().loadSet(Movie.class, null, "limit 1001");
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				Set<Movie> movies=new HashSet<Movie>();
+				movies.addAll(DBLoader.getInstance().loadSet(Movie.class, null,
+															 "title like ? or german_title like ? limit 1001",
+															 searchText, searchText));
+				if (movies.size()<1001)
+				{
+					movies.addAll(DBLoader.getInstance().loadSet(Movie.class, "names",
+																 "names.type=? and names.ref_id=movies.id and names.name like ?", Name.MOVIE, searchText));
+				}
+				return movies;
+			}
+		};
 	}
+
 
 	@Override
 	protected void installCollectionListener()

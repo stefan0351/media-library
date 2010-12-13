@@ -10,6 +10,7 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.PinAction;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchView;
+import com.kiwisoft.swing.SearchController;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.SortableTableRow;
@@ -41,7 +42,7 @@ public class MediumSearchView extends SearchView<Medium>
 				actions.add(new NewMediumAction());
 				actions.add(new DeleteMediumAction(frame));
 				actions.add(new TracksAction(frame));
-				actions.add(new PinAction(MediumSearchView.this));
+				actions.add(new PinAction(getSearchController()));
 //				actions.add(new CDDBAction(frame));
 				return actions;
 			}
@@ -73,9 +74,25 @@ public class MediumSearchView extends SearchView<Medium>
 	}
 
 	@Override
-	protected SortableTableRow<Medium> createRow(Medium object)
+	protected SearchController<Medium> createSearchController(TableController<Medium> mediumTableController)
 	{
-		return new MediaTableModel.Row(object);
+		return new SearchController<Medium>(mediumTableController)
+		{
+			@Override
+			protected Set<Medium> doSearch(String searchText)
+			{
+				if (StringUtils.isEmpty(searchText)) return MediumManager.getInstance().getAllMedia();
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				return DBLoader.getInstance().loadSet(Medium.class, null, "name like ? or userkey like ?", searchText, searchText);
+			}
+
+			@Override
+			protected SortableTableRow<Medium> createRow(Medium object)
+			{
+				return new MediaTableModel.Row(object);
+			}
+		};
 	}
 
 	@Override
@@ -85,13 +102,5 @@ public class MediumSearchView extends SearchView<Medium>
 		super.installCollectionListener();
 	}
 
-	@Override
-	protected Set<Medium> doSearch(String searchText)
-	{
-		if (StringUtils.isEmpty(searchText)) return MediumManager.getInstance().getAllMedia();
-		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-		else searchText="%"+searchText+"%";
-		return DBLoader.getInstance().loadSet(Medium.class, null, "name like ? or userkey like ?", searchText, searchText);
-	}
 
 }

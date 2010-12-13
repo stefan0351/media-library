@@ -140,7 +140,6 @@
 		<field name="sequence" column="sequence"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="name" column="name"/>
-		<field name="source" column="source"/>
 		<field name="type" column="type"/>
 		<field name="extension" column="extension"/>
 		<field name="encoding" column="encoding"/>

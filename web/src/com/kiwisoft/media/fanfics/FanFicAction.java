@@ -75,7 +75,7 @@ public class FanFicAction extends BaseAction
 			else if ("html".equals(part.getType()))
 			{
 				File contentFile=part.getContentFile();
-				html=contentFile!=null ? FileUtils.loadFile(contentFile) : "";
+				html=contentFile!=null ? FileUtils.loadFile(contentFile, part.getEncoding()) : "";
 			}
 		}
 		return super.execute();

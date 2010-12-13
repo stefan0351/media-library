@@ -66,14 +66,13 @@ public class MediaApplication extends Application
 	{
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 		SimpleConfiguration configuration=new SimpleConfiguration();
-		File configFile=new File("conf", "config.xml");
+		boolean developerMode="dev".equals(System.getProperty("media.database"));
+		File configFile=new File("conf",  developerMode ? "config-dev.xml" : "config.xml");
 		log.info("Loading default configuration from "+configFile.getAbsolutePath());
 		configuration.loadDefaultsFromFile(configFile);
 		try
 		{
-			String fileName;
-			if ("dev".equals(System.getProperty("media.database"))) fileName="dev-profile.xml";
-			else fileName="profile.xml";
+			String fileName=developerMode ? "profile-dev.xml" : "profile.xml";
 			String userValuesFile="media"+File.separator+fileName;
 			log.info("Loading user configuration from "+userValuesFile);
 			configuration.loadUserValues(userValuesFile);

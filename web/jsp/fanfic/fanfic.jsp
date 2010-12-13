@@ -31,6 +31,17 @@
 									value="name"/></a><s:if test="!#it.last">,</s:if>
 						</s:iterator>
 					</td></tr>
+					<s:if test="fanFic.parts.size()>1">
+						<tr class="content2" valign=top><td><b>Parts:</b></td><td>
+							<select onChange="self.location='<%=request.getContextPath()%>/FanFic.action?partId='+this.options[this.selectedIndex].value;">
+								<s:iterator value="fanFic.parts" status="it">
+									<option value="<s:property value="id"/>"
+											<s:if test="part.id==id">selected="selected"</s:if>
+											><s:property value="#it.count"/>. <s:property value="name"/>
+								</s:iterator>
+							</select>
+						</td></tr>
+					</s:if>
 					<s:if test="!fanFic.rating.empty">
 						<tr class="content2" valign=top><td><b>Rating:</b></td><td><s:property value="fanFic.rating"/></td></tr>
 					</s:if>

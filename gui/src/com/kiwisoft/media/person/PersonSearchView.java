@@ -12,6 +12,7 @@ import com.kiwisoft.media.PinAction;
 import com.kiwisoft.media.dataimport.TVTVDeLoaderContextAction;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchView;
+import com.kiwisoft.swing.SearchController;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -49,7 +50,7 @@ public class PersonSearchView extends SearchView<Person>
 				actions.add(new DeletePersonAction(frame));
 				actions.add(new ShowPersonCreditsAction(frame));
 				actions.add(new PersonAirdatesAction(frame));
-				actions.add(new PinAction(PersonSearchView.this));
+				actions.add(new PinAction(getSearchController()));
 				return actions;
 			}
 
@@ -82,26 +83,33 @@ public class PersonSearchView extends SearchView<Person>
 	}
 
 	@Override
+	protected SearchController<Person> createSearchController(TableController<Person> personTableController)
+	{
+		return new SearchController<Person>(personTableController)
+		{
+			@Override
+			protected Set<Person> doSearch(String searchText)
+			{
+				if (StringUtils.isEmpty(searchText)) return DBLoader.getInstance().loadSet(Person.class, null, "limit 1001");
+				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
+				else searchText="%"+searchText+"%";
+				Set<Person> persons=new HashSet<Person>();
+				persons.addAll(DBLoader.getInstance().loadSet(Person.class, null, "name like ? limit 1001", searchText));
+				if (persons.size()<1001)
+				{
+					persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id"+
+																						 " and names.name like ? limit "+(1001-persons.size()),
+																  Name.PERSON, searchText));
+				}
+				return persons;
+			}
+		};
+	}
+
+	@Override
 	protected void installCollectionListener()
 	{
 		getModelListenerList().addDisposable(PersonManager.getInstance().addCollectionChangeListener(new CollectionObserver(PersonManager.PERSONS)));
 		super.installCollectionListener();
-	}
-
-	@Override
-	protected Set<Person> doSearch(String searchText)
-	{
-		if (StringUtils.isEmpty(searchText)) return DBLoader.getInstance().loadSet(Person.class, null, "limit 1001");
-		if (searchText.contains("*")) searchText=searchText.replace('*', '%');
-		else searchText="%"+searchText+"%";
-		Set<Person> persons=new HashSet<Person>();
-		persons.addAll(DBLoader.getInstance().loadSet(Person.class, null, "name like ? limit 1001", searchText));
-		if (persons.size()<1001)
-		{
-			persons.addAll(DBLoader.getInstance().loadSet(Person.class, "names", "names.type=? and names.ref_id=persons.id"+
-																				 " and names.name like ? limit "+(1001-persons.size()),
-														  Name.PERSON, searchText));
-		}
-		return persons;
 	}
 }

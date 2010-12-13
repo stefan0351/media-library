@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<configuration>
+	<parameter name="proxy.use">false</parameter>
+	<parameter name="proxy.host">192.168.192.111</parameter>
+	<parameter name="proxy.port">3128</parameter>
+
+	<parameter name="path.root">C:\Users\Stefan\Java\media\tmp\data</parameter>
+
+	<parameter name="db.mappings">com/kiwisoft/media/db/mappings.xml</parameter>
+	<parameter name="db.driver">com.mysql.jdbc.Driver</parameter>
+	<parameter name="db.url">jdbc:mysql://localhost:3306/mediadev</parameter>
+	<parameter name="db.user">stefan</parameter>
+	<parameter name="db.password">bokada</parameter>
+	<parameter name="db.logChanges">true</parameter>
+	<parameter name="db.changeLog.dir">C:\Users\Stefan\Java\media\log</parameter>
+
+	<parameter name="fanfics.enabled">true</parameter>
+	<parameter name="fileStore.path">tmp\.files</parameter>
+</configuration>
