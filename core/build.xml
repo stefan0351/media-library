@@ -53,7 +53,7 @@
 		<tstamp>
 			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
 		</tstamp>
-		<jar file="${root.dir}/media-core.jar" update="off">
+		<jar file="${jars.dir}/medialib-core.jar" update="off" >
 			<manifest>
 				<attribute name="Built-By" value="KiwiSoft"/>
 				<attribute name="Built-Date" value="${build.date}"/>

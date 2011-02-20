@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<shortcuts>
+	<skipIfNotSupported/>
+	<programGroup defaultName="MediaLib" location="applications"/>
+	<shortcut name="MediaLib" workingDirectory="$INSTALL_PATH" target="$INSTALL_PATH/medialib.exe"
+			  applications="no" desktop="no" initialState="normal" programGroup="yes" startMenu="no" startup="no"/>
+	<shortcut name="Uninstall MediaLib" workingDirectory="$INSTALL_PATH" target="$INSTALL_PATH/uninstall.exe"
+			  applications="no" desktop="no" initialState="normal" programGroup="yes" startMenu="no" startup="no"/>
+	<shortcut name="Start MediaLib Server" workingDirectory="$INSTALL_PATH" target="$INSTALL_PATH/medialib-server.exe" commandLine="start"
+			  applications="no" desktop="no" initialState="noShow" programGroup="yes" startMenu="no" startup="no">
+		<createForPack name="Web Interface"/>
+	</shortcut>
+	<shortcut name="Stop MediaLib Server" workingDirectory="$INSTALL_PATH" target="$INSTALL_PATH/medialib-server.exe" commandLine="stop"
+			  applications="no" desktop="no" initialState="noShow" programGroup="yes" startMenu="no" startup="no">
+		<createForPack name="Web Interface"/>
+	</shortcut>
+</shortcuts>

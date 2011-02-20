@@ -16,7 +16,7 @@
 		<mkdir dir="${classes.dir}/gui"/>
 		<javac srcdir="${gui.module.dir}/src" destdir="${classes.dir}/gui" debug="true" deprecation="off">
 			<classpath>
-				<pathelement location="${root.dir}/media-core.jar"/>
+				<pathelement location="${jars.dir}/medialib-core.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-base.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-database.jar"/>
 				<pathelement location="${lib.dir}/kiwisoft_utils-collections.jar"/>
@@ -46,7 +46,7 @@
 		<tstamp>
 			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
 		</tstamp>
-		<jar file="${root.dir}/media-gui.jar" update="off">
+		<jar file="${jars.dir}/medialib-gui.jar" update="off">
 			<manifest>
 				<attribute name="Built-By" value="KiwiSoft"/>
 				<attribute name="Built-Date" value="${build.date}"/>
@@ -54,6 +54,7 @@
 					<attribute name="Implementation-Title" value="MediaLib/GUI"/>
 					<attribute name="Implementation-Vendor" value="KiwiSoft"/>
 				</section>
+				<attribute name="Main-Class" value="com.kiwisoft.media.MediaManager"/>
 			</manifest>
 			<fileset dir="${classes.dir}/gui"/>
 		</jar>

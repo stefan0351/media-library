@@ -16,7 +16,7 @@
 		<mkdir dir="${classes.dir}/web"/>
 		<javac srcdir="${web.module.dir}/src" destdir="${classes.dir}/web" debug="true" deprecation="off">
 			<classpath>
-				<pathelement location="${root.dir}/media-core.jar"/>
+				<pathelement location="${jars.dir}/medialib-core.jar"/>
 				<pathelement location="${root.dir}/tomcat/lib/servlet-api.jar"/>
                 <pathelement location="${root.dir}/tomcat/lib/jsp-api.jar"/>
                 <pathelement location="${root.dir}/tomcat/lib/jasper.jar"/>
@@ -50,7 +50,7 @@
 		<tstamp>
 			<format property="build.date" pattern="dd.MM.yyyy HH:mm:ss"/>
 		</tstamp>
-		<jar file="${root.dir}/media-web.jar" update="off">
+		<jar file="${jars.dir}/medialib-web.jar" update="off">
 			<manifest>
 				<attribute name="Built-By" value="KiwiSoft"/>
 				<attribute name="Built-Date" value="${build.date}"/>
@@ -109,9 +109,9 @@
 				<include name="htmlparser.jar"/>
 				<include name="velocity.jar"/>
 			</fileset>
-			<fileset dir="${root.dir}">
-				<include name="media-core.jar"/>
-				<include name="media-web.jar"/>
+			<fileset dir="${jars.dir}">
+				<include name="medialib-core.jar"/>
+				<include name="medialib-web.jar"/>
 			</fileset>
 		</copy>
 	</target>

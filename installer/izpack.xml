@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<installation version="1.0">
+	<info>
+		<appname>MediaLib</appname>
+		<appversion>3.0</appversion>
+		<authors>
+			<author email="stefan74@sstiller.de" name="Stefan Stiller"/>
+		</authors>
+		<uninstaller name="Uninstaller.jar" write="yes"/>
+		<javaversion>1.6</javaversion>
+		<requiresjdk>no</requiresjdk>
+		<writeinstallationinformation>yes</writeinstallationinformation>
+		<run-privileged condition="izpack.windowsinstall.vista|izpack.windowsinstall.7"/>
+	</info>
+	<guiprefs height="480" resizable="yes" width="640">
+		<modifier key="useFlags" value="yes"/>
+		<modifier key="langDisplayType" value="default"/>
+		<modifier key="useHeadingPanel" value="no"/>
+		<modifier key="headingPanelCounter" value="progressbar"/>
+		<modifier key="headingPanelCounterPos" value="inNavigationPanel"/>
+	</guiprefs>
+	<locale>
+		<langpack iso3="eng"/>
+	</locale>
+	<variables>
+		<variable name="JDBCConnection.jdbc.jar" value="$INSTALL_PATH/lib/mysql.jar"/>
+		<variable name="JDBCConnection.host" value="localhost"/>
+		<variable name="JDBCConnection.port" value="3306"/>
+	</variables>
+	<resources>
+		<res id="shortcutSpec.xml" src="installer/shortcuts.xml"/>
+	</resources>
+	<panels>
+		<panel classname="HelloPanel"/>
+		<panel classname="PacksPanel"/>
+		<panel classname="TargetPanel"/>
+		<panel classname="SummaryPanel"/>
+		<panel classname="InstallPanel"/>
+		<panel classname="ShortcutPanel"/>
+		<panel classname="JDBCConnectionPanel"/>
+		<panel classname="SimpleFinishPanel"/>
+	</panels>
+	<packs>
+		<pack name="Base" preselected="yes" required="yes">
+			<description>Core Application with Java Swing UI</description>
+			<fileset dir="build/installer/core-files" targetdir="$INSTALL_PATH"/>
+
+			<!-- FanFics -->
+			<fileset dir=".files" targetdir="$INSTALL_PATH/.files"/>
+
+			<file src="installer/set-permissions.bat" targetdir="$INSTALL_PATH" condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" />
+			<parsable targetfile="$INSTALL_PATH/set-permissions.bat" condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" />
+			<executable targetfile="$INSTALL_PATH/set-permissions.bat" condition="izpack.windowsinstall.vista|izpack.windowsinstall.7" keep="false" stage="postinstall" />
+		</pack>
+		<pack name="Web Interface" preselected="yes" required="no">
+			<description>TomCat web server with MediaLib application</description>
+			<fileset dir="." targetdir="$INSTALL_PATH/">
+				<include name="tomcat/**"/>
+				<exclude name="tomcat/work/**"/>
+				<exclude name="tomcat/temp/**/*.*"/>
+				<exclude name="tomcat/logs/**/*.*"/>
+			</fileset>
+			<file src="installer/medialib-server.exe" targetdir="$INSTALL_PATH/"/>
+		</pack>
+	</packs>
+	<native name="ShellLink.dll" type="izpack"/>
+	<native name="ShellLink_x64.dll" type="izpack"/>
+</installation>

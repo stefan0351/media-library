@@ -4,9 +4,15 @@
 
 	<property name="root.dir" location="${basedir}"/>
 	<property name="lib.dir" location="${root.dir}/lib"/>
-	<property name="build.dir" location="${root.dir}/tmp"/>
+	<property name="build.dir" location="${root.dir}/build"/>
 	<property name="classes.dir" location="${build.dir}/classes"/>
+	<property name="jars.dir" location="${build.dir}/jars"/>
 	<property name="dump.dir" location="${basedir}/db/dumps"/>
+	<property name="installer.dir" location="${basedir}/installer"/>
+
+	<property name="jflex.home" location="c:/Java/tools/jflex/1.4.3"/>
+	<property name="izpack.home" location="c:/Java/tools/izpack"/>
+	<property name="launch4j.home" location="c:/Java/tools/launch4j"/>
 
 	<patternset id="resource.pattern">
 		<include name="**/*.jpg"/>
@@ -25,5 +31,8 @@
 	</path>
 
 	<taskdef name="jflex" classname="JFlex.anttask.JFlexTask" classpathref="jflex.classpath"/>
+	<taskdef name="izpack" classname="com.izforge.izpack.ant.IzPackTask" classpath="${izpack.home}/lib/compiler.jar"/>
+	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask" classpath="${launch4j.home}/launch4j.jar :${launch4j.home}/lib/xstream.jar"/>
+
 
 </project>
