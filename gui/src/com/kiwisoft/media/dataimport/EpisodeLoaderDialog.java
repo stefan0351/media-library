@@ -9,11 +9,13 @@ import com.kiwisoft.swing.ButtonDialog;
 import com.kiwisoft.swing.ComponentUtils;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
+import com.kiwisoft.swing.actions.MultiContextAction;
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.progress.JobFinishListener;
 import com.kiwisoft.swing.progress.SmallProgressDialog;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -87,11 +89,12 @@ public class EpisodeLoaderDialog extends ButtonDialog
 											  unmatchAction,
 											  null,
 											  new RematchAllAction()));
-				actions.add(new ComplexAction("Select...", null,
-											  new SelectNewAction(),
-											  new SelectAllAction(),
+				actions.add(new ComplexAction("Mark...", null,
+											  new MarkNewAction(),
+											  new MarkAllAction(),
+											  new MarkSelectedAction(),
 											  null,
-											  new UnselectAllAction()));
+											  new UnmarkAllAction()));
 				return actions;
 			}
 
@@ -214,8 +217,15 @@ public class EpisodeLoaderDialog extends ButtonDialog
 	{
 		for (EpisodeData episodeData : dataList)
 		{
-			Episode episode=ShowManager.getInstance().getEpisodeByName(show, episodeData.getTitle());
-			comparisonPanel.setMatch(episodeData, episode);
+			try
+			{
+				Episode episode=ShowManager.getInstance().getEpisodeByName(show, episodeData.getTitle());
+				comparisonPanel.setMatch(episodeData, episode);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Failed to match episode: "+episodeData.getTitle());
+			}
 		}
 		comparisonPanel.repaint();
 	}
@@ -419,9 +429,9 @@ public class EpisodeLoaderDialog extends ButtonDialog
 		}
 	}
 
-	private class SelectNewAction extends ContextAction
+	private class MarkNewAction extends ContextAction
 	{
-		private SelectNewAction()
+		private MarkNewAction()
 		{
 			super("New");
 		}
@@ -437,9 +447,27 @@ public class EpisodeLoaderDialog extends ButtonDialog
 		}
 	}
 
-	private class SelectAllAction extends ContextAction
+	private class MarkSelectedAction extends MultiContextAction
 	{
-		private SelectAllAction()
+		private MarkSelectedAction()
+		{
+			super(EpisodeData.class, "Selected");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			List<EpisodeData> episodes=Utils.cast(getObjects());
+			for (EpisodeData episode : episodes)
+			{
+				((EpisodeDataRow) episodeDataModel.getRowForObject(episode)).setSelected(true);
+			}
+		}
+	}
+
+	private class MarkAllAction extends ContextAction
+	{
+		private MarkAllAction()
 		{
 			super("All");
 		}
@@ -454,9 +482,9 @@ public class EpisodeLoaderDialog extends ButtonDialog
 		}
 	}
 
-	private class UnselectAllAction extends ContextAction
+	private class UnmarkAllAction extends ContextAction
 	{
-		private UnselectAllAction()
+		private UnmarkAllAction()
 		{
 			super("Unselect All");
 		}
