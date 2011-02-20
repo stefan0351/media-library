@@ -102,6 +102,15 @@ public class SearchBar extends JToolBar
 		previousAction=new FindPreviousAction();
 		hideAction=new HideAction();
 
+		InputMap inputMap=getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "hide");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "next-match");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "prev-match");
+		ActionMap actionMap=getActionMap();
+		actionMap.put("hide", hideAction);
+		actionMap.put("next-match", nextAction);
+		actionMap.put("prev-match", previousAction);
+
 		highlightPainter=new ReverseDefaultHighlighter.DefaultHighlightPainter(new Color(200, 255, 200));
 
 		expressionField=new JTextField(20);
@@ -109,16 +118,14 @@ public class SearchBar extends JToolBar
 		expressionField.setMinimumSize(new Dimension(100, height));
 		expressionField.setPreferredSize(new Dimension(200, height));
 		expressionField.setMaximumSize(new Dimension(200, height));
-		expressionField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "next-match");
-		expressionField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "prev-match");
-		expressionField.getActionMap().put("next-match", nextAction);
-		expressionField.getActionMap().put("prev-match", previousAction);
 
 		regExpField=new JCheckBox("Regular expression");
+		regExpField.setMnemonic('r');
 		regExpField.setOpaque(false);
 		regExpField.setFocusable(false);
 
 		caseSensitiveField=new JCheckBox("Case sensitive");
+		caseSensitiveField.setMnemonic('c');
 		caseSensitiveField.setOpaque(false);
 		caseSensitiveField.setFocusable(false);
 
@@ -192,6 +199,13 @@ public class SearchBar extends JToolBar
 		matches.clear();
 		selectedMatch=-1;
 		messageLabel.setText("");
+		updateActions();
+	}
+
+	private void updateActions()
+	{
+		nextAction.setEnabled(!matches.isEmpty() && selectedMatch+1<matches.size());
+		previousAction.setEnabled(!matches.isEmpty() && selectedMatch-1>=0);
 	}
 
 	private void selectNext()
@@ -203,6 +217,7 @@ public class SearchBar extends JToolBar
 			textComponent.select(highlight.getStartOffset(), highlight.getEndOffset());
 			textComponent.getCaret().setSelectionVisible(true);
 		}
+		updateActions();
 	}
 
 	private void selectPrevious()
@@ -214,6 +229,7 @@ public class SearchBar extends JToolBar
 			textComponent.select(highlight.getStartOffset(), highlight.getEndOffset());
 			textComponent.getCaret().setSelectionVisible(true);
 		}
+		updateActions();
 	}
 
 	@Override
@@ -230,7 +246,6 @@ public class SearchBar extends JToolBar
 
 	private class HideAction extends ContextAction
 	{
-
 		private HideAction()
 		{
 			super("Hide", Icons.getIcon("cancel"));
@@ -240,6 +255,7 @@ public class SearchBar extends JToolBar
 		public void actionPerformed(ActionEvent e)
 		{
 			setVisible(false);
+			textComponent.requestFocus();
 		}
 
 	}
@@ -249,7 +265,7 @@ public class SearchBar extends JToolBar
 		private FindNextAction()
 		{
 			super("Next", Icons.getIcon("move.down"));
-			//setEnabled(false);
+			setEnabled(false);
 		}
 
 		@Override
@@ -264,6 +280,7 @@ public class SearchBar extends JToolBar
 		private FindPreviousAction()
 		{
 			super("Previous", Icons.getIcon("move.up"));
+			setEnabled(false);
 		}
 
 		@Override
