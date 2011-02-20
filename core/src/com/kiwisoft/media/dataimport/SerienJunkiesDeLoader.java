@@ -80,7 +80,7 @@ public class SerienJunkiesDeLoader implements EpisodeLoader
 						log.debug("Episode key: "+episodeKey);
 
 						CompositeTag titleNode=(CompositeTag) cellNodes.elementAt(2);
-						CompositeTag germanTitleNode=(CompositeTag) cellNodes.elementAt(3);
+						CompositeTag germanTitleNode=(CompositeTag) cellNodes.elementAt(4);
 						CompositeTag infoNode=(CompositeTag) cellNodes.elementAt(7);
 
 
@@ -120,12 +120,11 @@ public class SerienJunkiesDeLoader implements EpisodeLoader
 		Parser parser=new Parser();
 		parser.setInputHTML(page);
 
-		CompositeTag tableNode=(CompositeTag) HtmlUtils.findFirst(parser, "table#epdetails");
-		CompositeTag summaryCell=(CompositeTag) HtmlUtils.findFirst(tableNode, "td[colspan=\"2\"]");
-		if (summaryCell!=null)
+		CompositeTag summaryNode=(CompositeTag) HtmlUtils.findFirst(parser, "span.summary");
+		if (summaryNode!=null)
 		{
 			StringBuilder summary=new StringBuilder();
-			NodeList paragraphs=HtmlUtils.findAll(summaryCell, "p");
+			NodeList paragraphs=HtmlUtils.findAll(summaryNode, "p");
 			for (NodeIterator it=paragraphs.elements(); it.hasMoreNodes();)
 			{
 				TagNode paragraph=(TagNode) it.nextNode();
