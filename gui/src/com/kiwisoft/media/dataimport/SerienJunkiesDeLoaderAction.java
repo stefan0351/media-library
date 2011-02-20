@@ -27,7 +27,11 @@ public class SerienJunkiesDeLoaderAction extends SimpleContextAction
 									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
 									"s.id=? and links.url like ?",
 									show.getId(), "http://www.serienjunkies.de/%/%");
-		EpisodeLoaderLinkDialog dialog=new EpisodeLoaderLinkDialog(parent, show, link, "SerienJunkies.de - "+show.getTitle(LanguageManager.GERMAN), LanguageManager.GERMAN);
+		EpisodeLoaderLinkDialog dialog=new EpisodeLoaderLinkDialog(parent, show, "Load Episodes from SerienJunkies.de");
+		dialog.setLink(link);
+		dialog.setLinkName("SerienJunkies.de - "+show.getTitle(LanguageManager.GERMAN));
+		dialog.setLinkLanguage(LanguageManager.GERMAN);
+		dialog.setSearchSite("serienjunkies.de");
 		dialog.setVisible(true);
 		if (dialog.isOk())
 		{

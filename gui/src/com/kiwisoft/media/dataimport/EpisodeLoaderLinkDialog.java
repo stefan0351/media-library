@@ -1,39 +1,41 @@
 package com.kiwisoft.media.dataimport;
 
-import static java.awt.GridBagConstraints.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.net.URL;
-import java.net.MalformedURLException;
-import javax.swing.*;
-
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.Link;
 import com.kiwisoft.media.Language;
-import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.InvalidDataException;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
+import com.kiwisoft.swing.*;
+import com.kiwisoft.swing.icons.Icons;
+import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.websearch.GoogleSearch;
+import com.kiwisoft.utils.websearch.GoogleSearchAction;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static java.awt.GridBagConstraints.*;
 
 public class EpisodeLoaderLinkDialog extends JDialog
 {
 	private JTextField showField;
-	private JTextField urlField;
+	private ActionField urlField;
 	private boolean returnValue;
 	private Show show;
 	private Link link;
 	private String linkName;
 	private Language linkLanguage;
+	private GoogleSearch search;
 
-	protected EpisodeLoaderLinkDialog(Window frame, Show show, Link link, String linkName, Language linkLanguage)
+	protected EpisodeLoaderLinkDialog(Window frame, Show show, String title)
 	{
-		super(frame, "Load Episode from TV.com", ModalityType.APPLICATION_MODAL);
+		super(frame, title, ModalityType.APPLICATION_MODAL);
 		this.show=show;
-		this.link=link;
-		this.linkName=linkName;
-		this.linkLanguage=linkLanguage;
+		search=new GoogleSearch();
+		search.setResultsPerPage(50);
 		createContentPanel();
 		initializeData();
 		pack();
@@ -43,12 +45,32 @@ public class EpisodeLoaderLinkDialog extends JDialog
 	private void initializeData()
 	{
 		showField.setText(show.getTitle());
+	}
+
+	public void setLink(Link link)
+	{
+		this.link=link;
 		if (link!=null) urlField.setText(link.getUrl());
+	}
+
+	public void setLinkLanguage(Language linkLanguage)
+	{
+		this.linkLanguage=linkLanguage;
+	}
+
+	public void setLinkName(String linkName)
+	{
+		this.linkName=linkName;
+	}
+
+	public void setSearchSite(String searchSite)
+	{
+		search.setSite(searchSite);
 	}
 
 	private void createContentPanel()
 	{
-		urlField=new JTextField(40);
+		urlField=new ActionField(40, new GoogleSearchAction(search, show.getTitle()));
 		showField=new JTextField(40);
 		showField.setEditable(false);
 

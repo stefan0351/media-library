@@ -3,6 +3,7 @@ package com.kiwisoft.media.dataimport;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
+import com.kiwisoft.media.Language;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Link;
 import com.kiwisoft.media.LanguageManager;
@@ -28,7 +29,11 @@ public class TVComLoaderAction extends SimpleContextAction
 									"_ join linkgroups lg on lg.id=links.linkgroup_id join shows s on s.linkgroup_id=lg.id",
 									"s.id=? and links.url like ?",
 									show.getId(), "http://www.tv.com/%/show/%/%");
-		EpisodeLoaderLinkDialog dialog=new EpisodeLoaderLinkDialog(parent, show, link, "TV.com - "+show.getTitle()+" - Episode List", LanguageManager.ENGLISH);
+		EpisodeLoaderLinkDialog dialog=new EpisodeLoaderLinkDialog(parent, show, "Load Episodes from TV.com");
+		dialog.setLink(link);
+		dialog.setLinkName("TV.com - "+show.getTitle()+" - Episode List");
+		dialog.setLinkLanguage(LanguageManager.ENGLISH);
+		dialog.setSearchSite("tv.com");
 		dialog.setVisible(true);
 		if (dialog.isOk())
 		{
