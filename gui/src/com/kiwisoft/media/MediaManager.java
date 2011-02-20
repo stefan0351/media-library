@@ -2,8 +2,6 @@ package com.kiwisoft.media;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.*;
-import java.awt.datatransfer.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Locale;
@@ -17,6 +15,8 @@ import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.media.dataimport.LinkHttpHandler;
+import com.kiwisoft.media.dataimport.FanFictionNetLinkHandler;
+import com.kiwisoft.media.dataimport.LinkCollector;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.files.MediaFileIconFormat;
 import com.kiwisoft.format.FormatManager;
@@ -60,6 +60,16 @@ public class MediaManager
 		});
 		splashWindow.dispose();
 		startHttpListener(frame);
+		initLinkCollector();
+	}
+
+	private static void initLinkCollector()
+	{
+		LinkCollector linkCollector=LinkCollector.getInstance();
+		if (MediaConfiguration.isFanFicsEnabled())
+		{
+			linkCollector.addHandler("\\bhttp://www.fanfiction.net/s/.*\\b", new FanFictionNetLinkHandler());
+		}
 	}
 
 	private static void startHttpListener(final MediaManagerFrame frame)

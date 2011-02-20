@@ -3,6 +3,8 @@ package com.kiwisoft.media;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.*;
 import javax.swing.*;
 
 import com.kiwisoft.app.ApplicationFrame;
@@ -16,16 +18,14 @@ import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonLookup;
 import com.kiwisoft.media.person.PersonsTask;
-import com.kiwisoft.media.person.PersonLookupHandler;
 import com.kiwisoft.media.photos.PhotosTask;
 import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.show.ShowsTask;
-import com.kiwisoft.media.show.ShowManager;
-import com.kiwisoft.media.show.Show;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
 import com.kiwisoft.swing.table.TableEditorFactory;
+import com.kiwisoft.swing.icons.Icons;
 
 public class MediaManagerFrame extends ApplicationFrame
 {
@@ -48,6 +48,28 @@ public class MediaManagerFrame extends ApplicationFrame
 		JMenuBar menuBar=new JMenuBar();
 		menuBar.add(menuFile);
 		return menuBar;
+	}
+
+	@Override
+	protected JToolBar createToolBar()
+	{
+		final JToggleButton linkGrabberButton=new JToggleButton(Icons.getIcon("clipboard"));
+		linkGrabberButton.setSelected(LinkCollector.getInstance().isStarted());
+		linkGrabberButton.setMargin(new Insets(2, 2, 2, 2));
+		linkGrabberButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if (linkGrabberButton.isSelected()) LinkCollector.getInstance().start();
+				else LinkCollector.getInstance().stop();
+			}
+		});
+
+		JToolBar toolBar=super.createToolBar();
+		toolBar.addSeparator();
+		toolBar.add(linkGrabberButton);
+		return toolBar;
 	}
 
 	@Override

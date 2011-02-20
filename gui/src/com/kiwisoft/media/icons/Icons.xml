@@ -141,4 +141,7 @@
 	<icon key="pin">
 		<resource url="/com/kiwisoft/media/icons/pin.gif"/>
 	</icon>
+	<icon key="clipboard">
+		<resource url="/com/kiwisoft/media/icons/clipboard.png"/>
+	</icon>
 </icons>

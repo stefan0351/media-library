@@ -145,6 +145,7 @@ public class LinkGroup extends IDObject implements Linkable
 	@Override
 	public void delete()
 	{
+		// todo remove from linkable (Shows, FanDoms)
 		for (LinkGroup group : new HashSet<LinkGroup>(getSubGroups())) dropSubGroup(group);
 		for (Link link : new HashSet<Link>(getLinks())) dropLink(link);
 		super.delete();

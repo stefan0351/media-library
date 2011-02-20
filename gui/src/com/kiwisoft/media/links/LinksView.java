@@ -1,19 +1,11 @@
 package com.kiwisoft.media.links;
 
-import java.awt.Point;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.LinkedList;
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-import javax.swing.tree.TreePath;
-
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.media.*;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.LinkGroup;
+import com.kiwisoft.media.LinkManager;
+import com.kiwisoft.media.MediaTransferable;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
@@ -25,22 +17,32 @@ import com.kiwisoft.swing.tree.GenericTreeNode;
 import com.kiwisoft.swing.tree.TreeController;
 import com.kiwisoft.swing.tree.TreeUtils;
 
+import javax.swing.*;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * @author Stefan Stiller
  */
 public class LinksView extends ViewPanel
 {
 	private TreeController treeController;
-	private Linkable linkable;
+	private LinkGroup linkGroup;
 
 	public LinksView()
 	{
 		this(null);
 	}
 
-	public LinksView(Linkable linkable)
+	public LinksView(LinkGroup linkGroup)
 	{
-		this.linkable=linkable;
+		this.linkGroup=linkGroup;
 		setTitle("Links");
 	}
 
@@ -103,25 +105,14 @@ public class LinksView extends ViewPanel
 		GenericTree tree=treeController.getTree();
 		LinksRootNode rootNode=new LinksRootNode();
 		tree.setRoot(rootNode);
-		if (linkable!=null)
+		if (linkGroup!=null)
 		{
-			LinkGroup linkGroup=linkable.getLinkGroup(false);
-			if (linkGroup!=null)
+			TreePath groupPath=getLinkGroupPath(linkGroup);
+			TreePath treePath=TreeUtils.findByUserObjectPath(rootNode, groupPath);
+			if (treePath!=null)
 			{
-				TreePath groupPath=getLinkGroupPath(linkGroup);
-				TreePath treePath=TreeUtils.findByUserObjectPath(rootNode, groupPath);
-				if (treePath!=null)
-				{
-					tree.expandPath(treePath);
-					tree.setSelectionPath(treePath);
-				}
-			}
-			else
-			{
-				rootNode.children(); // loads children
-				LinkableNode linkableNode=new LinkableNode(linkable);
-				rootNode.addChild(linkableNode);
-				tree.setSelectionPath(TreeUtils.getPathToRoot(linkableNode));
+				tree.expandPath(treePath);
+				tree.setSelectionPath(treePath);
 			}
 		}
 		super.initializeData();
@@ -158,7 +149,7 @@ public class LinksView extends ViewPanel
 		@Override
 		public int getSourceActions(JComponent c)
 		{
-			GenericTree tree=(GenericTree)c;
+			GenericTree tree=(GenericTree) c;
 			if (tree.getSelectionCount()==1) return COPY+MOVE;
 			else return NONE;
 		}
@@ -166,12 +157,12 @@ public class LinksView extends ViewPanel
 		@Override
 		protected Transferable createTransferable(JComponent c)
 		{
-			List objects=TreeUtils.getSelectedObjects((GenericTree)c);
+			List objects=TreeUtils.getSelectedObjects((GenericTree) c);
 			if (objects.size()==1)
 			{
 				Object object=objects.get(0);
-				if (object instanceof Link) return new MediaTransferable(Link.class, ((Link)object).getId());
-				else if (object instanceof LinkGroup) return new MediaTransferable(LinkGroup.class, ((LinkGroup)object).getId());
+				if (object instanceof Link) return new MediaTransferable(Link.class, ((Link) object).getId());
+				else if (object instanceof LinkGroup) return new MediaTransferable(LinkGroup.class, ((LinkGroup) object).getId());
 			}
 			return null;
 		}
@@ -185,7 +176,7 @@ public class LinksView extends ViewPanel
 		@Override
 		public boolean importData(TransferSupport support)
 		{
-			GenericTree tree=(GenericTree)support.getComponent();
+			GenericTree tree=(GenericTree) support.getComponent();
 			Point dropLocation=support.getDropLocation().getDropPoint();
 			TreePath path=tree.getPathForLocation(dropLocation.x, dropLocation.y);
 			Transferable transferable=support.getTransferable();
@@ -194,7 +185,7 @@ public class LinksView extends ViewPanel
 				Object draggedObject=transferable.getTransferData(MediaTransferable.DATA_FLAVOR);
 				if (path!=null)
 				{
-					GenericTreeNode targetNode=(GenericTreeNode)path.getLastPathComponent();
+					GenericTreeNode targetNode=(GenericTreeNode) path.getLastPathComponent();
 					return dragObject(draggedObject, targetNode.getUserObject(), support.getUserDropAction());
 				}
 				else
@@ -229,10 +220,10 @@ public class LinksView extends ViewPanel
 		{
 			if (draggedObject instanceof LinkGroup)
 			{
-				final LinkGroup draggedGroup=(LinkGroup)draggedObject;
+				final LinkGroup draggedGroup=(LinkGroup) draggedObject;
 				if (target!=draggedObject && draggedGroup.getParentGroup()!=target && (target==null || target instanceof LinkGroup))
 				{
-					final LinkGroup targetGroup=(LinkGroup)target;
+					final LinkGroup targetGroup=(LinkGroup) target;
 					return DBSession.execute(new Transactional()
 					{
 						@Override
@@ -256,10 +247,10 @@ public class LinksView extends ViewPanel
 			}
 			else if (draggedObject instanceof Link)
 			{
-				final Link draggedLink=(Link)draggedObject;
+				final Link draggedLink=(Link) draggedObject;
 				if (target instanceof LinkGroup && draggedLink.getGroup()!=target)
 				{
-					final LinkGroup targetGroup=(LinkGroup)target;
+					final LinkGroup targetGroup=(LinkGroup) target;
 					return DBSession.execute(new Transactional()
 					{
 						@Override
@@ -286,10 +277,10 @@ public class LinksView extends ViewPanel
 		{
 			if (draggedObject instanceof LinkGroup)
 			{
-				final LinkGroup draggedGroup=(LinkGroup)draggedObject;
+				final LinkGroup draggedGroup=(LinkGroup) draggedObject;
 				if (target!=draggedGroup && target instanceof LinkGroup)
 				{
-					final LinkGroup targetGroup=(LinkGroup)target;
+					final LinkGroup targetGroup=(LinkGroup) target;
 					if (!targetGroup.isRelatedGroup(draggedGroup))
 					{
 						return DBSession.execute(new Transactional()

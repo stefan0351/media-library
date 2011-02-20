@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.File;
+import java.net.URL;
 
 import org.htmlparser.Parser;
 import org.htmlparser.Node;
@@ -18,6 +19,7 @@ import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.CompositeTag;
 import org.htmlparser.tags.ScriptTag;
 import org.htmlparser.tags.OptionTag;
+import org.htmlparser.tags.LinkTag;
 import org.htmlparser.filters.TagNameFilter;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.HasAttributeFilter;
@@ -25,6 +27,7 @@ import org.htmlparser.util.ParserException;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.SimpleNodeIterator;
+import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * @author Stefan Stiller
@@ -43,7 +46,12 @@ public class FanFictionNetLoader
 		if (matcher.matches()) baseUrl=matcher.group(1);
 	}
 
-	public static void main(String[] args) throws IOException, ParserException
+	public String getBaseUrl()
+	{
+		return baseUrl;
+	}
+
+	public static void main(String[] args) throws Exception
 	{
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
@@ -51,11 +59,15 @@ public class FanFictionNetLoader
 
 		FanFictionNetLoader loader=new FanFictionNetLoader("http://www.fanfiction.net/s/5729523/1/Uninvited");
 		FanFicData data=loader.getInfo();
-		System.out.println(data.getTitle());
-		System.out.println(data.getChapterCount());
-		System.out.println(data.getChapters());
-		System.out.println(data.getSummary());
-		System.out.println(data.isComplete());
+		System.out.println("title: "+data.getTitle());
+		System.out.println("author: "+data.getAuthor());
+		System.out.println("author-url: "+data.getAuthorUrl());
+		System.out.println("domain: "+data.getDomain());
+		System.out.println("domain-url: "+data.getDomainUrl());
+		System.out.println("summary: "+data.getSummary());
+		System.out.println("chapterCount: "+data.getChapterCount());
+		System.out.println("chapters: "+data.getChapters());
+		System.out.println("complete: "+data.isComplete());
 		for (int i=1;i<=data.getChapterCount();i++)
 		{
 			System.out.println(i+". "+(data.getChapterCount()>1 ? data.getChapters().get(i-1) : data.getTitle()));
@@ -64,7 +76,7 @@ public class FanFictionNetLoader
 		}
 	}
 
-	public FanFicData getInfo() throws IOException, ParserException
+	public FanFicData getInfo() throws Exception
 	{
 		firstPage=ImportUtils.loadUrl(baseUrl, "UTF-8");
 		return parseInfo(firstPage);
@@ -84,20 +96,28 @@ public class FanFictionNetLoader
 		return html;
 	}
 
-	private FanFicData parseInfo(String firstPage) throws ParserException
+	private FanFicData parseInfo(String firstPage) throws Exception
 	{
 		Parser parser=new Parser();
 		parser.setInputHTML(firstPage);
 		Node bodyNode=HtmlUtils.findFirst(parser, "body");
+
 		Node formNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("form"), new HasAttributeFilter("name", "myselect")));
 		ScriptTag scriptNode=(ScriptTag) HtmlUtils.findFirst((CompositeTag) formNode, "script");
 		String script=scriptNode.getScriptCode();
 
 		FanFicData fanFic=new FanFicData();
 		fanFic.setChapterCount(Integer.parseInt(RegExUtils.find(script, "var chapters\\s*=\\s*([0-9]+);", 1)));
-		fanFic.setSummary(RegExUtils.find(script, "var summary\\s*=\\s*'(.*)';", 1));
-		fanFic.setTitle(RegExUtils.find(script, "var title_t\\s*=\\s*'(.*)';", 1));
+		String summary=RegExUtils.find(script, "var\\s+summary\\s*=\\s*'(.*)'\\s*;", 1);
+		if (summary!=null) fanFic.setSummary(StringEscapeUtils.escapeJavaScript(summary));
+		String title=RegExUtils.find(script, "var\\s+title_t\\s*=\\s*'(.*)'\\s*;", 1);
+		if (title!=null) fanFic.setTitle(StringEscapeUtils.unescapeJavaScript(title));
 		fanFic.setComplete(RegExUtils.find(firstPage, " - (Complete) - id:[0-9]+ ", 1)!=null);
+		String authorId=RegExUtils.find(script, "var\\s+userid\\s*=\\s*([0-9]+)\\s*;", 1);
+		if (authorId!=null) fanFic.setAuthorUrl("http://www.fanfiction.net/u/"+authorId);
+		String author=RegExUtils.find(script, "var\\s+author\\s*=\\s*'(.*)'\\s*;", 1);
+		if (author!=null) fanFic.setAuthor(StringEscapeUtils.unescapeJavaScript(author));
+
 
 		if (!"1".equals(RegExUtils.find(script, "var chapters\\s*=\\s*([0-9]+);", 1)))
 		{
@@ -114,6 +134,27 @@ public class FanFictionNetLoader
 				chapters.add(chapterTitle);
 			}
 			fanFic.setChapters(chapters);
+		}
+
+		Node imageNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("img"), new HasAttributeFilter("src", "http://b.fanfiction.net/static/ficons/script.png")));
+		if (imageNode!=null)
+		{
+			LinkTag linkTag=null;
+			Node nextNode=imageNode;
+			do
+			{
+				nextNode=nextNode.getNextSibling();
+				if (nextNode instanceof LinkTag) linkTag=(LinkTag) nextNode;
+			}
+			while (nextNode!=null);
+			if (linkTag!=null)
+			{
+				String url=new URL(new URL(baseUrl), linkTag.getAttribute("href")).toString();
+				while (url.endsWith("/")) url=url.substring(0, url.length()-1);
+				fanFic.setDomainUrl(url);
+				fanFic.setDomain(linkTag.getLinkText());
+			}
+
 		}
 		return fanFic;
 	}
@@ -132,5 +173,4 @@ public class FanFictionNetLoader
 		}
 		return buffer.toString();
 	}
-
 }

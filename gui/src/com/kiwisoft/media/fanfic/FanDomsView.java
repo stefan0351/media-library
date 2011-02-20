@@ -18,6 +18,7 @@ import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.media.show.ShowLinksAction;
 
 /**
  * @author Stefan Stiller
@@ -70,6 +71,8 @@ public class FanDomsView extends ViewPanel implements Disposable
 				actions.add(new DeleteDomainAction(frame));
 				actions.add(null);
 				actions.add(new FanFicsAction(frame));
+				actions.add(null);
+				actions.add(new ShowLinksAction(frame));
 				return actions;
 			}
 

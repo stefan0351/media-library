@@ -10,10 +10,13 @@ public class FanFicData
 {
 	private String title;
 	private String author;
+	private String authorUrl;
 	private int chapterCount;
 	private List<String> chapters;
 	private String summary;
 	private boolean complete;
+	private String domainUrl;
+	private String domain;
 
 	public String getAuthor()
 	{
@@ -73,5 +76,35 @@ public class FanFicData
 	public boolean isComplete()
 	{
 		return complete;
+	}
+
+	public void setDomain(String domain)
+	{
+		this.domain=domain;
+	}
+
+	public String getDomain()
+	{
+		return domain;
+	}
+
+	public void setDomainUrl(String domainUrl)
+	{
+		this.domainUrl=domainUrl;
+	}
+
+	public String getDomainUrl()
+	{
+		return domainUrl;
+	}
+
+	public void setAuthorUrl(String authorUrl)
+	{
+		this.authorUrl=authorUrl;
+	}
+
+	public String getAuthorUrl()
+	{
+		return authorUrl;
 	}
 }

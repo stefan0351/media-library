@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.show.Show;
+import com.kiwisoft.media.Link;
+import com.kiwisoft.media.ContactMedium;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.utils.Disposable;
@@ -344,6 +346,25 @@ public class FanFicManager
 	{
 		fanFic.delete();
 		fireElementRemoved(FANFICS, fanFic);
+	}
+
+	public Set<FanFic> findFanFicsByUrl(String url)
+	{
+		return DBLoader.getInstance().loadSet(FanFic.class, null, "url like ?", url+"%");
+	}
+
+	public Set<FanDom> findFanDomsByUrl(String url)
+	{
+		return DBLoader.getInstance().loadSet(FanDom.class,
+										"_ join linkgroups lg on lg.id=fandoms.linkgroup_id join links l on l.linkgroup_id=lg.id",
+										"l.url like ?", url+"%");
+	}
+
+	public Set<Author> findAuthorsByUrl(String url)
+	{
+		return DBLoader.getInstance().loadSet(Author.class,
+										"_ join contactmedia cm on cm.author_id=fanficauthors.id",
+										"cm.type=? and cm.value like ?", ContactMedium.WEB, url+"%");
 	}
 
 	public Disposable addCollectionChangeListener(CollectionChangeListener listener)

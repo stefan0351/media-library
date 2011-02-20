@@ -17,6 +17,7 @@ import com.kiwisoft.utils.xml.XMLWriter;
 import com.kiwisoft.format.FormatStringComparator;
 
 /**
+ * todo allow assigning linkgroups to objects through gui
  * @author Stefan Stiller
  */
 public class LinkManager implements CollectionChangeSource
