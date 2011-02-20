@@ -9,6 +9,8 @@ import com.kiwisoft.text.TextController;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
 import javax.swing.undo.UndoManager;
 import javax.swing.text.*;
 import java.awt.*;
@@ -49,22 +51,47 @@ public class PreformatTextController extends TextController
 	@Override
 	protected JTextPane createTextField()
 	{
-		JTextPane textField=new JTextPane();
+		final JTextPane textField=new JTextPane();
 		textField.setEditorKit(new PreformatEditorKit());
 		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B, KeyEvent.CTRL_MASK), "font-bold");
 		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_I, KeyEvent.CTRL_MASK), "font-italic");
 		textField.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_MASK), "font-underline");
+		textField.addCaretListener(new CaretListener()
+		{
+			@Override
+			public void caretUpdate(CaretEvent e)
+			{
+				boolean selection=e.getDot()!=e.getMark();
+				for (SetStyleAction styleAction : styleActions)
+				{
+					styleAction.setEnabled(selection);
+				}
+			}
+		});
 		return textField;
 	}
 
+	private List<SetStyleAction> styleActions;
+
+	private List<SetStyleAction> getStyleActions()
+	{
+		if (styleActions==null)
+		{
+			styleActions=new ArrayList<SetStyleAction>();
+			styleActions.add(new SetStyleAction("Bold", Icons.getIcon("font.bold"), StyleConstants.Bold));
+			styleActions.add(new SetStyleAction("Italic", Icons.getIcon("font.italic"), StyleConstants.Italic));
+			styleActions.add(new SetStyleAction("Underline", Icons.getIcon("font.underline"), StyleConstants.Underline));
+			styleActions.add(new SetStyleAction("Subscript", Icons.getIcon("font.subscript"), StyleConstants.Subscript));
+			styleActions.add(new SetStyleAction("Superscript", Icons.getIcon("font.superscript"), StyleConstants.Superscript));
+		}
+		return styleActions;
+	}
+
+	@Override
 	protected List<ContextAction> getToolBarActions()
 	{
 		List<ContextAction> actions=new ArrayList<ContextAction>();
-		actions.add(new SetStyleAction("Bold", Icons.getIcon("font.bold"), StyleConstants.Bold));
-		actions.add(new SetStyleAction("Italic", Icons.getIcon("font.italic"), StyleConstants.Italic));
-		actions.add(new SetStyleAction("Underline", Icons.getIcon("font.underline"), StyleConstants.Underline));
-		actions.add(new SetStyleAction("Subscript", Icons.getIcon("font.subscript"), StyleConstants.Subscript));
-		actions.add(new SetStyleAction("Superscript", Icons.getIcon("font.superscript"), StyleConstants.Superscript));
+		actions.addAll(getStyleActions());
 		actions.add(null);
 		actions.addAll(super.getToolBarActions());
 		return actions;
@@ -78,6 +105,7 @@ public class PreformatTextController extends TextController
 		{
 			super(name, icon);
 			this.attribute=attribute;
+			setEnabled(false);
 		}
 
 		@Override
