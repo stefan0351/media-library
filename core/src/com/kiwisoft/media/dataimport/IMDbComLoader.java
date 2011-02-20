@@ -1,5 +1,6 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.html.CssNodeFilter;
 import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.html.PlainTextFilter;
 import com.kiwisoft.media.person.CreditType;
@@ -14,8 +15,12 @@ import org.htmlparser.filters.LinkRegexFilter;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.TagNameFilter;
 import org.htmlparser.tags.CompositeTag;
+import org.htmlparser.tags.LinkTag;
+import org.htmlparser.util.NodeIterator;
+import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,25 +52,26 @@ public class IMDbComLoader
 		String page=ImportUtils.loadUrl(url, connectionProperties);
 		MovieData movieData=parseMainPage(page);
 		movieData.setImdbKey(key);
+		URL baseUrl=new URL(url);
 		if (movieData.getCreditsLink()!=null)
 		{
-			page=ImportUtils.loadUrl(url+movieData.getCreditsLink(), connectionProperties);
+			page=ImportUtils.loadUrl(new URL(baseUrl, movieData.getCreditsLink()).toString(), connectionProperties);
 			parseCreditsPage(page, movieData);
 		}
 		if (movieData.getPlotSynopsisLink()!=null)
 		{
-			page=ImportUtils.loadUrl(url+movieData.getPlotSynopsisLink(), connectionProperties);
+			page=ImportUtils.loadUrl(new URL(baseUrl, movieData.getPlotSynopsisLink()).toString(), connectionProperties);
 			parseSynopsisPage(page, movieData);
 		}
 		if (StringUtils.isEmpty(movieData.getSummary()) && movieData.getPlotSummaryLink()!=null)
 		{
-			page=ImportUtils.loadUrl(url+movieData.getPlotSummaryLink(), connectionProperties);
+			page=ImportUtils.loadUrl(new URL(baseUrl, movieData.getPlotSummaryLink()).toString(), connectionProperties);
 			parseSummaryPage(page, movieData);
 		}
 		if (StringUtils.isEmpty(movieData.getSummary())) movieData.setSummary(movieData.getOutline());
 		if (movieData.getReleaseInfoLink()!=null)
 		{
-			page=ImportUtils.loadUrl(url+movieData.getReleaseInfoLink(), connectionProperties);
+			page=ImportUtils.loadUrl(new URL(baseUrl, movieData.getReleaseInfoLink()).toString(), connectionProperties);
 			parseReleaseInfoPage(page, movieData);
 		}
 		return movieData;
@@ -93,63 +99,76 @@ public class IMDbComLoader
 		optionTag=(Tag) HtmlUtils.findFirst(linksTag, new PlainTextFilter("release dates"));
 		if (optionTag!=null) movieData.setReleaseInfoLink(optionTag.getAttribute("value"));
 
-		CompositeTag titleTag=(CompositeTag) HtmlUtils.findFirst(bodyTag, "div#tn15title");
-		titleTag=(CompositeTag) HtmlUtils.findFirst(titleTag, "h1");
+		CompositeTag titleTag=(CompositeTag) HtmlUtils.findFirst(bodyTag, "h1.header");
 		CompositeTag spanTag=(CompositeTag) HtmlUtils.findFirst(titleTag, "span");
-		String title=page.substring(titleTag.getTagBegin()+4, spanTag.getTagBegin());
+		String title=page.substring(titleTag.getTagEnd(), spanTag.getTagBegin());
 		title=StringUtils.trimQuotes(HtmlUtils.trimUnescape(title));
 		movieData.setTitle(title);
-
-		CompositeTag linkTag=(CompositeTag) HtmlUtils.findFirst(titleTag, new LinkRegexFilter("/Sections/Years/\\d{4}"));
-		if (linkTag!=null)
+		spanTag=(CompositeTag) HtmlUtils.findFirst(titleTag, "span.title-extra");
+		if (spanTag!=null)
 		{
-			int index="/Sections/Years/".length();
-			movieData.setYear(Integer.valueOf(linkTag.getAttribute("href").substring(index, index+4)));
-		}
-
-		Node plotTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new TagNameFilter("h5"), new PlainTextFilter("Plot:")));
-		if (plotTag!=null)
-		{
-			plotTag=plotTag.getParent();
-			plotTag=HtmlUtils.findFirst((CompositeTag) plotTag, "div.info-content");
-			String outline=ImportUtils.toPreformattedText(plotTag.getChildren().elementAt(0).getText());
-			if (outline.endsWith("|")) outline=outline.substring(0, outline.length()-1).trim();
-			movieData.setOutline(outline);
-		}
-
-		Node runtimeTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new TagNameFilter("h5"), new PlainTextFilter("Runtime:")));
-		if (runtimeTag!=null)
-		{
-			runtimeTag=runtimeTag.getParent();
-			runtimeTag=HtmlUtils.findFirst((CompositeTag) runtimeTag, "div.info-content");
-			String value=StringUtils.splitAndTrim(runtimeTag.toPlainTextString(), "[/|]")[0];
-			pattern=Pattern.compile("\\w+:(\\d+) min");
-			matcher=pattern.matcher(value);
-			if (matcher.matches()) movieData.setRuntime(new Integer(matcher.group(1)));
-			else
+			title=HtmlUtils.trimUnescape(spanTag.toPlainTextString());
+			if (title.endsWith("(original title)"))
 			{
-				pattern=Pattern.compile("(\\d+) min");
-				matcher=pattern.matcher(value);
-				if (matcher.matches()) movieData.setRuntime(new Integer(matcher.group(1)));
+				title=title.substring(0, title.length()-"(original title)".length()).trim();
+				movieData.setTitle(title);
 			}
 		}
 
-		Node countryTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new TagNameFilter("h5"), new PlainTextFilter("Country:")));
+
+		CompositeTag yearTag=(CompositeTag) HtmlUtils.findFirst(titleTag, new LinkRegexFilter("/year/\\d{4}"));
+		if (yearTag!=null)
+		{
+			int index="/year/".length();
+			movieData.setYear(Integer.valueOf(yearTag.getAttribute("href").substring(index, index+4)));
+		}
+
+		Node plotTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new TagNameFilter("h2"), new PlainTextFilter("Storyline")));
+		if (plotTag!=null)
+		{
+			Node parentTag=plotTag.getParent();
+			String html=parentTag.toHtml(true);
+			int index1=html.indexOf("</h2>")+5;
+			int index2=html.indexOf("<span", index1);
+			if (index2>index1)
+			{
+				String outline=ImportUtils.toPreformattedText(html.substring(index1, index2).trim());
+				while (outline.startsWith("[br/]")) outline=outline.substring(5);
+				movieData.setOutline(outline);
+			}
+		}
+
+		Node infoTag=HtmlUtils.findFirst(bodyTag, "div.infobar");
+		if (infoTag!=null)
+		{
+			String value=infoTag.toHtml(true);
+			pattern=Pattern.compile("\\b(\\d+) min\\b");
+			matcher=pattern.matcher(value);
+			if (matcher.find()) movieData.setRuntime(new Integer(matcher.group(1)));
+		}
+
+		Node countryTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new CssNodeFilter("h4.inline"), new PlainTextFilter("Country:")));
 		if (countryTag!=null)
 		{
 			countryTag=countryTag.getParent();
-			countryTag=HtmlUtils.findFirst((CompositeTag) countryTag, "div.info-content");
-			String value=countryTag.toPlainTextString().trim();
-			for (String country : value.split("[/|]")) movieData.addCountry(new CountryData(country.trim()));
+			NodeList linkTags=HtmlUtils.findAll((CompositeTag) countryTag, "a");
+			for (NodeIterator it=linkTags.elements();it.hasMoreNodes();)
+			{
+				LinkTag linkTag=(LinkTag) it.nextNode();
+				movieData.addCountry(new CountryData(linkTag.toPlainTextString().trim()));
+			}
 		}
 
-		Node languageTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new TagNameFilter("h5"), new PlainTextFilter("Language:")));
+		Node languageTag=HtmlUtils.findFirst(bodyTag, new AndFilter(new CssNodeFilter("h4.inline"), new PlainTextFilter("Language:")));
 		if (languageTag!=null)
 		{
 			languageTag=languageTag.getParent();
-			languageTag=HtmlUtils.findFirst((CompositeTag) languageTag, "div.info-content");
-			String value=languageTag.toPlainTextString().trim();
-			for (String language : value.split("[/|]")) movieData.addLanguage(new LanguageData(language.trim()));
+			NodeList linkTags=HtmlUtils.findAll((CompositeTag) languageTag, "a");
+			for (NodeIterator it=linkTags.elements();it.hasMoreNodes();)
+			{
+				LinkTag linkTag=(LinkTag) it.nextNode();
+				movieData.addLanguage(new LanguageData(linkTag.toPlainTextString().trim()));
+			}
 		}
 		
 		return movieData;

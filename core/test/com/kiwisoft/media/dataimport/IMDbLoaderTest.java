@@ -20,6 +20,7 @@ public class IMDbLoaderTest extends TestCase
 	protected void setUp() throws Exception
 	{
 		super.setUp();
+		ImportUtils.USE_CACHE=true;
 		Locale.setDefault(Locale.UK);
 		SimpleConfiguration configuration=new SimpleConfiguration();
 		configuration.loadDefaultsFromFile(new File("conf", "config-dev.xml"));
@@ -79,7 +80,7 @@ public class IMDbLoaderTest extends TestCase
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
 		assertNotNull(movieData.getSummary());
-		assertEquals("A young girl discovers she can communicate with dolphins.", movieData.getOutline());
+		assertTrue(movieData.getOutline().startsWith("Alyssa is a troubled 14-year old, "));
 		assertTrue(movieData.getSummary().startsWith("Fourteen year old Alyssa"));
 		assertTrue(movieData.getSummary().endsWith("friend who hold the key."));
 	}
@@ -102,7 +103,7 @@ public class IMDbLoaderTest extends TestCase
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
 		assertNotNull(movieData.getSummary());
-		assertEquals("A larger lamp watches while a smaller, younger lamp plays exuberantly with a ball but doesn't pick up the knack of correct handling.", movieData.getOutline());
+		assertTrue(movieData.getOutline().startsWith("This was Pixar's first attempt"));
 		assertTrue(movieData.getSummary().startsWith("This was Pixar's first attempt"));
 		assertTrue(movieData.getSummary().endsWith("[i] Written by LIIT [/i]"));
 	}
@@ -126,7 +127,7 @@ public class IMDbLoaderTest extends TestCase
 		assertNotNull(movieData.getCreditsLink());
 		assertNotNull(movieData.getReleaseInfoLink());
 		assertNotNull(movieData.getSummary());
-		assertEquals("A rebellious Malibu princess is shipped off to a strict English boarding school by her father.", movieData.getOutline());
+		assertTrue(movieData.getOutline().startsWith("Since Malibu brat Poppy Moore's ma left,"));
 		assertTrue(movieData.getSummary().startsWith("Sixteen-year-old Poppy Moore"));
 		assertTrue(movieData.getSummary().endsWith("Poppy will remain at Abbey Mount."));
 	}
