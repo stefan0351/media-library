@@ -20,7 +20,7 @@ public class HtmlSourceTextController extends TextController
 	{
 		Icons.setResource("/com/kiwisoft/media/icons/Icons.xml");
 
-		JFrame frame=new JFrame("Preformatted Editor Test");
+		JFrame frame=new JFrame("HTML Source Editor");
 		HtmlSourceTextController editor=new HtmlSourceTextController();
 		editor.setText("<p>Line1</p>\n\n<p>Line 2</p>");
 		frame.setContentPane(editor.getComponent());
