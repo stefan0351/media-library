@@ -124,7 +124,12 @@ public class FanDom extends IDObject implements FanFicGroup, Comparable, Linkabl
 	public LinkGroup getLinkGroup(boolean create)
 	{
 		LinkGroup group=getLinkGroup();
-		if (group==null && create) setLinkGroup(group=LinkManager.getInstance().createRootGroup(getName()+" - FanFic"));
+		if (group==null && create)
+		{
+			if (getShow()!=null) group=getShow().getLinkGroup(true).createSubGroup("FanFic");
+			else group=LinkManager.getInstance().createRootGroup(getName()+" - FanFic");
+			setLinkGroup(group);
+		}
 		return group;
 	}
 
