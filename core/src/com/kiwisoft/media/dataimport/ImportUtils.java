@@ -59,9 +59,9 @@ public class ImportUtils
 
 	private static String replaceTags(String line, String name)
 	{
-		line=Pattern.compile("<"+name+" *>", Pattern.CASE_INSENSITIVE).matcher(line).replaceAll("["+name+"]");
+		line=Pattern.compile("<"+name+"[^>]*>", Pattern.CASE_INSENSITIVE).matcher(line).replaceAll("["+name+"]");
 		line=Pattern.compile("</"+name+" *>", Pattern.CASE_INSENSITIVE).matcher(line).replaceAll("[/"+name+"]");
-		line=Pattern.compile("<"+name+" */>", Pattern.CASE_INSENSITIVE).matcher(line).replaceAll("["+name+"/]");
+		line=Pattern.compile("<"+name+"[^>]*/>", Pattern.CASE_INSENSITIVE).matcher(line).replaceAll("["+name+"/]");
 		return line;
 	}
 
