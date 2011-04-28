@@ -47,12 +47,10 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	private String title;
 	private String germanTitle;
 	private Set<Name> altNames;
-	private boolean internet;
 	private int defaultEpisodeLength;
 	private Chain<Episode> episodes;
 	private Set<Movie> movies;
 	private Set<Season> seasons;
-	private String webDatesFile;
 	private Set<ShowInfo> infos;
 	private Integer startYear, endYear;
 	private String indexBy;
@@ -235,18 +233,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		setModified("userKey", oldKey, this.userKey);
 	}
 
-	public boolean isInternet()
-	{
-		return internet;
-	}
-
-	public void setInternet(boolean internet)
-	{
-		boolean oldInternet=this.internet;
-		this.internet=internet;
-		setModified("internet", oldInternet, this.internet);
-	}
-
 	public int getDefaultEpisodeLength()
 	{
 		return defaultEpisodeLength;
@@ -257,18 +243,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 		int oldLength=this.defaultEpisodeLength;
 		this.defaultEpisodeLength=defaultEpisodeLength;
 		setModified("defaultEpisodeLength", oldLength, this.defaultEpisodeLength);
-	}
-
-	public String getWebDatesFile()
-	{
-		return webDatesFile;
-	}
-
-	public void setWebDatesFile(String webDatesFile)
-	{
-		String oldFile=this.webDatesFile;
-		this.webDatesFile=webDatesFile;
-		setModified("webDatesFile", oldFile, this.webDatesFile);
 	}
 
 	@Override

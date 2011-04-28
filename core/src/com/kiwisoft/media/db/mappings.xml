@@ -96,11 +96,6 @@
 		<field name="sequence" column="sequence"/>
 		<field name="title" column="title"/>
 		<field name="germanTitle" column="german_title"/>
-		<field name="seen" column="seen"/>
-		<field name="good" column="good"/>
-		<field name="record" column="record"/>
-		<field name="javaScript" column="javascript"/>
-		<field name="webScriptFile" column="webscriptfile"/>
 		<field name="airdate" column="airdate"/>
 		<field name="productionCode" column="production_code"/>
 		<field name="lastModified" column="lastmodified"/>
@@ -131,7 +126,6 @@
 	<type name="FanFicAuthor" class="com.kiwisoft.media.fanfic.Author" table="fanficauthors" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
 		<field name="name" column="name"/>
-		<field name="path" column="path"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
 	</type>
@@ -314,9 +308,7 @@
 		<field name="userKey" column="userkey"/>
 		<field name="title" column="title"/>
 		<field name="germanTitle" column="german_title"/>
-		<field name="internet" column="internet"/>
 		<field name="defaultEpisodeLength" column="episode_length"/>
-		<field name="webDatesFile" column="webdatesfile"/>
 		<field name="lastModified" column="lastmodified"/>
 		<field name="startYear" column="start_year"/>
 		<field name="endYear" column="end_year"/>

@@ -42,11 +42,9 @@ public class ShowDetailsView extends DetailsView
 	private JTextField keyField;
 	private JTextField titleField;
 	private JTextField germanTitleField;
-	private DialogLookupField scheduleFileField;
 	private DialogLookupField indexByField;
 	private LookupField<Language> languageField;
 	private JTextField episodeLengthField;
-	private JCheckBox webShowField;
 	private NamesTableModel tmNames;
 	private LookupField<MediaFile> logoField;
 	private TableController<ShowInfo> infosController;
@@ -76,12 +74,10 @@ public class ShowDetailsView extends DetailsView
 		germanTitleField=new JTextField();
 		episodeLengthField=new JTextField();
 		episodeLengthField.setHorizontalAlignment(JTextField.TRAILING);
-		scheduleFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
 		languageField=new LookupField<Language>(new LanguageLookup());
 		tmNames=new NamesTableModel(true);
 		SortableTable tblNames=new SortableTable(tmNames);
 		tblNames.configure(new DefaultTableConfiguration("show.names", ShowDetailsView.class, "names"));
-		webShowField=new JCheckBox();
 
 		WebInfosTableModel<ShowInfo> tmInfos=new WebInfosTableModel<ShowInfo>(false);
 		infosController=new TableController<ShowInfo>(tmInfos, new DefaultTableConfiguration("show.infos", ShowDetailsView.class, "infos"))
@@ -121,11 +117,6 @@ public class ShowDetailsView extends DetailsView
 		row++;
 		add(new JLabel("Episode Runtime:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(episodeLengthField, new GridBagConstraints(2, row, 1, 1, 0.3, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-		add(new JLabel("Internet:"), new GridBagConstraints(3, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(webShowField, new GridBagConstraints(4, row, 1, 1, 0.3, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
-		row++;
-		add(new JLabel("Schedule File:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,WEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
-		add(scheduleFileField, new GridBagConstraints(2, row, 4, 1, 1.0, 0.0,WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 		row++;
 		add(new JLabel("Alternative Titel:"), new GridBagConstraints(1, row, 1, 1, 0.0, 0.0,NORTHWEST, NONE, new Insets(10, 10, 0, 0), 0, 0));
 		add(new JScrollPane(tblNames), new GridBagConstraints(2, row, 4, 1, 1.0, 0.5,NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
@@ -161,8 +152,6 @@ public class ShowDetailsView extends DetailsView
 			titleField.setText(show.getTitle());
 			germanTitleField.setText(show.getGermanTitle());
 			indexByField.setText(show.getIndexBy());
-			webShowField.setSelected(show.isInternet());
-			scheduleFileField.setText(show.getWebDatesFile());
 			episodeLengthField.setText(String.valueOf(show.getDefaultEpisodeLength()));
 			for (Genre genre : show.getGenres()) genresModel.addObject(genre);
 			genresModel.addSortColumn(0, false);
@@ -246,7 +235,7 @@ public class ShowDetailsView extends DetailsView
 		SortableTableModel<ShowInfo> infosModel=infosController.getModel();
 		for (int i=0; i<infosModel.getRowCount(); i++)
 		{
-			WebInfosTableModel<ShowInfo>.Row row=(WebInfosTableModel.Row)infosModel.getRow(i);
+			WebInfosTableModel<ShowInfo>.Row row=(WebInfosTableModel.Row) infosModel.getRow(i);
 			if (StringUtils.isEmpty(row.getName()))
 			{
 				JOptionPane.showMessageDialog(this, "Name for page is missing!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -282,8 +271,6 @@ public class ShowDetailsView extends DetailsView
 				show.setGermanTitle(germanTitle);
 				show.setUserKey(userKey);
 				show.setDefaultEpisodeLength(length);
-				show.setInternet(webShowField.isSelected());
-				show.setWebDatesFile(scheduleFileField.getText());
 				show.setLanguage(language);
 				show.setLogo(logo);
 				show.setGenres(genres);

@@ -19,8 +19,6 @@ import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.date.DateField;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.swing.lookup.DialogLookupField;
-import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.table.SortableTable;
 import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.app.DetailsDialog;
@@ -75,13 +73,8 @@ public class EpisodeDetailsView extends DetailsView
 	private JTextField showField;
 	private JTextField titleField;
 	private JTextField germanTitleField;
-	private JCheckBox seenField;
-	private JCheckBox recordField;
-	private JCheckBox goodField;
 	private JTextField productionCodeField;
 	private DateField firstAiredField;
-	private JTextField javaScriptField;
-	private DialogLookupField scriptFileField;
 	private NamesTableModel namesModel;
 	private PreformatTextController germanSummaryController;
 	private PreformatTextController englishSummaryController;
@@ -116,11 +109,6 @@ public class EpisodeDetailsView extends DetailsView
 			germanTitleField.setText(episode.getGermanTitle());
 			if (episode.getShow()!=null) showField.setText(episode.getShow().getTitle());
 			userKeyField.setText(episode.getUserKey());
-			seenField.setSelected(episode.isSeen());
-			recordField.setSelected(episode.isRecord());
-			goodField.setSelected(episode.isGood());
-			scriptFileField.setText(episode.getWebScriptFile());
-			javaScriptField.setText(episode.getJavaScript());
 			productionCodeField.setText(episode.getProductionCode());
 			firstAiredField.setDate(episode.getAirdate());
 			for (Name name : episode.getAltNames()) namesModel.addName(name.getName(), name.getLanguage());
@@ -155,13 +143,6 @@ public class EpisodeDetailsView extends DetailsView
 		String number=userKeyField.getText();
 		String title=titleField.getText();
 		String germanTitle=germanTitleField.getText();
-		boolean record=recordField.isSelected();
-		boolean seen=seenField.isSelected();
-		boolean good=goodField.isSelected();
-		String script=scriptFileField.getText();
-		if (StringUtils.isEmpty(script)) script=null;
-		String javascript=javaScriptField.getText();
-		if (StringUtils.isEmpty(javascript)) javascript=null;
 		if (StringUtils.isEmpty(title) && StringUtils.isEmpty(germanTitle))
 		{
 			JOptionPane.showMessageDialog(this, "Name is missing!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -178,11 +159,6 @@ public class EpisodeDetailsView extends DetailsView
 			episode.setUserKey(number);
 			episode.setTitle(title);
 			episode.setGermanTitle(germanTitle);
-			episode.setRecord(record);
-			episode.setSeen(seen);
-			episode.setGood(good);
-			episode.setJavaScript(javascript);
-			episode.setWebScriptFile(script);
 			episode.setAirdate(firstAiredField.getDate());
 			episode.setProductionCode(productionCodeField.getText());
 			LanguageManager languageManager=LanguageManager.getInstance();
@@ -246,11 +222,6 @@ public class EpisodeDetailsView extends DetailsView
 		germanTitleField=new JTextField();
 		userKeyField=new JTextField(5);
 		userKeyField.setMinimumSize(new Dimension(100, userKeyField.getPreferredSize().height));
-		goodField=new JCheckBox("Good");
-		seenField=new JCheckBox("Seen");
-		recordField=new JCheckBox("Record");
-		scriptFileField=new DialogLookupField(new FileLookup(JFileChooser.FILES_ONLY, true));
-		javaScriptField=new JTextField();
 		firstAiredField=new DateField();
 		productionCodeField=new JTextField(10);
 		namesModel=new NamesTableModel(true);
@@ -282,23 +253,9 @@ public class EpisodeDetailsView extends DetailsView
 		panel.add(germanTitleField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 
 		row++;
-		panel.add(new JLabel("Script File:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		panel.add(scriptFileField, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
-		panel.add(new JLabel("JavaScript:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		panel.add(javaScriptField, new GridBagConstraints(1, row, 3, 1, 0.0, 0.0, WEST, HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
-
-		row++;
 		panel.add(new JLabel("Alternative Titles:"), new GridBagConstraints(0, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(10, 0, 0, 0), 0, 0));
-		panel.add(namesPanel, new GridBagConstraints(1, row, 4, 3, 0.0, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
-		panel.add(seenField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(10, 5, 0, 0), 0, 0));
+		panel.add(namesPanel, new GridBagConstraints(1, row, 5, 1, 0.0, 0.0, NORTHWEST, BOTH, new Insets(10, 5, 0, 0), 0, 0));
 
-		row++;
-		panel.add(recordField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, WEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
-
-		row++;
-		panel.add(goodField, new GridBagConstraints(5, row, 1, 1, 0.0, 0.0, NORTHWEST, NONE, new Insets(5, 5, 0, 0), 0, 0));
 		return panel;
 	}
 

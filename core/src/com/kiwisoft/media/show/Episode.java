@@ -24,7 +24,6 @@ import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Utils;
 
 public class Episode extends IDObject implements ChainLink, Comparable, Production, Recordable
 {
@@ -39,12 +38,7 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	private String title;
 	private String germanTitle;
 	private int sequence;
-	private boolean seen;
-	private boolean record;
-	private boolean good;
 	private Set<Name> altNames;
-	private String javaScript;
-	private String webScriptFile;
 	private String productionCode;
 	private Date airdate;
 
@@ -156,66 +150,6 @@ public class Episode extends IDObject implements ChainLink, Comparable, Producti
 	public int getChainPosition()
 	{
 		return sequence;
-	}
-
-	public boolean isSeen()
-	{
-		return seen;
-	}
-
-	public void setSeen(boolean seen)
-	{
-		boolean oldSeen=this.seen;
-		this.seen=seen;
-		setModified("seen", oldSeen, this.seen);
-	}
-
-	public boolean isRecord()
-	{
-		return record;
-	}
-
-	public void setRecord(boolean record)
-	{
-		boolean oldRecord=this.record;
-		this.record=record;
-		setModified("record", oldRecord, this.record);
-	}
-
-	public boolean isGood()
-	{
-		return good;
-	}
-
-	public void setGood(boolean good)
-	{
-		boolean oldGood=this.good;
-		this.good=good;
-		setModified("good", oldGood, this.good);
-	}
-
-	public String getJavaScript()
-	{
-		return javaScript;
-	}
-
-	public void setJavaScript(String javaScript)
-	{
-		String oldScript=this.javaScript;
-		this.javaScript=javaScript;
-		setModified("javaScript", oldScript, this.javaScript);
-	}
-
-	public String getWebScriptFile()
-	{
-		return webScriptFile;
-	}
-
-	public void setWebScriptFile(String webScriptFile)
-	{
-		String oldFile=this.webScriptFile;
-		this.webScriptFile=webScriptFile;
-		setModified("webScriptFile", oldFile, this.webScriptFile);
 	}
 
 	@Override
