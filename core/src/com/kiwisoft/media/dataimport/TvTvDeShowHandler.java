@@ -71,7 +71,18 @@ class TvTvDeShowHandler extends TvTvDeHandler<Show>
 		public void run() throws Exception
 		{
 			Connection connection=DBSession.getInstance().getConnection();
-			PreparedStatement statement=connection.prepareStatement("delete from airdates where show_id=? and source_id=? and viewdate>=now()");
+			PreparedStatement statement=connection.prepareStatement("delete from airdate_persons where airdate_id in (select id from airdates where show_id=? and source_id=? and viewdate>=now())");
+			try
+			{
+				statement.setLong(1, getObject().getId());
+				statement.setLong(2, DataSource.TVTV.getId());
+				statement.executeUpdate();
+			}
+			finally
+			{
+				statement.close();
+			}
+			statement=connection.prepareStatement("delete from airdates where show_id=? and source_id=? and viewdate>=now()");
 			try
 			{
 				statement.setLong(1, getObject().getId());
