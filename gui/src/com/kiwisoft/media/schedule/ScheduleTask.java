@@ -10,7 +10,7 @@ public class ScheduleTask extends MenuSidebarItem.Task
 {
 	public ScheduleTask()
 	{
-		super("TV Schedule");
+		super("Schedule");
 	}
 
 	@Override

@@ -18,8 +18,6 @@ import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonLookup;
 import com.kiwisoft.media.person.PersonsTask;
-import com.kiwisoft.media.photos.PhotosTask;
-import com.kiwisoft.media.schedule.ScheduleTask;
 import com.kiwisoft.media.show.GenreLookup;
 import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.swing.lookup.FileLookup;
@@ -100,16 +98,12 @@ public class MediaManagerFrame extends ApplicationFrame
 	protected List<MenuSidebarItem.Task> getTasks()
 	{
 		List<MenuSidebarItem.Task> tasks=new ArrayList<MenuSidebarItem.Task>(8);
-		tasks.add(new BooksTask());
-		if (MediaConfiguration.isFanFicsEnabled()) tasks.add(new FanFicTask());
+		tasks.add(new ProductionsTask());
+		tasks.add(new PropertyTask());
+		tasks.add(new FilesTask());
+		tasks.add(new TVTask());
 		tasks.add(new LinksTask());
-		tasks.add(new AllMediaTask());
-		tasks.add(new MoviesTask());
-		tasks.add(new PersonsTask());
-		tasks.add(new PhotosTask());
-		tasks.add(new ScheduleTask());
-		tasks.add(new ShowsTask());
-		tasks.add(new DataTask());
+		tasks.add(new ConfigurationTask());
 		return tasks;
 	}
 }
