@@ -110,4 +110,7 @@
     <icon key="country.za">
         <resource url="/com/kiwisoft/media/icons/countries/za.png"/>
     </icon>
+    <icon key="country.il">
+        <resource url="/com/kiwisoft/media/icons/countries/il.png"/>
+    </icon>
 </icons>
