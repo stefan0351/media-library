@@ -112,24 +112,11 @@ public class FanFicDetailsView extends DetailsView
 		String description=descriptionField.getText();
 		FanFic prequel=prequelField.getValue();
 		Set<Author> authors=new HashSet<Author>(authorsModel.getObjects());
-		if (authors.isEmpty())
-		{
-			JOptionPane.showMessageDialog(this, "No author selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			authorsTable.requestFocus();
-			return false;
-		}
 		Set<FanDom> fanDoms=new HashSet<FanDom>(fandomsModel.getObjects());
-		if (fanDoms.isEmpty())
-		{
-			JOptionPane.showMessageDialog(this, "No domain selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			fandomsTable.requestFocus();
-			return false;
-		}
 		Set<Pairing> pairings=new HashSet<Pairing>(pairingsModel.getObjects());
-		if (pairings.isEmpty())
+		if (authors.isEmpty() && fanDoms.isEmpty() && pairings.isEmpty())
 		{
-			JOptionPane.showMessageDialog(this, "No pairing selected.", "Error", JOptionPane.ERROR_MESSAGE);
-			pairingsTable.requestFocus();
+			JOptionPane.showMessageDialog(this, "No category (author, domain or pairing) selected.", "Error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 
