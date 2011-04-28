@@ -17,6 +17,7 @@
 				<exclude name="*math*.jar"/>
 				<exclude name="*idea*.jar"/>
 				<exclude name="*wizard*.jar"/>
+				<exclude name="JDBCConnectionPanel.jar"/>
 			</fileset>
 		</copy>
 	</target>
@@ -42,6 +43,7 @@
 		<copy todir="${build.dir}/installer/core-files/lib">
 			<fileset dir="${jars.dir}" excludes="*-web.jar"/>
 		</copy>
+		<unzip src="${installer.dir}/ImageMagick.zip" dest="${build.dir}/installer/imagemagick"/>
 		<launch4j configfile="${installer.dir}/launch4j.xml" outfile="${build.dir}/installer/core-files/medialib.exe"/>
 		<izpack input="${installer.dir}/izpack.xml" output="${build.dir}/medialib-installer.jar" installertype="standard" izpackdir="${izpack.home}" basedir="${basedir}"/>
 		<launch4j configfile="${installer.dir}/installer-launch4j.xml" jar="${build.dir}/medialib-installer.jar" outfile="${build.dir}/medialib-installer.exe"/>

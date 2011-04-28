@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<registry>
+	<pack name="ImageMagick">
+		<value root="HKCU" keypath="Environment" name="PATH" string="$OLD_KEY_VALUE;$INSTALL_PATH\bin"
+			   condition="izpack.windowsinstall.7"/>
+		<value root="HKLM" keypath="SYSTEM\CurrentControlSet\Control\Session Manager\Environment" name="PATH"
+			   string="$OLD_KEY_VALUE;$INSTALL_PATH\bin\imagemagick"/>
+	</pack>
+</registry>
