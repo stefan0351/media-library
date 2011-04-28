@@ -35,8 +35,6 @@ import java.util.*;
 
 public class MovieDetailsView extends DetailsView
 {
-	public static final String PATH_ROOT="path.root";
-
 	public static void create(Show show)
 	{
 		new DetailsFrame(new MovieDetailsView(show)).show();
@@ -458,20 +456,6 @@ public class MovieDetailsView extends DetailsView
 				}
 			}
 			return null;
-		}
-	}
-
-	private class LoadImdbAction extends ContextAction
-	{
-		protected LoadImdbAction()
-		{
-			super("IMDb", Icons.getIcon("imdb"));
-			setShortDescription("Synchronize data with Internet Movie Database");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
 		}
 	}
 }

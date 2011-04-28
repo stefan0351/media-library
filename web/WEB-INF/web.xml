@@ -53,6 +53,7 @@
 	</servlet>
 
 	<servlet>
+		<!--suppress ServletWithoutMappingInspection -->
 		<servlet-name>StartupServlet</servlet-name>
 		<display-name>Media Manager Web Application Initializer</display-name>
 		<servlet-class>com.kiwisoft.media.web.StartupServlet</servlet-class>
@@ -60,7 +61,8 @@
 	</servlet>
 
     <servlet>
-        <servlet-name>BrowserServlet</servlet-name>
+        <!--suppress ServletWithoutMappingInspection -->
+		<servlet-name>BrowserServlet</servlet-name>
         <servlet-class>com.kiwisoft.media.web.BrowserServlet</servlet-class>
         <load-on-startup>9</load-on-startup>
     </servlet>

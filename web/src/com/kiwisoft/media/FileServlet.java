@@ -2,8 +2,6 @@ package com.kiwisoft.media;
 
 import com.kiwisoft.utils.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

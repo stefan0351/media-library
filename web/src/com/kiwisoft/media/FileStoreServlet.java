@@ -1,12 +1,8 @@
 package com.kiwisoft.media;
 
 import com.kiwisoft.utils.FileUtils;
-import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.persistence.filestore.FileStore;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

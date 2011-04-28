@@ -3,7 +3,6 @@ package com.kiwisoft.media.dataimport;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 
-import com.kiwisoft.media.Language;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Link;
 import com.kiwisoft.media.LanguageManager;

@@ -6,10 +6,7 @@ import com.kiwisoft.swing.table.DefaultTableConfiguration;
 import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.swing.ImageFileChooser;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.media.files.MediaFileInfo;
-import com.kiwisoft.media.files.MediaFileUtils;
 
 import java.io.File;
 import java.util.Date;

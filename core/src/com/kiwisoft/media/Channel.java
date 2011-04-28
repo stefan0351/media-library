@@ -12,7 +12,6 @@ import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.media.files.MediaFile;
-import com.kiwisoft.cfg.Configuration;
 
 public class Channel extends IDObject
 {

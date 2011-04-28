@@ -19,11 +19,6 @@ public class FanFictionNetLinkHandler implements LinkHandler
 {
 	private final static Log log=LogFactory.getLog(FanFictionNetLinkHandler.class);
 
-	public FanFictionNetLinkHandler()
-	{
-		super();
-	}
-
 	@Override
 	public void loadLink(String url)
 	{

@@ -3,13 +3,11 @@ package com.kiwisoft.media.fanfic;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.dataimport.FanFicData;
 import com.kiwisoft.media.dataimport.FanFictionNetLoader;
-import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 
 /**

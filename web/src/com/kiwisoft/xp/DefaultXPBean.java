@@ -9,8 +9,6 @@ package com.kiwisoft.xp;
 import java.io.File;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.xml.XMLContext;
 import com.kiwisoft.utils.xml.XMLObject;

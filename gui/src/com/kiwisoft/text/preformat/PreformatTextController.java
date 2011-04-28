@@ -1,21 +1,14 @@
 package com.kiwisoft.text.preformat;
 
 import com.kiwisoft.swing.GuiUtils;
-import com.kiwisoft.swing.ToolBar;
-import com.kiwisoft.swing.DocumentAdapter;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.text.TextController;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
-import javax.swing.undo.UndoManager;
 import javax.swing.text.*;
-import java.awt.*;
-import static java.awt.GridBagConstraints.BOTH;
-import static java.awt.GridBagConstraints.CENTER;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;

@@ -8,7 +8,7 @@
 			<tr>
 				<td class="content">
 					<table cellspacing="0">
-						<s:set var="rows" value="@com.kiwisoft.utils.Utils@splitIntoRows(getMediaFiles(top), 4)"/>
+						<s:set var="rows" value="@com.kiwisoft.util.Utils@splitIntoRows(getMediaFiles(top), 4)"/>
 						<s:iterator value="#rows" status="itRows">
 							<tr>
 								<s:iterator status="it">

@@ -12,7 +12,6 @@ import com.kiwisoft.collection.Chain;
 import com.kiwisoft.collection.ChainLink;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.media.fanfic.FanFicPart;
 
 /**
  * @author Stefan Stiller

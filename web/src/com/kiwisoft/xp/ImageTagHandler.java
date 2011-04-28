@@ -1,7 +1,6 @@
 package com.kiwisoft.xp;
 
 import java.io.File;
-import javax.servlet.http.HttpServletRequest;
 
 import org.xml.sax.Attributes;
 

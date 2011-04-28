@@ -106,7 +106,7 @@ Window.prototype = {
         this.options.hideEffectOptions.from = this.options.opacity;
     }
     if (this.options.hideEffect == Element.hide)
-      this.options.hideEffect = function(){ Element.hide(this.element); if (this.options.destroyOnClose) this.destroy(); }.bind(this)
+      this.options.hideEffect = function(){ Element.hide(this.element); if (this.options.destroyOnClose) this.destroy(); }.bind(this);
     
     if (this.options.parent != document.body)  
       this.options.parent = $(this.options.parent);
@@ -1510,7 +1510,7 @@ var Dialog = {
       else
         parameters.height = size + 5
     }
-    parameters.effectOptions = parameters.effectOptions ;
+    //parameters.effectOptions = parameters.effectOptions ;
     parameters.resizable   = parameters.resizable || false;
     parameters.minimizable = parameters.minimizable || false;
     parameters.maximizable = parameters.maximizable ||  false;

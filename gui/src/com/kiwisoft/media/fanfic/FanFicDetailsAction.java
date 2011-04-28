@@ -1,7 +1,6 @@
 package com.kiwisoft.media.fanfic;
 
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
 
 import com.kiwisoft.swing.actions.SimpleContextAction;
 import com.kiwisoft.swing.icons.Icons;

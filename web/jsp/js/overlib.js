@@ -698,7 +698,7 @@ function overlib() {
 
 // Clears popups if appropriate
 function nd() {
-	if ( o3_removecounter >= 1 ) { o3_showingsticky = 0 };
+	if ( o3_removecounter >= 1 ) { o3_showingsticky = 0 }
 	if ( (ns4) || (ie4) || (ns6) ) {
 		if ( o3_showingsticky == 0 ) {
 			o3_allowmove = 0;

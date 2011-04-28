@@ -1,7 +1,5 @@
 package com.kiwisoft.media;
 
-import java.util.Date;
-
 import com.kiwisoft.cfg.Configuration;
 
 /**
@@ -17,7 +15,6 @@ public class MediaConfiguration
 	public static final String PATH_PHOTOS="path.photos";
 	public static final String PATH_VIDEOS="path.videos";
 	public static final String PATH_CDDBIDGEN_EXE="path.cddbidgen.exe";
-	public static final String PATH_EXPORTS_RECENT="path.exports.recent";
 	public static final String PATH_IMAGE_EDITOR="path.image.editor";
 	public static final String PATH_VLC_MEDIA_PLAYER="path.player.vlc";
 

@@ -64,10 +64,10 @@ WindowStore = {
     var cookieValue = "{";
     Windows.windows.each(function(win) {
       if (cookieValue != "{")
-        cookieValue += ","
+        cookieValue += ",";
       cookieValue += win.getId() + ": " + win.isVisible();
     });
-    cookieValue += "}"
+    cookieValue += "}";
   
     WindowUtilities.setCookie(cookieValue, [WindowStore.cookieName, WindowStore.expired]);  
   },
@@ -98,7 +98,7 @@ WindowCloseKey = {
   },
   
   _closeCurrentWindow: function(event) {
-    var e = event || window.event
+    var e = event || window.event;
   	var characterCode = e.which || e.keyCode;
   	
   	// Check if there is a top window (it means it's an URL content)

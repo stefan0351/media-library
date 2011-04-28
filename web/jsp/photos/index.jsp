@@ -5,7 +5,7 @@
 
 <media:panel title="Galleries">
 	<table cellspacing="0">
-		<s:set var="rows" value="@com.kiwisoft.utils.Utils@splitIntoRows(galleries, 4)"/>
+		<s:set var="rows" value="@com.kiwisoft.util.Utils@splitIntoRows(galleries, 4)"/>
 		<s:iterator value="#rows" status="itRows">
 			<tr>
 				<s:iterator value="top" status="it">

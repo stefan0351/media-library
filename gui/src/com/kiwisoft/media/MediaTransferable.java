@@ -5,7 +5,6 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Properties;
 import java.util.Map;
 import java.util.Hashtable;
 

@@ -27,7 +27,6 @@ public class SearchBar extends JToolBar
 	private JTextField expressionField;
 	private FindNextAction nextAction;
 	private FindPreviousAction previousAction;
-	private HideAction hideAction;
 	private JCheckBox regExpField;
 	private JCheckBox caseSensitiveField;
 	private JTextComponent textComponent;
@@ -100,7 +99,7 @@ public class SearchBar extends JToolBar
 	{
 		nextAction=new FindNextAction();
 		previousAction=new FindPreviousAction();
-		hideAction=new HideAction();
+		HideAction hideAction=new HideAction();
 
 		InputMap inputMap=getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "hide");
