@@ -3,6 +3,7 @@ package com.kiwisoft.media.movie;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.PinAction;
+import com.kiwisoft.media.dataimport.movie.LoadMovieFromImdbAction;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.persistence.DBLoader;
@@ -43,6 +44,7 @@ public class MovieSearchView extends SearchView<Movie>
 				actions.add(new NewMovieAction(null));
 				actions.add(new DeleteMovieAction(frame, null));
 				actions.add(new PinAction(getSearchController()));
+				actions.add(new LoadMovieFromImdbAction(frame));
 				return actions;
 			}
 
@@ -98,7 +100,7 @@ public class MovieSearchView extends SearchView<Movie>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(MovieManager.getInstance().addCollectionChangeListener(new CollectionObserver(MovieManager.MOVIES)));
+		getModelListenerList().installPropertyChangeListener(MovieManager.getInstance(), new CollectionObserver(MovieManager.MOVIES));
 		super.installCollectionListener();
 	}
 }

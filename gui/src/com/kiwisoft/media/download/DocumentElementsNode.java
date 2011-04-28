@@ -1,13 +1,14 @@
 package com.kiwisoft.media.download;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Vector;
 import java.net.URL;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
-public class DocumentElementsNode extends GenericTreeNode<String> implements CollectionChangeListener
+public class DocumentElementsNode extends GenericTreeNode<String> implements PropertyChangeListener
 {
 	private WebDocument document;
 
@@ -26,7 +27,7 @@ public class DocumentElementsNode extends GenericTreeNode<String> implements Col
 	@Override
 	protected void installListeners()
 	{
-		getListeners().addDisposable(document.addCollectionListener(this));
+		getListeners().installPropertyChangeListener(document, this);
 		super.installListeners();
 	}
 
@@ -51,11 +52,12 @@ public class DocumentElementsNode extends GenericTreeNode<String> implements Col
 	}
 
 	@Override
-	public void collectionChanged(CollectionChangeEvent event)
+	public void propertyChange(PropertyChangeEvent evt)
 	{
-		if (WebDocument.ELEMENTS.equals(event.getPropertyName()))
+		if (evt instanceof CollectionPropertyChangeEvent && WebDocument.ELEMENTS.equals(evt.getPropertyName()))
 		{
-			if (CollectionChangeEvent.ADDED==event.getType())
+			CollectionPropertyChangeEvent event=(CollectionPropertyChangeEvent) evt;
+			if (CollectionPropertyChangeEvent.ADDED==event.getType())
 			{
 				addChild(new URLNode((URL)event.getElement()));
 			}

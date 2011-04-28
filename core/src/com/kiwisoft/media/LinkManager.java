@@ -8,11 +8,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSource;
-import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 import com.kiwisoft.utils.xml.XMLWriter;
 import com.kiwisoft.format.FormatStringComparator;
 
@@ -20,7 +17,7 @@ import com.kiwisoft.format.FormatStringComparator;
  * todo allow assigning linkgroups to objects through gui
  * @author Stefan Stiller
  */
-public class LinkManager implements CollectionChangeSource
+public class LinkManager extends Bean
 {
 	private static LinkManager instance;
 	public static final String ROOT_GROUPS="rootGroups";
@@ -30,8 +27,6 @@ public class LinkManager implements CollectionChangeSource
 		if (instance==null) instance=new LinkManager();
 		return instance;
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	private LinkManager()
 	{
@@ -45,36 +40,24 @@ public class LinkManager implements CollectionChangeSource
 	public LinkGroup createRootGroup(String name)
 	{
 		LinkGroup group=new LinkGroup(name);
-		collectionChangeSupport.fireElementAdded(ROOT_GROUPS, group);
+		fireElementAdded(ROOT_GROUPS, group);
 		return group;
 	}
 
 	public void dropRootGroup(LinkGroup group)
 	{
 		group.delete();
-		collectionChangeSupport.fireElementRemoved(ROOT_GROUPS, group);
-	}
-
-	@Override
-	public Disposable addCollectionListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	@Override
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
+		fireElementRemoved(ROOT_GROUPS, group);
 	}
 
 	public void removeRootGroup(LinkGroup group)
 	{
-		collectionChangeSupport.fireElementRemoved(ROOT_GROUPS, group);
+		fireElementRemoved(ROOT_GROUPS, group);
 	}
 
 	public void addRootGroup(LinkGroup group)
 	{
-		collectionChangeSupport.fireElementAdded(ROOT_GROUPS, group);
+		fireElementAdded(ROOT_GROUPS, group);
 	}
 
 	public void exportLinks(File file) throws IOException

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import com.kiwisoft.collection.*;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.person.Person;
@@ -18,7 +18,7 @@ import com.kiwisoft.format.FormatStringComparator;
 /**
  * @author Stefan Stiller
  */
-public class MediaFileManager implements CollectionChangeSource
+public class MediaFileManager extends Bean
 {
 	public static final String MEDIA_FILES="mediaFiles";
 
@@ -33,8 +33,6 @@ public class MediaFileManager implements CollectionChangeSource
 	private MediaFileManager()
 	{
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	public Set<MediaFile> getMediaFiles(MediaType mediaType)
 	{
@@ -93,28 +91,6 @@ public class MediaFileManager implements CollectionChangeSource
 	public ImageFile getImageFile(Long id)
 	{
 		return DBLoader.getInstance().load(ImageFile.class, id);
-	}
-
-	@Override
-	public Disposable addCollectionListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	@Override
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
 	public int getNumberOfMediaFiles(Show show, MediaType mediaType)

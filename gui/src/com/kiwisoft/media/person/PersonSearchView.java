@@ -109,7 +109,7 @@ public class PersonSearchView extends SearchView<Person>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(PersonManager.getInstance().addCollectionChangeListener(new CollectionObserver(PersonManager.PERSONS)));
+		getModelListenerList().installPropertyChangeListener(PersonManager.getInstance(), new CollectionObserver(PersonManager.PERSONS));
 		super.installCollectionListener();
 	}
 }

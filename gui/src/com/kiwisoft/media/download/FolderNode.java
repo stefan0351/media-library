@@ -1,12 +1,13 @@
 package com.kiwisoft.media.download;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.tree.GenericTreeNode;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
-public class FolderNode extends GenericTreeNode<WebFolder> implements CollectionChangeListener
+public class FolderNode extends GenericTreeNode<WebFolder>
 {
 	public FolderNode(WebFolder folder)
 	{
@@ -16,7 +17,31 @@ public class FolderNode extends GenericTreeNode<WebFolder> implements Collection
 	@Override
 	protected void installListeners()
 	{
-		getListeners().addDisposable(getUserObject().addListener(this));
+		getListeners().installPropertyChangeListener(getUserObject(), new PropertyChangeListener()
+		{
+			@Override
+			public void propertyChange(PropertyChangeEvent evt)
+			{
+				if (evt instanceof CollectionPropertyChangeEvent)
+				{
+					CollectionPropertyChangeEvent event=(CollectionPropertyChangeEvent) evt;
+					if (WebFolder.SUB_FOLDERS.equals(event.getPropertyName()))
+					{
+						if (CollectionPropertyChangeEvent.ADDED==event.getType())
+						{
+							addChild(new FolderNode((WebFolder)event.getElement()));
+						}
+					}
+					else if (WebFolder.DOCUMENTS.equals(event.getPropertyName()))
+					{
+						if (CollectionPropertyChangeEvent.ADDED==event.getType())
+						{
+							addChild(new DocumentNode((WebDocument)event.getElement()));
+						}
+					}
+				}
+			}
+		});
 		super.installListeners();
 	}
 
@@ -28,24 +53,5 @@ public class FolderNode extends GenericTreeNode<WebFolder> implements Collection
 		for (WebFolder subFolder : folder.getFolders()) nodes.add(new FolderNode(subFolder));
 		for (WebDocument document : folder.getDocuments()) nodes.add(new DocumentNode(document));
 		return nodes;
-	}
-
-	@Override
-	public void collectionChanged(CollectionChangeEvent event)
-	{
-		if (WebFolder.SUB_FOLDERS.equals(event.getPropertyName()))
-		{
-			if (CollectionChangeEvent.ADDED==event.getType())
-			{
-				addChild(new FolderNode((WebFolder)event.getElement()));
-			}
-		}
-		else if (WebFolder.DOCUMENTS.equals(event.getPropertyName()))
-		{
-			if (CollectionChangeEvent.ADDED==event.getType())
-			{
-				addChild(new DocumentNode((WebDocument)event.getElement()));
-			}
-		}
 	}
 }

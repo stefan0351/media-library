@@ -5,12 +5,12 @@ import java.util.Set;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
-import com.kiwisoft.collection.CollectionChangeSource;
+import com.kiwisoft.utils.PropertyChangeSource;
 
 /**
  * @author Stefan Stiller
  */
-public interface Production extends CollectionChangeSource
+public interface Production extends PropertyChangeSource
 {
 	String CAST_MEMBERS="castMembers";
 	String CREDITS="credits";

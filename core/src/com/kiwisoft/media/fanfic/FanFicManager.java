@@ -15,16 +15,13 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.Link;
 import com.kiwisoft.media.ContactMedium;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 
-public class FanFicManager
+public class FanFicManager extends Bean
 {
 	private static FanFicManager instance;
 
@@ -32,8 +29,6 @@ public class FanFicManager
 	public static final String AUTHORS="authors";
 	public static final String DOMAINS="domains";
 	public static final String FANFICS="fanFics";
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	public synchronized static FanFicManager getInstance()
 	{
@@ -367,29 +362,9 @@ public class FanFicManager
 										"cm.type=? and cm.value like ?", ContactMedium.WEB, url+"%");
 	}
 
-	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
-	}
-
 	public void notifyFanFicChanged(FanFic fanFic)
 	{
-		collectionChangeSupport.fireElementChanged(FANFICS, fanFic);
+		fireElementChanged(FANFICS, fanFic);
 	}
 }
 

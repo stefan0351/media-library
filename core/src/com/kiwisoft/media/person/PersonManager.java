@@ -7,26 +7,22 @@
  */
 package com.kiwisoft.media.person;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.books.Book;
 import com.kiwisoft.persistence.DBAssociation;
 import com.kiwisoft.persistence.DBLoader;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 import static com.kiwisoft.utils.StringUtils.isEmpty;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PersonManager
+public class PersonManager extends Bean
 {
 	private static PersonManager instance;
 
 	public static final String PERSONS="persons";
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	public synchronized static PersonManager getInstance()
 	{
@@ -52,26 +48,6 @@ public class PersonManager
 	{
 		person.delete();
 		fireElementRemoved(PERSONS, person);
-	}
-
-	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
 	public boolean isPersonUsed(Person person)

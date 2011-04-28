@@ -3,14 +3,14 @@ package com.kiwisoft.media.movie;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.medium.CreateMediumAction;
 import com.kiwisoft.media.person.ShowCreditsAction;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ public class ShowMoviesView extends ViewPanel
 {
 	// Dates Panel
 	private Show show;
-	private CollectionChangeObserver collectionObserver;
 	private TableController<Movie> tableController;
 
 	public ShowMoviesView(Show show)
@@ -40,8 +39,7 @@ public class ShowMoviesView extends ViewPanel
 	public JComponent createContentPanel(final ApplicationFrame frame)
 	{
 		SortableTableModel<Movie> tableModel=new DefaultSortableTableModel<Movie>(Movie.TITLE, Movie.GERMAN_TITLE, Movie.YEAR);
-		collectionObserver=new CollectionChangeObserver();
-		MovieManager.getInstance().addCollectionChangeListener(collectionObserver);
+		getModelListenerList().installPropertyChangeListener(MovieManager.getInstance(), new CollectionChangeObserver());
 
 		tableController=new TableController<Movie>(tableModel, new DefaultTableConfiguration("movies.list", MovieSearchView.class, "movies"))
 		{
@@ -108,22 +106,21 @@ public class ShowMoviesView extends ViewPanel
 	@Override
 	public void dispose()
 	{
-		MovieManager.getInstance().removeCollectionListener(collectionObserver);
 		tableController.dispose();
 		super.dispose();
 	}
 
-	private class CollectionChangeObserver implements CollectionChangeListener
+	private class CollectionChangeObserver extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (MovieManager.MOVIES.equals(event.getPropertyName()))
 			{
 				SortableTableModel<Movie> model=tableController.getModel();
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						Movie newMovie=(Movie) event.getElement();
 						if (newMovie.getShow()==show)
 						{
@@ -132,7 +129,7 @@ public class ShowMoviesView extends ViewPanel
 							model.sort();
 						}
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=model.indexOf(event.getElement());
 						if (index>=0) model.removeRowAt(index);
 						break;

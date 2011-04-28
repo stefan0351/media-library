@@ -1,26 +1,21 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Apr 1, 2003
- * Time: 7:42:37 PM
- */
 package com.kiwisoft.media.fanfic;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBObject;
 import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.Utils;
 
 import javax.swing.*;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +23,6 @@ public class FanFicsView extends ViewPanel
 {
 	private FanFicGroup group;
 
-	private FanFicListener fanFicListener;
 	private PartsListener partsListener;
 
 	private TableController<FanFic> tableController;
@@ -124,11 +118,10 @@ public class FanFicsView extends ViewPanel
 			}
 		}
 		tableModel.sort();
-		fanFicListener=new FanFicListener();
-		FanFicManager.getInstance().addCollectionChangeListener(fanFicListener);
+		getModelListenerList().installPropertyChangeListener(FanFicManager.getInstance(), new FanFicListener());
 	}
 
-	private CollectionChangeListener getPartsListener()
+	private PropertyChangeListener getPartsListener()
 	{
 		if (partsListener==null) partsListener=new PartsListener();
 		return partsListener;
@@ -136,10 +129,10 @@ public class FanFicsView extends ViewPanel
 
 	private void setCurrentFanFic(FanFic currentFanFic)
 	{
-		if (this.currentFanFic!=null) this.currentFanFic.removeCollectionListener(getPartsListener());
+		if (this.currentFanFic!=null) this.currentFanFic.removePropertyChangeListener(getPartsListener());
 		this.currentFanFic=currentFanFic;
 		partsTableController.setFanFic(currentFanFic);
-		if (currentFanFic!=null) currentFanFic.addCollectionListener(getPartsListener());
+		if (currentFanFic!=null) currentFanFic.addPropertyChangeListener(getPartsListener());
 	}
 
 	@Override
@@ -163,7 +156,6 @@ public class FanFicsView extends ViewPanel
 	public void dispose()
 	{
 		setCurrentFanFic(null);
-		FanFicManager.getInstance().removeCollectionListener(fanFicListener);
 		tableController.dispose();
 		partsTableController.dispose();
 		super.dispose();
@@ -199,28 +191,28 @@ public class FanFicsView extends ViewPanel
 		}
 	}
 
-	private class FanFicListener implements CollectionChangeListener
+	private class FanFicListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (FanFicManager.FANFICS.equals(event.getPropertyName()))
 			{
 				SortableTableModel<FanFic> tableModel=tableController.getModel();
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						FanFic newFanFic=(FanFic) event.getElement();
 						if (group==null || group.contains(newFanFic))
 							tableModel.addRow(new FanFicTableRow(newFanFic));
 						break;
-					case CollectionChangeEvent.REMOVED:
-					{
-						int index=tableModel.indexOf(event.getElement());
-						if (index>=0) tableModel.removeRowAt(index);
-					}
-					break;
-					case CollectionChangeEvent.CHANGED:
+					case CollectionPropertyChangeEvent.REMOVED:
+						{
+							int index=tableModel.indexOf(event.getElement());
+							if (index>=0) tableModel.removeRowAt(index);
+						}
+						break;
+					case CollectionPropertyChangeEvent.CHANGED:
 						if (group!=null)
 						{
 							FanFic fanFic=(FanFic) event.getElement();
@@ -239,21 +231,21 @@ public class FanFicsView extends ViewPanel
 		}
 	}
 
-	private class PartsListener implements CollectionChangeListener
+	private class PartsListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (FanFic.PARTS.equals(event.getPropertyName()))
 			{
 				SortableTableModel<FanFicPart> tableModel=partsTableController.getModel();
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						FanFicPart newPart=(FanFicPart) event.getElement();
 						tableModel.addRow(new PartTableRow(newPart));
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());
 						if (index>=0) tableModel.removeRowAt(index);
 				}

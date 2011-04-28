@@ -6,31 +6,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSource;
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.utils.Disposable;
-import com.kiwisoft.utils.StringUtils;
+import com.kiwisoft.utils.Bean;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 
 /**
  * @author Stefan Stiller
  */
-public class BookManager implements CollectionChangeSource
+public class BookManager extends Bean
 {
 	public static final String BOOKS="books";
 
 	private static BookManager instance;
-	private Collection<String> storages;
 
 	public static BookManager getInstance()
 	{
 		if (instance==null) instance=new BookManager();
 		return instance;
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	public Set<Book> getBooks()
 	{
@@ -82,28 +75,6 @@ public class BookManager implements CollectionChangeSource
 		{
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public Disposable addCollectionListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	@Override
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
 	public int getBookCount()

@@ -14,16 +14,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.dataimport.SearchPattern;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 
-public class MovieManager
+public class MovieManager extends Bean
 {
 	public static final String MOVIES="movies";
 
@@ -34,8 +32,6 @@ public class MovieManager
 		if (instance==null) instance=new MovieManager();
 		return instance;
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	private MovieManager()
 	{
@@ -91,26 +87,6 @@ public class MovieManager
 	public SearchPattern getSearchPattern(int type, Movie movie)
 	{
 		return DBLoader.getInstance().load(SearchPattern.class, null, "type=? and movie_id=?", type, movie.getId());
-	}
-
-	public Disposable addCollectionChangeListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
 	public Set<Movie> getMoviesByLetter(char ch)

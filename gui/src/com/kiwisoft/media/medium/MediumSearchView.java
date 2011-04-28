@@ -98,7 +98,7 @@ public class MediumSearchView extends SearchView<Medium>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(MediumManager.getInstance().addCollectionChangeListener(new CollectionObserver(MediumManager.MEDIA)));
+		getModelListenerList().installPropertyChangeListener(MediumManager.getInstance(), new CollectionObserver(MediumManager.MEDIA));
 		super.installCollectionListener();
 	}
 

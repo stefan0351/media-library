@@ -1,14 +1,6 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Apr 1, 2003
- * Time: 7:42:37 PM
- */
 package com.kiwisoft.media.show;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.Name;
 import com.kiwisoft.media.PinAction;
 import com.kiwisoft.media.dataimport.SerienJunkiesDeLoaderAction;
@@ -127,11 +119,11 @@ public class ShowSearchView extends SearchView<Show>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(ShowManager.getInstance().addCollectionChangeListener(new CollectionObserver(ShowManager.SHOWS)));
+		getModelListenerList().installPropertyChangeListener(ShowManager.getInstance(), new CollectionObserver(ShowManager.SHOWS));
 		super.installCollectionListener();
 	}
 
-	private static class ShowTableRow extends SortableTableRow<Show> implements PropertyChangeListener, CollectionChangeListener
+	private static class ShowTableRow extends SortableTableRow<Show> implements PropertyChangeListener
 	{
 		public ShowTableRow(Show show)
 		{
@@ -144,7 +136,6 @@ public class ShowSearchView extends SearchView<Show>
 			try
 			{
 				getUserObject().addPropertyChangeListener(this);
-				getUserObject().addCollectionListener(this);
 			}
 			catch (Exception e)
 			{
@@ -156,7 +147,6 @@ public class ShowSearchView extends SearchView<Show>
 		public void removeListener()
 		{
 			getUserObject().removePropertyChangeListener(this);
-			getUserObject().removeCollectionListener(this);
 		}
 
 		@Override
@@ -170,12 +160,6 @@ public class ShowSearchView extends SearchView<Show>
 
 		@Override
 		public void propertyChange(PropertyChangeEvent evt)
-		{
-			fireRowUpdated();
-		}
-
-		@Override
-		public void collectionChanged(CollectionChangeEvent event)
 		{
 			fireRowUpdated();
 		}

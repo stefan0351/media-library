@@ -4,11 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Vector;
 
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.tree.GenericTreeNode;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
-public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implements PropertyChangeListener, CollectionChangeListener
+public class GrabberProjectNode extends GenericTreeNode<GrabberProject>
 {
 	public GrabberProjectNode(GrabberProject project)
 	{
@@ -18,8 +17,22 @@ public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implemen
 	@Override
 	protected void installListeners()
 	{
-		getListeners().installPropertyChangeListener(getUserObject(), GrabberProject.STATE, this);
-		getListeners().addDisposable(getUserObject().addListener(this));
+		getListeners().installPropertyChangeListener(getUserObject(), new PropertyChangeListener()
+		{
+			@Override
+			public void propertyChange(PropertyChangeEvent evt)
+			{
+				if (GrabberProject.STATE.equals(evt.getPropertyName())) fireStructureChanged();
+				else if (GrabberProject.FOLDERS.equals(evt.getPropertyName()) && evt instanceof CollectionPropertyChangeEvent)
+				{
+					CollectionPropertyChangeEvent event=(CollectionPropertyChangeEvent) evt;
+					if (CollectionPropertyChangeEvent.ADDED==event.getType())
+					{
+						addChild(new FolderNode((WebFolder)event.getElement()));
+					}
+				}
+			}
+		});
 		super.installListeners();
 	}
 
@@ -35,23 +48,5 @@ public class GrabberProjectNode extends GenericTreeNode<GrabberProject> implemen
 	public boolean isLeaf()
 	{
 		return getUserObject().getFolders().isEmpty();
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent evt)
-	{
-		fireStructureChanged();
-	}
-
-	@Override
-	public void collectionChanged(CollectionChangeEvent event)
-	{
-		if (GrabberProject.FOLDERS.equals(event.getPropertyName()))
-		{
-			if (CollectionChangeEvent.ADDED==event.getType())
-			{
-				addChild(new FolderNode((WebFolder)event.getElement()));
-			}
-		}
 	}
 }

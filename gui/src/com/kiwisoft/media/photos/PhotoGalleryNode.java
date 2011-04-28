@@ -1,8 +1,8 @@
 package com.kiwisoft.media.photos;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 import java.util.Vector;
 
@@ -38,22 +38,22 @@ public class PhotoGalleryNode extends GenericTreeNode<PhotoGallery>
 	@Override
 	protected void installListeners()
 	{
-		getListeners().addDisposable(getUserObject().addCollectionListener(new ChildListener()));
+		getListeners().installPropertyChangeListener(getUserObject(), new ChildListener());
 		super.installListeners();
 	}
 
-	private class ChildListener implements CollectionChangeListener
+	private class ChildListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (PhotoGallery.CHILDREN.equals(event.getPropertyName()))
 			{
-				if (event.getType()==CollectionChangeEvent.ADDED)
+				if (event.getType()==CollectionPropertyChangeEvent.ADDED)
 				{
 					addChild(new PhotoGalleryNode((PhotoGallery)event.getElement()));
 				}
-				else if (event.getType()==CollectionChangeEvent.REMOVED)
+				else if (event.getType()==CollectionPropertyChangeEvent.REMOVED)
 				{
 					removeObject(event.getElement());
 				}

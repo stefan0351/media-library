@@ -92,7 +92,7 @@ public class BookSearchView extends SearchView<Book>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(BookManager.getInstance().addCollectionListener(new CollectionObserver(BookManager.BOOKS)));
+		getModelListenerList().installPropertyChangeListener(BookManager.getInstance(), new CollectionObserver(BookManager.BOOKS));
 		super.installCollectionListener();
 	}
 }

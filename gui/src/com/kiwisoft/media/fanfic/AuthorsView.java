@@ -1,9 +1,3 @@
-/*
- * Created by IntelliJ IDEA.
- * User: Stefan1
- * Date: Apr 1, 2003
- * Time: 7:42:37 PM
- */
 package com.kiwisoft.media.fanfic;
 
 import java.beans.PropertyChangeEvent;
@@ -13,8 +7,8 @@ import java.util.List;
 import javax.swing.JComponent;
 
 import com.kiwisoft.swing.table.TableController;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.SortableTableRow;
@@ -30,7 +24,6 @@ import com.kiwisoft.app.Bookmark;
  */
 public class AuthorsView extends ViewPanel implements Disposable
 {
-	private UpdateListener updateListener;
 	private TableController<Author> tableController;
 
 	public AuthorsView()
@@ -49,8 +42,7 @@ public class AuthorsView extends ViewPanel implements Disposable
 		SortableTableModel<Author> tableModel=new DefaultSortableTableModel<Author>("name");
 		for (Author author : FanFicManager.getInstance().getAuthors()) tableModel.addRow(new Row(author));
 		tableModel.sort();
-		updateListener=new UpdateListener();
-		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
+		getModelListenerList().installPropertyChangeListener(FanFicManager.getInstance(), new UpdateListener());
 
 		tableController=new TableController<Author>(tableModel, new DefaultTableConfiguration("authors.list", AuthorsView.class, "authors"))
 		{
@@ -104,27 +96,27 @@ public class AuthorsView extends ViewPanel implements Disposable
 	@Override
 	public void dispose()
 	{
-		FanFicManager.getInstance().removeCollectionListener(updateListener);
 		tableController.dispose();
+		super.dispose();
 	}
 
-	private class UpdateListener implements CollectionChangeListener
+	private class UpdateListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (FanFicManager.AUTHORS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 					{
 						Author newAuthor=(Author)event.getElement();
 						int index=tableController.getModel().addRow(new Row(newAuthor));
 						tableController.getTable().getSelectionModel().setSelectionInterval(index, index);
 					}
 					break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableController.getModel().indexOf(event.getElement());
 						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;

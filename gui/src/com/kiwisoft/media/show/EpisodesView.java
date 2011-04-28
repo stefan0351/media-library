@@ -8,8 +8,6 @@ import javax.swing.JComponent;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.collection.ChainEvent;
 import com.kiwisoft.collection.Chain;
 import com.kiwisoft.media.medium.CreateMediumAction;
@@ -18,6 +16,8 @@ import com.kiwisoft.media.dataimport.EpisodeData;
 import com.kiwisoft.collection.ChainListener;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 public class EpisodesView extends ViewPanel
 {
@@ -115,7 +115,7 @@ public class EpisodesView extends ViewPanel
 			tableModel.addRow(new EpisodeRow(episode));
 		}
 		tableModel.sort();
-		show.addCollectionListener(collectionObserver);
+		getModelListenerList().installPropertyChangeListener(show, collectionObserver);
 	}
 
 	@Override
@@ -136,22 +136,21 @@ public class EpisodesView extends ViewPanel
 	public void dispose()
 	{
 		if (season==null) show.getEpisodes().removeChainListener(collectionObserver);
-		show.removeCollectionListener(collectionObserver);
 		tableController.dispose();
 		super.dispose();
 	}
 
-	private class CollectionChangeObserver implements CollectionChangeListener, ChainListener<Episode>
+	private class CollectionChangeObserver extends CollectionPropertyChangeAdapter implements ChainListener<Episode>
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (Show.EPISODES.equals(event.getPropertyName()))
 			{
 				SortableTableModel<Episode> tableModel=tableController.getModel();
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						SortableTable table=tableController.getTable();
 						Episode newEpisode=(Episode)event.getElement();
 						EpisodeRow row=new EpisodeRow(newEpisode);
@@ -160,7 +159,7 @@ public class EpisodesView extends ViewPanel
 						table.getSelectionModel().setSelectionInterval(newIndex, newIndex);
 						table.scrollRectToVisible(table.getCellRect(newIndex, 0, false));
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableModel.indexOf(event.getElement());
 						if (index>=0) tableModel.removeRowAt(index);
 						break;

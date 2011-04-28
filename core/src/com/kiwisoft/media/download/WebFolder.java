@@ -1,12 +1,12 @@
 package com.kiwisoft.media.download;
 
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.net.URL;
 import java.io.IOException;
 
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.BeanChangeSupport;
+import com.kiwisoft.utils.PropertyChangeSource;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.xml.XMLWriter;
 import com.kiwisoft.utils.xml.XMLAdapter;
@@ -16,7 +16,7 @@ import com.kiwisoft.utils.xml.XMLObject;
 /**
  * @author Stefan Stiller
  */
-public class WebFolder extends XMLAdapter
+public class WebFolder extends XMLAdapter implements PropertyChangeSource
 {
 	public static final String DOCUMENTS="documents";
 	public static final String SUB_FOLDERS="subFolders";
@@ -26,7 +26,7 @@ public class WebFolder extends XMLAdapter
 	private Set<WebDocument> documents=new HashSet<WebDocument>();
 	private Map<String, WebFolder> folders=new Hashtable<String, WebFolder>();
 
-	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
+	private BeanChangeSupport changeSupport=new BeanChangeSupport(this);
 
 	public WebFolder(String name)
 	{
@@ -67,7 +67,7 @@ public class WebFolder extends XMLAdapter
 		WebFolder folder=new WebFolder(name);
 		folder.setParent(this);
 		folders.put(name, folder);
-		collectionSupport.fireElementAdded(SUB_FOLDERS, folder);
+		changeSupport.fireElementAdded(SUB_FOLDERS, folder);
 		return folder;
 	}
 
@@ -107,7 +107,7 @@ public class WebFolder extends XMLAdapter
 	public void addDocument(WebDocument document)
 	{
 		documents.add(document);
-		collectionSupport.fireElementAdded(DOCUMENTS, document);
+		changeSupport.fireElementAdded(DOCUMENTS, document);
 	}
 
 	public Collection<WebFolder> getFolders()
@@ -128,16 +128,6 @@ public class WebFolder extends XMLAdapter
 			WebFolder folder=(WebFolder)it.next();
 			folder.getDocuments(set);
 		}
-	}
-
-	public Disposable addListener(CollectionChangeListener listener)
-	{
-		return collectionSupport.addListener(listener);
-	}
-
-	public void removeListener(CollectionChangeListener listener)
-	{
-		collectionSupport.removeListener(listener);
 	}
 
 	public WebFolder getFolder(String name, boolean create)
@@ -185,5 +175,29 @@ public class WebFolder extends XMLAdapter
 		for (WebFolder folder : folders.values()) folder.writeXML(writer);
 		for (WebDocument document : documents) document.writeXML(writer);
 		writer.closeElement("folder");
+	}
+
+	@Override
+	public void addPropertyChangeListener(PropertyChangeListener listener)
+	{
+		changeSupport.addPropertyChangeListener(listener);
+	}
+
+	@Override
+	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	{
+		changeSupport.addPropertyChangeListener(propertyName, listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener(PropertyChangeListener listener)
+	{
+		changeSupport.removePropertyChangeListener(listener);
+	}
+
+	@Override
+	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+	{
+		changeSupport.removePropertyChangeListener(propertyName, listener);
 	}
 }

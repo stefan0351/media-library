@@ -18,6 +18,8 @@ import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 public class PhotosView extends ViewPanel
 {
@@ -45,7 +47,7 @@ public class PhotosView extends ViewPanel
 		panel.add(createToolBar(frame), BorderLayout.NORTH);
 		panel.add(new JScrollPane(thumbnailPanel), BorderLayout.CENTER);
 
-		getModelListenerList().addDisposable(photoGallery.addCollectionListener(new PhotosCollectionListener()));
+		getModelListenerList().installPropertyChangeListener(photoGallery, new PhotosCollectionListener());
 		thumbnailPanel.addListSelectionListener(new SelectionListener());
 		getModelListenerList().addDisposable(photoGallery.getPhotos().addChainListener(new PhotosChainListener()));
 
@@ -97,19 +99,19 @@ public class PhotosView extends ViewPanel
 		frame.setCurrentView(new PhotosView(photoGallery));
 	}
 
-	private class PhotosCollectionListener implements CollectionChangeListener
+	private class PhotosCollectionListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (PhotoGallery.PHOTOS.equals(event.getPropertyName()))
 			{
-				if (event.getType()==CollectionChangeEvent.ADDED)
+				if (event.getType()==CollectionPropertyChangeEvent.ADDED)
 				{
 					addThumbnail((Photo)event.getElement());
 					updateUI();
 				}
-				else if (event.getType()==CollectionChangeEvent.REMOVED)
+				else if (event.getType()==CollectionPropertyChangeEvent.REMOVED)
 				{
 					removeThumbnail((Photo)event.getElement());
 					updateUI();

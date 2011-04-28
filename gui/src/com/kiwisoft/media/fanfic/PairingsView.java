@@ -16,10 +16,10 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 
 import com.kiwisoft.swing.table.TableController;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.actions.ContextAction;
@@ -34,7 +34,6 @@ import com.kiwisoft.app.Bookmark;
 
 public class PairingsView extends ViewPanel implements Disposable
 {
-	private UpdateListener updateListener;
 	private TableController<Pairing> tableController;
 
 	public PairingsView()
@@ -53,8 +52,7 @@ public class PairingsView extends ViewPanel implements Disposable
 		SortableTableModel<Pairing> tableModel=new DefaultSortableTableModel<Pairing>("name");
 		for (Pairing pairing : FanFicManager.getInstance().getPairings()) tableModel.addRow(new Row(pairing));
 		tableModel.sort();
-		updateListener=new UpdateListener();
-		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
+		getModelListenerList().installPropertyChangeListener(FanFicManager.getInstance(), new UpdateListener());
 
 		tableController=new TableController<Pairing>(tableModel, new DefaultTableConfiguration("pairings.list", PairingsView.class, "pairings"))
 		{
@@ -109,24 +107,24 @@ public class PairingsView extends ViewPanel implements Disposable
 	@Override
 	public void dispose()
 	{
-		FanFicManager.getInstance().removeCollectionListener(updateListener);
 		tableController.dispose();
+		super.dispose();
 	}
 
-	private class UpdateListener implements CollectionChangeListener
+	private class UpdateListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (FanFicManager.PAIRINGS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						Pairing newPairing=(Pairing)event.getElement();
 						tableController.getModel().addRow(new Row(newPairing));
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableController.getModel().indexOf(event.getElement());
 						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;

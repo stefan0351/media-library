@@ -4,10 +4,10 @@ import java.util.Vector;
 import java.net.URL;
 
 import com.kiwisoft.swing.tree.GenericTreeNode;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
-public class DocumentLinksNode extends GenericTreeNode<String> implements CollectionChangeListener
+public class DocumentLinksNode extends GenericTreeNode<String>
 {
 	private WebDocument document;
 
@@ -26,7 +26,20 @@ public class DocumentLinksNode extends GenericTreeNode<String> implements Collec
 	@Override
 	protected void installListeners()
 	{
-		getListeners().addDisposable(document.addCollectionListener(this));
+		getListeners().installPropertyChangeListener(document, new CollectionPropertyChangeAdapter()
+		{
+			@Override
+			public void collectionChange(CollectionPropertyChangeEvent event)
+			{
+				if (WebDocument.LINKS.equals(event.getPropertyName()))
+				{
+					if (CollectionPropertyChangeEvent.ADDED==event.getType())
+					{
+						addChild(new URLNode((URL)event.getElement()));
+					}
+				}
+			}
+		});
 		super.installListeners();
 	}
 
@@ -48,17 +61,5 @@ public class DocumentLinksNode extends GenericTreeNode<String> implements Collec
 	public String getToolTip()
 	{
 		return document.getURL().toString();
-	}
-
-	@Override
-	public void collectionChanged(CollectionChangeEvent event)
-	{
-		if (WebDocument.LINKS.equals(event.getPropertyName()))
-		{
-			if (CollectionChangeEvent.ADDED==event.getType())
-			{
-				addChild(new URLNode((URL)event.getElement()));
-			}
-		}
 	}
 }

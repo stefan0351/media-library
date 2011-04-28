@@ -9,11 +9,10 @@ package com.kiwisoft.media;
 
 import java.util.Set;
 
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.Bean;
 
-public class ChannelManager
+public class ChannelManager extends Bean
 {
 	public static final String CHANNELS="channels";
 
@@ -24,8 +23,6 @@ public class ChannelManager
 		if (instance==null) instance=new ChannelManager();
 		return instance;
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	private ChannelManager()
 	{
@@ -68,26 +65,6 @@ public class ChannelManager
 	public boolean isChannelUsed(Channel channel)
 	{
 		return DBLoader.getInstance().count(Airdate.class, null, "channel_id=?", channel.getId())>0;
-	}
-
-	public void addCollectionChangeListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.addListener(listener);
-	}
-
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
-	}
-
-	protected void fireElementAdded(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementAdded(propertyName, element);
-	}
-
-	protected void fireElementRemoved(String propertyName, Object element)
-	{
-		collectionChangeSupport.fireElementRemoved(propertyName, element);
 	}
 
 	public Channel getChannelByTvtvKey(String key)

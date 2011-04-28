@@ -4,20 +4,18 @@ import java.util.Set;
 import java.io.File;
 import java.awt.Dimension;
 
-import com.kiwisoft.utils.Disposable;
+import com.kiwisoft.utils.Bean;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.media.files.ImageFileInfo;
 import com.kiwisoft.media.files.MediaFileUtils;
 import com.kiwisoft.media.MediaConfiguration;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.collection.CollectionChangeSource;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.PropertyChangeSource;
 
 /**
  * @author Stefan Stiller
  */
-public class PhotoManager implements CollectionChangeSource
+public class PhotoManager extends Bean implements PropertyChangeSource
 {
 	private static PhotoManager instance;
 	public static final String GALLERIES="galleries";
@@ -27,8 +25,6 @@ public class PhotoManager implements CollectionChangeSource
 		if (instance==null) instance=new PhotoManager();
 		return instance;
 	}
-
-	private CollectionChangeSupport collectionChangeSupport=new CollectionChangeSupport(this);
 
 	private PhotoManager()
 	{
@@ -47,18 +43,6 @@ public class PhotoManager implements CollectionChangeSource
 	public PhotoGallery getGallery(Long id)
 	{
 		return DBLoader.getInstance().load(PhotoGallery.class, id);
-	}
-
-	@Override
-	public Disposable addCollectionListener(CollectionChangeListener listener)
-	{
-		return collectionChangeSupport.addListener(listener);
-	}
-
-	@Override
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionChangeSupport.removeListener(listener);
 	}
 
 	public ImageFileInfo createThumbnail(File file, int rotation)

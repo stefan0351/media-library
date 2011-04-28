@@ -4,9 +4,9 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.SearchController;
+import com.kiwisoft.swing.table.SortableTableModel;
 import com.kiwisoft.swing.table.SortableTableRow;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -98,4 +98,9 @@ public class FanFicsSearchView extends FanFicsView
 		}
 	}
 
+	public void addFanFic(FanFic result)
+	{
+		SortableTableModel<FanFic> model=searchController.getModel();
+		if (!model.containsObject(result)) searchController.addRow(result);
+	}
 }

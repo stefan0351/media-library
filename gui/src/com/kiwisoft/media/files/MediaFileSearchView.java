@@ -93,7 +93,7 @@ public class MediaFileSearchView extends SearchView<MediaFile>
 	@Override
 	protected void installCollectionListener()
 	{
-		getModelListenerList().addDisposable(MediaFileManager.getInstance().addCollectionListener(new CollectionObserver(MediaFileManager.MEDIA_FILES)));
+		getModelListenerList().installPropertyChangeListener(MediaFileManager.getInstance(), new CollectionObserver(MediaFileManager.MEDIA_FILES));
 		super.installCollectionListener();
 	}
 

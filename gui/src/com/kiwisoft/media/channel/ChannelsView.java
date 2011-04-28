@@ -6,13 +6,13 @@
  */
 package com.kiwisoft.media.channel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
 import com.kiwisoft.swing.table.TableController;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.app.ViewPanel;
@@ -20,10 +20,10 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.media.Channel;
 import com.kiwisoft.media.ChannelManager;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 public class ChannelsView extends ViewPanel
 {
-	private ChannelListener channelListener;
 	private TableController<Channel> tableController;
 
 	public ChannelsView()
@@ -45,8 +45,7 @@ public class ChannelsView extends ViewPanel
 			tmChannels.addRow(new ChannelRow(channel));
 		}
 		tmChannels.sort();
-		channelListener=new ChannelListener();
-		ChannelManager.getInstance().addCollectionChangeListener(channelListener);
+		getModelListenerList().installPropertyChangeListener(ChannelManager.getInstance(), new ChannelListener());
 
 		tableController=new TableController<Channel>(tmChannels, new DefaultTableConfiguration("channels.list", ChannelsView.class, "channels"))
 		{
@@ -99,26 +98,26 @@ public class ChannelsView extends ViewPanel
 	@Override
 	public void dispose()
 	{
-		ChannelManager.getInstance().removeCollectionListener(channelListener);
 		tableController.dispose();
 		super.dispose();
 	}
 
-	private class ChannelListener implements CollectionChangeListener
+	private class ChannelListener implements PropertyChangeListener
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void propertyChange(PropertyChangeEvent evt)
 		{
-			if (ChannelManager.CHANNELS.equals(event.getPropertyName()))
+			if (evt instanceof CollectionPropertyChangeEvent && ChannelManager.CHANNELS.equals(evt.getPropertyName()))
 			{
+				CollectionPropertyChangeEvent event=(CollectionPropertyChangeEvent) evt;
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						Channel newChannel=(Channel)event.getElement();
 						ChannelRow row=new ChannelRow(newChannel);
 						tableController.getModel().addRow(row);
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableController.getModel().indexOf(event.getElement());
 						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;

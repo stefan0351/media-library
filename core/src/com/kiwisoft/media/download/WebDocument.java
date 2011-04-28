@@ -3,14 +3,11 @@ package com.kiwisoft.media.download;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
 import com.kiwisoft.utils.*;
 import com.kiwisoft.utils.xml.*;
 import com.kiwisoft.cfg.Configuration;
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.collection.CollectionChangeListener;
 
 public class WebDocument extends XMLAdapter implements PropertyChangeSource
 {
@@ -39,8 +36,7 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 	private List<URL> links=new ArrayList<URL>();
 	private boolean queued;
 
-	private PropertyChangeSupport changeSupport=new PropertyChangeSupport(this);
-	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
+	private BeanChangeSupport changeSupport=new BeanChangeSupport(this);
 
 	public WebDocument(GrabberProject project, String fileName, URL aURL)
 	{
@@ -216,7 +212,7 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 		if (!elements.contains(url))
 		{
 			elements.add(url);
-			collectionSupport.fireElementAdded(ELEMENTS, url);
+			changeSupport.fireElementAdded(ELEMENTS, url);
 		}
 	}
 
@@ -230,7 +226,7 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 		if (!links.contains(url))
 		{
 			links.add(url);
-			collectionSupport.fireElementAdded(LINKS, url);
+			changeSupport.fireElementAdded(LINKS, url);
 		}
 	}
 
@@ -502,16 +498,6 @@ public class WebDocument extends XMLAdapter implements PropertyChangeSource
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
 		changeSupport.removePropertyChangeListener(propertyName, listener);
-	}
-
-	public Disposable addCollectionListener(CollectionChangeListener listener)
-	{
-		return collectionSupport.addListener(listener);
-	}
-
-	public void removeCollectionListener(CollectionChangeListener listener)
-	{
-		collectionSupport.removeListener(listener);
 	}
 
 	// XML interface methods

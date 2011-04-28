@@ -7,8 +7,6 @@ import javax.swing.JTabbedPane;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.medium.Song;
@@ -17,6 +15,8 @@ import com.kiwisoft.swing.actions.ComplexAction;
 import com.kiwisoft.swing.table.*;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.persistence.DBLoader;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 public class ProductionCreditsView extends CreditsView
 {
@@ -40,7 +40,7 @@ public class ProductionCreditsView extends CreditsView
 		if (!(production instanceof Song)) tabs.addTab("Cast", createCastPane(frame));
 		if (!(production instanceof Show)) tabs.addTab("Credits", createCreditsPane(frame));
 
-		getModelListenerList().addDisposable(production.addCollectionListener(new CollectionChangeObserver()));
+		getModelListenerList().installPropertyChangeListener(production, new CollectionChangeObserver());
 
 		return tabs;
 	}
@@ -133,21 +133,21 @@ public class ProductionCreditsView extends CreditsView
 		}
 	}
 
-	private class CollectionChangeObserver implements CollectionChangeListener
+	private class CollectionChangeObserver extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (Production.CAST_MEMBERS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						CastMember newCast=(CastMember)event.getElement();
 						getCastTableController().getModel().addRow(new CastTableRow(newCast));
 						getCastTableController().getModel().sort();
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						CastMember removedCast=(CastMember)event.getElement();
 						int index=getCastTableController().getModel().indexOf(removedCast);
 						if (index>=0) getCastTableController().getModel().removeRowAt(index);

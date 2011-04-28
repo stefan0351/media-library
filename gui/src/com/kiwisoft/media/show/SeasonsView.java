@@ -9,16 +9,15 @@ import javax.swing.JComponent;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 
 public class SeasonsView extends ViewPanel
 {
 	// Dates Panel
 	private Show show;
-	private CollectionChangeObserver collectionObserver;
 	private TableController<Season> tableController;
 
 	public SeasonsView(Show show)
@@ -77,8 +76,7 @@ public class SeasonsView extends ViewPanel
 	{
 		for (Season season : show.getSeasons()) tableModel.addRow(new SeasonTableRow(season));
 		tableModel.sort();
-		collectionObserver=new CollectionChangeObserver();
-		show.addCollectionListener(collectionObserver);
+		getModelListenerList().installPropertyChangeListener(show, new CollectionChangeObserver());
 	}
 
 	@Override
@@ -98,28 +96,27 @@ public class SeasonsView extends ViewPanel
 	@Override
 	public void dispose()
 	{
-		show.removeCollectionListener(collectionObserver);
 		tableController.dispose();
 		super.dispose();
 	}
 
-	private class CollectionChangeObserver implements CollectionChangeListener
+	private class CollectionChangeObserver extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (Show.SEASONS.equals(event.getPropertyName()))
 			{
 				SortableTableModel<Season> model=tableController.getModel();
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						Season newSeason=(Season)event.getElement();
 						SeasonTableRow row=new SeasonTableRow(newSeason);
 						model.addRow(row);
 						model.sort();
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=model.indexOf(event.getElement());
 						if (index>=0) model.removeRowAt(index);
 						break;

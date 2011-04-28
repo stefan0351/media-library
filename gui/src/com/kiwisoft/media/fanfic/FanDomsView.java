@@ -13,8 +13,8 @@ import javax.swing.JComponent;
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.Bookmark;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.collection.CollectionChangeEvent;
-import com.kiwisoft.collection.CollectionChangeListener;
+import com.kiwisoft.utils.CollectionPropertyChangeAdapter;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.table.*;
@@ -26,7 +26,6 @@ import com.kiwisoft.media.show.ShowLinksAction;
  */
 public class FanDomsView extends ViewPanel implements Disposable
 {
-	private UpdateListener updateListener;
 	private TableController<FanDom> tableController;
 
 	public FanDomsView()
@@ -45,8 +44,7 @@ public class FanDomsView extends ViewPanel implements Disposable
 		SortableTableModel<FanDom> tableModel=new DefaultSortableTableModel<FanDom>(FanDom.NAME);
 		for (FanDom domain : FanFicManager.getInstance().getDomains()) tableModel.addRow(new BeanTableRow<FanDom>(domain));
 		tableModel.sort();
-		updateListener=new UpdateListener();
-		FanFicManager.getInstance().addCollectionChangeListener(updateListener);
+		getModelListenerList().installPropertyChangeListener(FanFicManager.getInstance(), new UpdateListener());
 
 		tableController=new TableController<FanDom>(tableModel, new DefaultTableConfiguration("fandoms.list", FanDomsView.class, "domains"))
 		{
@@ -103,24 +101,24 @@ public class FanDomsView extends ViewPanel implements Disposable
 	@Override
 	public void dispose()
 	{
-		FanFicManager.getInstance().removeCollectionListener(updateListener);
 		tableController.dispose();
+		super.dispose();
 	}
 
-	private class UpdateListener implements CollectionChangeListener
+	private class UpdateListener extends CollectionPropertyChangeAdapter
 	{
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void collectionChange(CollectionPropertyChangeEvent event)
 		{
 			if (FanFicManager.DOMAINS.equals(event.getPropertyName()))
 			{
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						FanDom newDomain=(FanDom)event.getElement();
 						tableController.getModel().addRow(new BeanTableRow<FanDom>(newDomain));
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						int index=tableController.getModel().indexOf(event.getElement());
 						if (index>=0) tableController.getModel().removeRowAt(index);
 						break;

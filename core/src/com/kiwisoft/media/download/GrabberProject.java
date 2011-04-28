@@ -5,15 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.beans.PropertyChangeSupport;
 import java.beans.PropertyChangeListener;
 
+import com.kiwisoft.utils.BeanChangeSupport;
 import com.kiwisoft.utils.xml.*;
-import com.kiwisoft.utils.Disposable;
 import com.kiwisoft.utils.PropertyChangeSource;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.collection.CollectionChangeSupport;
-import com.kiwisoft.collection.CollectionChangeListener;
 
 public class GrabberProject extends XMLAdapter implements PropertyChangeSource
 {
@@ -24,8 +21,7 @@ public class GrabberProject extends XMLAdapter implements PropertyChangeSource
 	private Map<String, WebFolder> folders=new Hashtable<String, WebFolder>();
 	private Map<String, WebDocument> urlMap=new Hashtable<String, WebDocument>();
 
-	private CollectionChangeSupport collectionSupport=new CollectionChangeSupport(this);
-	private PropertyChangeSupport changeSupport=new PropertyChangeSupport(this);
+	private BeanChangeSupport changeSupport=new BeanChangeSupport(this);
 
 	public GrabberProject()
 	{
@@ -132,7 +128,7 @@ public class GrabberProject extends XMLAdapter implements PropertyChangeSource
 	{
 		WebFolder child=new WebFolder(pathElement);
 		folders.put(child.getName(), child);
-		collectionSupport.fireElementAdded(FOLDERS, child);
+		changeSupport.fireElementAdded(FOLDERS, child);
 		return child;
 	}
 
@@ -168,16 +164,6 @@ public class GrabberProject extends XMLAdapter implements PropertyChangeSource
 	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
 	{
 		changeSupport.removePropertyChangeListener(propertyName, listener);
-	}
-
-	public Disposable addListener(CollectionChangeListener listener)
-	{
-		return collectionSupport.addListener(listener);
-	}
-
-	public void removeListener(CollectionChangeListener listener)
-	{
-		collectionSupport.removeListener(listener);
 	}
 
 	// XML interface methods

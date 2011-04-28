@@ -1,25 +1,19 @@
 package com.kiwisoft.swing;
 
 import com.kiwisoft.app.ApplicationFrame;
-import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.app.Bookmark;
-import com.kiwisoft.media.Pinnable;
-import com.kiwisoft.media.person.Person;
-import com.kiwisoft.swing.table.TableController;
+import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.swing.table.SortableTableModel;
-import com.kiwisoft.swing.table.SortableTableRow;
-import com.kiwisoft.swing.table.BeanTableRow;
-import com.kiwisoft.utils.Utils;
+import com.kiwisoft.swing.table.TableController;
+import com.kiwisoft.utils.CollectionPropertyChangeEvent;
 import com.kiwisoft.utils.StringUtils;
-import com.kiwisoft.collection.CollectionChangeListener;
-import com.kiwisoft.collection.CollectionChangeEvent;
+import com.kiwisoft.utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.*;
-import java.util.List;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Set;
 
 /**
  * @author Stefan Stiller
@@ -130,7 +124,7 @@ public abstract class SearchView<T> extends ViewPanel
 		super.dispose();
 	}
 
-	protected class CollectionObserver implements CollectionChangeListener
+	protected class CollectionObserver implements PropertyChangeListener
 	{
 		private String property;
 
@@ -140,18 +134,19 @@ public abstract class SearchView<T> extends ViewPanel
 		}
 
 		@Override
-		public void collectionChanged(CollectionChangeEvent event)
+		public void propertyChange(PropertyChangeEvent evt)
 		{
-			if (property.equals(event.getPropertyName()))
+			if (evt instanceof CollectionPropertyChangeEvent && property.equals(evt.getPropertyName()))
 			{
+				CollectionPropertyChangeEvent event=(CollectionPropertyChangeEvent) evt;
 				switch (event.getType())
 				{
-					case CollectionChangeEvent.ADDED:
+					case CollectionPropertyChangeEvent.ADDED:
 						T newObject=Utils.<T>cast(event.getElement());
 						SortableTableModel<T> tableModel=tableController.getModel();
 						if (!tableModel.containsObject(newObject)) tableModel.addRow(searchController.createRow(newObject));
 						break;
-					case CollectionChangeEvent.REMOVED:
+					case CollectionPropertyChangeEvent.REMOVED:
 						SortableTableModel<T> model=tableController.getModel();
 						int index=model.indexOf(event.getElement());
 						if (index>=0) model.removeRowAt(index);
