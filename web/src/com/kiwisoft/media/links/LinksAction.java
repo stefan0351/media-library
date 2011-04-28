@@ -1,13 +1,13 @@
 package com.kiwisoft.media.links;
 
-import com.kiwisoft.media.BaseAction;
-import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.media.LinkManager;
-import com.kiwisoft.media.Link;
+import com.kiwisoft.media.*;
+import com.kiwisoft.media.fanfic.NoFanFicFilter;
 import com.kiwisoft.media.files.*;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.media.show.ShowManager;
 import com.kiwisoft.format.FormatStringComparator;
+import com.kiwisoft.utils.Filter;
+import com.kiwisoft.utils.FilterUtils;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -41,18 +41,19 @@ public class LinksAction extends BaseAction
 		if (groupId!=null) group=LinkManager.getInstance().getGroup(groupId);
 		groupName=group!=null ? group.getName() : "Links";
 		if (showId!=null) show=ShowManager.getInstance().getShow(showId);
+		Filter<Object> filter=MediaConfiguration.isFanFicsEnabled() ? null : new NoFanFicFilter();
 		links=new ArrayList<Link>();
 		relatedGroups=new ArrayList<LinkGroup>();
 		childGroups=new ArrayList<LinkGroup>();
 		if (group!=null)
 		{
-			links.addAll(group.getLinks());
-			childGroups.addAll(group.getSubGroups());
-			relatedGroups.addAll(group.getRelatedGroups());
+			links.addAll(FilterUtils.filterSet(group.getLinks(), filter));
+			childGroups.addAll(FilterUtils.filterSet(group.getSubGroups(), filter));
+			relatedGroups.addAll(FilterUtils.filterSet(group.getRelatedGroups(), filter));
 		}
 		else
 		{
-			childGroups.addAll(LinkManager.getInstance().getRootGroups());
+			childGroups.addAll(FilterUtils.filterSet(LinkManager.getInstance().getRootGroups(), filter));
 		}
 		Collections.sort(links, new FormatStringComparator());
 		Collections.sort(childGroups, new FormatStringComparator());

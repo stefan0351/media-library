@@ -2,10 +2,8 @@ package com.kiwisoft.media.links;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.ViewPanel;
-import com.kiwisoft.media.Link;
-import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.media.LinkManager;
-import com.kiwisoft.media.MediaTransferable;
+import com.kiwisoft.media.*;
+import com.kiwisoft.media.fanfic.NoFanFicFilter;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
@@ -16,6 +14,7 @@ import com.kiwisoft.swing.tree.GenericTree;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 import com.kiwisoft.swing.tree.TreeController;
 import com.kiwisoft.swing.tree.TreeUtils;
+import com.kiwisoft.utils.Filter;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -34,6 +33,7 @@ public class LinksView extends ViewPanel
 {
 	private TreeController treeController;
 	private LinkGroup linkGroup;
+	private Filter<Object> filter;
 
 	public LinksView()
 	{
@@ -44,6 +44,7 @@ public class LinksView extends ViewPanel
 	{
 		this.linkGroup=linkGroup;
 		setTitle("Links");
+		if (!MediaConfiguration.isFanFicsEnabled()) filter=new NoFanFicFilter();
 	}
 
 	@Override
@@ -103,7 +104,7 @@ public class LinksView extends ViewPanel
 	protected void initializeData()
 	{
 		GenericTree tree=treeController.getTree();
-		LinksRootNode rootNode=new LinksRootNode();
+		LinksRootNode rootNode=new LinksRootNode(filter);
 		tree.setRoot(rootNode);
 		if (linkGroup!=null)
 		{
