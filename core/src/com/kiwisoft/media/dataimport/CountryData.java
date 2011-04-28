@@ -3,6 +3,7 @@ package com.kiwisoft.media.dataimport;
 import com.kiwisoft.media.Country;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Stefan Stiller
@@ -14,7 +15,7 @@ public class CountryData implements Serializable
 	
 	private String symbol;
 	private String name;
-	private Country country;
+	private Set<Country> countries;
 
 	public CountryData()
 	{
@@ -82,13 +83,13 @@ public class CountryData implements Serializable
 			   '}';
 	}
 
-	public void setCountry(Country country)
+	public Set<Country> getCountries()
 	{
-		this.country=country;
+		return countries;
 	}
 
-	public Country getCountry()
+	public void setCountries(Set<Country> countries)
 	{
-		return country;
+		this.countries=countries;
 	}
 }

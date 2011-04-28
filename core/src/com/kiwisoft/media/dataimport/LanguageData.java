@@ -3,6 +3,7 @@ package com.kiwisoft.media.dataimport;
 import com.kiwisoft.media.Language;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Stefan Stiller
@@ -14,7 +15,7 @@ public class LanguageData implements Serializable
 	
 	private String symbol;
 	private String name;
-	private Language language;
+	private Set<Language> languages;
 
 	public LanguageData()
 	{
@@ -29,6 +30,16 @@ public class LanguageData implements Serializable
 	{
 		this.name=name;
 		this.symbol=symbol;
+	}
+
+	public Set<Language> getLanguages()
+	{
+		return languages;
+	}
+
+	public void setLanguages(Set<Language> languages)
+	{
+		this.languages=languages;
 	}
 
 	public String getSymbol()
@@ -80,15 +91,5 @@ public class LanguageData implements Serializable
 			   "name='"+name+'\''+
 			   ", symbol='"+symbol+'\''+
 			   '}';
-	}
-
-	public void setLanguage(Language language)
-	{
-		this.language=language;
-	}
-
-	public Language getLanguage()
-	{
-		return language;
 	}
 }

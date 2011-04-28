@@ -6,6 +6,15 @@
  */
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.media.Country;
+import com.kiwisoft.media.CountryManager;
+import com.kiwisoft.media.Language;
+import com.kiwisoft.media.LanguageManager;
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.movie.MovieManager;
+import com.kiwisoft.media.person.Person;
+import com.kiwisoft.media.person.PersonManager;
+import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.xml.XMLUtils;
 import com.kiwisoft.utils.FileUtils;
 import com.kiwisoft.utils.WebUtils;
@@ -16,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.io.IOException;
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.Map;
 import java.nio.charset.Charset;
@@ -29,6 +41,8 @@ public class ImportUtils
 
 	public static final DateFormat DATE_FORMAT=new SimpleDateFormat("d.M.yyyy H:mm");
 	public static boolean USE_CACHE=Boolean.getBoolean("kiwisoft.media.downloadCache");
+
+	public static enum KeyType {IMDB, TV_COM}
 
 	private ImportUtils()
 	{
@@ -157,5 +171,80 @@ public class ImportUtils
 				if (tries>=3) throw e;
 			}
 		}
+	}
+
+	public static void matchMovie(MovieData movieData)
+	{
+		Movie movie=MovieManager.getInstance().getMovieByIMDbKey(movieData.getImdbKey());
+		if (movie!=null)
+		{
+			movieData.setMovies(Collections.singleton(movie));
+		}
+		else
+		{
+			Set<Movie> movies=new HashSet<Movie>();
+			movies.addAll(MovieManager.getInstance().getMoviesByTitle(movieData.getTitle()));
+			if (!StringUtils.isEmpty(movieData.getGermanTitle())) movies.addAll(MovieManager.getInstance().getMoviesByTitle(movieData.getGermanTitle()));
+			movieData.setMovies(movies);
+		}
+	}
+
+
+	public static void matchPerson(CreditData creditData, KeyType keyType)
+	{
+		Set<Person> persons=findPerson(creditData.getKey(), keyType, creditData.getName(), creditData.getListedAs());
+		creditData.setPersons(persons);
+	}
+
+	private static Set<Person> findPerson(String key, KeyType keyType, String... names)
+	{
+		if (!StringUtils.isEmpty(key))
+		{
+			Person person=null;
+			if (keyType==KeyType.IMDB) person=PersonManager.getInstance().getPersonByIMDbKey(key);
+			else if (keyType==KeyType.TV_COM) person=PersonManager.getInstance().getPersonByTVcomKey(key);
+			if (person!=null) return Collections.singleton(person);
+		}
+		Set<Person> persons=new HashSet<Person>();
+		for (String name : names)
+		{
+			if (!StringUtils.isEmpty(name))
+			{
+				Set<Person> personsByName=PersonManager.getInstance().getPersonsByName(name);
+				if (StringUtils.isEmpty(key)) persons.addAll(personsByName);
+				else
+				{
+					for (Person person : personsByName)
+					{
+						if (!key.equals(person.getImdbKey())) persons.add(person);
+					}
+				}
+			}
+		}
+		return persons;
+	}
+
+	public static void matchLanguage(LanguageData languageData)
+	{
+		Language language=LanguageManager.getInstance().getLanguageByName(languageData.getName());
+		if (language!=null)
+		{
+			languageData.setLanguages(Collections.singleton(language));
+			languageData.setSymbol(language.getSymbol());
+		}
+		else languageData.setLanguages(Collections.<Language>emptySet());
+	}
+
+	public static void matchCountry(CountryData countryData)
+	{
+		if ("UK".equalsIgnoreCase(countryData.getName())) countryData.setName("Great Britain");
+		Country country=CountryManager.getInstance().getCountryByName(countryData.getName());
+		if (country!=null)
+		{
+			countryData.setCountries(Collections.singleton(country));
+			countryData.setSymbol(country.getSymbol());
+		}
+		else countryData.setCountries(Collections.<Country>emptySet());
+
 	}
 }

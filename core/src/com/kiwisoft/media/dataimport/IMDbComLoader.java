@@ -14,8 +14,7 @@ import org.htmlparser.Node;
 import org.htmlparser.filters.LinkRegexFilter;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.TagNameFilter;
-import org.htmlparser.tags.CompositeTag;
-import org.htmlparser.tags.LinkTag;
+import org.htmlparser.tags.*;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
@@ -36,6 +35,17 @@ public class IMDbComLoader
 	private Pattern nameLinkPattern;
 	private String key;
 	private Map<String, String> connectionProperties;
+
+	public static IMDbComLoader create(String url)
+	{
+		Matcher matcher=Pattern.compile("http://(?:german|www).imdb.(?:com|de)/title/(\\w+)\\b.*").matcher(url);
+		if (matcher.matches())
+		{
+			url="http://www.imdb.com/title/"+matcher.group(1)+"/";
+			return new IMDbComLoader(url, matcher.group(1));
+		}
+		return null;
+	}
 
 	public IMDbComLoader(String url, String key)
 	{
@@ -174,86 +184,106 @@ public class IMDbComLoader
 		return movieData;
 	}
 
-	private void parseCreditsPage(String page, MovieData movieData)
+	private void parseCreditsPage(String page, MovieData movieData) throws ParserException
 	{
-		int index=page.indexOf("<h1><small>Full cast and crew for");
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
 
-		Pattern pattern=Pattern.compile("<h5><a class=\"glossary\" name=\"([^<]+)\" href=\"/Glossary/.#[^<]+\">([^<]+)</a>");
-		Matcher matcher=pattern.matcher(page);
-		while (matcher.find(index))
+		Node bodyNode=HtmlUtils.findFirst(parser, "body");
+
+		NodeList glossaryNodes=HtmlUtils.findAll((CompositeTag) bodyNode, "a.glossary");
+		for (NodeIterator it=glossaryNodes.elements();it.hasMoreNodes();)
 		{
-			String typeName=matcher.group(2);
+			LinkTag linkTag=(LinkTag) it.nextNode();
+			String linkName=linkTag.getAttribute("name");
 			CreditType type=null;
-			if ("Directed by".equals(typeName)) type=CreditType.DIRECTOR;
-			else if ("Writing credits".equals(typeName)) type=CreditType.WRITER;
-			else if ("Produced by".equals(typeName)) type=CreditType.PRODUCER;
-			else if ("Original Music by".equals(typeName)) type=CreditType.COMPOSER;
-			else if ("Cinematography by".equals(typeName)) type=CreditType.CINEMATOGRAPHER;
-			else if ("Film Editing by".equals(typeName)) type=CreditType.EDITOR;
-			else if ("Art Direction by".equals(typeName)) type=CreditType.ART_DIRECTOR;
+			if ("directors".equals(linkName)) type=CreditType.DIRECTOR;
+			else if ("producers".equals(linkName)) type=CreditType.PRODUCER;
+			else if ("writers".equals(linkName)) type=CreditType.WRITER;
+			else if ("music_original".equals(linkName)) type=CreditType.COMPOSER;
+			else if ("cinematographers".equals(linkName)) type=CreditType.CINEMATOGRAPHER;
+			else if ("editors".equals(linkName)) type=CreditType.EDITOR;
+			else if ("art_directors".equals(linkName)) type=CreditType.ART_DIRECTOR;
 			if (type!=null)
 			{
-				index=matcher.end();
-				int tableEnd=page.indexOf("</table>", index);
-				while (true)
+				TableTag tableTag=(TableTag) HtmlUtils.findAncestor(linkTag, "table");
+				for (TableRow tableRow : tableTag.getRows())
 				{
-					index=page.indexOf("<tr", index);
-					if (index<0 || index>tableEnd) break;
-					int index2=page.indexOf("</tr>", index);
-					String htmlRow=page.substring(index, index2);
-					List<String> row=XMLUtils.extractCellValues(htmlRow);
-					String name=XMLUtils.unescapeHtml(row.get(0));
-					if (!StringUtils.isEmpty(name))
+					TableColumn[] columns=tableRow.getColumns();
+					if (columns.length==1) continue; // Heading
+
+					CrewData crewData=new CrewData();
+					crewData.setType(type);
+					crewData.setName(HtmlUtils.trimUnescape(columns[0].toPlainTextString()));
+					if (!StringUtils.isEmpty(crewData.getName()))
 					{
-						String imdbKey=getNameLink(name);
-						name=XMLUtils.removeTags(name).trim();
-						String subType=null;
-						if (row.size()>2)
+						LinkTag personLink=(LinkTag) HtmlUtils.findFirst(columns[0], "a");
+						if (personLink!=null) crewData.setKey(extractKeyFromLink(personLink));
+						if (columns.length>2)
 						{
-							subType=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(2))).trim();
+							String subType=HtmlUtils.trimUnescape(columns[2].toPlainTextString());
 							if (subType.endsWith(" &")) subType=subType.substring(0, subType.length()-2);
 							if (subType.endsWith(" and")) subType=subType.substring(0, subType.length()-4);
+
+							int pos=subType.indexOf("(as ");
+							if (pos>=0)
+							{
+								int closingBrace=StringUtils.findMatchingBrace(subType, pos);
+								if (closingBrace>pos)
+								{
+									crewData.setListedAs(subType.substring(pos+4, closingBrace));
+									subType=subType.substring(0, pos).trim();
+								}
+							}
 							if (subType.startsWith("(") && subType.endsWith(")")) subType=subType.substring(1, subType.length()-1);
 							subType=WordUtils.capitalize(subType);
+							crewData.setSubType(subType);
 						}
-						movieData.addCrew(new CrewData(name, type, subType, imdbKey));
+						movieData.addCrew(crewData);
 					}
-					index=index2;
 				}
 			}
-			index=matcher.end();
 		}
 
-		index=page.indexOf("<table class=\"cast\">");
-		if (index>=0)
+		TableTag castTableTag=(TableTag) HtmlUtils.findFirst((CompositeTag) bodyNode, "table.cast");
+		if (castTableTag!=null)
 		{
-			int tableEnd=page.indexOf("</table>", index);
-			int creditOrder=1;
-			while (true)
+			TableRow[] rows=castTableTag.getRows();
+			for (int i=0; i<rows.length; i++)
 			{
-				index=page.indexOf("<tr", index);
-				if (index<0 || index>tableEnd) break;
-				int index2=page.indexOf("</tr>", index);
-				if (index2<0 || index>tableEnd) break;
-				String htmlRow=page.substring(index, index2);
-				index=index2;
-				List<String> row=XMLUtils.extractCellValues(htmlRow);
-				if ("<small>rest of cast listed alphabetically:</small>".equals(row.get(0))) continue;
-				String actor=XMLUtils.unescapeHtml(row.get(1));
-				String imdbKey=getNameLink(actor);
-				actor=XMLUtils.removeTags(actor).trim();
-				String role=XMLUtils.removeTags(XMLUtils.unescapeHtml(row.get(3))).trim();
-				if (!"Extra".equals(role) && !role.startsWith("Extra (as"))
+				TableRow row=rows[i];
+				TableColumn[] columns=row.getColumns();
+				String cell1=HtmlUtils.trimUnescape(columns[0].toPlainTextString());
+				if ("rest of cast listed alphabetically:".equals(cell1)) continue;
+				CastData castData=new CastData();
+				castData.setCreditOrder(i+1);
+				castData.setName(HtmlUtils.trimUnescape(columns[1].toPlainTextString()));
+				LinkTag personLink=(LinkTag) HtmlUtils.findFirst(columns[1], "a");
+				if (personLink!=null) castData.setKey(extractKeyFromLink(personLink));
+				String role=HtmlUtils.trimUnescape(columns[3].toPlainTextString());
+				int pos=role.indexOf("(as ");
+				if (pos>=0)
 				{
-					movieData.addCast(new CastData(actor, role, creditOrder++, imdbKey));
+					int closingBrace=StringUtils.findMatchingBrace(role, pos);
+					if (closingBrace>pos)
+					{
+						castData.setListedAs(role.substring(pos+4, closingBrace));
+						role=role.substring(0, pos).trim();
+					}
+				}
+
+				if (!"Extra".equals(role))
+				{
+					castData.setRole(role);
+					movieData.addCast(castData);
 				}
 			}
 		}
 	}
 
-	private String getNameLink(String html)
+	private String extractKeyFromLink(LinkTag personLink)
 	{
-		Matcher keyMatcher=nameLinkPattern.matcher(XMLUtils.getAttribute(html, "href"));
+		Matcher keyMatcher=nameLinkPattern.matcher(personLink.getAttribute("href"));
 		if (keyMatcher.matches()) return keyMatcher.group(1);
 		return null;
 	}

@@ -4,17 +4,14 @@ import com.kiwisoft.media.person.Credit;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.Person;
 
-import java.io.Serializable;
+import java.util.Collections;
 
-public class CrewData implements Serializable
+public class CrewData extends CastData
 {
 	private static final long serialVersionUID=-2065122511217698103L;
 	
-	private String name;
 	private CreditType type;
 	private String subType;
-	private String key;
-	private Person person;
 	private Credit credit;
 
 	public CrewData()
@@ -23,31 +20,21 @@ public class CrewData implements Serializable
 
 	public CrewData(Credit crewMember)
 	{
+		credit=crewMember;
 		Person person=crewMember.getPerson();
-		name=person.getName();
-		key=person.getImdbKey();
+		setName(person.getName());
+		setKey(person.getImdbKey());
+		setPersons(Collections.singleton(person));
 		type=crewMember.getCreditType();
 		subType=crewMember.getSubType();
 	}
 
 	public CrewData(String name, CreditType type, String subType, String key)
 	{
-		this.name=name;
+		setKey(key);
+		setName(name);
 		this.type=type;
 		this.subType=subType;
-		this.key=key;
-	}
-
-
-	public String getKey()
-	{
-		return key;
-	}
-
-
-	public String getName()
-	{
-		return name;
 	}
 
 	public CreditType getType()
@@ -58,16 +45,6 @@ public class CrewData implements Serializable
 	public String getSubType()
 	{
 		return subType;
-	}
-
-	public void setKey(String key)
-	{
-		this.key=key;
-	}
-
-	public void setName(String name)
-	{
-		this.name=name;
 	}
 
 	public void setSubType(String subType)
@@ -99,7 +76,7 @@ public class CrewData implements Serializable
 
 		final CrewData crewData=(CrewData)o;
 
-		return !(name!=null ? !name.equals(crewData.name) : crewData.name!=null) &&
+		return !(getName()!=null ? !getName().equals(crewData.getName()) : crewData.getName()!=null) &&
 			   !(subType!=null ? !subType.equals(crewData.subType) : crewData.subType!=null) &&
 			   !(type!=null ? !type.equals(crewData.type) : crewData.type!=null);
 	}
@@ -108,7 +85,7 @@ public class CrewData implements Serializable
 	public int hashCode()
 	{
 		int result;
-		result=(name!=null ? name.hashCode() : 0);
+		result=(getName()!=null ? getName().hashCode() : 0);
 		result=29*result+(type!=null ? type.hashCode() : 0);
 		result=29*result+(subType!=null ? subType.hashCode() : 0);
 		return result;
@@ -118,21 +95,11 @@ public class CrewData implements Serializable
 	public String toString()
 	{
 		return "CrewData{"+
-			   "name='"+name+'\''+
+			   "name='"+getName()+'\''+
 			   ", type="+type+
 			   ", subType='"+subType+'\''+
-			   ", key='"+key+'\''+
+			   ", key='"+getKey()+'\''+
 			   '}';
-	}
-
-	public void setPerson(Person person)
-	{
-		this.person=person;
-	}
-
-	public Person getPerson()
-	{
-		return person;
 	}
 
 	public void setCredit(Credit credit)

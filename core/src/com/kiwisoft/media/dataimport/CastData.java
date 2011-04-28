@@ -3,21 +3,18 @@ package com.kiwisoft.media.dataimport;
 import com.kiwisoft.media.person.CastMember;
 import com.kiwisoft.media.person.Person;
 
-import java.io.Serializable;
+import java.util.Collections;
 
 /**
  * @author Stefan Stiller
  */
-public class CastData implements Serializable
+public class CastData extends CreditData
 {
 	private static final long serialVersionUID=-1107097608838199653L;
-	
-	private String actor;
-	private String role;
-	private Integer creditOrder;
-	private String key;
 
-	private Person person;
+	private Integer creditOrder;
+	private String role;
+
 	private CastMember castMember;
 
 	public CastData()
@@ -26,28 +23,26 @@ public class CastData implements Serializable
 
 	public CastData(CastMember castMember)
 	{
+		this.castMember=castMember;
 		Person person=castMember.getActor();
-		actor=person.getName();
-		key=person.getImdbKey();
+		setName(person.getName());
+		setKey(person.getImdbKey());
+		if (castMember.getActor()!=null) setPersons(Collections.singleton(castMember.getActor()));
+		else setPersons(Collections.<Person>emptySet());
 		role=castMember.getCharacterName();
 	}
 
-	public CastData(String actor, String role, Integer creditOrder, String key)
+	public CastData(String name, String role, Integer creditOrder, String key)
 	{
-		this.actor=actor;
+		setName(name);
+		setKey(key);
 		this.role=role;
 		this.creditOrder=creditOrder;
-		this.key=key;
 	}
 
 	public Integer getCreditOrder()
 	{
 		return creditOrder;
-	}
-
-	public String getActor()
-	{
-		return actor;
 	}
 
 	public String getRole()
@@ -56,24 +51,9 @@ public class CastData implements Serializable
 	}
 
 
-	public String getKey()
-	{
-		return key;
-	}
-
-	public void setActor(String actor)
-	{
-		this.actor=actor;
-	}
-
 	public void setCreditOrder(Integer creditOrder)
 	{
 		this.creditOrder=creditOrder;
-	}
-
-	public void setKey(String key)
-	{
-		this.key=key;
 	}
 
 	public void setRole(String role)
@@ -89,7 +69,7 @@ public class CastData implements Serializable
 
 		final CastData castData=(CastData)o;
 
-		return !(actor!=null ? !actor.equals(castData.actor) : castData.actor!=null)
+		return !(getName()!=null ? !getName().equals(castData.getName()) : castData.getName()!=null)
 			   && !(role!=null ? !role.equals(castData.role) : castData.role!=null);
 	}
 
@@ -97,7 +77,7 @@ public class CastData implements Serializable
 	public int hashCode()
 	{
 		int result;
-		result=(actor!=null ? actor.hashCode() : 0);
+		result=(getName()!=null ? getName().hashCode() : 0);
 		result=29*result+(role!=null ? role.hashCode() : 0);
 		return result;
 	}
@@ -107,25 +87,16 @@ public class CastData implements Serializable
 	{
 		return "CastData{"+
 			   "creditOrder="+creditOrder+
-			   ", actor='"+actor+'\''+
+			   ", actor='"+getName()+'\''+
 			   ", role='"+role+'\''+
-			   ", key='"+key+'\''+
+			   ", key='"+getKey()+'\''+
 			   '}';
-	}
-
-	public void setPerson(Person person)
-	{
-		this.person=person;
-	}
-
-	public Person getPerson()
-	{
-		return person;
 	}
 
 	public void setCastMember(CastMember castMember)
 	{
 		this.castMember=castMember;
+		if (castMember.getActor()!=null) setPersons(Collections.singleton(castMember.getActor()));
 	}
 
 	public CastMember getCastMember()

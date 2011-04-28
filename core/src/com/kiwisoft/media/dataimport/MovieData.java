@@ -1,5 +1,8 @@
 package com.kiwisoft.media.dataimport;
 
+import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.utils.Bean;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
@@ -9,7 +12,7 @@ import java.io.Serializable;
 /**
  * @author Stefan Stiller
  */
-public class MovieData implements Serializable
+public class MovieData extends Bean implements Serializable
 {
 	private static final long serialVersionUID=-672166447065632609L;
 
@@ -29,6 +32,18 @@ public class MovieData implements Serializable
 	private Set<LanguageData> languages;
 	private String imdbKey;
 	private String outline;
+
+	private Set<Movie> movies;
+
+	public Set<Movie> getMovies()
+	{
+		return movies;
+	}
+
+	public void setMovies(Set<Movie> movies)
+	{
+		this.movies=movies;
+	}
 
 	public void addCrew(CrewData crewData)
 	{
@@ -223,5 +238,11 @@ public class MovieData implements Serializable
 	public String getOutline()
 	{
 		return outline;
+	}
+
+	public void removeCast(CastData castData)
+	{
+		if (cast.remove(castData)) fireElementRemoved("cast", castData);
+
 	}
 }

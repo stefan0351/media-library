@@ -9,7 +9,7 @@ import com.kiwisoft.swing.*;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.utils.websearch.GoogleSearch;
-import com.kiwisoft.utils.websearch.GoogleSearchAction;
+import com.kiwisoft.utils.websearch.WebSearchAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -70,7 +70,7 @@ public class EpisodeLoaderLinkDialog extends JDialog
 
 	private void createContentPanel()
 	{
-		urlField=new ActionField(40, new GoogleSearchAction(search, show.getTitle()));
+		urlField=new ActionField(40, new WebSearchAction(search, show.getTitle()));
 		showField=new JTextField(40);
 		showField.setEditable(false);
 

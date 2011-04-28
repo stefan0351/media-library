@@ -3,13 +3,13 @@ package com.kiwisoft.utils.websearch;
 import com.kiwisoft.html.HtmlUtils;
 import com.kiwisoft.media.dataimport.ImportUtils;
 import com.kiwisoft.utils.HttpConstants;
+import com.kiwisoft.utils.xml.XMLUtils;
 import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.tags.CompositeTag;
 import org.htmlparser.util.NodeIterator;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
-import org.htmlparser.util.SimpleNodeIterator;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -59,9 +59,10 @@ public class GoogleSearch
 				{
 					CompositeTag linkNode=(CompositeTag) HtmlUtils.findFirst(headingNode, "a");
 					CompositeTag descriptionNode=(CompositeTag) HtmlUtils.findFirst(resultNode, "div.s");
-					String descriptionHtml=getInnerHtml(descriptionNode);
+					String descriptionHtml=HtmlUtils.getInnerHtml(descriptionNode);
 					int index=descriptionHtml.indexOf("<br>");
 					if (index>=0) descriptionHtml=descriptionHtml.substring(0, index);
+					descriptionHtml=XMLUtils.removeTag(descriptionHtml, "img");
 
 					WebSearchResult result=new WebSearchResult(HtmlUtils.trimUnescape(headingNode.toPlainTextString()), linkNode.getAttribute("href"));
 					result.setDescription(descriptionHtml);
@@ -79,17 +80,6 @@ public class GoogleSearch
 	public void setSite(String site)
 	{
 		this.site=site;
-	}
-
-	private static String getInnerHtml(CompositeTag tag)
-	{
-		StringBuilder html=new StringBuilder();
-		for (SimpleNodeIterator e=tag.children(); e.hasMoreNodes();)
-		{
-			html.append(e.nextNode().toHtml(true));
-		}
-		return html.toString();
-
 	}
 
 	public void setResultsPerPage(int resultsPerPage)

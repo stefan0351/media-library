@@ -16,12 +16,12 @@ import java.util.List;
 * @author Stefan Stiller
 * @since 20.02.11
 */
-public class GoogleSearchAction extends TextFieldAction
+public class WebSearchAction extends TextFieldAction
 {
 	private GoogleSearch search;
 	private String searchExpression;
 
-	public GoogleSearchAction(GoogleSearch search, String searchExpression)
+	public WebSearchAction(GoogleSearch search, String searchExpression)
 	{
 		super(Icons.getIcon("search"), "Search Google");
 		this.search=search;
@@ -39,7 +39,7 @@ public class GoogleSearchAction extends TextFieldAction
 				@Override
 				protected JComponent createContentPane()
 				{
-					WebSearchResultView resultView=new WebSearchResultView()
+					WebSearchResultPanel resultView=new WebSearchResultPanel()
 					{
 						@Override
 						public void linkSelected(WebSearchResult result)

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Locale;
 
+import com.kiwisoft.media.dataimport.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,9 +15,6 @@ import com.kiwisoft.cfg.Configuration;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.swing.SplashWindow;
 import com.kiwisoft.swing.icons.Icons;
-import com.kiwisoft.media.dataimport.LinkHttpHandler;
-import com.kiwisoft.media.dataimport.FanFictionNetLinkHandler;
-import com.kiwisoft.media.dataimport.LinkCollector;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.files.MediaFileIconFormat;
 import com.kiwisoft.format.FormatManager;
@@ -27,6 +25,7 @@ public class MediaManager
 	private final static Log log=LogFactory.getLog(MediaManager.class);
 
 	public static SplashWindow splashWindow;
+	private static MediaManagerFrame frame;
 
 	public static void main(String[] args) throws IOException
 	{
@@ -47,7 +46,7 @@ public class MediaManager
 		splashWindow.setStatus("MediaLib Version 3.0");
 		splashWindow.setVisible(true);
 
-		MediaManagerFrame frame=new MediaManagerFrame();
+		frame=new MediaManagerFrame();
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter()
 		{
@@ -70,6 +69,7 @@ public class MediaManager
 		{
 			linkCollector.addHandler("\\bhttp://www.fanfiction.net/s/.*\\b", new FanFictionNetLinkHandler());
 		}
+		linkCollector.addHandler("\\bhttp://(?:german|www).imdb.(?:com|de)/title/(\\w+)\\b", new IMDbLinkHandler());
 	}
 
 	private static void startHttpListener(final MediaManagerFrame frame)
@@ -97,6 +97,11 @@ public class MediaManager
 			log.error(e.getMessage(), e);
 			GuiUtils.handleThrowable(frame, e);
 		}
+	}
+
+	public static MediaManagerFrame getFrame()
+	{
+		return frame;
 	}
 
 	private MediaManager()

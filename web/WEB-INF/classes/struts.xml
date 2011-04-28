@@ -93,20 +93,6 @@
         <action name="ListMovies" class="com.kiwisoft.media.movie.ListMoviesAction">
             <result name="success" type="tiles">media.main.movies.index</result>
         </action>
-		<action name="ImportImdb" class="com.kiwisoft.media.movie.ImportImdbAction">
-			<result name="success" type="tiles">media.main.movies.import</result>
-		</action>
-		<action name="SaveMovie" class="com.kiwisoft.media.movie.SaveMovieAction">
-			<interceptor-ref name="json"/>
-			<result name="success" type="json">
-				<param name="ignoreHierarchy">false</param>
-				<param name="includeProperties">
-					returnCode.*,
-					actionErrors.*,
-					movieId
-				</param>
-			</result>
-		</action>
 
         <!-- Person Actions -->
 

@@ -12,9 +12,9 @@ import java.util.List;
  * @author Stefan Stiller
  * @since 19.02.11
  */
-public class WebSearchResultView extends JPanel
+public class WebSearchResultPanel extends JPanel
 {
-	public WebSearchResultView()
+	public WebSearchResultPanel()
 	{
 	}
 
@@ -76,6 +76,7 @@ public class WebSearchResultView extends JPanel
 				new GridBagConstraints(1, row, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 10), 0, 0));
 			row++;
 		}
+		updateUI();
 	}
 
 	public void linkSelected(WebSearchResult result)

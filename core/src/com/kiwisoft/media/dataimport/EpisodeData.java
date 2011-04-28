@@ -1,15 +1,13 @@
 package com.kiwisoft.media.dataimport;
 
-import com.kiwisoft.utils.PropertyChangeSource;
+import com.kiwisoft.utils.Bean;
 
 import java.util.*;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
 
 /**
  * @author Stefan Stiller
 */
-public class EpisodeData implements PropertyChangeSource
+public class EpisodeData extends Bean
 {
 	public static final String DETAILS_LINK="details";
 
@@ -32,8 +30,6 @@ public class EpisodeData implements PropertyChangeSource
 	private List<CrewData> directedBy;
 	private Map<String, String> links=new HashMap<String, String>();
 	private boolean detailsLoaded;
-
-	private PropertyChangeSupport propertyChangeSupport=new PropertyChangeSupport(this);
 
 	public EpisodeData(String episodeKey, String episodeName)
 	{
@@ -62,14 +58,14 @@ public class EpisodeData implements PropertyChangeSource
 	{
 		String oldKey=this.key;
 		this.key=key;
-		propertyChangeSupport.firePropertyChange(KEY, oldKey, this.key);
+		firePropertyChange(KEY, oldKey, this.key);
 	}
 
 	public void setGermanTitle(String germanTitle)
 	{
 		String oldTitle=this.germanTitle;
 		this.germanTitle=germanTitle;
-		propertyChangeSupport.firePropertyChange(GERMAN_TITLE, oldTitle, this.germanTitle);
+		firePropertyChange(GERMAN_TITLE, oldTitle, this.germanTitle);
 	}
 
 	public String getGermanTitle()
@@ -81,7 +77,7 @@ public class EpisodeData implements PropertyChangeSource
 	{
 		String oldTitle=this.title;
 		this.title=title;
-		propertyChangeSupport.firePropertyChange(TITLE, oldTitle, this.title);
+		firePropertyChange(TITLE, oldTitle, this.title);
 	}
 
 	public String getTitle()
@@ -113,7 +109,7 @@ public class EpisodeData implements PropertyChangeSource
 	{
 		String oldCode=this.productionCode;
 		this.productionCode=productionCode;
-		propertyChangeSupport.firePropertyChange(PRODUCTION_CODE, oldCode, this.productionCode);
+		firePropertyChange(PRODUCTION_CODE, oldCode, this.productionCode);
 	}
 
 	public List<CastData> getMainCast()
@@ -199,29 +195,5 @@ public class EpisodeData implements PropertyChangeSource
 	public boolean isDetailsLoaded()
 	{
 		return detailsLoaded;
-	}
-
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener)
-	{
-		propertyChangeSupport.addPropertyChangeListener(listener);
-	}
-
-	@Override
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
-	{
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
-
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener)
-	{
-		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	@Override
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
-	{
-		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
 	}
 }

@@ -5,7 +5,6 @@ import com.kiwisoft.media.LanguageManager;
 import com.kiwisoft.media.person.*;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.progress.Job;
@@ -108,39 +107,31 @@ class EpisodeLoaderJob implements Job
 						continue;
 					}
 				}
-				String key=StringUtils.emptyToNull(castData.getKey());
-				if (key!=null) castData.setPerson(PersonManager.getInstance().getPersonByTVcomKey(castData.getKey()));
-				String name=StringUtils.emptyToNull(castData.getActor());
-				if (castData.getPerson()==null && name!=null)
+
+				ImportUtils.matchPerson(castData, ImportUtils.KeyType.TV_COM);
+				if (castData.getPersons().size()>1)
 				{
-					Set<Person> persons=DBLoader.getInstance().loadSet(Person.class, null, "binary name=?"+(key!=null ? " and tvcom_key is null" : ""), name);
-					if (!persons.isEmpty())
-					{
-						if (persons.size()==1) castData.setPerson(persons.iterator().next());
-						else
-						{
-							progressSupport.error("Multiple persons with name '"+name+"' found. Set the TV.com key for the correct person to '"+key+"' and try again.");
-							return false;
-						}
-					}
+					progressSupport.error("Multiple persons with name '"+castData.getName()+"' found. Set the TV.com key for the correct person to '"+castData.getKey()+"' and try again.");
+					return false;
 				}
-				if (castData.getPerson()!=null)
+				if (castData.getPersons().size()==1)
 				{
-					if (key!=null && StringUtils.isEmpty(castData.getPerson().getTvcomKey()))
+					Person person=castData.getPersons().iterator().next();
+					if (!StringUtils.isEmpty(castData.getKey()) && StringUtils.isEmpty(person.getTvcomKey()))
 					{
-						if (!DBSession.execute(new UpdatePerson(castData.getPerson(), key))) return false;
+						if (!DBSession.execute(new UpdatePerson(person, castData.getKey()))) return false;
 					}
-					CastMember castMember=actorMap.get(castData.getPerson());
+					CastMember castMember=actorMap.get(person);
 					if (castMember!=null)
 					{
 						castData.setCastMember(castMember);
 						continue;
 					}
 				}
-				else if (name!=null)
+				else if (!StringUtils.isEmpty(castData.getName()))
 				{
-					CreatePerson createPerson=new CreatePerson(name, key);
-					if (DBSession.execute(createPerson)) castData.setPerson(createPerson.person);
+					CreatePerson createPerson=new CreatePerson(castData.getName(), castData.getKey());
+					if (DBSession.execute(createPerson)) castData.setPersons(Collections.singleton(createPerson.person));
 					else return false;
 				}
 			}
@@ -163,39 +154,31 @@ class EpisodeLoaderJob implements Job
 			}
 			for (CrewData crewData : crew)
 			{
-				String key=StringUtils.emptyToNull(crewData.getKey());
-				if (key!=null) crewData.setPerson(PersonManager.getInstance().getPersonByTVcomKey(crewData.getKey()));
-				String name=StringUtils.emptyToNull(crewData.getName());
-				if (crewData.getPerson()==null && name!=null)
+				ImportUtils.matchPerson(crewData, ImportUtils.KeyType.TV_COM);
+				if (crewData.getPersons().size()>1)
 				{
-					Set<Person> persons=DBLoader.getInstance().loadSet(Person.class, null, "binary name=?"+(key!=null ? " and tvcom_key is null" : ""), name);
-					if (!persons.isEmpty())
-					{
-						if (persons.size()==1) crewData.setPerson(persons.iterator().next());
-						else
-						{
-							progressSupport.error("Multiple persons with name '"+name+"' found. Set the TV.com key for the correct person to '"+key+"' and try again.");
-							return false;
-						}
-					}
+					progressSupport.error("Multiple persons with name '"+crewData.getName()+"' found. Set the TV.com key for the correct person to '"+crewData.getKey()+"' and try again.");
+					return false;
 				}
-				if (crewData.getPerson()!=null)
+				Person person=null;
+				if (crewData.getPersons().size()==1) person=crewData.getPersons().iterator().next();
+				if (person!=null)
 				{
-					if (key!=null && StringUtils.isEmpty(crewData.getPerson().getTvcomKey()))
+					if (!StringUtils.isEmpty(crewData.getKey()) && StringUtils.isEmpty(person.getTvcomKey()))
 					{
-						if (!DBSession.execute(new UpdatePerson(crewData.getPerson(), key))) return false;
+						if (!DBSession.execute(new UpdatePerson(person, crewData.getKey()))) return false;
 					}
-					Credit credit=personMap.get(crewData.getPerson());
+					Credit credit=personMap.get(person);
 					if (credit!=null)
 					{
 						crewData.setCredit(credit);
 						continue;
 					}
 				}
-				else if (name!=null)
+				else if (!StringUtils.isEmpty(crewData.getName()))
 				{
-					CreatePerson createPerson=new CreatePerson(name, key);
-					if (DBSession.execute(createPerson)) crewData.setPerson(createPerson.person);
+					CreatePerson createPerson=new CreatePerson(crewData.getName(), crewData.getKey());
+					if (DBSession.execute(createPerson)) crewData.setPersons(Collections.singleton(createPerson.person));
 					else return false;
 				}
 			}
@@ -341,10 +324,13 @@ class EpisodeLoaderJob implements Job
 				for (CastData castData : cast)
 				{
 					if (castData.getCastMember()!=null) continue;
+					Person person=null;
+					if (castData.getPersons().size()==1) person=castData.getPersons().iterator().next();
+
 					CastMember castMember=new CastMember();
 					castMember.setEpisode(episode);
 					castMember.setCreditType(type);
-					castMember.setActor(castData.getPerson());
+					castMember.setActor(person);
 					castMember.setCharacterName(castData.getRole());
 				}
 			}
@@ -363,13 +349,23 @@ class EpisodeLoaderJob implements Job
 				}
 				for (CastData castData : cast)
 				{
-					if (!StringUtils.isEmpty(castData.getRole()) && roleMap.containsKey(castData.getRole())) continue;
-					if (castData.getPerson()!=null && actorMap.containsKey(castData.getPerson())) continue;
-					CastMember castMember=new CastMember();
-					castMember.setShow(show);
-					castMember.setCreditType(creditType);
-					castMember.setActor(castData.getPerson());
-					castMember.setCharacterName(castData.getRole());
+					try
+					{
+						if (!StringUtils.isEmpty(castData.getRole()) && roleMap.containsKey(castData.getRole())) continue;
+						Person person=null;
+						if (castData.getPersons().size()==1) person=castData.getPersons().iterator().next();
+						if (person!=null && actorMap.containsKey(person)) continue;
+						CastMember castMember=new CastMember();
+						castMember.setShow(show);
+						castMember.setCreditType(creditType);
+						castMember.setActor(person);
+						castMember.setCharacterName(castData.getRole());
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+						throw new RuntimeException(e);
+					}
 				}
 			}
 		}
@@ -402,10 +398,12 @@ class EpisodeLoaderJob implements Job
 				for (CrewData crewData : crew)
 				{
 					if (crewData.getCredit()!=null) continue;
+					Person person=null;
+					if (crewData.getPersons().size()==1) person=crewData.getPersons().iterator().next();
 					Credit credit=new Credit();
 					credit.setEpisode(episode);
 					credit.setCreditType(creditType);
-					credit.setPerson(crewData.getPerson());
+					credit.setPerson(person);
 					credit.setSubType(crewData.getSubType());
 				}
 			}
