@@ -1,9 +1,12 @@
 package com.kiwisoft.media.fanfic;
 
+import com.kiwisoft.app.ViewPanel;
 import com.kiwisoft.media.ContactMedium;
+import com.kiwisoft.media.MediaManager;
 import com.kiwisoft.media.dataimport.FanFicData;
 import com.kiwisoft.media.dataimport.FanFictionNetLoader;
 import com.kiwisoft.persistence.DBSession;
+import com.kiwisoft.persistence.ResultTransactional;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.GuiUtils;
 import com.kiwisoft.utils.FileUtils;
@@ -18,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -33,7 +35,7 @@ public class FanFicImportUtils
 
 	public static void importFanFic(FanFicData ficData, FanFictionNetLoader loader) throws InvocationTargetException, InterruptedException, IOException, ParserException
 	{
-		CreateTransactional transactional=new CreateTransactional(ficData, loader.getBaseUrl());
+		final CreateTransactional transactional=new CreateTransactional(ficData, loader.getBaseUrl());
 		transactional.fanDoms=getFanDoms(loader.getBaseUrl(), ficData);
 		if (transactional.fanDoms==null) return;
 		transactional.authors=getAuthors(loader.getBaseUrl(), ficData);
@@ -50,7 +52,22 @@ public class FanFicImportUtils
 			FileUtils.saveToFile(chapter, tempFile, "UTF-8");
 			transactional.parts.add(new ChapterData(ficData.getChapters()!=null ? ficData.getChapters().get(i-1) : null, tempFile));
 		}
-		DBSession.execute(transactional);
+		if (DBSession.execute(transactional))
+		{
+			ViewPanel currentView=MediaManager.getFrame().getCurrentView();
+			final FanFicsSearchView fanficsView;
+			if (currentView instanceof FanFicsSearchView) fanficsView=(FanFicsSearchView) currentView;
+			else MediaManager.getFrame().setCurrentView(fanficsView=new FanFicsSearchView());
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					fanficsView.addFanFic(transactional.getResult());
+				}
+			});
+		}
+
 	}
 
 	public static void updateFanFic(final FanFic fanFic, FanFicData data, FanFictionNetLoader loader) throws IOException, ParserException
@@ -192,7 +209,7 @@ public class FanFicImportUtils
 		}
 	}
 
-	private static class CreateTransactional implements Transactional
+	private static class CreateTransactional extends ResultTransactional<FanFic>
 	{
 		private String baseUrl;
 		private List<ChapterData> parts;
@@ -210,12 +227,13 @@ public class FanFicImportUtils
 		@Override
 		public void run() throws Exception
 		{
-			FanFic fic=FanFicManager.getInstance().createFanFic();
-			fic.setTitle(ficData.getTitle());
-			fic.setFinished(ficData.isComplete());
-			fic.setUrl(baseUrl);
-			fic.setDescription(ficData.getSummary());
-			fic.setFanDoms(fanDoms);
+			result=FanFicManager.getInstance().createFanFic();
+			result.setTitle(ficData.getTitle());
+			result.setFinished(ficData.isComplete());
+			result.setUrl(baseUrl);
+			result.setDescription(ficData.getSummary());
+			result.setFanDoms(fanDoms);
+			result.setRating(ficData.getRating());
 			if (authors.isEmpty())
 			{
 				Author author=FanFicManager.getInstance().createAuthor();
@@ -224,10 +242,10 @@ public class FanFicImportUtils
 				web.setValue(ficData.getAuthorUrl());
 				authors=Collections.singleton(author);
 			}
-			fic.setAuthors(authors);
+			result.setAuthors(authors);
 			for (ChapterData part : parts)
 			{
-				FanFicPart ficPart=fic.createPart();
+				FanFicPart ficPart=result.createPart();
 				ficPart.setName(part.title);
 				ficPart.setType(FanFicPart.TYPE_HTML);
 				ficPart.putContent(new FileInputStream(part.file), "html", "UTF-8");

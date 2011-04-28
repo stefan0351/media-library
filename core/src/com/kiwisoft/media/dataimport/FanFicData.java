@@ -17,6 +17,7 @@ public class FanFicData
 	private boolean complete;
 	private String domainUrl;
 	private String domain;
+	private String rating;
 
 	public String getAuthor()
 	{
@@ -106,5 +107,15 @@ public class FanFicData
 	public String getAuthorUrl()
 	{
 		return authorUrl;
+	}
+
+	public void setRating(String rating)
+	{
+		this.rating=rating;
+	}
+
+	public String getRating()
+	{
+		return rating;
 	}
 }

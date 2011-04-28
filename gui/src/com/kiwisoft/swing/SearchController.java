@@ -81,10 +81,22 @@ public abstract class SearchController<T> implements Pinnable
 	{
 		return new BeanTableRow<T>(object);
 	}
-	
+
+	public void addRow(T object)
+	{
+		SortableTableModel<T> model=tableController.getModel();
+		model.addRow(createRow(object));
+		model.sort();
+	}
+
 	public Set<String> getSearches()
 	{
 		return searches;
+	}
+
+	public SortableTableModel<T> getModel()
+	{
+		return tableController.getModel();
 	}
 
 	private class SearchActionListener implements ActionListener

@@ -15,6 +15,7 @@ import java.net.URL;
 
 import org.htmlparser.Parser;
 import org.htmlparser.Node;
+import org.htmlparser.filters.OrFilter;
 import org.htmlparser.nodes.TagNode;
 import org.htmlparser.tags.CompositeTag;
 import org.htmlparser.tags.ScriptTag;
@@ -26,7 +27,6 @@ import org.htmlparser.filters.HasAttributeFilter;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.NodeIterator;
-import org.htmlparser.util.SimpleNodeIterator;
 import org.apache.commons.lang.StringEscapeUtils;
 
 /**
@@ -51,31 +51,6 @@ public class FanFictionNetLoader
 		return baseUrl;
 	}
 
-	public static void main(String[] args) throws Exception
-	{
-		Locale.setDefault(Locale.UK);
-		SimpleConfiguration configuration=new SimpleConfiguration();
-		configuration.loadDefaultsFromFile(new File("conf", "config-dev.xml"));
-
-		FanFictionNetLoader loader=new FanFictionNetLoader("http://www.fanfiction.net/s/5729523/1/Uninvited");
-		FanFicData data=loader.getInfo();
-		System.out.println("title: "+data.getTitle());
-		System.out.println("author: "+data.getAuthor());
-		System.out.println("author-url: "+data.getAuthorUrl());
-		System.out.println("domain: "+data.getDomain());
-		System.out.println("domain-url: "+data.getDomainUrl());
-		System.out.println("summary: "+data.getSummary());
-		System.out.println("chapterCount: "+data.getChapterCount());
-		System.out.println("chapters: "+data.getChapters());
-		System.out.println("complete: "+data.isComplete());
-		for (int i=1;i<=data.getChapterCount();i++)
-		{
-			System.out.println(i+". "+(data.getChapterCount()>1 ? data.getChapters().get(i-1) : data.getTitle()));
-			String chapter=loader.getChapter(i);
-			System.out.println(chapter);
-		}
-	}
-
 	public FanFicData getInfo() throws Exception
 	{
 		firstPage=ImportUtils.loadUrl(baseUrl, "UTF-8");
@@ -84,13 +59,13 @@ public class FanFictionNetLoader
 
 	public String getChapter(int chapter) throws IOException, ParserException
 	{
-		String page=chapter==1 && firstPage!=null ? firstPage : ImportUtils.loadUrl(baseUrl+"/"+chapter);
+		String page=chapter==1 && firstPage!=null ? firstPage : ImportUtils.loadUrl(baseUrl+"/"+chapter, "UTF-8");
 
 		Parser parser=new Parser();
 		parser.setInputHTML(page);
 		Node bodyNode=HtmlUtils.findFirst(parser, "body");
 		Node storyNode=HtmlUtils.findFirst((CompositeTag) bodyNode, "div.storytext");
-		String html=getInnerHtml((TagNode) storyNode);
+		String html=HtmlUtils.getInnerHtml((TagNode) storyNode);
 		html=html.replace("<br>", "<br>\n");
 		html=html.replace("</p>", "</p>\n");
 		return html;
@@ -109,7 +84,7 @@ public class FanFictionNetLoader
 		FanFicData fanFic=new FanFicData();
 		fanFic.setChapterCount(Integer.parseInt(RegExUtils.find(script, "var chapters\\s*=\\s*([0-9]+);", 1)));
 		String summary=RegExUtils.find(script, "var\\s+summary\\s*=\\s*'(.*)'\\s*;", 1);
-		if (summary!=null) fanFic.setSummary(StringEscapeUtils.escapeJavaScript(summary));
+		if (summary!=null) fanFic.setSummary(StringEscapeUtils.unescapeJavaScript(summary));
 		String title=RegExUtils.find(script, "var\\s+title_t\\s*=\\s*'(.*)'\\s*;", 1);
 		if (title!=null) fanFic.setTitle(StringEscapeUtils.unescapeJavaScript(title));
 		fanFic.setComplete(RegExUtils.find(firstPage, " - (Complete) - id:[0-9]+ ", 1)!=null);
@@ -156,21 +131,12 @@ public class FanFictionNetLoader
 			}
 
 		}
-		return fanFic;
-	}
 
-	/**
-	 * Add the textual contents of the children of this node to the buffer.
-	 */
-	private String getInnerHtml(TagNode tagNode)
-	{
-		StringBuilder buffer=new StringBuilder();
-		Node node;
-		for (SimpleNodeIterator e = tagNode.getChildren().elements(); e.hasMoreNodes ();)
+		Node ratingNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("a"), new HasAttributeFilter("href", "http://www.fictionratings.com/")));
+		if (ratingNode!=null)
 		{
-			node = e.nextNode ();
-			buffer.append(node.toHtml(true));
+			fanFic.setRating(HtmlUtils.trimUnescape(ratingNode.toPlainTextString()));
 		}
-		return buffer.toString();
+		return fanFic;
 	}
 }
