@@ -44,7 +44,7 @@
 					<td class="content">
 						<ul>
 							<s:sort source="#linkGroup.links"
-									comparator="@com.kiwisoft.util.NaturalComparator@getInstance()">
+									comparator="@com.kiwisoft.utils.NaturalComparator@getInstance()">
 								<s:iterator>
 									<li><b><s:property value="name"/></b><br>
 										<a class="link" target="_new"

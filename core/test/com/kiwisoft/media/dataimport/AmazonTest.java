@@ -47,7 +47,7 @@ public class AmazonTest extends TestCase
 		assertNotNull(bookData.getImageFile());
 		assertNotNull(bookData.getSummary(LanguageManager.GERMAN));
 		assertTrue(bookData.getSummary(LanguageManager.GERMAN).startsWith("Drohend erheben sich die Klippen"));
-		assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith("einer Vorliebe für Gänsehaut!"));
+		assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith("einer Vorliebe fÃ¼r GÃ¤nsehaut!"));
 		Thread.sleep(1000);
 	}
 
@@ -57,7 +57,7 @@ public class AmazonTest extends TestCase
         BookData bookData=loader.load();
         System.out.println(bookData);
         assertNotNull(bookData);
-        assertEquals("Schöne Scheine: Ein Scheibenwelt-Roman", bookData.getTitle());
+        assertEquals("Schï¿½ne Scheine: Ein Scheibenwelt-Roman", bookData.getTitle());
         assertEquals("[Terry Pratchett]", bookData.getAuthors().toString());
         assertEquals("[Bernhard Kempen]", bookData.getTranslators().toString());
         assertEquals(Integer.valueOf(416), bookData.getPageCount());
@@ -71,7 +71,7 @@ public class AmazonTest extends TestCase
         assertNotNull(bookData.getImageFile());
         assertNotNull(bookData.getSummary(LanguageManager.GERMAN));
         assertTrue(bookData.getSummary(LanguageManager.GERMAN).startsWith("Nachdem Ankh-Morpork in"));
-        assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith(" dafür findet. [i]-- Steffi Pritzens[/i]"));
+        assertTrue(bookData.getSummary(LanguageManager.GERMAN).endsWith(" dafÃ¼r findet. [i]-- Steffi Pritzens[/i]"));
         Thread.sleep(1000);
     }
 

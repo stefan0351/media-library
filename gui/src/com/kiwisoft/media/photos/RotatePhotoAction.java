@@ -19,7 +19,7 @@ public class RotatePhotoAction extends MultiContextAction
 
 	public RotatePhotoAction(ApplicationFrame frame, int angle)
 	{
-		super(Photo.class, "Rotate "+angle+"°", angle==0 ? null : Icons.getIcon("rotate"+angle));
+		super(Photo.class, "Rotate "+angle+"Â°", angle==0 ? null : Icons.getIcon("rotate"+angle));
 		this.frame=frame;
 		this.angle=angle;
 	}

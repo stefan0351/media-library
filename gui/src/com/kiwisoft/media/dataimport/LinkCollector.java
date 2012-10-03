@@ -118,16 +118,19 @@ public class LinkCollector
 					try
 					{
 						Transferable contents=clipboard.getContents(this);
-						String newData=(String) contents.getTransferData(DataFlavor.stringFlavor);
-						if (!StringUtils.equal(newData, lastData))
+						if (contents.isDataFlavorSupported(DataFlavor.stringFlavor))
 						{
-							fireClipboardChanged(newData);
-							lastData=newData;
+							String newData=(String) contents.getTransferData(DataFlavor.stringFlavor);
+							if (!StringUtils.equal(newData, lastData))
+							{
+								fireClipboardChanged(newData);
+								lastData=newData;
+							}
 						}
 					}
 					catch (IllegalStateException e)
 					{
-						log.debug("Error getting clipboard content", e);
+						//log.debug("Error getting clipboard content", e);
 					}
 					catch (Exception e)
 					{

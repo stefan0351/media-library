@@ -1,5 +1,6 @@
 package com.kiwisoft.media.files;
 
+import com.kiwisoft.utils.SimpleTimeFormat;
 import com.kiwisoft.utils.Time;
 import com.kiwisoft.utils.TimeFormat;
 
@@ -116,7 +117,7 @@ public class MediaFileInfo
 			   ", width="+width+
 			   ", height="+height+
 			   ", format='"+format+'\''+
-			   ", duration="+(duration!=null ? new TimeFormat("H:mm:ss").format(new Time(duration)) : null)+
+			   ", duration="+(duration!=null ? new SimpleTimeFormat("H:mm:ss").format(new Time(duration)) : null)+
 			   ", videoFormat='"+videoFormat+'\''+
 			   ", videoStreamCount="+videoStreamCount+
 			   ", audioStreamCount="+audioStreamCount+

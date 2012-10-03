@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class CleanLinkList
 {
-	private final static String[] FORBIDDEN_WORDS={"euroshipping", "viagra", "teen-porn"};
+	private final static String[] FORBIDDEN_WORDS={"euroshipping", "viagra", "teen-porn", "cheapmedshipping", "tdlmathscience.org"};
 
 	private CleanLinkList()
 	{

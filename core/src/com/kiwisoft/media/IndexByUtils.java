@@ -51,7 +51,7 @@ public class IndexByUtils
 				Object replacement=null;
 				switch (ch)
 				{
-					case 'ß':
+					case 'ÃŸ':
 						replacement="SS";
 						break;
 					case '(':

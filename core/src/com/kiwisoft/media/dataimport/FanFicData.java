@@ -1,6 +1,9 @@
 package com.kiwisoft.media.dataimport;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Stefan Stiller
@@ -16,8 +19,17 @@ public class FanFicData
 	private String summary;
 	private boolean complete;
 	private String domainUrl;
-	private String domain;
+	private Set<String> domains;
 	private String rating;
+	private Date publishedDate;
+	private String language;
+	private List<String> characters;
+	private List<String> genres;
+
+	public Date getPublishedDate()
+	{
+		return publishedDate;
+	}
 
 	public String getAuthor()
 	{
@@ -81,12 +93,18 @@ public class FanFicData
 
 	public void setDomain(String domain)
 	{
-		this.domain=domain;
+		if (domain==null) domains=null;
+		else domains=Collections.singleton(domain);
 	}
 
-	public String getDomain()
+	public Set<String> getDomains()
 	{
-		return domain;
+		return domains;
+	}
+
+	public void setDomains(Set<String> domains)
+	{
+		this.domains=domains;
 	}
 
 	public void setDomainUrl(String domainUrl)
@@ -117,5 +135,59 @@ public class FanFicData
 	public String getRating()
 	{
 		return rating;
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb=new StringBuilder();
+		sb.append("FanFicData");
+		sb.append("{title='").append(title).append('\'');
+		sb.append(", author='").append(author).append('\'');
+		sb.append(", authorUrl='").append(authorUrl).append('\'');
+		sb.append(", chapterCount=").append(chapterCount);
+		sb.append(", chapters=").append(chapters);
+		sb.append(", complete=").append(complete);
+		sb.append(", domain='").append(domains).append('\'');
+		sb.append(", domainUrl='").append(domainUrl).append('\'');
+		sb.append(", rating='").append(rating).append('\'');
+		sb.append(", summary='").append(summary).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
+
+	public void setPublishedDate(Date publishedDate)
+	{
+		this.publishedDate=publishedDate;
+	}
+
+	public void setLanguage(String language)
+	{
+		this.language=language;
+	}
+
+	public void setGenres(List<String> genres)
+	{
+		this.genres=genres;
+	}
+
+	public void setCharacters(List<String> characters)
+	{
+		this.characters=characters;
+	}
+
+	public List<String> getCharacters()
+	{
+		return characters;
+	}
+
+	public List<String> getGenres()
+	{
+		return genres;
+	}
+
+	public String getLanguage()
+	{
+		return language;
 	}
 }

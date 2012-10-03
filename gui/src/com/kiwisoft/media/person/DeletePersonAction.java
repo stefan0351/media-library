@@ -29,10 +29,10 @@ public class DeletePersonAction extends SimpleContextAction
 		final Person person=(Person)getObject();
 		if (person.isUsed())
 		{
-			showMessageDialog(frame, "Person '"+person.getName()+"' kann nicht gelöscht werden.", "Meldung", INFORMATION_MESSAGE);
+			showMessageDialog(frame, "Person '"+person.getName()+"' kann nicht gelÃ¶scht werden.", "Meldung", INFORMATION_MESSAGE);
 			return;
 		}
-		int option=showConfirmDialog(frame, "Person '"+person.getName()+"' wirklick löschen?", "Löschen?", YES_NO_OPTION, QUESTION_MESSAGE);
+		int option=showConfirmDialog(frame, "Person '"+person.getName()+"' wirklick lÃ¶schen?", "LÃ¶schen?", YES_NO_OPTION, QUESTION_MESSAGE);
 		if (option==JOptionPane.YES_OPTION)
 		{
 			DBSession.execute(new Transactional()

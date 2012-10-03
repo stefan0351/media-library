@@ -75,6 +75,8 @@ public class FanFicsView extends ViewPanel
 				actions.add(null);
 				actions.add(new NewFanFicAction(group));
 				actions.add(new DeleteFanFicAction(frame));
+				actions.add(null);
+				actions.add(new ConvertToEBookAction());
 				return actions;
 			}
 

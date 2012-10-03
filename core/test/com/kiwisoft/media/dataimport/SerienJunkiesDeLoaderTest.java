@@ -73,6 +73,6 @@ public class SerienJunkiesDeLoaderTest extends TestCase
 		episode=episodesMap.get("4.1");
 		assertNotNull(episode.getLink(EpisodeData.DETAILS_LINK));
 		assertTrue(episode.getGermanSummary().startsWith("Nachdem sie im Weihnachtsspecial"));
-		assertTrue(episode.getGermanSummary().endsWith("der Doktor hat Verdacht geschöpft..."));
+		assertTrue(episode.getGermanSummary().endsWith("der Doktor hat Verdacht geschÃ¶pft..."));
 	}
 }

@@ -22,6 +22,9 @@ public class PhotoFileInfo
 	private Integer isoSpeed;
 	private Integer xResolution;
 	private Integer yResolution;
+	private Double altitude;
+	private Double longitude;
+	private Double latitude;
 
 	public PhotoFileInfo(File file)
 	{
@@ -184,6 +187,24 @@ public class PhotoFileInfo
 			   ", fNumber=F/"+fNumber+
 			   ", focalLength="+focalLength+"mm"+
 			   ", isoSpeed=ISO-"+isoSpeed+
+			   ", longitude="+longitude+
+			   ", latitude="+latitude+
+			   ", altitude="+altitude+
 			   '}';
+	}
+
+	public void setAltitude(Double altitude)
+	{
+		this.altitude=altitude;
+	}
+
+	public void setLongitude(Double longitude)
+	{
+		this.longitude=longitude;
+	}
+
+	public void setLatitude(Double latitude)
+	{
+		this.latitude=latitude;
 	}
 }

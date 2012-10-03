@@ -44,7 +44,7 @@ public class AmazonDeLoader
 	public BookData load() throws Exception
 	{
 		titlePattern=Pattern.compile("(.*)\\((?:Gebundene Ausgabe|Taschenbuch|Broschiert)\\)");
-		authorPattern=Pattern.compile("(.*) \\((Autor|Illustrator|Übersetzer)\\)");
+		authorPattern=Pattern.compile("(.*) \\((Autor|Illustrator|ï¿½bersetzer)\\)");
 		pageCountPattern=Pattern.compile("(\\d+) Seiten");
 		bindingPattern=Pattern.compile("(Gebundene Ausgabe|Taschenbuch|Broschiert)");
 		publisherPattern=Pattern.compile("(.+?)(?:; Auflage: (.+?))?(?: \\(.*(\\d{4})\\))?");
@@ -122,7 +122,7 @@ public class AmazonDeLoader
 			else
 			{
 				if ("Kurzbeschreibung".equals(source) || "Aus der Amazon.de-Redaktion".equals(source)
-					|| "Synopsis".equals(source) || "Der Autor über sein Buch".equals(source) || "Umschlagtext".equals(source)
+					|| "Synopsis".equals(source) || "Der Autor Ã¼ber sein Buch".equals(source) || "Umschlagtext".equals(source)
 					|| "Klappentext".equals(source))
 				{
 					String summary=ImportUtils.toPreformattedText(tag.getChildrenHTML());
@@ -135,7 +135,7 @@ public class AmazonDeLoader
 					String currentSummary=bookData.getSummary(LanguageManager.ENGLISH);
 					if (StringUtils.isEmpty(currentSummary) || currentSummary.length()<summary.length()) bookData.setSummary(LanguageManager.ENGLISH, summary);
 				}
-				else if ("Pressestimmen".equals(source) || "Über den Autor".equals(source) || "Autorenporträt".equals(source)) continue;
+				else if ("Pressestimmen".equals(source) || "Ãœber den Autor".equals(source) || "AutorenportrÃ¤t".equals(source)) continue;
 				else System.err.println("Invalid description source: "+source+"\n"+tag.getChildrenHTML());
 			}
 		}
@@ -196,7 +196,7 @@ public class AmazonDeLoader
 					String name=matcher.group(1);
 					String creditType=matcher.group(2);
 					if ("Autor".equals(creditType)) bookData.addAuthor(name);
-					else if ("Übersetzer".equals(creditType)) bookData.addTranslator(name);
+					else if ("ï¿½bersetzer".equals(creditType)) bookData.addTranslator(name);
 					else if (!"Illustrator".equals(creditType)) System.err.println("Invalid credit type: "+creditType);
 				}
 				else System.err.println("Invalid credit pattern: "+part);
@@ -252,7 +252,7 @@ public class AmazonDeLoader
 				}
 				else if ("Originaltitel".equals(label)) bookData.setOriginalTitle(HtmlUtils.trimUnescape(text));
 				else if ("Vom Hersteller empfohlenes Alter".equals(label)) continue;
-				else if ("Größe und/oder Gewicht".equals(label)) continue;
+				else if ("Grï¿½ï¿½e und/oder Gewicht".equals(label)) continue;
 				else if ("Amazon.de Verkaufsrang".equals(label)) continue;
 				else if ("Durchschnittliche Kundenbewertung".equals(label)) continue;
 				else System.err.println("Invalid label: "+label);

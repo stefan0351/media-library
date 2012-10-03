@@ -17,10 +17,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -36,9 +33,9 @@ public class FanFicImportUtils
 	public static void importFanFic(FanFicData ficData, FanFictionNetLoader loader) throws InvocationTargetException, InterruptedException, IOException, ParserException
 	{
 		final CreateTransactional transactional=new CreateTransactional(ficData, loader.getBaseUrl());
-		transactional.fanDoms=getFanDoms(loader.getBaseUrl(), ficData);
+		transactional.fanDoms=matchFanDoms(loader.getBaseUrl(), ficData);
 		if (transactional.fanDoms==null) return;
-		transactional.authors=getAuthors(loader.getBaseUrl(), ficData);
+		transactional.authors=matchAuthors(loader.getBaseUrl(), ficData);
 		if (transactional.authors==null) return;
 
 		// Load chapters
@@ -92,7 +89,7 @@ public class FanFicImportUtils
 
 	}
 
-	private static Set<Author> getAuthors(String baseUrl, FanFicData ficData) throws InvocationTargetException, InterruptedException
+	private static Set<Author> matchAuthors(String baseUrl, FanFicData ficData) throws InvocationTargetException, InterruptedException
 	{
 		if (ficData.getAuthorUrl()==null)
 		{
@@ -108,25 +105,21 @@ public class FanFicImportUtils
 		return authors;
 	}
 
-	private static Set<FanDom> getFanDoms(String baseUrl, FanFicData ficData) throws InvocationTargetException, InterruptedException
+	private static Map<String, FanDom> matchFanDoms(String baseUrl, FanFicData ficData) throws InvocationTargetException, InterruptedException
 	{
-		if (ficData.getDomainUrl()==null)
+		Map<String, FanDom> matches=new HashMap<String, FanDom>();
+		for (String domain : ficData.getDomains())
 		{
-			infoMessage("No domain URL found for URL "+baseUrl);
-			return null;
+			Set<FanDom> fanDoms=FanFicManager.getInstance().findFanDomsByName(domain);
+			if (fanDoms.size()>1)
+			{
+				infoMessage("Multiple fanfic domains found for name "+domain);
+				return null;
+			}
+			if (fanDoms.size()==1) matches.put(domain, fanDoms.iterator().next());
+			else matches.put(domain, null);
 		}
-		Set<FanDom> fanDoms=FanFicManager.getInstance().findFanDomsByUrl(ficData.getDomainUrl());
-		if (fanDoms.isEmpty())
-		{
-			infoMessage("No fanfic domain found with URL "+ficData.getDomainUrl());
-			return null;
-		}
-		if (fanDoms.size()>1)
-		{
-			infoMessage("Multiple fanfic domains found with URL "+ficData.getDomainUrl());
-			return null;
-		}
-		return fanDoms;
+		return matches;
 	}
 
 	private static void infoMessage(final String message) throws InterruptedException, InvocationTargetException
@@ -214,7 +207,7 @@ public class FanFicImportUtils
 		private String baseUrl;
 		private List<ChapterData> parts;
 		private FanFicData ficData;
-		private Set<FanDom> fanDoms;
+		private Map<String, FanDom> fanDoms;
 		private Set<Author> authors;
 
 		public CreateTransactional(FanFicData ficData, String baseUrl)
@@ -232,7 +225,6 @@ public class FanFicImportUtils
 			result.setFinished(ficData.isComplete());
 			result.setUrl(baseUrl);
 			result.setDescription(ficData.getSummary());
-			result.setFanDoms(fanDoms);
 			result.setRating(ficData.getRating());
 			if (authors.isEmpty())
 			{
@@ -243,6 +235,18 @@ public class FanFicImportUtils
 				authors=Collections.singleton(author);
 			}
 			result.setAuthors(authors);
+			Set<FanDom> domains=new HashSet<FanDom>();
+			for (Map.Entry<String, FanDom> entry : fanDoms.entrySet())
+			{
+				if (entry.getValue()!=null) domains.add(entry.getValue());
+				else
+				{
+					FanDom domain=FanFicManager.getInstance().createDomain();
+					domain.setName(entry.getKey());
+					domains.add(domain);
+				}
+			}
+			result.setFanDoms(domains);
 			for (ChapterData part : parts)
 			{
 				FanFicPart ficPart=result.createPart();

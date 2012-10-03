@@ -41,7 +41,7 @@ abstract class TvTvDeHandler<T>
 	private TVTVDeLoader loader;
 	private ProgressSupport progressSupport;
 
-	private Pattern lengthPattern=Pattern.compile("Länge: (\\d+) min\\.");
+	private Pattern lengthPattern=Pattern.compile("LÃ¤nge: (\\d+) min\\.");
 	private Pattern episodeNumberPattern=Pattern.compile("(\\d+)(?:/\\d+)?.*");
 
 	protected TvTvDeHandler(TVTVDeLoader loader, T object)
@@ -406,7 +406,7 @@ abstract class TvTvDeHandler<T>
 				{
 					CompositeTag tag=(CompositeTag) it.nextNode();
 					String content=tag.toPlainTextString();
-					if (content.startsWith("Länge:"))
+					if (content.startsWith("Lï¿½nge:"))
 					{
 						Matcher matcher=lengthPattern.matcher(content);
 						if (matcher.matches())

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.UIManager;
 
+import com.kiwisoft.utils.SimpleTimeFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -116,7 +117,7 @@ public class MediaApplication extends Application
 		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
 		formatManager.setFormat(Date.class, "schedule", new DefaultDateFormat(new SimpleDateFormat("EE, dd.MM.yy HH:mm")));
-		formatManager.setFormat(Time.class, "mediafile", new DefaultTimeFormat(new TimeFormat("H:mm:ss")));
+		formatManager.setFormat(Time.class, "mediafile", new DefaultTimeFormat(new SimpleTimeFormat("H:mm:ss")));
 		formatManager.setFormat(Episode.class, new EpisodeFormat(false));
 		formatManager.setFormat(Episode.class, "full", new EpisodeFormat(true));
 		formatManager.setFormat(Book.class, new BookFormat());

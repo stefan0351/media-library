@@ -82,9 +82,10 @@ public class MediumSearchView extends SearchView<Medium>
 			protected Set<Medium> doSearch(String searchText)
 			{
 				if (StringUtils.isEmpty(searchText)) return MediumManager.getInstance().getAllMedia();
+				if (searchText.matches("\\d+")) return DBLoader.getInstance().loadSet(Medium.class, null, "userkey=?", searchText);
 				if (searchText.contains("*")) searchText=searchText.replace('*', '%');
 				else searchText="%"+searchText+"%";
-				return DBLoader.getInstance().loadSet(Medium.class, null, "name like ? or userkey like ?", searchText, searchText);
+				return DBLoader.getInstance().loadSet(Medium.class, null, "name like ?", searchText);
 			}
 
 			@Override

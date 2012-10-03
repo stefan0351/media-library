@@ -199,6 +199,16 @@
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
           <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
+        <ADDITIONAL_INDENT_OPTIONS fileType="php">
+          <option name="INDENT_SIZE" value="4" />
+          <option name="CONTINUATION_INDENT_SIZE" value="8" />
+          <option name="TAB_SIZE" value="4" />
+          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="SMART_TABS" value="false" />
+          <option name="LABEL_INDENT_SIZE" value="0" />
+          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
+        </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="sql">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
@@ -219,6 +229,26 @@
           <option name="LABEL_INDENT_ABSOLUTE" value="false" />
           <option name="USE_RELATIVE_INDENTS" value="false" />
         </ADDITIONAL_INDENT_OPTIONS>
+        <codeStyleSettings language="PHP">
+          <option name="BRACE_STYLE" value="2" />
+          <option name="ELSE_ON_NEW_LINE" value="true" />
+          <option name="WHILE_ON_NEW_LINE" value="true" />
+          <option name="CATCH_ON_NEW_LINE" value="true" />
+          <option name="FINALLY_ON_NEW_LINE" value="true" />
+          <option name="ALIGN_MULTILINE_ASSIGNMENT" value="true" />
+          <option name="ALIGN_MULTILINE_TERNARY_OPERATION" value="true" />
+          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_PARENTHESIZED_EXPRESSION" value="true" />
+          <option name="SPACE_AROUND_ASSIGNMENT_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_EQUALITY_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_RELATIONAL_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_BITWISE_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_ADDITIVE_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_MULTIPLICATIVE_OPERATORS" value="false" />
+          <option name="SPACE_AROUND_SHIFT_OPERATORS" value="false" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
@@ -382,6 +412,7 @@
         <content-type name="PL/SQL" enabled="true" />
         <content-type name="JPA QL" enabled="true" />
         <content-type name="JavaScript" enabled="true" />
+        <content-type name="PHP" enabled="true" />
         <content-type name="JSP" enabled="true" />
         <content-type name="JSPx" enabled="true" />
         <content-type name="FTL" enabled="true" />
@@ -1117,7 +1148,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/core/media-core.iml" filepath="$PROJECT_DIR$/core/media-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/data/media-data.iml" filepath="$PROJECT_DIR$/data/media-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/db/media-db.iml" filepath="$PROJECT_DIR$/db/media-db.iml" />
       <module fileurl="file://$PROJECT_DIR$/gui/media-gui.iml" filepath="$PROJECT_DIR$/gui/media-gui.iml" />
       <module fileurl="file://$PROJECT_DIR$/tools/media-tools.iml" filepath="$PROJECT_DIR$/tools/media-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/media-web.iml" filepath="$PROJECT_DIR$/web/media-web.iml" />

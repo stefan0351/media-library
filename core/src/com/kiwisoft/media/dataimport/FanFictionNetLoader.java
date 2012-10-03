@@ -1,33 +1,26 @@
 package com.kiwisoft.media.dataimport;
 
-import com.kiwisoft.utils.RegExUtils;
-import com.kiwisoft.cfg.SimpleConfiguration;
 import com.kiwisoft.html.HtmlUtils;
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.Locale;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.IOException;
-import java.io.File;
-import java.net.URL;
-
-import org.htmlparser.Parser;
+import com.kiwisoft.html.LinkTextFilter;
+import com.kiwisoft.utils.StringUtils;
 import org.htmlparser.Node;
-import org.htmlparser.filters.OrFilter;
-import org.htmlparser.nodes.TagNode;
-import org.htmlparser.tags.CompositeTag;
-import org.htmlparser.tags.ScriptTag;
-import org.htmlparser.tags.OptionTag;
-import org.htmlparser.tags.LinkTag;
-import org.htmlparser.filters.TagNameFilter;
+import org.htmlparser.Parser;
 import org.htmlparser.filters.AndFilter;
 import org.htmlparser.filters.HasAttributeFilter;
-import org.htmlparser.util.ParserException;
-import org.htmlparser.util.NodeList;
+import org.htmlparser.filters.LinkRegexFilter;
+import org.htmlparser.filters.TagNameFilter;
+import org.htmlparser.nodes.TagNode;
+import org.htmlparser.tags.*;
 import org.htmlparser.util.NodeIterator;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
+
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Stefan Stiller
@@ -73,34 +66,34 @@ public class FanFictionNetLoader
 
 	private FanFicData parseInfo(String firstPage) throws Exception
 	{
+		FanFicData fanFic=new FanFicData();
+
 		Parser parser=new Parser();
 		parser.setInputHTML(firstPage);
 		Node bodyNode=HtmlUtils.findFirst(parser, "body");
+
+		TableTag tableNode=(TableTag) HtmlUtils.findFirst((CompositeTag) bodyNode, "#gui_table1i");
+		String infoHTML=tableNode.getChildrenHTML();
+		System.out.println("infoHTML = "+infoHTML);
+		Matcher matcher=Pattern.compile("<b>(.*)</b>").matcher(infoHTML);
+		if (matcher.find()) fanFic.setTitle(HtmlUtils.trimUnescape(matcher.group(1)));
+		matcher=Pattern.compile("<b>(.*)</b>").matcher(infoHTML);
+		if (matcher.find()) fanFic.setTitle(HtmlUtils.trimUnescape(matcher.group(1)));
+		matcher=Pattern.compile("Author: <a href='/u/(\\d+)/.*?'>(.*?)</a>").matcher(infoHTML);
+		if (matcher.find()) fanFic.setAuthor(HtmlUtils.trimUnescape(matcher.group(2)));
 
 		Node formNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("form"), new HasAttributeFilter("name", "myselect")));
 		ScriptTag scriptNode=(ScriptTag) HtmlUtils.findFirst((CompositeTag) formNode, "script");
 		String script=scriptNode.getScriptCode();
 
-		FanFicData fanFic=new FanFicData();
-		fanFic.setChapterCount(Integer.parseInt(RegExUtils.find(script, "var chapters\\s*=\\s*([0-9]+);", 1)));
-		String summary=RegExUtils.find(script, "var\\s+summary\\s*=\\s*'(.*)'\\s*;", 1);
-		if (summary!=null) fanFic.setSummary(StringEscapeUtils.unescapeJavaScript(summary));
-		String title=RegExUtils.find(script, "var\\s+title_t\\s*=\\s*'(.*)'\\s*;", 1);
-		if (title!=null) fanFic.setTitle(StringEscapeUtils.unescapeJavaScript(title));
-		fanFic.setComplete(RegExUtils.find(firstPage, " - (Complete) - id:[0-9]+ ", 1)!=null);
-		String authorId=RegExUtils.find(script, "var\\s+userid\\s*=\\s*([0-9]+)\\s*;", 1);
-		if (authorId!=null) fanFic.setAuthorUrl("http://www.fanfiction.net/u/"+authorId);
-		String author=RegExUtils.find(script, "var\\s+author\\s*=\\s*'(.*)'\\s*;", 1);
-		if (author!=null) fanFic.setAuthor(StringEscapeUtils.unescapeJavaScript(author));
-
-
-		if (!"1".equals(RegExUtils.find(script, "var chapters\\s*=\\s*([0-9]+);", 1)))
+		fanFic.setComplete(infoHTML.contains("Status: Complete"));
+		Node selectNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("select"), new HasAttributeFilter("id", "chap_select")));
+		if (selectNode!=null)
 		{
-			Node selectNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("select"), new HasAttributeFilter("title", "chapter navigation")));
 			NodeList optionNodes=HtmlUtils.findAll((CompositeTag) selectNode, "option");
 			List<String> chapters=new ArrayList<String>(optionNodes.size());
 			int i=1;
-			for (NodeIterator it=optionNodes.elements();it.hasMoreNodes();)
+			for (NodeIterator it=optionNodes.elements(); it.hasMoreNodes();)
 			{
 				OptionTag optionNode=(OptionTag) it.nextNode();
 				String chapterNumber=(i++)+". ";
@@ -108,35 +101,60 @@ public class FanFictionNetLoader
 				if (chapterTitle.startsWith(chapterNumber)) chapterTitle=chapterTitle.substring(chapterNumber.length());
 				chapters.add(chapterTitle);
 			}
+			fanFic.setChapterCount(chapters.size());
 			fanFic.setChapters(chapters);
 		}
+		else fanFic.setChapterCount(1);
 
-		Node imageNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("img"), new HasAttributeFilter("src", "http://b.fanfiction.net/static/ficons/script.png")));
-		if (imageNode!=null)
+/*		if (domain!=null)
 		{
-			LinkTag linkTag=null;
-			Node nextNode=imageNode;
-			do
+			LinkTag linkNode=(LinkTag) HtmlUtils.findFirst((CompositeTag) bodyNode, new LinkTextFilter(domain));
+			if (linkNode!=null)
 			{
-				nextNode=nextNode.getNextSibling();
-				if (nextNode instanceof LinkTag) linkTag=(LinkTag) nextNode;
-			}
-			while (nextNode!=null);
-			if (linkTag!=null)
-			{
-				String url=new URL(new URL(baseUrl), linkTag.getAttribute("href")).toString();
-				while (url.endsWith("/")) url=url.substring(0, url.length()-1);
+				String url=new URL(new URL(baseUrl), linkNode.getAttribute("href")).toString();
 				fanFic.setDomainUrl(url);
-				fanFic.setDomain(linkTag.getLinkText());
 			}
-
+			if (domain.endsWith(" Crossover") && fanFic.getDomainUrl()!=null)
+			{
+				String crossoverPage=ImportUtils.loadUrl(fanFic.getDomainUrl());
+				parseCrossoverDomain(crossoverPage, fanFic);
+			}
 		}
 
+  */
 		Node ratingNode=HtmlUtils.findFirst((CompositeTag) bodyNode, new AndFilter(new TagNameFilter("a"), new HasAttributeFilter("href", "http://www.fictionratings.com/")));
 		if (ratingNode!=null)
 		{
 			fanFic.setRating(HtmlUtils.trimUnescape(ratingNode.toPlainTextString()));
 		}
+
+		matcher=Pattern.compile("Rated: <a[^>]+>[^<]+</a> - (.*) - (.*) - (.*) - Reviews:").matcher(infoHTML);
+		if (matcher.find())
+		{
+			fanFic.setLanguage(matcher.group(1));
+			fanFic.setGenres(Arrays.asList(StringUtils.splitAndTrim(HtmlUtils.trimUnescape(matcher.group(2)), "/")));
+			fanFic.setCharacters(Arrays.asList(StringUtils.splitAndTrim(HtmlUtils.trimUnescape(matcher.group(3)), " & ")));
+		}
+
+		matcher=Pattern.compile("Published: (\\d\\d-\\d\\d-\\d\\d)").matcher(infoHTML);
+		if (matcher.find()) fanFic.setPublishedDate(new SimpleDateFormat("MM-dd-yy").parse(matcher.group(1)));
 		return fanFic;
+	}
+
+	private void parseCrossoverDomain(String page, FanFicData fanFic) throws ParserException
+	{
+		Parser parser=new Parser();
+		parser.setInputHTML(page);
+		Node bodyNode=HtmlUtils.findFirst(parser, "body");
+
+		Set<String> domains=new HashSet<String>();
+		NodeList list=HtmlUtils.findAll((CompositeTag) bodyNode, new LinkRegexFilter("/crossovers/.*/[0-9]+/", false));
+		for (NodeIterator it=list.elements(); it.hasMoreNodes();)
+		{
+			LinkTag link=(LinkTag) it.nextNode();
+			domains.add(HtmlUtils.trimUnescape(link.getLinkText()));
+		}
+		fanFic.setDomains(domains);
+
 	}
 }

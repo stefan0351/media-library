@@ -343,6 +343,11 @@ public class FanFicManager extends Bean
 		fireElementRemoved(FANFICS, fanFic);
 	}
 
+	public Set<FanDom> findFanDomsByName(String name)
+	{
+		return DBLoader.getInstance().loadSet(FanDom.class, null, "binary name=?", name);
+	}
+
 	public Set<FanFic> findFanFicsByUrl(String url)
 	{
 		return DBLoader.getInstance().loadSet(FanFic.class, null, "url like ?", url+"%");

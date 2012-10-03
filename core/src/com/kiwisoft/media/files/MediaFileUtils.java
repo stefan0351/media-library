@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileFilter;
 
+import com.kiwisoft.utils.SimpleTimeFormat;
 import org.apache.commons.io.FileUtils;
 
 import com.kiwisoft.utils.Utils;
@@ -34,7 +35,7 @@ public class MediaFileUtils
 	public static final int THUMBNAIL_SIDEBAR_WIDTH=170;
 	public static final int THUMBNAIL_SIDEBAR_HEIGHT=-1;
 
-	public static final TimeFormat DURATION_FORMAT=new TimeFormat("H:mm:ss");
+	public static final TimeFormat DURATION_FORMAT=new SimpleTimeFormat("H:mm:ss");
 
 	private static Component mediaTracker=new JLabel();
 
@@ -142,7 +143,10 @@ public class MediaFileUtils
 									"fnumber=%[exif:fnumber]\\n"+
 									"focallength=%[exif:focallength]\\n"+
 									"exposuretime=%[exif:exposuretime]\\n"+
-									"iso=%[exif:isospeedratings]"+
+									"iso=%[exif:isospeedratings]\\n"+
+									"long=%[exif:gpslongitude]\\n"+
+									"lat=%[exif:gpslatitude]\\n"+
+									"alt=%[exif:gpsaltitude]"+
 									" \""+file.getAbsolutePath()+"\"", new StringBuilder(), null);
 			if (result!=null)
 			{
@@ -152,7 +156,7 @@ public class MediaFileUtils
 				{
 					String[] keyValue=line.split("=", 2);
 					String key=keyValue[0];
-					String value=keyValue[1].trim();
+					String value=keyValue.length>1 ? keyValue[1].trim() : null;
 					if (!StringUtils.isEmpty(value))
 					{
 						if ("width".equals(key)) imageDescriptor.setWidth(Integer.parseInt(value));
@@ -165,7 +169,7 @@ public class MediaFileUtils
 						{
 							if (!"0000:00:00 00:00:00".equals(value))
 							{
-								SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy:MM:dd hh:mm:ss");
+								SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy:MM:dd HH:mm:ss");
 								imageDescriptor.setDate(dateFormat.parse(value));
 							}
 						}
@@ -175,6 +179,9 @@ public class MediaFileUtils
 						else if ("iso".equals(key)) imageDescriptor.setIsoSpeed(Integer.parseInt(value));
 						else if ("xresolution".equals(key)) imageDescriptor.setXResolution(convertDPI(value));
 						else if ("yresolution".equals(key)) imageDescriptor.setYResolution(convertDPI(value));
+						else if ("alt".equals(key)) imageDescriptor.setAltitude(convertFractionToNumber(value));
+						else if ("long".equals(key)) imageDescriptor.setLongitude(convertGeoPosition(value));
+						else if ("lat".equals(key)) imageDescriptor.setLatitude(convertGeoPosition(value));
 					}
 				}
 				return imageDescriptor;
@@ -187,8 +194,25 @@ public class MediaFileUtils
 		}
 	}
 
+	private static Double convertGeoPosition(String value)
+	{
+		if (StringUtils.isEmpty(value)) return null;
+		char dir=value.charAt(value.length()-1);
+		value=value.substring(0, value.length()-1);
+		double pos=0.0;
+		double factor=1.0;
+		for (String fractionValue : value.split(","))
+		{
+			pos+=convertFractionToNumber(fractionValue)/factor;
+			factor*=60.0;
+		}
+		if (dir=='W' || dir=='S') pos=-pos;
+		return pos;
+	}
+
 	private static Double convertFractionToNumber(String value)
 	{
+		if (value.matches("\\d+")) return Double.valueOf(value);
 		Matcher matcher=Pattern.compile("(\\d+)/(\\d+)").matcher(value);
 		if (matcher.matches()) return (double)Integer.parseInt(matcher.group(1))/Integer.parseInt(matcher.group(2));
 		try
