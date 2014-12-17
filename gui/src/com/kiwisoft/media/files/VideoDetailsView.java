@@ -72,11 +72,11 @@ public class VideoDetailsView extends DetailsView
 	private VideoDetailsView(MediaFile picture)
 	{
 		this.video=picture;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		nameField=new JTextField(40);
 		contentTypeField=new LookupField<ContentType>(new ContentTypeLookup(MediaType.VIDEO));
@@ -153,7 +153,8 @@ public class VideoDetailsView extends DetailsView
 		referencesController.installListeners();
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (video!=null)
 		{

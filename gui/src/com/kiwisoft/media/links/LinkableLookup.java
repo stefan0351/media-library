@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.Linkable;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBLoader;
 import com.kiwisoft.swing.lookup.ListLookup;
@@ -29,7 +28,6 @@ public class LinkableLookup extends ListLookup<Linkable>
 			Set<Linkable> linkables=new HashSet<Linkable>();
 			DBLoader dbLoader=DBLoader.getInstance();
 			linkables.addAll(dbLoader.loadSet(Show.class, null, "linkgroup_id is null"));
-			linkables.addAll(dbLoader.loadSet(FanDom.class, null, "linkgroup_id is null"));
 			linkables.addAll(dbLoader.loadSet(LinkGroup.class));
 			return linkables;
 		}
@@ -41,7 +39,6 @@ public class LinkableLookup extends ListLookup<Linkable>
 			DBLoader dbLoader=DBLoader.getInstance();
 			linkables.addAll(dbLoader.loadSet(Show.class, null, "linkgroup_id is null and (title like ? or german_title like ?)", text, text));
 			linkables.addAll(dbLoader.loadSet(Show.class, "names", "linkgroup_id is null and (names.ref_id=shows.id and names.name like ?)", text));
-			linkables.addAll(dbLoader.loadSet(FanDom.class, null, "linkgroup_id is null and concat(name,' - FanFic') like ?", text));
 			linkables.addAll(dbLoader.loadSet(LinkGroup.class, null, "name like ?", text));
 			return linkables;
 		}

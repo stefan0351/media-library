@@ -34,11 +34,11 @@ public class ImageViewer extends DetailsView
 	{
 		this.file=file;
 		this.rotation=rotation;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	private void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		imagePanel=new ImagePanel(new Dimension(800, 600));
 
@@ -46,7 +46,8 @@ public class ImageViewer extends DetailsView
 		add(new JScrollPane(imagePanel), BorderLayout.CENTER);
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		setTitle("Picture - "+file.getAbsolutePath());
 		if (rotation!=0)

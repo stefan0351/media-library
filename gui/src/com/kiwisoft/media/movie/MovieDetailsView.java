@@ -9,7 +9,6 @@ import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
 import com.kiwisoft.swing.*;
-import com.kiwisoft.swing.actions.ContextAction;
 import com.kiwisoft.swing.icons.Icons;
 import com.kiwisoft.swing.lookup.DialogLookup;
 import com.kiwisoft.swing.lookup.DialogLookupField;
@@ -27,11 +26,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.DocumentEvent;
 import java.awt.*;
-import static java.awt.GridBagConstraints.*;
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import static java.awt.GridBagConstraints.*;
 
 public class MovieDetailsView extends DetailsView
 {
@@ -78,21 +77,18 @@ public class MovieDetailsView extends DetailsView
 	private MovieDetailsView(Show show)
 	{
 		this.show=show;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private MovieDetailsView(Movie movie)
 	{
 		this.movie=movie;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private MovieDetailsView(String text)
 	{
-		createContentPanel();
-		initializeData();
+		initialize();
 		titleField.setText(text);
 	}
 
@@ -102,7 +98,8 @@ public class MovieDetailsView extends DetailsView
 //		return Collections.<Action>singletonList(new LoadImdbAction());
 //	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (movie!=null)
 		{
@@ -206,7 +203,8 @@ public class MovieDetailsView extends DetailsView
 		});
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		JTabbedPane tabs=new JTabbedPane();
 		tabs.addTab("Details", createDetailsPanel());

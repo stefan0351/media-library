@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.kiwisoft.app.Application;
 import com.kiwisoft.utils.Time;
-import com.kiwisoft.utils.TimeFormat;
 import com.kiwisoft.format.FormatManager;
 import com.kiwisoft.format.DefaultDateFormat;
 import com.kiwisoft.format.DefaultTimeFormat;
@@ -25,8 +24,6 @@ import com.kiwisoft.media.person.Gender;
 import com.kiwisoft.media.person.GenderFormat;
 import com.kiwisoft.media.person.CreditType;
 import com.kiwisoft.media.person.CreditTypeFormat;
-import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.fanfic.FanDomLinkableFormat;
 import com.kiwisoft.media.download.WebFolder;
 import com.kiwisoft.media.download.WebDocument;
 import com.kiwisoft.media.download.WebFolderFormat;
@@ -113,7 +110,6 @@ public class MediaApplication extends Application
 		formatManager.setFormat(Country.class, new CountryFormat());
 		formatManager.setFormat(Gender.class, new GenderFormat());
 		formatManager.setFormat(CreditType.class, new CreditTypeFormat());
-		formatManager.setFormat(FanDom.class, "linkable", new FanDomLinkableFormat());
 		formatManager.setFormat(WebFolder.class, new WebFolderFormat());
 		formatManager.setFormat(WebDocument.class, new WebDocumentFormat());
 		formatManager.setFormat(Date.class, "schedule", new DefaultDateFormat(new SimpleDateFormat("EE, dd.MM.yy HH:mm")));

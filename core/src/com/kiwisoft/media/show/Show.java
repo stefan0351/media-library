@@ -13,10 +13,6 @@ import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.files.MediaFileManager;
 import com.kiwisoft.media.files.MediaType;
-import com.kiwisoft.media.fanfic.FanDom;
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.fanfic.FanFicGroup;
-import com.kiwisoft.media.fanfic.FanFicManager;
 import com.kiwisoft.media.movie.Movie;
 import com.kiwisoft.media.movie.MovieManager;
 import com.kiwisoft.media.person.CastMember;
@@ -29,7 +25,7 @@ import com.kiwisoft.persistence.IDObject;
 import com.kiwisoft.persistence.DBDummy;
 import com.kiwisoft.persistence.DBLoader;
 
-public class Show extends IDObject implements FanFicGroup, Linkable, Production
+public class Show extends IDObject implements Linkable, Production
 {
 	public static final String AIRDATES="airdates";
 	public static final String EPISODES="episodes";
@@ -63,12 +59,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public Show(DBDummy dummy)
 	{
 		super(dummy);
-	}
-
-	@Override
-	public String getFanFicGroupName()
-	{
-		return getTitle();
 	}
 
 	public String getTitle()
@@ -277,43 +267,6 @@ public class Show extends IDObject implements FanFicGroup, Linkable, Production
 	public Set<CastMember> getMainCast()
 	{
 		return getCastMembers(CreditType.MAIN_CAST);
-	}
-
-	public Set getFanDoms()
-	{
-		return DBLoader.getInstance().loadSet(FanDom.class, null, "show_id=?", getId());
-	}
-
-	@Override
-	public Set<FanFic> getFanFics()
-	{
-		return DBLoader.getInstance().loadSet(FanFic.class, "map_fanfic_fandom map, fandoms",
-											  "map.fanfic_id=fanfics.id and map.fandom_id=fandoms.id and fandoms.show_id=?", getId());
-	}
-
-	@Override
-	public int getFanFicCount()
-	{
-		return DBLoader.getInstance().count(FanFic.class, "map_fanfic_fandom map, fandoms",
-											"map.fanfic_id=fanfics.id and map.fandom_id=fandoms.id and fandoms.show_id=?", getId());
-	}
-
-	@Override
-	public boolean contains(FanFic fanFic)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SortedSet<Character> getFanFicLetters()
-	{
-		return FanFicManager.getInstance().getFanFicLetters(this);
-	}
-
-	@Override
-	public Set<FanFic> getFanFics(char ch)
-	{
-		return FanFicManager.getInstance().getFanFics(this, ch);
 	}
 
 	public Language getLanguage()

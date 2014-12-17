@@ -52,24 +52,6 @@
 			<result name="success" type="tiles">media.main.episode.mediafiles</result>
 		</action>
 
-        <!-- FanFic Actions -->
-
-        <action name="ListFanDoms" class="com.kiwisoft.media.fanfics.ListFanDomsAction">
-            <result name="success" type="tiles">media.main.fanfics.fandoms</result>
-        </action>
-        <action name="ListFanFicPairs" class="com.kiwisoft.media.fanfics.ListFanFicPairsAction">
-            <result name="success" type="tiles">media.main.fanfics.pairings</result>
-        </action>
-        <action name="ListFanFicAuthors" class="com.kiwisoft.media.fanfics.ListFanFicAuthorsAction">
-            <result name="success" type="tiles">media.main.fanfics.authors</result>
-        </action>
-        <action name="ListFanFics" class="com.kiwisoft.media.fanfics.ListFanFicsAction">
-            <result name="success" type="tiles">media.main.fanfics.fanfics</result>
-        </action>
-        <action name="FanFic" class="com.kiwisoft.media.fanfics.FanFicAction">
-            <result name="success" type="tiles">media.main.fanfics.fanfic</result>
-        </action>
-
         <!-- Link Actions -->
 
         <action name="Links" class="com.kiwisoft.media.links.LinksAction">

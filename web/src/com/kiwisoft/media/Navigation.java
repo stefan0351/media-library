@@ -11,8 +11,6 @@ import com.kiwisoft.media.photos.PhotoGallery;
 import com.kiwisoft.media.show.Episode;
 import com.kiwisoft.media.show.Season;
 import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.fanfic.Author;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
@@ -81,14 +79,6 @@ public class Navigation
 		else if (value instanceof LinkGroup)
 		{
 			return request.getContextPath()+"/Links.action?groupId="+((LinkGroup) value).getId();
-		}
-		else if (value instanceof FanFic)
-		{
-			return request.getContextPath()+"/FanFic.action?fanFicId="+((FanFic) value).getId();
-		}
-		else if (value instanceof Author)
-		{
-			return request.getContextPath()+"/ListFanFics.action?authorId="+((Author) value).getId();
 		}
 		throw new RuntimeException("Unsupported value type: "+value.getClass());
 	}

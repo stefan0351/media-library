@@ -64,10 +64,10 @@ public class MovieDataDetailsView extends DetailsView
 	private MovieDataDetailsView(MovieData movieData)
 	{
 		this.movieData=movieData;
-		initializeComponents();
-		initializeData();
+		initialize();
 	}
 
+	@Override
 	protected void initializeComponents()
 	{
 		titleField=new JTextField();
@@ -227,7 +227,8 @@ public class MovieDataDetailsView extends DetailsView
 		return summaryPanel;
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		getListenerList().installPropertyChangeListener(movieData, new PropertyChangeListener()
 		{

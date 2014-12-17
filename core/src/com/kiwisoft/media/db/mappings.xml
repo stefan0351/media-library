@@ -63,14 +63,6 @@
 		<reference name="language" column="language_id" type="Language"/>
 		<reference name="logo" column="logo_id" type="MediaFile"/>
 	</type>
-	<type name="ContactMedium" class="com.kiwisoft.media.ContactMedium" table="contactmedia" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="type" column="type"/>
-		<field name="value" column="value"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="version" column="version"/>
-		<reference name="author" column="author_id" type="FanFicAuthor"/>
-	</type>
 	<transient-type name="ContentType" class="com.kiwisoft.media.files.ContentType" primaryKey="id"/>
 	<type name="Country" class="com.kiwisoft.media.Country" table="countries" primaryKey="id">
 		<field name="id" column="id"/>
@@ -101,44 +93,6 @@
 		<field name="lastModified" column="lastmodified"/>
 		<field name="version" column="version"/>
 		<reference name="show" column="show_id" type="Show"/>
-	</type>
-	<type name="FanDom" class="com.kiwisoft.media.fanfic.FanDom" table="fandoms" primaryKey="id" lastModified="lastmodified">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="lastModified" column="lastmodified"/>
-		<reference name="show" column="show_id" type="Show"/>
-		<reference name="movie" column="movie_id" type="Movie"/>
-		<reference name="linkGroup" column="linkgroup_id" type="LinkGroup"/>
-	</type>
-	<type name="FanFic" class="com.kiwisoft.media.fanfic.FanFic" table="fanfics" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="title" column="title"/>
-		<field name="rating" column="rating"/>
-		<field name="description" column="description"/>
-		<field name="finished" column="finished"/>
-		<field name="spoiler" column="spoiler"/>
-		<field name="url" column="url"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="version" column="version"/>
-		<reference name="sequel" column="sequel_id" type="FanFic"/>
-		<reference name="prequel" column="prequel_id" type="FanFic"/>
-	</type>
-	<type name="FanFicAuthor" class="com.kiwisoft.media.fanfic.Author" table="fanficauthors" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="version" column="version"/>
-	</type>
-	<type name="FanFicPart" class="com.kiwisoft.media.fanfic.FanFicPart" table="fanfic_parts" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="sequence" column="sequence"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="name" column="name"/>
-		<field name="type" column="type"/>
-		<field name="extension" column="extension"/>
-		<field name="encoding" column="encoding"/>
-		<field name="version" column="version"/>
-		<reference name="fanFic" column="fanfic_id" type="FanFic"/>
 	</type>
 	<transient-type name="Gender" class="com.kiwisoft.media.person.Gender" primaryKey="id"/>
 	<type name="Genre" class="com.kiwisoft.media.Genre" primaryKey="id" table="genres" lastModified="lastmodified">
@@ -228,12 +182,6 @@
 		<field name="name" column="name"/>
 		<field name="version" column="version"/>
 		<reference name="language" column="language_id" type="Language"/>
-	</type>
-	<type name="Pairing" class="com.kiwisoft.media.fanfic.Pairing" table="pairings" primaryKey="id" lastModified="lastmodified" version="version">
-		<field name="id" column="id"/>
-		<field name="name" column="name"/>
-		<field name="lastModified" column="lastmodified"/>
-		<field name="version" column="version"/>
 	</type>
 	<type name="Person" class="com.kiwisoft.media.person.Person" table="persons" primaryKey="id" lastModified="lastmodified" version="version">
 		<field name="id" column="id"/>
@@ -363,18 +311,6 @@
 	</type>
 	<transient-type name="TrackType" class="com.kiwisoft.media.medium.TrackType" primaryKey="id"/>
 
-	<association table="map_fanfic_pairing">
-		<element type="FanFic" name="pairings" column="fanfic_id"/>
-		<element type="Pairing" name="fanfics" column="pairing_id"/>
-	</association>
-	<association table="map_fanfic_author">
-		<element type="FanFic" name="authors" column="fanfic_id"/>
-		<element type="FanFicAuthor" name="fanfics" column="author_id"/>
-	</association>
-	<association table="map_fanfic_fandom">
-		<element type="FanFic" name="fandoms" column="fanfic_id"/>
-		<element type="FanDom" name="fanfics" column="fandom_id"/>
-	</association>
 	<association table="map_show_genre">
 		<element name="genres" column="show_id" type="Show"/>
 		<element name="shows" column="genre_id" type="Genre"/>

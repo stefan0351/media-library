@@ -71,11 +71,11 @@ public class ImageDetailsView extends DetailsView
 	private ImageDetailsView(MediaFile picture)
 	{
 		this.image=picture;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		nameField=new JTextField(40);
 		imageField=new ImageField("Original", new Dimension(250, 250));
@@ -164,7 +164,8 @@ public class ImageDetailsView extends DetailsView
 		super.dispose();
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (image!=null)
 		{

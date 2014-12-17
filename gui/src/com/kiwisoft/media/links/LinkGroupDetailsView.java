@@ -42,7 +42,6 @@ public class LinkGroupDetailsView extends DetailsView
 	{
 		this.group=group;
 		this.parent=parent;
-		createContentPanel();
 		initialize();
 	}
 
@@ -52,7 +51,8 @@ public class LinkGroupDetailsView extends DetailsView
 		return "Link Group";
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		parentField=new JTextField();
 		parentField.setEditable(false);
@@ -71,7 +71,8 @@ public class LinkGroupDetailsView extends DetailsView
 		add(nameField, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
-	private void initialize()
+	@Override
+	protected void initializeData()
 	{
 		if (parent!=null) parentField.setText(FormatUtils.format(parent));
 		if (group!=null) nameField.setText(group.getName());

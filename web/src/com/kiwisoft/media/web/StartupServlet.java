@@ -1,6 +1,7 @@
 package com.kiwisoft.media.web;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import javax.servlet.*;
 
 import com.kiwisoft.media.MediaWebApplication;
@@ -16,6 +17,7 @@ public class StartupServlet extends GenericServlet
 	public void init(ServletConfig servletConfig) throws ServletException
 	{
 		super.init(servletConfig);
+		MediaWebApplication.context=servletConfig.getServletContext();
 		MediaWebApplication.checkInstance();
 	}
 

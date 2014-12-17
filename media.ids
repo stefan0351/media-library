@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?><component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Media" product="MySQL" version="5.1.41" jdbc-version="3.0" driver-name="MySQL-AB JDBC Driver" driver-version="mysql-connector-java-5.0.4 ( $Date: 2006-10-19 17:47:48 +0200 (Thu, 19 Oct 2006) $, $Revision: 5908 $ )" uuid="73644708-f68f-481e-93a8-a72b4ab9ec6e">
+    <extra-name-characters>#@</extra-name-characters>
+    <identifier-quote-string>`</identifier-quote-string>
+    <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+    <jdbc-url>jdbc:mysql://localhost:3306/media</jdbc-url>
+    <user-name>stefan</user-name>
+    <user-password>dfc8dfc5dfc1dfcbdfcedfcb</user-password>
+    <schema-pattern>media.*</schema-pattern>
+    <default-schemas>media.*</default-schemas>
+    <default-dialect>MySQL</default-dialect>
+    <libraries>
+      <library>
+        <url>jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.0.4/mysql-connector-java-5.0.4.jar!/</url>
+      </library>
+    </libraries>
+    <schema name="" catalog="media" />
+    <table name="airdate_persons" schema="" catalog="media" type="TABLE">
+      <column name="airdate_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="person_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_airdate_persons_airdates" columns="person_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_airdate_persons_persons" columns="airdate_id" ref-table="airdates" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="airdates" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="event" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="viewdate" sqlType="timestamp" length="19" precision="0" nullable="true" jdbcType="93" />
+      <column name="channel_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="reminder" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="source_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <column name="detailsLink" sqlType="varchar" length="500" precision="0" nullable="true" jdbcType="12" />
+      <column name="enddate" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="JzAwMDAtMDAtMDAgMDA6MDA6MDAn" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_airdates_channel" columns="channel_id" ref-table="channels" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_airdates_episode" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_airdates_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_airdates_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_airdates_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdate_persons_persons" table="airdate_persons" schema="" catalog="media" columns="airdate_id" />
+    </table>
+    <table name="books" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="title" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="binding" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="cover_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="publisher" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="published_year" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="edition" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="pages" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="isbn10" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="isbn13" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="series_name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="series_number" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="index_by" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="storage" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="original_title" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="gdr_licence" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_books_cover" columns="cover_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_books_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_books_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_map_book_author_authors" table="map_book_author" schema="" catalog="media" columns="book_id" />
+      <exported-key name="fk_map_book_translator_translators" table="map_book_translator" schema="" catalog="media" columns="book_id" />
+      <exported-key name="fk_summary_book" table="summary" schema="" catalog="media" columns="book_id" />
+    </table>
+    <table name="cast" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="credit_type_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="actor_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="voice" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="description" sqlType="text" length="65535" precision="0" nullable="true" jdbcType="-1" />
+      <column name="character_name" sqlType="varchar" length="400" precision="0" nullable="true" jdbcType="12" />
+      <column name="credit_order" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="picture_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_cast_actor" columns="actor_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_cast_episode" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_cast_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_cast_picture" columns="picture_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_cast_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="channels" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12" def="Jyc=" />
+      <column name="tvtv_key" sqlType="varchar" length="30" precision="0" nullable="true" jdbcType="12" />
+      <column name="web_address" sqlType="varchar" length="300" precision="0" nullable="true" jdbcType="12" />
+      <column name="logo_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="receivable" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_channels_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_channels_logo" columns="logo_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdates_channel" table="airdates" schema="" catalog="media" columns="channel_id" />
+    </table>
+    <table name="contactmedia" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="type" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="value" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="author_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_contactmedia_author" columns="author_id" ref-table="fanficauthors" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="countries" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="symbol" sqlType="varchar" length="3" precision="0" nullable="false" jdbcType="12" />
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12" def="Jyc=" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_map_movie_country_movies" table="map_movie_country" schema="" catalog="media" columns="country_id" />
+    </table>
+    <table name="credit" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="credit_type_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="song_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="person_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="sub_type" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_credit_episode" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_credit_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_credit_person" columns="person_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_credit_song" columns="song_id" ref-table="songs" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="episodes" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="userkey" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12" />
+      <column name="sequence" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" def="MA==" />
+      <column name="german_title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="seen" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="good" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="record" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="javascript" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="webscriptfile" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="production_code" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="airdate" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_episodes_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdates_episode" table="airdates" schema="" catalog="media" columns="episode_id" />
+      <exported-key name="fk_cast_episode" table="cast" schema="" catalog="media" columns="episode_id" />
+      <exported-key name="fk_credit_episode" table="credit" schema="" catalog="media" columns="episode_id" />
+      <exported-key name="fk_mediafile_episodes_mediafiles" table="mediafile_episodes" schema="" catalog="media" columns="episode_id" />
+      <exported-key name="fk_seasons_firstepisode" table="seasons" schema="" catalog="media" columns="firstepisode_id" />
+      <exported-key name="fk_seasons_lastepisode" table="seasons" schema="" catalog="media" columns="lastepisode_id" />
+      <exported-key name="fk_summary_episode" table="summary" schema="" catalog="media" columns="episode_id" />
+      <exported-key name="fk_tracks_episode" table="tracks" schema="" catalog="media" columns="episode_id" />
+    </table>
+    <table name="fandoms" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="linkgroup_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_fandoms_linkgroup" columns="linkgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_fandoms_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_fandoms_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_map_fanfic_fandom_fanfics" table="map_fanfic_fandom" schema="" catalog="media" columns="fandom_id" />
+    </table>
+    <table name="fanfic_parts" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="fanfic_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="sequence" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="extension" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12" />
+      <column name="type" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12" />
+      <column name="encoding" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_fanfic_parts_fanfic" columns="fanfic_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="fanficauthors" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="path" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_contactmedia_author" table="contactmedia" schema="" catalog="media" columns="author_id" />
+      <exported-key name="fk_map_fanfic_author_fanfics" table="map_fanfic_author" schema="" catalog="media" columns="author_id" />
+    </table>
+    <table name="fanfics" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="rating" sqlType="varchar" length="10" precision="0" nullable="true" jdbcType="12" />
+      <column name="description" sqlType="text" length="65535" precision="0" nullable="true" jdbcType="-1" />
+      <column name="sequel_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="prequel_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="finished" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="spoiler" sqlType="text" length="65535" precision="0" nullable="true" jdbcType="-1" />
+      <column name="url" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_fanfics_prequel" columns="prequel_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_fanfics_sequel" columns="sequel_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_fanfic_parts_fanfic" table="fanfic_parts" schema="" catalog="media" columns="fanfic_id" />
+      <exported-key name="fk_fanfics_prequel" table="fanfics" schema="" catalog="media" columns="prequel_id" />
+      <exported-key name="fk_fanfics_sequel" table="fanfics" schema="" catalog="media" columns="sequel_id" />
+      <exported-key name="fk_map_fanfic_author_authors" table="map_fanfic_author" schema="" catalog="media" columns="fanfic_id" />
+      <exported-key name="fk_map_fanfic_fandom_fandoms" table="map_fanfic_fandom" schema="" catalog="media" columns="fanfic_id" />
+      <exported-key name="fk_map_fanfic_pairing_pairings" table="map_fanfic_pairing" schema="" catalog="media" columns="fanfic_id" />
+    </table>
+    <table name="genres" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_map_movie_genre_movies" table="map_movie_genre" schema="" catalog="media" columns="genre_id" />
+      <exported-key name="fk_map_show_genre_shows" table="map_show_genre" schema="" catalog="media" columns="genre_id" />
+    </table>
+    <table name="imagefiles" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="root" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="file" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="width" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" />
+      <column name="height" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_mediafiles_thumbnail" table="mediafiles" schema="" catalog="media" columns="thumbnail_id" />
+      <exported-key name="fk_mediafiles_thumbnail50x50" table="mediafiles" schema="" catalog="media" columns="thumbnail_50x50_id" />
+      <exported-key name="fk_mediafiles_thumbnailsidebar" table="mediafiles" schema="" catalog="media" columns="thumbnail_sidebar_id" />
+      <exported-key name="fk_photos_originalpicture" table="photos" schema="" catalog="media" columns="original_pic_id" />
+      <exported-key name="fk_photos_thumbnail" table="photos" schema="" catalog="media" columns="thumbnail_id" />
+    </table>
+    <table name="languages" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="symbol" sqlType="varchar" length="10" precision="0" nullable="false" jdbcType="12" />
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="false" jdbcType="12" def="Jyc=" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_airdates_language" table="airdates" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_books_language" table="books" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_channels_language" table="channels" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_map_movie_language_movies" table="map_movie_language" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_names_language" table="names" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_showinfos_language" table="showinfos" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_shows_language" table="shows" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_summary_language" table="summary" schema="" catalog="media" columns="language_id" />
+      <exported-key name="fk_tracks_language" table="tracks" schema="" catalog="media" columns="language_id" />
+    </table>
+    <table name="linkgroups" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="parentgroup_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_linkgroups_parentgroup" columns="parentgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_fandoms_linkgroup" table="fandoms" schema="" catalog="media" columns="linkgroup_id" />
+      <exported-key name="fk_linkgroups_parentgroup" table="linkgroups" schema="" catalog="media" columns="parentgroup_id" />
+      <exported-key name="fk_links_group" table="links" schema="" catalog="media" columns="linkgroup_id" />
+      <exported-key name="fk_relatedlinkgroups_alternategroups" table="relatedlinkgroups" schema="" catalog="media" columns="relatedgroup_id" />
+      <exported-key name="fk_relatedlinkgroups_relatedgroups" table="relatedlinkgroups" schema="" catalog="media" columns="linkgroup_id" />
+      <exported-key name="fk_shows_linkgroup" table="shows" schema="" catalog="media" columns="linkgroup_id" />
+    </table>
+    <table name="links" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="url" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="linkgroup_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_links_group" columns="linkgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_book_author" schema="" catalog="media" type="TABLE">
+      <column name="book_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="author_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_book_author_authors" columns="book_id" ref-table="books" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_book_author_writtenbooks" columns="author_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_book_translator" schema="" catalog="media" type="TABLE">
+      <column name="book_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="translator_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_book_translator_translatedbooks" columns="translator_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_book_translator_translators" columns="book_id" ref-table="books" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_fanfic_author" schema="" catalog="media" type="TABLE">
+      <column name="fanfic_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="author_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <foreign-key name="fk_map_fanfic_author_authors" columns="fanfic_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_fanfic_author_fanfics" columns="author_id" ref-table="fanficauthors" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_fanfic_fandom" schema="" catalog="media" type="TABLE">
+      <column name="fanfic_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="fandom_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <foreign-key name="fk_map_fanfic_fandom_fandoms" columns="fanfic_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_fanfic_fandom_fanfics" columns="fandom_id" ref-table="fandoms" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_fanfic_pairing" schema="" catalog="media" type="TABLE">
+      <column name="fanfic_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="pairing_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <foreign-key name="fk_map_fanfic_pairing_fanfics" columns="pairing_id" ref-table="pairings" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_fanfic_pairing_pairings" columns="fanfic_id" ref-table="fanfics" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_movie_country" schema="" catalog="media" type="TABLE">
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="country_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_movie_country_countries" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_movie_country_movies" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_movie_genre" schema="" catalog="media" type="TABLE">
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="genre_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_movie_genre_genres" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_movie_genre_movies" columns="genre_id" ref-table="genres" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_movie_language" schema="" catalog="media" type="TABLE">
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_movie_language_languages" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_movie_language_movies" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="map_show_genre" schema="" catalog="media" type="TABLE">
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="genre_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_map_show_genre_genres" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_map_show_genre_shows" columns="genre_id" ref-table="genres" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="media" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="userkey" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="length" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" def="MA==" />
+      <column name="remaininglength" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" def="MA==" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="type_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="storage" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="obsolete" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_tracks_medium" table="tracks" schema="" catalog="media" columns="medium_id" />
+    </table>
+    <table name="mediafile_episodes" schema="" catalog="media" type="TABLE">
+      <column name="mediafile_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_mediafile_episodes_episodes" columns="mediafile_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafile_episodes_mediafiles" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="mediafile_movies" schema="" catalog="media" type="TABLE">
+      <column name="mediafile_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_mediafile_movies_mediafiles" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafile_movies_movies" columns="mediafile_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="mediafile_persons" schema="" catalog="media" type="TABLE">
+      <column name="mediafile_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="person_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_mediafile_persons_mediafiles" columns="person_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafile_persons_persons" columns="mediafile_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="mediafile_shows" schema="" catalog="media" type="TABLE">
+      <column name="mediafile_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_mediafile_shows_mediafiles" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafile_shows_shows" columns="mediafile_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="mediafiles" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="description" sqlType="mediumtext" length="16277215" precision="0" nullable="true" jdbcType="-1" />
+      <column name="mediatype_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="root" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="file" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="width" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" />
+      <column name="height" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" />
+      <column name="duration" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="thumbnail_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="thumbnail_50x50_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="thumbnail_sidebar_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="contenttype_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_mediafiles_thumbnail" columns="thumbnail_id" ref-table="imagefiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafiles_thumbnail50x50" columns="thumbnail_50x50_id" ref-table="imagefiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_mediafiles_thumbnailsidebar" columns="thumbnail_sidebar_id" ref-table="imagefiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_books_cover" table="books" schema="" catalog="media" columns="cover_id" />
+      <exported-key name="fk_cast_picture" table="cast" schema="" catalog="media" columns="picture_id" />
+      <exported-key name="fk_channels_logo" table="channels" schema="" catalog="media" columns="logo_id" />
+      <exported-key name="fk_mediafile_episodes_episodes" table="mediafile_episodes" schema="" catalog="media" columns="mediafile_id" />
+      <exported-key name="fk_mediafile_movies_movies" table="mediafile_movies" schema="" catalog="media" columns="mediafile_id" />
+      <exported-key name="fk_mediafile_persons_persons" table="mediafile_persons" schema="" catalog="media" columns="mediafile_id" />
+      <exported-key name="fk_mediafile_shows_shows" table="mediafile_shows" schema="" catalog="media" columns="mediafile_id" />
+      <exported-key name="fk_movies_poster" table="movies" schema="" catalog="media" columns="poster_id" />
+      <exported-key name="fk_persons_picture" table="persons" schema="" catalog="media" columns="picture_id" />
+      <exported-key name="fk_seasons_logo" table="seasons" schema="" catalog="media" columns="logo_id" />
+      <exported-key name="fk_shows_logo" table="shows" schema="" catalog="media" columns="logo_id" />
+    </table>
+    <table name="movies" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="record" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="javascript" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="webscriptfile" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="german_title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="year" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="runtime" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="index_by" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="imdb_key" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="poster_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_movies_poster" columns="poster_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_movies_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdates_movie" table="airdates" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_cast_movie" table="cast" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_credit_movie" table="credit" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_fandoms_movie" table="fandoms" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_map_movie_country_countries" table="map_movie_country" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_map_movie_genre_genres" table="map_movie_genre" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_map_movie_language_languages" table="map_movie_language" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_mediafile_movies_mediafiles" table="mediafile_movies" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_searchpatterns_movie" table="searchpatterns" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_summary_movie" table="summary" schema="" catalog="media" columns="movie_id" />
+      <exported-key name="fk_tracks_movie" table="tracks" schema="" catalog="media" columns="movie_id" />
+    </table>
+    <table name="names" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="ref_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="type" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_names_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="pairings" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_map_fanfic_pairing_fanfics" table="map_fanfic_pairing" schema="" catalog="media" columns="pairing_id" />
+    </table>
+    <table name="persons" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="firstname" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="middlename" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="surname" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="gender_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="actor" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="false" jdbcType="12" />
+      <column name="imdb_key" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="tvcom_key" sqlType="varchar" length="20" precision="0" nullable="true" jdbcType="12" />
+      <column name="picture_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_persons_picture" columns="picture_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdate_persons_airdates" table="airdate_persons" schema="" catalog="media" columns="person_id" />
+      <exported-key name="fk_cast_actor" table="cast" schema="" catalog="media" columns="actor_id" />
+      <exported-key name="fk_credit_person" table="credit" schema="" catalog="media" columns="person_id" />
+      <exported-key name="fk_map_book_author_writtenbooks" table="map_book_author" schema="" catalog="media" columns="author_id" />
+      <exported-key name="fk_map_book_translator_translatedbooks" table="map_book_translator" schema="" catalog="media" columns="translator_id" />
+      <exported-key name="fk_mediafile_persons_mediafiles" table="mediafile_persons" schema="" catalog="media" columns="person_id" />
+      <exported-key name="fk_searchpatterns_person" table="searchpatterns" schema="" catalog="media" columns="person_id" />
+    </table>
+    <table name="photogalleries" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="creation_date" sqlType="date" length="10" precision="0" nullable="true" jdbcType="91" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_photogalleries_structure_children" table="photogalleries_structure" schema="" catalog="media" columns="parent_id" />
+      <exported-key name="fk_photogalleries_structure_parents" table="photogalleries_structure" schema="" catalog="media" columns="child_id" />
+      <exported-key name="fk_photos_gallery" table="photos" schema="" catalog="media" columns="photogallery_id" />
+    </table>
+    <table name="photogalleries_structure" schema="" catalog="media" type="TABLE">
+      <column name="parent_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="child_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_photogalleries_structure_children" columns="parent_id" ref-table="photogalleries" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_photogalleries_structure_parents" columns="child_id" ref-table="photogalleries" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="photos" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="photogallery_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="gallery_photo" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" def="MA==" />
+      <column name="creation_date" sqlType="timestamp" length="19" precision="0" nullable="true" jdbcType="93" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="rotation" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="original_pic_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="thumbnail_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="sequence" sqlType="int" length="11" precision="0" nullable="false" jdbcType="4" />
+      <column name="camera_model" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="camera_make" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="color_depth" sqlType="smallint" length="6" precision="0" nullable="true" jdbcType="5" />
+      <column name="description" sqlType="text" length="65535" precision="0" nullable="true" jdbcType="-1" />
+      <column name="xresolution" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="yresolution" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="f_number" sqlType="double" length="22" precision="0" nullable="true" jdbcType="8" />
+      <column name="focal_length" sqlType="double" length="22" precision="0" nullable="true" jdbcType="8" />
+      <column name="iso_speed" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="exposure_time" sqlType="double" length="22" precision="0" nullable="true" jdbcType="8" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_photos_gallery" columns="photogallery_id" ref-table="photogalleries" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_photos_originalpicture" columns="original_pic_id" ref-table="imagefiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_photos_thumbnail" columns="thumbnail_id" ref-table="imagefiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="relatedlinkgroups" schema="" catalog="media" type="TABLE">
+      <column name="linkgroup_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="relatedgroup_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <foreign-key name="fk_relatedlinkgroups_alternategroups" columns="relatedgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_relatedlinkgroups_relatedgroups" columns="linkgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="searchpatterns" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="type" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="pattern" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="person_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_searchpatterns_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_searchpatterns_person" columns="person_id" ref-table="persons" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_searchpatterns_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="seasons" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="number" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="firstepisode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="lastepisode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="startYear" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="endYear" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <column name="logo_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_seasons_firstepisode" columns="firstepisode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_seasons_lastepisode" columns="lastepisode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_seasons_logo" columns="logo_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_seasons_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="sequences" schema="" catalog="media" type="TABLE">
+      <column name="name" sqlType="varchar" length="10" precision="0" nullable="false" jdbcType="12" def="Jyc=" />
+      <column name="value" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="increment" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <column name="cache" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="name" />
+    </table>
+    <table name="showinfos" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="name" sqlType="varchar" length="50" precision="0" nullable="true" jdbcType="12" />
+      <column name="path" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_showinfos_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_showinfos_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_shows_defaultinfo" table="shows" schema="" catalog="media" columns="defaultinfo_id" />
+    </table>
+    <table name="shows" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="userkey" sqlType="varchar" length="20" precision="0" nullable="false" jdbcType="12" def="Jyc=" />
+      <column name="german_title" sqlType="varchar" length="100" precision="0" nullable="true" jdbcType="12" />
+      <column name="index_by" sqlType="varchar" length="100" precision="0" nullable="false" jdbcType="12" />
+      <column name="internet" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="episode_length" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="webdatesfile" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="logo_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="defaultinfo_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="title" sqlType="varchar" length="100" precision="0" nullable="false" jdbcType="12" />
+      <column name="start_year" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="end_year" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="linkgroup_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_shows_defaultinfo" columns="defaultinfo_id" ref-table="showinfos" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_shows_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_shows_linkgroup" columns="linkgroup_id" ref-table="linkgroups" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_shows_logo" columns="logo_id" ref-table="mediafiles" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <exported-key name="fk_airdates_show" table="airdates" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_books_show" table="books" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_cast_show" table="cast" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_episodes_show" table="episodes" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_fandoms_show" table="fandoms" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_map_show_genre_genres" table="map_show_genre" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_mediafile_shows_mediafiles" table="mediafile_shows" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_movies_show" table="movies" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_searchpatterns_show" table="searchpatterns" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_seasons_show" table="seasons" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_showinfos_show" table="showinfos" schema="" catalog="media" columns="show_id" />
+      <exported-key name="fk_tracks_show" table="tracks" schema="" catalog="media" columns="show_id" />
+    </table>
+    <table name="songs" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="title" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="album_interpret" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="other_interprets" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="album_title" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="track_number" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="composer" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="genre" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="year" sqlType="varchar" length="255" precision="0" nullable="true" jdbcType="12" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="song_version" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <exported-key name="fk_credit_song" table="credit" schema="" catalog="media" columns="song_id" />
+      <exported-key name="fk_tracks_song" table="tracks" schema="" catalog="media" columns="song_id" />
+    </table>
+    <table name="summary" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="summary" sqlType="mediumtext" length="16277215" precision="0" nullable="true" jdbcType="-1" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="book_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_summary_book" columns="book_id" ref-table="books" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_summary_episode" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_summary_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_summary_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <table name="tracks" schema="" catalog="media" type="TABLE">
+      <column name="id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MA==" />
+      <column name="longplay" sqlType="BIT" length="1" precision="0" nullable="true" jdbcType="-7" />
+      <column name="length" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="type_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="event" sqlType="varchar" length="200" precision="0" nullable="true" jdbcType="12" />
+      <column name="show_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="episode_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="song_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="language_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="medium_id" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" />
+      <column name="sequence" sqlType="int" length="11" precision="0" nullable="true" jdbcType="4" />
+      <column name="lastmodified" sqlType="timestamp" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" />
+      <column name="movie_id" sqlType="bigint" length="20" precision="0" nullable="true" jdbcType="-5" />
+      <column name="version" sqlType="bigint" length="20" precision="0" nullable="false" jdbcType="-5" def="MQ==" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="fk_tracks_episode" columns="episode_id" ref-table="episodes" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_tracks_language" columns="language_id" ref-table="languages" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_tracks_medium" columns="medium_id" ref-table="media" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_tracks_movie" columns="movie_id" ref-table="movies" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_tracks_show" columns="show_id" ref-table="shows" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+      <foreign-key name="fk_tracks_song" columns="song_id" ref-table="songs" ref-schema="" ref-catalog="media" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2" />
+    </table>
+    <procedure name="sort_letter" schema="" catalog="media" type="2">
+      <prototype return="true">
+        <parameter name="" sqlType=" char" length="65535" precision="1" nullable="false" jdbcType="1111" type="5" index="-1" />
+        <parameter name="name" sqlType="varchar" length="65535" precision="200" nullable="false" jdbcType="12" type="1" index="-1" />
+      </prototype>
+    </procedure>
+  </data-source>
+</component>

@@ -67,19 +67,18 @@ public class AirdateDetailsView extends DetailsView
 	{
 		this.airdate=airdate;
 		setTitle("Airdate");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private AirdateDetailsView(Show show)
 	{
 		this.show=show;
 		setTitle("New Airdate");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		dateField=new DateField();
 		timeField=new TimeField();
@@ -163,7 +162,8 @@ public class AirdateDetailsView extends DetailsView
 		getListenerList().installSelectionListener(movieField, new MovieSelectionListener());
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (airdate!=null)
 		{

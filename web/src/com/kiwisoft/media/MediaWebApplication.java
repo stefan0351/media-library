@@ -33,14 +33,12 @@ import com.kiwisoft.media.books.Book;
 import com.kiwisoft.media.books.BookHTMLRenderer;
 import com.kiwisoft.media.photos.PhotoGalleryHTMLRenderer;
 import com.kiwisoft.media.photos.PhotoGallery;
-import com.kiwisoft.media.fanfic.FanFic;
-import com.kiwisoft.media.fanfics.FanFicHTMLRenderer;
-import com.kiwisoft.cfg.SimpleConfiguration;
-import com.kiwisoft.utils.StringUtils;
 import com.kiwisoft.app.Application;
 import com.kiwisoft.swing.icons.Icons;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.servlet.ServletContext;
 
 /**
  * @author Stefan Stiller
@@ -48,6 +46,8 @@ import org.apache.commons.logging.LogFactory;
 public class MediaWebApplication extends MediaApplication
 {
 	private final static Log log=LogFactory.getLog(MediaWebApplication.class);
+
+	public static ServletContext context;
 
 	public synchronized static void checkInstance()
 	{
@@ -70,28 +70,9 @@ public class MediaWebApplication extends MediaApplication
 	public void configureXML() throws IOException
 	{
 		Icons.setResource("/com/kiwisoft/media/icons/CoreIcons.xml");
-		String root=System.getProperty("catalina.home");
-		SimpleConfiguration configuration=new SimpleConfiguration();
-		String configName="config.xml";
+		WebConfiguration configuration=new WebConfiguration(context);
 		String profileName="profile.xml";
-		if ("dev".equals(System.getProperty("media.database")))
-		{
-			configName="config-dev.xml";
-			profileName="profile-dev.xml";
-		}
-		File configFile;
-		if (StringUtils.isEmpty(root))
-		{
-			System.err.println("catalina.home not found. Using user.dir instead");
-			configFile=new File("conf", configName);
-		}
-		else
-		{
-			configuration.setApplicationDir(new File(root, "..").getAbsolutePath());
-			configFile=new File(root, ".."+File.separator+"conf"+File.separator+configName);
-		}
-		System.out.println("Loading configuration from "+configFile.getAbsolutePath());
-		configuration.loadDefaultsFromFile(configFile);
+		if (Boolean.TRUE.equals(configuration.getBoolean("developer"))) profileName="profile-dev.xml";
 		try
 		{
 			String userValuesFile="media"+File.separator+profileName;
@@ -137,7 +118,6 @@ public class MediaWebApplication extends MediaApplication
 		rendererManager.setRenderer(ImageFile.class, new ImageFileHTMLRenderer());
 		rendererManager.setRenderer(Channel.class, new ChannelHTMLRenderer());
 		rendererManager.setRenderer(PhotoGallery.class, new PhotoGalleryHTMLRenderer());
-		rendererManager.setRenderer(FanFic.class, new FanFicHTMLRenderer());
 	}
 }
 

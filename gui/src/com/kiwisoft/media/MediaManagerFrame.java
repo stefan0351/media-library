@@ -9,17 +9,12 @@ import javax.swing.*;
 
 import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.app.MenuSidebarItem;
-import com.kiwisoft.media.books.BooksTask;
 import com.kiwisoft.media.dataimport.*;
 import com.kiwisoft.media.fanfic.*;
 import com.kiwisoft.media.links.LinksTask;
-import com.kiwisoft.media.medium.AllMediaTask;
-import com.kiwisoft.media.movie.MoviesTask;
 import com.kiwisoft.media.person.Person;
 import com.kiwisoft.media.person.PersonLookup;
-import com.kiwisoft.media.person.PersonsTask;
 import com.kiwisoft.media.show.GenreLookup;
-import com.kiwisoft.media.show.ShowsTask;
 import com.kiwisoft.swing.lookup.FileLookup;
 import com.kiwisoft.swing.lookup.TableDialogLookupEditor;
 import com.kiwisoft.swing.table.TableEditorFactory;
@@ -49,8 +44,9 @@ public class MediaManagerFrame extends ApplicationFrame
 	}
 
 	@Override
-	protected JToolBar createToolBar()
+	protected void initializeToolBar()
 	{
+		super.initializeToolBar();
 		final JToggleButton linkGrabberButton=new JToggleButton(Icons.getIcon("clipboard"));
 		linkGrabberButton.setSelected(LinkCollector.getInstance().isStarted());
 		linkGrabberButton.setMargin(new Insets(2, 2, 2, 2));
@@ -64,10 +60,8 @@ public class MediaManagerFrame extends ApplicationFrame
 			}
 		});
 
-		JToolBar toolBar=super.createToolBar();
 		toolBar.addSeparator();
 		toolBar.add(linkGrabberButton);
-		return toolBar;
 	}
 
 	@Override
@@ -82,9 +76,6 @@ public class MediaManagerFrame extends ApplicationFrame
 		super.initializeTableComponents();
 		TableEditorFactory editorFactory=TableEditorFactory.getInstance();
 		editorFactory.setEditor(Language.class, new LanguageLookup());
-		editorFactory.setEditor(Pairing.class, new PairingLookup());
-		editorFactory.setEditor(FanDom.class, new FanDomLookup());
-		editorFactory.setEditor(Author.class, new AuthorLookup());
 		editorFactory.setEditor(Genre.class, new GenreLookup());
 		editorFactory.setEditor(Country.class, new CountryLookup());
 		editorFactory.setEditor(Person.class, new PersonLookup());

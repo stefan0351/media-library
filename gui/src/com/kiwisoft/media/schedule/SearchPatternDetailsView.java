@@ -48,11 +48,11 @@ public class SearchPatternDetailsView extends DetailsView
 	{
 		this.pattern=pattern;
 		setTitle("Search Pattern");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		ButtonGroup referenceGroup=new ButtonGroup();
 		referenceGroup.add(showEnabledField=new JRadioButton());
@@ -105,7 +105,8 @@ public class SearchPatternDetailsView extends DetailsView
 		        GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (pattern!=null)
 		{

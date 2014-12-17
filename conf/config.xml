@@ -3,15 +3,17 @@
 <configuration>
 	<parameter name="proxy.use">false</parameter>
 
-	<parameter name="path.root">C:\Users\Stefan\Java\media\data</parameter>
+	<parameter name="path.root">C:\Program Files\MediaLib\data</parameter>
 
 	<parameter name="db.mappings">com/kiwisoft/media/db/mappings.xml</parameter>
 	<parameter name="db.driver">com.mysql.jdbc.Driver</parameter>
-	<parameter name="db.url">jdbc:mysql://localhost:3306/media&amp;characterEncoding=UTF-8</parameter>
+	<parameter name="db.url">jdbc:mysql://localhost:3306/media</parameter>
 	<parameter name="db.user">stefan</parameter>
 	<parameter name="db.password">bokada</parameter>
-	<parameter name="db.logChanges">true</parameter>
+	<parameter name="db.logChanges">false</parameter>
 	<parameter name="db.changeLog.dir">C:\Users\Stefan\Java\media\log</parameter>
 
-	<parameter name="fileStore.path">.files</parameter>
+	<parameter name="fanfics.enabled">true</parameter>
+	<parameter name="fileStore.path">C:\Program Files\MediaLib\.files</parameter>
+
 </configuration>

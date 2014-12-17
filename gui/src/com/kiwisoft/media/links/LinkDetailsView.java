@@ -45,13 +45,12 @@ public class LinkDetailsView extends DetailsView
 	{
 		assert linkable!=null;
 		this.linkable=linkable;
-		createContentPanel();
 		initialize();
 	}
 
 	private LinkDetailsView(String name, String url)
 	{
-		createContentPanel();
+		initialize();
 		nameField.setText(name);
 		urlField.setText(url);
 	}
@@ -61,7 +60,6 @@ public class LinkDetailsView extends DetailsView
 		assert link!=null;
 		this.linkable=link.getGroup();
 		this.link=link;
-		createContentPanel();
 		initialize();
 	}
 
@@ -71,7 +69,8 @@ public class LinkDetailsView extends DetailsView
 		return "Link";
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		linkableField=new LookupField<Linkable>(new LinkableLookup());
 		urlField=new JTextField();
@@ -97,7 +96,8 @@ public class LinkDetailsView extends DetailsView
 		add(languageField, new GridBagConstraints(1, row, 4, 1, 1.0, 0.0, WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
-	private void initialize()
+	@Override
+	protected void initializeData()
 	{
 		if (linkable!=null) linkableField.setValue(linkable);
 		if (link!=null)

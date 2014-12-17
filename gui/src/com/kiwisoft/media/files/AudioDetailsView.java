@@ -61,11 +61,11 @@ public class AudioDetailsView extends DetailsView
 	private AudioDetailsView(MediaFile picture)
 	{
 		this.audio=picture;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		nameField=new JTextField(40);
 		contentTypeField=new LookupField<ContentType>(new ContentTypeLookup(MediaType.AUDIO));
@@ -102,7 +102,8 @@ public class AudioDetailsView extends DetailsView
 		referencesController.installListeners();
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (audio!=null)
 		{

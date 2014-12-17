@@ -140,7 +140,7 @@ public abstract class TextController
 
 		ToolBar bar=new ToolBar(false);
 		bar.setFocusableButtons(false);
-		bar.initialize(actions);
+		bar.add(actions);
 		return bar;
 	}
 

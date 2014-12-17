@@ -65,10 +65,6 @@ public class MediaManager
 	private static void initLinkCollector()
 	{
 		LinkCollector linkCollector=LinkCollector.getInstance();
-		if (MediaConfiguration.isFanFicsEnabled())
-		{
-			linkCollector.addHandler("\\bhttp://www.fanfiction.net/s/.*\\b", new FanFictionNetLinkHandler());
-		}
 		linkCollector.addHandler("\\bhttp://(?:german|www).imdb.(?:com|de)/title/(\\w+)\\b", new IMDbLinkHandler());
 	}
 

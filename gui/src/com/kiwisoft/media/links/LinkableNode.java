@@ -6,7 +6,6 @@ import java.beans.PropertyChangeEvent;
 import com.kiwisoft.swing.tree.GenericTreeNode;
 import com.kiwisoft.media.Linkable;
 import com.kiwisoft.media.LinkGroup;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.utils.PropertyChangeSource;
 
@@ -18,7 +17,7 @@ public class LinkableNode extends GenericTreeNode<Linkable>
 	public LinkableNode(Linkable linkable)
 	{
 		super(linkable);
-		setNameProperties(Show.TITLE, FanDom.NAME);
+		setNameProperties(Show.TITLE);
 	}
 
 	@Override

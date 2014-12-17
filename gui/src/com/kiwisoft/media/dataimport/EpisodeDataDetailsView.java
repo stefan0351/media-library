@@ -36,11 +36,11 @@ public class EpisodeDataDetailsView extends DetailsView
 	private EpisodeDataDetailsView(EpisodeData episodeData)
 	{
 		this.episodeData=episodeData;
-		initializeComponents();
-		initializeData();
+		initialize();
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		titleField.setText(episodeData.getTitle());
 		germanTitleField.setText(episodeData.getGermanTitle());
@@ -70,6 +70,7 @@ public class EpisodeDataDetailsView extends DetailsView
 		return true;
 	}
 
+	@Override
 	protected void initializeComponents()
 	{
 		titleField=new JTextField();

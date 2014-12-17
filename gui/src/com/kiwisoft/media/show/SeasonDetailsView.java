@@ -64,16 +64,14 @@ public class SeasonDetailsView extends DetailsView
 	private SeasonDetailsView(Show show)
 	{
 		this.show=show;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private SeasonDetailsView(Season season)
 	{
 		this.season=season;
 		this.show=season.getShow();
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	public SeasonDetailsView(Episode firstEpisode, Episode lastEpisode)
@@ -81,11 +79,11 @@ public class SeasonDetailsView extends DetailsView
 		this.firstEpisode=firstEpisode;
 		this.lastEpisode=lastEpisode;
 		this.show=firstEpisode.getShow();
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		showField=new JTextField();
 		showField.setEditable(false);
@@ -151,7 +149,8 @@ public class SeasonDetailsView extends DetailsView
 		previewUpdater=new PicturePreviewUpdater(logoField, logoPreview);
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (season!=null)
 		{
@@ -262,7 +261,7 @@ public class SeasonDetailsView extends DetailsView
 				t.printStackTrace();
 				try
 				{
-					transaction.rollback();
+					if (transaction!=null) transaction.rollback();
 				}
 				catch (SQLException e)
 				{

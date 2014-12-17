@@ -57,19 +57,18 @@ public class TrackDetailsView extends DetailsView
 	{
 		setTitle("New Track");
 		this.medium=video;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private TrackDetailsView(Track track)
 	{
 		setTitle("Track - "+track.getName());
 		this.track=track;
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		languageField=new LookupField<Language>(new LanguageLookup());
 		typeField=new LookupField<TrackType>(new TrackTypeLookup());
@@ -145,7 +144,8 @@ public class TrackDetailsView extends DetailsView
 		return showField;
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (track!=null)
 		{
@@ -226,7 +226,7 @@ public class TrackDetailsView extends DetailsView
 			t.printStackTrace();
 			try
 			{
-				transaction.rollback();
+				if (transaction!=null) transaction.rollback();
 			}
 			catch (SQLException e)
 			{

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/media" reloadable="true" unpackWAR="true">
+
+
+	<parameter name="path.root" value="C:\Users\Stefan\Java\media\tmp\data"/>
+
+	<parameter name="db.mappings" value="com/kiwisoft/media/db/mappings.xml"/>
+	<parameter name="db.driver" value="com.mysql.jdbc.Driver"/>
+	<parameter name="db.url" value="jdbc:mysql://localhost:3306/mediadev"/>
+	<parameter name="db.user" value="stefan"/>
+	<parameter name="db.password" value="bokada"/>
+	<parameter name="db.logChanges" value="false"/>
+	<parameter name="db.changeLog.dir" value="C:\Users\Stefan\Java\media\log"/>
+
+	<parameter name="developer" value="true"/>
+
+	<parameter name="fanfics.enabled" value="true"/>
+	<parameter name="fileStore.path" value="tmp\.files"/>
+
+</Context>

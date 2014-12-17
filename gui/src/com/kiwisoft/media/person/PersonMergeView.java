@@ -40,10 +40,11 @@ public class PersonMergeView extends DetailsView
 	{
 		this.persons=persons;
 		setTitle("Merge Persons");
-		initializeComponents();
+		initialize();
 	}
 
-	private void initializeComponents()
+	@Override
+	protected void initializeComponents()
 	{
 		setLayout(new GridBagLayout());
 

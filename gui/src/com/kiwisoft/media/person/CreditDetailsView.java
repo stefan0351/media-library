@@ -43,19 +43,18 @@ public class CreditDetailsView extends DetailsView
 		this.credit=credit;
 		this.production=credit.getProduction();
 		setTitle("Credit");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private CreditDetailsView(Production production)
 	{
 		this.production=production;
 		setTitle("New Credit");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		typeField=new LookupField<CreditType>(new CreditTypeLookup());
 		personField=new LookupField<Person>(new PersonLookup(), new PersonLookupHandler());
@@ -91,7 +90,8 @@ public class CreditDetailsView extends DetailsView
 			new GridBagConstraints(1, row, 2, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 0, 0), 0, 0));
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (credit!=null)
 		{

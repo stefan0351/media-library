@@ -33,10 +33,11 @@ public class MediaBulkChangeView extends DetailsView
 	{
 		setTitle("Media Bulk Change");
 		this.media=media;
-		initializeComponents();
+		initialize();
 	}
 
-	private void initializeComponents()
+	@Override
+	protected void initializeComponents()
 	{
 		ButtonGroup buttonGroup=new ButtonGroup();
 

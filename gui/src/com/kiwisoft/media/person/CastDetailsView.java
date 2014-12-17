@@ -1,28 +1,26 @@
 package com.kiwisoft.media.person;
 
-import static java.awt.GridBagConstraints.*;
-import java.awt.*;
-import java.sql.SQLException;
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-
 import com.kiwisoft.app.DetailsFrame;
 import com.kiwisoft.app.DetailsView;
-import com.kiwisoft.media.files.ImageLookupHandler;
-import com.kiwisoft.media.files.PicturePreviewUpdater;
-import com.kiwisoft.media.show.Production;
-import com.kiwisoft.media.show.Show;
-import com.kiwisoft.media.show.Episode;
-import com.kiwisoft.media.files.MediaFileLookup;
 import com.kiwisoft.media.files.*;
 import com.kiwisoft.media.movie.Movie;
+import com.kiwisoft.media.show.Episode;
+import com.kiwisoft.media.show.Production;
+import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transaction;
 import com.kiwisoft.swing.ImagePanel;
 import com.kiwisoft.swing.lookup.LookupEvent;
 import com.kiwisoft.swing.lookup.LookupField;
 import com.kiwisoft.swing.lookup.LookupSelectionListener;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.sql.SQLException;
+
 import static com.kiwisoft.utils.StringUtils.isEmpty;
+import static java.awt.GridBagConstraints.*;
 
 public class CastDetailsView extends DetailsView
 {
@@ -53,8 +51,7 @@ public class CastDetailsView extends DetailsView
 	{
 		this.cast=cast;
 		setTitle("Cast");
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
 	private CastDetailsView(Production production, CreditType type)
@@ -62,11 +59,11 @@ public class CastDetailsView extends DetailsView
 		this.production=production;
 		this.type=type;
 		setTitle("New "+type.getByName());
-		createContentPanel();
-		initializeData();
+		initialize();
 	}
 
-	protected void createContentPanel()
+	@Override
+	protected void initializeComponents()
 	{
 		characterField=new JTextField(40);
 		actorField=new LookupField<Person>(new PersonLookup(), new PersonLookupHandler());
@@ -115,7 +112,8 @@ public class CastDetailsView extends DetailsView
 		getListenerList().installSelectionListener(actorField, new ActorSelectionListener());
 	}
 
-	private void initializeData()
+	@Override
+	protected void initializeData()
 	{
 		if (cast!=null)
 		{

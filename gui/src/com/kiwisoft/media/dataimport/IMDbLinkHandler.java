@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class IMDbLinkHandler implements LinkHandler
 {
-	private final static Log log=LogFactory.getLog(FanFictionNetLinkHandler.class);
+	private final static Log log=LogFactory.getLog(IMDbLinkHandler.class);
 
 	@Override
 	public void loadLink(String url)

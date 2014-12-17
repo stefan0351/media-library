@@ -18,7 +18,6 @@ import com.kiwisoft.media.show.Production;
 import com.kiwisoft.media.*;
 import com.kiwisoft.media.dataimport.SearchManager;
 import com.kiwisoft.media.dataimport.SearchPattern;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.files.MediaFile;
 import com.kiwisoft.media.medium.Recordable;
 import com.kiwisoft.media.medium.Track;
@@ -250,7 +249,6 @@ public class Movie extends IDObject implements Recordable, Production
 		if (!super.isUsed())
 		{
 			DBLoader dbLoader=DBLoader.getInstance();
-			if (dbLoader.count(FanDom.class, null, "movie_id=?", getId())>0) return true;
 			if (dbLoader.count(Airdate.class, null, "movie_id=?", getId())>0) return true;
 			if (dbLoader.count(Track.class, null, "movie_id=?", getId())>0) return true;
 			return false;

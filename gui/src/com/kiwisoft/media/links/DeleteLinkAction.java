@@ -8,7 +8,6 @@ import com.kiwisoft.app.ApplicationFrame;
 import com.kiwisoft.media.Link;
 import com.kiwisoft.media.LinkGroup;
 import com.kiwisoft.media.LinkManager;
-import com.kiwisoft.media.fanfic.FanDom;
 import com.kiwisoft.media.show.Show;
 import com.kiwisoft.persistence.DBSession;
 import com.kiwisoft.persistence.Transactional;
@@ -53,8 +52,6 @@ public class DeleteLinkAction extends SimpleContextAction
 				{
 					Set<Show> shows=DBLoader.getInstance().loadSet(Show.class, null, "linkgroup_id=?", linkGroup.getId());
 					for (Show show : shows) show.setLinkGroup(null);
-					Set<FanDom> fanDoms=DBLoader.getInstance().loadSet(FanDom.class, null, "linkgroup_id=?", linkGroup.getId());
-					for (FanDom fanDom : fanDoms) fanDom.setLinkGroup(null);
 					LinkGroup parentGroup=linkGroup.getParentGroup();
 					if (parentGroup!=null) parentGroup.dropSubGroup(linkGroup);
 					else LinkManager.getInstance().dropRootGroup(linkGroup);
