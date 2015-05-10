@@ -1,0 +1,9 @@
+/import
+/tomcat/logs
+/core/log
+Thumbs.db
+/tmp
+/web/log
+/tomcat/conf/Catalina/localhost/media.xml
+/core/tmp
+/medialib-server.exe
